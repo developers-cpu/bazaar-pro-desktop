@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/constants/app_colors.dart';
-import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/constants/app_images.dart';
 import '../../../../core/constants/auth_constants.dart';
 import '../bloc/auth_bloc.dart';
@@ -9,7 +8,7 @@ import '../bloc/auth_event.dart';
 import '../bloc/auth_state.dart';
 
 /// Login page with authentication form
-/// Matches the design from the screenshots
+
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -60,7 +59,6 @@ class _LoginPageState extends State<LoginPage> {
         child: SafeArea(
           child: Center(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.all(AppDimensions.paddingXL),
               child: BlocConsumer<AuthBloc, AuthState>(
                 listener: (context, state) {
                   if (state is AuthError) {
@@ -73,10 +71,10 @@ class _LoginPageState extends State<LoginPage> {
                     );
                   } else if (state is AuthAuthenticated) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
+                      SnackBar(
                         content: Text(AuthConstants.loginSuccessMessage),
                         backgroundColor: AppColors.successColor,
-                        duration: Duration(seconds: 2),
+                        duration: const Duration(seconds: 2),
                       ),
                     );
                     // Navigate to market watch page after successful login
@@ -86,50 +84,61 @@ class _LoginPageState extends State<LoginPage> {
                 builder: (context, state) {
                   final isLoading = state is AuthLoading;
 
-                  return Form(
-                    key: _formKey,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        // App Logo
-                        _buildLogo(),
-                        const SizedBox(height: AppDimensions.marginXL),
+                  return Center(
+                    child: Container(
+                      width: 500,
+                      padding: const EdgeInsets.all(24),
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            // App Logo
+                            _buildLogo(),
+                            const SizedBox(height: 40),
 
-                        // Login Title
-                        _buildTitle(),
-                        const SizedBox(height: AppDimensions.marginL),
+                            // Login Title
+                            _buildTitle(),
+                            const SizedBox(height: 8),
 
-                        // Server Selection
-                        _buildServerDropdown(),
-                        const SizedBox(height: AppDimensions.marginM),
+                            // Subtitle
+                            _buildSubtitle(),
+                            const SizedBox(height: 32),
 
-                        // Username Field
-                        _buildUsernameField(),
-                        const SizedBox(height: AppDimensions.marginM),
+                            // Server Selection
+                            _buildServerDropdown(),
+                            const SizedBox(height: 16),
 
-                        // Password Field
-                        _buildPasswordField(),
-                        const SizedBox(height: AppDimensions.marginXL),
+                            // Username Field
+                            _buildUsernameField(),
+                            const SizedBox(height: 16),
 
-                        // Login Button
-                        _buildLoginButton(isLoading),
-                        const SizedBox(height: AppDimensions.marginM),
+                            // Password Field
+                            _buildPasswordField(),
+                            const SizedBox(height: 24),
 
-                        // Demo Login & Forgot Password
-                        _buildFooterLinks(),
-                        const SizedBox(height: AppDimensions.marginXL),
+                            // Login Button
+                            _buildLoginButton(isLoading),
+                            const SizedBox(height: 16),
 
-                        // Education Purpose Text
-                        _buildEducationText(),
-                        const SizedBox(height: AppDimensions.marginS),
+                            // Demo Login & Forgot Password
+                            _buildFooterLinks(),
+                            const SizedBox(height: 32),
 
-                        // Version
-                        _buildVersionText(),
-                        const SizedBox(height: AppDimensions.marginM),
+                            // Education Purpose Text
+                            _buildEducationText(),
+                            const SizedBox(height: 8),
 
-                        // Terms & Privacy
-                        _buildLegalLinks(),
-                      ],
+                            // Version
+                            _buildVersionText(),
+                            const SizedBox(height: 16),
+
+                            // Terms & Privacy
+                            _buildLegalLinks(),
+                          ],
+                        ),
+                      ),
                     ),
                   );
                 },
@@ -143,18 +152,11 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _buildLogo() {
     return Container(
-      width: 120,
-      height: 120,
+      width: 100,
+      height: 100,
       decoration: BoxDecoration(
-        color: const Color(0xFF2C3E50),
-        borderRadius: BorderRadius.circular(24),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.2),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
+        color: const Color(0xFF1E3A5F),
+        borderRadius: BorderRadius.circular(20),
       ),
       child: Center(
         child: Image.asset(
@@ -162,16 +164,23 @@ class _LoginPageState extends State<LoginPage> {
           width: 80,
           height: 80,
           errorBuilder: (context, error, stackTrace) {
-            return const Column(
+            return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.storefront, size: 48, color: Colors.white),
-                SizedBox(height: 4),
                 Text(
-                  AuthConstants.appName,
-                  style: TextStyle(
+                  AuthConstants.appName.replaceAll('BAZAAR P', 'BAZAAR'),
+                  style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 16,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 1,
+                  ),
+                ),
+                const Text(
+                  'P',
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -184,156 +193,206 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _buildTitle() {
-    return Column(
-      children: [
-        Text(
-          AuthConstants.loginTitle,
-          style: TextStyle(
-            fontSize: AppDimensions.fontSizeXXL,
-            fontWeight: FontWeight.bold,
-            color: AppColors.primaryTextColor,
-          ),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          AuthConstants.loginSubtitle,
-          style: TextStyle(
-            fontSize: AppDimensions.fontSizeM,
-            color: AppColors.secondaryTextColor,
-          ),
-        ),
-      ],
+    return Text(
+      AuthConstants.loginTitle,
+      style: const TextStyle(
+        fontSize: 28,
+        fontWeight: FontWeight.w600,
+        color: Color(0xFF1E3A5F),
+      ),
+    );
+  }
+
+  Widget _buildSubtitle() {
+    return Text(
+      AuthConstants.loginSubtitle,
+      style: TextStyle(
+        fontSize: 14,
+        color: Colors.grey[600],
+        fontWeight: FontWeight.w400,
+      ),
     );
   }
 
   Widget _buildServerDropdown() {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(AppDimensions.borderRadiusM),
-        border: Border.all(color: AppColors.borderColor),
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: AppDimensions.paddingM),
-      child: DropdownButtonFormField<String>(
-        value: _selectedServer,
-        decoration: InputDecoration(
-          border: InputBorder.none,
-          icon: Icon(Icons.dns, color: AppColors.primaryBlue),
-          hintText: AuthConstants.selectServerLabel,
+    return SizedBox(
+      width: 500,
+      height: 45,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(5),
+          border: Border.all(color: Colors.grey[300]!),
         ),
-        items: AuthConstants.serverOptions.map((server) {
-          return DropdownMenuItem(
-            value: server,
-            child: Text(server),
-          );
-        }).toList(),
-        onChanged: (value) {
-          setState(() {
-            _selectedServer = value!;
-          });
-        },
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        child: DropdownButtonFormField<String>(
+          value: _selectedServer,
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            contentPadding: const EdgeInsets.symmetric(vertical: 12),
+            hintText: AuthConstants.selectServerLabel,
+            hintStyle: const TextStyle(
+              fontSize: 14,
+              color: Colors.grey,
+            ),
+          ),
+          icon: Icon(Icons.arrow_drop_down, color: Colors.grey[600]),
+          style: const TextStyle(
+            fontSize: 14,
+            color: Colors.black87,
+          ),
+          items: AuthConstants.serverOptions.map((server) {
+            return DropdownMenuItem(
+              value: server,
+              child: Text(server),
+            );
+          }).toList(),
+          onChanged: (value) {
+            setState(() {
+              _selectedServer = value!;
+            });
+          },
+        ),
       ),
     );
   }
 
   Widget _buildUsernameField() {
-    return TextFormField(
-      controller: _usernameController,
-      decoration: InputDecoration(
-        filled: true,
-        fillColor: Colors.white,
-        hintText: AuthConstants.usernameLabel,
-        prefixIcon: Icon(Icons.person, color: AppColors.primaryBlue),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppDimensions.borderRadiusM),
-          borderSide: BorderSide(color: AppColors.borderColor),
+    return SizedBox(
+      width: 500,
+      height: 45,
+      child: TextFormField(
+        controller: _usernameController,
+        style: const TextStyle(fontSize: 14),
+        decoration: InputDecoration(
+          filled: true,
+          fillColor: Colors.white,
+          hintText: AuthConstants.usernameLabel,
+          hintStyle: TextStyle(
+            fontSize: 14,
+            color: Colors.grey[400],
+          ),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+          suffixIcon: Icon(Icons.account_circle_outlined, color: Colors.grey[600], size: 20),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(5),
+            borderSide: BorderSide(color: Colors.grey[300]!),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(5),
+            borderSide: BorderSide(color: Colors.grey[300]!),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(5),
+            borderSide: const BorderSide(color: Color(0xFF1E3A5F), width: 1.5),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(5),
+            borderSide: const BorderSide(color: Colors.red),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(5),
+            borderSide: const BorderSide(color: Colors.red, width: 1.5),
+          ),
         ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppDimensions.borderRadiusM),
-          borderSide: BorderSide(color: AppColors.borderColor),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppDimensions.borderRadiusM),
-          borderSide: BorderSide(color: AppColors.primaryBlue, width: 2),
-        ),
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return AuthConstants.emptyUsernameError;
+          }
+          return null;
+        },
       ),
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return AuthConstants.emptyUsernameError;
-        }
-        return null;
-      },
     );
   }
 
   Widget _buildPasswordField() {
-    return TextFormField(
-      controller: _passwordController,
-      obscureText: _obscurePassword,
-      decoration: InputDecoration(
-        filled: true,
-        fillColor: Colors.white,
-        hintText: AuthConstants.passwordLabel,
-        prefixIcon: Icon(Icons.lock, color: AppColors.primaryBlue),
-        suffixIcon: IconButton(
-          icon: Icon(
-            _obscurePassword ? Icons.visibility_off : Icons.visibility,
-            color: AppColors.secondaryTextColor,
+    return SizedBox(
+      width: 500,
+      height: 45,
+      child: TextFormField(
+        controller: _passwordController,
+        obscureText: _obscurePassword,
+        style: const TextStyle(fontSize: 14),
+        decoration: InputDecoration(
+          filled: true,
+          fillColor: Colors.white,
+          hintText: AuthConstants.passwordLabel,
+          hintStyle: TextStyle(
+            fontSize: 14,
+            color: Colors.grey[400],
           ),
-          onPressed: () {
-            setState(() {
-              _obscurePassword = !_obscurePassword;
-            });
-          },
+          contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+          suffixIcon: IconButton(
+            icon: Icon(
+              _obscurePassword ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+              color: Colors.grey[600],
+              size: 20,
+            ),
+            onPressed: () {
+              setState(() {
+                _obscurePassword = !_obscurePassword;
+              });
+            },
+          ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(5),
+            borderSide: BorderSide(color: Colors.grey[300]!),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(5),
+            borderSide: BorderSide(color: Colors.grey[300]!),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(5),
+            borderSide: const BorderSide(color: Color(0xFF1E3A5F), width: 1.5),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(5),
+            borderSide: const BorderSide(color: Colors.red),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(5),
+            borderSide: const BorderSide(color: Colors.red, width: 1.5),
+          ),
         ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppDimensions.borderRadiusM),
-          borderSide: BorderSide(color: AppColors.borderColor),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppDimensions.borderRadiusM),
-          borderSide: BorderSide(color: AppColors.borderColor),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppDimensions.borderRadiusM),
-          borderSide: BorderSide(color: AppColors.primaryBlue, width: 2),
-        ),
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return AuthConstants.emptyPasswordError;
+          }
+          return null;
+        },
       ),
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return AuthConstants.emptyPasswordError;
-        }
-        return null;
-      },
     );
   }
 
   Widget _buildLoginButton(bool isLoading) {
     return SizedBox(
-      width: double.infinity,
-      height: 50,
+      width: 500,
+      height: 45,
       child: ElevatedButton(
         onPressed: isLoading ? null : _handleLogin,
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.primaryBlue,
+          backgroundColor: const Color(0xFF1E3A5F),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppDimensions.borderRadiusM),
+            borderRadius: BorderRadius.circular(10),
           ),
+          elevation: 0,
+          padding: const EdgeInsets.all(10),
         ),
         child: isLoading
             ? const SizedBox(
-          width: 24,
-          height: 24,
+          width: 20,
+          height: 20,
           child: CircularProgressIndicator(
             color: Colors.white,
             strokeWidth: 2,
           ),
         )
-            : const Text(
+            : Text(
           AuthConstants.loginButtonText,
-          style: TextStyle(
-            fontSize: AppDimensions.fontSizeL,
-            fontWeight: FontWeight.bold,
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
             color: Colors.white,
           ),
         ),
@@ -342,112 +401,140 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _buildFooterLinks() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        TextButton(
-          onPressed: _handleDemoLogin,
-          child: Text(
-            AuthConstants.demoLoginText,
-            style: TextStyle(
-              color: AppColors.primaryBlue,
-              fontSize: AppDimensions.fontSizeM,
-            ),
-          ),
-        ),
-        TextButton(
-          onPressed: () {
-            // TODO: Implement forgot password
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Forgot password feature coming soon!'),
-                duration: Duration(seconds: 2),
+    return SizedBox(
+      width: 500,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          TextButton(
+            onPressed: _handleDemoLogin,
+            child: Text(
+              AuthConstants.demoLoginText,
+              style: const TextStyle(
+                color: Color(0xFF1E3A5F),
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
               ),
-            );
-          },
-          child: Text(
-            AuthConstants.forgotPasswordText,
-            style: TextStyle(
-              color: AppColors.primaryBlue,
-              fontSize: AppDimensions.fontSizeM,
             ),
           ),
-        ),
-      ],
+          TextButton(
+            onPressed: () {
+              // TODO: Implement forgot password
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Forgot password feature coming soon!'),
+                  duration: Duration(seconds: 2),
+                ),
+              );
+            },
+            child: Text(
+              AuthConstants.forgotPasswordText,
+              style: const TextStyle(
+                color: Color(0xFF1E3A5F),
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
   Widget _buildEducationText() {
-    return Text(
-      AuthConstants.educationPurposeText,
-      style: TextStyle(
-        fontSize: AppDimensions.fontSizeS,
-        color: AppColors.secondaryTextColor,
+    return SizedBox(
+      width: 500,
+      child: Text(
+        AuthConstants.educationPurposeText,
+        style: TextStyle(
+          fontSize: 11,
+          color: Colors.grey[600],
+        ),
+        textAlign: TextAlign.center,
       ),
-      textAlign: TextAlign.center,
     );
   }
 
   Widget _buildVersionText() {
-    return Text(
-      AuthConstants.versionText,
-      style: TextStyle(
-        fontSize: AppDimensions.fontSizeS,
-        color: AppColors.secondaryTextColor,
+    return SizedBox(
+      width: 500,
+      child: Text(
+        AuthConstants.versionText,
+        style: TextStyle(
+          fontSize: 11,
+          color: Colors.grey[600],
+        ),
+        textAlign: TextAlign.center,
       ),
     );
   }
 
   Widget _buildLegalLinks() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        TextButton(
-          onPressed: () {
-            // TODO: Implement terms and conditions
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Terms & Conditions page coming soon!'),
-                duration: Duration(seconds: 2),
+    return SizedBox(
+      width: 500,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          TextButton(
+            onPressed: () {
+              // TODO: Implement terms and conditions
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Terms & Conditions page coming soon!'),
+                  duration: Duration(seconds: 2),
+                ),
+              );
+            },
+            style: TextButton.styleFrom(
+              padding: EdgeInsets.zero,
+              minimumSize: const Size(0, 0),
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            ),
+            child: Text(
+              AuthConstants.termsAndConditionsText,
+              style: const TextStyle(
+                color: Color(0xFF1E3A5F),
+                fontSize: 11,
+                decoration: TextDecoration.underline,
               ),
-            );
-          },
-          child: Text(
-            AuthConstants.termsAndConditionsText,
-            style: TextStyle(
-              color: AppColors.primaryBlue,
-              fontSize: AppDimensions.fontSizeS,
-              decoration: TextDecoration.underline,
             ),
           ),
-        ),
-        Text(
-          ' | ',
-          style: TextStyle(
-            color: AppColors.secondaryTextColor,
-            fontSize: AppDimensions.fontSizeS,
-          ),
-        ),
-        TextButton(
-          onPressed: () {
-            // TODO: Implement privacy policy
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Privacy Policy page coming soon!'),
-                duration: Duration(seconds: 2),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4),
+            child: Text(
+              '|',
+              style: TextStyle(
+                color: Colors.grey[600],
+                fontSize: 11,
               ),
-            );
-          },
-          child: Text(
-            AuthConstants.privacyPolicyText,
-            style: TextStyle(
-              color: AppColors.primaryBlue,
-              fontSize: AppDimensions.fontSizeS,
-              decoration: TextDecoration.underline,
             ),
           ),
-        ),
-      ],
+          TextButton(
+            onPressed: () {
+              // TODO: Implement privacy policy
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Privacy Policy page coming soon!'),
+                  duration: Duration(seconds: 2),
+                ),
+              );
+            },
+            style: TextButton.styleFrom(
+              padding: EdgeInsets.zero,
+              minimumSize: const Size(0, 0),
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            ),
+            child: const Text(
+              AuthConstants.privacyPolicyText,
+              style: TextStyle(
+                color: Color(0xFF1E3A5F),
+                fontSize: 11,
+                decoration: TextDecoration.underline,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

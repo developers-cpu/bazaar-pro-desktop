@@ -26,26 +26,12 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'BAZAAR Pro',
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          primaryColor: AppColors.primaryBlue,
-          scaffoldBackgroundColor: AppColors.backgroundColor,
-          appBarTheme: const AppBarTheme(
-            backgroundColor: AppColors.primaryBlue,
-            foregroundColor: Colors.white,
-            elevation: 2,
-          ),
-          textTheme: const TextTheme(
-            bodyLarge: TextStyle(color: AppColors.primaryTextColor),
-            bodyMedium: TextStyle(color: AppColors.primaryTextColor),
-          ),
-          iconTheme: const IconThemeData(color: Colors.white),
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: AppColors.primaryBlue,
-            primary: AppColors.primaryBlue,
-            secondary: AppColors.darkNavy,
-          ),
-        ),
+        // Light Theme
+        theme: AppTheme.lightTheme,
+        // Dark Theme
+        darkTheme: AppTheme.darkTheme,
+        // Use system theme mode (can be changed to ThemeMode.light or ThemeMode.dark)
+        themeMode: ThemeMode.system,
         initialRoute: '/',
         routes: {
           '/': (context) => const LoginPage(),

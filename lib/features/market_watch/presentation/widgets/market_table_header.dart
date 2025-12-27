@@ -13,31 +13,31 @@ class MarketTableHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: AppDimensions.tableHeaderHeight,
-      color: AppColors.tableHeaderBackground,
+      color: AppColors.tableColumnHeadColor(context),
       child: Row(
         children: [
-          _buildHeaderCell(AppStrings.exchange, flex: 1),
-          _buildHeaderCell(AppStrings.symbol, flex: 1),
-          _buildHeaderCell(AppStrings.buyQty, flex: 1),
-          _buildHeaderCell(AppStrings.buyPrice, flex: 1),
-          _buildHeaderCell(AppStrings.sellPrice, flex: 1),
-          _buildHeaderCell(AppStrings.sellQty, flex: 1),
-          _buildHeaderCell(AppStrings.netChange, flex: 1),
-          _buildHeaderCell(AppStrings.high, flex: 1),
-          _buildHeaderCell(AppStrings.low, flex: 1),
-          _buildHeaderCell(AppStrings.open, flex: 1),
-          _buildHeaderCell(AppStrings.close, flex: 1),
-          _buildHeaderCell(AppStrings.ltp, flex: 1),
-          _buildHeaderCell(AppStrings.netChangePercent, flex: 1),
-          _buildHeaderCell(AppStrings.expiry, flex: 1),
-          _buildHeaderCell(AppStrings.lut, flex: 2),
+          _buildHeaderCell(context, AppStrings.exchange, flex: 1),
+          _buildHeaderCell(context, AppStrings.symbol, flex: 1),
+          _buildHeaderCell(context, AppStrings.buyQty, flex: 1),
+          _buildHeaderCell(context, AppStrings.buyPrice, flex: 1),
+          _buildHeaderCell(context, AppStrings.sellPrice, flex: 1),
+          _buildHeaderCell(context, AppStrings.sellQty, flex: 1),
+          _buildHeaderCell(context, AppStrings.netChange, flex: 1),
+          _buildHeaderCell(context, AppStrings.high, flex: 1),
+          _buildHeaderCell(context, AppStrings.low, flex: 1),
+          _buildHeaderCell(context, AppStrings.open, flex: 1),
+          _buildHeaderCell(context, AppStrings.close, flex: 1),
+          _buildHeaderCell(context, AppStrings.ltp, flex: 1),
+          _buildHeaderCell(context, AppStrings.netChangePercent, flex: 1),
+          _buildHeaderCell(context, AppStrings.expiry, flex: 1),
+          _buildHeaderCell(context, AppStrings.lut, flex: 2),
         ],
       ),
     );
   }
 
   /// Build individual header cell with consistent styling
-  Widget _buildHeaderCell(String title, {int flex = 1}) {
+  Widget _buildHeaderCell(BuildContext context, String title, {int flex = 1}) {
     return Expanded(
       flex: flex,
       child: Container(
@@ -48,17 +48,17 @@ class MarketTableHeader extends StatelessWidget {
         decoration: BoxDecoration(
           border: Border(
             right: BorderSide(
-              color: AppColors.borderColor,
+              color: AppColors.dividerColor(context),
               width: AppDimensions.borderWidthThin,
             ),
           ),
         ),
         child: Text(
           title,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: AppDimensions.fontSizeS,
             fontWeight: FontWeight.bold,
-            color: AppColors.primaryTextColor,
+            color: AppColors.textColor(context),
           ),
           overflow: TextOverflow.ellipsis,
         ),

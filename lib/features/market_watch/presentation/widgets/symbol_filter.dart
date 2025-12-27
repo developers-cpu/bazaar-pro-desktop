@@ -25,7 +25,7 @@ class SymbolFilter extends StatelessWidget {
       height: AppDimensions.filterDropdownHeight,
       padding: const EdgeInsets.symmetric(horizontal: AppDimensions.paddingM),
       decoration: BoxDecoration(
-        color: AppColors.backgroundColor,
+        color: AppColors.backgroundColor(context),
         border: Border.all(
           color: AppColors.borderColor,
           width: AppDimensions.borderWidthThin,
@@ -35,7 +35,7 @@ class SymbolFilter extends StatelessWidget {
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
           value: selectedSymbol,
-          hint: const Text(
+          hint: Text(
             AppStrings.symbolFilter,
             style: TextStyle(
               fontSize: AppDimensions.fontSizeM,
@@ -44,11 +44,11 @@ class SymbolFilter extends StatelessWidget {
           ),
           isExpanded: true,
           icon: const Icon(Icons.keyboard_arrow_down),
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: AppDimensions.fontSizeM,
             color: AppColors.primaryTextColor,
           ),
-          dropdownColor: AppColors.backgroundColor,
+          dropdownColor: AppColors.backgroundColor(context),
           items: _getSymbolItems(),
           onChanged: onChanged,
         ),

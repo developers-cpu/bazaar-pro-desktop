@@ -28,8 +28,10 @@ class MarketTableRow extends StatelessWidget {
   Widget build(BuildContext context) {
     // Determine background color based on selection and row index
     Color backgroundColor = isSelected
-        ? AppColors.selectedRowBackground
-        : (index % 2 == 0 ? AppColors.tableRowBackground : AppColors.tableAlternateRowBackground);
+        ? AppColors.getSelectedRowBackground(context)
+        : (index % 2 == 0
+              ? AppColors.getTableRowBackground(context)
+              : AppColors.getTableAlternateRowBackground(context));
 
     return GestureDetector(
       onTap: onTap,
@@ -42,12 +44,12 @@ class MarketTableRow extends StatelessWidget {
           color: backgroundColor,
           border: Border(
             bottom: BorderSide(
-              color: AppColors.borderColor,
+              color: AppColors.dividerColor(context),
               width: AppDimensions.borderWidthThin,
             ),
             left: isSelected
                 ? BorderSide(
-                    color: AppColors.selectedRowBorder,
+                    color: AppColors.getSelectedRowBorder(context),
                     width: AppDimensions.borderWidthThick,
                   )
                 : BorderSide.none,
@@ -55,36 +57,77 @@ class MarketTableRow extends StatelessWidget {
         ),
         child: Row(
           children: [
-            _buildCell(item.exchange, flex: 1),
-            _buildCell(item.symbol, flex: 1, isBold: true),
-            _buildCell(NumberFormatter.formatQuantity(item.buyQty), flex: 1),
-            _buildCell(NumberFormatter.formatPrice(item.buyPrice), flex: 1),
-            _buildCell(NumberFormatter.formatPrice(item.sellPrice), flex: 1),
-            _buildCell(NumberFormatter.formatQuantity(item.sellQty), flex: 1),
+            _buildCell(context, item.exchange, flex: 1),
+            _buildCell(context, item.symbol, flex: 1, isBold: true),
             _buildCell(
+              context,
+              NumberFormatter.formatQuantity(item.buyQty),
+              flex: 1,
+            ),
+            _buildCell(
+              context,
+              NumberFormatter.formatPrice(item.buyPrice),
+              flex: 1,
+            ),
+            _buildCell(
+              context,
+              NumberFormatter.formatPrice(item.sellPrice),
+              flex: 1,
+            ),
+            _buildCell(
+              context,
+              NumberFormatter.formatQuantity(item.sellQty),
+              flex: 1,
+            ),
+            _buildCell(
+              context,
               NumberFormatter.formatChange(item.netChange),
               flex: 1,
               color: item.netChange > 0
-                  ? AppColors.positiveTextColor
-                  : (item.netChange < 0 ? AppColors.negativeTextColor : null),
+                  ? AppColors.getPositiveTextColor(context)
+                  : (item.netChange < 0
+                        ? AppColors.getNegativeTextColor(context)
+                        : null),
             ),
-            _buildCell(NumberFormatter.formatPrice(item.high), flex: 1),
-            _buildCell(NumberFormatter.formatPrice(item.low), flex: 1),
-            _buildCell(NumberFormatter.formatPrice(item.open), flex: 1),
-            _buildCell(NumberFormatter.formatPrice(item.close), flex: 1),
-            _buildCell(NumberFormatter.formatPrice(item.ltp), flex: 1),
             _buildCell(
+              context,
+              NumberFormatter.formatPrice(item.high),
+              flex: 1,
+            ),
+            _buildCell(context, NumberFormatter.formatPrice(item.low), flex: 1),
+            _buildCell(
+              context,
+              NumberFormatter.formatPrice(item.open),
+              flex: 1,
+            ),
+            _buildCell(
+              context,
+              NumberFormatter.formatPrice(item.close),
+              flex: 1,
+            ),
+            _buildCell(context, NumberFormatter.formatPrice(item.ltp), flex: 1),
+            _buildCell(
+              context,
               NumberFormatter.formatPercentage(item.netChangePercent),
               flex: 1,
               color: item.netChangePercent > 0
-                  ? AppColors.positiveTextColor
-                  : (item.netChangePercent < 0 ? AppColors.negativeTextColor : null),
+                  ? AppColors.getPositiveTextColor(context)
+                  : (item.netChangePercent < 0
+                        ? AppColors.getNegativeTextColor(context)
+                        : null),
             ),
             _buildCell(
-              item.expiry != null ? DateFormatter.formatToShortDate(item.expiry!) : '-',
+              context,
+              item.expiry != null
+                  ? DateFormatter.formatToShortDate(item.expiry!)
+                  : '-',
               flex: 1,
             ),
-            _buildCell(DateFormatter.formatToDateTimeWithAmPm(item.lut), flex: 2),
+            _buildCell(
+              context,
+              DateFormatter.formatToDateTimeWithAmPm(item.lut),
+              flex: 2,
+            ),
           ],
         ),
       ),
@@ -93,6 +136,7 @@ class MarketTableRow extends StatelessWidget {
 
   /// Build individual cell with consistent styling
   Widget _buildCell(
+    BuildContext context,
     String text, {
     int flex = 1,
     bool isBold = false,
@@ -108,7 +152,7 @@ class MarketTableRow extends StatelessWidget {
         decoration: BoxDecoration(
           border: Border(
             right: BorderSide(
-              color: AppColors.borderColor,
+              color: AppColors.dividerColor(context),
               width: AppDimensions.borderWidthThin,
             ),
           ),
@@ -118,7 +162,7 @@ class MarketTableRow extends StatelessWidget {
           style: TextStyle(
             fontSize: AppDimensions.fontSizeS,
             fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
-            color: color ?? AppColors.primaryTextColor,
+            color: color ?? AppColors.textColor(context),
           ),
           overflow: TextOverflow.ellipsis,
         ),

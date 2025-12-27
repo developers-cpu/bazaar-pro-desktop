@@ -23,12 +23,12 @@ class MarketTableBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (state.filteredItems.isEmpty) {
-      return const Center(
+      return Center(
         child: Text(
           AppStrings.noDataAvailable,
           style: TextStyle(
             fontSize: AppDimensions.fontSizeL,
-            color: AppColors.secondaryTextColor,
+            color: AppColors.supportiveTextColor(context),
           ),
         ),
       );

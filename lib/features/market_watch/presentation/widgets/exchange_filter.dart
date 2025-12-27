@@ -23,7 +23,7 @@ class ExchangeFilter extends StatelessWidget {
       height: AppDimensions.filterDropdownHeight,
       padding: const EdgeInsets.symmetric(horizontal: AppDimensions.paddingM),
       decoration: BoxDecoration(
-        color: AppColors.backgroundColor,
+        color: AppColors.backgroundColor(context),
         border: Border.all(
           color: AppColors.borderColor,
           width: AppDimensions.borderWidthThin,
@@ -33,7 +33,7 @@ class ExchangeFilter extends StatelessWidget {
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
           value: selectedExchange,
-          hint: const Text(
+          hint: Text(
             AppStrings.exchangeFilter,
             style: TextStyle(
               fontSize: AppDimensions.fontSizeM,
@@ -42,11 +42,11 @@ class ExchangeFilter extends StatelessWidget {
           ),
           isExpanded: true,
           icon: const Icon(Icons.keyboard_arrow_down),
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: AppDimensions.fontSizeM,
             color: AppColors.primaryTextColor,
           ),
-          dropdownColor: AppColors.backgroundColor,
+          dropdownColor: AppColors.backgroundColor(context),
           items: _getExchangeItems(),
           onChanged: onChanged,
         ),

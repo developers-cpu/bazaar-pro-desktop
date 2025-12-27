@@ -52,10 +52,10 @@ class ContextMenuWidget extends StatelessWidget {
       child: Container(
         width: AppDimensions.contextMenuWidth,
         decoration: BoxDecoration(
-          color: AppColors.contextMenuBackground,
+          color: AppColors.getContextMenuBackground(context),
           borderRadius: BorderRadius.circular(AppDimensions.borderRadiusS),
           border: Border.all(
-            color: AppColors.borderColor,
+            color: AppColors.cardBorderColor(context),
             width: AppDimensions.borderWidthThin,
           ),
         ),
@@ -63,55 +63,67 @@ class ContextMenuWidget extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             _buildMenuItem(
+              context: context,
               text: AppStrings.viewChart,
               onTap: onViewChart,
             ),
             _buildMenuItem(
+              context: context,
               text: AppStrings.arrangeSymbol,
               onTap: onArrangeSymbol,
             ),
             _buildMenuItem(
+              context: context,
               text: AppStrings.setSymbolFont,
               onTap: onSetSymbolFont,
             ),
             _buildMenuItem(
+              context: context,
               text: AppStrings.fitToSize,
               onTap: onFitToSize,
             ),
             _buildMenuItem(
+              context: context,
               text: AppStrings.symbolInfo,
               onTap: onSymbolInfo,
             ),
             _buildMenuItem(
+              context: context,
               text: AppStrings.grid,
               onTap: onGrid,
             ),
-            _buildDivider(),
+            _buildDivider(context),
             _buildMenuItem(
+              context: context,
               text: AppStrings.cut,
               onTap: onCut,
             ),
             _buildMenuItem(
+              context: context,
               text: AppStrings.copy,
               onTap: onCopy,
             ),
             _buildMenuItem(
+              context: context,
               text: AppStrings.paste,
               onTap: onPaste,
               enabled: canPaste,
             ),
             _buildMenuItem(
+              context: context,
               text: AppStrings.undo,
               onTap: onUndo,
               enabled: canUndo,
             ),
             _buildMenuItem(
+              context: context,
               text: AppStrings.redo,
               onTap: onRedo,
               enabled: canRedo,
             ),
-            _buildDivider(),
+            _buildDivider(context),
             _buildMenuItem(
+              context: context,
               text: AppStrings.delete,
               onTap: onDelete,
             ),
@@ -123,13 +135,14 @@ class ContextMenuWidget extends StatelessWidget {
 
   /// Build individual menu item with hover effect
   Widget _buildMenuItem({
+    required BuildContext context,
     required String text,
     required VoidCallback onTap,
     bool enabled = true,
   }) {
     return InkWell(
       onTap: enabled ? () => onTap() : null,
-      hoverColor: AppColors.contextMenuHover,
+      hoverColor: AppColors.getContextMenuHover(context),
       child: Container(
         height: AppDimensions.contextMenuItemHeight,
         padding: const EdgeInsets.symmetric(
@@ -143,8 +156,8 @@ class ContextMenuWidget extends StatelessWidget {
             style: TextStyle(
               fontSize: AppDimensions.fontSizeM,
               color: enabled
-                  ? AppColors.primaryTextColor
-                  : AppColors.secondaryTextColor,
+                  ? AppColors.textColor(context)
+                  : AppColors.supportiveTextColor(context),
             ),
           ),
         ),
@@ -153,11 +166,11 @@ class ContextMenuWidget extends StatelessWidget {
   }
 
   /// Build divider between menu sections
-  Widget _buildDivider() {
+  Widget _buildDivider(BuildContext context) {
     return Divider(
       height: 1,
       thickness: AppDimensions.borderWidthThin,
-      color: AppColors.borderColor,
+      color: AppColors.dividerColor(context),
     );
   }
 }

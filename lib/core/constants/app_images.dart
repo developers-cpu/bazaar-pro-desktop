@@ -4,8 +4,13 @@ class AppImages {
 
   static const String _imagesPath = 'assets/images';
   static const String _gifsPath = 'assets/gifs';
+  static const String _iconsPath = 'assets/icons';
+
 
   static const String appLogo = '$_imagesPath/bazaar_logo.png';
   static const String loginBackgroundGif = '$_gifsPath/login_background.gif';
   static const String userPlaceholder = '$_imagesPath/user_placeholder.png';
+  static const String input1 = '$_iconsPath/driver.svg';
+  static const String input2 = '$_iconsPath/profile.svg';
+  static const String input3 = '$_iconsPath/view.svg';
 }

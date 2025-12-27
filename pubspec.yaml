@@ -42,6 +42,8 @@ dependencies:
   # Utilities
   intl: ^0.18.1
   dio: ^5.9.0
+  google_fonts: ^6.3.3
+  flutter_svg: ^2.2.3
 
 dev_dependencies:
   flutter_test:
@@ -54,3 +56,7 @@ flutter:
   assets:
     - assets/gifs/login_background.gif
     - assets/images/bazaar_logo.png
+    - assets/icons/auth/driver.svg
+    - assets/icons/auth/profile.svg
+    - assets/icons/auth/view.svg
+

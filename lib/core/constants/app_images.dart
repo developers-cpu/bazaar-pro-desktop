@@ -6,6 +6,7 @@ class AppImages {
   static const String _gifsPath = 'assets/gifs';
   static const String _iconsPath = 'assets/icons/auth';
   static const String _commonIconsPath = 'assets/icons/market';
+  static const String _menuIconsPath = 'assets/icons/menu';
 
   // Images
   static const String appLogo = '$_imagesPath/bazaar_logo.png';
@@ -35,4 +36,15 @@ class AppImages {
   // Table Icons
   static const String sortIcon = '$_commonIconsPath/sort.svg';
   static const String banIcon = '$_commonIconsPath/campaign.svg' ;
+
+  //menu Icons
+  static const String menu1Icon = '$_menuIconsPath/menu1.svg';
+  static const String menu2con = '$_menuIconsPath/menu2.svg';
+  static const String menu3Icon = '$_menuIconsPath/menu3.svg';
+  static const String menu4Icon = '$_menuIconsPath/menu4.svg';
+  static const String menu5Icon = '$_menuIconsPath/menu5.svg';
+  static const String menu6Icon = '$_menuIconsPath/menu6.svg';
+  static const String menu7Icon = '$_menuIconsPath/menu7.svg';
+  static const String menu8Icon = '$_menuIconsPath/menu8.svg';
+  static const String menu9Icon = '$_menuIconsPath/menu9.svg';
 }

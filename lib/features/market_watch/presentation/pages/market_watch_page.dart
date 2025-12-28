@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_dimensions.dart';
 import '../bloc/market_watch_bloc.dart';
@@ -164,8 +165,6 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
 
 
 
-
-
             // Data Table
             Expanded(
               child: MarketDataTable(
@@ -177,7 +176,7 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
             ),
             // Divider line
             Container(
-              height: 1,
+              height: 1.h,
               color: Colors.grey[300],
             ),
             // Watchlist Section - Positioned below filters
@@ -189,8 +188,12 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
             const BanForTradeNotice(
               message: 'ies in Ban For Trade Date 27-OCT-25: 1 SAIL 2 SAMN',
             ),
+
+
           ],
         ),
+
+        // Context Menu Overlay
         if (_contextMenuPosition != null) _buildContextMenu(loadedState),
       ],
     );
@@ -204,12 +207,12 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
         children: [
           Text(
             state.message,
-            style: const TextStyle(
-              fontSize: AppDimensions.fontSizeL,
+            style: TextStyle(
+              fontSize: AppDimensions.fontSizeL.sp,
               color: AppColors.errorColor,
             ),
           ),
-          const SizedBox(height: AppDimensions.marginL),
+          SizedBox(height: AppDimensions.marginL.h),
           ElevatedButton(
             onPressed: () {
               context.read<MarketWatchBloc>().add(const LoadMarketItemsEvent());
@@ -293,17 +296,21 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
                 },
                 onPaste: () {
                   _closeContextMenu();
-                  context
-                      .read<MarketWatchBloc>()
-                      .add(const PasteMarketItemEvent());
+                  context.read<MarketWatchBloc>().add(
+                    const PasteMarketItemEvent(),
+                  );
                 },
                 onUndo: () {
                   _closeContextMenu();
-                  context.read<MarketWatchBloc>().add(const UndoActionEvent());
+                  context.read<MarketWatchBloc>().add(
+                    const UndoActionEvent(),
+                  );
                 },
                 onRedo: () {
                   _closeContextMenu();
-                  context.read<MarketWatchBloc>().add(const RedoActionEvent());
+                  context.read<MarketWatchBloc>().add(
+                    const RedoActionEvent(),
+                  );
                 },
                 onDelete: () {
                   _closeContextMenu();

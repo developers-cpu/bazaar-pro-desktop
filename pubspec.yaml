@@ -54,9 +54,10 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/gifs/login_background.gif
-    - assets/images/bazaar_logo.png
-    - assets/icons/auth/driver.svg
-    - assets/icons/auth/profile.svg
-    - assets/icons/auth/view.svg
+    - assets/gifs/
+    - assets/images/
+    - assets/icons/auth/
+    - assets/icons/auth/dp1.svg
+    - assets/icons/auth/dp2.svg
+    - assets/icons/auth/dp3.svg
 

@@ -15,7 +15,7 @@ class AuthConstants {
   // Strings
   static const String appName = 'BAZAAR';
   static const String loginTitle = 'Log In';
-  static const String loginSubtitle = 'Glad you\'re back.!';
+  static const String loginSubtitle = 'Glad you’re back.!';
   static const String selectServerLabel = 'Select Server';
   static const String usernameLabel = 'Username';
   static const String passwordLabel = 'Password';

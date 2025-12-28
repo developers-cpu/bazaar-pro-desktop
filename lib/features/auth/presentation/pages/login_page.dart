@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_images.dart';
 import '../../../../core/constants/auth_constants.dart';
 import '../bloc/auth_bloc.dart';
 import '../bloc/auth_event.dart';
 import '../bloc/auth_state.dart';
+import '../widget/custom_button.dart';
+import '../widget/custom_dropdown_field.dart';
+import '../widget/custom_input_field.dart';
 
-/// Login page with authentication form
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -20,8 +23,9 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
-  String _selectedServer = AuthConstants.serverOptions.first;
+  String? _selectedServer;
   bool _obscurePassword = true;
+  bool _backgroundImageError = false;
 
   @override
   void dispose() {
@@ -46,101 +50,32 @@ class _LoginPageState extends State<LoginPage> {
     context.read<AuthBloc>().add(const DemoLoginEvent());
   }
 
+  void _showSnackBar(String message, {Color? backgroundColor}) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: backgroundColor,
+        duration: const Duration(seconds: 2),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final isDark = AppColors.isDarkMode(context);
+
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(AppImages.loginBackgroundGif),
-            fit: BoxFit.cover,
-          ),
-        ),
+        decoration: _backgroundImageError
+            ? _buildGradientBackground(isDark)
+            : _buildBackgroundWithImage(),
         child: SafeArea(
           child: Center(
             child: SingleChildScrollView(
               child: BlocConsumer<AuthBloc, AuthState>(
-                listener: (context, state) {
-                  if (state is AuthError) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(state.message),
-                        backgroundColor: AppColors.errorColor,
-                        duration: const Duration(seconds: 3),
-                      ),
-                    );
-                  } else if (state is AuthAuthenticated) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(AuthConstants.loginSuccessMessage),
-                        backgroundColor: AppColors.successColor,
-                        duration: const Duration(seconds: 2),
-                      ),
-                    );
-                    // Navigate to market watch page after successful login
-                    Navigator.of(context).pushReplacementNamed('/market-watch');
-                  }
-                },
+                listener: _handleAuthStateChange,
                 builder: (context, state) {
-                  final isLoading = state is AuthLoading;
-
-                  return Center(
-                    child: Container(
-                      width: 500,
-                      padding: const EdgeInsets.all(24),
-                      child: Form(
-                        key: _formKey,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            // App Logo
-                            _buildLogo(),
-                            const SizedBox(height: 40),
-
-                            // Login Title
-                            _buildTitle(),
-                            const SizedBox(height: 8),
-
-                            // Subtitle
-                            _buildSubtitle(),
-                            const SizedBox(height: 32),
-
-                            // Server Selection
-                            _buildServerDropdown(),
-                            const SizedBox(height: 16),
-
-                            // Username Field
-                            _buildUsernameField(),
-                            const SizedBox(height: 16),
-
-                            // Password Field
-                            _buildPasswordField(),
-                            const SizedBox(height: 24),
-
-                            // Login Button
-                            _buildLoginButton(isLoading),
-                            const SizedBox(height: 16),
-
-                            // Demo Login & Forgot Password
-                            _buildFooterLinks(),
-                            const SizedBox(height: 32),
-
-                            // Education Purpose Text
-                            _buildEducationText(),
-                            const SizedBox(height: 8),
-
-                            // Version
-                            _buildVersionText(),
-                            const SizedBox(height: 16),
-
-                            // Terms & Privacy
-                            _buildLegalLinks(),
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
+                  return _buildForm(context, state is AuthLoading);
                 },
               ),
             ),
@@ -150,391 +85,343 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _buildLogo() {
+  void _handleAuthStateChange(BuildContext context, AuthState state) {
+    if (state is AuthError) {
+      _showSnackBar(state.message, backgroundColor: AppColors.errorColor);
+    } else if (state is AuthAuthenticated) {
+      _showSnackBar(
+        AuthConstants.loginSuccessMessage,
+        backgroundColor: AppColors.successColor,
+      );
+      Navigator.of(context).pushReplacementNamed('/market-watch');
+    }
+  }
+
+  Widget _buildForm(BuildContext context, bool isLoading) {
     return Container(
-      width: 100,
-      height: 100,
-      decoration: BoxDecoration(
-        color: const Color(0xFF1E3A5F),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Center(
-        child: Image.asset(
-          AppImages.appLogo,
-          width: 80,
-          height: 80,
-          errorBuilder: (context, error, stackTrace) {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  AuthConstants.appName.replaceAll('BAZAAR P', 'BAZAAR'),
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 1,
-                  ),
-                ),
-                const Text(
-                  'P',
-                  style: TextStyle(
-                    color: Colors.red,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            );
-          },
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTitle() {
-    return Text(
-      AuthConstants.loginTitle,
-      style: const TextStyle(
-        fontSize: 28,
-        fontWeight: FontWeight.w600,
-        color: Color(0xFF1E3A5F),
-      ),
-    );
-  }
-
-  Widget _buildSubtitle() {
-    return Text(
-      AuthConstants.loginSubtitle,
-      style: TextStyle(
-        fontSize: 14,
-        color: Colors.grey[600],
-        fontWeight: FontWeight.w400,
-      ),
-    );
-  }
-
-  Widget _buildServerDropdown() {
-    return SizedBox(
       width: 500,
-      height: 45,
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(5),
-          border: Border.all(color: Colors.grey[300]!),
-        ),
-        padding: const EdgeInsets.symmetric(horizontal: 12),
-        child: DropdownButtonFormField<String>(
-          value: _selectedServer,
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            contentPadding: const EdgeInsets.symmetric(vertical: 12),
-            hintText: AuthConstants.selectServerLabel,
-            hintStyle: const TextStyle(
-              fontSize: 14,
-              color: Colors.grey,
-            ),
-          ),
-          icon: Icon(Icons.arrow_drop_down, color: Colors.grey[600]),
-          style: const TextStyle(
-            fontSize: 14,
-            color: Colors.black87,
-          ),
-          items: AuthConstants.serverOptions.map((server) {
-            return DropdownMenuItem(
-              value: server,
-              child: Text(server),
-            );
-          }).toList(),
-          onChanged: (value) {
-            setState(() {
-              _selectedServer = value!;
-            });
-          },
+      padding: const EdgeInsets.all(24),
+      child: Form(
+        key: _formKey,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _buildLogo(context),
+            const SizedBox(height: 40),
+            _buildTitleSection(context),
+            const SizedBox(height: 24),
+            _buildServerDropdown(context),
+            const SizedBox(height: 16),
+            _buildUsernameField(context),
+            const SizedBox(height: 16),
+            _buildPasswordField(context),
+            const SizedBox(height: 24),
+            _buildLoginButton(context, isLoading),
+            const SizedBox(height: 16),
+            _buildFooterLinks(context),
+            const SizedBox(height: 32),
+            _buildFooterText(context),
+          ],
         ),
       ),
     );
   }
 
-  Widget _buildUsernameField() {
-    return SizedBox(
-      width: 500,
-      height: 45,
-      child: TextFormField(
-        controller: _usernameController,
-        style: const TextStyle(fontSize: 14),
-        decoration: InputDecoration(
-          filled: true,
-          fillColor: Colors.white,
-          hintText: AuthConstants.usernameLabel,
-          hintStyle: TextStyle(
-            fontSize: 14,
-            color: Colors.grey[400],
-          ),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-          suffixIcon: Icon(Icons.account_circle_outlined, color: Colors.grey[600], size: 20),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(5),
-            borderSide: BorderSide(color: Colors.grey[300]!),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(5),
-            borderSide: BorderSide(color: Colors.grey[300]!),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(5),
-            borderSide: const BorderSide(color: Color(0xFF1E3A5F), width: 1.5),
-          ),
-          errorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(5),
-            borderSide: const BorderSide(color: Colors.red),
-          ),
-          focusedErrorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(5),
-            borderSide: const BorderSide(color: Colors.red, width: 1.5),
-          ),
-        ),
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return AuthConstants.emptyUsernameError;
-          }
-          return null;
+  // ─────────────────────────────────────────────────────────────────
+  // BACKGROUND
+  // ─────────────────────────────────────────────────────────────────
+
+  BoxDecoration _buildBackgroundWithImage() {
+    return BoxDecoration(
+      image: DecorationImage(
+        image: AssetImage(AppImages.loginBackgroundGif),
+        fit: BoxFit.cover,
+        onError: (_, __) {
+          if (mounted) setState(() => _backgroundImageError = true);
         },
       ),
     );
   }
 
-  Widget _buildPasswordField() {
-    return SizedBox(
-      width: 500,
-      height: 45,
-      child: TextFormField(
-        controller: _passwordController,
-        obscureText: _obscurePassword,
-        style: const TextStyle(fontSize: 14),
-        decoration: InputDecoration(
-          filled: true,
-          fillColor: Colors.white,
-          hintText: AuthConstants.passwordLabel,
-          hintStyle: TextStyle(
+  BoxDecoration _buildGradientBackground(bool isDark) {
+    return BoxDecoration(
+      gradient: LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: isDark
+            ? [const Color(0xFF0D0D0D), const Color(0xFF1A1A1A)]
+            : [const Color(0xFFE3F2FD), Colors.white, const Color(0xFFE3F2FD)],
+      ),
+    );
+  }
+
+  // ─────────────────────────────────────────────────────────────────
+  // HEADER SECTION
+  // ─────────────────────────────────────────────────────────────────
+
+  Widget _buildLogo(BuildContext context) {
+    return Center(
+      child: SizedBox(
+        width: 140,
+        height: 140,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: Image.asset(
+            AppImages.appLogo,
+            fit: BoxFit.contain,
+            opacity: const AlwaysStoppedAnimation(1.0),
+            errorBuilder: (_, __, ___) => _buildFallbackLogo(context),
+          ),
+        ),
+      ),
+    );
+  }
+
+
+  Widget _buildFallbackLogo(BuildContext context) {
+    final isDark = AppColors.isDarkMode(context);
+
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          'BAZAAR',
+          style: TextStyle(
+            color: isDark ? AppColors.white : AppColors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            letterSpacing: 1,
+          ),
+        ),
+        Text(
+          'P',
+          style: TextStyle(
+            color: AppColors.secondaryColor(context),
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTitleSection(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          AuthConstants.loginTitle,
+          textAlign: TextAlign.center,
+          style: GoogleFonts.openSans(
+            fontSize: 32,
+            fontWeight: FontWeight.w700,
+            height: 1.0,
+            letterSpacing: 0,
+            color: AppColors.primaryColor(context),
+          ),
+        ),
+
+
+        const SizedBox(height: 8),
+        Text(
+          AuthConstants.loginSubtitle,
+          textAlign: TextAlign.center,
+          style: GoogleFonts.openSans(
             fontSize: 14,
-            color: Colors.grey[400],
-          ),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-          suffixIcon: IconButton(
-            icon: Icon(
-              _obscurePassword ? Icons.visibility_off_outlined : Icons.visibility_outlined,
-              color: Colors.grey[600],
-              size: 20,
-            ),
-            onPressed: () {
-              setState(() {
-                _obscurePassword = !_obscurePassword;
-              });
-            },
-          ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(5),
-            borderSide: BorderSide(color: Colors.grey[300]!),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(5),
-            borderSide: BorderSide(color: Colors.grey[300]!),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(5),
-            borderSide: const BorderSide(color: Color(0xFF1E3A5F), width: 1.5),
-          ),
-          errorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(5),
-            borderSide: const BorderSide(color: Colors.red),
-          ),
-          focusedErrorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(5),
-            borderSide: const BorderSide(color: Colors.red, width: 1.5),
+            fontWeight: FontWeight.w400,
+            height: 1.0,
+            letterSpacing: 0.25,
+            color: AppColors.primaryColor(context),
           ),
         ),
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return AuthConstants.emptyPasswordError;
-          }
-          return null;
-        },
-      ),
+
+      ],
     );
   }
 
-  Widget _buildLoginButton(bool isLoading) {
-    return SizedBox(
-      width: 500,
-      height: 45,
-      child: ElevatedButton(
-        onPressed: isLoading ? null : _handleLogin,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFF1E3A5F),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          elevation: 0,
-          padding: const EdgeInsets.all(10),
+  // ─────────────────────────────────────────────────────────────────
+  // FORM FIELDS
+  // ─────────────────────────────────────────────────────────────────
+
+  Widget _buildServerDropdown(BuildContext context) {
+    return CustomDropdownField(
+      hintText: AuthConstants.selectServerLabel,
+      value: _selectedServer,
+      items: [
+        DropdownOption(
+          value: 'RGX',
+          label: 'RGX',
+          iconPath: AppImages.dropDown1,
+          trailingIconPath: AppImages.serverIcon,
         ),
-        child: isLoading
-            ? const SizedBox(
-          width: 20,
-          height: 20,
-          child: CircularProgressIndicator(
-            color: Colors.white,
-            strokeWidth: 2,
-          ),
-        )
-            : Text(
-          AuthConstants.loginButtonText,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-            color: Colors.white,
-          ),
+        DropdownOption(
+          value: 'TESTS',
+          label: 'TESTS',
+          iconPath: AppImages.dropDown2,
+          trailingIconPath: AppImages.serverIcon,
         ),
-      ),
+        DropdownOption(
+          value: 'FOREXSERVER',
+          label: 'FOREXSERVER',
+          iconPath: AppImages.dropDown3,
+          trailingIconPath: AppImages.serverIcon,
+        ),
+      ],
+      onChanged: (value) => setState(() => _selectedServer = value!),
+
     );
   }
 
-  Widget _buildFooterLinks() {
-    return SizedBox(
-      width: 500,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          TextButton(
-            onPressed: _handleDemoLogin,
-            child: Text(
-              AuthConstants.demoLoginText,
-              style: const TextStyle(
-                color: Color(0xFF1E3A5F),
-                fontSize: 13,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ),
-          TextButton(
-            onPressed: () {
-              // TODO: Implement forgot password
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Forgot password feature coming soon!'),
-                  duration: Duration(seconds: 2),
-                ),
-              );
-            },
-            child: Text(
-              AuthConstants.forgotPasswordText,
-              style: const TextStyle(
-                color: Color(0xFF1E3A5F),
-                fontSize: 13,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ),
-        ],
-      ),
+  Widget _buildUsernameField(BuildContext context) {
+    return CustomInputField(
+      hintText: AuthConstants.usernameLabel,
+      controller: _usernameController,
+      svgIconPath: AppImages.input2,
+      validator: (value) =>
+      value?.isEmpty ?? true ? AuthConstants.emptyUsernameError : null,
     );
   }
 
-  Widget _buildEducationText() {
-    return SizedBox(
-      width: 500,
-      child: Text(
-        AuthConstants.educationPurposeText,
-        style: TextStyle(
-          fontSize: 11,
-          color: Colors.grey[600],
+  Widget _buildPasswordField(BuildContext context) {
+    return CustomInputField(
+      hintText: AuthConstants.passwordLabel,
+      controller: _passwordController,
+      obscureText: _obscurePassword,
+      suffixIcon: _obscurePassword
+          ? Icons.visibility_off_outlined
+          : Icons.visibility_outlined,
+      onSuffixIconPressed: () {
+        setState(() {
+          _obscurePassword = !_obscurePassword;
+        });
+      },
+      validator: (value) =>
+      value?.isEmpty ?? true ? AuthConstants.emptyPasswordError : null,
+    );
+  }
+
+
+  Widget _buildLoginButton(BuildContext context, bool isLoading) {
+    return CustomButton(
+      text: AuthConstants.loginButtonText,
+      onPressed: _handleLogin,
+      isLoading: isLoading,
+      backgroundColor: AppColors.primaryColor(context),
+      borderColor: AppColors.primaryColor(context),
+    );
+  }
+
+  // ─────────────────────────────────────────────────────────────────
+  // FOOTER SECTION
+  // ─────────────────────────────────────────────────────────────────
+
+  Widget _buildFooterLinks(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        _buildTextLink(
+          context,
+          text: AuthConstants.demoLoginText,
+          onPressed: _handleDemoLogin,
         ),
-        textAlign: TextAlign.center,
-      ),
-    );
-  }
-
-  Widget _buildVersionText() {
-    return SizedBox(
-      width: 500,
-      child: Text(
-        AuthConstants.versionText,
-        style: TextStyle(
-          fontSize: 11,
-          color: Colors.grey[600],
+        _buildTextLink(
+          context,
+          text: AuthConstants.forgotPasswordText,
+          onPressed: () => _showSnackBar('Forgot password feature coming soon!'),
         ),
-        textAlign: TextAlign.center,
-      ),
+      ],
     );
   }
 
-  Widget _buildLegalLinks() {
-    return SizedBox(
-      width: 500,
-      child: Row(
+  Widget _buildFooterText(BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          AuthConstants.educationPurposeText,
+          textAlign: TextAlign.center,
+          style: GoogleFonts.openSans(
+            fontSize: 14,
+            height: 1.0,
+            letterSpacing: 0.1,
+            color: const Color(0xFF1F4A66),
+          ),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          AuthConstants.versionText,
+          textAlign: TextAlign.center,
+          style: GoogleFonts.openSans(
+            fontSize: 14,
+            height: 1.0,
+            letterSpacing: 0.1,
+            color: const Color(0xFF1F4A66),
+          ),
+        ),
+        const SizedBox(height: 16),
+        _buildLegalLinks(context),
+      ],
+    );
+  }
+
+  Widget _buildLegalLinks(BuildContext context) {
+    return Center(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          TextButton(
-            onPressed: () {
-              // TODO: Implement terms and conditions
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Terms & Conditions page coming soon!'),
-                  duration: Duration(seconds: 2),
-                ),
-              );
-            },
-            style: TextButton.styleFrom(
-              padding: EdgeInsets.zero,
-              minimumSize: const Size(0, 0),
-              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            ),
-            child: Text(
-              AuthConstants.termsAndConditionsText,
-              style: const TextStyle(
-                color: Color(0xFF1E3A5F),
-                fontSize: 11,
-                decoration: TextDecoration.underline,
-              ),
-            ),
+          _buildTextLink(
+            context,
+            text: AuthConstants.termsAndConditionsText,
+
+            onPressed: () => _showSnackBar('Terms & Conditions page coming soon!'),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 4),
-            child: Text(
-              '|',
-              style: TextStyle(
-                color: Colors.grey[600],
-                fontSize: 11,
-              ),
-            ),
-          ),
-          TextButton(
-            onPressed: () {
-              // TODO: Implement privacy policy
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Privacy Policy page coming soon!'),
-                  duration: Duration(seconds: 2),
-                ),
-              );
-            },
-            style: TextButton.styleFrom(
-              padding: EdgeInsets.zero,
-              minimumSize: const Size(0, 0),
-              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            ),
-            child: const Text(
-              AuthConstants.privacyPolicyText,
-              style: TextStyle(
-                color: Color(0xFF1E3A5F),
-                fontSize: 11,
-                decoration: TextDecoration.underline,
-              ),
-            ),
+          SizedBox(height: 5,),
+          _buildTextLink(
+            context,
+            text: AuthConstants.privacyPolicyText,
+
+            onPressed: () => _showSnackBar('Privacy Policy page coming soon!'),
           ),
         ],
       ),
     );
   }
+
+  Widget _buildTextLink(
+      BuildContext context, {
+        required String text,
+        required VoidCallback onPressed,
+      }) {
+    const Color textColor = Color(0xFF1F4A66);
+
+    return TextButton(
+      onPressed: onPressed,
+      style: TextButton.styleFrom(
+        padding: EdgeInsets.zero,
+        minimumSize: Size.zero,
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        alignment: Alignment.center,
+        overlayColor: Colors.transparent,
+        foregroundColor: textColor,
+        splashFactory: NoSplash.splashFactory,
+      ),
+      child: Text(
+        text,
+        textAlign: TextAlign.center,
+        style: GoogleFonts.openSans(
+          fontSize: 14,
+          fontWeight: FontWeight.w600,
+          height: 1.0,
+          letterSpacing: 0.1,
+          color: textColor,
+          decoration: TextDecoration.underline,
+          decorationColor: textColor,
+          decorationThickness: 2,
+          decorationStyle: TextDecorationStyle.solid,
+        ),
+      ),
+    );
+  }
+
 }

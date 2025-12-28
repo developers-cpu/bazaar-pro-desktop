@@ -50,9 +50,11 @@ class AppTheme {
           // Headline styles
           headlineLarge: GoogleFonts.openSans(
             fontSize: 32,
-            fontWeight: FontWeight.w400,
+            fontWeight: FontWeight.w700,
+            letterSpacing: -0.5,
             color: LightThemeColors.textColor,
           ),
+
           headlineMedium: GoogleFonts.openSans(
             fontSize: 28,
             fontWeight: FontWeight.w400,

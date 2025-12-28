@@ -69,7 +69,8 @@ class DarkThemeColors {
   static const Color cardBackground = Color(0xFF1C1C1C);
 
   // Primary & Secondary Colors
-  static const Color primaryColor = Color(0xFF4993F4);
+  static const Color primaryColor = Color(0xFF1F4A66);
+
   static const Color secondaryColor = Color(0xFFE05E50);
 
   // Text Colors
@@ -87,7 +88,7 @@ class DarkThemeColors {
   static const Color tableAlternateRowBackground = Color(0xFF282829);
 
   // Chip Colors - Blue
-  static const Color chipTextBlueColor = Color(0xFF4993F4);
+  static const Color chipTextBlueColor = Color(0xFF1F4A66);
   static const Color chipBgBlue = Color(0xFF162032);
 
   // Chip Colors - Red
@@ -97,18 +98,18 @@ class DarkThemeColors {
   // Selection Colors
   static const Color selectedRowBackground = Color(0xFF162032);
   static const Color highlightColor = Color(0xFF232E3D);
-  static const Color selectedRowBorder = Color(0xFF4993F4);
+  static const Color selectedRowBorder = Color(0xFF1F4A66);
 
   // Context Menu Colors
   static const Color contextMenuBackground = Color(0xFF1C1C1C);
   static const Color contextMenuHover = Color(0xFF162032);
 
   // Positive/Negative Colors
-  static const Color positiveTextColor = Color(0xFF4993F4);
+  static const Color positiveTextColor = Color(0xFF1F4A66);
   static const Color negativeTextColor = Color(0xFFE05E50);
 
   // Gradient Colors (for reference - gradients need to be built separately)
-  static const Color gradientPrimaryColor = Color(0xFF368AE9);
+  static const Color gradientPrimaryColor = Color(0xFF1F4A66);
   static const Color gradientBaseColor = Color(0xFF0D0D0D);
 }
 

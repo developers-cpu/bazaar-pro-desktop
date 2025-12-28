@@ -1,3 +1,4 @@
+import 'package:bazarpro/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -31,7 +32,7 @@ class _MarketDataTableState extends State<MarketDataTable> {
   // ─────────────────────────────────────────────────────────────────
   // DESIGN CONSTANTS
   // ─────────────────────────────────────────────────────────────────
-  static const Color _headerBgColor = Color(0xFF1F4A66);
+  static const Color _headerBgColor = Color(0xFFE3F2FD);
   static const Color _headerTextColor = Color(0xFF1F4A66);
   static const Color _primaryColor = Color(0xFF1F4A66);
   static const Color _borderColor = Color(0xFFE0E0E0);
@@ -79,7 +80,7 @@ class _MarketDataTableState extends State<MarketDataTable> {
           // Header styling
           headingRowHeight: 55.h,
           headingRowColor: WidgetStateProperty.all(
-            _headerBgColor.withOpacity(0.3),
+            _headerBgColor,
           ),
           headingTextStyle: GoogleFonts.openSans(
             fontSize: 13.sp,
@@ -99,8 +100,8 @@ class _MarketDataTableState extends State<MarketDataTable> {
 
           // Border
           border: TableBorder(
-            horizontalInside: BorderSide(color: _borderColor, width: 1),
-            verticalInside: BorderSide(color: _borderColor.withOpacity(0.5), width: 1),
+            horizontalInside: BorderSide(color: _rowBgColor, width: 1),
+            verticalInside: BorderSide(color: _rowBgColor.withOpacity(0.5), width: 1),
           ),
 
           // Sorting
@@ -223,7 +224,7 @@ class _MarketDataTableState extends State<MarketDataTable> {
           );
         },
         onSecondaryTap: () {
-          // Handle right click - get position from gesture
+
         },
         onSecondaryTapDown: (details) {
           widget.onRightClick(details.globalPosition);
@@ -299,17 +300,11 @@ class _MarketDataTableState extends State<MarketDataTable> {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          SvgPicture.asset(
-            "",
-            width: 16.w,
-            height: 16.h,
-            colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
-            placeholderBuilder: (context) => Icon(
+          Icon(
               isPositive ? Icons.trending_up : Icons.trending_down,
               size: 16.sp,
               color: iconColor,
             ),
-          ),
           SizedBox(width: 6.w),
           Flexible(
             child: Text(
@@ -340,8 +335,8 @@ class _MarketDataTableState extends State<MarketDataTable> {
         text,
         style: GoogleFonts.openSans(
           fontSize: 13.sp,
-          fontWeight: isBold ? FontWeight.w600 : FontWeight.w400,
-          color: color ?? _primaryColor,
+          fontWeight: isBold ? FontWeight.w600 : FontWeight.w600,
+          color: color ??AppColors.black,
         ),
         overflow: TextOverflow.ellipsis,
       ),

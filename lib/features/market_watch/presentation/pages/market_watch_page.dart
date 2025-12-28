@@ -6,10 +6,12 @@ import '../../../../core/constants/app_dimensions.dart';
 import '../bloc/market_watch_bloc.dart';
 import '../bloc/market_watch_event.dart';
 import '../bloc/market_watch_state.dart';
+import '../widgets/ban_trade_info.dart';
 import '../widgets/context_menu_widget.dart';
 import '../widgets/market_filtter.dart';
 import '../widgets/market_table.dart';
 import '../widgets/market_watch_app_bar.dart';
+import '../widgets/watchlist_widget.dart';
 import 'dummy/dashboard_page.dart';
 import 'dummy/file_page.dart';
 import 'dummy/report_page.dart';
@@ -32,6 +34,9 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
   // Current selected tab index
   int _selectedTabIndex = 0;
 
+  // Current selected watchlist index
+  int _selectedWatchlistIndex = -1;
+
   @override
   void initState() {
     super.initState();
@@ -53,6 +58,15 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
       _selectedTabIndex = index;
       _contextMenuPosition = null;
     });
+  }
+
+  /// Handle watchlist selection
+  void _onWatchlistSelected(int index) {
+    setState(() {
+      _selectedWatchlistIndex = index;
+    });
+    // You can add logic here to filter items based on watchlist
+    // For example: context.read<MarketWatchBloc>().add(FilterByWatchlistEvent(index));
   }
 
   @override
@@ -145,10 +159,14 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
       children: [
         Column(
           children: [
-            // Filter Section
+            // Filter Section (Exchange & Symbol dropdowns)
             MarketFilters(state: loadedState),
 
-            // Data Table using data_table_2 package
+
+
+
+
+            // Data Table
             Expanded(
               child: MarketDataTable(
                 state: loadedState,
@@ -156,6 +174,20 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
                   setState(() => _contextMenuPosition = position);
                 },
               ),
+            ),
+            // Divider line
+            Container(
+              height: 1,
+              color: Colors.grey[300],
+            ),
+            // Watchlist Section - Positioned below filters
+            WatchlistWidget(
+              onWatchlistSelected: _onWatchlistSelected,
+            ),
+
+            // Ban for Trade Notice
+            const BanForTradeNotice(
+              message: 'ies in Ban For Trade Date 27-OCT-25: 1 SAIL 2 SAMN',
             ),
           ],
         ),

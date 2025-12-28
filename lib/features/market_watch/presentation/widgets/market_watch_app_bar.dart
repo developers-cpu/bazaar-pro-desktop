@@ -138,11 +138,6 @@ class MarketWatchAppBar extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 
-  // ─────────────────────────────────────────────────────────────────
-  // MENU TAB ITEM
-  // Selected: 131x45, background: #1F4A66, text: #FFFFFF
-  // Unselected: 100x45, text: #131313
-  // ─────────────────────────────────────────────────────────────────
   Widget _buildNavTab(String title, {required bool isSelected, VoidCallback? onTap}) {
     return GestureDetector(
       onTap: onTap,

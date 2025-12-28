@@ -18,9 +18,9 @@ class AppImages {
   static const String input3 = '$_iconsPath/view.svg';
 
   // Dropdown Item Icons (Leading icons - left side)
-  static const String dropDown1 = '$_iconsPath/dp1.png';
-  static const String dropDown2 = '$_iconsPath/dp2.png';
-  static const String dropDown3 = '$_iconsPath/dp3.png';
+  static const String dropDown1 = '$_iconsPath/dp1.png'; // RGX icons
+  static const String dropDown2 = '$_iconsPath/dp2.png'; // TESTS icons
+  static const String dropDown3 = '$_iconsPath/dp3.png'; // FOREXSERVER icons
 
   // Server Icon (Trailing icons - right side in dropdown)
   static const String serverIcon = '$_iconsPath/driver.svg';
@@ -28,5 +28,10 @@ class AppImages {
   // AppBar Icons
   static const String reloadIcon = '$_commonIconsPath/reload.svg';
   static const String logoutIcon = '$_commonIconsPath/logout.svg';
+
+  // Filter Icons
   static const String themeIcon = '$_commonIconsPath/theme.svg';
+
+  // Table Icons
+  static const String sortIcon = '$_commonIconsPath/sort.svg';
 }

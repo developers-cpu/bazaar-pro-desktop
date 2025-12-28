@@ -8,8 +8,7 @@ import '../bloc/market_watch_event.dart';
 import '../bloc/market_watch_state.dart';
 import '../widgets/context_menu_widget.dart';
 import '../widgets/market_filtter.dart';
-import '../widgets/market_table_header.dart';
-import '../widgets/market_table_body.dart';
+import '../widgets/market_table.dart';
 import '../widgets/market_watch_app_bar.dart';
 import 'dummy/dashboard_page.dart';
 import 'dummy/file_page.dart';
@@ -17,10 +16,8 @@ import 'dummy/report_page.dart';
 import 'dummy/tools_page.dart';
 import 'dummy/view_page.dart';
 
-
 /// Main page for market watch application
 /// Displays table of market items with filtering and context menu operations
-/// Implements keyboard shortcuts for cut, copy, paste, undo, redo
 class MarketWatchPage extends StatefulWidget {
   const MarketWatchPage({Key? key}) : super(key: key);
 
@@ -54,7 +51,7 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
   void _onTabSelected(int index) {
     setState(() {
       _selectedTabIndex = index;
-      _contextMenuPosition = null; // Close context menu on tab change
+      _contextMenuPosition = null;
     });
   }
 
@@ -85,7 +82,6 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
   Widget _buildBodyContent() {
     switch (_selectedTabIndex) {
       case 0:
-      // Market Watch - Original content with BlocConsumer
         return BlocConsumer<MarketWatchBloc, MarketWatchState>(
           listener: _handleStateChange,
           builder: _buildMarketWatchBody,
@@ -149,10 +145,12 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
       children: [
         Column(
           children: [
+            // Filter Section
             MarketFilters(state: loadedState),
-            const MarketTableHeader(),
+
+            // Data Table using data_table_2 package
             Expanded(
-              child: MarketTableBody(
+              child: MarketDataTable(
                 state: loadedState,
                 onRightClick: (position) {
                   setState(() => _contextMenuPosition = position);
@@ -161,8 +159,7 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
             ),
           ],
         ),
-        if (_contextMenuPosition != null)
-          _buildContextMenu(loadedState),
+        if (_contextMenuPosition != null) _buildContextMenu(loadedState),
       ],
     );
   }
@@ -264,7 +261,9 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
                 },
                 onPaste: () {
                   _closeContextMenu();
-                  context.read<MarketWatchBloc>().add(const PasteMarketItemEvent());
+                  context
+                      .read<MarketWatchBloc>()
+                      .add(const PasteMarketItemEvent());
                 },
                 onUndo: () {
                   _closeContextMenu();
@@ -299,7 +298,6 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
       return;
     }
 
-    // Only handle keyboard shortcuts on Market Watch tab
     if (_selectedTabIndex != 0) return;
 
     final state = context.read<MarketWatchBloc>().state;
@@ -347,9 +345,14 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
   /// Handle control key press shortcuts
   void _handleControlKeyPress(KeyEvent event, dynamic selectedItem) {
     if (event.logicalKey == LogicalKeyboardKey.keyX && selectedItem != null) {
-      context.read<MarketWatchBloc>().add(CutMarketItemEvent(item: selectedItem));
-    } else if (event.logicalKey == LogicalKeyboardKey.keyC && selectedItem != null) {
-      context.read<MarketWatchBloc>().add(CopyMarketItemEvent(item: selectedItem));
+      context
+          .read<MarketWatchBloc>()
+          .add(CutMarketItemEvent(item: selectedItem));
+    } else if (event.logicalKey == LogicalKeyboardKey.keyC &&
+        selectedItem != null) {
+      context
+          .read<MarketWatchBloc>()
+          .add(CopyMarketItemEvent(item: selectedItem));
     } else if (event.logicalKey == LogicalKeyboardKey.keyV) {
       context.read<MarketWatchBloc>().add(const PasteMarketItemEvent());
     } else if (event.logicalKey == LogicalKeyboardKey.keyZ) {

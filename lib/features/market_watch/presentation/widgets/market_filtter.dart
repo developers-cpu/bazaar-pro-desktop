@@ -8,11 +8,7 @@ import '../bloc/market_watch_event.dart';
 import '../bloc/market_watch_state.dart';
 import 'custom_filter_dropdown.dart';
 
-/// Filter row widget with exchange and symbol dropdowns
-/// Figma Specs:
-/// - Container: width 1880, height 45, background: #FFFFFF
-/// - Dropdowns: width 250, height 45
-/// - Theme icon: 40x40
+
 class MarketFilters extends StatelessWidget {
   final MarketWatchLoaded state;
 

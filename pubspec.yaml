@@ -36,7 +36,7 @@ dependencies:
   dartz: ^0.10.1
 
   # UI
-  data_table_2: ^2.5.9
+  data_table_2: ^2.7.2
   context_menus: ^1.0.2
 
   # Utilities

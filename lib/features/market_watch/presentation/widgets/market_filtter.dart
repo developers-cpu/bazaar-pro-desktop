@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import '../../../../core/constants/app_images.dart';
 import '../bloc/market_watch_bloc.dart';
 import '../bloc/market_watch_event.dart';
 import '../bloc/market_watch_state.dart';
-import 'exchange_filter.dart';
-import 'symbol_filter.dart';
+import 'custom_filter_dropdown.dart';
 
 /// Filter row widget with exchange and symbol dropdowns
-/// Allows users to filter market data by exchange and symbol
+/// Figma Specs:
+/// - Container: width 1880, height 45, background: #FFFFFF
+/// - Dropdowns: width 250, height 45
+/// - Theme icon: 40x40
 class MarketFilters extends StatelessWidget {
   final MarketWatchLoaded state;
 
@@ -16,45 +21,117 @@ class MarketFilters extends StatelessWidget {
     required this.state,
   }) : super(key: key);
 
+  // ─────────────────────────────────────────────────────────────────
+  // FIGMA DESIGN CONSTANTS
+  // ─────────────────────────────────────────────────────────────────
+  static const Color _primaryColor = Color(0xFF1F4A66);
+  static const Color _backgroundColor = Color(0xFFFFFFFF);
+  static const Color _primaryBgColor = Color(0x0D1F4A66);
+
   @override
   Widget build(BuildContext context) {
+    // Get available symbols from state
     final availableSymbols = state.items
         .map((item) => item.symbol)
         .toSet()
-        .toList();
+        .toList()
+      ..sort();
+
+    // Exchange list
+    final exchanges = [
+      'NSE',
+      'MCX',
+      'CE/PE',
+      'OTHERS',
+      'COMEX',
+      'CRYPTO',
+      'GIFT',
+      'FOREX',
+    ];
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      decoration: BoxDecoration(
-        color: Colors.grey[50],
-        border: Border(
-          bottom: BorderSide(
-            color: Colors.grey[300]!,
-            width: 1,
-          ),
-        ),
+      width: double.infinity,
+      height: 60.h,
+      padding: EdgeInsets.symmetric(horizontal: 20.w),
+      decoration: const BoxDecoration(
+        color: _backgroundColor,
       ),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          ExchangeFilter(
-            selectedExchange: state.selectedExchange,
-            onChanged: (exchange) {
-              context.read<MarketWatchBloc>().add(
-                FilterByExchangeEvent(exchange: exchange),
-              );
-            },
+          // Left side - Dropdowns
+          Row(
+            children: [
+              // Exchange Dropdown
+              CustomFilterDropdown(
+                hintText: 'Exchange',
+                value: state.selectedExchange,
+                items: exchanges,
+                width: 250.w,
+                dropdownHeight: 287.h,
+                onChanged: (exchange) {
+                  context.read<MarketWatchBloc>().add(
+                    FilterByExchangeEvent(exchange: exchange),
+                  );
+                },
+              ),
+
+              SizedBox(width: 16.w),
+
+              // Symbol Dropdown
+              CustomFilterDropdown(
+                hintText: 'Symbol',
+                value: state.selectedSymbol,
+                items: availableSymbols,
+                width: 250.w,
+                onChanged: (symbol) {
+                  context.read<MarketWatchBloc>().add(
+                    FilterBySymbolEvent(symbol: symbol),
+                  );
+                },
+              ),
+            ],
           ),
-          const SizedBox(width: 16),
-          SymbolFilter(
-            selectedSymbol: state.selectedSymbol,
-            onChanged: (symbol) {
-              context.read<MarketWatchBloc>().add(
-                FilterBySymbolEvent(symbol: symbol),
-              );
-            },
-            availableSymbols: availableSymbols,
-          ),
+
+          // Right side - Theme Toggle
+          _buildThemeToggle(context),
         ],
+      ),
+    );
+  }
+
+  /// Theme toggle button - 40x40 with SVG icon
+  Widget _buildThemeToggle(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        // Handle theme toggle
+        // You can implement your theme switching logic here
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Theme toggle clicked'),
+            duration: Duration(seconds: 1),
+          ),
+        );
+      },
+      child: Container(
+        width: 50.w,
+        height: 50.h,
+        child: Center(
+          child: SvgPicture.asset(
+            AppImages.themeIcon,
+            width: 35.sp,
+            height: 35.sp,
+            colorFilter: const ColorFilter.mode(
+              _primaryColor,
+              BlendMode.srcIn,
+            ),
+            placeholderBuilder: (context) => Icon(
+              Icons.brightness_6_outlined,
+              color: _primaryColor,
+              size: 24.sp,
+            ),
+          ),
+        ),
       ),
     );
   }

@@ -28,4 +28,5 @@ class AppImages {
   // AppBar Icons
   static const String reloadIcon = '$_commonIconsPath/reload.svg';
   static const String logoutIcon = '$_commonIconsPath/logout.svg';
+  static const String themeIcon = '$_commonIconsPath/theme.svg';
 }

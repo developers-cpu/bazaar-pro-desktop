@@ -22,13 +22,13 @@ class MarketWatchAppBar extends StatelessWidget implements PreferredSizeWidget {
   }) : super(key: key);
 
   // ─────────────────────────────────────────────────────────────────
-  // FIGMA DESIGN CONSTANTS
+  // FIGMA DESIGN CONSTANTS - SHARED WITH FILTER SECTION
   // ─────────────────────────────────────────────────────────────────
-  static const Color _primaryColor = Color(0xFF1F4A66);
-  static const Color _primaryBgColor = Color(0x0D1F4A66);
-  static const Color _textDark = Color(0xFF131313);
-  static const Color _redColor = Color(0xFFFF0000);
-  static const Color _white = Colors.white;
+  static const Color primaryColor = Color(0xFF1F4A66);
+  static const Color primaryBgColor = Color(0x0D1F4A66);
+  static const Color textDark = Color(0xFF131313);
+  static const Color redColor = Color(0xFFFF0000);
+  static const Color white = Colors.white;
 
   @override
   Size get preferredSize => Size.fromHeight(76.h);
@@ -38,16 +38,10 @@ class MarketWatchAppBar extends StatelessWidget implements PreferredSizeWidget {
     return Container(
       width: double.infinity,
       height: 76.h,
-      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
-      decoration: BoxDecoration(
-        color: _white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.08),
-            blurRadius: 4.r,
-            offset: Offset(0, 2.h),
-          ),
-        ],
+      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+      decoration: const BoxDecoration(
+        color: white,
+        // No shadow - seamless with filter section
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -83,7 +77,7 @@ class MarketWatchAppBar extends StatelessWidget implements PreferredSizeWidget {
             width: 49.w,
             height: 50.h,
             decoration: BoxDecoration(
-              color: _primaryColor,
+              color: primaryColor,
               borderRadius: BorderRadius.circular(12.r),
             ),
             child: Center(
@@ -92,7 +86,7 @@ class MarketWatchAppBar extends StatelessWidget implements PreferredSizeWidget {
                 style: GoogleFonts.openSans(
                   fontSize: 24.sp,
                   fontWeight: FontWeight.w700,
-                  color: _white,
+                  color: white,
                 ),
               ),
             ),
@@ -120,7 +114,7 @@ class MarketWatchAppBar extends StatelessWidget implements PreferredSizeWidget {
       margin: EdgeInsets.symmetric(horizontal: 16.w),
       padding: EdgeInsets.all(5.w),
       decoration: BoxDecoration(
-        color: _primaryBgColor,
+        color: primaryBgColor,
         borderRadius: BorderRadius.circular(15.r),
       ),
       child: SingleChildScrollView(
@@ -155,10 +149,10 @@ class MarketWatchAppBar extends StatelessWidget implements PreferredSizeWidget {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         curve: Curves.easeInOut,
-        width: isSelected ? 125.w : 110.w,
+        width: isSelected ? 125.w : 100.w,
         height: 40.h,
         decoration: BoxDecoration(
-          color: isSelected ? _primaryColor : Colors.transparent,
+          color: isSelected ? primaryColor : Colors.transparent,
           borderRadius: BorderRadius.circular(15.r),
         ),
         alignment: Alignment.center,
@@ -170,11 +164,11 @@ class MarketWatchAppBar extends StatelessWidget implements PreferredSizeWidget {
             textAlign: TextAlign.center,
             maxLines: 1,
             style: GoogleFonts.openSans(
-              fontSize: 16.sp,
+              fontSize: 14.sp,
               fontWeight: FontWeight.w600,
               height: 1.0,
               letterSpacing: 0.15,
-              color: isSelected ? _white : _textDark,
+              color: isSelected ? white : textDark,
             ),
           ),
         ),
@@ -212,19 +206,19 @@ class MarketWatchAppBar extends StatelessWidget implements PreferredSizeWidget {
         width: 40.w,
         height: 40.h,
         decoration: BoxDecoration(
-          color: _white,
+          color: white,
           shape: BoxShape.circle,
           border: Border.all(
-            color: _primaryColor,
+            color: primaryColor,
             width: 2.w,
           ),
         ),
         child: Center(
           child: _buildSvgIcon(
-            AppImages.appLogo,
+            AppImages.reloadIcon,
             fallbackIcon: Icons.refresh,
             size: 22.sp,
-            color: _primaryColor,
+            color: primaryColor,
           ),
         ),
       ),
@@ -236,10 +230,10 @@ class MarketWatchAppBar extends StatelessWidget implements PreferredSizeWidget {
   // ─────────────────────────────────────────────────────────────────
   Widget _buildUserInfoSection(BuildContext context) {
     return Container(
-      height: 56.h,
+      height: 50.h,
       padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
       decoration: BoxDecoration(
-        color: _primaryBgColor,
+        color: primaryBgColor,
         borderRadius: BorderRadius.circular(15.r),
       ),
       child: Row(
@@ -264,19 +258,16 @@ class MarketWatchAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   // ─────────────────────────────────────────────────────────────────
   // USER INITIAL - Circle with red border
-  // Font: Open Sans, SemiBold 600, 14.77px, letter-spacing: 0.46px
-  // Color: #FF0000, Border: 0.92px solid #FF0000
   // ─────────────────────────────────────────────────────────────────
   Widget _buildUserInitial() {
     return Container(
       width: 30.w,
       height: 30.h,
-      padding: EdgeInsets.fromLTRB(3.w, 2.h, 3.w, 2.h),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.r),
         border: Border.all(
-          color: _redColor,
-          width: 0.92.w,
+          color: redColor,
+          width: 1.w,
         ),
       ),
       alignment: Alignment.center,
@@ -285,11 +276,11 @@ class MarketWatchAppBar extends StatelessWidget implements PreferredSizeWidget {
         child: Text(
           username.isNotEmpty ? username[0].toUpperCase() : 'U',
           style: GoogleFonts.openSans(
-            fontSize: 14.77.sp,
+            fontSize: 14.sp,
             fontWeight: FontWeight.w600,
             height: 1.0,
             letterSpacing: 0.46,
-            color: _redColor,
+            color: redColor,
           ),
         ),
       ),
@@ -298,35 +289,31 @@ class MarketWatchAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   // ─────────────────────────────────────────────────────────────────
   // USER DETAILS - Username and Version
-  // Username: Bold 700, 14px, letter-spacing: 0.1px, color: #1F4A66
-  // Version: SemiBold 600, 11px, letter-spacing: 0.5px, color: #1F4A66
   // ─────────────────────────────────────────────────────────────────
   Widget _buildUserDetails() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Username - Bold 700, 14px
         Text(
           username,
           style: GoogleFonts.openSans(
-            fontSize: 14.sp,
+            fontSize: 12.sp,
             fontWeight: FontWeight.w700,
             height: 1.0,
             letterSpacing: 0.1,
-            color: _primaryColor,
+            color: primaryColor,
           ),
         ),
         SizedBox(height: 4.h),
-        // Version - SemiBold 600, 11px
         Text(
           version,
           style: GoogleFonts.openSans(
-            fontSize: 11.sp,
+            fontSize: 10.sp,
             fontWeight: FontWeight.w600,
             height: 1.0,
             letterSpacing: 0.5,
-            color: _primaryColor,
+            color: primaryColor,
           ),
         ),
       ],
@@ -341,19 +328,15 @@ class MarketWatchAppBar extends StatelessWidget implements PreferredSizeWidget {
       onTap: () {
         Navigator.of(context).pushReplacementNamed('/');
       },
-      child: Container(
-        width: 40.w,
-        height: 40.h,
-        decoration: BoxDecoration(
-          color: Colors.transparent,
-          borderRadius: BorderRadius.circular(8.r),
-        ),
+      child: SizedBox(
+        width: 36.w,
+        height: 36.h,
         child: Center(
           child: _buildSvgIcon(
             AppImages.logoutIcon,
             fallbackIcon: Icons.logout,
-            size: 30.sp,
-            color: _redColor,
+            size: 24.sp,
+            color: redColor,
           ),
         ),
       ),

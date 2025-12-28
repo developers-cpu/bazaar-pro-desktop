@@ -44,6 +44,7 @@ dependencies:
   dio: ^5.9.0
   google_fonts: ^6.3.3
   flutter_svg: ^2.2.3
+  flutter_screenutil: ^5.9.3
 
 dev_dependencies:
   flutter_test:
@@ -57,7 +58,5 @@ flutter:
     - assets/gifs/
     - assets/images/
     - assets/icons/auth/
-    - assets/icons/auth/dp1.svg
-    - assets/icons/auth/dp2.svg
-    - assets/icons/auth/dp3.svg
+    - assets/icons/market/
 

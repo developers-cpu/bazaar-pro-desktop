@@ -11,6 +11,12 @@ import '../widgets/market_filtter.dart';
 import '../widgets/market_table_header.dart';
 import '../widgets/market_table_body.dart';
 import '../widgets/market_watch_app_bar.dart';
+import 'dummy/dashboard_page.dart';
+import 'dummy/file_page.dart';
+import 'dummy/report_page.dart';
+import 'dummy/tools_page.dart';
+import 'dummy/view_page.dart';
+
 
 /// Main page for market watch application
 /// Displays table of market items with filtering and context menu operations
@@ -25,6 +31,9 @@ class MarketWatchPage extends StatefulWidget {
 class _MarketWatchPageState extends State<MarketWatchPage> {
   Offset? _contextMenuPosition;
   final FocusNode _focusNode = FocusNode();
+
+  // Current selected tab index
+  int _selectedTabIndex = 0;
 
   @override
   void initState() {
@@ -41,6 +50,14 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
     super.dispose();
   }
 
+  /// Handle tab selection from AppBar
+  void _onTabSelected(int index) {
+    setState(() {
+      _selectedTabIndex = index;
+      _contextMenuPosition = null; // Close context menu on tab change
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Focus(
@@ -53,15 +70,39 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
           onTap: () => _focusNode.requestFocus(),
           child: Scaffold(
             backgroundColor: Colors.white,
-            appBar: const MarketWatchAppBar(),
-            body: BlocConsumer<MarketWatchBloc, MarketWatchState>(
-              listener: _handleStateChange,
-              builder: _buildBody,
+            appBar: MarketWatchAppBar(
+              selectedIndex: _selectedTabIndex,
+              onTabSelected: _onTabSelected,
             ),
+            body: _buildBodyContent(),
           ),
         ),
       ),
     );
+  }
+
+  /// Build body content based on selected tab
+  Widget _buildBodyContent() {
+    switch (_selectedTabIndex) {
+      case 0:
+      // Market Watch - Original content with BlocConsumer
+        return BlocConsumer<MarketWatchBloc, MarketWatchState>(
+          listener: _handleStateChange,
+          builder: _buildMarketWatchBody,
+        );
+      case 1:
+        return const DashboardPage();
+      case 2:
+        return const FilePage();
+      case 3:
+        return const ViewPage();
+      case 4:
+        return const ReportPage();
+      case 5:
+        return const ToolsPage();
+      default:
+        return const Center(child: Text('Unknown Page'));
+    }
   }
 
   /// Handle state changes for success and error messages
@@ -92,8 +133,8 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
     }
   }
 
-  /// Build body based on current state
-  Widget _buildBody(BuildContext context, MarketWatchState state) {
+  /// Build Market Watch body based on current state
+  Widget _buildMarketWatchBody(BuildContext context, MarketWatchState state) {
     if (state is MarketWatchInitial || state is MarketWatchLoading) {
       return const Center(child: CircularProgressIndicator());
     }
@@ -257,6 +298,9 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
       }
       return;
     }
+
+    // Only handle keyboard shortcuts on Market Watch tab
+    if (_selectedTabIndex != 0) return;
 
     final state = context.read<MarketWatchBloc>().state;
     final MarketWatchLoaded? loadedState = state is MarketWatchSuccess

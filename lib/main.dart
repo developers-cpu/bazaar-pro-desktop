@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'core/constants/app_theme.dart';
 import 'features/auth/presentation/bloc/auth_bloc.dart';
 import 'features/auth/presentation/pages/login_page.dart';
@@ -22,31 +23,43 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (context) => di.sl<AuthBloc>()),
-        BlocProvider(create: (context) => di.sl<MarketWatchBloc>()),
-      ],
-      child: MaterialApp(
-        title: 'BAZAAR Pro',
-        debugShowCheckedModeBanner: false,
+    return ScreenUtilInit(
+      // Figma design size (width x height)
+      designSize: const Size(1920, 1080),
+      // Minimum text adaptation
+      minTextAdapt: true,
+      // Split screen mode support
+      splitScreenMode: true,
+      // Use inherited media query data
+      useInheritedMediaQuery: true,
+      builder: (context, child) {
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider(create: (context) => di.sl<AuthBloc>()),
+            BlocProvider(create: (context) => di.sl<MarketWatchBloc>()),
+          ],
+          child: MaterialApp(
+            title: 'BAZAAR Pro',
+            debugShowCheckedModeBanner: false,
 
-        // Light Theme with Google Fonts
-        theme: AppTheme.lightTheme,
+            // Light Theme with Google Fonts
+            theme: AppTheme.lightTheme,
 
-        // Dark Theme with Google Fonts
-        darkTheme: AppTheme.darkTheme,
+            // Dark Theme with Google Fonts
+            darkTheme: AppTheme.darkTheme,
 
-        // Use system theme mode
-        themeMode: ThemeMode.system,
+            // Use system theme mode
+            themeMode: ThemeMode.system,
 
-        // Routing configuration
-        initialRoute: '/',
-        routes: {
-          '/': (context) => const LoginPage(),
-          '/market-watch': (context) => const MarketWatchPage(),
-        },
-      ),
+            // Routing configuration
+            initialRoute: '/',
+            routes: {
+              '/': (context) => const LoginPage(),
+              '/market-watch': (context) => const MarketWatchPage(),
+            },
+          ),
+        );
+      },
     );
   }
 }

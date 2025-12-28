@@ -5,6 +5,7 @@ class AppImages {
   static const String _imagesPath = 'assets/images';
   static const String _gifsPath = 'assets/gifs';
   static const String _iconsPath = 'assets/icons/auth';
+  static const String _commonIconsPath = 'assets/icons/market';
 
   // Images
   static const String appLogo = '$_imagesPath/bazaar_logo.png';
@@ -23,4 +24,8 @@ class AppImages {
 
   // Server Icon (Trailing icons - right side in dropdown)
   static const String serverIcon = '$_iconsPath/driver.svg';
+
+  // AppBar Icons
+  static const String reloadIcon = '$_commonIconsPath/reload.svg';
+  static const String logoutIcon = '$_commonIconsPath/logout.svg';
 }

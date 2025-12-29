@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_dimensions.dart';
+import '../../../../core/constants/app_strings.dart';
 import '../bloc/market_watch_bloc.dart';
 import '../bloc/market_watch_event.dart';
 import '../bloc/market_watch_state.dart';
@@ -61,13 +62,12 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
     });
   }
 
-  /// Handle watchlist selection
+  /// Handle watchlist selection from WatchlistBloc
   void _onWatchlistSelected(int index) {
     setState(() {
       _selectedWatchlistIndex = index;
     });
-    // You can add logic here to filter items based on watchlist
-    // For example: context.read<MarketWatchBloc>().add(FilterByWatchlistEvent(index));
+
   }
 
   @override
@@ -81,7 +81,7 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
         child: GestureDetector(
           onTap: () => _focusNode.requestFocus(),
           child: Scaffold(
-            backgroundColor: Colors.white,
+            backgroundColor: AppColors.white,
             appBar: MarketWatchAppBar(
               selectedIndex: _selectedTabIndex,
               onTabSelected: _onTabSelected,
@@ -112,7 +112,7 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
       case 5:
         return const ToolsPage();
       default:
-        return const Center(child: Text('Unknown Page'));
+        return Center(child: Text(AppStrings.unknownPage));
     }
   }
 
@@ -163,8 +163,6 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
             // Filter Section (Exchange & Symbol dropdowns)
             MarketFilters(state: loadedState),
 
-
-
             // Data Table
             Expanded(
               child: MarketDataTable(
@@ -177,19 +175,15 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
             // Divider line
             Container(
               height: 1.h,
-              color: Colors.grey[300],
+              color: AppColors.greyBorder,
             ),
-            // Watchlist Section - Positioned below filters
+            // Watchlist Section - Now managed by WatchlistBloc
             WatchlistWidget(
               onWatchlistSelected: _onWatchlistSelected,
             ),
 
             // Ban for Trade Notice
-            const BanForTradeNotice(
-              message: 'ies in Ban For Trade Date 27-OCT-25: 1 SAIL 2 SAMN',
-            ),
-
-
+            const BanForTradeNotice(),
           ],
         ),
 
@@ -217,7 +211,7 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
             onPressed: () {
               context.read<MarketWatchBloc>().add(const LoadMarketItemsEvent());
             },
-            child: const Text('Retry'),
+            child: const Text(AppStrings.retry),
           ),
         ],
       ),
@@ -247,7 +241,7 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
       onTap: _closeContextMenu,
       behavior: HitTestBehavior.opaque,
       child: Container(
-        color: Colors.transparent,
+        color: AppColors.transparent,
         child: Stack(
           children: [
             Positioned(
@@ -260,27 +254,27 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
                 canRedo: state.redoStack.isNotEmpty,
                 onViewChart: () {
                   _closeContextMenu();
-                  _showMessage('View Chart clicked');
+                  _showMessage(AppStrings.viewChart);
                 },
                 onArrangeSymbol: () {
                   _closeContextMenu();
-                  _showMessage('Arrange Symbol clicked');
+                  _showMessage(AppStrings.arrangeSymbol);
                 },
                 onSetSymbolFont: () {
                   _closeContextMenu();
-                  _showMessage('Set Symbol Font clicked');
+                  _showMessage(AppStrings.setSymbolFont);
                 },
                 onFitToSize: () {
                   _closeContextMenu();
-                  _showMessage('Fit to Size clicked');
+                  _showMessage(AppStrings.fitToSize);
                 },
                 onSymbolInfo: () {
                   _closeContextMenu();
-                  _showMessage('Symbol Info clicked');
+                  _showMessage(AppStrings.symbolInfo);
                 },
                 onGrid: () {
                   _closeContextMenu();
-                  _showMessage('Grid clicked');
+                  _showMessage(AppStrings.grid);
                 },
                 onCut: () {
                   _closeContextMenu();

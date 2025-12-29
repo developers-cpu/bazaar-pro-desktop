@@ -6,7 +6,15 @@ class AppStrings {
 
   // App title
   static const String appTitle = 'Market Watch';
-  
+
+  // Navigation tabs
+  static const String marketWatch = 'Market Watch';
+  static const String dashboard = 'Dashboard';
+  static const String file = 'File';
+  static const String view = 'View';
+  static const String report = 'Report';
+  static const String tools = 'Tools';
+
   // Table headers
   static const String exchange = 'EXCHANGE';
   static const String symbol = 'SYMBOL';
@@ -23,7 +31,7 @@ class AppStrings {
   static const String netChangePercent = 'NET CHANGE%';
   static const String expiry = 'EXPIRY';
   static const String lut = 'LUT';
-  
+
   // Context menu items
   static const String viewChart = 'View Chart';
   static const String arrangeSymbol = 'Arrange Symbol';
@@ -37,13 +45,13 @@ class AppStrings {
   static const String undo = 'Undo ( Ctrl + Z )';
   static const String redo = 'Redo ( Ctrl + Y )';
   static const String delete = 'Delete';
-  
+
   // Filter labels
   static const String exchangeFilter = 'Exchange';
   static const String symbolFilter = 'Symbol';
   static const String searchAndAdd = 'Search & Add';
   static const String selectAll = 'Select All';
-  
+
   // Exchange types
   static const String nse = 'NSE';
   static const String mcx = 'MCX';
@@ -53,7 +61,7 @@ class AppStrings {
   static const String crypto = 'CRYPTO';
   static const String gift = 'GIFT';
   static const String forex = 'FOREX';
-  
+
   // Messages
   static const String noDataAvailable = 'No data available';
   static const String itemCopied = 'Item copied';
@@ -62,7 +70,31 @@ class AppStrings {
   static const String itemDeleted = 'Item deleted';
   static const String actionUndone = 'Action undone';
   static const String actionRedone = 'Action redone';
-  static const String noItemsToPaste = 'No items to paste';
+  static const String noItemsToPaste = 'No item to paste';
   static const String noActionsToUndo = 'No actions to undo';
   static const String noActionsToRedo = 'No actions to redo';
+  static const String unknownPage = 'Unknown Page';
+  static const String retry = 'Retry';
+  static const String themeToggleClicked = 'Theme toggle clicked';
+  static const String atLeastOneWatchlistRequired = 'At least one watchlist is required';
+
+  // Watchlist
+  static const String add = 'Add';
+  static const String all = 'All';
+  static const String watchlist = 'Watchlist';
+  static const String watchlist1 = 'Watchlist 1';
+  static const String watchlist2 = 'Watchlist 2';
+  static const String watchlist3 = 'Watchlist 3';
+
+  // User info
+  static const String defaultUsername = 'DEMO02';
+  static const String defaultVersion = 'v1.1.0.0';
+  static const String userInitialFallback = 'U';
+  static const String logoFallback = 'B';
+
+  // Ban for trade
+  static const String banForTradeMessage = 'ies in Ban For Trade Date 27-OCT-25: 1 SAIL 2 SAMN';
+
+  // Placeholder text
+  static const String dashPlaceholder = '-';
 }

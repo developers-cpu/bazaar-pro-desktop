@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_images.dart';
-
+import '../../../../core/constants/app_strings.dart';
 
 class BanForTradeNotice extends StatelessWidget {
   final String message;
 
   const BanForTradeNotice({
     Key? key,
-    this.message = 'ies in Ban For Trade Date 27-OCT-25: 1 SAIL 2 SAMN',
+    this.message = AppStrings.banForTradeMessage,
   }) : super(key: key);
 
   @override
@@ -17,19 +18,17 @@ class BanForTradeNotice extends StatelessWidget {
     return Container(
       height: 38.h,
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-      color: Colors.white,
+      color: AppColors.white,
       child: Row(
         children: [
-           Center(
-              child: SvgPicture.asset(
-                AppImages.banIcon,
-                width: 14.w,
-                height: 14.h,
-              ),
+          Center(
+            child: SvgPicture.asset(
+              AppImages.banIcon,
+              width: 14.w,
+              height: 14.h,
+            ),
           ),
-
           SizedBox(width: 8.w),
-
           Expanded(
             child: Text(
               message,
@@ -37,7 +36,7 @@ class BanForTradeNotice extends StatelessWidget {
                 fontFamily: 'Open Sans',
                 fontWeight: FontWeight.w600,
                 fontSize: 14.sp,
-                color: const Color(0xFFFF0000),
+                color: AppColors.red,
                 letterSpacing: 0.15,
                 height: 1.0,
               ),

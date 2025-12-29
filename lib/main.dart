@@ -5,6 +5,7 @@ import 'core/constants/app_theme.dart';
 import 'features/auth/presentation/bloc/auth_bloc.dart';
 import 'features/auth/presentation/pages/login_page.dart';
 import 'features/market_watch/presentation/bloc/market_watch_bloc.dart';
+import 'features/market_watch/presentation/bloc/watch_list_bloc.dart';
 import 'features/market_watch/presentation/pages/market_watch_page.dart';
 import 'injection_container.dart' as di;
 
@@ -35,8 +36,12 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         return MultiBlocProvider(
           providers: [
+            // Auth BLoC
             BlocProvider(create: (context) => di.sl<AuthBloc>()),
+            // Market Watch BLoC
             BlocProvider(create: (context) => di.sl<MarketWatchBloc>()),
+            // Watchlist BLoC
+            BlocProvider(create: (context) => di.sl<WatchlistBloc>()),
           ],
           child: MaterialApp(
             title: 'BAZAAR Pro',

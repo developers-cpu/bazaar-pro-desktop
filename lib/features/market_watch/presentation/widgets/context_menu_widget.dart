@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_images.dart';
+import '../../../../core/constants/app_strings.dart';
 
 /// Context Menu Widget - Separated from main page
 /// Shows menu options when user right-clicks on a table row
@@ -55,11 +57,11 @@ class ContextMenuWidget extends StatelessWidget {
         ),
         padding: EdgeInsets.all(10.w),
         decoration: BoxDecoration(
-          color: const Color(0xFFFFFFFF),
+          color: AppColors.white,
           borderRadius: BorderRadius.circular(10.r),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: AppColors.black.withOpacity(0.1),
               blurRadius: 10,
               offset: const Offset(0, 4),
             ),
@@ -70,76 +72,76 @@ class ContextMenuWidget extends StatelessWidget {
           children: [
             _buildMenuItem(
               icon: AppImages.menu1Icon,
-              text: 'View Chart',
+              text: AppStrings.viewChart,
               onTap: onViewChart,
             ),
             SizedBox(height: 5.h),
             _buildMenuItem(
               icon: AppImages.menu2con,
-              text: 'Arrange Symbol',
+              text: AppStrings.arrangeSymbol,
               onTap: onArrangeSymbol,
             ),
             SizedBox(height: 5.h),
             _buildMenuItem(
               icon: AppImages.menu3Icon,
-              text: 'Set Symbol Font',
+              text: AppStrings.setSymbolFont,
               onTap: onSetSymbolFont,
             ),
             SizedBox(height: 5.h),
             _buildMenuItem(
               icon: AppImages.menu10Icon,
-              text: 'Fit to Size',
+              text: AppStrings.fitToSize,
               onTap: onFitToSize,
             ),
             SizedBox(height: 5.h),
             _buildMenuItem(
               icon: AppImages.menu4Icon,
-              text: 'Symbol Info',
+              text: AppStrings.symbolInfo,
               onTap: onSymbolInfo,
             ),
             SizedBox(height: 5.h),
             _buildMenuItem(
               icon: AppImages.menu5Icon,
-              text: 'Grid',
+              text: AppStrings.grid,
               onTap: onGrid,
             ),
             SizedBox(height: 5.h),
             _buildMenuItem(
               icon: AppImages.menu6Icon,
-              text: 'Cut ( Ctrl + X )',
+              text: AppStrings.cut,
               onTap: onCut,
             ),
             SizedBox(height: 5.h),
             _buildMenuItem(
               icon: AppImages.menu6Icon,
-              text: 'Copy ( Ctrl + C )',
+              text: AppStrings.copy,
               onTap: onCopy,
             ),
             SizedBox(height: 5.h),
             _buildMenuItem(
               icon: AppImages.menu7Icon,
-              text: 'Paste ( Ctrl + V )',
+              text: AppStrings.paste,
               onTap: onPaste,
               enabled: canPaste,
             ),
             SizedBox(height: 5.h),
             _buildMenuItem(
               icon: AppImages.menu8Icon,
-              text: 'Undo ( Ctrl + Z )',
+              text: AppStrings.undo,
               onTap: onUndo,
               enabled: canUndo,
             ),
             SizedBox(height: 5.h),
             _buildMenuItem(
               icon: AppImages.menu8Icon,
-              text: 'Redo ( Ctrl + Y )',
+              text: AppStrings.redo,
               onTap: onRedo,
               enabled: canRedo,
             ),
             SizedBox(height: 5.h),
             _buildMenuItem(
               icon: AppImages.menu9Icon,
-              text: 'Delete',
+              text: AppStrings.delete,
               onTap: onDelete,
             ),
           ],
@@ -187,8 +189,8 @@ class ContextMenuWidget extends StatelessWidget {
                   fontWeight: FontWeight.w400,
                   fontSize: 14.sp,
                   color: enabled
-                      ? const Color(0xFF1F4A66)
-                      : const Color(0xFF1F4A66).withOpacity(0.4),
+                      ? AppColors.primaryBlue
+                      : AppColors.primaryBlue.withOpacity(0.4),
                   letterSpacing: 0.25,
                   height: 1.0,
                 ),

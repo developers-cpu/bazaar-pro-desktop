@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/constants/app_strings.dart';
 import '../../../../core/usecases/usecase.dart';
 import '../../domain/entities/market_item.dart';
 import '../../domain/usecases/add_market_item.dart';
@@ -144,7 +145,7 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
 
       // Emit success which contains the loaded state
       emit(MarketWatchSuccess(
-        message: 'Item copied',
+        message: AppStrings.itemCopied,
         previousState: newState,
       ));
 
@@ -170,7 +171,7 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
 
       // Emit success which contains the loaded state
       emit(MarketWatchSuccess(
-        message: 'Item cut',
+        message: AppStrings.itemCut,
         previousState: newState,
       ));
 
@@ -189,7 +190,7 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
       final currentState = state as MarketWatchLoaded;
 
       if (currentState.clipboardItem == null) {
-        emit(const MarketWatchError(message: 'No item to paste'));
+        emit(const MarketWatchError(message: AppStrings.noItemsToPaste));
         return;
       }
 
@@ -210,7 +211,8 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
 
       // Handle success case
       final addedItem = result.fold((l) => null, (r) => r)!;
-      final updatedItems = List<MarketItem>.from(currentState.items)..add(addedItem);
+      final updatedItems = List<MarketItem>.from(currentState.items)
+        ..add(addedItem);
 
       // Apply current filters
       List<MarketItem> filteredItems = updatedItems;
@@ -235,7 +237,8 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
       final newState = currentState.copyWith(
         items: updatedItems,
         filteredItems: filteredItems,
-        clipboardItem: currentState.isClipboardCut ? null : currentState.clipboardItem,
+        clipboardItem:
+        currentState.isClipboardCut ? null : currentState.clipboardItem,
         isClipboardCut: false,
         undoStack: newUndoStack,
         redoStack: [], // Clear redo stack on new action
@@ -244,7 +247,7 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
 
       // Emit success which contains the loaded state
       emit(MarketWatchSuccess(
-        message: 'Item pasted',
+        message: AppStrings.itemPasted,
         previousState: newState,
       ));
 
@@ -315,7 +318,7 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
 
       // Emit success which contains the loaded state
       emit(MarketWatchSuccess(
-        message: 'Item deleted',
+        message: AppStrings.itemDeleted,
         previousState: newState,
       ));
 
@@ -334,7 +337,7 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
       final currentState = state as MarketWatchLoaded;
 
       if (currentState.undoStack.isEmpty) {
-        emit(const MarketWatchError(message: 'No actions to undo'));
+        emit(const MarketWatchError(message: AppStrings.noActionsToUndo));
         return;
       }
 
@@ -356,7 +359,8 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
         case MarketWatchActionType.delete:
         // Re-add the deleted item at its original position
           updatedItems = List<MarketItem>.from(currentState.items);
-          if (lastAction.index != null && lastAction.index! <= updatedItems.length) {
+          if (lastAction.index != null &&
+              lastAction.index! <= updatedItems.length) {
             updatedItems.insert(lastAction.index!, lastAction.item!);
           } else {
             updatedItems.add(lastAction.item!);
@@ -390,7 +394,7 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
 
       // Emit success which contains the loaded state
       emit(MarketWatchSuccess(
-        message: 'Action undone',
+        message: AppStrings.actionUndone,
         previousState: newState,
       ));
 
@@ -409,7 +413,7 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
       final currentState = state as MarketWatchLoaded;
 
       if (currentState.redoStack.isEmpty) {
-        emit(const MarketWatchError(message: 'No actions to redo'));
+        emit(const MarketWatchError(message: AppStrings.noActionsToRedo));
         return;
       }
 
@@ -461,7 +465,7 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
 
       // Emit success which contains the loaded state
       emit(MarketWatchSuccess(
-        message: 'Action redone',
+        message: AppStrings.actionRedone,
         previousState: newState,
       ));
 
@@ -485,13 +489,15 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
       result.fold(
             (failure) => emit(MarketWatchError(message: failure.message)),
             (addedItem) {
-          final updatedItems = List<MarketItem>.from(currentState.items)..add(addedItem);
+          final updatedItems = List<MarketItem>.from(currentState.items)
+            ..add(addedItem);
 
           // Apply current filters
           List<MarketItem> filteredItems = updatedItems;
           if (currentState.selectedExchange != null) {
             filteredItems = filteredItems
-                .where((item) => item.exchange == currentState.selectedExchange)
+                .where(
+                    (item) => item.exchange == currentState.selectedExchange)
                 .toList();
           }
           if (currentState.selectedSymbol != null) {
@@ -501,7 +507,8 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
           }
 
           // Add to undo stack
-          final newUndoStack = List<MarketWatchAction>.from(currentState.undoStack)
+          final newUndoStack =
+          List<MarketWatchAction>.from(currentState.undoStack)
             ..add(MarketWatchAction(
               type: MarketWatchActionType.add,
               item: addedItem,

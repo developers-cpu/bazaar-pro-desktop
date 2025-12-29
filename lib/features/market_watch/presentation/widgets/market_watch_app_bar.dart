@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_images.dart';
+import '../../../../core/constants/app_strings.dart';
 import '../bloc/market_watch_bloc.dart';
 import '../bloc/market_watch_event.dart';
 
@@ -15,20 +17,11 @@ class MarketWatchAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   const MarketWatchAppBar({
     Key? key,
-    this.username = 'DEMO02',
-    this.version = 'v1.1.0.0',
+    this.username = AppStrings.defaultUsername,
+    this.version = AppStrings.defaultVersion,
     this.selectedIndex = 0,
     this.onTabSelected,
   }) : super(key: key);
-
-  // ─────────────────────────────────────────────────────────────────
-  // FIGMA DESIGN CONSTANTS - SHARED WITH FILTER SECTION
-  // ─────────────────────────────────────────────────────────────────
-  static const Color primaryColor = Color(0xFF1F4A66);
-  static const Color primaryBgColor = Color(0x0D1F4A66);
-  static const Color textDark = Color(0xFF131313);
-  static const Color redColor = Color(0xFFFF0000);
-  static const Color white = Colors.white;
 
   @override
   Size get preferredSize => Size.fromHeight(76.h);
@@ -40,7 +33,7 @@ class MarketWatchAppBar extends StatelessWidget implements PreferredSizeWidget {
       height: 76.h,
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
       decoration: const BoxDecoration(
-        color: white,
+        color: AppColors.white,
         // No shadow - seamless with filter section
       ),
       child: Row(
@@ -77,16 +70,16 @@ class MarketWatchAppBar extends StatelessWidget implements PreferredSizeWidget {
             width: 49.w,
             height: 50.h,
             decoration: BoxDecoration(
-              color: primaryColor,
+              color: AppColors.primaryBlue,
               borderRadius: BorderRadius.circular(12.r),
             ),
             child: Center(
               child: Text(
-                'B',
+                AppStrings.logoFallback,
                 style: GoogleFonts.openSans(
                   fontSize: 24.sp,
                   fontWeight: FontWeight.w700,
-                  color: white,
+                  color: AppColors.white,
                 ),
               ),
             ),
@@ -101,12 +94,12 @@ class MarketWatchAppBar extends StatelessWidget implements PreferredSizeWidget {
   // ─────────────────────────────────────────────────────────────────
   Widget _buildMenuBar() {
     final menuItems = [
-      'Market Watch',
-      'Dashboard',
-      'File',
-      'View',
-      'Report',
-      'Tools',
+      AppStrings.marketWatch,
+      AppStrings.dashboard,
+      AppStrings.file,
+      AppStrings.view,
+      AppStrings.report,
+      AppStrings.tools,
     ];
 
     return Container(
@@ -114,7 +107,7 @@ class MarketWatchAppBar extends StatelessWidget implements PreferredSizeWidget {
       margin: EdgeInsets.symmetric(horizontal: 16.w),
       padding: EdgeInsets.all(5.w),
       decoration: BoxDecoration(
-        color: primaryBgColor,
+        color: AppColors.primaryBgColor,
         borderRadius: BorderRadius.circular(15.r),
       ),
       child: SingleChildScrollView(
@@ -138,7 +131,8 @@ class MarketWatchAppBar extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 
-  Widget _buildNavTab(String title, {required bool isSelected, VoidCallback? onTap}) {
+  Widget _buildNavTab(String title,
+      {required bool isSelected, VoidCallback? onTap}) {
     return GestureDetector(
       onTap: onTap,
       child: AnimatedContainer(
@@ -147,7 +141,7 @@ class MarketWatchAppBar extends StatelessWidget implements PreferredSizeWidget {
         width: isSelected ? 125.w : 100.w,
         height: 40.h,
         decoration: BoxDecoration(
-          color: isSelected ? primaryColor : Colors.transparent,
+          color: isSelected ? AppColors.primaryBlue : AppColors.transparent,
           borderRadius: BorderRadius.circular(15.r),
         ),
         alignment: Alignment.center,
@@ -163,7 +157,7 @@ class MarketWatchAppBar extends StatelessWidget implements PreferredSizeWidget {
               fontWeight: FontWeight.w600,
               height: 1.0,
               letterSpacing: 0.15,
-              color: isSelected ? white : textDark,
+              color: isSelected ? AppColors.white : AppColors.textDark,
             ),
           ),
         ),
@@ -201,10 +195,10 @@ class MarketWatchAppBar extends StatelessWidget implements PreferredSizeWidget {
         width: 40.w,
         height: 40.h,
         decoration: BoxDecoration(
-          color: white,
+          color: AppColors.white,
           shape: BoxShape.circle,
           border: Border.all(
-            color: primaryColor,
+            color: AppColors.primaryBlue,
             width: 2.w,
           ),
         ),
@@ -213,7 +207,7 @@ class MarketWatchAppBar extends StatelessWidget implements PreferredSizeWidget {
             AppImages.reloadIcon,
             fallbackIcon: Icons.refresh,
             size: 22.sp,
-            color: primaryColor,
+            color: AppColors.primaryBlue,
           ),
         ),
       ),
@@ -228,7 +222,7 @@ class MarketWatchAppBar extends StatelessWidget implements PreferredSizeWidget {
       height: 50.h,
       padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
       decoration: BoxDecoration(
-        color: primaryBgColor,
+        color: AppColors.primaryBgColor,
         borderRadius: BorderRadius.circular(15.r),
       ),
       child: Row(
@@ -261,7 +255,7 @@ class MarketWatchAppBar extends StatelessWidget implements PreferredSizeWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.r),
         border: Border.all(
-          color: redColor,
+          color: AppColors.red,
           width: 1.w,
         ),
       ),
@@ -269,13 +263,15 @@ class MarketWatchAppBar extends StatelessWidget implements PreferredSizeWidget {
       child: FittedBox(
         fit: BoxFit.scaleDown,
         child: Text(
-          username.isNotEmpty ? username[0].toUpperCase() : 'U',
+          username.isNotEmpty
+              ? username[0].toUpperCase()
+              : AppStrings.userInitialFallback,
           style: GoogleFonts.openSans(
             fontSize: 14.sp,
             fontWeight: FontWeight.w600,
             height: 1.0,
             letterSpacing: 0.46,
-            color: redColor,
+            color: AppColors.red,
           ),
         ),
       ),
@@ -297,7 +293,7 @@ class MarketWatchAppBar extends StatelessWidget implements PreferredSizeWidget {
             fontWeight: FontWeight.w700,
             height: 1.0,
             letterSpacing: 0.1,
-            color: primaryColor,
+            color: AppColors.primaryBlue,
           ),
         ),
         SizedBox(height: 4.h),
@@ -308,7 +304,7 @@ class MarketWatchAppBar extends StatelessWidget implements PreferredSizeWidget {
             fontWeight: FontWeight.w600,
             height: 1.0,
             letterSpacing: 0.5,
-            color: primaryColor,
+            color: AppColors.primaryBlue,
           ),
         ),
       ],
@@ -331,7 +327,7 @@ class MarketWatchAppBar extends StatelessWidget implements PreferredSizeWidget {
             AppImages.logoutIcon,
             fallbackIcon: Icons.logout,
             size: 24.sp,
-            color: redColor,
+            color: AppColors.red,
           ),
         ),
       ),

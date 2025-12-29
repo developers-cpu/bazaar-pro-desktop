@@ -70,7 +70,6 @@ class DarkThemeColors {
 
   // Primary & Secondary Colors
   static const Color primaryColor = Color(0xFF1F4A66);
-
   static const Color secondaryColor = Color(0xFFE05E50);
 
   // Text Colors
@@ -124,21 +123,37 @@ class AppColors {
   static const Color primaryBlue = Color(0xFF1F4A66);
   static const Color darkNavy = Color(0xFF1A3A52);
 
+  // Static Colors - Used throughout the app
+  static const Color white = Color(0xFFFFFFFF);
+  static const Color black = Color(0xFF000000);
+  static const Color transparent = Colors.transparent;
+  static const Color red = Color(0xFFFF0000);
+  static const Color textDark = Color(0xFF131313);
+
+  // Primary Background Color (with opacity)
+  static const Color primaryBgColor = Color(0x0D1F4A66);
+
   // Background colors (static - for const contexts)
   static const Color backgroundColorLight = Color(0xFFFFFFFF);
   static const Color tableHeaderBackground = Color(0xFFC6DBE8);
+  static const Color headerBgColor = Color(0xFFE3F2FD);
   static const Color tableRowBackground = Color(0xFFFFFFFF);
   static const Color tableAlternateRowBackground = Color(0xFFF5F5F5);
+  static const Color altRowBgColor = Color(0xFFF8F9FA);
 
   // Text colors (static - for const contexts)
   static const Color primaryTextColor = Color(0xFF1F4A66);
   static const Color secondaryTextColor = Color(0xFF788088);
+  static const Color positiveColor = Color(0xFF4CAF50);
+  static const Color negativeColor = Color(0xFFE53935);
   static const Color positiveTextColor = Color(0xFF0066FF);
   static const Color negativeTextColor = Color(0xFFFF0000);
 
   // Border colors (static)
   static const Color borderColor = Color(0xFFE9E9E9);
+  static const Color tableBorderColor = Color(0xFFE0E0E0);
   static const Color selectedRowBorder = Color(0xFF0066FF);
+  static const Color greyBorder = Color(0xFFBDBDBD);
 
   // Status colors (Common for both themes)
   static const Color successColor = Color(0xFF4CAF50);
@@ -153,11 +168,6 @@ class AppColors {
   // Selection colors (static)
   static const Color selectedRowBackground = Color(0xFFE3F2FD);
   static const Color highlightColor = Color(0xFFBBDEFB);
-
-  // Common Colors
-  static const Color white = Color(0xFFFFFFFF);
-  static const Color black = Color(0xFF000000);
-  static const Color transparent = Colors.transparent;
 
   // -------------------------------------------------------------------------
   // Theme Detection Helper

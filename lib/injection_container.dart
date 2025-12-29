@@ -12,16 +12,38 @@ import 'features/market_watch/domain/usecases/add_market_item.dart';
 import 'features/market_watch/domain/usecases/delete_market_item.dart';
 import 'features/market_watch/domain/usecases/get_market_items.dart';
 import 'features/market_watch/presentation/bloc/market_watch_bloc.dart';
+import 'features/market_watch/presentation/bloc/watch_list_bloc.dart';
+
 
 final sl = GetIt.instance;
 
 Future<void> init() async {
+  // ─────────────────────────────────────────────────────────────────
+  // AUTH FEATURE
+  // ─────────────────────────────────────────────────────────────────
+
   // Auth BLoC
   sl.registerFactory(() => AuthBloc(loginUser: sl()));
+
+  // Auth Use Cases
   sl.registerLazySingleton(() => LoginUser(repository: sl()));
-  sl.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(remoteDataSource: sl()));
-  sl.registerLazySingleton<AuthRemoteDataSource>(() => AuthRemoteDataSourceImpl(dio: sl<ApiClient>().dio));
+
+  // Auth Repository
+  sl.registerLazySingleton<AuthRepository>(
+        () => AuthRepositoryImpl(remoteDataSource: sl()),
+  );
+
+  // Auth Data Sources
+  sl.registerLazySingleton<AuthRemoteDataSource>(
+        () => AuthRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
+  );
+
+  // Core
   sl.registerLazySingleton(() => ApiClient());
+
+  // ─────────────────────────────────────────────────────────────────
+  // MARKET WATCH FEATURE
+  // ─────────────────────────────────────────────────────────────────
 
   // Market Watch BLoC
   sl.registerFactory(() => MarketWatchBloc(
@@ -29,9 +51,22 @@ Future<void> init() async {
     addMarketItem: sl(),
     deleteMarketItem: sl(),
   ));
+
+  // Watchlist BLoC
+  sl.registerFactory(() => WatchlistBloc());
+
+  // Market Watch Use Cases
   sl.registerLazySingleton(() => GetMarketItems(sl()));
   sl.registerLazySingleton(() => AddMarketItem(sl()));
   sl.registerLazySingleton(() => DeleteMarketItem(sl()));
-  sl.registerLazySingleton<MarketWatchRepository>(() => MarketWatchRepositoryImpl(localDataSource: sl()));
-  sl.registerLazySingleton<MarketWatchLocalDataSource>(() => MarketWatchLocalDataSourceImpl());
+
+  // Market Watch Repository
+  sl.registerLazySingleton<MarketWatchRepository>(
+        () => MarketWatchRepositoryImpl(localDataSource: sl()),
+  );
+
+  // Market Watch Data Sources
+  sl.registerLazySingleton<MarketWatchLocalDataSource>(
+        () => MarketWatchLocalDataSourceImpl(),
+  );
 }

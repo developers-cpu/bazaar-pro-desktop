@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../../../core/constants/app_colors.dart';
 
-/// Reusable Custom Filter Dropdown
-/// Figma Specs:
-/// - Dropdown closed: 250x45, border-radius: 10px, border: 2px solid #1F4A66
-/// - Dropdown open: 250x287, same styling
-/// - Text: Open Sans, SemiBold 600, 16px, color: #1F4A66
+
 class CustomFilterDropdown extends StatefulWidget {
   final String hintText;
   final String? value;
@@ -37,13 +34,6 @@ class _CustomFilterDropdownState extends State<CustomFilterDropdown>
 
   late AnimationController _controller;
   late Animation<double> _animation;
-
-  // ─────────────────────────────────────────────────────────────────
-  // FIGMA DESIGN CONSTANTS
-  // ─────────────────────────────────────────────────────────────────
-  static const Color _primaryColor = Color(0xFF1F4A66);
-  static const Color _backgroundColor = Color(0xFFFFFFFF);
-  static const Color _primaryBgColor = Color(0x0D1F4A66); // Same as AppBar menu bg
 
   @override
   void initState() {
@@ -90,7 +80,7 @@ class _CustomFilterDropdownState extends State<CustomFilterDropdown>
     fontWeight: FontWeight.w600,
     height: 1.0,
     letterSpacing: 0.15,
-    color: _primaryColor,
+    color: AppColors.primaryBlue,
   );
 
   OverlayEntry _createOverlay() {
@@ -115,7 +105,7 @@ class _CustomFilterDropdownState extends State<CustomFilterDropdown>
             child: GestureDetector(
               onTap: _close,
               behavior: HitTestBehavior.opaque,
-              child: Container(color: Colors.transparent),
+              child: Container(color: AppColors.transparent),
             ),
           ),
           // Dropdown menu
@@ -126,21 +116,21 @@ class _CustomFilterDropdownState extends State<CustomFilterDropdown>
             child: FadeTransition(
               opacity: _animation,
               child: Material(
-                color: Colors.transparent,
+                color: AppColors.transparent,
                 child: Container(
                   constraints: BoxConstraints(
                     maxHeight: calculatedHeight,
                   ),
                   decoration: BoxDecoration(
-                    color: _backgroundColor,
+                    color: AppColors.white,
                     borderRadius: BorderRadius.circular(10.r),
                     border: Border.all(
-                      color: _primaryColor,
+                      color: AppColors.primaryBlue,
                       width: 2.w,
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
+                        color: AppColors.black.withOpacity(0.1),
                         blurRadius: 8.r,
                         offset: Offset(0, 4.h),
                       ),
@@ -166,8 +156,8 @@ class _CustomFilterDropdownState extends State<CustomFilterDropdown>
                             padding: EdgeInsets.symmetric(horizontal: 14.w),
                             decoration: BoxDecoration(
                               color: isSelected
-                                  ? _primaryBgColor
-                                  : Colors.transparent,
+                                  ? AppColors.primaryBgColor
+                                  : AppColors.transparent,
                             ),
                             alignment: Alignment.centerLeft,
                             child: Text(
@@ -200,10 +190,10 @@ class _CustomFilterDropdownState extends State<CustomFilterDropdown>
             height: 45.h,
             padding: EdgeInsets.symmetric(horizontal: 10.w),
             decoration: BoxDecoration(
-              color: _backgroundColor,
+              color: AppColors.white,
               borderRadius: BorderRadius.circular(10.r),
               border: Border.all(
-                color: _primaryColor,
+                color: AppColors.primaryBlue,
                 width: 2.w,
               ),
             ),
@@ -221,7 +211,7 @@ class _CustomFilterDropdownState extends State<CustomFilterDropdown>
                   _isOpen
                       ? Icons.keyboard_arrow_up
                       : Icons.keyboard_arrow_down,
-                  color: _primaryColor,
+                  color: AppColors.primaryBlue,
                   size: 24.sp,
                 ),
               ],

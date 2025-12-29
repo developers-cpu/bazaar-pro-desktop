@@ -63,10 +63,14 @@ class MarketWatchLoaded extends MarketWatchState {
     return MarketWatchLoaded(
       items: items ?? this.items,
       filteredItems: filteredItems ?? this.filteredItems,
-      selectedExchange: clearExchange ? null : (selectedExchange ?? this.selectedExchange),
-      selectedSymbol: clearSymbol ? null : (selectedSymbol ?? this.selectedSymbol),
-      selectedItemId: clearSelectedItem ? null : (selectedItemId ?? this.selectedItemId),
-      clipboardItem: clearClipboard ? null : (clipboardItem ?? this.clipboardItem),
+      selectedExchange:
+      clearExchange ? null : (selectedExchange ?? this.selectedExchange),
+      selectedSymbol:
+      clearSymbol ? null : (selectedSymbol ?? this.selectedSymbol),
+      selectedItemId:
+      clearSelectedItem ? null : (selectedItemId ?? this.selectedItemId),
+      clipboardItem:
+      clearClipboard ? null : (clipboardItem ?? this.clipboardItem),
       isClipboardCut: isClipboardCut ?? this.isClipboardCut,
       undoStack: undoStack ?? this.undoStack,
       redoStack: redoStack ?? this.redoStack,
@@ -75,16 +79,16 @@ class MarketWatchLoaded extends MarketWatchState {
 
   @override
   List<Object?> get props => [
-        items,
-        filteredItems,
-        selectedExchange,
-        selectedSymbol,
-        selectedItemId,
-        clipboardItem,
-        isClipboardCut,
-        undoStack,
-        redoStack,
-      ];
+    items,
+    filteredItems,
+    selectedExchange,
+    selectedSymbol,
+    selectedItemId,
+    clipboardItem,
+    isClipboardCut,
+    undoStack,
+    redoStack,
+  ];
 }
 
 /// State when an error occurs

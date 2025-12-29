@@ -1,18 +1,18 @@
-import 'package:bazarpro/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:data_table_2/data_table_2.dart';
+import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_images.dart';
+import '../../../../core/constants/app_strings.dart';
 import '../../../../core/utils/date_formatter.dart';
 import '../../../../core/utils/number_formatter.dart';
 import '../../domain/entities/market_item.dart';
 import '../bloc/market_watch_bloc.dart';
 import '../bloc/market_watch_event.dart';
 import '../bloc/market_watch_state.dart';
-
 
 class MarketDataTable extends StatefulWidget {
   final MarketWatchLoaded state;
@@ -29,19 +29,6 @@ class MarketDataTable extends StatefulWidget {
 }
 
 class _MarketDataTableState extends State<MarketDataTable> {
-  // ─────────────────────────────────────────────────────────────────
-  // DESIGN CONSTANTS
-  // ─────────────────────────────────────────────────────────────────
-  static const Color _headerBgColor = Color(0xFFE3F2FD);
-  static const Color _headerTextColor = Color(0xFF1F4A66);
-  static const Color _primaryColor = Color(0xFF1F4A66);
-  static const Color _borderColor = Color(0xFFE0E0E0);
-  static const Color _rowBgColor = Color(0xFFFFFFFF);
-  static const Color _altRowBgColor = Color(0xFFF8F9FA);
-  static const Color _selectedRowBgColor = Color(0xFFE3F2FD);
-  static const Color _positiveColor = Color(0xFF4CAF50);
-  static const Color _negativeColor = Color(0xFFE53935);
-
   // Sorting state
   int? _sortColumnIndex;
   bool _sortAscending = true;
@@ -51,10 +38,10 @@ class _MarketDataTableState extends State<MarketDataTable> {
     if (widget.state.filteredItems.isEmpty) {
       return Center(
         child: Text(
-          'No data available',
+          AppStrings.noDataAvailable,
           style: GoogleFonts.openSans(
             fontSize: 16.sp,
-            color: _primaryColor.withOpacity(0.6),
+            color: AppColors.primaryBlue.withOpacity(0.6),
           ),
         ),
       );
@@ -63,7 +50,7 @@ class _MarketDataTableState extends State<MarketDataTable> {
     return Container(
       margin: EdgeInsets.all(10.w),
       decoration: BoxDecoration(
-        border: Border.all(color: _borderColor, width: 1),
+        border: Border.all(color: AppColors.tableBorderColor, width: 1),
         borderRadius: BorderRadius.circular(10.r),
       ),
       child: ClipRRect(
@@ -80,12 +67,12 @@ class _MarketDataTableState extends State<MarketDataTable> {
           // Header styling
           headingRowHeight: 55.h,
           headingRowColor: WidgetStateProperty.all(
-            _headerBgColor,
+            AppColors.headerBgColor,
           ),
           headingTextStyle: GoogleFonts.openSans(
             fontSize: 13.sp,
             fontWeight: FontWeight.w600,
-            color: _headerTextColor,
+            color: AppColors.primaryBlue,
             letterSpacing: 0.15,
           ),
 
@@ -94,14 +81,16 @@ class _MarketDataTableState extends State<MarketDataTable> {
           dataTextStyle: GoogleFonts.openSans(
             fontSize: 13.sp,
             fontWeight: FontWeight.w400,
-            color: _primaryColor,
+            color: AppColors.primaryBlue,
             letterSpacing: 0.1,
           ),
 
           // Border
           border: TableBorder(
-            horizontalInside: BorderSide(color: _rowBgColor, width: 1),
-            verticalInside: BorderSide(color: _rowBgColor.withOpacity(0.5), width: 1),
+            horizontalInside:
+            BorderSide(color: AppColors.tableRowBackground, width: 1),
+            verticalInside: BorderSide(
+                color: AppColors.tableRowBackground.withOpacity(0.5), width: 1),
           ),
 
           // Sorting
@@ -121,21 +110,22 @@ class _MarketDataTableState extends State<MarketDataTable> {
   /// Build table columns with sort icons
   List<DataColumn2> _buildColumns() {
     return [
-      _buildColumn('EXCHANGE', 120, onSort: _onSort),
-      _buildColumn('SYMBOL', 100, onSort: _onSort),
-      _buildColumn('BUY QTY', 100, onSort: _onSort, numeric: true),
-      _buildColumn('BUY PRICE', 110, onSort: _onSort, numeric: true),
-      _buildColumn('SELL PRICE', 110, onSort: _onSort, numeric: true),
-      _buildColumn('SELL QTY', 100, onSort: _onSort, numeric: true),
-      _buildColumn('NET CHANGE', 110, onSort: _onSort, numeric: true),
-      _buildColumn('HIGH', 90, onSort: _onSort, numeric: true),
-      _buildColumn('LOW', 90, onSort: _onSort, numeric: true),
-      _buildColumn('OPEN', 90, onSort: _onSort, numeric: true),
-      _buildColumn('CLOSE', 90, onSort: _onSort, numeric: true),
-      _buildColumn('LTP', 100, onSort: _onSort, numeric: true),
-      _buildColumn('NET CHANGE%', 120, onSort: _onSort, numeric: true),
-      _buildColumn('EXPIRY', 100, onSort: _onSort),
-      _buildColumn('LUT', 160, onSort: _onSort),
+      _buildColumn(AppStrings.exchange, 120, onSort: _onSort),
+      _buildColumn(AppStrings.symbol, 100, onSort: _onSort),
+      _buildColumn(AppStrings.buyQty, 100, onSort: _onSort, numeric: true),
+      _buildColumn(AppStrings.buyPrice, 110, onSort: _onSort, numeric: true),
+      _buildColumn(AppStrings.sellPrice, 110, onSort: _onSort, numeric: true),
+      _buildColumn(AppStrings.sellQty, 100, onSort: _onSort, numeric: true),
+      _buildColumn(AppStrings.netChange, 110, onSort: _onSort, numeric: true),
+      _buildColumn(AppStrings.high, 90, onSort: _onSort, numeric: true),
+      _buildColumn(AppStrings.low, 90, onSort: _onSort, numeric: true),
+      _buildColumn(AppStrings.open, 90, onSort: _onSort, numeric: true),
+      _buildColumn(AppStrings.close, 90, onSort: _onSort, numeric: true),
+      _buildColumn(AppStrings.ltp, 100, onSort: _onSort, numeric: true),
+      _buildColumn(AppStrings.netChangePercent, 120,
+          onSort: _onSort, numeric: true),
+      _buildColumn(AppStrings.expiry, 100, onSort: _onSort),
+      _buildColumn(AppStrings.lut, 160, onSort: _onSort),
     ];
   }
 
@@ -168,7 +158,7 @@ class _MarketDataTableState extends State<MarketDataTable> {
               style: GoogleFonts.openSans(
                 fontSize: 13.sp,
                 fontWeight: FontWeight.w600,
-                color: _headerTextColor,
+                color: AppColors.primaryBlue,
                 letterSpacing: 0.15,
               ),
               overflow: TextOverflow.ellipsis,
@@ -180,13 +170,13 @@ class _MarketDataTableState extends State<MarketDataTable> {
             width: 14.w,
             height: 14.h,
             colorFilter: ColorFilter.mode(
-              _headerTextColor.withOpacity(0.7),
+              AppColors.primaryBlue.withOpacity(0.7),
               BlendMode.srcIn,
             ),
             placeholderBuilder: (context) => Icon(
               Icons.unfold_more,
               size: 14.sp,
-              color: _headerTextColor.withOpacity(0.7),
+              color: AppColors.primaryBlue.withOpacity(0.7),
             ),
           ),
         ],
@@ -214,18 +204,18 @@ class _MarketDataTableState extends State<MarketDataTable> {
         selected: isSelected,
         color: WidgetStateProperty.resolveWith<Color?>((states) {
           if (states.contains(WidgetState.selected)) {
-            return _selectedRowBgColor;
+            return AppColors.selectedRowBackground;
           }
-          return index % 2 == 0 ? _rowBgColor : _altRowBgColor;
+          return index % 2 == 0
+              ? AppColors.tableRowBackground
+              : AppColors.altRowBgColor;
         }),
         onTap: () {
           context.read<MarketWatchBloc>().add(
             SelectMarketItemEvent(itemId: item.id),
           );
         },
-        onSecondaryTap: () {
-
-        },
+        onSecondaryTap: () {},
         onSecondaryTapDown: (details) {
           widget.onRightClick(details.globalPosition);
           context.read<MarketWatchBloc>().add(
@@ -256,8 +246,8 @@ class _MarketDataTableState extends State<MarketDataTable> {
       DataCell(_buildTextCell(
         NumberFormatter.formatChange(item.netChange),
         color: item.netChange > 0
-            ? _positiveColor
-            : (item.netChange < 0 ? _negativeColor : null),
+            ? AppColors.positiveColor
+            : (item.netChange < 0 ? AppColors.negativeColor : null),
       )),
       // High
       DataCell(_buildTextCell(NumberFormatter.formatPrice(item.high))),
@@ -273,17 +263,18 @@ class _MarketDataTableState extends State<MarketDataTable> {
       DataCell(_buildTextCell(
         NumberFormatter.formatPercentage(item.netChangePercent),
         color: item.netChangePercent > 0
-            ? _positiveColor
-            : (item.netChangePercent < 0 ? _negativeColor : null),
+            ? AppColors.positiveColor
+            : (item.netChangePercent < 0 ? AppColors.negativeColor : null),
       )),
       // Expiry
       DataCell(_buildTextCell(
         item.expiry != null
             ? DateFormatter.formatToShortDate(item.expiry!)
-            : '-',
+            : AppStrings.dashPlaceholder,
       )),
       // LUT
-      DataCell(_buildTextCell(DateFormatter.formatToDateTimeWithAmPm(item.lut))),
+      DataCell(
+          _buildTextCell(DateFormatter.formatToDateTimeWithAmPm(item.lut))),
     ];
   }
 
@@ -292,8 +283,8 @@ class _MarketDataTableState extends State<MarketDataTable> {
     final isPositive = netChange > 0;
     final isNegative = netChange < 0;
     final iconColor = isPositive
-        ? _positiveColor
-        : (isNegative ? _negativeColor : _primaryColor);
+        ? AppColors.positiveColor
+        : (isNegative ? AppColors.negativeColor : AppColors.primaryBlue);
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 8.w),
@@ -301,10 +292,10 @@ class _MarketDataTableState extends State<MarketDataTable> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(
-              isPositive ? Icons.trending_up : Icons.trending_down,
-              size: 16.sp,
-              color: iconColor,
-            ),
+            isPositive ? Icons.trending_up : Icons.trending_down,
+            size: 16.sp,
+            color: iconColor,
+          ),
           SizedBox(width: 6.w),
           Flexible(
             child: Text(
@@ -312,7 +303,7 @@ class _MarketDataTableState extends State<MarketDataTable> {
               style: GoogleFonts.openSans(
                 fontSize: 13.sp,
                 fontWeight: FontWeight.w400,
-                color: _primaryColor,
+                color: AppColors.primaryBlue,
               ),
               overflow: TextOverflow.ellipsis,
             ),
@@ -336,7 +327,7 @@ class _MarketDataTableState extends State<MarketDataTable> {
         style: GoogleFonts.openSans(
           fontSize: 13.sp,
           fontWeight: isBold ? FontWeight.w600 : FontWeight.w600,
-          color: color ??AppColors.black,
+          color: color ?? AppColors.black,
         ),
         overflow: TextOverflow.ellipsis,
       ),

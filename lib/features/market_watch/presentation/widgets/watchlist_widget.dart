@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../core/constants/app_colors.dart';
+import '../../../../core/constants/app_strings.dart';
+import '../bloc/watch_list_bloc.dart';
+import '../bloc/watch_list_event.dart';
+import '../bloc/watchlist_state.dart';
 
-class WatchlistWidget extends StatefulWidget {
+class WatchlistWidget extends StatelessWidget {
   final Function(int)? onWatchlistSelected;
 
   const WatchlistWidget({
@@ -10,85 +16,94 @@ class WatchlistWidget extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<WatchlistWidget> createState() => _WatchlistWidgetState();
-}
+  Widget build(BuildContext context) {
+    return BlocConsumer<WatchlistBloc, WatchlistState>(
+      listener: _handleStateChange,
+      builder: (context, state) {
+        if (state is WatchlistInitial) {
+          // Trigger load event if initial state
+          context.read<WatchlistBloc>().add(const LoadWatchlistsEvent());
+          return _buildLoadingState();
+        }
 
-class _WatchlistWidgetState extends State<WatchlistWidget> {
-  List<String> _watchlists = ['Watchlist 1', 'Watchlist 2', 'Watchlist 3'];
-  int _selectedWatchlistIndex = -1; // -1 means "All" is selected
+        if (state is WatchlistLoaded) {
+          return _buildLoadedState(context, state);
+        }
 
-  /// Add new watchlist
-  void _addWatchlist() {
-    setState(() {
-      int nextNumber = _watchlists.length + 1;
-      _watchlists.add('Watchlist $nextNumber');
-    });
+        if (state is WatchlistSuccess) {
+          return _buildLoadedState(context, state.previousState);
+        }
+
+        return _buildLoadingState();
+      },
+    );
   }
 
-  /// Remove watchlist
-  void _removeWatchlist(int index) {
-    if (_watchlists.length > 1) {
-      setState(() {
-        _watchlists.removeAt(index);
-        if (_selectedWatchlistIndex == index) {
-          _selectedWatchlistIndex = -1; // Reset to "All"
-          widget.onWatchlistSelected?.call(-1);
-        } else if (_selectedWatchlistIndex > index) {
-          _selectedWatchlistIndex--;
-        }
-      });
-    } else {
-      // Show message that at least one watchlist is required
+  /// Handle state changes for error messages
+  void _handleStateChange(BuildContext context, WatchlistState state) {
+    if (state is WatchlistError) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            'At least one watchlist is required',
+            state.message,
             style: TextStyle(fontSize: 14.sp),
           ),
           duration: const Duration(seconds: 2),
+          backgroundColor: AppColors.errorColor,
         ),
       );
     }
+
+    // Notify parent when selection changes
+    if (state is WatchlistLoaded) {
+      onWatchlistSelected?.call(state.selectedIndex);
+    }
   }
 
-  /// Select watchlist
-  void _selectWatchlist(int index) {
-    setState(() {
-      _selectedWatchlistIndex = index;
-    });
-    widget.onWatchlistSelected?.call(index);
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  /// Build loading state
+  Widget _buildLoadingState() {
     return Container(
       height: 58.h,
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-      color: Colors.white,
+      color: AppColors.white,
+      child: const Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+  }
+
+  /// Build loaded state with watchlist buttons
+  Widget _buildLoadedState(BuildContext context, WatchlistLoaded state) {
+    return Container(
+      height: 58.h,
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+      color: AppColors.white,
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: [
           // Add Button - Always first
-          _buildAddButton(),
+          _buildAddButton(context),
           SizedBox(width: 10.w),
 
           // All Button
           _buildWatchlistButton(
-            label: 'All',
+            context: context,
+            label: AppStrings.all,
             index: -1,
-            isSelected: _selectedWatchlistIndex == -1,
+            isSelected: state.selectedIndex == -1,
             showCloseIcon: false,
           ),
           SizedBox(width: 10.w),
 
           // Watchlist Buttons
-          ...List.generate(_watchlists.length, (index) {
+          ...List.generate(state.watchlists.length, (index) {
             return Padding(
               padding: EdgeInsets.only(right: 10.w),
               child: _buildWatchlistButton(
-                label: _watchlists[index],
+                context: context,
+                label: state.watchlists[index],
                 index: index,
-                isSelected: _selectedWatchlistIndex == index,
+                isSelected: state.selectedIndex == index,
                 showCloseIcon: true,
               ),
             );
@@ -99,16 +114,18 @@ class _WatchlistWidgetState extends State<WatchlistWidget> {
   }
 
   /// Build Add Button
-  Widget _buildAddButton() {
+  Widget _buildAddButton(BuildContext context) {
     return InkWell(
-      onTap: _addWatchlist,
+      onTap: () {
+        context.read<WatchlistBloc>().add(const AddWatchlistEvent());
+      },
       borderRadius: BorderRadius.circular(15.r),
       child: Container(
         width: 135.w,
         height: 42.h,
         padding: EdgeInsets.all(10.w),
         decoration: BoxDecoration(
-          color: const Color(0xFF1F4A66),
+          color: AppColors.primaryBlue,
           borderRadius: BorderRadius.circular(15.r),
         ),
         child: Row(
@@ -121,7 +138,7 @@ class _WatchlistWidgetState extends State<WatchlistWidget> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: Colors.white,
+                  color: AppColors.white,
                   width: 1.2.w,
                 ),
               ),
@@ -129,7 +146,7 @@ class _WatchlistWidgetState extends State<WatchlistWidget> {
                 child: Icon(
                   Icons.add,
                   size: 14.sp,
-                  color: Colors.white,
+                  color: AppColors.white,
                 ),
               ),
             ),
@@ -137,12 +154,12 @@ class _WatchlistWidgetState extends State<WatchlistWidget> {
             SizedBox(width: 8.w),
 
             Text(
-              'Add',
+              AppStrings.add,
               style: TextStyle(
                 fontFamily: 'Open Sans',
                 fontWeight: FontWeight.w600,
                 fontSize: 16.sp,
-                color: Colors.white,
+                color: AppColors.white,
                 letterSpacing: 0.15,
                 height: 1.0,
               ),
@@ -155,13 +172,16 @@ class _WatchlistWidgetState extends State<WatchlistWidget> {
 
   /// Build Watchlist Button
   Widget _buildWatchlistButton({
+    required BuildContext context,
     required String label,
     required int index,
     required bool isSelected,
     required bool showCloseIcon,
   }) {
     return InkWell(
-      onTap: () => _selectWatchlist(index),
+      onTap: () {
+        context.read<WatchlistBloc>().add(SelectWatchlistEvent(index: index));
+      },
       borderRadius: BorderRadius.circular(15.r),
       child: Container(
         width: 135.w,
@@ -173,10 +193,10 @@ class _WatchlistWidgetState extends State<WatchlistWidget> {
           right: showCloseIcon ? 5.w : 10.w,
         ),
         decoration: BoxDecoration(
-          color: Colors.transparent,
+          color: AppColors.transparent,
           borderRadius: BorderRadius.circular(15.r),
           border: Border.all(
-            color: const Color(0xFF1F4A66),
+            color: AppColors.primaryBlue,
             width: isSelected ? 1.5.w : 1.w,
           ),
         ),
@@ -191,7 +211,7 @@ class _WatchlistWidgetState extends State<WatchlistWidget> {
                   fontFamily: 'Open Sans',
                   fontWeight: FontWeight.w600,
                   fontSize: 16.sp,
-                  color: const Color(0xFF1F4A66),
+                  color: AppColors.primaryBlue,
                   letterSpacing: 0.15,
                   height: 1.0,
                 ),
@@ -201,7 +221,11 @@ class _WatchlistWidgetState extends State<WatchlistWidget> {
             if (showCloseIcon) ...[
               SizedBox(width: 4.w),
               InkWell(
-                onTap: () => _removeWatchlist(index),
+                onTap: () {
+                  context
+                      .read<WatchlistBloc>()
+                      .add(RemoveWatchlistEvent(index: index));
+                },
                 borderRadius: BorderRadius.circular(9.r),
                 child: Container(
                   width: 18.w,
@@ -209,7 +233,7 @@ class _WatchlistWidgetState extends State<WatchlistWidget> {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     border: Border.all(
-                      color: const Color(0xFF1F4A66),
+                      color: AppColors.primaryBlue,
                       width: 1.w,
                     ),
                   ),
@@ -217,7 +241,7 @@ class _WatchlistWidgetState extends State<WatchlistWidget> {
                     child: Icon(
                       Icons.close,
                       size: 12.sp,
-                      color: const Color(0xFF1F4A66),
+                      color: AppColors.primaryBlue,
                     ),
                   ),
                 ),
@@ -229,4 +253,3 @@ class _WatchlistWidgetState extends State<WatchlistWidget> {
     );
   }
 }
-

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../../../core/constants/app_colors.dart';
+import '../../../../core/constants/app_dimensions.dart';
 
+/// Custom Input Field Widget - Reusable text input across the app
 class CustomInputField extends StatelessWidget {
   final String hintText;
   final String? svgIconPath;
@@ -10,6 +13,9 @@ class CustomInputField extends StatelessWidget {
   final bool obscureText;
   final VoidCallback? onSuffixIconPressed;
   final String? Function(String?)? validator;
+  final TextInputType? keyboardType;
+  final int? maxLines;
+  final bool enabled;
 
   const CustomInputField({
     Key? key,
@@ -20,9 +26,10 @@ class CustomInputField extends StatelessWidget {
     this.obscureText = false,
     this.onSuffixIconPressed,
     this.validator,
+    this.keyboardType,
+    this.maxLines = 1,
+    this.enabled = true,
   }) : super(key: key);
-
-  static const Color primaryTextColor = Color(0xFF1F4A66);
 
   @override
   Widget build(BuildContext context) {
@@ -34,82 +41,101 @@ class CustomInputField extends StatelessWidget {
       child: TextFormField(
         controller: controller,
         obscureText: obscureText,
-
+        keyboardType: keyboardType,
+        maxLines: maxLines,
+        enabled: enabled,
         style: GoogleFonts.openSans(
-          fontSize: 16,
+          fontSize: AppDimensions.fontSizeL,
           fontWeight: FontWeight.w600,
           height: 1.0,
           letterSpacing: 0.15,
-          color: primaryTextColor,
+          color: AppColors.primaryBlue,
         ),
-
         decoration: InputDecoration(
           filled: true,
-          fillColor: Colors.white,
+          fillColor: AppColors.white,
           hintText: hintText,
           hintStyle: GoogleFonts.openSans(
-            fontSize: 16,
+            fontSize: AppDimensions.fontSizeL,
             fontWeight: FontWeight.w600,
             height: 1.0,
             letterSpacing: 0.15,
-            color: primaryTextColor,
+            color: AppColors.primaryBlue,
           ),
-
           isDense: true,
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 10,
-            vertical: 10,
+          contentPadding: EdgeInsets.symmetric(
+            horizontal: AppDimensions.paddingM,
+            vertical: AppDimensions.paddingM,
           ),
-
           errorStyle: GoogleFonts.openSans(
-            fontSize: 12,
+            fontSize: AppDimensions.fontSizeS,
             fontWeight: FontWeight.w400,
             height: 1.0,
-            color: primaryTextColor,
+            color: AppColors.errorColor,
           ),
-
-          border: _border(),
-          enabledBorder: _border(),
-          focusedBorder: _border(),
-          errorBorder: _border(),
-          focusedErrorBorder: _border(),
-
-          suffixIcon: suffixIcon != null
-              ? IconButton(
-            icon: Icon(
-              suffixIcon,
-              size: 24,
-              color: primaryTextColor,
-            ),
-            onPressed: onSuffixIconPressed,
-          )
-              : (svgIconPath != null
-              ? Padding(
-            padding: const EdgeInsets.all(10),
-            child: SvgPicture.asset(
-              svgIconPath!,
-              width: 24,
-              height: 24,
-              colorFilter: const ColorFilter.mode(
-                primaryTextColor,
-                BlendMode.srcIn,
-              ),
-            ),
-          )
-              : null),
+          border: _buildBorder(),
+          enabledBorder: _buildBorder(),
+          focusedBorder: _buildBorder(),
+          errorBorder: _buildBorder(isError: true),
+          focusedErrorBorder: _buildBorder(isError: true),
+          disabledBorder: _buildBorder(isDisabled: true),
+          suffixIcon: _buildSuffixIcon(),
         ),
-
         validator: validator,
       ),
     );
   }
 
-  OutlineInputBorder _border() {
+  /// Build suffix icon widget
+  Widget? _buildSuffixIcon() {
+    if (suffixIcon != null) {
+      return IconButton(
+        icon: Icon(
+          suffixIcon,
+          size: AppDimensions.iconSizeL,
+          color: AppColors.primaryBlue,
+        ),
+        onPressed: onSuffixIconPressed,
+      );
+    }
+
+    if (svgIconPath != null) {
+      return Padding(
+        padding: EdgeInsets.all(AppDimensions.paddingM),
+        child: SvgPicture.asset(
+          svgIconPath!,
+          width: AppDimensions.iconSizeL,
+          height: AppDimensions.iconSizeL,
+          colorFilter: const ColorFilter.mode(
+            AppColors.primaryBlue,
+            BlendMode.srcIn,
+          ),
+        ),
+      );
+    }
+
+    return null;
+  }
+
+  /// Build input border
+  OutlineInputBorder _buildBorder({
+    bool isError = false,
+    bool isDisabled = false,
+  }) {
+    Color borderColor;
+    if (isError) {
+      borderColor = AppColors.errorColor;
+    } else if (isDisabled) {
+      borderColor = AppColors.greyBorder;
+    } else {
+      borderColor = AppColors.primaryBlue;
+    }
+
     return OutlineInputBorder(
-      borderRadius: BorderRadius.circular(10),
-      borderSide: const BorderSide(
-        color: primaryTextColor,
-        width: 2,
+      borderRadius: BorderRadius.circular(AppDimensions.borderRadiusL),
+      borderSide: BorderSide(
+        color: borderColor,
+        width: AppDimensions.borderWidthMedium,
       ),
     );
   }

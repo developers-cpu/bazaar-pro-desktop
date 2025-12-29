@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
+import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/constants/app_images.dart';
 import '../../../../core/constants/auth_constants.dart';
+import '../../data/models/dropdown_option_model.dart';
 import '../bloc/auth_bloc.dart';
 import '../bloc/auth_event.dart';
 import '../bloc/auth_state.dart';
 import '../widget/custom_button.dart';
 import '../widget/custom_dropdown_field.dart';
 import '../widget/custom_input_field.dart';
-
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -62,12 +63,10 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = AppColors.isDarkMode(context);
-
     return Scaffold(
       body: Container(
         decoration: _backgroundImageError
-            ? _buildGradientBackground(isDark)
+            ? _buildGradientBackground(context)
             : _buildBackgroundWithImage(),
         child: SafeArea(
           child: Center(
@@ -100,7 +99,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget _buildForm(BuildContext context, bool isLoading) {
     return Container(
       width: 500,
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.all(AppDimensions.paddingXXL),
       child: Form(
         key: _formKey,
         child: Column(
@@ -109,19 +108,19 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisSize: MainAxisSize.min,
           children: [
             _buildLogo(context),
-            const SizedBox(height: 40),
+            const SizedBox(height: AppDimensions.marginXL * 2),
             _buildTitleSection(context),
-            const SizedBox(height: 24),
+            const SizedBox(height: AppDimensions.paddingXXL),
             _buildServerDropdown(context),
-            const SizedBox(height: 16),
+            const SizedBox(height: AppDimensions.paddingL),
             _buildUsernameField(context),
-            const SizedBox(height: 16),
+            const SizedBox(height: AppDimensions.paddingL),
             _buildPasswordField(context),
-            const SizedBox(height: 24),
+            const SizedBox(height: AppDimensions.paddingXXL),
             _buildLoginButton(context, isLoading),
-            const SizedBox(height: 16),
+            const SizedBox(height: AppDimensions.paddingL),
             _buildFooterLinks(context),
-            const SizedBox(height: 32),
+            const SizedBox(height: AppDimensions.marginXL + AppDimensions.marginM),
             _buildFooterText(context),
           ],
         ),
@@ -136,7 +135,7 @@ class _LoginPageState extends State<LoginPage> {
   BoxDecoration _buildBackgroundWithImage() {
     return BoxDecoration(
       image: DecorationImage(
-        image: AssetImage(AppImages.loginBackgroundGif),
+        image: const AssetImage(AppImages.loginBackgroundGif),
         fit: BoxFit.cover,
         onError: (_, __) {
           if (mounted) setState(() => _backgroundImageError = true);
@@ -145,14 +144,23 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  BoxDecoration _buildGradientBackground(bool isDark) {
+  BoxDecoration _buildGradientBackground(BuildContext context) {
+    final isDark = AppColors.isDarkMode(context);
+
     return BoxDecoration(
       gradient: LinearGradient(
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
         colors: isDark
-            ? [const Color(0xFF0D0D0D), const Color(0xFF1A1A1A)]
-            : [const Color(0xFFE3F2FD), Colors.white, const Color(0xFFE3F2FD)],
+            ? [
+          DarkThemeColors.backgroundColor,
+          DarkThemeColors.cardBackground,
+        ]
+            : [
+          AppColors.headerBgColor,
+          AppColors.white,
+          AppColors.headerBgColor,
+        ],
       ),
     );
   }
@@ -167,7 +175,7 @@ class _LoginPageState extends State<LoginPage> {
         width: 140,
         height: 140,
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(AppDimensions.marginXL),
           child: Image.asset(
             AppImages.appLogo,
             fit: BoxFit.contain,
@@ -179,27 +187,24 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-
   Widget _buildFallbackLogo(BuildContext context) {
-    final isDark = AppColors.isDarkMode(context);
-
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          'BAZAAR',
-          style: TextStyle(
-            color: isDark ? AppColors.white : AppColors.white,
-            fontSize: 20,
+          AuthConstants.appName,
+          style: GoogleFonts.openSans(
+            color: AppColors.white,
+            fontSize: AppDimensions.fontSizeXXL,
             fontWeight: FontWeight.bold,
             letterSpacing: 1,
           ),
         ),
         Text(
           'P',
-          style: TextStyle(
+          style: GoogleFonts.openSans(
             color: AppColors.secondaryColor(context),
-            fontSize: 24,
+            fontSize: AppDimensions.fontSizeXXL + 4,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -222,21 +227,18 @@ class _LoginPageState extends State<LoginPage> {
             color: AppColors.primaryColor(context),
           ),
         ),
-
-
-        const SizedBox(height: 8),
+        const SizedBox(height: AppDimensions.paddingS),
         Text(
           AuthConstants.loginSubtitle,
           textAlign: TextAlign.center,
           style: GoogleFonts.openSans(
-            fontSize: 14,
+            fontSize: AppDimensions.fontSizeM,
             fontWeight: FontWeight.w400,
             height: 1.0,
             letterSpacing: 0.25,
             color: AppColors.primaryColor(context),
           ),
         ),
-
       ],
     );
   }
@@ -251,26 +253,25 @@ class _LoginPageState extends State<LoginPage> {
       value: _selectedServer,
       items: [
         DropdownOption(
-          value: 'RGX',
-          label: 'RGX',
+          value: AuthConstants.serverRGX,
+          label: AuthConstants.serverRGX,
           iconPath: AppImages.dropDown1,
           trailingIconPath: AppImages.serverIcon,
         ),
         DropdownOption(
-          value: 'TESTS',
-          label: 'TESTS',
+          value: AuthConstants.serverTests,
+          label: AuthConstants.serverRGX,
           iconPath: AppImages.dropDown2,
           trailingIconPath: AppImages.serverIcon,
         ),
         DropdownOption(
-          value: 'FOREXSERVER',
-          label: 'FOREXSERVER',
+          value: AuthConstants.serverForex,
+          label: AuthConstants.serverForex,
           iconPath: AppImages.dropDown3,
           trailingIconPath: AppImages.serverIcon,
         ),
       ],
       onChanged: (value) => setState(() => _selectedServer = value!),
-
     );
   }
 
@@ -293,15 +294,12 @@ class _LoginPageState extends State<LoginPage> {
           ? Icons.visibility_off_outlined
           : Icons.visibility_outlined,
       onSuffixIconPressed: () {
-        setState(() {
-          _obscurePassword = !_obscurePassword;
-        });
+        setState(() => _obscurePassword = !_obscurePassword);
       },
       validator: (value) =>
       value?.isEmpty ?? true ? AuthConstants.emptyPasswordError : null,
     );
   }
-
 
   Widget _buildLoginButton(BuildContext context, bool isLoading) {
     return CustomButton(
@@ -329,7 +327,8 @@ class _LoginPageState extends State<LoginPage> {
         _buildTextLink(
           context,
           text: AuthConstants.forgotPasswordText,
-          onPressed: () => _showSnackBar('Forgot password feature coming soon!'),
+          onPressed: () =>
+              _showSnackBar(AuthConstants.forgotPasswordComingSoon),
         ),
       ],
     );
@@ -342,24 +341,24 @@ class _LoginPageState extends State<LoginPage> {
           AuthConstants.educationPurposeText,
           textAlign: TextAlign.center,
           style: GoogleFonts.openSans(
-            fontSize: 14,
+            fontSize: AppDimensions.fontSizeM,
             height: 1.0,
             letterSpacing: 0.1,
-            color: const Color(0xFF1F4A66),
+            color: AppColors.primaryBlue,
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: AppDimensions.paddingS),
         Text(
           AuthConstants.versionText,
           textAlign: TextAlign.center,
           style: GoogleFonts.openSans(
-            fontSize: 14,
+            fontSize: AppDimensions.fontSizeM,
             height: 1.0,
             letterSpacing: 0.1,
-            color: const Color(0xFF1F4A66),
+            color: AppColors.primaryBlue,
           ),
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: AppDimensions.paddingL),
         _buildLegalLinks(context),
       ],
     );
@@ -373,15 +372,14 @@ class _LoginPageState extends State<LoginPage> {
           _buildTextLink(
             context,
             text: AuthConstants.termsAndConditionsText,
-
-            onPressed: () => _showSnackBar('Terms & Conditions page coming soon!'),
+            onPressed: () =>
+                _showSnackBar(AuthConstants.termsComingSoon),
           ),
-          SizedBox(height: 5,),
+          const SizedBox(height: AppDimensions.paddingXS + 1),
           _buildTextLink(
             context,
             text: AuthConstants.privacyPolicyText,
-
-            onPressed: () => _showSnackBar('Privacy Policy page coming soon!'),
+            onPressed: () => _showSnackBar(AuthConstants.privacyComingSoon),
           ),
         ],
       ),
@@ -393,8 +391,6 @@ class _LoginPageState extends State<LoginPage> {
         required String text,
         required VoidCallback onPressed,
       }) {
-    const Color textColor = Color(0xFF1F4A66);
-
     return TextButton(
       onPressed: onPressed,
       style: TextButton.styleFrom(
@@ -402,26 +398,25 @@ class _LoginPageState extends State<LoginPage> {
         minimumSize: Size.zero,
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         alignment: Alignment.center,
-        overlayColor: Colors.transparent,
-        foregroundColor: textColor,
+        overlayColor: AppColors.transparent,
+        foregroundColor: AppColors.primaryBlue,
         splashFactory: NoSplash.splashFactory,
       ),
       child: Text(
         text,
         textAlign: TextAlign.center,
         style: GoogleFonts.openSans(
-          fontSize: 14,
+          fontSize: AppDimensions.fontSizeM,
           fontWeight: FontWeight.w600,
           height: 1.0,
           letterSpacing: 0.1,
-          color: textColor,
+          color: AppColors.primaryBlue,
           decoration: TextDecoration.underline,
-          decorationColor: textColor,
+          decorationColor: AppColors.primaryBlue,
           decorationThickness: 2,
           decorationStyle: TextDecorationStyle.solid,
         ),
       ),
     );
   }
-
 }

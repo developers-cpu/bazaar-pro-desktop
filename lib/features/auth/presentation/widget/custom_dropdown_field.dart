@@ -1,19 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_fonts/google_fonts.dart';
+import '../../../../core/constants/app_colors.dart';
+import '../../../../core/constants/app_dimensions.dart';
+import '../../data/models/dropdown_option_model.dart';
 
+/// Custom Dropdown Field Widget - Reusable dropdown across the app
 class CustomDropdownField extends StatefulWidget {
   final String hintText;
   final String? value;
   final List<DropdownOption> items;
   final ValueChanged<String?> onChanged;
+  final double? width;
+  final double? dropdownHeight;
 
   const CustomDropdownField({
-    super.key,
+    Key? key,
     required this.hintText,
     required this.value,
     required this.items,
     required this.onChanged,
-  });
+    this.width,
+    this.dropdownHeight,
+  }) : super(key: key);
 
   @override
   State<CustomDropdownField> createState() => _CustomDropdownFieldState();
@@ -28,25 +37,18 @@ class _CustomDropdownFieldState extends State<CustomDropdownField>
   late AnimationController _controller;
   late Animation<double> _animation;
 
-  /// FIGMA SPECS - EXACT MATCHING
+  // Design constants
   static const double _fieldHeight = 45;
-  static const double _dropdownHeight = 125;
-  static const double _dropdownWidth = 450;
+  static const double _defaultDropdownHeight = 125;
+  static const double _defaultWidth = 450;
   static const double _gap = 5;
-  static const double _borderRadius = 10;
-  static const double _borderWidth = 2;
 
-  static const Color _primary = Color(0xFF1F4A66);
-  static const Color _background = Color(0xFFFFFFFF);
-
-
-  TextStyle get _textStyle => const TextStyle(
-    fontFamily: 'OpenSans',
-    fontSize: 16,
+  TextStyle get _textStyle => GoogleFonts.openSans(
+    fontSize: AppDimensions.fontSizeL,
     fontWeight: FontWeight.w600,
     height: 1.0,
     letterSpacing: 0.15,
-    color: _primary,
+    color: AppColors.primaryBlue,
   );
 
   @override
@@ -88,31 +90,29 @@ class _CustomDropdownFieldState extends State<CustomDropdownField>
     _overlayEntry = null;
   }
 
-
-  bool _isSvg(String path) {
-    return path.toLowerCase().endsWith('.svg');
-  }
+  /// Check if path is SVG
+  bool _isSvg(String path) => path.toLowerCase().endsWith('.svg');
 
   /// Build left icon widget (supports both PNG and SVG)
   Widget _buildLeftIcon(String? iconPath) {
     if (iconPath == null || iconPath.isEmpty) return const SizedBox.shrink();
 
     return Padding(
-      padding: const EdgeInsets.only(right: 10),
+      padding: EdgeInsets.only(right: AppDimensions.paddingM),
       child: SizedBox(
-        width: 20,
-        height: 20,
+        width: AppDimensions.iconSizeM,
+        height: AppDimensions.iconSizeM,
         child: _isSvg(iconPath)
             ? SvgPicture.asset(
           iconPath,
-          width: 20,
-          height: 20,
+          width: AppDimensions.iconSizeM,
+          height: AppDimensions.iconSizeM,
           fit: BoxFit.contain,
         )
             : Image.asset(
           iconPath,
-          width: 20,
-          height: 20,
+          width: AppDimensions.iconSizeM,
+          height: AppDimensions.iconSizeM,
           fit: BoxFit.contain,
           errorBuilder: (_, __, ___) => const SizedBox.shrink(),
         ),
@@ -120,39 +120,37 @@ class _CustomDropdownFieldState extends State<CustomDropdownField>
     );
   }
 
-
+  /// Build trailing icon widget
   Widget _buildTrailingIcon(String? iconPath) {
     if (iconPath == null || iconPath.isEmpty) return const SizedBox.shrink();
 
     return SizedBox(
-      width: 20,
-      height: 20,
+      width: AppDimensions.iconSizeM,
+      height: AppDimensions.iconSizeM,
       child: _isSvg(iconPath)
           ? SvgPicture.asset(
         iconPath,
-        width: 20,
-        height: 20,
+        width: AppDimensions.iconSizeM,
+        height: AppDimensions.iconSizeM,
         fit: BoxFit.contain,
         colorFilter: const ColorFilter.mode(
-          _primary,
+          AppColors.primaryBlue,
           BlendMode.srcIn,
         ),
       )
           : Image.asset(
         iconPath,
-        width: 20,
-        height: 20,
+        width: AppDimensions.iconSizeM,
+        height: AppDimensions.iconSizeM,
         fit: BoxFit.contain,
-        color: _primary,
+        color: AppColors.primaryBlue,
         errorBuilder: (_, __, ___) => const SizedBox.shrink(),
       ),
     );
   }
 
   /// Check if a value is selected
-  bool get _hasSelection {
-    return widget.value != null && widget.value!.isNotEmpty;
-  }
+  bool get _hasSelection => widget.value != null && widget.value!.isNotEmpty;
 
   /// Get the selected item or null
   DropdownOption? get _selectedItem {
@@ -168,47 +166,54 @@ class _CustomDropdownFieldState extends State<CustomDropdownField>
     final renderBox = context.findRenderObject() as RenderBox;
     final size = renderBox.size;
     final offset = renderBox.localToGlobal(Offset.zero);
+    final dropdownWidth = widget.width ?? _defaultWidth;
+    final dropdownHeight = widget.dropdownHeight ?? _defaultDropdownHeight;
 
     return OverlayEntry(
       builder: (context) => Stack(
         children: [
-          // Dismiss layer - full screen tap to close
+          // Dismiss layer
           Positioned.fill(
             child: GestureDetector(
               onTap: _close,
               behavior: HitTestBehavior.opaque,
-              child: Container(color: Colors.transparent),
+              child: Container(color: AppColors.transparent),
             ),
           ),
-          // Dropdown positioned below the field
+          // Dropdown menu
           Positioned(
             left: offset.dx,
             top: offset.dy + size.height + _gap,
-            width: _dropdownWidth,
+            width: dropdownWidth,
             child: FadeTransition(
               opacity: _animation,
               child: Material(
-                color: Colors.transparent,
+                color: AppColors.transparent,
                 child: Container(
-                  width: _dropdownWidth,
-                  height: _dropdownHeight,
+                  width: dropdownWidth,
+                  height: dropdownHeight,
                   decoration: BoxDecoration(
-                    color: _background,
-                    borderRadius: BorderRadius.circular(_borderRadius),
-                    border: Border.all(color: _primary, width: _borderWidth),
+                    color: AppColors.white,
+                    borderRadius: BorderRadius.circular(AppDimensions.borderRadiusL),
+                    border: Border.all(
+                      color: AppColors.primaryBlue,
+                      width: AppDimensions.borderWidthMedium,
+                    ),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
+                        color: AppColors.black.withOpacity(0.1),
                         blurRadius: 8,
                         offset: const Offset(0, 4),
                       ),
                     ],
                   ),
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(_borderRadius - 2),
+                    borderRadius: BorderRadius.circular(
+                      AppDimensions.borderRadiusL - 2,
+                    ),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
-                      children: _buildDropdownItems(),
+                      children: _buildDropdownItems(dropdownHeight),
                     ),
                   ),
                 ),
@@ -220,12 +225,10 @@ class _CustomDropdownFieldState extends State<CustomDropdownField>
     );
   }
 
-  List<Widget> _buildDropdownItems() {
+  List<Widget> _buildDropdownItems(double dropdownHeight) {
     final List<Widget> children = [];
     final itemCount = widget.items.length;
-
-    // Calculate available height for items
-    final availableHeight = _dropdownHeight - 4; // Border adjustment
+    final availableHeight = dropdownHeight - 4;
     final itemHeight = availableHeight / itemCount;
 
     for (int i = 0; i < itemCount; i++) {
@@ -241,30 +244,26 @@ class _CustomDropdownFieldState extends State<CustomDropdownField>
               _close();
             },
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 14),
+              padding: EdgeInsets.symmetric(horizontal: AppDimensions.paddingL),
               decoration: BoxDecoration(
-                color: selected ? const Color(0xFFF5F5F5) : Colors.transparent,
+                color: selected
+                    ? AppColors.tableAlternateRowBackground
+                    : AppColors.transparent,
                 border: i < itemCount - 1
                     ? Border(
                   bottom: BorderSide(
-                    color: _primary.withOpacity(0.2),
-                    width: 1,
+                    color: AppColors.primaryBlue.withOpacity(0.2),
+                    width: AppDimensions.borderWidthThin,
                   ),
                 )
                     : null,
               ),
               child: Row(
                 children: [
-                  // Left icon (PNG or SVG)
                   _buildLeftIcon(item.iconPath),
-                  // Label text
                   Expanded(
-                    child: Text(
-                      item.label,
-                      style: _textStyle,
-                    ),
+                    child: Text(item.label, style: _textStyle),
                   ),
-                  // Right trailing icon (primary color)
                   _buildTrailingIcon(item.trailingIconPath),
                 ],
               ),
@@ -280,36 +279,37 @@ class _CustomDropdownFieldState extends State<CustomDropdownField>
   @override
   Widget build(BuildContext context) {
     final selected = _selectedItem;
+    final fieldWidth = widget.width ?? _defaultWidth;
 
     return SizedBox(
-      width: _dropdownWidth,
+      width: fieldWidth,
       child: CompositedTransformTarget(
         link: _layerLink,
         child: GestureDetector(
           onTap: _toggle,
           child: Container(
             height: _fieldHeight,
-            padding: const EdgeInsets.symmetric(horizontal: 12),
+            padding: EdgeInsets.symmetric(horizontal: AppDimensions.paddingM),
             decoration: BoxDecoration(
-              color: _background,
-              borderRadius: BorderRadius.circular(_borderRadius),
-              border: Border.all(color: _primary, width: _borderWidth),
+              color: AppColors.white,
+              borderRadius: BorderRadius.circular(AppDimensions.borderRadiusL),
+              border: Border.all(
+                color: AppColors.primaryBlue,
+                width: AppDimensions.borderWidthMedium,
+              ),
             ),
             child: Row(
               children: [
-                // Left icon (only when value is selected)
                 if (_hasSelection && selected != null)
                   _buildLeftIcon(selected.iconPath),
-                // Label / hint text - SAME STYLE FOR BOTH
                 Expanded(
                   child: Text(
                     _hasSelection && selected != null
                         ? selected.label
-                        : widget.hintText, // "Select Server"
-                    style: _textStyle, // Same style: #1F4A66, SemiBold, 16px
+                        : widget.hintText,
+                    style: _textStyle,
                   ),
                 ),
-                // Right trailing icon (server icon with primary color)
                 if (widget.items.isNotEmpty &&
                     widget.items.first.trailingIconPath != null)
                   _buildTrailingIcon(widget.items.first.trailingIconPath),
@@ -320,18 +320,4 @@ class _CustomDropdownFieldState extends State<CustomDropdownField>
       ),
     );
   }
-}
-
-class DropdownOption {
-  final String value;
-  final String label;
-  final String? iconPath;
-  final String? trailingIconPath;
-
-  DropdownOption({
-    required this.value,
-    required this.label,
-    this.iconPath,
-    this.trailingIconPath,
-  });
 }

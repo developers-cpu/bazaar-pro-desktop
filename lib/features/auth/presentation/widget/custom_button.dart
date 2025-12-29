@@ -1,70 +1,83 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import '../../../../core/constants/app_colors.dart';
+import '../../../../core/constants/app_dimensions.dart';
 
-/// Custom Button Widget
-
+/// Custom Button Widget - Reusable across the app
 class CustomButton extends StatelessWidget {
   final String text;
   final VoidCallback? onPressed;
   final bool isLoading;
-  final Color backgroundColor;
-  final Color textColor;
-  final Color borderColor;
-  final Color disabledBackgroundColor;
-  final double width;
-  final double height;
-  final double borderRadius;
-  final double fontSize;
-  final FontWeight fontWeight;
+  final Color? backgroundColor;
+  final Color? textColor;
+  final Color? borderColor;
+  final Color? disabledBackgroundColor;
+  final double? width;
+  final double? height;
+  final double? borderRadius;
+  final double? fontSize;
+  final FontWeight? fontWeight;
 
   const CustomButton({
     Key? key,
     required this.text,
     required this.onPressed,
     this.isLoading = false,
-    this.backgroundColor = const Color(0xFF1F4A66),
-    this.textColor = Colors.white,
-    this.borderColor = const Color(0xFF1F4A66),
-    this.disabledBackgroundColor = const Color(0xFFBDBDBD),
-    this.width = 500,
-    this.height = 45,
-    this.borderRadius = 10,
-    this.fontSize = 16,
-    this.fontWeight = FontWeight.w600,
+    this.backgroundColor,
+    this.textColor,
+    this.borderColor,
+    this.disabledBackgroundColor,
+    this.width,
+    this.height,
+    this.borderRadius,
+    this.fontSize,
+    this.fontWeight,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final effectiveBackgroundColor = backgroundColor ?? AppColors.primaryBlue;
+    final effectiveTextColor = textColor ?? AppColors.white;
+    final effectiveBorderColor = borderColor ?? AppColors.primaryBlue;
+    final effectiveDisabledColor = disabledBackgroundColor ?? AppColors.greyBorder;
+
     return SizedBox(
-      width: width,
-      height: height,
+      width: width ?? 500,
+      height: height ?? 45,
       child: ElevatedButton(
         onPressed: isLoading ? null : onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: backgroundColor,
-          disabledBackgroundColor: disabledBackgroundColor,
+          backgroundColor: effectiveBackgroundColor,
+          disabledBackgroundColor: effectiveDisabledColor,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(borderRadius),
-            side: BorderSide(color: borderColor, width: 1),
+            borderRadius: BorderRadius.circular(
+              borderRadius ?? AppDimensions.borderRadiusL,
+            ),
+            side: BorderSide(
+              color: effectiveBorderColor,
+              width: AppDimensions.borderWidthThin,
+            ),
           ),
           elevation: 0,
-          padding: const EdgeInsets.all(10),
+          padding: EdgeInsets.all(AppDimensions.paddingM),
         ),
         child: isLoading
             ? SizedBox(
-          width: 20,
-          height: 20,
+          width: AppDimensions.iconSizeM,
+          height: AppDimensions.iconSizeM,
           child: CircularProgressIndicator(
-            color: textColor,
-            strokeWidth: 2,
+            color: effectiveTextColor,
+            strokeWidth: AppDimensions.borderWidthMedium,
           ),
         )
             : Text(
           text,
-          style: TextStyle(
-            fontSize: fontSize,
-            fontWeight: fontWeight,
-            color: textColor,
+          style: GoogleFonts.openSans(
+            fontSize: fontSize ?? AppDimensions.fontSizeL,
+            fontWeight: fontWeight ?? FontWeight.w600,
+            color: effectiveTextColor,
             letterSpacing: 0.1,
+            height: 1.0,
           ),
         ),
       ),

@@ -47,4 +47,5 @@ class AppImages {
   static const String menu7Icon = '$_menuIconsPath/menu7.svg';
   static const String menu8Icon = '$_menuIconsPath/menu8.svg';
   static const String menu9Icon = '$_menuIconsPath/menu9.svg';
+  static const String menu10Icon = '$_menuIconsPath/menu10.svg';
 }

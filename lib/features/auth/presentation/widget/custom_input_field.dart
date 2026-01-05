@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_dimensions.dart';
 
-/// Custom Input Field Widget - Reusable text input across the app
+/// Custom Input Field Widget
 class CustomInputField extends StatelessWidget {
   final String hintText;
   final String? svgIconPath;

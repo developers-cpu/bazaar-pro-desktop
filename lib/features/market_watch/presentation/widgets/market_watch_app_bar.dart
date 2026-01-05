@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_images.dart';
 import '../../../../core/constants/app_strings.dart';
+import '../../../../core/widget/svg_icon.dart';
 import '../bloc/market_watch_bloc.dart';
 import '../bloc/market_watch_event.dart';
 
@@ -89,9 +90,9 @@ class MarketWatchAppBar extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 
-  // ─────────────────────────────────────────────────────────────────
-  // MENU BAR - 741x55, border-radius: 15px, background: #1F4A660D
-  // ─────────────────────────────────────────────────────────────────
+  // ───────────
+  // MENU BAR
+  // ───────────
   Widget _buildMenuBar() {
     final menuItems = [
       AppStrings.marketWatch,
@@ -203,13 +204,15 @@ class MarketWatchAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
         ),
         child: Center(
-          child: _buildSvgIcon(
-            AppImages.reloadIcon,
-            fallbackIcon: Icons.refresh,
-            size: 22.sp,
-            color: AppColors.primaryBlue,
-          ),
+          child: SvgIcon(
+          assetPath: AppImages.reloadIcon,
+          isActive: true,
+          size: 22.sp,
+          activeColor: AppColors.primaryBlue,
+          inactiveColor: AppColors.primaryBlue,
         ),
+
+      ),
       ),
     );
   }
@@ -323,36 +326,18 @@ class MarketWatchAppBar extends StatelessWidget implements PreferredSizeWidget {
         width: 36.w,
         height: 36.h,
         child: Center(
-          child: _buildSvgIcon(
-            AppImages.logoutIcon,
-            fallbackIcon: Icons.logout,
-            size: 24.sp,
-            color: AppColors.red,
-          ),
+        child: SvgIcon(
+          assetPath: AppImages.logoutIcon,
+          isActive: true,
+          size: 24.sp,
+          activeColor: AppColors.red,
+          inactiveColor: AppColors.red,
         ),
+
+      ),
       ),
     );
   }
 
-  // ─────────────────────────────────────────────────────────────────
-  // HELPER: SVG Icon with Material Icon fallback
-  // ─────────────────────────────────────────────────────────────────
-  Widget _buildSvgIcon(
-      String svgPath, {
-        required IconData fallbackIcon,
-        required double size,
-        required Color color,
-      }) {
-    return SvgPicture.asset(
-      svgPath,
-      width: size,
-      height: size,
-      colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
-      placeholderBuilder: (context) => Icon(
-        fallbackIcon,
-        size: size,
-        color: color,
-      ),
-    );
-  }
+
 }

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_images.dart';
 import '../../../../core/constants/app_strings.dart';
+import '../../../../core/widget/svg_icon.dart' show SvgIcon;
 
 class BanForTradeNotice extends StatelessWidget {
   final String message;
@@ -22,10 +22,12 @@ class BanForTradeNotice extends StatelessWidget {
       child: Row(
         children: [
           Center(
-            child: SvgPicture.asset(
-              AppImages.banIcon,
-              width: 14.w,
-              height: 14.h,
+            child: SvgIcon(
+              assetPath: AppImages.banIcon,
+              isActive: true,
+              size: 14.w,
+              activeColor: AppColors.red,
+              inactiveColor: AppColors.red,
             ),
           ),
           SizedBox(width: 8.w),

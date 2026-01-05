@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_dimensions.dart';
+import '../../../../core/widget/svg_icon.dart' show SvgIcon;
 import '../../data/models/dropdown_option_model.dart';
 
-/// Custom Dropdown Field Widget - Reusable dropdown across the app
+/// Custom Dropdown Field Widget
 class CustomDropdownField extends StatefulWidget {
   final String hintText;
   final String? value;
@@ -103,11 +103,12 @@ class _CustomDropdownFieldState extends State<CustomDropdownField>
         width: AppDimensions.iconSizeM,
         height: AppDimensions.iconSizeM,
         child: _isSvg(iconPath)
-            ? SvgPicture.asset(
-          iconPath,
-          width: AppDimensions.iconSizeM,
-          height: AppDimensions.iconSizeM,
-          fit: BoxFit.contain,
+            ? SvgIcon(
+          assetPath: iconPath,
+          isActive: true,
+          size: AppDimensions.iconSizeM,
+          activeColor: AppColors.primaryBlue,
+          inactiveColor: AppColors.primaryBlue,
         )
             : Image.asset(
           iconPath,
@@ -120,6 +121,7 @@ class _CustomDropdownFieldState extends State<CustomDropdownField>
     );
   }
 
+
   /// Build trailing icon widget
   Widget _buildTrailingIcon(String? iconPath) {
     if (iconPath == null || iconPath.isEmpty) return const SizedBox.shrink();
@@ -128,15 +130,12 @@ class _CustomDropdownFieldState extends State<CustomDropdownField>
       width: AppDimensions.iconSizeM,
       height: AppDimensions.iconSizeM,
       child: _isSvg(iconPath)
-          ? SvgPicture.asset(
-        iconPath,
-        width: AppDimensions.iconSizeM,
-        height: AppDimensions.iconSizeM,
-        fit: BoxFit.contain,
-        colorFilter: const ColorFilter.mode(
-          AppColors.primaryBlue,
-          BlendMode.srcIn,
-        ),
+          ? SvgIcon(
+        assetPath: iconPath,
+        isActive: true,
+        size: AppDimensions.iconSizeM,
+        activeColor: AppColors.primaryBlue,
+        inactiveColor: AppColors.primaryBlue,
       )
           : Image.asset(
         iconPath,
@@ -148,6 +147,7 @@ class _CustomDropdownFieldState extends State<CustomDropdownField>
       ),
     );
   }
+
 
   /// Check if a value is selected
   bool get _hasSelection => widget.value != null && widget.value!.isNotEmpty;

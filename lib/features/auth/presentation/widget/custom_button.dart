@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_dimensions.dart';
 
-/// Custom Button Widget - Reusable across the app
+/// Custom Button Widget
 class CustomButton extends StatelessWidget {
   final String text;
   final VoidCallback? onPressed;

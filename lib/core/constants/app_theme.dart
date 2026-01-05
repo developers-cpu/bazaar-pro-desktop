@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'app_colors.dart';
 
 /// Application theme configuration
-/// Provides light and dark theme with Google Fonts Open Sans
+
 class AppTheme {
   AppTheme._();
 

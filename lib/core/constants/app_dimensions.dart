@@ -1,5 +1,4 @@
-/// Application wide dimension constants
-/// Contains all spacing, sizing, and padding values used throughout the app
+
 class AppDimensions {
   // Prevent instantiation
   AppDimensions._();

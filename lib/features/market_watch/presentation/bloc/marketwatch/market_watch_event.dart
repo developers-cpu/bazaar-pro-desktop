@@ -1,8 +1,7 @@
 import 'package:equatable/equatable.dart';
-import '../../domain/entities/market_item.dart';
+import '../../../domain/entities/market_item.dart';
 
 /// Base class for all market watch events
-/// Uses Equatable for value comparison and state management optimization
 abstract class MarketWatchEvent extends Equatable {
   const MarketWatchEvent();
 

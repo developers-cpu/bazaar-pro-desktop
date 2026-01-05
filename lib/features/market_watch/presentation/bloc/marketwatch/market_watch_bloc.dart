@@ -1,16 +1,14 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/constants/app_strings.dart';
-import '../../../../core/usecases/usecase.dart';
-import '../../domain/entities/market_item.dart';
-import '../../domain/usecases/add_market_item.dart';
-import '../../domain/usecases/delete_market_item.dart';
-import '../../domain/usecases/get_market_items.dart';
+import '../../../../../core/constants/app_strings.dart';
+import '../../../../../core/usecases/usecase.dart';
+import '../../../domain/entities/market_item.dart';
+import '../../../domain/usecases/add_market_item.dart';
+import '../../../domain/usecases/delete_market_item.dart';
+import '../../../domain/usecases/get_market_items.dart';
 import 'market_watch_event.dart';
 import 'market_watch_state.dart';
 
 /// BLoC for managing market watch state and business logic
-/// Handles all user interactions and data operations
-/// Uses clean architecture principles with dependency injection
 class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
   final GetMarketItems getMarketItems;
   final AddMarketItem addMarketItem;
@@ -21,7 +19,7 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
     required this.addMarketItem,
     required this.deleteMarketItem,
   }) : super(const MarketWatchInitial()) {
-    // Register event handlers
+
     on<LoadMarketItemsEvent>(_onLoadMarketItems);
     on<FilterByExchangeEvent>(_onFilterByExchange);
     on<FilterBySymbolEvent>(_onFilterBySymbol);
@@ -43,10 +41,9 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
       ) async {
     emit(const MarketWatchLoading());
 
-    // Call use case to get market items
+
     final result = await getMarketItems(NoParams());
 
-    // Handle result - either success or failure
     result.fold(
           (failure) => emit(MarketWatchError(message: failure.message)),
           (items) => emit(MarketWatchLoaded(
@@ -73,7 +70,7 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
             .toList();
       }
 
-      // Also apply symbol filter if active
+
       if (currentState.selectedSymbol != null) {
         filtered = filtered
             .where((item) => item.symbol == currentState.selectedSymbol)
@@ -95,7 +92,6 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
     if (state is MarketWatchLoaded) {
       final currentState = state as MarketWatchLoaded;
 
-      // Apply filter
       List<MarketItem> filtered = currentState.items;
 
       if (event.symbol != null && event.symbol!.isNotEmpty) {
@@ -104,7 +100,6 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
             .toList();
       }
 
-      // Also apply exchange filter if active
       if (currentState.selectedExchange != null) {
         filtered = filtered
             .where((item) => item.exchange == currentState.selectedExchange)
@@ -118,7 +113,6 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
     }
   }
 
-  /// Handle selecting a market item row
   void _onSelectMarketItem(
       SelectMarketItemEvent event,
       Emitter<MarketWatchState> emit,
@@ -129,7 +123,6 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
     }
   }
 
-  /// Handle copying a market item to clipboard
   Future<void> _onCopyMarketItem(
       CopyMarketItemEvent event,
       Emitter<MarketWatchState> emit,
@@ -137,25 +130,23 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
     if (state is MarketWatchLoaded) {
       final currentState = state as MarketWatchLoaded;
 
-      // Store item in clipboard with copy flag
+
       final newState = currentState.copyWith(
         clipboardItem: event.item,
         isClipboardCut: false,
       );
 
-      // Emit success which contains the loaded state
       emit(MarketWatchSuccess(
         message: AppStrings.itemCopied,
         previousState: newState,
       ));
 
-      // Wait a moment for the listener to process, then emit loaded state
       await Future.delayed(const Duration(milliseconds: 100));
       emit(newState);
     }
   }
 
-  /// Handle cutting a market item to clipboard
+
   Future<void> _onCutMarketItem(
       CutMarketItemEvent event,
       Emitter<MarketWatchState> emit,
@@ -163,19 +154,16 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
     if (state is MarketWatchLoaded) {
       final currentState = state as MarketWatchLoaded;
 
-      // Store item in clipboard with cut flag
       final newState = currentState.copyWith(
         clipboardItem: event.item,
         isClipboardCut: true,
       );
 
-      // Emit success which contains the loaded state
       emit(MarketWatchSuccess(
         message: AppStrings.itemCut,
         previousState: newState,
       ));
 
-      // Wait a moment for the listener to process, then emit loaded state
       await Future.delayed(const Duration(milliseconds: 100));
       emit(newState);
     }
@@ -193,28 +181,22 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
         emit(const MarketWatchError(message: AppStrings.noItemsToPaste));
         return;
       }
-
-      // Create new item with unique ID
       final newItem = currentState.clipboardItem!.copyWith(
         id: DateTime.now().millisecondsSinceEpoch.toString(),
       );
 
-      // Add item using use case
       final result = await addMarketItem(AddMarketItemParams(item: newItem));
 
-      // Handle failure case
       final failure = result.fold((l) => l, (r) => null);
       if (failure != null) {
         emit(MarketWatchError(message: failure.message));
         return;
       }
 
-      // Handle success case
       final addedItem = result.fold((l) => null, (r) => r)!;
       final updatedItems = List<MarketItem>.from(currentState.items)
         ..add(addedItem);
 
-      // Apply current filters
       List<MarketItem> filteredItems = updatedItems;
       if (currentState.selectedExchange != null) {
         filteredItems = filteredItems
@@ -227,7 +209,6 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
             .toList();
       }
 
-      // Add to undo stack
       final newUndoStack = List<MarketWatchAction>.from(currentState.undoStack)
         ..add(MarketWatchAction(
           type: MarketWatchActionType.paste,
@@ -241,17 +222,15 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
         currentState.isClipboardCut ? null : currentState.clipboardItem,
         isClipboardCut: false,
         undoStack: newUndoStack,
-        redoStack: [], // Clear redo stack on new action
+        redoStack: [],
         clearClipboard: currentState.isClipboardCut,
       );
 
-      // Emit success which contains the loaded state
       emit(MarketWatchSuccess(
         message: AppStrings.itemPasted,
         previousState: newState,
       ));
 
-      // Wait a moment for the listener to process, then emit loaded state
       await Future.delayed(const Duration(milliseconds: 100));
       emit(newState);
     }
@@ -265,29 +244,24 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
     if (state is MarketWatchLoaded) {
       final currentState = state as MarketWatchLoaded;
 
-      // Find the item to delete
       final itemToDelete = currentState.items.firstWhere(
             (item) => item.id == event.itemId,
       );
       final itemIndex = currentState.items.indexOf(itemToDelete);
 
-      // Delete using use case
       final result = await deleteMarketItem(
         DeleteMarketItemParams(id: event.itemId),
       );
 
-      // Handle failure case
       final failure = result.fold((l) => l, (r) => null);
       if (failure != null) {
         emit(MarketWatchError(message: failure.message));
         return;
       }
 
-      // Handle success case
       final updatedItems = List<MarketItem>.from(currentState.items)
         ..removeWhere((item) => item.id == event.itemId);
 
-      // Apply current filters
       List<MarketItem> filteredItems = updatedItems;
       if (currentState.selectedExchange != null) {
         filteredItems = filteredItems
@@ -300,7 +274,6 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
             .toList();
       }
 
-      // Add to undo stack
       final newUndoStack = List<MarketWatchAction>.from(currentState.undoStack)
         ..add(MarketWatchAction(
           type: MarketWatchActionType.delete,
@@ -312,17 +285,15 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
         items: updatedItems,
         filteredItems: filteredItems,
         undoStack: newUndoStack,
-        redoStack: [], // Clear redo stack on new action
+        redoStack: [],
         clearSelectedItem: true,
       );
 
-      // Emit success which contains the loaded state
       emit(MarketWatchSuccess(
         message: AppStrings.itemDeleted,
         previousState: newState,
       ));
 
-      // Wait a moment for the listener to process, then emit loaded state
       await Future.delayed(const Duration(milliseconds: 100));
       emit(newState);
     }
@@ -341,23 +312,20 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
         return;
       }
 
-      // Get last action from undo stack
+
       final lastAction = currentState.undoStack.last;
       final newUndoStack = List<MarketWatchAction>.from(currentState.undoStack)
         ..removeLast();
 
-      // Reverse the action based on type
       List<MarketItem> updatedItems;
       switch (lastAction.type) {
         case MarketWatchActionType.add:
         case MarketWatchActionType.paste:
-        // Remove the added item
           updatedItems = List<MarketItem>.from(currentState.items)
             ..removeWhere((item) => item.id == lastAction.item!.id);
           break;
 
         case MarketWatchActionType.delete:
-        // Re-add the deleted item at its original position
           updatedItems = List<MarketItem>.from(currentState.items);
           if (lastAction.index != null &&
               lastAction.index! <= updatedItems.length) {
@@ -381,7 +349,6 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
             .toList();
       }
 
-      // Add to redo stack
       final newRedoStack = List<MarketWatchAction>.from(currentState.redoStack)
         ..add(lastAction);
 
@@ -392,13 +359,11 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
         redoStack: newRedoStack,
       );
 
-      // Emit success which contains the loaded state
       emit(MarketWatchSuccess(
         message: AppStrings.actionUndone,
         previousState: newState,
       ));
 
-      // Wait a moment for the listener to process, then emit loaded state
       await Future.delayed(const Duration(milliseconds: 100));
       emit(newState);
     }
@@ -417,29 +382,24 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
         return;
       }
 
-      // Get last action from redo stack
       final lastAction = currentState.redoStack.last;
       final newRedoStack = List<MarketWatchAction>.from(currentState.redoStack)
         ..removeLast();
 
-      // Redo the action based on type
       List<MarketItem> updatedItems;
       switch (lastAction.type) {
         case MarketWatchActionType.add:
         case MarketWatchActionType.paste:
-        // Re-add the item
           updatedItems = List<MarketItem>.from(currentState.items)
             ..add(lastAction.item!);
           break;
 
         case MarketWatchActionType.delete:
-        // Remove the item again
           updatedItems = List<MarketItem>.from(currentState.items)
             ..removeWhere((item) => item.id == lastAction.item!.id);
           break;
       }
 
-      // Apply current filters
       List<MarketItem> filteredItems = updatedItems;
       if (currentState.selectedExchange != null) {
         filteredItems = filteredItems
@@ -452,7 +412,6 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
             .toList();
       }
 
-      // Add back to undo stack
       final newUndoStack = List<MarketWatchAction>.from(currentState.undoStack)
         ..add(lastAction);
 
@@ -463,13 +422,10 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
         redoStack: newRedoStack,
       );
 
-      // Emit success which contains the loaded state
       emit(MarketWatchSuccess(
         message: AppStrings.actionRedone,
         previousState: newState,
       ));
-
-      // Wait a moment for the listener to process, then emit loaded state
       await Future.delayed(const Duration(milliseconds: 100));
       emit(newState);
     }
@@ -518,7 +474,7 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
             items: updatedItems,
             filteredItems: filteredItems,
             undoStack: newUndoStack,
-            redoStack: [], // Clear redo stack on new action
+            redoStack: [],
           ));
         },
       );

@@ -74,7 +74,6 @@ class _CustomFilterDropdownState extends State<CustomFilterDropdown>
     _overlayEntry = null;
   }
 
-  /// Text style matching Figma specs
   TextStyle get _textStyle => GoogleFonts.openSans(
     fontSize: 16.sp,
     fontWeight: FontWeight.w600,

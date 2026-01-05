@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_images.dart';
 import '../../../../core/constants/app_strings.dart';
+import '../../../../core/widget/svg_icon.dart';
 
-/// Context Menu Widget - Separated from main page
-/// Shows menu options when user right-clicks on a table row
+
 class ContextMenuWidget extends StatelessWidget {
   final Offset position;
   final VoidCallback onViewChart;
@@ -173,14 +172,15 @@ class ContextMenuWidget extends StatelessWidget {
         ),
         child: Row(
           children: [
-            // Icon
-            SvgPicture.asset(
-              icon,
-              width: 18.w,
-              height: 18.h,
+            SvgIcon(
+              assetPath: icon,
+              isActive: enabled,
+              size: 18.w,
+              activeColor: AppColors.primaryBlue,
+              inactiveColor: AppColors.primaryBlue.withOpacity(0.4),
             ),
+
             SizedBox(width: 10.w),
-            // Text
             Expanded(
               child: Text(
                 text,

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_dimensions.dart';
+import '../../../../core/widget/svg_icon.dart';
 
 /// Custom Input Field Widget
 class CustomInputField extends StatelessWidget {
@@ -102,20 +102,19 @@ class CustomInputField extends StatelessWidget {
     if (svgIconPath != null) {
       return Padding(
         padding: EdgeInsets.all(AppDimensions.paddingM),
-        child: SvgPicture.asset(
-          svgIconPath!,
-          width: AppDimensions.iconSizeL,
-          height: AppDimensions.iconSizeL,
-          colorFilter: const ColorFilter.mode(
-            AppColors.primaryBlue,
-            BlendMode.srcIn,
-          ),
+        child: SvgIcon(
+          assetPath: svgIconPath!,
+          isActive: true,
+          size: AppDimensions.iconSizeL,
+          activeColor: AppColors.primaryBlue,
+          inactiveColor: AppColors.greyBorder,
         ),
       );
     }
 
     return null;
   }
+
 
   /// Build input border
   OutlineInputBorder _buildBorder({

@@ -11,8 +11,8 @@ import 'features/market_watch/domain/repositories/market_watch_repository.dart';
 import 'features/market_watch/domain/usecases/add_market_item.dart';
 import 'features/market_watch/domain/usecases/delete_market_item.dart';
 import 'features/market_watch/domain/usecases/get_market_items.dart';
-import 'features/market_watch/presentation/bloc/market_watch_bloc.dart';
-import 'features/market_watch/presentation/bloc/watch_list_bloc.dart';
+import 'features/market_watch/presentation/bloc/marketwatch/market_watch_bloc.dart';
+import 'features/market_watch/presentation/bloc/watchlist/watch_list_bloc.dart';
 
 
 final sl = GetIt.instance;

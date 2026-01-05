@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_strings.dart';
-import '../bloc/watch_list_bloc.dart';
-import '../bloc/watch_list_event.dart';
-import '../bloc/watchlist_state.dart';
+import '../bloc/watchlist/watch_list_bloc.dart';
+import '../bloc/watchlist/watch_list_event.dart';
+import '../bloc/watchlist/watchlist_state.dart';
 
 class WatchlistWidget extends StatelessWidget {
   final Function(int)? onWatchlistSelected;

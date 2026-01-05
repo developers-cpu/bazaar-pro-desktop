@@ -7,8 +7,8 @@ import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_images.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/widget/svg_icon.dart';
-import '../bloc/market_watch_bloc.dart';
-import '../bloc/market_watch_event.dart';
+import '../bloc/marketwatch/market_watch_bloc.dart';
+import '../bloc/marketwatch/market_watch_event.dart';
 
 class MarketWatchAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String username;
@@ -35,29 +35,20 @@ class MarketWatchAppBar extends StatelessWidget implements PreferredSizeWidget {
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
       decoration: const BoxDecoration(
         color: AppColors.white,
-        // No shadow - seamless with filter section
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          // Logo
           _buildLogo(),
-
-          // Menu Bar - Flexible to prevent overflow
           Flexible(
             child: _buildMenuBar(),
           ),
-
-          // Right Section: Reload + User Info
           _buildRightSection(context),
         ],
       ),
     );
   }
 
-  // ─────────────────────────────────────────────────────────────────
-  // LOGO - 49x50, border-radius: 12px
-  // ─────────────────────────────────────────────────────────────────
   Widget _buildLogo() {
     return ClipRRect(
       borderRadius: BorderRadius.circular(12.r),
@@ -90,9 +81,7 @@ class MarketWatchAppBar extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 
-  // ───────────
-  // MENU BAR
-  // ───────────
+
   Widget _buildMenuBar() {
     final menuItems = [
       AppStrings.marketWatch,
@@ -166,9 +155,7 @@ class MarketWatchAppBar extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 
-  // ─────────────────────────────────────────────────────────────────
-  // RIGHT SECTION: Reload Button + User Info with Logout
-  // ─────────────────────────────────────────────────────────────────
+
   Widget _buildRightSection(BuildContext context) {
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -184,9 +171,7 @@ class MarketWatchAppBar extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 
-  // ─────────────────────────────────────────────────────────────────
-  // RELOAD BUTTON - 48x48 with 2px border, circular
-  // ─────────────────────────────────────────────────────────────────
+
   Widget _buildReloadButton(BuildContext context) {
     return GestureDetector(
       onTap: () {
@@ -217,9 +202,6 @@ class MarketWatchAppBar extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 
-  // ─────────────────────────────────────────────────────────────────
-  // USER INFO SECTION - 162x56, border-radius: 15px, background: #1F4A660D
-  // ─────────────────────────────────────────────────────────────────
   Widget _buildUserInfoSection(BuildContext context) {
     return Container(
       height: 50.h,
@@ -231,26 +213,16 @@ class MarketWatchAppBar extends StatelessWidget implements PreferredSizeWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // User Initial with red border
           _buildUserInitial(),
-
           SizedBox(width: 8.w),
-
-          // Username and Version
           _buildUserDetails(),
-
           SizedBox(width: 4.w),
-
-          // Logout Button
           _buildLogoutButton(context),
         ],
       ),
     );
   }
 
-  // ─────────────────────────────────────────────────────────────────
-  // USER INITIAL - Circle with red border
-  // ─────────────────────────────────────────────────────────────────
   Widget _buildUserInitial() {
     return Container(
       width: 30.w,
@@ -281,9 +253,6 @@ class MarketWatchAppBar extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 
-  // ─────────────────────────────────────────────────────────────────
-  // USER DETAILS - Username and Version
-  // ─────────────────────────────────────────────────────────────────
   Widget _buildUserDetails() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -314,9 +283,6 @@ class MarketWatchAppBar extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 
-  // ─────────────────────────────────────────────────────────────────
-  // LOGOUT BUTTON with SVG icon
-  // ─────────────────────────────────────────────────────────────────
   Widget _buildLogoutButton(BuildContext context) {
     return GestureDetector(
       onTap: () {

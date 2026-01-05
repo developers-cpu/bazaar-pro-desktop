@@ -90,10 +90,7 @@ class _CustomDropdownFieldState extends State<CustomDropdownField>
     _overlayEntry = null;
   }
 
-  /// Check if path is SVG
   bool _isSvg(String path) => path.toLowerCase().endsWith('.svg');
-
-  /// Build left icon widget (supports both PNG and SVG)
   Widget _buildLeftIcon(String? iconPath) {
     if (iconPath == null || iconPath.isEmpty) return const SizedBox.shrink();
 
@@ -149,10 +146,8 @@ class _CustomDropdownFieldState extends State<CustomDropdownField>
   }
 
 
-  /// Check if a value is selected
   bool get _hasSelection => widget.value != null && widget.value!.isNotEmpty;
 
-  /// Get the selected item or null
   DropdownOption? get _selectedItem {
     if (!_hasSelection) return null;
     try {

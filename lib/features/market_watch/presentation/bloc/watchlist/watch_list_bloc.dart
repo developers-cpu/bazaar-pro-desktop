@@ -1,6 +1,6 @@
-import 'package:bazarpro/features/market_watch/presentation/bloc/watch_list_event.dart';
+import 'package:bazarpro/features/market_watch/presentation/bloc/watchlist/watch_list_event.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/constants/app_strings.dart';
+import '../../../../../core/constants/app_strings.dart';
 import 'watchlist_state.dart';
 
 
@@ -20,14 +20,13 @@ class WatchlistBloc extends Bloc<WatchlistEvent, WatchlistState> {
       LoadWatchlistsEvent event,
       Emitter<WatchlistState> emit,
       ) {
-    // Load default watchlists
     emit(const WatchlistLoaded(
       watchlists: [
         AppStrings.watchlist1,
         AppStrings.watchlist2,
         AppStrings.watchlist3,
       ],
-      selectedIndex: -1, // "All" selected by default
+      selectedIndex: -1,
     ));
   }
 
@@ -58,10 +57,8 @@ class WatchlistBloc extends Bloc<WatchlistEvent, WatchlistState> {
     if (state is WatchlistLoaded) {
       final currentState = state as WatchlistLoaded;
 
-      // Check if at least one watchlist is required
       if (currentState.watchlists.length <= 1) {
         emit(WatchlistError(message: AppStrings.atLeastOneWatchlistRequired));
-        // Return to loaded state after showing error
         await Future.delayed(const Duration(milliseconds: 100));
         emit(currentState);
         return;
@@ -70,10 +67,9 @@ class WatchlistBloc extends Bloc<WatchlistEvent, WatchlistState> {
       final updatedWatchlists = List<String>.from(currentState.watchlists)
         ..removeAt(event.index);
 
-      // Adjust selected index if necessary
       int newSelectedIndex = currentState.selectedIndex;
       if (currentState.selectedIndex == event.index) {
-        newSelectedIndex = -1; // Reset to "All"
+        newSelectedIndex = -1;
       } else if (currentState.selectedIndex > event.index) {
         newSelectedIndex = currentState.selectedIndex - 1;
       }

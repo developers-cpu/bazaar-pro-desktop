@@ -4,8 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'core/constants/app_theme.dart';
 import 'features/auth/presentation/bloc/auth_bloc.dart';
 import 'features/auth/presentation/pages/login_page.dart';
-import 'features/market_watch/presentation/bloc/market_watch_bloc.dart';
-import 'features/market_watch/presentation/bloc/watch_list_bloc.dart';
+import 'features/market_watch/presentation/bloc/marketwatch/market_watch_bloc.dart';
+import 'features/market_watch/presentation/bloc/watchlist/watch_list_bloc.dart';
 import 'features/market_watch/presentation/pages/market_watch_page.dart';
 import 'injection_container.dart' as di;
 

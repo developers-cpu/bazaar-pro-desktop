@@ -13,7 +13,7 @@ class WatchlistInitial extends WatchlistState {
   const WatchlistInitial();
 }
 
-/// State when watchlists are loaded
+/// State when watchlist are loaded
 class WatchlistLoaded extends WatchlistState {
   final List<String> watchlists;
   final int selectedIndex; // -1 means "All" is selected

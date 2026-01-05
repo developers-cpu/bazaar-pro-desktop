@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:data_table_2/data_table_2.dart';
 import '../../../../core/constants/app_colors.dart';
@@ -9,10 +8,11 @@ import '../../../../core/constants/app_images.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/utils/date_formatter.dart';
 import '../../../../core/utils/number_formatter.dart';
+import '../../../../core/widget/svg_icon.dart';
 import '../../domain/entities/market_item.dart';
-import '../bloc/market_watch_bloc.dart';
-import '../bloc/market_watch_event.dart';
-import '../bloc/market_watch_state.dart';
+import '../bloc/marketwatch/market_watch_bloc.dart';
+import '../bloc/marketwatch/market_watch_event.dart';
+import '../bloc/marketwatch/market_watch_state.dart';
 
 class MarketDataTable extends StatefulWidget {
   final MarketWatchLoaded state;
@@ -165,32 +165,24 @@ class _MarketDataTableState extends State<MarketDataTable> {
             ),
           ),
           SizedBox(width: 4.w),
-          SvgPicture.asset(
-            AppImages.sortIcon,
-            width: 14.w,
-            height: 14.h,
-            colorFilter: ColorFilter.mode(
-              AppColors.primaryBlue.withOpacity(0.7),
-              BlendMode.srcIn,
-            ),
-            placeholderBuilder: (context) => Icon(
-              Icons.unfold_more,
-              size: 14.sp,
-              color: AppColors.primaryBlue.withOpacity(0.7),
-            ),
+          SvgIcon(
+            assetPath: AppImages.sortIcon,
+            isActive: false,
+            size: 14.sp,
+            activeColor: AppColors.primaryBlue,
+            inactiveColor: AppColors.primaryBlue.withOpacity(0.7),
           ),
         ],
       ),
     );
   }
 
-  /// Handle column sort
+
   void _onSort(int columnIndex, bool ascending) {
     setState(() {
       _sortColumnIndex = columnIndex;
       _sortAscending = ascending;
     });
-    // You can dispatch a sort event to the bloc here if needed
   }
 
   /// Build table rows

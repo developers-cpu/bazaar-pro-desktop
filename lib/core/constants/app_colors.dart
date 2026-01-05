@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
-// ============================================================================
-// LIGHT THEME COLORS
-// ============================================================================
+
 
 class LightThemeColors {
   LightThemeColors._();
@@ -56,9 +54,7 @@ class LightThemeColors {
   static const Color gradientBaseColor = Color(0xFFFFFFFF);
 }
 
-// ============================================================================
-// DARK THEME COLORS
-// ============================================================================
+
 
 class DarkThemeColors {
   DarkThemeColors._();
@@ -112,9 +108,7 @@ class DarkThemeColors {
   static const Color gradientBaseColor = Color(0xFF0D0D0D);
 }
 
-// ============================================================================
-// APP COLORS - Main Access Class with Theme Support
-// ============================================================================
+
 
 class AppColors {
   AppColors._();
@@ -174,17 +168,11 @@ class AppColors {
   static const Color selectedRowBackground = Color(0xFFE3F2FD);
   static const Color highlightColor = Color(0xFFBBDEFB);
 
-  // -------------------------------------------------------------------------
-  // Theme Detection Helper
-  // -------------------------------------------------------------------------
+
   static bool isDarkMode(BuildContext context) {
     return Theme.of(context).brightness == Brightness.dark;
   }
 
-  // -------------------------------------------------------------------------
-  // THEME-AWARE COLOR GETTERS
-  // Use these when you have BuildContext available
-  // -------------------------------------------------------------------------
 
   // Background Colors
   static Color backgroundColor(BuildContext context) {

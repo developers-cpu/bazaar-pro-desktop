@@ -5,29 +5,30 @@ class SvgIcon extends StatelessWidget {
   final String assetPath;
   final bool isActive;
   final double size;
-  final Color activeColor;
-  final Color inactiveColor;
+  final Color? activeColor;
+  final Color? inactiveColor;
 
   const SvgIcon({
     super.key,
     required this.assetPath,
     required this.isActive,
     this.size = 24,
-    required this.activeColor,
-    required this.inactiveColor,
+    this.activeColor,
+    this.inactiveColor,
   });
 
   @override
   Widget build(BuildContext context) {
+    final Color? iconColor = isActive ? activeColor : inactiveColor;
+
     return SvgPicture.asset(
       assetPath,
       width: size,
       height: size,
       fit: BoxFit.contain,
-      colorFilter: ColorFilter.mode(
-        isActive ? activeColor : inactiveColor,
-        BlendMode.srcIn,
-      ),
+      colorFilter: iconColor != null
+          ? ColorFilter.mode(iconColor, BlendMode.srcIn)
+          : null,
     );
   }
 }

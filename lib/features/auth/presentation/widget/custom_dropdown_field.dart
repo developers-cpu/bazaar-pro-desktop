@@ -104,8 +104,6 @@ class _CustomDropdownFieldState extends State<CustomDropdownField>
           assetPath: iconPath,
           isActive: true,
           size: AppDimensions.iconSizeM,
-          activeColor: AppColors.primaryBlue,
-          inactiveColor: AppColors.primaryBlue,
         )
             : Image.asset(
           iconPath,
@@ -131,10 +129,8 @@ class _CustomDropdownFieldState extends State<CustomDropdownField>
         assetPath: iconPath,
         isActive: true,
         size: AppDimensions.iconSizeM,
-        activeColor: AppColors.primaryBlue,
-        inactiveColor: AppColors.primaryBlue,
-      )
-          : Image.asset(
+
+      ) : Image.asset(
         iconPath,
         width: AppDimensions.iconSizeM,
         height: AppDimensions.iconSizeM,

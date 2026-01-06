@@ -1,3 +1,4 @@
+import 'package:bazarpro/features/market_watch/presentation/bloc/theme/theme_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,6 +14,8 @@ import '../../domain/entities/market_item.dart';
 import '../bloc/marketwatch/market_watch_bloc.dart';
 import '../bloc/marketwatch/market_watch_event.dart';
 import '../bloc/marketwatch/market_watch_state.dart';
+import '../bloc/theme/theme_bloc.dart';
+
 
 class MarketDataTable extends StatefulWidget {
   final MarketWatchLoaded state;
@@ -29,115 +32,145 @@ class MarketDataTable extends StatefulWidget {
 }
 
 class _MarketDataTableState extends State<MarketDataTable> {
-  // Sorting state
   int? _sortColumnIndex;
   bool _sortAscending = true;
 
   @override
   Widget build(BuildContext context) {
-    if (widget.state.filteredItems.isEmpty) {
-      return Center(
+    return BlocBuilder<ThemeBloc, ThemeState>(
+      builder: (context, themeState) {
+        final isDark = themeState.isDarkMode;
+        final showGrid = widget.state.showGrid;
+
+        if (widget.state.filteredItems.isEmpty) {
+          return _buildEmptyState(isDark);
+        }
+
+        return Container(
+          margin: EdgeInsets.all(10.w),
+          decoration: BoxDecoration(
+            color: isDark ? DarkThemeColors.backgroundColor : LightThemeColors.backgroundColor,
+            border: showGrid
+                ? Border.all(
+              color: isDark
+                  ? DarkThemeColors.dividerColor
+                  : LightThemeColors.dividerColor,
+              width: 1,
+            )
+                : null,
+            borderRadius: BorderRadius.circular(10.r),
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(10.r),
+            child: DataTable2(
+              columnSpacing: 0,
+              horizontalMargin: 0,
+              minWidth: 1600,
+              scrollController: ScrollController(),
+              isHorizontalScrollBarVisible: true,
+              isVerticalScrollBarVisible: true,
+
+              // Header styling
+              headingRowHeight: 55.h,
+              headingRowColor: WidgetStateProperty.all(
+                isDark
+                    ? DarkThemeColors.tableColumnHeadColor
+                    : LightThemeColors.tableColumnHeadColor,
+              ),
+              headingTextStyle: GoogleFonts.openSans(
+                fontSize: 13.sp,
+                fontWeight: FontWeight.w600,
+                color: isDark
+                    ? DarkThemeColors.textColor
+                    : LightThemeColors.textColor,
+                letterSpacing: 0.15,
+              ),
+
+              // Row styling
+              dataRowHeight: 45.h,
+              dataTextStyle: GoogleFonts.openSans(
+                fontSize: 13.sp,
+                fontWeight: FontWeight.w400,
+                color: isDark
+                    ? DarkThemeColors.textColor
+                    : LightThemeColors.textColor,
+                letterSpacing: 0.1,
+              ),
+
+              // Border - ONLY show when grid is ON
+              border: showGrid
+                  ? TableBorder.all(
+                color: isDark
+                    ? DarkThemeColors.dividerColor
+                    : LightThemeColors.dividerColor,
+                width: 1,
+              )
+                  : const TableBorder(),
+
+              // Sorting
+              sortColumnIndex: _sortColumnIndex,
+              sortAscending: _sortAscending,
+
+              // Columns
+              columns: _buildColumns(isDark),
+
+              // Rows
+              rows: _buildRows(isDark, showGrid),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildEmptyState(bool isDark) {
+    return Container(
+      color: isDark
+          ? DarkThemeColors.backgroundColor
+          : LightThemeColors.backgroundColor,
+      child: Center(
         child: Text(
           AppStrings.noDataAvailable,
           style: GoogleFonts.openSans(
             fontSize: 16.sp,
-            color: AppColors.primaryBlue.withOpacity(0.6),
+            color: isDark
+                ? DarkThemeColors.supportiveTextColor
+                : LightThemeColors.supportiveTextColor,
           ),
-        ),
-      );
-    }
-
-    return Container(
-      margin: EdgeInsets.all(10.w),
-      decoration: BoxDecoration(
-        border: Border.all(color: AppColors.tableBorderColor, width: 1),
-        borderRadius: BorderRadius.circular(10.r),
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(10.r),
-        child: DataTable2(
-          // Table configuration
-          columnSpacing: 0,
-          horizontalMargin: 0,
-          minWidth: 1600,
-          scrollController: ScrollController(),
-          isHorizontalScrollBarVisible: true,
-          isVerticalScrollBarVisible: true,
-
-          // Header styling
-          headingRowHeight: 55.h,
-          headingRowColor: WidgetStateProperty.all(
-            AppColors.headerBgColor,
-          ),
-          headingTextStyle: GoogleFonts.openSans(
-            fontSize: 13.sp,
-            fontWeight: FontWeight.w600,
-            color: AppColors.primaryBlue,
-            letterSpacing: 0.15,
-          ),
-
-          // Row styling
-          dataRowHeight: 45.h,
-          dataTextStyle: GoogleFonts.openSans(
-            fontSize: 13.sp,
-            fontWeight: FontWeight.w400,
-            color: AppColors.primaryBlue,
-            letterSpacing: 0.1,
-          ),
-
-          // Border
-          border: TableBorder(
-            horizontalInside:
-            BorderSide(color: AppColors.tableRowBackground, width: 1),
-            verticalInside: BorderSide(
-                color: AppColors.tableRowBackground.withOpacity(0.5), width: 1),
-          ),
-
-          // Sorting
-          sortColumnIndex: _sortColumnIndex,
-          sortAscending: _sortAscending,
-
-          // Columns
-          columns: _buildColumns(),
-
-          // Rows
-          rows: _buildRows(),
         ),
       ),
     );
   }
 
-  /// Build table columns with sort icons
-  List<DataColumn2> _buildColumns() {
+  List<DataColumn2> _buildColumns(bool isDark) {
     return [
-      _buildColumn(AppStrings.exchange, 120, onSort: _onSort),
-      _buildColumn(AppStrings.symbol, 100, onSort: _onSort),
-      _buildColumn(AppStrings.buyQty, 100, onSort: _onSort, numeric: true),
-      _buildColumn(AppStrings.buyPrice, 110, onSort: _onSort, numeric: true),
-      _buildColumn(AppStrings.sellPrice, 110, onSort: _onSort, numeric: true),
-      _buildColumn(AppStrings.sellQty, 100, onSort: _onSort, numeric: true),
-      _buildColumn(AppStrings.netChange, 110, onSort: _onSort, numeric: true),
-      _buildColumn(AppStrings.high, 90, onSort: _onSort, numeric: true),
-      _buildColumn(AppStrings.low, 90, onSort: _onSort, numeric: true),
-      _buildColumn(AppStrings.open, 90, onSort: _onSort, numeric: true),
-      _buildColumn(AppStrings.close, 90, onSort: _onSort, numeric: true),
-      _buildColumn(AppStrings.ltp, 100, onSort: _onSort, numeric: true),
-      _buildColumn(AppStrings.netChangePercent, 120,
-          onSort: _onSort, numeric: true),
-      _buildColumn(AppStrings.expiry, 100, onSort: _onSort),
-      _buildColumn(AppStrings.lut, 160, onSort: _onSort),
+      _buildColumn(AppStrings.exchange, 120, isDark, onSort: _onSort),
+      _buildColumn(AppStrings.symbol, 100, isDark, onSort: _onSort),
+      _buildColumn(AppStrings.buyQty, 100, isDark, onSort: _onSort, numeric: true),
+      _buildColumn(AppStrings.buyPrice, 110, isDark, onSort: _onSort, numeric: true),
+      _buildColumn(AppStrings.sellPrice, 110, isDark, onSort: _onSort, numeric: true),
+      _buildColumn(AppStrings.sellQty, 100, isDark, onSort: _onSort, numeric: true),
+      _buildColumn(AppStrings.netChange, 110, isDark, onSort: _onSort, numeric: true),
+      _buildColumn(AppStrings.high, 90, isDark, onSort: _onSort, numeric: true),
+      _buildColumn(AppStrings.low, 90, isDark, onSort: _onSort, numeric: true),
+      _buildColumn(AppStrings.open, 90, isDark, onSort: _onSort, numeric: true),
+      _buildColumn(AppStrings.close, 90, isDark, onSort: _onSort, numeric: true),
+      _buildColumn(AppStrings.ltp, 100, isDark, onSort: _onSort, numeric: true),
+      _buildColumn(AppStrings.netChangePercent, 120, isDark, onSort: _onSort, numeric: true),
+      _buildColumn(AppStrings.expiry, 100, isDark, onSort: _onSort),
+      _buildColumn(AppStrings.lut, 160, isDark, onSort: _onSort),
     ];
   }
 
-  /// Build individual column with custom header
   DataColumn2 _buildColumn(
       String label,
-      double width, {
+      double width,
+      bool isDark, {
         bool numeric = false,
         Function(int, bool)? onSort,
       }) {
     return DataColumn2(
-      label: _buildHeaderCell(label),
+      label: _buildHeaderCell(label, isDark),
       size: ColumnSize.S,
       fixedWidth: width,
       numeric: numeric,
@@ -145,8 +178,7 @@ class _MarketDataTableState extends State<MarketDataTable> {
     );
   }
 
-  /// Build header cell with sort icon
-  Widget _buildHeaderCell(String title) {
+  Widget _buildHeaderCell(String title, bool isDark) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 8.w),
       child: Row(
@@ -158,7 +190,9 @@ class _MarketDataTableState extends State<MarketDataTable> {
               style: GoogleFonts.openSans(
                 fontSize: 13.sp,
                 fontWeight: FontWeight.w600,
-                color: AppColors.primaryBlue,
+                color: isDark
+                    ? DarkThemeColors.textColor
+                    : LightThemeColors.textColor,
                 letterSpacing: 0.15,
               ),
               overflow: TextOverflow.ellipsis,
@@ -167,16 +201,13 @@ class _MarketDataTableState extends State<MarketDataTable> {
           SizedBox(width: 4.w),
           SvgIcon(
             assetPath: AppImages.sortIcon,
-            isActive: false,
+            isActive: isDark,
             size: 14.sp,
-            activeColor: AppColors.primaryBlue,
-            inactiveColor: AppColors.primaryBlue.withOpacity(0.7),
           ),
         ],
       ),
     );
   }
-
 
   void _onSort(int columnIndex, bool ascending) {
     setState(() {
@@ -185,8 +216,7 @@ class _MarketDataTableState extends State<MarketDataTable> {
     });
   }
 
-  /// Build table rows
-  List<DataRow2> _buildRows() {
+  List<DataRow2> _buildRows(bool isDark, bool showGrid) {
     return widget.state.filteredItems.asMap().entries.map((entry) {
       final index = entry.key;
       final item = entry.value;
@@ -195,12 +225,15 @@ class _MarketDataTableState extends State<MarketDataTable> {
       return DataRow2(
         selected: isSelected,
         color: WidgetStateProperty.resolveWith<Color?>((states) {
+          // Selected row
           if (states.contains(WidgetState.selected)) {
-            return AppColors.selectedRowBackground;
+            return isDark
+                ? DarkThemeColors.selectedRowBackground
+                : LightThemeColors.selectedRowBackground;
           }
-          return index % 2 == 0
-              ? AppColors.tableRowBackground
-              : AppColors.altRowBgColor;
+          return isDark
+              ? DarkThemeColors.backgroundColor
+              : LightThemeColors.backgroundColor;
         }),
         onTap: () {
           context.read<MarketWatchBloc>().add(
@@ -214,69 +247,85 @@ class _MarketDataTableState extends State<MarketDataTable> {
             SelectMarketItemEvent(itemId: item.id),
           );
         },
-        cells: _buildCells(item),
+        cells: _buildCells(item, isDark),
       );
     }).toList();
   }
 
-  /// Build cells for a row
-  List<DataCell> _buildCells(MarketItem item) {
+  List<DataCell> _buildCells(MarketItem item, bool isDark) {
     return [
       // Exchange with trend icon
-      DataCell(_buildExchangeCell(item.exchange, item.netChange)),
+      DataCell(_buildExchangeCell(item.exchange, item.netChange, isDark)),
       // Symbol
-      DataCell(_buildTextCell(item.symbol, isBold: true)),
+      DataCell(_buildTextCell(item.symbol, isDark, isBold: true)),
       // Buy Qty
-      DataCell(_buildTextCell(NumberFormatter.formatQuantity(item.buyQty))),
+      DataCell(_buildTextCell(NumberFormatter.formatQuantity(item.buyQty), isDark)),
       // Buy Price
-      DataCell(_buildTextCell(NumberFormatter.formatPrice(item.buyPrice))),
+      DataCell(_buildTextCell(NumberFormatter.formatPrice(item.buyPrice), isDark)),
       // Sell Price
-      DataCell(_buildTextCell(NumberFormatter.formatPrice(item.sellPrice))),
+      DataCell(_buildTextCell(NumberFormatter.formatPrice(item.sellPrice), isDark)),
       // Sell Qty
-      DataCell(_buildTextCell(NumberFormatter.formatQuantity(item.sellQty))),
+      DataCell(_buildTextCell(NumberFormatter.formatQuantity(item.sellQty), isDark)),
       // Net Change
       DataCell(_buildTextCell(
         NumberFormatter.formatChange(item.netChange),
+        isDark,
         color: item.netChange > 0
-            ? AppColors.positiveColor
-            : (item.netChange < 0 ? AppColors.negativeColor : null),
+            ? (isDark ? DarkThemeColors.positiveTextColor : LightThemeColors.positiveTextColor)
+            : (item.netChange < 0
+            ? (isDark ? DarkThemeColors.negativeTextColor : LightThemeColors.negativeTextColor)
+            : null),
       )),
       // High
-      DataCell(_buildTextCell(NumberFormatter.formatPrice(item.high))),
+      DataCell(_buildTextCell(NumberFormatter.formatPrice(item.high), isDark)),
       // Low
-      DataCell(_buildTextCell(NumberFormatter.formatPrice(item.low))),
+      DataCell(_buildTextCell(NumberFormatter.formatPrice(item.low), isDark)),
       // Open
-      DataCell(_buildTextCell(NumberFormatter.formatPrice(item.open))),
+      DataCell(_buildTextCell(NumberFormatter.formatPrice(item.open), isDark)),
       // Close
-      DataCell(_buildTextCell(NumberFormatter.formatPrice(item.close))),
+      DataCell(_buildTextCell(NumberFormatter.formatPrice(item.close), isDark)),
       // LTP
-      DataCell(_buildTextCell(NumberFormatter.formatPrice(item.ltp))),
+      DataCell(_buildTextCell(NumberFormatter.formatPrice(item.ltp), isDark)),
       // Net Change %
       DataCell(_buildTextCell(
         NumberFormatter.formatPercentage(item.netChangePercent),
+        isDark,
         color: item.netChangePercent > 0
-            ? AppColors.positiveColor
-            : (item.netChangePercent < 0 ? AppColors.negativeColor : null),
+            ? (isDark ? DarkThemeColors.positiveTextColor : LightThemeColors.positiveTextColor)
+            : (item.netChangePercent < 0
+            ? (isDark ? DarkThemeColors.negativeTextColor : LightThemeColors.negativeTextColor)
+            : null),
       )),
       // Expiry
       DataCell(_buildTextCell(
         item.expiry != null
             ? DateFormatter.formatToShortDate(item.expiry!)
             : AppStrings.dashPlaceholder,
+        isDark,
       )),
       // LUT
-      DataCell(
-          _buildTextCell(DateFormatter.formatToDateTimeWithAmPm(item.lut))),
+      DataCell(_buildTextCell(DateFormatter.formatToDateTimeWithAmPm(item.lut), isDark)),
     ];
   }
 
-  /// Build Exchange cell with trend icon
-  Widget _buildExchangeCell(String exchange, double netChange) {
+  Widget _buildExchangeCell(String exchange, double netChange, bool isDark) {
     final isPositive = netChange > 0;
     final isNegative = netChange < 0;
-    final iconColor = isPositive
-        ? AppColors.positiveColor
-        : (isNegative ? AppColors.negativeColor : AppColors.primaryBlue);
+
+    Color iconColor;
+    if (isPositive) {
+      iconColor = isDark
+          ? DarkThemeColors.positiveTextColor
+          : LightThemeColors.positiveTextColor;
+    } else if (isNegative) {
+      iconColor = isDark
+          ? DarkThemeColors.negativeTextColor
+          : LightThemeColors.negativeTextColor;
+    } else {
+      iconColor = isDark
+          ? DarkThemeColors.textColor
+          : LightThemeColors.textColor;
+    }
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 8.w),
@@ -295,7 +344,9 @@ class _MarketDataTableState extends State<MarketDataTable> {
               style: GoogleFonts.openSans(
                 fontSize: 13.sp,
                 fontWeight: FontWeight.w400,
-                color: AppColors.primaryBlue,
+                color: isDark
+                    ? DarkThemeColors.textColor
+                    : LightThemeColors.textColor,
               ),
               overflow: TextOverflow.ellipsis,
             ),
@@ -305,9 +356,9 @@ class _MarketDataTableState extends State<MarketDataTable> {
     );
   }
 
-  /// Build text cell
   Widget _buildTextCell(
-      String text, {
+      String text,
+      bool isDark, {
         bool isBold = false,
         Color? color,
       }) {
@@ -318,8 +369,9 @@ class _MarketDataTableState extends State<MarketDataTable> {
         text,
         style: GoogleFonts.openSans(
           fontSize: 13.sp,
-          fontWeight: isBold ? FontWeight.w600 : FontWeight.w600,
-          color: color ?? AppColors.black,
+          fontWeight: isBold ? FontWeight.w600 : FontWeight.w400,
+          color: color ??
+              (isDark ? DarkThemeColors.textColor : LightThemeColors.textColor),
         ),
         overflow: TextOverflow.ellipsis,
       ),

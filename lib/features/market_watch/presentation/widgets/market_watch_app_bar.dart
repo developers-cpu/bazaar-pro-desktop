@@ -193,8 +193,7 @@ class MarketWatchAppBar extends StatelessWidget implements PreferredSizeWidget {
           assetPath: AppImages.reloadIcon,
           isActive: true,
           size: 22.sp,
-          activeColor: AppColors.primaryBlue,
-          inactiveColor: AppColors.primaryBlue,
+
         ),
 
       ),
@@ -296,8 +295,6 @@ class MarketWatchAppBar extends StatelessWidget implements PreferredSizeWidget {
           assetPath: AppImages.logoutIcon,
           isActive: true,
           size: 24.sp,
-          activeColor: AppColors.red,
-          inactiveColor: AppColors.red,
         ),
 
       ),

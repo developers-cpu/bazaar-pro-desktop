@@ -13,6 +13,7 @@ import '../widgets/context_menu_widget.dart';
 import '../widgets/market_filtter.dart';
 import '../widgets/market_table.dart';
 import '../widgets/market_watch_app_bar.dart';
+import '../widgets/symbo_info_dialog.dart';
 import '../widgets/watchlist_widget.dart';
 import 'dummy/dashboard_page.dart';
 import 'dummy/file_page.dart';
@@ -20,8 +21,6 @@ import 'dummy/report_page.dart';
 import 'dummy/tools_page.dart';
 import 'dummy/view_page.dart';
 
-/// Main page for market watch application
-/// Displays table of market items with filtering and context menu operations
 class MarketWatchPage extends StatefulWidget {
   const MarketWatchPage({Key? key}) : super(key: key);
 
@@ -31,21 +30,15 @@ class MarketWatchPage extends StatefulWidget {
 
 class _MarketWatchPageState extends State<MarketWatchPage> {
   Offset? _contextMenuPosition;
-  final FocusNode _focusNode = FocusNode();
-
-  // Current selected tab index
+  final _focusNode = FocusNode();
   int _selectedTabIndex = 0;
-
-  // Current selected watchlist index
   int _selectedWatchlistIndex = -1;
 
   @override
   void initState() {
     super.initState();
     context.read<MarketWatchBloc>().add(const LoadMarketItemsEvent());
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _focusNode.requestFocus();
-    });
+    WidgetsBinding.instance.addPostFrameCallback((_) => _focusNode.requestFocus());
   }
 
   @override
@@ -54,7 +47,6 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
     super.dispose();
   }
 
-  /// Handle tab selection from AppBar
   void _onTabSelected(int index) {
     setState(() {
       _selectedTabIndex = index;
@@ -62,12 +54,18 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
     });
   }
 
-  /// Handle watchlist selection from WatchlistBloc
   void _onWatchlistSelected(int index) {
-    setState(() {
-      _selectedWatchlistIndex = index;
-    });
+    setState(() => _selectedWatchlistIndex = index);
+  }
 
+  void _closeContextMenu() {
+    setState(() => _contextMenuPosition = null);
+  }
+
+  void _showMessage(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message), duration: const Duration(seconds: 1)),
+    );
   }
 
   @override
@@ -93,7 +91,6 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
     );
   }
 
-  /// Build body content based on selected tab
   Widget _buildBodyContent() {
     switch (_selectedTabIndex) {
       case 0:
@@ -116,7 +113,6 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
     }
   }
 
-  /// Handle state changes for success and error messages
   void _handleStateChange(BuildContext context, MarketWatchState state) {
     if (state is MarketWatchSuccess) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -144,7 +140,6 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
     }
   }
 
-  /// Build Market Watch body based on current state
   Widget _buildMarketWatchBody(BuildContext context, MarketWatchState state) {
     if (state is MarketWatchInitial || state is MarketWatchLoading) {
       return const Center(child: CircularProgressIndicator());
@@ -154,16 +149,13 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
       return _buildErrorState(state);
     }
 
-    final MarketWatchLoaded loadedState = _getLoadedState(state);
+    final loadedState = _getLoadedState(state);
 
     return Stack(
       children: [
         Column(
           children: [
-            // Filter Section (Exchange & Symbol dropdowns)
             MarketFilters(state: loadedState),
-
-            // Data Table
             Expanded(
               child: MarketDataTable(
                 state: loadedState,
@@ -172,28 +164,16 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
                 },
               ),
             ),
-            // Divider line
-            Container(
-              height: 1.h,
-              color: AppColors.greyBorder,
-            ),
-            // Watchlist Section - Now managed by WatchlistBloc
-            WatchlistWidget(
-              onWatchlistSelected: _onWatchlistSelected,
-            ),
-
-            // Ban for Trade Notice
+            Container(height: 1.h, color: AppColors.greyBorder),
+            WatchlistWidget(onWatchlistSelected: _onWatchlistSelected),
             const BanForTradeNotice(),
           ],
         ),
-
-        // Context Menu Overlay
         if (_contextMenuPosition != null) _buildContextMenu(loadedState),
       ],
     );
   }
 
-  /// Build error state with retry button
   Widget _buildErrorState(MarketWatchError state) {
     return Center(
       child: Column(
@@ -201,10 +181,7 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
         children: [
           Text(
             state.message,
-            style: TextStyle(
-              fontSize: AppDimensions.fontSizeL.sp,
-              color: AppColors.errorColor,
-            ),
+            style: TextStyle(fontSize: AppDimensions.fontSizeL.sp, color: AppColors.errorColor),
           ),
           SizedBox(height: AppDimensions.marginL.h),
           ElevatedButton(
@@ -218,17 +195,12 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
     );
   }
 
-  /// Get loaded state from current state
   MarketWatchLoaded _getLoadedState(MarketWatchState state) {
-    if (state is MarketWatchSuccess) {
-      return state.previousState;
-    } else if (state is MarketWatchLoaded) {
-      return state;
-    }
+    if (state is MarketWatchSuccess) return state.previousState;
+    if (state is MarketWatchLoaded) return state;
     throw Exception('Unknown state');
   }
 
-  /// Build context menu overlay
   Widget _buildContextMenu(MarketWatchLoaded state) {
     final selectedItem = state.selectedItemId != null
         ? state.filteredItems.firstWhere(
@@ -270,47 +242,35 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
                 },
                 onSymbolInfo: () {
                   _closeContextMenu();
-                  _showMessage(AppStrings.symbolInfo);
+                  SymbolInfoDialog.show(context, selectedItem);
                 },
                 onGrid: () {
                   _closeContextMenu();
-                  _showMessage(AppStrings.grid);
+                  context.read<MarketWatchBloc>().add(const ToggleGridEvent());
                 },
                 onCut: () {
                   _closeContextMenu();
-                  context.read<MarketWatchBloc>().add(
-                    CutMarketItemEvent(item: selectedItem),
-                  );
+                  context.read<MarketWatchBloc>().add(CutMarketItemEvent(item: selectedItem));
                 },
                 onCopy: () {
                   _closeContextMenu();
-                  context.read<MarketWatchBloc>().add(
-                    CopyMarketItemEvent(item: selectedItem),
-                  );
+                  context.read<MarketWatchBloc>().add(CopyMarketItemEvent(item: selectedItem));
                 },
                 onPaste: () {
                   _closeContextMenu();
-                  context.read<MarketWatchBloc>().add(
-                    const PasteMarketItemEvent(),
-                  );
+                  context.read<MarketWatchBloc>().add(const PasteMarketItemEvent());
                 },
                 onUndo: () {
                   _closeContextMenu();
-                  context.read<MarketWatchBloc>().add(
-                    const UndoActionEvent(),
-                  );
+                  context.read<MarketWatchBloc>().add(const UndoActionEvent());
                 },
                 onRedo: () {
                   _closeContextMenu();
-                  context.read<MarketWatchBloc>().add(
-                    const RedoActionEvent(),
-                  );
+                  context.read<MarketWatchBloc>().add(const RedoActionEvent());
                 },
                 onDelete: () {
                   _closeContextMenu();
-                  context.read<MarketWatchBloc>().add(
-                    DeleteMarketItemEvent(itemId: selectedItem.id),
-                  );
+                  context.read<MarketWatchBloc>().add(DeleteMarketItemEvent(itemId: selectedItem.id));
                 },
               ),
             ),
@@ -320,91 +280,75 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
     );
   }
 
-  /// Handle keyboard shortcuts
   void _handleKeyEvent(KeyEvent event) {
     if (event is! KeyDownEvent) return;
 
     if (event.logicalKey == LogicalKeyboardKey.escape) {
-      if (_contextMenuPosition != null) {
-        _closeContextMenu();
-      }
+      if (_contextMenuPosition != null) _closeContextMenu();
       return;
     }
 
     if (_selectedTabIndex != 0) return;
 
     final state = context.read<MarketWatchBloc>().state;
-    final MarketWatchLoaded? loadedState = state is MarketWatchSuccess
+    final loadedState = state is MarketWatchSuccess
         ? state.previousState
         : (state is MarketWatchLoaded ? state : null);
 
     if (loadedState == null) return;
 
-    final isControlPressed = HardwareKeyboard.instance.isControlPressed ||
+    final isCtrlPressed = HardwareKeyboard.instance.isControlPressed ||
         HardwareKeyboard.instance.isMetaPressed;
 
     final selectedItem = _getSelectedItem(loadedState);
 
-    if (event.logicalKey == LogicalKeyboardKey.delete &&
-        selectedItem != null &&
-        !isControlPressed) {
-      context.read<MarketWatchBloc>().add(
-        DeleteMarketItemEvent(itemId: selectedItem.id),
-      );
+    if (event.logicalKey == LogicalKeyboardKey.delete && selectedItem != null && !isCtrlPressed) {
+      context.read<MarketWatchBloc>().add(DeleteMarketItemEvent(itemId: selectedItem.id));
       return;
     }
 
-    if (!isControlPressed) return;
+    if (!isCtrlPressed) return;
 
-    _handleControlKeyPress(event, selectedItem);
+    _handleCtrlShortcut(event, selectedItem);
   }
 
-  /// Get currently selected item
-  dynamic _getSelectedItem(MarketWatchLoaded loadedState) {
-    if (loadedState.selectedItemId == null) return null;
+  dynamic _getSelectedItem(MarketWatchLoaded state) {
+    if (state.selectedItemId == null) return null;
 
     try {
-      return loadedState.filteredItems.firstWhere(
-            (item) => item.id == loadedState.selectedItemId,
-        orElse: () => loadedState.filteredItems.isNotEmpty
-            ? loadedState.filteredItems.first
-            : throw Exception('No items available'),
+      return state.filteredItems.firstWhere(
+            (item) => item.id == state.selectedItemId,
+        orElse: () => state.filteredItems.isNotEmpty
+            ? state.filteredItems.first
+            : throw Exception('No items'),
       );
-    } catch (e) {
+    } catch (_) {
       return null;
     }
   }
 
-  /// Handle control key press shortcuts
-  void _handleControlKeyPress(KeyEvent event, dynamic selectedItem) {
-    if (event.logicalKey == LogicalKeyboardKey.keyX && selectedItem != null) {
-      context
-          .read<MarketWatchBloc>()
-          .add(CutMarketItemEvent(item: selectedItem));
-    } else if (event.logicalKey == LogicalKeyboardKey.keyC &&
-        selectedItem != null) {
-      context
-          .read<MarketWatchBloc>()
-          .add(CopyMarketItemEvent(item: selectedItem));
-    } else if (event.logicalKey == LogicalKeyboardKey.keyV) {
-      context.read<MarketWatchBloc>().add(const PasteMarketItemEvent());
-    } else if (event.logicalKey == LogicalKeyboardKey.keyZ) {
-      context.read<MarketWatchBloc>().add(const UndoActionEvent());
-    } else if (event.logicalKey == LogicalKeyboardKey.keyY) {
-      context.read<MarketWatchBloc>().add(const RedoActionEvent());
+  void _handleCtrlShortcut(KeyEvent event, dynamic selectedItem) {
+    final bloc = context.read<MarketWatchBloc>();
+
+    switch (event.logicalKey) {
+      case LogicalKeyboardKey.keyX:
+        if (selectedItem != null) bloc.add(CutMarketItemEvent(item: selectedItem));
+        break;
+      case LogicalKeyboardKey.keyC:
+        if (selectedItem != null) bloc.add(CopyMarketItemEvent(item: selectedItem));
+        break;
+      case LogicalKeyboardKey.keyV:
+        bloc.add(const PasteMarketItemEvent());
+        break;
+      case LogicalKeyboardKey.keyZ:
+        bloc.add(const UndoActionEvent());
+        break;
+      case LogicalKeyboardKey.keyY:
+        bloc.add(const RedoActionEvent());
+        break;
+      case LogicalKeyboardKey.keyG:
+        bloc.add(const ToggleGridEvent());
+        break;
     }
-  }
-
-  void _closeContextMenu() {
-    setState(() => _contextMenuPosition = null);
-  }
-
-  void _showMessage(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        duration: const Duration(seconds: 1),
-      ),
-    );
   }
 }

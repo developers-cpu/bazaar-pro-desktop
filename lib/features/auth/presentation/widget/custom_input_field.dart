@@ -106,8 +106,6 @@ class CustomInputField extends StatelessWidget {
           assetPath: svgIconPath!,
           isActive: true,
           size: AppDimensions.iconSizeL,
-          activeColor: AppColors.primaryBlue,
-          inactiveColor: AppColors.greyBorder,
         ),
       );
     }

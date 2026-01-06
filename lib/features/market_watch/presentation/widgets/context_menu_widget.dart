@@ -176,8 +176,6 @@ class ContextMenuWidget extends StatelessWidget {
               assetPath: icon,
               isActive: enabled,
               size: 18.w,
-              activeColor: AppColors.primaryBlue,
-              inactiveColor: AppColors.primaryBlue.withOpacity(0.4),
             ),
 
             SizedBox(width: 10.w),

@@ -26,8 +26,6 @@ class BanForTradeNotice extends StatelessWidget {
               assetPath: AppImages.banIcon,
               isActive: true,
               size: 14.w,
-              activeColor: AppColors.red,
-              inactiveColor: AppColors.red,
             ),
           ),
           SizedBox(width: 8.w),

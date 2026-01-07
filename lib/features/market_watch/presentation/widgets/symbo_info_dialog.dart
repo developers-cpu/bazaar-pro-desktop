@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../domain/entities/market_item.dart';
+import '../bloc/theme/theme_bloc.dart';
+import '../bloc/theme/theme_state.dart' show ThemeState;
 
 class SymbolInfoDialog extends StatelessWidget {
   final MarketItem item;
@@ -12,251 +16,176 @@ class SymbolInfoDialog extends StatelessWidget {
   static void show(BuildContext context, MarketItem item) {
     showDialog(
       context: context,
-      barrierColor: Colors.black54,
-      builder: (_) => SymbolInfoDialog(item: item),
+      barrierColor: AppColors.black.withOpacity(0.54),
+      builder: (_) => BlocProvider.value(
+        value: context.read<ThemeBloc>(),
+        child: SymbolInfoDialog(item: item),
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Dialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
+    return BlocBuilder<ThemeBloc, ThemeState>(
+      builder: (context, themeState) {
+        final isDark = themeState.isDarkMode;
+
+        return Dialog(
+          insetPadding: EdgeInsets.symmetric(horizontal: 20.w), // or EdgeInsets.zero
+          backgroundColor: Colors.transparent,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(16.r),
+            child: Container(
+              width: 400.w,
+              decoration: BoxDecoration(
+                color: isDark
+                    ? DarkThemeColors.cardBackground
+                    : LightThemeColors.cardBackground,
+                borderRadius: BorderRadius.circular(16.r),
+
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _buildHeader(context, isDark),
+                  _buildDivider(isDark),
+                  _buildInfoList(isDark),
+                ],
+              ),
+            ),
+          ),
+        );
+
+      },
+    );
+  }
+
+  Widget _buildHeader(BuildContext context, bool isDark) {
+    return ClipRRect(
+      borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(16.r),
+        topRight: Radius.circular(16.r),
+      ),
       child: Container(
-        width: 400.w,
-        padding: EdgeInsets.all(20.w),
-        decoration: BoxDecoration(
-          color: AppColors.white,
-          borderRadius: BorderRadius.circular(16.r),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
+        height: 60.h,
+        color: AppColors.primaryBlue,
+        padding: EdgeInsets.symmetric(horizontal: 20.w),
+        child: Row(
           children: [
-            _buildHeader(context),
-            SizedBox(height: 16.h),
-            _buildDivider(),
-            SizedBox(height: 16.h),
-            _buildInfoGrid(),
-            SizedBox(height: 16.h),
-            _buildDivider(),
-            SizedBox(height: 16.h),
-            _buildPriceSection(),
-            SizedBox(height: 20.h),
-            _buildCloseButton(context),
+            // Title
+            Expanded(
+              child: Text(
+                'Symbol Info',
+                style: GoogleFonts.openSans(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.white,
+                ),
+              ),
+            ),
+
+            // Close button
+            GestureDetector(
+              onTap: () => Navigator.pop(context),
+              child: Icon(
+                Icons.close,
+                size: 22.sp,
+                color: AppColors.white,
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildHeader(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              item.symbol,
-              style: TextStyle(
-                fontSize: 22.sp,
-                fontWeight: FontWeight.w700,
-                color: AppColors.primaryBlue,
-              ),
-            ),
-            SizedBox(height: 4.h),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
-              decoration: BoxDecoration(
-                color: AppColors.primaryBlue.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(4.r),
-              ),
-              child: Text(
-                item.exchange,
-                style: TextStyle(
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.primaryBlue,
-                ),
-              ),
-            ),
-          ],
-        ),
-        IconButton(
-          onPressed: () => Navigator.pop(context),
-          icon: Icon(Icons.close, size: 24.sp, color: AppColors.textDark),
-        ),
-      ],
-    );
-  }
 
-  Widget _buildDivider() {
-    return Container(height: 1.h, color: AppColors.greyBorder);
-  }
 
-  Widget _buildInfoGrid() {
-    return Column(
-      children: [
-        Row(
-          children: [
-            Expanded(child: _buildInfoItem('LTP', _formatNumber(item.ltp))),
-            Expanded(child: _buildInfoItem('Net Change', _formatChange(item.netChange))),
-          ],
-        ),
-        SizedBox(height: 12.h),
-        Row(
-          children: [
-            Expanded(child: _buildInfoItem('Open', _formatNumber(item.open))),
-            Expanded(child: _buildInfoItem('Close', _formatNumber(item.close))),
-          ],
-        ),
-        SizedBox(height: 12.h),
-        Row(
-          children: [
-            Expanded(child: _buildInfoItem('High', _formatNumber(item.high))),
-            Expanded(child: _buildInfoItem('Low', _formatNumber(item.low))),
-          ],
-        ),
-        SizedBox(height: 12.h),
-        Row(
-          children: [
-            Expanded(child: _buildInfoItem('Buy Qty', item.buyQty.toString())),
-            Expanded(child: _buildInfoItem('Sell Qty', item.sellQty.toString())),
-          ],
-        ),
-        SizedBox(height: 12.h),
-        Row(
-          children: [
-            Expanded(child: _buildInfoItem('Buy Price', _formatNumber(item.buyPrice))),
-            Expanded(child: _buildInfoItem('Sell Price', _formatNumber(item.sellPrice))),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget _buildInfoItem(String label, String value) {
-    final isNegative = value.startsWith('-');
-    final isChange = label.contains('Change');
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 12.sp,
-            fontWeight: FontWeight.w400,
-            color: AppColors.textDark.withOpacity(0.6),
-          ),
-        ),
-        SizedBox(height: 4.h),
-        Text(
-          value,
-          style: TextStyle(
-            fontSize: 14.sp,
-            fontWeight: FontWeight.w600,
-            color: isChange
-                ? (isNegative ? AppColors.red : AppColors.successColor)
-                : AppColors.textDark,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildPriceSection() {
+  Widget _buildDivider(bool isDark) {
     return Container(
-      padding: EdgeInsets.all(12.w),
+      height: 1.h,
+      color: isDark
+          ? DarkThemeColors.dividerColor
+          : LightThemeColors.dividerColor,
+    );
+  }
+
+  Widget _buildInfoList(bool isDark) {
+    final infoItems = [
+      {'label': 'Exchange Name', 'value': item.exchange},
+      {'label': 'Symbol Name', 'value': item.symbol},
+      {
+        'label': 'Expiry Date',
+        'value': item.expiry != null
+            ? DateFormat('dd/MM/yy').format(item.expiry!)
+            : 'N/A'
+      },
+      {'label': 'Lotsize', 'value': '10'},
+      {'label': 'Trade Margin', 'value': '6'},
+      {'label': 'Trade Attribute', 'value': 'Full'},
+      {'label': 'Odd Lot Trade', 'value': 'Yes'},
+      {'label': 'Max Qty.', 'value': _formatQuantity(item.buyQty + item.sellQty)},
+      {'label': 'Breakup Qty.', 'value': '500'},
+      {'label': 'Max Lot', 'value': '0'},
+      {'label': 'Breakup Lot', 'value': '0'},
+    ];
+
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 8.h),
+      child: Column(
+        children: infoItems.map((info) {
+          return _buildInfoRow(
+            info['label']!,
+            info['value']!,
+            isDark,
+          );
+        }).toList(),
+      ),
+    );
+  }
+
+  Widget _buildInfoRow(String label, String value, bool isDark) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
       decoration: BoxDecoration(
-        color: AppColors.primaryBgColor,
-        borderRadius: BorderRadius.circular(8.r),
+        border: Border(
+          bottom: BorderSide(
+            color: isDark
+                ? DarkThemeColors.dividerColor.withOpacity(0.3)
+                : LightThemeColors.dividerColor.withOpacity(0.3),
+            width: 1,
+          ),
+        ),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Expiry Date',
-                style: TextStyle(
-                  fontSize: 12.sp,
-                  color: AppColors.textDark.withOpacity(0.6),
-                ),
-              ),
-              SizedBox(height: 4.h),
-              Text(
-                item.expiry != null
-                    ? DateFormat('dd MMM yyyy').format(item.expiry!)
-                    : 'N/A',
-                style: TextStyle(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.primaryBlue,
-                ),
-              ),
-            ],
+          Text(
+            label,
+            style: GoogleFonts.openSans(
+              fontSize: 14.sp,
+              fontWeight: FontWeight.w500,
+              color: isDark
+                  ? DarkThemeColors.textColor
+                  : LightThemeColors.textColor,
+            ),
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text(
-                'Last Updated',
-                style: TextStyle(
-                  fontSize: 12.sp,
-                  color: AppColors.textDark.withOpacity(0.6),
-                ),
-              ),
-              SizedBox(height: 4.h),
-              Text(
-                DateFormat('dd MMM yyyy, HH:mm').format(item.lut),
-                style: TextStyle(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.primaryBlue,
-                ),
-              ),
-            ],
+          Text(
+            value,
+            style: GoogleFonts.openSans(
+              fontSize: 14.sp,
+              fontWeight: FontWeight.w600,
+              color: isDark
+                  ? DarkThemeColors.positiveTextColor
+                  : LightThemeColors.textColor,
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildCloseButton(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: ElevatedButton(
-        onPressed: () => Navigator.pop(context),
-        style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.primaryBlue,
-          padding: EdgeInsets.symmetric(vertical: 12.h),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.r),
-          ),
-        ),
-        child: Text(
-          'Close',
-          style: TextStyle(
-            fontSize: 16.sp,
-            fontWeight: FontWeight.w600,
-            color: AppColors.white,
-          ),
-        ),
-      ),
-    );
-  }
-
-  String _formatNumber(double value) {
-    if (value >= 100000) {
-      return NumberFormat('#,##,###.##').format(value);
-    }
-    return value.toStringAsFixed(2);
-  }
-
-  String _formatChange(double value) {
-    final sign = value >= 0 ? '+' : '';
-    return '$sign${value.toStringAsFixed(2)}';
+  String _formatQuantity(int value) {
+    return NumberFormat('#,###').format(value);
   }
 }

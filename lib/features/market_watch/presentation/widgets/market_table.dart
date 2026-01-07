@@ -1,4 +1,3 @@
-import 'package:bazarpro/features/market_watch/presentation/bloc/theme/theme_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,6 +14,7 @@ import '../bloc/marketwatch/market_watch_bloc.dart';
 import '../bloc/marketwatch/market_watch_event.dart';
 import '../bloc/marketwatch/market_watch_state.dart';
 import '../bloc/theme/theme_bloc.dart';
+import '../bloc/theme/theme_state.dart' show ThemeState;
 
 
 class MarketDataTable extends StatefulWidget {
@@ -45,7 +45,6 @@ class _MarketDataTableState extends State<MarketDataTable> {
         if (widget.state.filteredItems.isEmpty) {
           return _buildEmptyState(isDark);
         }
-
         return Container(
           margin: EdgeInsets.all(10.w),
           decoration: BoxDecoration(
@@ -63,61 +62,30 @@ class _MarketDataTableState extends State<MarketDataTable> {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(10.r),
             child: DataTable2(
-              columnSpacing: 0,
-              horizontalMargin: 0,
-              minWidth: 1600,
-              scrollController: ScrollController(),
-              isHorizontalScrollBarVisible: true,
-              isVerticalScrollBarVisible: true,
-
-              // Header styling
-              headingRowHeight: 55.h,
-              headingRowColor: WidgetStateProperty.all(
-                isDark
-                    ? DarkThemeColors.tableColumnHeadColor
-                    : LightThemeColors.tableColumnHeadColor,
-              ),
-              headingTextStyle: GoogleFonts.openSans(
-                fontSize: 13.sp,
-                fontWeight: FontWeight.w600,
-                color: isDark
-                    ? DarkThemeColors.textColor
-                    : LightThemeColors.textColor,
-                letterSpacing: 0.15,
-              ),
-
-              // Row styling
-              dataRowHeight: 45.h,
-              dataTextStyle: GoogleFonts.openSans(
-                fontSize: 13.sp,
-                fontWeight: FontWeight.w400,
-                color: isDark
-                    ? DarkThemeColors.textColor
-                    : LightThemeColors.textColor,
-                letterSpacing: 0.1,
-              ),
-
-              // Border - ONLY show when grid is ON
-              border: showGrid
-                  ? TableBorder.all(
-                color: isDark
-                    ? DarkThemeColors.dividerColor
-                    : LightThemeColors.dividerColor,
-                width: 1,
-              )
-                  : const TableBorder(),
-
-              // Sorting
-              sortColumnIndex: _sortColumnIndex,
-              sortAscending: _sortAscending,
-
-              // Columns
-              columns: _buildColumns(isDark),
-
-              // Rows
-              rows: _buildRows(isDark, showGrid),
+            columnSpacing: 0,
+            horizontalMargin: 0,
+            minWidth: 1600,
+            headingRowHeight: 55.h,
+            headingRowColor: WidgetStateProperty.all(
+            LightThemeColors.tableColumnHeadColor,
             ),
+
+            dividerThickness: showGrid ? 2 : 0,
+            border: showGrid
+                ? TableBorder.all(
+              color: isDark
+                  ? DarkThemeColors.dividerColor
+                  : LightThemeColors.dividerColor,
+              width: 1,
+            )
+                : const TableBorder(),
+            sortColumnIndex: _sortColumnIndex,
+            sortAscending: _sortAscending,
+            columns: _buildColumns(isDark),
+            rows: _buildRows(isDark, showGrid),
           ),
+
+        ),
         );
       },
     );
@@ -190,9 +158,7 @@ class _MarketDataTableState extends State<MarketDataTable> {
               style: GoogleFonts.openSans(
                 fontSize: 13.sp,
                 fontWeight: FontWeight.w600,
-                color: isDark
-                    ? DarkThemeColors.textColor
-                    : LightThemeColors.textColor,
+                color: LightThemeColors.textColor,
                 letterSpacing: 0.15,
               ),
               overflow: TextOverflow.ellipsis,
@@ -225,7 +191,6 @@ class _MarketDataTableState extends State<MarketDataTable> {
       return DataRow2(
         selected: isSelected,
         color: WidgetStateProperty.resolveWith<Color?>((states) {
-          // Selected row
           if (states.contains(WidgetState.selected)) {
             return isDark
                 ? DarkThemeColors.selectedRowBackground

@@ -40,7 +40,7 @@ Future<void> init() async {
     deleteMarketItem: sl(),
   ));
 
-  // Theme BLoC - Singleton to persist theme state across screens
+
   sl.registerLazySingleton(() => ThemeBloc());
 
   // Watchlist BLoC

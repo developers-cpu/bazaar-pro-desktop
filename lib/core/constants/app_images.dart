@@ -36,6 +36,7 @@ class AppImages {
   // Table Icons
   static const String sortIcon = '$_commonIconsPath/sort.svg';
   static const String banIcon = '$_commonIconsPath/campaign.svg' ;
+  static const String arrangeIcon = '$_commonIconsPath/compress.svg';
 
   //menu Icons
   static const String menu1Icon = '$_menuIconsPath/menu1.svg';

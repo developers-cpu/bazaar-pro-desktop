@@ -1,0 +1,250 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
+import '../../../../core/constants/app_colors.dart';
+
+class CommonDialog extends StatelessWidget {
+  final String title;
+  final Widget content;
+  final VoidCallback? onCancel;
+  final VoidCallback? onSave;
+  final double? width;
+  final double? height;
+  final Color? backgroundColor;
+  final Color? headerColor;
+  final bool showButtons;
+  final bool isDarkMode;
+  final String cancelText;
+  final String saveText;
+  final EdgeInsets? contentPadding;
+  final double? buttonWidth;
+  final double? buttonHeight;
+
+  const CommonDialog({
+    Key? key,
+    required this.title,
+    required this.content,
+    this.onCancel,
+    this.onSave,
+    this.width,
+    this.height,
+    this.backgroundColor,
+    this.headerColor,
+    this.showButtons = true,
+    this.isDarkMode = false,
+    this.cancelText = 'Cancel',
+    this.saveText = 'Save',
+    this.contentPadding,
+    this.buttonWidth,
+    this.buttonHeight,
+  }) : super(key: key);
+
+  static void show({
+    required BuildContext context,
+    required String title,
+    required Widget content,
+    VoidCallback? onCancel,
+    VoidCallback? onSave,
+    double? width,
+    double? height,
+    Color? backgroundColor,
+    Color? headerColor,
+    bool showButtons = true,
+    bool isDarkMode = false,
+    String cancelText = 'Cancel',
+    String saveText = 'Save',
+    EdgeInsets? contentPadding,
+    double? buttonWidth,
+    double? buttonHeight,
+  }) {
+    showDialog(
+      context: context,
+      barrierColor: AppColors.black.withOpacity(0.54),
+      builder: (_) => CommonDialog(
+        title: title,
+        content: content,
+        onCancel: onCancel,
+        onSave: onSave,
+        width: width,
+        height: height,
+        backgroundColor: backgroundColor,
+        headerColor: headerColor,
+        showButtons: showButtons,
+        isDarkMode: isDarkMode,
+        cancelText: cancelText,
+        saveText: saveText,
+        contentPadding: contentPadding,
+        buttonWidth: buttonWidth,
+        buttonHeight: buttonHeight,
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final bgColor = backgroundColor ??
+        (isDarkMode
+            ? DarkThemeColors.cardBackground
+            : LightThemeColors.cardBackground);
+
+    final headerBgColor = headerColor ??
+        (isDarkMode ? LightThemeColors.primaryColor : AppColors.primaryBlue);
+
+    return Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16.r),
+      ),
+      backgroundColor: Colors.transparent,
+      child: Container(
+        width: width ?? 400.w,
+        height: height,
+        decoration: BoxDecoration(
+          color: bgColor,
+          borderRadius: BorderRadius.circular(16.r),
+        ),
+        child: Column(
+          mainAxisSize: height != null ? MainAxisSize.max : MainAxisSize.min,
+          children: [
+            _buildHeader(context, headerBgColor),
+            Flexible(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: contentPadding ?? EdgeInsets.all(20.w),
+                  child: content,
+                ),
+              ),
+            ),
+            if (showButtons) ...[
+              SizedBox(height: 20.h),
+              _buildButtons(context),
+              SizedBox(height: 20.h),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildHeader(BuildContext context, Color headerBgColor) {
+    return ClipRRect(
+      borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(16.r),
+        topRight: Radius.circular(16.r),
+      ),
+      child: Container(
+        height: 60.h,
+        color: headerBgColor,
+        padding: EdgeInsets.symmetric(horizontal: 20.w),
+        child: Row(
+          children: [
+            Expanded(
+              child: Text(
+                title,
+                style: GoogleFonts.openSans(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.white,
+                ),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                if (onCancel != null) {
+                  onCancel!();
+                }
+                Navigator.pop(context);
+              },
+              child: Icon(
+                Icons.close,
+                size: 22.sp,
+                color: AppColors.white,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildButtons(BuildContext context) {
+    final primaryColor = isDarkMode
+        ? const Color(0xFF1F4A66)
+        : (headerColor ?? AppColors.primaryBlue);
+
+    final btnWidth = buttonWidth ?? 150.w;
+    final btnHeight = buttonHeight ?? 45.h;
+
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20.w),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          // CANCEL BUTTON
+          SizedBox(
+            width: btnWidth,
+            height: btnHeight,
+            child: OutlinedButton(
+              onPressed: () {
+                if (onCancel != null) {
+                  onCancel!();
+                }
+                Navigator.pop(context);
+              },
+              style: OutlinedButton.styleFrom(
+                padding: EdgeInsets.symmetric(vertical: 12.h),
+                side: BorderSide(
+                  color: primaryColor,
+                  width: 1.5,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.r),
+                ),
+                backgroundColor: Colors.transparent,
+              ),
+              child: Text(
+                cancelText,
+                style: GoogleFonts.openSans(
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w600,
+                  color: primaryColor,
+                ),
+              ),
+            ),
+          ),
+
+          SizedBox(width: 16.w),
+
+          // SAVE BUTTON
+          SizedBox(
+            width: btnWidth,
+            height: btnHeight,
+            child: ElevatedButton(
+              onPressed: () {
+                if (onSave != null) {
+                  onSave!();
+                }
+                Navigator.pop(context);
+              },
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(vertical: 12.h),
+                backgroundColor: primaryColor,
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.r),
+                ),
+              ),
+              child: Text(
+                saveText,
+                style: GoogleFonts.openSans(
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

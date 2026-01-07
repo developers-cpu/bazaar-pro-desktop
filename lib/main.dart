@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'core/constants/app_theme.dart';
 import 'features/auth/presentation/bloc/auth_bloc.dart';
 import 'features/auth/presentation/pages/login_page.dart';
+import 'features/market_watch/presentation/bloc/arrangesymbol/arrange_symbol_bloc.dart';
 import 'features/market_watch/presentation/bloc/marketwatch/market_watch_bloc.dart';
+import 'features/market_watch/presentation/bloc/symbolfont/symbol_font_bloc.dart';
 import 'features/market_watch/presentation/bloc/theme/theme_bloc.dart';
 import 'features/market_watch/presentation/bloc/watchlist/watch_list_bloc.dart';
 import 'features/market_watch/presentation/pages/market_watch_page.dart';
 import 'injection_container.dart' as di;
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await di.init();
   runApp(const MyApp());
 }
-
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -34,14 +35,29 @@ class MyApp extends StatelessWidget {
             BlocProvider(create: (_) => di.sl<AuthBloc>()),
             // Market Watch BLoC
             BlocProvider(create: (_) => di.sl<MarketWatchBloc>()),
-            // Theme BLoC
+            // Theme BLoC - For dark/light mode toggle
             BlocProvider(create: (_) => di.sl<ThemeBloc>()),
             // Watchlist BLoC
             BlocProvider(create: (_) => di.sl<WatchlistBloc>()),
+            // Arrange Symbol BLoC - For column arrangement
+            BlocProvider(create: (_) => di.sl<ArrangeSymbolBloc>()),
+            // Symbol Font BLoC - For font settings
+            BlocProvider(create: (_) => di.sl<SymbolFontBloc>()),
           ],
           child: MaterialApp(
             title: 'BAZAAR Pro',
             debugShowCheckedModeBanner: false,
+
+            // Light Theme with Google Fonts
+            theme: AppTheme.lightTheme,
+
+            // Dark Theme with Google Fonts
+            darkTheme: AppTheme.darkTheme,
+
+            // Use system theme mode
+            themeMode: ThemeMode.system,
+
+            // Routing configuration
             initialRoute: '/',
             routes: {
               '/': (_) => const LoginPage(),

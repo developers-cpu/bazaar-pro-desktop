@@ -5,15 +5,21 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/constants/app_strings.dart';
+import '../bloc/arrangesymbol/arrange_symbol_bloc.dart';
+import '../bloc/arrangesymbol/arrange_symbol_event.dart';
 import '../bloc/marketwatch/market_watch_bloc.dart';
 import '../bloc/marketwatch/market_watch_event.dart';
 import '../bloc/marketwatch/market_watch_state.dart';
+import '../bloc/symbolfont/symbol_font_bloc.dart';
+import '../bloc/symbolfont/symbol_font_event.dart';
+import '../widgets/arrange_symbol_dialog.dart';
 import '../widgets/ban_trade_info.dart';
 import '../widgets/context_menu_widget.dart';
 import '../widgets/market_filtter.dart';
 import '../widgets/market_table.dart';
 import '../widgets/market_watch_app_bar.dart';
 import '../widgets/symbo_info_dialog.dart';
+import '../widgets/symbol_font_dialog.dart';
 import '../widgets/watchlist_widget.dart';
 import 'dummy/dashboard_page.dart';
 import 'dummy/file_page.dart';
@@ -66,6 +72,14 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(message), duration: const Duration(seconds: 1)),
     );
+  }
+
+  void _onFitToSize() {
+    // Reset font settings to default
+    context.read<SymbolFontBloc>().add(const ResetFontSettingsEvent());
+    // Reset column arrangement to default
+    context.read<ArrangeSymbolBloc>().add(const ResetColumnsEvent());
+    _showMessage('Reset to default size');
   }
 
   @override
@@ -181,7 +195,10 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
         children: [
           Text(
             state.message,
-            style: TextStyle(fontSize: AppDimensions.fontSizeL.sp, color: AppColors.errorColor),
+            style: TextStyle(
+              fontSize: AppDimensions.fontSizeL.sp,
+              color: AppColors.errorColor,
+            ),
           ),
           SizedBox(height: AppDimensions.marginL.h),
           ElevatedButton(
@@ -230,15 +247,15 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
                 },
                 onArrangeSymbol: () {
                   _closeContextMenu();
-                  _showMessage(AppStrings.arrangeSymbol);
+                  ArrangeSymbolDialog.show(context);
                 },
                 onSetSymbolFont: () {
                   _closeContextMenu();
-                  _showMessage(AppStrings.setSymbolFont);
+                  SymbolFontDialog.show(context);
                 },
                 onFitToSize: () {
                   _closeContextMenu();
-                  _showMessage(AppStrings.fitToSize);
+                  _onFitToSize();
                 },
                 onSymbolInfo: () {
                   _closeContextMenu();
@@ -250,11 +267,15 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
                 },
                 onCut: () {
                   _closeContextMenu();
-                  context.read<MarketWatchBloc>().add(CutMarketItemEvent(item: selectedItem));
+                  context.read<MarketWatchBloc>().add(
+                    CutMarketItemEvent(item: selectedItem),
+                  );
                 },
                 onCopy: () {
                   _closeContextMenu();
-                  context.read<MarketWatchBloc>().add(CopyMarketItemEvent(item: selectedItem));
+                  context.read<MarketWatchBloc>().add(
+                    CopyMarketItemEvent(item: selectedItem),
+                  );
                 },
                 onPaste: () {
                   _closeContextMenu();
@@ -270,7 +291,9 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
                 },
                 onDelete: () {
                   _closeContextMenu();
-                  context.read<MarketWatchBloc>().add(DeleteMarketItemEvent(itemId: selectedItem.id));
+                  context.read<MarketWatchBloc>().add(
+                    DeleteMarketItemEvent(itemId: selectedItem.id),
+                  );
                 },
               ),
             ),
@@ -302,8 +325,12 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
 
     final selectedItem = _getSelectedItem(loadedState);
 
-    if (event.logicalKey == LogicalKeyboardKey.delete && selectedItem != null && !isCtrlPressed) {
-      context.read<MarketWatchBloc>().add(DeleteMarketItemEvent(itemId: selectedItem.id));
+    if (event.logicalKey == LogicalKeyboardKey.delete &&
+        selectedItem != null &&
+        !isCtrlPressed) {
+      context.read<MarketWatchBloc>().add(
+        DeleteMarketItemEvent(itemId: selectedItem.id),
+      );
       return;
     }
 
@@ -332,10 +359,14 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
 
     switch (event.logicalKey) {
       case LogicalKeyboardKey.keyX:
-        if (selectedItem != null) bloc.add(CutMarketItemEvent(item: selectedItem));
+        if (selectedItem != null) {
+          bloc.add(CutMarketItemEvent(item: selectedItem));
+        }
         break;
       case LogicalKeyboardKey.keyC:
-        if (selectedItem != null) bloc.add(CopyMarketItemEvent(item: selectedItem));
+        if (selectedItem != null) {
+          bloc.add(CopyMarketItemEvent(item: selectedItem));
+        }
         break;
       case LogicalKeyboardKey.keyV:
         bloc.add(const PasteMarketItemEvent());

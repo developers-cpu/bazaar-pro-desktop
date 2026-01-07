@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import '../../../../core/constants/app_colors.dart';
+import '../../../../core/widget/common_dilog_box.dart';
 import '../../domain/entities/market_item.dart';
 import '../bloc/theme/theme_bloc.dart';
 import '../bloc/theme/theme_state.dart' show ThemeState;
@@ -14,13 +15,21 @@ class SymbolInfoDialog extends StatelessWidget {
   const SymbolInfoDialog({Key? key, required this.item}) : super(key: key);
 
   static void show(BuildContext context, MarketItem item) {
-    showDialog(
+    final themeBloc = context.read<ThemeBloc>();
+    final isDark = themeBloc.state.isDarkMode;
+
+    CommonDialog.show(
       context: context,
-      barrierColor: AppColors.black.withOpacity(0.54),
-      builder: (_) => BlocProvider.value(
-        value: context.read<ThemeBloc>(),
-        child: SymbolInfoDialog(item: item),
-      ),
+      title: 'Symbol Info',
+      width: 400.w,
+      content: _SymbolInfoContent(item: item, isDark: isDark),
+      showButtons: false,
+      isDarkMode: isDark,
+      headerColor: AppColors.primaryBlue,
+      backgroundColor: isDark
+          ? DarkThemeColors.cardBackground
+          : LightThemeColors.cardBackground,
+      contentPadding: EdgeInsets.zero,
     );
   }
 
@@ -30,78 +39,45 @@ class SymbolInfoDialog extends StatelessWidget {
       builder: (context, themeState) {
         final isDark = themeState.isDarkMode;
 
-        return Dialog(
-          insetPadding: EdgeInsets.symmetric(horizontal: 20.w), // or EdgeInsets.zero
-          backgroundColor: Colors.transparent,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(16.r),
-            child: Container(
-              width: 400.w,
-              decoration: BoxDecoration(
-                color: isDark
-                    ? DarkThemeColors.cardBackground
-                    : LightThemeColors.cardBackground,
-                borderRadius: BorderRadius.circular(16.r),
-
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  _buildHeader(context, isDark),
-                  _buildDivider(isDark),
-                  _buildInfoList(isDark),
-                ],
-              ),
-            ),
-          ),
+        return CommonDialog(
+          title: 'Symbol Info',
+          content: _SymbolInfoContent(item: item, isDark: isDark),
+          width: 400.w,
+          showButtons: false,
+          isDarkMode: isDark,
+          headerColor: AppColors.primaryBlue,
+          backgroundColor: isDark
+              ? DarkThemeColors.cardBackground
+              : LightThemeColors.cardBackground,
+          contentPadding: EdgeInsets.zero,
         );
-
       },
     );
   }
+}
 
-  Widget _buildHeader(BuildContext context, bool isDark) {
-    return ClipRRect(
-      borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(16.r),
-        topRight: Radius.circular(16.r),
-      ),
-      child: Container(
-        height: 60.h,
-        color: AppColors.primaryBlue,
-        padding: EdgeInsets.symmetric(horizontal: 20.w),
-        child: Row(
-          children: [
-            // Title
-            Expanded(
-              child: Text(
-                'Symbol Info',
-                style: GoogleFonts.openSans(
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.white,
-                ),
-              ),
-            ),
+class _SymbolInfoContent extends StatelessWidget {
+  final MarketItem item;
+  final bool isDark;
 
-            // Close button
-            GestureDetector(
-              onTap: () => Navigator.pop(context),
-              child: Icon(
-                Icons.close,
-                size: 22.sp,
-                color: AppColors.white,
-              ),
-            ),
-          ],
-        ),
-      ),
+  const _SymbolInfoContent({
+    Key? key,
+    required this.item,
+    required this.isDark,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        _buildDivider(),
+        _buildInfoList(),
+      ],
     );
   }
 
-
-
-  Widget _buildDivider(bool isDark) {
+  Widget _buildDivider() {
     return Container(
       height: 1.h,
       color: isDark
@@ -110,7 +86,7 @@ class SymbolInfoDialog extends StatelessWidget {
     );
   }
 
-  Widget _buildInfoList(bool isDark) {
+  Widget _buildInfoList() {
     final infoItems = [
       {'label': 'Exchange Name', 'value': item.exchange},
       {'label': 'Symbol Name', 'value': item.symbol},
@@ -137,14 +113,13 @@ class SymbolInfoDialog extends StatelessWidget {
           return _buildInfoRow(
             info['label']!,
             info['value']!,
-            isDark,
           );
         }).toList(),
       ),
     );
   }
 
-  Widget _buildInfoRow(String label, String value, bool isDark) {
+  Widget _buildInfoRow(String label, String value) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
       decoration: BoxDecoration(

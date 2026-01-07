@@ -11,7 +11,9 @@ import 'features/market_watch/domain/repositories/market_watch_repository.dart';
 import 'features/market_watch/domain/usecases/add_market_item.dart';
 import 'features/market_watch/domain/usecases/delete_market_item.dart';
 import 'features/market_watch/domain/usecases/get_market_items.dart';
+import 'features/market_watch/presentation/bloc/arrangesymbol/arrange_symbol_bloc.dart';
 import 'features/market_watch/presentation/bloc/marketwatch/market_watch_bloc.dart';
+import 'features/market_watch/presentation/bloc/symbolfont/symbol_font_bloc.dart';
 import 'features/market_watch/presentation/bloc/theme/theme_bloc.dart';
 import 'features/market_watch/presentation/bloc/watchlist/watch_list_bloc.dart';
 
@@ -21,17 +23,22 @@ Future<void> init() async {
 
   // Auth BLoC
   sl.registerFactory(() => AuthBloc(loginUser: sl()));
+
+  // Auth Use Cases
   sl.registerLazySingleton(() => LoginUser(repository: sl()));
+
+  // Auth Repository
   sl.registerLazySingleton<AuthRepository>(
         () => AuthRepositoryImpl(remoteDataSource: sl()),
   );
+
+  // Auth Data Sources
   sl.registerLazySingleton<AuthRemoteDataSource>(
         () => AuthRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
   );
 
   // Core
   sl.registerLazySingleton(() => ApiClient());
-
 
   // Market Watch BLoC
   sl.registerFactory(() => MarketWatchBloc(
@@ -40,11 +47,17 @@ Future<void> init() async {
     deleteMarketItem: sl(),
   ));
 
-
+  // Theme BLoC - Singleton to persist theme state across screens
   sl.registerLazySingleton(() => ThemeBloc());
 
   // Watchlist BLoC
   sl.registerFactory(() => WatchlistBloc());
+
+  // Arrange Symbol BLoC - Singleton to persist column arrangement
+  sl.registerLazySingleton(() => ArrangeSymbolBloc());
+
+  // Symbol Font BLoC - Singleton to persist font settings
+  sl.registerLazySingleton(() => SymbolFontBloc());
 
   // Market Watch Use Cases
   sl.registerLazySingleton(() => GetMarketItems(sl()));

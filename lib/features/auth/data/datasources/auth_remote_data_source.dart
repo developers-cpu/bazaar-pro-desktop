@@ -3,10 +3,9 @@ import '../../../../core/constants/auth_constants.dart';
 import '../models/login_request_model.dart';
 import '../models/user_model.dart';
 
-/// Remote data source for authentication
-/// Handles API calls using Dio
+
 abstract class AuthRemoteDataSource {
-  /// Login user with credentials
+
   Future<UserModel> login({
     required String username,
     required String password,

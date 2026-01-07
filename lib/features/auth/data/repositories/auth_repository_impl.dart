@@ -46,9 +46,7 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<Either<Failure, bool>> logout() async {
     try {
-      // Since the API doesn't have a logout endpoint,
-      // we'll just return success
-      // In a real app, you'd clear local storage here
+
       return const Right(true);
     } catch (e) {
       return Left(ServerFailure(e.toString()));

@@ -1,7 +1,4 @@
-/// Application wide string constants
-/// Contains all text strings used throughout the app for easy localization and maintenance
 class AppStrings {
-  // Prevent instantiation
   AppStrings._();
 
   // App title

@@ -1,0 +1,156 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../core/constants/app_colors.dart';
+import '../../../../core/constants/app_strings.dart';
+import '../../../../core/utils/date_formatter.dart';
+import '../../../../core/utils/number_formatter.dart';
+import '../../domain/entities/market_item.dart';
+import 'table_text_style_helper.dart';
+
+/// Widget for building table cell content
+class TableCellBuilder extends StatelessWidget {
+  final String columnId;
+  final MarketItem item;
+  final bool isDark;
+  final String fontFamily;
+  final double fontSize;
+  final FontWeight fontWeight;
+
+  const TableCellBuilder({
+    Key? key,
+    required this.columnId,
+    required this.item,
+    required this.isDark,
+    required this.fontFamily,
+    required this.fontSize,
+    required this.fontWeight,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildCellContent();
+  }
+
+  Widget _buildCellContent() {
+    switch (columnId) {
+      case 'exchange':
+        return _buildExchangeWithArrowCell();
+      case 'symbol':
+        return _buildTextCell(item.symbol, isBold: true);
+      case 'buyQty':
+        return _buildTextCell(NumberFormatter.formatQuantity(item.buyQty));
+      case 'buyPrice':
+        return _buildTextCell(NumberFormatter.formatPrice(item.buyPrice));
+      case 'sellPrice':
+        return _buildTextCell(NumberFormatter.formatPrice(item.sellPrice));
+      case 'sellQty':
+        return _buildTextCell(NumberFormatter.formatQuantity(item.sellQty));
+      case 'netChange':
+        return _buildTextCell(
+          NumberFormatter.formatChange(item.netChange),
+          color: _getChangeColor(item.netChange),
+        );
+      case 'high':
+        return _buildTextCell(NumberFormatter.formatPrice(item.high));
+      case 'low':
+        return _buildTextCell(NumberFormatter.formatPrice(item.low));
+      case 'open':
+        return _buildTextCell(NumberFormatter.formatPrice(item.open));
+      case 'close':
+        return _buildTextCell(NumberFormatter.formatPrice(item.close));
+      case 'ltp':
+        return _buildTextCell(NumberFormatter.formatPrice(item.ltp));
+      case 'netChangePercent':
+        return _buildTextCell(
+          NumberFormatter.formatPercentage(item.netChangePercent),
+          color: _getChangeColor(item.netChangePercent),
+        );
+      case 'expiry':
+        return _buildTextCell(
+          item.expiry != null
+              ? DateFormatter.formatToShortDate(item.expiry!)
+              : AppStrings.dashPlaceholder,
+        );
+      case 'lut':
+        return _buildTextCell(DateFormatter.formatToDateTimeWithAmPm(item.lut));
+      default:
+        return const SizedBox.shrink();
+    }
+  }
+
+  Widget _buildExchangeWithArrowCell() {
+    final isPositive = item.netChange > 0;
+    final isNegative = item.netChange < 0;
+
+    Color iconColor;
+    if (isPositive) {
+      iconColor = isDark
+          ? DarkThemeColors.positiveTextColor
+          : LightThemeColors.positiveTextColor;
+    } else if (isNegative) {
+      iconColor = isDark
+          ? DarkThemeColors.negativeTextColor
+          : LightThemeColors.negativeTextColor;
+    } else {
+      iconColor = isDark
+          ? DarkThemeColors.textColor
+          : LightThemeColors.textColor;
+    }
+
+    return Center(
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            isPositive ? Icons.trending_up : Icons.trending_down,
+            size: (fontSize * 1.2).sp,
+            color: iconColor,
+          ),
+          SizedBox(width: 6.w),
+          Text(
+            item.exchange,
+            style: TableTextStyleHelper.getTextStyle(
+              fontFamily: fontFamily,
+              fontSize: fontSize.sp,
+              fontWeight: fontWeight,
+              color: _getTextColor(),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTextCell(String text, {bool isBold = false, Color? color}) {
+    return Center(
+      child: Text(
+        text,
+        textAlign: TextAlign.center,
+        style: TableTextStyleHelper.getTextStyle(
+          fontFamily: fontFamily,
+          fontSize: fontSize.sp,
+          fontWeight: isBold ? FontWeight.w600 : fontWeight,
+          color: color ?? _getTextColor(),
+        ),
+      ),
+    );
+  }
+
+  Color _getTextColor() {
+    return isDark ? DarkThemeColors.textColor : LightThemeColors.textColor;
+  }
+
+  Color? _getChangeColor(double value) {
+    if (value > 0) {
+      return isDark
+          ? DarkThemeColors.positiveTextColor
+          : LightThemeColors.positiveTextColor;
+    } else if (value < 0) {
+      return isDark
+          ? DarkThemeColors.negativeTextColor
+          : LightThemeColors.negativeTextColor;
+    }
+    return null;
+  }
+}

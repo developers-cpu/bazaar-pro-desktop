@@ -1,6 +1,5 @@
 
 class AppDimensions {
-  // Prevent instantiation
   AppDimensions._();
 
   // Padding

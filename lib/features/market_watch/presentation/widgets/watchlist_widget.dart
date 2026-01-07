@@ -21,7 +21,6 @@ class WatchlistWidget extends StatelessWidget {
       listener: _handleStateChange,
       builder: (context, state) {
         if (state is WatchlistInitial) {
-          // Trigger load event if initial state
           context.read<WatchlistBloc>().add(const LoadWatchlistsEvent());
           return _buildLoadingState();
         }
@@ -39,7 +38,6 @@ class WatchlistWidget extends StatelessWidget {
     );
   }
 
-  /// Handle state changes for error messages
   void _handleStateChange(BuildContext context, WatchlistState state) {
     if (state is WatchlistError) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -54,13 +52,11 @@ class WatchlistWidget extends StatelessWidget {
       );
     }
 
-    // Notify parent when selection changes
     if (state is WatchlistLoaded) {
       onWatchlistSelected?.call(state.selectedIndex);
     }
   }
 
-  /// Build loading state
   Widget _buildLoadingState() {
     return Container(
       height: 58.h,
@@ -72,7 +68,6 @@ class WatchlistWidget extends StatelessWidget {
     );
   }
 
-  /// Build loaded state with watchlist buttons
   Widget _buildLoadedState(BuildContext context, WatchlistLoaded state) {
     return Container(
       height: 58.h,
@@ -81,11 +76,10 @@ class WatchlistWidget extends StatelessWidget {
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: [
-          // Add Button - Always first
           _buildAddButton(context),
           SizedBox(width: 10.w),
 
-          // All Button
+
           _buildWatchlistButton(
             context: context,
             label: AppStrings.all,
@@ -95,7 +89,7 @@ class WatchlistWidget extends StatelessWidget {
           ),
           SizedBox(width: 10.w),
 
-          // Watchlist Buttons
+
           ...List.generate(state.watchlists.length, (index) {
             return Padding(
               padding: EdgeInsets.only(right: 10.w),
@@ -131,7 +125,6 @@ class WatchlistWidget extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // + Icon with Circular Border
             Container(
               width: 18.w,
               height: 18.h,
@@ -170,7 +163,6 @@ class WatchlistWidget extends StatelessWidget {
     );
   }
 
-  /// Build Watchlist Button
   Widget _buildWatchlistButton({
     required BuildContext context,
     required String label,

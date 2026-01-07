@@ -16,7 +16,7 @@ import '../widgets/arrange_symbol_dialog.dart';
 import '../widgets/ban_trade_info.dart';
 import '../widgets/context_menu_widget.dart';
 import '../widgets/market_filtter.dart';
-import '../widgets/market_table.dart';
+import '../widgets/market_data_table.dart';
 import '../widgets/market_watch_app_bar.dart';
 import '../widgets/symbo_info_dialog.dart';
 import '../widgets/symbol_font_dialog.dart';
@@ -75,9 +75,7 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
   }
 
   void _onFitToSize() {
-    // Reset font settings to default
     context.read<SymbolFontBloc>().add(const ResetFontSettingsEvent());
-    // Reset column arrangement to default
     context.read<ArrangeSymbolBloc>().add(const ResetColumnsEvent());
     _showMessage('Reset to default size');
   }

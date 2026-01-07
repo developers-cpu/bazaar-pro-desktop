@@ -3,7 +3,6 @@ import 'package:bazarpro/features/market_watch/presentation/bloc/symbolfont/symb
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SymbolFontBloc extends Bloc<SymbolFontEvent, SymbolFontState> {
-  // Default settings
   static const String _defaultFontFamily = 'Inter';
   static const String _defaultFontStyle = 'Regular';
   static const int _defaultFontSize = 14;
@@ -45,7 +44,6 @@ class SymbolFontBloc extends Bloc<SymbolFontEvent, SymbolFontState> {
     32,
   ];
 
-  // Saved settings (persisted)
   String _savedFontFamily = _defaultFontFamily;
   String _savedFontStyle = _defaultFontStyle;
   int _savedFontSize = _defaultFontSize;

@@ -1,4 +1,3 @@
-/// Constants for app images and assets
 class AppImages {
   AppImages._();
 

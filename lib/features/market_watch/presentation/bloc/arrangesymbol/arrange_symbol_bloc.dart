@@ -1,14 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:equatable/equatable.dart';
 
 import 'arrange_symbol_event.dart';
 import 'arrange_symbol_state.dart';
 
-
 class ArrangeSymbolBloc extends Bloc<ArrangeSymbolEvent, ArrangeSymbolState> {
-  // Default columns configuration
   static const List<ColumnItem> _defaultColumns = [
-    ColumnItem(id: 'arrow', name: 'ARROW', isVisible: true),
     ColumnItem(id: 'exchange', name: 'EXCHANGE', isVisible: true),
     ColumnItem(id: 'symbol', name: 'SYMBOL', isVisible: true),
     ColumnItem(id: 'buyQty', name: 'BUY QTY', isVisible: true),
@@ -53,6 +49,11 @@ class ArrangeSymbolBloc extends Bloc<ArrangeSymbolEvent, ArrangeSymbolState> {
       return column;
     }).toList();
 
+    final visibleCount = updatedColumns.where((c) => c.isVisible).length;
+    if (visibleCount == 0) {
+      return;
+    }
+
     emit(state.copyWith(columns: updatedColumns, isSaved: false));
   }
 
@@ -75,9 +76,10 @@ class ArrangeSymbolBloc extends Bloc<ArrangeSymbolEvent, ArrangeSymbolState> {
   }
 
   void _onResetColumns(ResetColumnsEvent event, Emitter<ArrangeSymbolState> emit) {
+    _savedColumns = List.from(_defaultColumns);
     emit(state.copyWith(
       columns: List.from(_defaultColumns),
-      isSaved: false,
+      isSaved: true,
     ));
   }
 

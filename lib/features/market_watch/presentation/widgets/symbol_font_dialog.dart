@@ -12,7 +12,6 @@ class SymbolFontDialog extends StatelessWidget {
   const SymbolFontDialog({Key? key}) : super(key: key);
 
   static void show(BuildContext context) {
-    // Load font settings when opening dialog
     context.read<SymbolFontBloc>().add(const LoadFontSettingsEvent());
 
     CommonDialog.show(
@@ -125,8 +124,8 @@ class _SymbolFontContent extends StatelessWidget {
             color: AppColors.white,
             borderRadius: BorderRadius.circular(12.r),
             border: Border.all(
-              color: const Color(0xFF2C5F7B), // border color
-              width: 2, // border width
+              color: AppColors.primaryBlue,
+              width: 2,
             ),
           ),
           child: Text(
@@ -134,7 +133,7 @@ class _SymbolFontContent extends StatelessWidget {
             style: GoogleFonts.openSans(
               fontSize: 16.sp,
               fontWeight: FontWeight.w600,
-              color: const Color(0xFF2C3E50),
+              color: AppColors.primaryBlue,
             ),
           ),
         ),
@@ -147,7 +146,7 @@ class _SymbolFontContent extends StatelessWidget {
             borderRadius: BorderRadius.circular(12.r),
             border: Border.all(
               color: const Color(0xFF2C5F7B), // border color
-              width: 2, // border width
+              width: 2,
             ),
           ),
           child: ListView.builder(
@@ -164,7 +163,7 @@ class _SymbolFontContent extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
                   decoration: BoxDecoration(
                     color: isSelected
-                        ? const Color(0xFF2C5F7B) // Dark blue for selected
+                        ? AppColors.primaryBlue
                         : AppColors.white,
                     borderRadius: BorderRadius.circular(8.r),
                   ),
@@ -175,7 +174,7 @@ class _SymbolFontContent extends StatelessWidget {
                       fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
                       color: isSelected
                           ? AppColors.white
-                          : const Color(0xFF2C3E50),
+                          : AppColors.primaryBlue,
                     ),
                   ),
                 ),

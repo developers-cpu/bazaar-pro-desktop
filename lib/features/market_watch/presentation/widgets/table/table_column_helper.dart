@@ -1,4 +1,4 @@
-import '../bloc/arrangesymbol/arrange_symbol_state.dart';
+import '../../bloc/arrangesymbol/arrange_symbol_state.dart';
 
 /// Column configuration class
 class TableColumnConfig {

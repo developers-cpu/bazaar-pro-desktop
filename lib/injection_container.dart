@@ -12,7 +12,10 @@ import 'features/market_watch/domain/usecases/add_market_item.dart';
 import 'features/market_watch/domain/usecases/delete_market_item.dart';
 import 'features/market_watch/domain/usecases/get_market_items.dart';
 import 'features/market_watch/presentation/bloc/arrangesymbol/arrange_symbol_bloc.dart';
+import 'features/market_watch/presentation/bloc/market_depth/market_depth_bloc.dart';
 import 'features/market_watch/presentation/bloc/marketwatch/market_watch_bloc.dart';
+import 'features/market_watch/presentation/bloc/order/order_dialog_bloc.dart';
+
 import 'features/market_watch/presentation/bloc/symbolfont/symbol_font_bloc.dart';
 import 'features/market_watch/presentation/bloc/theme/theme_bloc.dart';
 import 'features/market_watch/presentation/bloc/watchlist/watch_list_bloc.dart';
@@ -20,6 +23,9 @@ import 'features/market_watch/presentation/bloc/watchlist/watch_list_bloc.dart';
 final sl = GetIt.instance;
 
 Future<void> init() async {
+  // ============================================================
+  // AUTH FEATURE
+  // ============================================================
 
   // Auth BLoC
   sl.registerFactory(() => AuthBloc(loginUser: sl()));
@@ -37,8 +43,9 @@ Future<void> init() async {
         () => AuthRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
   );
 
-  // Core
-  sl.registerLazySingleton(() => ApiClient());
+  // ============================================================
+  // MARKET WATCH FEATURE
+  // ============================================================
 
   // Market Watch BLoC
   sl.registerFactory(() => MarketWatchBloc(
@@ -59,6 +66,12 @@ Future<void> init() async {
   // Symbol Font BLoC - Singleton to persist font settings
   sl.registerLazySingleton(() => SymbolFontBloc());
 
+  // Order Dialog BLoC - Singleton for Buy/Sell dialogs
+  sl.registerLazySingleton(() => OrderDialogBloc());
+
+  // Market Depth BLoC - Singleton for Market Depth dialog (F5)
+  sl.registerLazySingleton(() => MarketDepthBloc());
+
   // Market Watch Use Cases
   sl.registerLazySingleton(() => GetMarketItems(sl()));
   sl.registerLazySingleton(() => AddMarketItem(sl()));
@@ -73,4 +86,11 @@ Future<void> init() async {
   sl.registerLazySingleton<MarketWatchLocalDataSource>(
         () => MarketWatchLocalDataSourceImpl(),
   );
+
+  // ============================================================
+  // CORE
+  // ============================================================
+
+  // API Client
+  sl.registerLazySingleton(() => ApiClient());
 }

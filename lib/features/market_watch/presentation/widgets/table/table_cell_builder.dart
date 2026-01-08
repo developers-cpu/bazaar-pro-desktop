@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../core/constants/app_colors.dart';
-import '../../../../core/constants/app_strings.dart';
-import '../../../../core/utils/date_formatter.dart';
-import '../../../../core/utils/number_formatter.dart';
-import '../../domain/entities/market_item.dart';
+import '../../../../../core/constants/app_colors.dart';
+import '../../../../../core/constants/app_strings.dart';
+import '../../../../../core/utils/date_formatter.dart';
+import '../../../../../core/utils/number_formatter.dart';
+import '../../../domain/entities/market_item.dart';
 import 'table_text_style_helper.dart';
 
 /// Widget for building table cell content

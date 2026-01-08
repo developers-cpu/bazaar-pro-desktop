@@ -15,11 +15,13 @@ import '../bloc/symbolfont/symbol_font_event.dart';
 import '../widgets/arrange_symbol_dialog.dart';
 import '../widgets/ban_trade_info.dart';
 import '../widgets/context_menu_widget.dart';
+import '../widgets/table/market_data_table.dart';
 import '../widgets/market_filtter.dart';
-import '../widgets/market_data_table.dart';
 import '../widgets/market_watch_app_bar.dart';
+import '../widgets/order/common_order_dialog.dart';
 import '../widgets/symbo_info_dialog.dart';
 import '../widgets/symbol_font_dialog.dart';
+import '../widgets/market_depth_dialog.dart';
 import '../widgets/watchlist_widget.dart';
 import 'dummy/dashboard_page.dart';
 import 'dummy/file_page.dart';
@@ -75,9 +77,23 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
   }
 
   void _onFitToSize() {
+    // Reset font settings to default
     context.read<SymbolFontBloc>().add(const ResetFontSettingsEvent());
+    // Reset column arrangement to default
     context.read<ArrangeSymbolBloc>().add(const ResetColumnsEvent());
     _showMessage('Reset to default size');
+  }
+
+  void _openBuyOrderDialog() {
+    CommonOrderDialog.showBuyOrder(context);
+  }
+
+  void _openSellOrderDialog() {
+    CommonOrderDialog.showSellOrder(context);
+  }
+
+  void _openMarketDepthDialog() {
+    MarketDepthDialog.show(context);
   }
 
   @override
@@ -239,6 +255,18 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
                 canPaste: state.clipboardItem != null,
                 canUndo: state.undoStack.isNotEmpty,
                 canRedo: state.redoStack.isNotEmpty,
+                onBuyOrder: () {
+                  _closeContextMenu();
+                  _openBuyOrderDialog();
+                },
+                onSellOrder: () {
+                  _closeContextMenu();
+                  _openSellOrderDialog();
+                },
+                onMarketDepth: () {
+                  _closeContextMenu();
+                  _openMarketDepthDialog();
+                },
                 onViewChart: () {
                   _closeContextMenu();
                   _showMessage(AppStrings.viewChart);
@@ -304,8 +332,27 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
   void _handleKeyEvent(KeyEvent event) {
     if (event is! KeyDownEvent) return;
 
+    // Handle Escape key
     if (event.logicalKey == LogicalKeyboardKey.escape) {
       if (_contextMenuPosition != null) _closeContextMenu();
+      return;
+    }
+
+    // Handle F1 - Buy Order
+    if (event.logicalKey == LogicalKeyboardKey.f1) {
+      _openBuyOrderDialog();
+      return;
+    }
+
+    // Handle F2 - Sell Order
+    if (event.logicalKey == LogicalKeyboardKey.f2) {
+      _openSellOrderDialog();
+      return;
+    }
+
+    // Handle F5 - Market Depth
+    if (event.logicalKey == LogicalKeyboardKey.f5) {
+      _openMarketDepthDialog();
       return;
     }
 

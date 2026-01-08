@@ -145,7 +145,7 @@ class _SymbolFontContent extends StatelessWidget {
             color: AppColors.white,
             borderRadius: BorderRadius.circular(12.r),
             border: Border.all(
-              color: const Color(0xFF2C5F7B), // border color
+              color: const Color(0xFF2C5F7B),
               width: 2,
             ),
           ),

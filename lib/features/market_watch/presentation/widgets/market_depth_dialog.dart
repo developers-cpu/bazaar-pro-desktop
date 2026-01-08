@@ -4,9 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../bloc/market_depth/market_depth_bloc.dart';
+import '../bloc/market_depth/market_depth_event.dart';
+import '../bloc/market_depth/market_depth_state.dart';
+
 
 /// Market Depth Dialog
-/// Triggered by F5 key
 class MarketDepthDialog extends StatelessWidget {
   const MarketDepthDialog({Key? key}) : super(key: key);
 
@@ -123,15 +125,11 @@ class MarketDepthDialog extends StatelessWidget {
   }
 
   Widget _buildDropdowns(BuildContext context, MarketDepthState state) {
-    final borderColor = AppColors.cardBorderColor(context);
-    final textColor = AppColors.textColor(context);
-    final bgColor = AppColors.inputFieldBackground(context);
-
     return Row(
       children: [
         // Exchange Dropdown
         Expanded(
-          child: _buildSimpleDropdown(
+          child: _buildThemedDropdown(
             context: context,
             hintText: 'Exchange',
             value: state.exchange.isEmpty ? null : state.exchange,
@@ -141,15 +139,12 @@ class MarketDepthDialog extends StatelessWidget {
                 context.read<MarketDepthBloc>().add(UpdateExchangeEvent(value));
               }
             },
-            bgColor: bgColor,
-            borderColor: borderColor,
-            textColor: textColor,
           ),
         ),
         SizedBox(width: 16.w),
         // Symbol Dropdown
         Expanded(
-          child: _buildSimpleDropdown(
+          child: _buildThemedDropdown(
             context: context,
             hintText: 'Symbol',
             value: state.symbol.isEmpty ? null : state.symbol,
@@ -159,25 +154,25 @@ class MarketDepthDialog extends StatelessWidget {
                 context.read<MarketDepthBloc>().add(UpdateSymbolEvent(value));
               }
             },
-            bgColor: bgColor,
-            borderColor: borderColor,
-            textColor: textColor,
           ),
         ),
       ],
     );
   }
 
-  Widget _buildSimpleDropdown({
+  Widget _buildThemedDropdown({
     required BuildContext context,
     required String hintText,
     required String? value,
     required List<String> items,
     required ValueChanged<String?> onChanged,
-    required Color bgColor,
-    required Color borderColor,
-    required Color textColor,
   }) {
+    final isDarkMode = AppColors.isDarkMode(context);
+    final borderColor = AppColors.primaryColor(context);
+    final textColor = AppColors.textColor(context);
+    final bgColor = AppColors.inputFieldBackground(context);
+    final dropdownBgColor = AppColors.cardBackground(context);
+
     return Container(
       height: 45.h,
       decoration: BoxDecoration(
@@ -185,46 +180,77 @@ class MarketDepthDialog extends StatelessWidget {
         borderRadius: BorderRadius.circular(8.r),
         border: Border.all(color: borderColor, width: 1.5),
       ),
-      child: DropdownButtonHideUnderline(
-        child: DropdownButton<String>(
-          value: value,
-          hint: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 12.w),
-            child: Text(
-              hintText,
-              style: GoogleFonts.openSans(
-                fontSize: 14.sp,
-                color: AppColors.supportiveTextColor(context),
-              ),
-            ),
-          ),
-          isExpanded: true,
-          dropdownColor: AppColors.cardBackground(context),
-          icon: Padding(
-            padding: EdgeInsets.only(right: 12.w),
-            child: Icon(
-              Icons.keyboard_arrow_down,
-              color: textColor,
-              size: 20.sp,
-            ),
-          ),
-          items: items.map((item) {
-            return DropdownMenuItem<String>(
-              value: item,
-              child: Padding(
+      child: Theme(
+        data: Theme.of(context).copyWith(
+          canvasColor: dropdownBgColor,
+          // Remove dropdown menu shadow/elevation
+          shadowColor: Colors.transparent,
+        ),
+        child: DropdownButtonHideUnderline(
+          child: ButtonTheme(
+            alignedDropdown: true,
+            child: DropdownButton<String>(
+              value: value,
+              hint: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 12.w),
                 child: Text(
-                  item,
+                  hintText,
                   style: GoogleFonts.openSans(
                     fontSize: 14.sp,
-                    color: textColor,
+                    color: AppColors.supportiveTextColor(context),
                     fontWeight: FontWeight.w400,
                   ),
                 ),
               ),
-            );
-          }).toList(),
-          onChanged: onChanged,
+              isExpanded: true,
+              icon: Padding(
+                padding: EdgeInsets.only(right: 12.w),
+                child: Icon(
+                  Icons.keyboard_arrow_down,
+                  color: textColor,
+                  size: 20.sp,
+                ),
+              ),
+              style: GoogleFonts.openSans(
+                fontSize: 14.sp,
+                color: textColor,
+                fontWeight: FontWeight.w500,
+              ),
+              dropdownColor: dropdownBgColor,
+              borderRadius: BorderRadius.circular(8.r),
+              elevation: 8,
+              menuMaxHeight: 250.h,
+              padding: EdgeInsets.symmetric(horizontal: 12.w),
+              items: items.map((item) {
+                return DropdownMenuItem<String>(
+                  value: item,
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                      vertical: 8.h,
+                      horizontal: 4.w,
+                    ),
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(
+                          color: AppColors.dividerColor(context),
+                          width: 0.5,
+                        ),
+                      ),
+                    ),
+                    child: Text(
+                      item,
+                      style: GoogleFonts.openSans(
+                        fontSize: 14.sp,
+                        color: textColor,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                );
+              }).toList(),
+              onChanged: onChanged,
+            ),
+          ),
         ),
       ),
     );
@@ -264,30 +290,6 @@ class MarketDepthDialog extends StatelessWidget {
             ),
           ],
         ),
-        // Refresh Button
-        if (state.isLoading)
-          SizedBox(
-            width: 20.w,
-            height: 20.w,
-            child: CircularProgressIndicator(
-              strokeWidth: 2.w,
-              color: positiveColor,
-            ),
-          )
-        else
-          IconButton(
-            onPressed: () {
-              context.read<MarketDepthBloc>().add(const RefreshMarketDepthEvent());
-            },
-            icon: Icon(
-              Icons.refresh,
-              size: 20.sp,
-              color: positiveColor,
-            ),
-            padding: EdgeInsets.zero,
-            constraints: const BoxConstraints(),
-            tooltip: 'Refresh',
-          ),
       ],
     );
   }

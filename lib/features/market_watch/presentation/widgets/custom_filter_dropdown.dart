@@ -55,18 +55,24 @@ class _CustomFilterDropdownState extends State<CustomFilterDropdown>
   void _toggle() => _isOpen ? _close() : _open();
 
   void _open() {
+    if (_overlayEntry != null) return;
+
     _overlayEntry = _createOverlay();
-    Overlay.of(context).insert(_overlayEntry!);
-    setState(() => _isOpen = true);
+    Overlay.of(context, rootOverlay: true).insert(_overlayEntry!);
     _controller.forward();
+    setState(() => _isOpen = true);
   }
 
+
   void _close() {
+    if (!_isOpen) return;
+
     _controller.reverse().then((_) {
       _removeOverlay();
       if (mounted) setState(() => _isOpen = false);
     });
   }
+
 
   void _removeOverlay() {
     _overlayEntry?.remove();
@@ -85,97 +91,83 @@ class _CustomFilterDropdownState extends State<CustomFilterDropdown>
   OverlayEntry _createOverlay() {
     final renderBox = context.findRenderObject() as RenderBox;
     final size = renderBox.size;
-    final offset = renderBox.localToGlobal(Offset.zero);
 
-    // Calculate dropdown height based on items
     final itemHeight = 40.h;
     final maxVisibleItems = 8;
     final visibleItems = widget.items.length > maxVisibleItems
         ? maxVisibleItems
         : widget.items.length;
-    final calculatedHeight = widget.dropdownHeight ??
-        (visibleItems * itemHeight + 20.h); // 20 for padding
+
+    final calculatedHeight =
+        widget.dropdownHeight ?? (visibleItems * itemHeight + 16.h);
 
     return OverlayEntry(
-      builder: (context) => Stack(
-        children: [
-          // Dismiss layer
-          Positioned.fill(
-            child: GestureDetector(
-              onTap: _close,
-              behavior: HitTestBehavior.opaque,
-              child: Container(color: AppColors.transparent),
-            ),
-          ),
-          // Dropdown menu
-          Positioned(
-            left: offset.dx,
-            top: offset.dy + size.height + 5.h,
-            width: widget.width ?? 250.w,
-            child: FadeTransition(
-              opacity: _animation,
-              child: Material(
-                color: AppColors.transparent,
-                child: Container(
-                  constraints: BoxConstraints(
-                    maxHeight: calculatedHeight,
-                  ),
-                  decoration: BoxDecoration(
-                    color: AppColors.white,
+      builder: (context) => GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: _close,
+        child: Stack(
+          children: [
+            // Dropdown menu
+            Positioned(
+              width: widget.width ?? size.width,
+              child: CompositedTransformFollower(
+                link: _layerLink,
+                showWhenUnlinked: false,
+                offset: Offset(0, size.height + 6.h),
+                child: FadeTransition(
+                  opacity: _animation,
+                  child: Material(
+                    elevation: 6,
                     borderRadius: BorderRadius.circular(10.r),
-                    border: Border.all(
-                      color: AppColors.primaryBlue,
-                      width: 2.w,
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppColors.black.withOpacity(0.1),
-                        blurRadius: 8.r,
-                        offset: Offset(0, 4.h),
+                    child: Container(
+                      constraints: BoxConstraints(
+                        maxHeight: calculatedHeight,
                       ),
-                    ],
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8.r),
-                    child: ListView.builder(
-                      padding: EdgeInsets.symmetric(vertical: 10.h),
-                      shrinkWrap: true,
-                      itemCount: widget.items.length,
-                      itemBuilder: (context, index) {
-                        final item = widget.items[index];
-                        final isSelected = item == widget.value;
+                      decoration: BoxDecoration(
+                        color: AppColors.white,
+                        borderRadius: BorderRadius.circular(10.r),
+                        border: Border.all(
+                          color: AppColors.primaryBlue,
+                          width: 2.w,
+                        ),
+                      ),
+                      child: ListView.builder(
+                        padding: EdgeInsets.symmetric(vertical: 8.h),
+                        shrinkWrap: true,
+                        itemCount: widget.items.length,
+                        itemBuilder: (context, index) {
+                          final item = widget.items[index];
+                          final isSelected = item == widget.value;
 
-                        return InkWell(
-                          onTap: () {
-                            widget.onChanged(item);
-                            _close();
-                          },
-                          child: Container(
-                            height: itemHeight,
-                            padding: EdgeInsets.symmetric(horizontal: 14.w),
-                            decoration: BoxDecoration(
+                          return InkWell(
+                            onTap: () {
+                              widget.onChanged(item);
+                              _close();
+                            },
+                            child: Container(
+                              height: itemHeight,
+                              padding:
+                              EdgeInsets.symmetric(horizontal: 14.w),
                               color: isSelected
                                   ? AppColors.primaryBgColor
-                                  : AppColors.transparent,
+                                  : Colors.transparent,
+                              alignment: Alignment.centerLeft,
+                              child: Text(item, style: _textStyle),
                             ),
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              item,
-                              style: _textStyle,
-                            ),
-                          ),
-                        );
-                      },
+                          );
+                        },
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
+
 
   @override
   Widget build(BuildContext context) {

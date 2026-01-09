@@ -21,6 +21,8 @@ class MarketWatchLoaded extends MarketWatchState {
   final List<MarketItem> filteredItems;
   final String? selectedExchange;
   final String? selectedSymbol;
+  final List<String>? selectedSymbols;
+  final String? selectedUser;
   final String? selectedItemId;
   final MarketItem? clipboardItem;
   final bool isClipboardCut;
@@ -33,6 +35,8 @@ class MarketWatchLoaded extends MarketWatchState {
     required this.filteredItems,
     this.selectedExchange,
     this.selectedSymbol,
+    this.selectedSymbols,
+    this.selectedUser,
     this.selectedItemId,
     this.clipboardItem,
     this.isClipboardCut = false,
@@ -46,6 +50,8 @@ class MarketWatchLoaded extends MarketWatchState {
     List<MarketItem>? filteredItems,
     String? selectedExchange,
     String? selectedSymbol,
+    List<String>? selectedSymbols,
+    String? selectedUser,
     String? selectedItemId,
     MarketItem? clipboardItem,
     bool? isClipboardCut,
@@ -54,6 +60,8 @@ class MarketWatchLoaded extends MarketWatchState {
     bool? showGrid,
     bool clearExchange = false,
     bool clearSymbol = false,
+    bool clearSymbols = false,
+    bool clearUser = false,
     bool clearSelectedItem = false,
     bool clearClipboard = false,
   }) {
@@ -62,6 +70,8 @@ class MarketWatchLoaded extends MarketWatchState {
       filteredItems: filteredItems ?? this.filteredItems,
       selectedExchange: clearExchange ? null : (selectedExchange ?? this.selectedExchange),
       selectedSymbol: clearSymbol ? null : (selectedSymbol ?? this.selectedSymbol),
+      selectedSymbols: clearSymbols ? null : (selectedSymbols ?? this.selectedSymbols),
+      selectedUser: clearUser ? null : (selectedUser ?? this.selectedUser),
       selectedItemId: clearSelectedItem ? null : (selectedItemId ?? this.selectedItemId),
       clipboardItem: clearClipboard ? null : (clipboardItem ?? this.clipboardItem),
       isClipboardCut: isClipboardCut ?? this.isClipboardCut,
@@ -77,6 +87,8 @@ class MarketWatchLoaded extends MarketWatchState {
     filteredItems,
     selectedExchange,
     selectedSymbol,
+    selectedSymbols,
+    selectedUser,
     selectedItemId,
     clipboardItem,
     isClipboardCut,

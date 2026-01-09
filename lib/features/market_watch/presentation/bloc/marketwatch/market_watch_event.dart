@@ -30,6 +30,24 @@ class FilterBySymbolEvent extends MarketWatchEvent {
   List<Object?> get props => [symbol];
 }
 
+class FilterBySymbolsEvent extends MarketWatchEvent {
+  final List<String> symbols;
+
+  const FilterBySymbolsEvent({required this.symbols});
+
+  @override
+  List<Object?> get props => [symbols];
+}
+
+class FilterByUserEvent extends MarketWatchEvent {
+  final String? user;
+
+  const FilterByUserEvent({this.user});
+
+  @override
+  List<Object?> get props => [user];
+}
+
 class SelectMarketItemEvent extends MarketWatchEvent {
   final String itemId;
 

@@ -129,6 +129,11 @@ class AppColors {
   static const Color red = Color(0xFFFF0000);
   static const Color textDark = Color(0xFF131313);
 
+  static const Color sellColor = const Color(0xFFFF0000);
+  static const Color buyColor =  const Color(0xFF0066FF);
+
+
+
   // Primary Background Color (with opacity)
   static const Color primaryBgColor = Color(0x0D1F4A66);
 

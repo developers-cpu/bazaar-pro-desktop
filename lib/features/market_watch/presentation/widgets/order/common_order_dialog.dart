@@ -3,11 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
+import '../../../../../core/widget/app_dropdown.dart';
 import '../../../data/models/order_dialog_type.dart';
 import '../../bloc/order/order_dialog_bloc.dart';
 import '../../bloc/order/order_dialog_event.dart';
 import '../../bloc/order/order_dialog_state.dart';
-import 'order_dropdown_field.dart';
 import 'order_number_field.dart';
 import 'order_action_button.dart';
 import 'order_success_dialog.dart';
@@ -21,10 +21,9 @@ class CommonOrderDialog extends StatelessWidget {
     required this.type,
   }) : super(key: key);
 
-  // Theme colors based on order type
   Color get _primaryColor => type == OrderDialogType.buy
-      ? const Color(0xFF0066FF)  // Blue for Buy
-      : const Color(0xFFFF0000); // Red for Sell
+      ? AppColors.buyColor
+      : AppColors.sellColor;
 
   Color get _backgroundColor => _primaryColor;
 
@@ -44,7 +43,6 @@ class CommonOrderDialog extends StatelessWidget {
     );
   }
 
-
   static Future<void> showSellOrder(BuildContext context) {
     context.read<OrderDialogBloc>().add(const OpenSellOrderEvent());
     return showDialog(
@@ -60,7 +58,6 @@ class CommonOrderDialog extends StatelessWidget {
       listener: (context, state) {
         if (state.isSubmitted) {
           Navigator.of(context).pop();
-          // Show success dialog
           OrderSuccessDialog.show(
             context,
             orderType: _orderType,
@@ -69,7 +66,6 @@ class CommonOrderDialog extends StatelessWidget {
             quantity: state.quantity,
             price: state.price,
           );
-          // Reset submitted state
           context.read<OrderDialogBloc>().add(const ResetSubmittedEvent());
         }
       },
@@ -152,11 +148,12 @@ class CommonOrderDialog extends StatelessWidget {
         // Client Name
         Expanded(
           flex: 2,
-          child: OrderDropdownField(
-            label: 'Client Name',
+          child: AppDropdown(
+            type: AppDropdownType.simple,
+            hintText: 'Client',
             value: state.clientName.isEmpty ? null : state.clientName,
-            hint: 'Client',
             items: const ['Client 1', 'Client 2', 'Client 3'],
+            label: 'Client Name',
             labelColor: AppColors.white,
             borderColor: LightThemeColors.primaryColor,
             onChanged: (value) {
@@ -171,11 +168,12 @@ class CommonOrderDialog extends StatelessWidget {
         // Order Type
         Expanded(
           flex: 2,
-          child: OrderDropdownField(
-            label: 'Order Type',
+          child: AppDropdown(
+            type: AppDropdownType.simple,
+            hintText: 'Type',
             value: state.orderType.isEmpty ? null : state.orderType,
-            hint: 'Type',
             items: const ['Market', 'Limit', 'Stop Loss', 'Stop Limit'],
+            label: 'Order Type',
             labelColor: AppColors.white,
             borderColor: LightThemeColors.primaryColor,
             onChanged: (value) {
@@ -240,11 +238,12 @@ class CommonOrderDialog extends StatelessWidget {
         // Exchange
         Expanded(
           flex: 2,
-          child: OrderDropdownField(
-            label: 'Exchange',
+          child: AppDropdown(
+            type: AppDropdownType.simple,
+            hintText: 'Exchange',
             value: state.exchange.isEmpty ? null : state.exchange,
-            hint: 'Exchange',
             items: const ['NSE', 'BSE', 'MCX', 'NFO'],
+            label: 'Exchange',
             labelColor: AppColors.white,
             borderColor: LightThemeColors.primaryColor,
             onChanged: (value) {
@@ -259,11 +258,12 @@ class CommonOrderDialog extends StatelessWidget {
         // Symbol
         Expanded(
           flex: 2,
-          child: OrderDropdownField(
-            label: 'Symbol',
+          child: AppDropdown(
+            type: AppDropdownType.simple,
+            hintText: 'Symbol',
             value: state.symbol.isEmpty ? null : state.symbol,
-            hint: 'Symbol',
             items: const ['NIFTY', 'BANKNIFTY', 'RELIANCE', 'TCS', 'INFY'],
+            label: 'Symbol',
             labelColor: AppColors.white,
             borderColor: LightThemeColors.primaryColor,
             onChanged: (value) {
@@ -289,6 +289,7 @@ class CommonOrderDialog extends StatelessWidget {
         ),
         SizedBox(width: 10.w),
 
+        // Order Button (Buy/Sell)
         Expanded(
           flex: 3,
           child: OrderActionButton(

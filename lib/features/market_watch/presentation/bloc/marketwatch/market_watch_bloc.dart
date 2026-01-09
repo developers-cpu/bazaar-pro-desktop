@@ -21,6 +21,8 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
     on<LoadMarketItemsEvent>(_onLoadMarketItems);
     on<FilterByExchangeEvent>(_onFilterByExchange);
     on<FilterBySymbolEvent>(_onFilterBySymbol);
+    on<FilterBySymbolsEvent>(_onFilterBySymbols);
+    on<FilterByUserEvent>(_onFilterByUser);
     on<SelectMarketItemEvent>(_onSelectMarketItem);
     on<CopyMarketItemEvent>(_onCopyMarketItem);
     on<CutMarketItemEvent>(_onCutMarketItem);
@@ -60,7 +62,11 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
       filtered = filtered.where((item) => item.exchange == event.exchange).toList();
     }
 
-    if (currentState.selectedSymbol != null) {
+    // Filter by selected symbols (multi-select)
+    if (currentState.selectedSymbols != null && currentState.selectedSymbols!.isNotEmpty) {
+      filtered = filtered.where((item) => currentState.selectedSymbols!.contains(item.symbol)).toList();
+    } else if (currentState.selectedSymbol != null) {
+      // Fallback to single symbol
       filtered = filtered.where((item) => item.symbol == currentState.selectedSymbol).toList();
     }
 
@@ -90,6 +96,46 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
     emit(currentState.copyWith(
       filteredItems: filtered,
       selectedSymbol: event.symbol,
+    ));
+  }
+
+  void _onFilterBySymbols(
+      FilterBySymbolsEvent event,
+      Emitter<MarketWatchState> emit,
+      ) {
+    final currentState = _getLoadedState();
+    if (currentState == null) return;
+
+    var filtered = currentState.items.toList();
+
+    // Filter by selected symbols (if any)
+    if (event.symbols.isNotEmpty) {
+      filtered = filtered.where((item) => event.symbols.contains(item.symbol)).toList();
+    }
+
+    // Also apply exchange filter if selected
+    if (currentState.selectedExchange != null) {
+      filtered = filtered.where((item) => item.exchange == currentState.selectedExchange).toList();
+    }
+
+    emit(currentState.copyWith(
+      filteredItems: filtered,
+      selectedSymbols: event.symbols.isEmpty ? null : event.symbols,
+      clearSymbol: true, // Clear single symbol selection
+    ));
+  }
+
+  void _onFilterByUser(
+      FilterByUserEvent event,
+      Emitter<MarketWatchState> emit,
+      ) {
+    final currentState = _getLoadedState();
+    if (currentState == null) return;
+
+    // For now, just store the selected user
+    // In a real app, you might filter items by user/client
+    emit(currentState.copyWith(
+      selectedUser: event.user,
     ));
   }
 

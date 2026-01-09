@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_images.dart';
@@ -160,12 +159,8 @@ class MarketWatchAppBar extends StatelessWidget implements PreferredSizeWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        // Reload Button - 48x48, border-width: 2px
         _buildReloadButton(context),
-
         SizedBox(width: 15.w),
-
-        // User Info Section - 162x56
         _buildUserInfoSection(context),
       ],
     );
@@ -177,26 +172,10 @@ class MarketWatchAppBar extends StatelessWidget implements PreferredSizeWidget {
       onTap: () {
         context.read<MarketWatchBloc>().add(const LoadMarketItemsEvent());
       },
-      child: Container(
-        width: 40.w,
-        height: 40.h,
-        decoration: BoxDecoration(
-          color: AppColors.white,
-          shape: BoxShape.circle,
-          border: Border.all(
-            color: AppColors.primaryBlue,
-            width: 2.w,
-          ),
-        ),
-        child: Center(
-          child: SvgIcon(
-          assetPath: AppImages.reloadIcon,
-          isActive: true,
-          size: 22.sp,
-
-        ),
-
-      ),
+      child: SvgIcon(
+        assetPath: AppImages.reloadIcon,
+        isActive: true,
+        size: 40.sp,
       ),
     );
   }

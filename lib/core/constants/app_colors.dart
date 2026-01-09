@@ -46,9 +46,8 @@ class LightThemeColors {
   static const Color contextMenuHover = Color(0xFFE3F2FD);
 
   // Positive/Negative Colors
-  static const Color positiveTextColor = Color(0xFF0066FF);
-  static const Color negativeTextColor = Color(0xFFFF0000);
-
+  static const Color positiveTextColor = AppColors.buyColor;
+  static const Color negativeTextColor = AppColors.sellColor;
   // Gradient Colors (for reference - gradients need to be built separately)
   static const Color gradientPrimaryColor = Color(0xFF368AE9);
   static const Color gradientBaseColor = Color(0xFFFFFFFF);
@@ -100,8 +99,8 @@ class DarkThemeColors {
   static const Color contextMenuHover = Color(0xFF162032);
 
   // Positive/Negative Colors
-  static const Color positiveTextColor = Color(0xFF1F4A66);
-  static const Color negativeTextColor = Color(0xFFE05E50);
+  static const Color positiveTextColor = AppColors.buyColor;
+  static const Color negativeTextColor = AppColors.sellColor;
 
   // Gradient Colors (for reference - gradients need to be built separately)
   static const Color gradientPrimaryColor = Color(0xFF1F4A66);
@@ -150,8 +149,8 @@ class AppColors {
   static const Color secondaryTextColor = Color(0xFF788088);
   static const Color positiveColor = Color(0xFF4CAF50);
   static const Color negativeColor = Color(0xFFE53935);
-  static const Color positiveTextColor = Color(0xFF0066FF);
-  static const Color negativeTextColor = Color(0xFFFF0000);
+  static const Color positiveTextColor = AppColors.buyColor;
+  static const Color negativeTextColor = AppColors.sellColor;
 
   // Border colors (static)
   static const Color borderColor = Color(0xFFE9E9E9);

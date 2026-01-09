@@ -178,8 +178,8 @@ class _MarketDataTableState extends State<MarketDataTable> {
       border: showGrid
           ? TableBorder.all(
         color: isDark
-            ? DarkThemeColors.dividerColor
-            : LightThemeColors.dividerColor,
+            ? AppColors.white
+            : AppColors.black,
         width: 1,
       )
           : const TableBorder(),

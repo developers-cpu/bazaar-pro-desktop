@@ -37,6 +37,8 @@ class AppImages {
   static const String banIcon = '$_commonIconsPath/campaign.svg' ;
   static const String arrangeIcon = '$_commonIconsPath/compress.svg';
   static const String searchIcon = '$_commonIconsPath/search.svg';
+  static const String buyIcon = '$_commonIconsPath/buy.svg';
+  static const String sellIcon = '$_commonIconsPath/sell.svg';
 
   //menu Icons
   static const String menu1Icon = '$_menuIconsPath/menu1.svg';

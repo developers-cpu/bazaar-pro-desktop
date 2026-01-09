@@ -1,9 +1,11 @@
+import 'package:bazarpro/core/constants/app_images.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/constants/app_strings.dart';
 import '../../../../../core/utils/date_formatter.dart';
 import '../../../../../core/utils/number_formatter.dart';
+import '../../../../../core/widget/svg_icon.dart';
 import '../../../domain/entities/market_item.dart';
 import 'table_text_style_helper.dart';
 
@@ -102,12 +104,15 @@ class TableCellBuilder extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            isPositive ? Icons.trending_up : Icons.trending_down,
-            size: (fontSize * 1.2).sp,
-            color: iconColor,
+          SvgIcon(
+            assetPath: isPositive
+                ? AppImages.buyIcon
+                : AppImages.sellIcon,
+            isActive: true,
+            size: (fontSize * 1.5).sp,
+            activeColor: iconColor,
           ),
-          SizedBox(width: 6.w),
+          SizedBox(width: 8.w),
           Text(
             item.exchange,
             style: TableTextStyleHelper.getTextStyle(
@@ -120,6 +125,7 @@ class TableCellBuilder extends StatelessWidget {
         ],
       ),
     );
+
   }
 
   Widget _buildTextCell(String text, {bool isBold = false, Color? color}) {

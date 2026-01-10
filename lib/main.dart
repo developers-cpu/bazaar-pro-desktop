@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'features/auth/presentation/bloc/auth_bloc.dart';
 import 'features/auth/presentation/pages/login_page.dart';
+import 'features/dashboard/presentation/bloc/dashboard_bloc.dart';
+import 'features/dashboard/presentation/pages/dashboard_page.dart';
 import 'features/market_watch/presentation/bloc/arrangesymbol/arrange_symbol_bloc.dart';
 import 'features/market_watch/presentation/bloc/market_depth/market_depth_bloc.dart';
 import 'features/market_watch/presentation/bloc/marketwatch/market_watch_bloc.dart';
@@ -55,6 +57,9 @@ class MyApp extends StatelessWidget {
 
             // Market Depth BLoC - For Market Depth dialog (F5)
             BlocProvider(create: (_) => di.sl<MarketDepthBloc>()),
+
+            // Dashboard BLoC - For Dashboard charts and reports
+            BlocProvider(create: (_) => di.sl<DashboardBloc>()),
           ],
           child: MaterialApp(
             title: 'BAZAAR Pro',
@@ -66,6 +71,7 @@ class MyApp extends StatelessWidget {
             routes: {
               '/': (_) => const LoginPage(),
               '/market-watch': (_) => const MarketWatchPage(),
+              '/dashboard': (_) => const DashboardPage(),
             },
           ),
         );

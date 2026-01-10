@@ -5,6 +5,11 @@ import 'features/auth/data/repositories/auth_repository_impl.dart';
 import 'features/auth/domain/repositories/auth_repository.dart';
 import 'features/auth/domain/usecases/login_user.dart';
 import 'features/auth/presentation/bloc/auth_bloc.dart';
+import 'features/dashboard/data/datasources/dashboard_datasource.dart';
+import 'features/dashboard/data/repositories/dashboard_repository_impl.dart';
+import 'features/dashboard/domain/repositories/dashboard_repository.dart';
+import 'features/dashboard/domain/usecases/dashboard_usecases.dart';
+import 'features/dashboard/presentation/bloc/dashboard_bloc.dart';
 import 'features/market_watch/data/datasources/market_watch_local_datasource.dart';
 import 'features/market_watch/data/repositories/market_watch_repository_impl.dart';
 import 'features/market_watch/domain/repositories/market_watch_repository.dart';
@@ -15,7 +20,6 @@ import 'features/market_watch/presentation/bloc/arrangesymbol/arrange_symbol_blo
 import 'features/market_watch/presentation/bloc/market_depth/market_depth_bloc.dart';
 import 'features/market_watch/presentation/bloc/marketwatch/market_watch_bloc.dart';
 import 'features/market_watch/presentation/bloc/order/order_dialog_bloc.dart';
-
 import 'features/market_watch/presentation/bloc/symbolfont/symbol_font_bloc.dart';
 import 'features/market_watch/presentation/bloc/theme/theme_bloc.dart';
 import 'features/market_watch/presentation/bloc/watchlist/watch_list_bloc.dart';
@@ -85,6 +89,29 @@ Future<void> init() async {
   // Market Watch Data Sources
   sl.registerLazySingleton<MarketWatchLocalDataSource>(
         () => MarketWatchLocalDataSourceImpl(),
+  );
+
+  // ============================================================
+  // DASHBOARD FEATURE
+  // ============================================================
+
+  // Dashboard BLoC
+  sl.registerFactory(() => DashboardBloc(repository: sl()));
+
+  // Dashboard Use Cases
+  sl.registerLazySingleton(() => GetDashboardDataUseCase(repository: sl()));
+  sl.registerLazySingleton(() => GetTradeReportsUseCase(repository: sl()));
+  sl.registerLazySingleton(() => GetSymbolReportsUseCase(repository: sl()));
+  sl.registerLazySingleton(() => GetDashboardSummaryUseCase(repository: sl()));
+
+  // Dashboard Repository
+  sl.registerLazySingleton<DashboardRepository>(
+        () => DashboardRepositoryImpl(dataSource: sl()),
+  );
+
+  // Dashboard Data Sources
+  sl.registerLazySingleton<DashboardDataSource>(
+        () => DashboardDataSource(),
   );
 
   // ============================================================

@@ -85,8 +85,7 @@ class ReportCard extends StatelessWidget {
           child: Text(
             title,
             style: GoogleFonts.openSans(
-              fontSize: 18.sp,
-              fontWeight: FontWeight.w600,
+              fontSize: 20.sp,
               color: LightThemeColors.textColor,
             ),
           ),
@@ -99,7 +98,7 @@ class ReportCard extends StatelessWidget {
               hintText: 'Client',
               value: selectedClient,
               items: clients,
-              width: 140.w,
+              width: 200.w,
               searchHint: 'Search & Add',
               onChanged: onClientChanged,
             ),
@@ -109,7 +108,7 @@ class ReportCard extends StatelessWidget {
               hintText: 'Show',
               value: selectedPeriod,
               items: periods,
-              width: 120.w,
+              width: 200.w,
               onChanged: onPeriodChanged,
             ),
             if (topCounts != null && onTopCountChanged != null) ...[
@@ -119,7 +118,7 @@ class ReportCard extends StatelessWidget {
                 hintText: 'Top',
                 value: selectedTopCount?.toString(),
                 items: topCounts!.map((e) => e.toString()).toList(),
-                width: 100.w,
+                width: 200.w,
                 onChanged: onTopCountChanged,
               ),
             ],

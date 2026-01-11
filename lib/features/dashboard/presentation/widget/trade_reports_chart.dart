@@ -22,125 +22,204 @@ class _TradeReportsChartState extends State<TradeReportsChart> {
   int? _touchedGroupIndex;
   int? _touchedRodIndex;
 
-  static const Color _deletedColor = Color(0xFF7FB3D5);
-  static const Color _cancelledColor = Color(0xFFE74C3C);
-  static const Color _successColor = Color(0xFF4A6572);
+  // Colors matching Figma design
+  static const Color _deletedColor = Color(0xFF4993F4); // Light blue
+  static const Color _cancelledColor = Color(0xFFFF1201); // Red
+  static const Color _successColor = Color(0xFF1F4A66); // Dark blue-gray
+
+  // Background colors for the shadow effect
+  static const Color _deletedBgColor = Color(0xFFE8F2FE); // Very light blue
+  static const Color _cancelledBgColor = Color(0xFFFFE8E6); // Very light red
+  static const Color _successBgColor = Color(0xFFE6EEF2); // Very light blue-gray
 
   @override
   Widget build(BuildContext context) {
+    if (widget.data.isEmpty) {
+      return Center(
+        child: Text(
+          'No data available',
+          style: GoogleFonts.openSans(
+            fontSize: 14.sp,
+            color: LightThemeColors.supportiveTextColor,
+          ),
+        ),
+      );
+    }
+
     return Column(
       children: [
         Expanded(
-          child: BarChart(
-            BarChartData(
-              alignment: BarChartAlignment.spaceAround,
-              maxY: 100,
-              minY: 0,
-              groupsSpace: 20.w,
-              barTouchData: BarTouchData(
-                enabled: true,
-                touchTooltipData: BarTouchTooltipData(
-                  tooltipPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
-                  getTooltipItem: (group, groupIndex, rod, rodIndex) {
-                    String label;
-                    switch (rodIndex) {
-                      case 0:
-                        label = 'Deleted';
-                        break;
-                      case 1:
-                        label = 'Cancelled';
-                        break;
-                      case 2:
-                        label = 'Success';
-                        break;
-                      default:
-                        label = '';
-                    }
-                    return BarTooltipItem(
-                      '${rod.toY.toInt()}',
-                      GoogleFonts.openSans(
-                        color: AppColors.white,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14.sp,
-                      ),
-                    );
-                  },
-                ),
-                touchCallback: (event, response) {
-                  setState(() {
-                    if (response == null || response.spot == null) {
-                      _touchedGroupIndex = null;
-                      _touchedRodIndex = null;
-                    } else {
-                      _touchedGroupIndex = response.spot!.touchedBarGroupIndex;
-                      _touchedRodIndex = response.spot!.touchedRodDataIndex;
-                    }
-                  });
-                },
-              ),
-              titlesData: FlTitlesData(
-                show: true,
-                bottomTitles: AxisTitles(
-                  sideTitles: SideTitles(
-                    showTitles: true,
-                    reservedSize: 40.h,
-                    getTitlesWidget: (value, meta) {
-                      final index = value.toInt();
-                      if (index >= 0 && index < widget.data.length) {
-                        return Padding(
-                          padding: EdgeInsets.only(top: 8.h),
-                          child: Text(
-                            widget.data[index].date,
-                            style: GoogleFonts.openSans(
-                              fontSize: 11.sp,
-                              fontWeight: FontWeight.w500,
-                              color: LightThemeColors.supportiveTextColor,
-                            ),
-                          ),
-                        );
+          child: Padding(
+            padding: EdgeInsets.only(right: 16.w, top: 30.h),
+            child: BarChart(
+              BarChartData(
+                alignment: BarChartAlignment.spaceAround,
+                maxY: 100,
+                minY: 0,
+                groupsSpace: 30.w,
+                barTouchData: BarTouchData(
+                  enabled: true,
+                  touchTooltipData: BarTouchTooltipData(
+                    fitInsideHorizontally: true,
+                    fitInsideVertically: true,
+                    tooltipPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+
+                    getTooltipColor: (group) {
+                      // Return the color based on which rod is touched
+                      if (_touchedRodIndex != null) {
+                        switch (_touchedRodIndex) {
+                          case 0:
+                            return _deletedColor;
+                          case 1:
+                            return _cancelledColor;
+                          case 2:
+                            return _successColor;
+                          default:
+                            return _successColor;
+                        }
                       }
-                      return const SizedBox.shrink();
+                      return _successColor;
                     },
-                  ),
-                ),
-                leftTitles: AxisTitles(
-                  sideTitles: SideTitles(
-                    showTitles: true,
-                    reservedSize: 40.w,
-                    interval: 20,
-                    getTitlesWidget: (value, meta) {
-                      return Text(
-                        value.toInt().toString(),
-                        style: GoogleFonts.openSans(
-                          fontSize: 11.sp,
-                          fontWeight: FontWeight.w500,
-                          color: LightThemeColors.supportiveTextColor,
+                    getTooltipItem: (group, groupIndex, rod, rodIndex) {
+                      String label;
+                      switch (rodIndex) {
+                        case 0:
+                          label = 'Deleted';
+                          break;
+                        case 1:
+                          label = 'Cancelled';
+                          break;
+                        case 2:
+                          label = 'Success';
+                          break;
+                        default:
+                          label = '';
+                      }
+                      return BarTooltipItem(
+                        '$label: ${rod.toY.toInt()}',
+                        GoogleFonts.openSans(
+                          color: AppColors.white,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 12.sp,
                         ),
                       );
                     },
                   ),
+                  touchCallback: (event, response) {
+                    setState(() {
+                      if (response == null || response.spot == null) {
+                        _touchedGroupIndex = null;
+                        _touchedRodIndex = null;
+                      } else {
+                        _touchedGroupIndex = response.spot!.touchedBarGroupIndex;
+                        _touchedRodIndex = response.spot!.touchedRodDataIndex;
+                      }
+                    });
+                  },
                 ),
-                topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                titlesData: FlTitlesData(
+                  show: true,
+                  bottomTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                      showTitles: true,
+                      reservedSize: 32.h,
+                      getTitlesWidget: (value, meta) {
+                        final index = value.toInt();
+                        if (index >= 0 && index < widget.data.length) {
+                          return Padding(
+                            padding: EdgeInsets.only(top: 8.h),
+                            child: Text(
+                              widget.data[index].date,
+                              style: GoogleFonts.openSans(
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w500,
+                                color: LightThemeColors.supportiveTextColor,
+                              ),
+                            ),
+                          );
+                        }
+                        return const SizedBox.shrink();
+                      },
+                    ),
+                  ),
+                  leftTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                      showTitles: true,
+                      reservedSize: 32.w,
+                      interval: 20,
+                      getTitlesWidget: (value, meta) {
+                        return Text(
+                          value.toInt().toString(),
+                          style: GoogleFonts.openSans(
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w500,
+                            color: LightThemeColors.supportiveTextColor,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                  rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                ),
+                borderData: FlBorderData(
+                  show: true,
+                  border: Border(
+                    bottom: BorderSide(
+                      color: LightThemeColors.dividerColor,
+                      width: 1,
+                    ),
+                    left: BorderSide(
+                      color: LightThemeColors.dividerColor,
+                      width: 1,
+                      strokeAlign: BorderSide.strokeAlignInside,
+                    ),
+                    top: BorderSide(
+                      color: LightThemeColors.dividerColor,
+                      width: 1,
+                      strokeAlign: BorderSide.strokeAlignInside,
+                    ),
+                    right: BorderSide(
+                      color: LightThemeColors.dividerColor,
+                      width: 1,
+                      strokeAlign: BorderSide.strokeAlignInside,
+                    ),
+                  ),
+                ),
+                gridData: FlGridData(
+                  show: true,
+                  drawVerticalLine: true,
+                  drawHorizontalLine: true,
+                  horizontalInterval: 20,
+                  getDrawingHorizontalLine: (value) {
+                    return FlLine(
+                      color: LightThemeColors.dividerColor,
+                      strokeWidth: 1,
+                      dashArray: [5, 5],
+                    );
+                  },
+                  getDrawingVerticalLine: (value) {
+                    // Draw vertical dotted lines after each group
+                    return FlLine(
+                      color: LightThemeColors.dividerColor,
+                      strokeWidth: 1,
+                      dashArray: [5, 5],
+                    );
+                  },
+                  verticalInterval: 1,
+                  checkToShowVerticalLine: (value) {
+                    // Show vertical lines between groups (after each date group)
+                    // Don't show line at the first position (before first group)
+                    final index = value.toInt();
+                    return index > 0 && index < widget.data.length;
+                  },
+                ),
+                barGroups: _buildBarGroups(),
               ),
-              borderData: FlBorderData(show: false),
-              gridData: FlGridData(
-                show: true,
-                drawVerticalLine: false,
-                horizontalInterval: 20,
-                getDrawingHorizontalLine: (value) {
-                  return FlLine(
-                    color: LightThemeColors.dividerColor,
-                    strokeWidth: 1,
-                    dashArray: [5, 5],
-                  );
-                },
-              ),
-              barGroups: _buildBarGroups(),
             ),
           ),
         ),
-        SizedBox(height: 16.h),
+        SizedBox(height: 12.h),
         _buildLegend(),
       ],
     );
@@ -154,30 +233,38 @@ class _TradeReportsChartState extends State<TradeReportsChart> {
       return BarChartGroupData(
         x: index,
         barRods: [
-          _buildBarRod(item.deleted, _deletedColor, index, 0),
-          _buildBarRod(item.cancelled, _cancelledColor, index, 1),
-          _buildBarRod(item.success, _successColor, index, 2),
+          _buildBarRod(item.deleted, _deletedColor, _deletedBgColor, index, 0),
+          _buildBarRod(item.cancelled, _cancelledColor, _cancelledBgColor, index, 1),
+          _buildBarRod(item.success, _successColor, _successBgColor, index, 2),
         ],
-        barsSpace: 4.w,
+        barsSpace: 3.w,
       );
     }).toList();
   }
 
-  BarChartRodData _buildBarRod(double value, Color color, int groupIndex, int rodIndex) {
+  BarChartRodData _buildBarRod(
+      double value,
+      Color color,
+      Color bgColor,
+      int groupIndex,
+      int rodIndex,
+      ) {
     final isTouched = _touchedGroupIndex == groupIndex && _touchedRodIndex == rodIndex;
 
     return BarChartRodData(
       toY: value,
-      color: color,
-      width: 20.w,
+      color: isTouched ? color.withOpacity(0.9) : color,
+      width: 42.w,
       borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(4.r),
-        topRight: Radius.circular(4.r),
+        topLeft: Radius.circular(2.r),
+        topRight: Radius.circular(2.r),
       ),
+      // Add background bar showing full height (maxY = 100)
+      rodStackItems: [],
       backDrawRodData: BackgroundBarChartRodData(
         show: true,
-        toY: 100,
-        color: color.withOpacity(0.1),
+        toY: 100, // Full height background
+        color: bgColor,
       ),
     );
   }
@@ -187,9 +274,9 @@ class _TradeReportsChartState extends State<TradeReportsChart> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         _buildLegendItem('Deleted', _deletedColor),
-        SizedBox(width: 24.w),
+        SizedBox(width: 20.w),
         _buildLegendItem('Cancelled', _cancelledColor),
-        SizedBox(width: 24.w),
+        SizedBox(width: 20.w),
         _buildLegendItem('Success', _successColor),
       ],
     );
@@ -200,18 +287,18 @@ class _TradeReportsChartState extends State<TradeReportsChart> {
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
-          width: 16.w,
-          height: 16.h,
+          width: 10.w,
+          height: 10.h,
           decoration: BoxDecoration(
             color: color,
             borderRadius: BorderRadius.circular(2.r),
           ),
         ),
-        SizedBox(width: 8.w),
+        SizedBox(width: 6.w),
         Text(
           label,
           style: GoogleFonts.openSans(
-            fontSize: 12.sp,
+            fontSize: 14.sp,
             fontWeight: FontWeight.w500,
             color: LightThemeColors.textColor,
           ),

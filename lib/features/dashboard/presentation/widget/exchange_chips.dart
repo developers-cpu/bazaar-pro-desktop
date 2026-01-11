@@ -54,20 +54,16 @@ class _ExchangeChip extends StatelessWidget {
       onTap: onTap,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
-        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
         decoration: BoxDecoration(
           color: isSelected ? LightThemeColors.primaryColor : AppColors.transparent,
-          borderRadius: BorderRadius.circular(20.r),
-          border: Border.all(
-            color: LightThemeColors.primaryColor,
-            width: 1.5.w,
-          ),
+          borderRadius: BorderRadius.circular(8.r),
+
         ),
         child: Text(
           label,
           style: GoogleFonts.openSans(
-            fontSize: 12.sp,
-            fontWeight: FontWeight.w600,
+            fontSize: 14.sp,
             color: isSelected ? AppColors.white : LightThemeColors.primaryColor,
           ),
         ),

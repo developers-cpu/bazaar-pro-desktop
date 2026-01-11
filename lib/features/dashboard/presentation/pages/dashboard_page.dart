@@ -23,6 +23,7 @@ class _DashboardPageState extends State<DashboardPage> {
   @override
   void initState() {
     super.initState();
+    // Load dashboard data when page is opened
     context.read<DashboardBloc>().add(const LoadDashboardEvent());
   }
 
@@ -117,23 +118,25 @@ class _DashboardView extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // Title
         Padding(
-          padding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 16.h),
+          padding: EdgeInsets.fromLTRB(20.w, 16.h, 20.w, 12.h),
           child: Text(
             'Dashboard',
             style: GoogleFonts.openSans(
-              fontSize: 24.sp,
-              fontWeight: FontWeight.w700,
+              fontSize: 22.sp,
               color: LightThemeColors.textColor,
             ),
           ),
         ),
-        // Reports Row
+        // Reports Row - Takes most of the height
         Expanded(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.w),
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                // Trade Reports
                 Expanded(
                   child: ReportCard(
                     title: 'Trade Reports',
@@ -163,7 +166,8 @@ class _DashboardView extends StatelessWidget {
                     },
                   ),
                 ),
-                SizedBox(width: 20.w),
+                SizedBox(width: 16.w),
+                // Symbol Wise Report
                 Expanded(
                   child: ReportCard(
                     title: 'Symbol Wise Report',
@@ -209,7 +213,9 @@ class _DashboardView extends StatelessWidget {
           ),
         ),
         // Footer
+        SizedBox(height: 300.h),
         DashboardFooter(summary: state.summary),
+        SizedBox(height: 8.h),
       ],
     );
   }

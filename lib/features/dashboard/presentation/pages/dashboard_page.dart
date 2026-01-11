@@ -23,7 +23,6 @@ class _DashboardPageState extends State<DashboardPage> {
   @override
   void initState() {
     super.initState();
-    // Load dashboard data when page is opened
     context.read<DashboardBloc>().add(const LoadDashboardEvent());
   }
 

@@ -63,9 +63,7 @@ class _TradeReportsChartState extends State<TradeReportsChart> {
                     fitInsideHorizontally: true,
                     fitInsideVertically: true,
                     tooltipPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
-
                     getTooltipColor: (group) {
-                      // Return the color based on which rod is touched
                       if (_touchedRodIndex != null) {
                         switch (_touchedRodIndex) {
                           case 0:
@@ -199,7 +197,6 @@ class _TradeReportsChartState extends State<TradeReportsChart> {
                     );
                   },
                   getDrawingVerticalLine: (value) {
-                    // Draw vertical dotted lines after each group
                     return FlLine(
                       color: LightThemeColors.dividerColor,
                       strokeWidth: 1,
@@ -208,8 +205,6 @@ class _TradeReportsChartState extends State<TradeReportsChart> {
                   },
                   verticalInterval: 1,
                   checkToShowVerticalLine: (value) {
-                    // Show vertical lines between groups (after each date group)
-                    // Don't show line at the first position (before first group)
                     final index = value.toInt();
                     return index > 0 && index < widget.data.length;
                   },
@@ -259,11 +254,10 @@ class _TradeReportsChartState extends State<TradeReportsChart> {
         topLeft: Radius.circular(2.r),
         topRight: Radius.circular(2.r),
       ),
-      // Add background bar showing full height (maxY = 100)
       rodStackItems: [],
       backDrawRodData: BackgroundBarChartRodData(
         show: true,
-        toY: 100, // Full height background
+        toY: 100,
         color: bgColor,
       ),
     );

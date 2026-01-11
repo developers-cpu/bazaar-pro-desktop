@@ -5,7 +5,7 @@ import '../../../../core/constants/app_colors.dart';
 import '../../../../core/widget/app_dropdown.dart';
 import 'exchange_chips.dart';
 
-/// Report Card Widget - Container for Trade Reports and Symbol Wise Report
+/// Report Card Widget
 class ReportCard extends StatelessWidget {
   final String title;
   final Widget chart;
@@ -47,7 +47,7 @@ class ReportCard extends StatelessWidget {
         color: AppColors.white,
         borderRadius: BorderRadius.circular(16.r),
         border: Border.all(
-          color: LightThemeColors.cardBorderColor,
+          color: LightThemeColors.primaryColor,
           width: 1.w,
         ),
       ),

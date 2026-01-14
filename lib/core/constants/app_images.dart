@@ -40,6 +40,12 @@ class AppImages {
   static const String buyIcon = '$_commonIconsPath/buy.svg';
   static const String sellIcon = '$_commonIconsPath/sell.svg';
 
+  static const String pdfIconSvg = 'assets/icons/pdf.svg';
+  static const String excelIconSvg = 'assets/icons/excel.svg';
+  // Export icons - Add these
+  static const String pdfIcon = 'assets/icons/pdf_icon.png';
+  static const String excelIcon = 'assets/icons/excel_icon.png';
+
   //menu Icons
   static const String menu1Icon = '$_menuIconsPath/menu1.svg';
   static const String menu2con = '$_menuIconsPath/menu2.svg';

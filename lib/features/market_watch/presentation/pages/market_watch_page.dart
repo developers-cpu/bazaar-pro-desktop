@@ -16,9 +16,9 @@ import '../bloc/symbolfont/symbol_font_event.dart';
 import '../widgets/arrange_symbol_dialog.dart';
 import '../widgets/ban_trade_info.dart';
 import '../widgets/context_menu_widget.dart';
+import '../widgets/market_app_bar_section.dart';
 import '../widgets/table/market_data_table.dart';
 import '../widgets/market_filtter.dart';
-import '../widgets/market_watch_app_bar.dart';
 import '../widgets/order/common_order_dialog.dart';
 import '../widgets/symbo_info_dialog.dart';
 import '../widgets/symbol_font_dialog.dart';
@@ -42,6 +42,9 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
   int _selectedTabIndex = 0;
   int _selectedWatchlistIndex = -1;
 
+  // Use MarketAppBarSectionState (public class, not private)
+  final GlobalKey<MarketAppBarSectionState> _appBarKey = GlobalKey();
+
   @override
   void initState() {
     super.initState();
@@ -55,12 +58,47 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
     super.dispose();
   }
 
+
+
   void _onTabSelected(int index) {
-    setState(() {
-      _selectedTabIndex = index;
-      _contextMenuPosition = null;
-    });
+    // Check if tab has dropdown - if so, don't change selected index
+    final hasDropdown = _appBarKey.currentState?.hasDropdown(index) ?? false;
+    if (!hasDropdown) {
+      setState(() {
+        _selectedTabIndex = index;
+        _contextMenuPosition = null;
+      });
+    }
   }
+
+
+  void _onReload() {
+    context.read<MarketWatchBloc>().add(const LoadMarketItemsEvent());
+  }
+
+  void _onExportPdf() {
+    _showMessage('Exporting to PDF...');
+    // Implement PDF export
+  }
+
+  void _onExportExcel() {
+    _showMessage('Exporting to Excel...');
+    // Implement Excel export
+  }
+
+  void _handleViewAction(String action) {
+    _showMessage('View: $action');
+    // Add navigation logic based on action
+  }
+
+  void _handleUserAction(String action) {
+    _showMessage('User: $action');
+  }
+
+  void _handleReportAction(String action) {
+    _showMessage('Report: $action');
+  }
+
 
   void _onWatchlistSelected(int index) {
     setState(() => _selectedWatchlistIndex = index);
@@ -77,24 +115,18 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
   }
 
   void _onFitToSize() {
-    // Reset font settings to default
     context.read<SymbolFontBloc>().add(const ResetFontSettingsEvent());
-    // Reset column arrangement to default
     context.read<ArrangeSymbolBloc>().add(const ResetColumnsEvent());
     _showMessage('Reset to default size');
   }
 
-  void _openBuyOrderDialog() {
-    CommonOrderDialog.showBuyOrder(context);
-  }
+  void _openBuyOrderDialog() => CommonOrderDialog.showBuyOrder(context);
+  void _openSellOrderDialog() => CommonOrderDialog.showSellOrder(context);
+  void _openMarketDepthDialog() => MarketDepthDialog.show(context);
 
-  void _openSellOrderDialog() {
-    CommonOrderDialog.showSellOrder(context);
-  }
-
-  void _openMarketDepthDialog() {
-    MarketDepthDialog.show(context);
-  }
+  // ============================================================
+  // BUILD
+  // ============================================================
 
   @override
   Widget build(BuildContext context) {
@@ -108,9 +140,16 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
           onTap: () => _focusNode.requestFocus(),
           child: Scaffold(
             backgroundColor: AppColors.white,
-            appBar: MarketWatchAppBar(
-              selectedIndex: _selectedTabIndex,
+            appBar: MarketAppBarSection(
+              key: _appBarKey,
+              selectedTabIndex: _selectedTabIndex,
               onTabSelected: _onTabSelected,
+              onReload: _onReload,
+              onExportPdf: _onExportPdf,
+              onExportExcel: _onExportExcel,
+              onViewAction: _handleViewAction,
+              onUserAction: _handleUserAction,
+              onReportAction: _handleReportAction,
             ),
             body: _buildBodyContent(),
           ),
@@ -293,15 +332,11 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
                 },
                 onCut: () {
                   _closeContextMenu();
-                  context.read<MarketWatchBloc>().add(
-                    CutMarketItemEvent(item: selectedItem),
-                  );
+                  context.read<MarketWatchBloc>().add(CutMarketItemEvent(item: selectedItem));
                 },
                 onCopy: () {
                   _closeContextMenu();
-                  context.read<MarketWatchBloc>().add(
-                    CopyMarketItemEvent(item: selectedItem),
-                  );
+                  context.read<MarketWatchBloc>().add(CopyMarketItemEvent(item: selectedItem));
                 },
                 onPaste: () {
                   _closeContextMenu();
@@ -317,9 +352,7 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
                 },
                 onDelete: () {
                   _closeContextMenu();
-                  context.read<MarketWatchBloc>().add(
-                    DeleteMarketItemEvent(itemId: selectedItem.id),
-                  );
+                  context.read<MarketWatchBloc>().add(DeleteMarketItemEvent(itemId: selectedItem.id));
                 },
               ),
             ),
@@ -329,28 +362,25 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
     );
   }
 
+
   void _handleKeyEvent(KeyEvent event) {
     if (event is! KeyDownEvent) return;
 
-    // Handle Escape key
     if (event.logicalKey == LogicalKeyboardKey.escape) {
       if (_contextMenuPosition != null) _closeContextMenu();
       return;
     }
 
-    // Handle F1 - Buy Order
     if (event.logicalKey == LogicalKeyboardKey.f1) {
       _openBuyOrderDialog();
       return;
     }
 
-    // Handle F2 - Sell Order
     if (event.logicalKey == LogicalKeyboardKey.f2) {
       _openSellOrderDialog();
       return;
     }
 
-    // Handle F5 - Market Depth
     if (event.logicalKey == LogicalKeyboardKey.f5) {
       _openMarketDepthDialog();
       return;
@@ -373,9 +403,7 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
     if (event.logicalKey == LogicalKeyboardKey.delete &&
         selectedItem != null &&
         !isCtrlPressed) {
-      context.read<MarketWatchBloc>().add(
-        DeleteMarketItemEvent(itemId: selectedItem.id),
-      );
+      context.read<MarketWatchBloc>().add(DeleteMarketItemEvent(itemId: selectedItem.id));
       return;
     }
 
@@ -404,14 +432,10 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
 
     switch (event.logicalKey) {
       case LogicalKeyboardKey.keyX:
-        if (selectedItem != null) {
-          bloc.add(CutMarketItemEvent(item: selectedItem));
-        }
+        if (selectedItem != null) bloc.add(CutMarketItemEvent(item: selectedItem));
         break;
       case LogicalKeyboardKey.keyC:
-        if (selectedItem != null) {
-          bloc.add(CopyMarketItemEvent(item: selectedItem));
-        }
+        if (selectedItem != null) bloc.add(CopyMarketItemEvent(item: selectedItem));
         break;
       case LogicalKeyboardKey.keyV:
         bloc.add(const PasteMarketItemEvent());

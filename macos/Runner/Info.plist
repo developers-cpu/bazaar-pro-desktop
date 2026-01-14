@@ -28,7 +28,10 @@
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+<<<<<<< HEAD
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.business</string>
+=======
+>>>>>>> d6cf7d1 (Make common appbar for and market watch)
 </dict>
 </plist>

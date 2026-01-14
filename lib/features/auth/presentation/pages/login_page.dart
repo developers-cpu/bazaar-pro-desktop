@@ -85,15 +85,16 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _handleAuthStateChange(BuildContext context, AuthState state) {
-    if (state is AuthError) {
-      _showSnackBar(state.message, backgroundColor: AppColors.errorColor);
-    } else if (state is AuthAuthenticated) {
-      _showSnackBar(
-        AuthConstants.loginSuccessMessage,
-        backgroundColor: AppColors.successColor,
-      );
-      Navigator.of(context).pushReplacementNamed('/market-watch');
-    }
+    Navigator.of(context).pushReplacementNamed('/market-watch');
+    // if (state is AuthError) {
+    //   // _showSnackBar(state.message, backgroundColor: AppColors.errorColor);
+    // } else if (state is AuthAuthenticated) {
+    //   _showSnackBar(
+    //     AuthConstants.loginSuccessMessage,
+    //     backgroundColor: AppColors.successColor,
+    //   );
+    //   Navigator.of(context).pushReplacementNamed('/market-watch');
+    // }
   }
 
   Widget _buildForm(BuildContext context, bool isLoading) {

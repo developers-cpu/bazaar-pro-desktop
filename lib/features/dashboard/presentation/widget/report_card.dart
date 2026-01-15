@@ -66,7 +66,7 @@ class ReportCard extends StatelessWidget {
               onToggle: onExchangeToggle,
             ),
           ),
-          SizedBox(height: 16.h),
+          SizedBox(height: 12.h),
           Expanded(
             child: Padding(
               padding: EdgeInsets.fromLTRB(16.w, 0, 16.w, 16.h),
@@ -79,51 +79,88 @@ class ReportCard extends StatelessWidget {
   }
 
   Widget _buildHeader() {
-    return Row(
-      children: [
-        Expanded(
-          child: Text(
-            title,
-            style: GoogleFonts.openSans(
-              fontSize: 20.sp,
-              color: LightThemeColors.textColor,
-            ),
-          ),
-        ),
-        // Dropdowns
-        Row(
-          children: [
-            AppDropdown(
-              type: AppDropdownType.search,
-              hintText: 'Client',
-              value: selectedClient,
-              items: clients,
-              width: 200.w,
-              searchHint: 'Search & Add',
-              onChanged: onClientChanged,
-            ),
-            SizedBox(width: 12.w),
-            AppDropdown(
-              type: AppDropdownType.simple,
-              hintText: 'Show',
-              value: selectedPeriod,
-              items: periods,
-              width: 200.w,
-              onChanged: onPeriodChanged,
-            ),
-            if (topCounts != null && onTopCountChanged != null) ...[
-              SizedBox(width: 12.w),
-              AppDropdown(
-                type: AppDropdownType.simple,
-                hintText: 'Top',
-                value: selectedTopCount?.toString(),
-                items: topCounts!.map((e) => e.toString()).toList(),
-                width: 200.w,
-                onChanged: onTopCountChanged,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        // Calculate if dropdowns can fit in one row
+        final dropdownWidth = 140.w;
+        final spacing = 12.w;
+        final numDropdowns = topCounts != null ? 3 : 2;
+        final requiredWidth = (dropdownWidth * numDropdowns) + (spacing * (numDropdowns - 1));
+        final canFitInRow = constraints.maxWidth > requiredWidth + 100.w;
+
+        if (canFitInRow) {
+          return Row(
+            children: [
+              Expanded(
+                child: Text(
+                  title,
+                  style: GoogleFonts.openSans(
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w600,
+                    color: LightThemeColors.textColor,
+                  ),
+                ),
+              ),
+              _buildDropdowns(dropdownWidth),
+            ],
+          );
+        } else {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: GoogleFonts.openSans(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w600,
+                  color: LightThemeColors.textColor,
+                ),
+              ),
+              SizedBox(height: 12.h),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: _buildDropdowns(dropdownWidth),
               ),
             ],
-          ],
+          );
+        }
+      },
+    );
+  }
+
+  Widget _buildDropdowns(double dropdownWidth) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        AppDropdown(
+          type: AppDropdownType.search,
+          hintText: 'Client',
+          value: selectedClient,
+          items: clients,
+          width: dropdownWidth,
+          searchHint: 'Search & Add',
+          onChanged: onClientChanged,
         ),
+        SizedBox(width: 12.w),
+        AppDropdown(
+          type: AppDropdownType.simple,
+          hintText: 'Period',
+          value: selectedPeriod,
+          items: periods,
+          width: dropdownWidth,
+          onChanged: onPeriodChanged,
+        ),
+        if (topCounts != null && onTopCountChanged != null) ...[
+          SizedBox(width: 12.w),
+          AppDropdown(
+            type: AppDropdownType.simple,
+            hintText: 'Top',
+            value: selectedTopCount?.toString(),
+            items: topCounts!.map((e) => e.toString()).toList(),
+            width: dropdownWidth,
+            onChanged: onTopCountChanged,
+          ),
+        ],
       ],
     );
   }

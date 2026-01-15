@@ -130,89 +130,110 @@ class _DashboardView extends StatelessWidget {
         ),
         // Reports Row - Takes most of the height
         Expanded(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.w),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                // Trade Reports
-                Expanded(
-                  child: ReportCard(
-                    title: 'Trade Reports',
-                    chart: TradeReportsChart(data: state.tradeReports),
-                    clients: state.clients,
-                    selectedClient: state.tradeReportClientId,
-                    onClientChanged: (client) {
-                      context.read<DashboardBloc>().add(
-                        FilterTradeReportsByClientEvent(clientId: client),
-                      );
-                    },
-                    periods: state.periods,
-                    selectedPeriod: state.tradeReportPeriod,
-                    onPeriodChanged: (period) {
-                      if (period != null) {
-                        context.read<DashboardBloc>().add(
-                          FilterTradeReportsByPeriodEvent(period: period),
-                        );
-                      }
-                    },
-                    exchanges: state.exchanges,
-                    selectedExchanges: state.tradeReportSelectedExchanges,
-                    onExchangeToggle: (exchange) {
-                      context.read<DashboardBloc>().add(
-                        ToggleTradeReportExchangeEvent(exchange: exchange),
-                      );
-                    },
-                  ),
+          child: Align(
+            alignment: Alignment.topCenter,
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                maxWidth: 1400.w,
+                maxHeight: 500.h,
+              ),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    // Trade Reports
+                    Expanded(
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                          maxWidth: 750.w,
+                          maxHeight: 700.h,
+                        ),
+                        child: ReportCard(
+                          title: 'Trade Reports',
+                          chart: TradeReportsChart(data: state.tradeReports),
+                          clients: state.clients,
+                          selectedClient: state.tradeReportClientId,
+                          onClientChanged: (client) {
+                            context.read<DashboardBloc>().add(
+                              FilterTradeReportsByClientEvent(clientId: client),
+                            );
+                          },
+                          periods: state.periods,
+                          selectedPeriod: state.tradeReportPeriod,
+                          onPeriodChanged: (period) {
+                            if (period != null) {
+                              context.read<DashboardBloc>().add(
+                                FilterTradeReportsByPeriodEvent(period: period),
+                              );
+                            }
+                          },
+                          exchanges: state.exchanges,
+                          selectedExchanges: state.tradeReportSelectedExchanges,
+                          onExchangeToggle: (exchange) {
+                            context.read<DashboardBloc>().add(
+                              ToggleTradeReportExchangeEvent(exchange: exchange),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 16.w),
+                    // Symbol Wise Report
+                    Expanded(
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                          maxWidth: 750.w,
+                          maxHeight: 700.h,
+                        ),
+                        child: ReportCard(
+                          title: 'Symbol Wise Report',
+                          chart: SymbolWiseChart(data: state.symbolReports),
+                          clients: state.clients,
+                          selectedClient: state.symbolReportClientId,
+                          onClientChanged: (client) {
+                            context.read<DashboardBloc>().add(
+                              FilterSymbolReportsByClientEvent(clientId: client),
+                            );
+                          },
+                          periods: state.periods,
+                          selectedPeriod: state.symbolReportPeriod,
+                          onPeriodChanged: (period) {
+                            if (period != null) {
+                              context.read<DashboardBloc>().add(
+                                FilterSymbolReportsByPeriodEvent(period: period),
+                              );
+                            }
+                          },
+                          exchanges: state.exchanges,
+                          selectedExchanges: state.symbolReportSelectedExchanges,
+                          onExchangeToggle: (exchange) {
+                            context.read<DashboardBloc>().add(
+                              ToggleSymbolReportExchangeEvent(exchange: exchange),
+                            );
+                          },
+                          topCounts: state.topCounts,
+                          selectedTopCount: state.symbolReportTopCount,
+                          onTopCountChanged: (topCount) {
+                            if (topCount != null) {
+                              context.read<DashboardBloc>().add(
+                                ChangeSymbolReportTopCountEvent(
+                                  topCount: int.parse(topCount),
+                                ),
+                              );
+                            }
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                SizedBox(width: 16.w),
-                // Symbol Wise Report
-                Expanded(
-                  child: ReportCard(
-                    title: 'Symbol Wise Report',
-                    chart: SymbolWiseChart(data: state.symbolReports),
-                    clients: state.clients,
-                    selectedClient: state.symbolReportClientId,
-                    onClientChanged: (client) {
-                      context.read<DashboardBloc>().add(
-                        FilterSymbolReportsByClientEvent(clientId: client),
-                      );
-                    },
-                    periods: state.periods,
-                    selectedPeriod: state.symbolReportPeriod,
-                    onPeriodChanged: (period) {
-                      if (period != null) {
-                        context.read<DashboardBloc>().add(
-                          FilterSymbolReportsByPeriodEvent(period: period),
-                        );
-                      }
-                    },
-                    exchanges: state.exchanges,
-                    selectedExchanges: state.symbolReportSelectedExchanges,
-                    onExchangeToggle: (exchange) {
-                      context.read<DashboardBloc>().add(
-                        ToggleSymbolReportExchangeEvent(exchange: exchange),
-                      );
-                    },
-                    topCounts: state.topCounts,
-                    selectedTopCount: state.symbolReportTopCount,
-                    onTopCountChanged: (topCount) {
-                      if (topCount != null) {
-                        context.read<DashboardBloc>().add(
-                          ChangeSymbolReportTopCountEvent(
-                            topCount: int.parse(topCount),
-                          ),
-                        );
-                      }
-                    },
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
         ),
-        // Footer
-        SizedBox(height: 300.h),
+        // Footer - Dynamic spacing
+        SizedBox(height: 16.h),
         DashboardFooter(summary: state.summary),
         SizedBox(height: 8.h),
       ],

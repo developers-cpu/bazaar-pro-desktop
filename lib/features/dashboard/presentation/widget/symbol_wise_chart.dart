@@ -54,12 +54,42 @@ class _SymbolWiseChartState extends State<SymbolWiseChart> {
       builder: (context, constraints) {
         final availableHeight = constraints.maxHeight;
         final availableWidth = constraints.maxWidth;
-        final chartAreaWidth = availableWidth * 0.75;
-        final chartSize = math.min(chartAreaWidth, availableHeight) * 0.95;
+
+        // Better constraints for different screen sizes
+        final minChartSize = 200.0;
+        final maxChartSize = math.min(availableWidth * 0.6, availableHeight * 0.9);
+        final chartSize = math.max(minChartSize, maxChartSize);
+
+        // Calculate if we can fit side by side
+        final legendMinWidth = 180.0;
+        final canFitSideBySide = availableWidth > (chartSize + legendMinWidth);
+
+        if (!canFitSideBySide) {
+          // Stack vertically if not enough width
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(
+                  width: chartSize,
+                  height: chartSize,
+                  child: CustomPaint(
+                    size: Size(chartSize, chartSize),
+                    painter: _PieChartWithLabelsPainter(
+                      data: widget.data,
+                      colors: _chartColors,
+                      touchedIndex: _touchedIndex,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 16.h),
+                _buildHorizontalLegend(),
+              ],
+            ),
+          );
+        }
 
         return Row(
           children: [
-
             Expanded(
               flex: 3,
               child: Center(
@@ -77,8 +107,7 @@ class _SymbolWiseChartState extends State<SymbolWiseChart> {
                 ),
               ),
             ),
-            SizedBox(
-              width: availableWidth * 0.25,
+            Expanded(
               child: _buildRightLegend(),
             ),
           ],
@@ -88,7 +117,6 @@ class _SymbolWiseChartState extends State<SymbolWiseChart> {
   }
 
   Widget _buildRightLegend() {
-
     final halfLength = (widget.data.length / 2).ceil();
     final firstColumn = widget.data.take(halfLength).toList();
     final secondColumn = widget.data.skip(halfLength).toList();
@@ -118,9 +146,18 @@ class _SymbolWiseChartState extends State<SymbolWiseChart> {
     );
   }
 
+  Widget _buildHorizontalLegend() {
+    return Wrap(
+      spacing: 16.w,
+      runSpacing: 8.h,
+      alignment: WrapAlignment.center,
+      children: widget.data.map((item) => _buildLegendItem(item)).toList(),
+    );
+  }
+
   Widget _buildLegendItem(SymbolReportData item) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 5.h),
+      padding: EdgeInsets.symmetric(vertical: 4.h),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -150,7 +187,6 @@ class _SymbolWiseChartState extends State<SymbolWiseChart> {
   }
 }
 
-
 class _PieChartWithLabelsPainter extends CustomPainter {
   final List<SymbolReportData> data;
   final List<Color> colors;
@@ -166,10 +202,11 @@ class _PieChartWithLabelsPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final center = Offset(size.width / 2, size.height / 2);
 
-    final pieRadius = size.width * 0.28;
+    // Adjust pie radius based on size to leave room for labels
+    final pieRadius = math.min(size.width, size.height) * 0.25;
     final totalPercentage = data.fold<double>(0, (sum, item) => sum + item.percentage);
-    _drawPieSections(canvas, center, pieRadius, totalPercentage);
 
+    _drawPieSections(canvas, center, pieRadius, totalPercentage);
     _drawLabelsWithConnectors(canvas, center, pieRadius, size, totalPercentage);
   }
 
@@ -218,11 +255,11 @@ class _PieChartWithLabelsPainter extends CustomPainter {
       final pieEdgeY = center.dy + pieRadius * math.sin(midAngle);
       final isLeftSide = midAngle < -math.pi / 2 || midAngle > math.pi / 2;
 
-      final bendRadius = pieRadius * 1.3;
+      final bendRadius = pieRadius * 1.25;
       final bendX = center.dx + bendRadius * math.cos(midAngle);
       final bendY = center.dy + bendRadius * math.sin(midAngle);
 
-      final horizontalLength = size.width * 0.12;
+      final horizontalLength = math.min(size.width * 0.1, 30.0);
       final labelX = isLeftSide ? bendX - horizontalLength : bendX + horizontalLength;
       final labelY = bendY;
 
@@ -253,10 +290,11 @@ class _PieChartWithLabelsPainter extends CustomPainter {
     final symbolPainter = TextPainter(
       text: TextSpan(
         text: item.symbol,
-        style: TextStyle(
+        style: const TextStyle(
           fontFamily: 'OpenSans',
-          fontSize: 10,
+          fontSize: 8,
           color: AppColors.black,
+          fontWeight: FontWeight.w600,
         ),
       ),
       textDirection: TextDirection.ltr,
@@ -264,16 +302,15 @@ class _PieChartWithLabelsPainter extends CustomPainter {
 
     final valuePainter = TextPainter(
       text: TextSpan(
-        text: '${item.value.toStringAsFixed(2)}  ${item.percentage.toStringAsFixed(2)}%',
+        text: '${item.value.toStringAsFixed(1)} ${item.percentage.toStringAsFixed(1)}%',
         style: TextStyle(
           fontFamily: 'OpenSans',
-          fontSize: 10,
+          fontSize: 7,
           color: color,
         ),
       ),
       textDirection: TextDirection.ltr,
     )..layout();
-
 
     final totalHeight = symbolPainter.height + valuePainter.height + 2;
     final topOffset = position.dy - totalHeight / 2;

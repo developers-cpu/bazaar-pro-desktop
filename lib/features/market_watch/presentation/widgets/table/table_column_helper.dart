@@ -56,7 +56,7 @@ class TableColumnHelper {
       label: 'Sell Qty',
     ),
     'netChange': TableColumnConfig(
-      baseWidth: 100,
+      baseWidth: 130,
       isNumeric: true,
       label: 'Net Change',
     ),

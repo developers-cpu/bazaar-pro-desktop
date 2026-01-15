@@ -19,13 +19,13 @@ class AppStrings {
   static const String buyPrice = 'BUY PRICE';
   static const String sellPrice = 'SELL PRICE';
   static const String sellQty = 'SELL QTY';
-  static const String netChange = 'NET CHANGE';
+  static const String netChange = 'NET CHA';
   static const String high = 'HIGH';
   static const String low = 'LOW';
   static const String open = 'OPEN';
   static const String close = 'CLOSE';
   static const String ltp = 'LTP';
-  static const String netChangePercent = 'NET CHANGE%';
+  static const String netChangePercent = 'NET CHA%';
   static const String expiry = 'EXPIRY';
   static const String lut = 'LUT';
 

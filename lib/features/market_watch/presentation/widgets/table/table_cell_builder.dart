@@ -112,20 +112,23 @@ class TableCellBuilder extends StatelessWidget {
             size: (fontSize * 1.5).sp,
             activeColor: iconColor,
           ),
-          SizedBox(width: 8.w),
-          Text(
-            item.exchange,
-            style: TableTextStyleHelper.getTextStyle(
-              fontFamily: fontFamily,
-              fontSize: fontSize.sp,
-              fontWeight: fontWeight,
-              color: _getTextColor(),
+          SizedBox(width: 6.w),
+          Flexible(
+            child: Text(
+              item.exchange,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+              style: TableTextStyleHelper.getTextStyle(
+                fontFamily: fontFamily,
+                fontSize: fontSize.sp,
+                fontWeight: fontWeight,
+                color: _getTextColor(),
+              ),
             ),
           ),
         ],
       ),
     );
-
   }
 
   Widget _buildTextCell(String text, {bool isBold = false, Color? color}) {
@@ -133,6 +136,8 @@ class TableCellBuilder extends StatelessWidget {
       child: Text(
         text,
         textAlign: TextAlign.center,
+        overflow: TextOverflow.ellipsis,
+        maxLines: 1,
         style: TableTextStyleHelper.getTextStyle(
           fontFamily: fontFamily,
           fontSize: fontSize.sp,

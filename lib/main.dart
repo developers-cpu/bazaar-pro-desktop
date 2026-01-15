@@ -23,10 +23,20 @@ void main() async {
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
     await windowManager.ensureInitialized();
 
-    const WindowOptions windowOptions = WindowOptions(
-      // Initial window size
-      size: Size(1920, 1080),
-      minimumSize: Size(1280, 720),
+    // Get screen size
+    final screenSize = await windowManager.getSize();
+    final screenWidth = screenSize.width;
+    final screenHeight = screenSize.height;
+
+    // Calculate initial size (80% of screen size, but not exceeding 1920x1080)
+    final initialWidth = (screenWidth * 0.7).clamp(1280.0, 1920.0);
+    final initialHeight = (screenHeight * 0.7).clamp(720.0, 1080.0);
+
+    final WindowOptions windowOptions = WindowOptions(
+      // Dynamic initial window size based on screen
+      size: Size(initialWidth, initialHeight),
+      minimumSize: const Size(1280, 720),
+      // No maximum size - let it grow with screen
       center: true,
       backgroundColor: Colors.transparent,
       skipTaskbar: false,
@@ -37,7 +47,6 @@ void main() async {
     await windowManager.waitUntilReadyToShow(windowOptions, () async {
       await windowManager.show();
       await windowManager.focus();
-
     });
   }
 
@@ -50,54 +59,67 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScreenUtilInit(
-      designSize: const Size(1920, 1080),
-      minTextAdapt: true,
-      splitScreenMode: true,
-      useInheritedMediaQuery: true,
-      builder: (context, child) {
-        return MultiBlocProvider(
-          providers: [
-            // Auth BLoC
-            BlocProvider(create: (_) => di.sl<AuthBloc>()),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        // Get actual window size
+        final windowWidth = constraints.maxWidth > 0
+            ? constraints.maxWidth
+            : 1920.0;
+        final windowHeight = constraints.maxHeight > 0
+            ? constraints.maxHeight
+            : 1080.0;
 
-            // Market Watch BLoC
-            BlocProvider(create: (_) => di.sl<MarketWatchBloc>()),
+        return ScreenUtilInit(
+          // Use actual window size for design size
+          designSize: Size(windowWidth, windowHeight),
+          minTextAdapt: true,
+          splitScreenMode: true,
+          useInheritedMediaQuery: true,
+          builder: (context, child) {
+            return MultiBlocProvider(
+              providers: [
+                // Auth BLoC
+                BlocProvider(create: (_) => di.sl<AuthBloc>()),
 
-            // Theme BLoC - For dark/light mode toggle
-            BlocProvider(create: (_) => di.sl<ThemeBloc>()),
+                // Market Watch BLoC
+                BlocProvider(create: (_) => di.sl<MarketWatchBloc>()),
 
-            // Watchlist BLoC
-            BlocProvider(create: (_) => di.sl<WatchlistBloc>()),
+                // Theme BLoC - For dark/light mode toggle
+                BlocProvider(create: (_) => di.sl<ThemeBloc>()),
 
-            // Arrange Symbol BLoC - For column arrangement
-            BlocProvider(create: (_) => di.sl<ArrangeSymbolBloc>()),
+                // Watchlist BLoC
+                BlocProvider(create: (_) => di.sl<WatchlistBloc>()),
 
-            // Symbol Font BLoC - For font settings
-            BlocProvider(create: (_) => di.sl<SymbolFontBloc>()),
+                // Arrange Symbol BLoC - For column arrangement
+                BlocProvider(create: (_) => di.sl<ArrangeSymbolBloc>()),
 
-            // Order Dialog BLoC - For Buy/Sell dialogs
-            BlocProvider(create: (_) => di.sl<OrderDialogBloc>()),
+                // Symbol Font BLoC - For font settings
+                BlocProvider(create: (_) => di.sl<SymbolFontBloc>()),
 
-            // Market Depth BLoC - For Market Depth dialog (F5)
-            BlocProvider(create: (_) => di.sl<MarketDepthBloc>()),
+                // Order Dialog BLoC - For Buy/Sell dialogs
+                BlocProvider(create: (_) => di.sl<OrderDialogBloc>()),
 
-            // Dashboard BLoC - For Dashboard charts and reports
-            BlocProvider(create: (_) => di.sl<DashboardBloc>()),
-          ],
-          child: MaterialApp(
-            title: 'BAZAAR Pro',
-            debugShowCheckedModeBanner: false,
-            themeMode: ThemeMode.system,
+                // Market Depth BLoC - For Market Depth dialog (F5)
+                BlocProvider(create: (_) => di.sl<MarketDepthBloc>()),
 
-            // Routing configuration
-            initialRoute: '/',
-            routes: {
-              '/': (_) => const LoginPage(),
-              '/market-watch': (_) => const MarketWatchPage(),
-              '/dashboard': (_) => const DashboardPage(),
-            },
-          ),
+                // Dashboard BLoC - For Dashboard charts and reports
+                BlocProvider(create: (_) => di.sl<DashboardBloc>()),
+              ],
+              child: MaterialApp(
+                title: 'BAZAAR Pro',
+                debugShowCheckedModeBanner: false,
+                themeMode: ThemeMode.system,
+
+                // Routing configuration
+                initialRoute: '/',
+                routes: {
+                  '/': (_) => const LoginPage(),
+                  '/market-watch': (_) => const MarketWatchPage(),
+                  '/dashboard': (_) => const DashboardPage(),
+                },
+              ),
+            );
+          },
         );
       },
     );

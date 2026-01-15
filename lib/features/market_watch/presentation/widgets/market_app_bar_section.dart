@@ -41,6 +41,9 @@ class MarketAppBarSectionState extends State<MarketAppBarSection> {
   bool _showExportButtons = false;
   late List<AppBarTab> _tabs;
 
+  // Track selected dropdown items for each tab with dropdown
+  final Map<int, String> _selectedDropdownItems = {};
+
   @override
   void initState() {
     super.initState();
@@ -64,57 +67,55 @@ class MarketAppBarSectionState extends State<MarketAppBarSection> {
         dropdownItems: [
           MenuItemData(
             title: 'Pending Orders',
-            onTap: () => widget.onViewAction?.call('pending_orders'),
+            onTap: () => _navigateToPage(context, 3, 'Pending Orders', '/pending-orders'),
           ),
           MenuItemData(
             title: 'Trades',
-            onTap: () => widget.onViewAction?.call('trades'),
+            onTap: () => _navigateToPage(context, 3, 'Trades', '/trades'),
           ),
           MenuItemData(
             title: 'Deals',
-            onTap: () => widget.onViewAction?.call('deals'),
-            hasDivider: true,
+            onTap: () => _navigateToPage(context, 3, 'Deals', '/deals'),
           ),
           MenuItemData(
             title: 'Net Position',
-            onTap: () => widget.onViewAction?.call('net_position'),
+            onTap: () => _navigateToPage(context, 3, 'Net Position', '/net-position'),
           ),
           MenuItemData(
             title: 'Rejection Log',
-            onTap: () => widget.onViewAction?.call('rejection_log'),
+            onTap: () => _navigateToPage(context, 3, 'Rejection Log', '/rejection-log'),
           ),
           MenuItemData(
             title: 'Login History',
-            onTap: () => widget.onViewAction?.call('login_history'),
+            onTap: () => _navigateToPage(context, 3, 'Login History', '/login-history'),
           ),
           MenuItemData(
             title: 'Intraday History',
-            onTap: () => widget.onViewAction?.call('intraday_history'),
-            hasDivider: true,
+            onTap: () => _navigateToPage(context, 3, 'Intraday History', '/intraday-history'),
           ),
           MenuItemData(
             title: 'Script Master',
-            onTap: () => widget.onViewAction?.call('script_master'),
+            onTap: () => _navigateToPage(context, 3, 'Script Master', '/script-master'),
           ),
           MenuItemData(
             title: 'Script Quantity',
-            onTap: () => widget.onViewAction?.call('script_quantity'),
+            onTap: () => _navigateToPage(context, 3, 'Script Quantity', '/script-quantity'),
           ),
           MenuItemData(
             title: 'Bulk Trade',
-            onTap: () => widget.onViewAction?.call('bulk_trade'),
+            onTap: () => _navigateToPage(context, 3, 'Bulk Trade', '/bulk-trade'),
           ),
           MenuItemData(
             title: 'Total Volume',
-            onTap: () => widget.onViewAction?.call('total_volume'),
+            onTap: () => _navigateToPage(context, 3, 'Total Volume', '/total-volume'),
           ),
           MenuItemData(
             title: 'Deleted Trade',
-            onTap: () => widget.onViewAction?.call('deleted_trade'),
+            onTap: () => _navigateToPage(context, 3, 'Deleted Trade', '/deleted-trade'),
           ),
           MenuItemData(
             title: 'Manual Trade',
-            onTap: () => widget.onViewAction?.call('manual_trade'),
+            onTap: () => _navigateToPage(context, 3, 'Manual Trade', '/manual-trade'),
           ),
         ],
       ),
@@ -124,16 +125,16 @@ class MarketAppBarSectionState extends State<MarketAppBarSection> {
         title: 'User',
         dropdownItems: [
           MenuItemData(
-            title: 'User Profile',
-            onTap: () => widget.onUserAction?.call('profile'),
+            title: 'Create User',
+            onTap: () => _navigateToPage(context, 4, 'Create User', '/create-user'),
           ),
           MenuItemData(
-            title: 'Settings',
-            onTap: () => widget.onUserAction?.call('settings'),
+            title: 'In-Active User',
+            onTap: () => _navigateToPage(context, 4, 'In-Active User', '/inactive-user'),
           ),
           MenuItemData(
-            title: 'Preferences',
-            onTap: () => widget.onUserAction?.call('preferences'),
+            title: 'Search User',
+            onTap: () => _navigateToPage(context, 4, 'Search User', '/search-user'),
           ),
         ],
       ),
@@ -144,24 +145,26 @@ class MarketAppBarSectionState extends State<MarketAppBarSection> {
         dropdownItems: [
           MenuItemData(
             title: 'Daily Report',
-            onTap: () => widget.onReportAction?.call('daily'),
+            onTap: () => _navigateToPage(context, 5, 'Daily Report', '/daily-report'),
           ),
           MenuItemData(
             title: 'Weekly Report',
-            onTap: () => widget.onReportAction?.call('weekly'),
+            onTap: () => _navigateToPage(context, 5, 'Weekly Report', '/weekly-report'),
           ),
           MenuItemData(
             title: 'Monthly Report',
-            onTap: () => widget.onReportAction?.call('monthly'),
+            onTap: () => _navigateToPage(context, 5, 'Monthly Report', '/monthly-report'),
           ),
           MenuItemData(
             title: 'Custom Report',
-            onTap: () => widget.onReportAction?.call('custom'),
-            hasDivider: true,
+            onTap: () => _navigateToPage(context, 5, 'Custom Report', '/custom-report'),
           ),
           MenuItemData(
             title: 'Export Report',
-            onTap: _toggleExportButtons,
+            onTap: () {
+              _selectDropdownItem(5, 'Export Report');
+              _toggleExportButtons();
+            },
           ),
         ],
       ),
@@ -169,6 +172,27 @@ class MarketAppBarSectionState extends State<MarketAppBarSection> {
       // Tools - No dropdown (index 6)
       const AppBarTab(title: AppStrings.tools),
     ];
+  }
+
+  /// Navigate to specific page and update selection
+  void _navigateToPage(BuildContext context, int tabIndex, String itemTitle, String routeName) {
+    _selectDropdownItem(tabIndex, itemTitle);
+    widget.onViewAction?.call(routeName);
+
+    // Navigate using named route
+    Navigator.of(context).pushNamed(routeName);
+  }
+
+  /// Select dropdown item and navigate to that tab
+  void _selectDropdownItem(int tabIndex, String itemTitle) {
+    setState(() {
+      _selectedDropdownItems[tabIndex] = itemTitle;
+    });
+
+    // Navigate to the tab if not already selected
+    if (widget.selectedTabIndex != tabIndex) {
+      widget.onTabSelected(tabIndex);
+    }
   }
 
   void _toggleExportButtons() {
@@ -208,6 +232,7 @@ class MarketAppBarSectionState extends State<MarketAppBarSection> {
       onExportPdf: widget.onExportPdf,
       onExportExcel: widget.onExportExcel,
       onCloseExport: _closeExportButtons,
+      selectedDropdownItems: _selectedDropdownItems,
     );
   }
 }

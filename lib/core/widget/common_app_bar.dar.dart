@@ -21,6 +21,7 @@ class CommonAppBar extends StatefulWidget implements PreferredSizeWidget {
   final VoidCallback? onExportPdf;
   final VoidCallback? onExportExcel;
   final VoidCallback? onCloseExport;
+  final Map<int, String>? selectedDropdownItems;
 
   const CommonAppBar({
     Key? key,
@@ -35,6 +36,7 @@ class CommonAppBar extends StatefulWidget implements PreferredSizeWidget {
     this.onExportPdf,
     this.onExportExcel,
     this.onCloseExport,
+    this.selectedDropdownItems,
   }) : super(key: key);
 
   @override
@@ -98,6 +100,7 @@ class _CommonAppBarState extends State<CommonAppBar>
         top: position.dy + size.height + 8.h,
         child: _DropdownMenu(
           items: widget.tabs[index].dropdownItems!,
+          selectedItem: widget.selectedDropdownItems?[index],
           onDismiss: () {
             _removeDropdown();
             setState(() => _hoveredDropdownIndex = null);
@@ -179,7 +182,7 @@ class _CommonAppBarState extends State<CommonAppBar>
           children: List.generate(widget.tabs.length, (index) {
             final isLast = index == widget.tabs.length - 1;
             return Padding(
-              padding: EdgeInsets.only(right: isLast ? 0 : 20.w),
+              padding: EdgeInsets.only(right: isLast ? 0 : 8.w), // Reduced spacing from 20.w to 8.w
               child: _buildNavTab(
                 index,
                 widget.tabs[index],
@@ -195,6 +198,16 @@ class _CommonAppBarState extends State<CommonAppBar>
   Widget _buildNavTab(int index, AppBarTab tab, {required bool isSelected}) {
     final hasDropdown = tab.hasDropdown;
     final isDropdownOpen = _hoveredDropdownIndex == index;
+
+    // Get the display title - use selected item if available, otherwise use default title
+    String displayTitle = tab.title;
+    if (widget.selectedDropdownItems != null && widget.selectedDropdownItems!.containsKey(index)) {
+      displayTitle = widget.selectedDropdownItems![index]!;
+    }
+
+    // Determine if tab should be highlighted
+    final shouldHighlight = isSelected || isDropdownOpen ||
+        (hasDropdown && widget.selectedDropdownItems?.containsKey(index) == true);
 
     return GestureDetector(
       key: _tabKeys[index],
@@ -216,54 +229,26 @@ class _CommonAppBarState extends State<CommonAppBar>
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         curve: Curves.easeInOut,
-        width: isSelected || isDropdownOpen ? 125.w : 100.w,
+        width: 120.w,
         height: 40.h,
         decoration: BoxDecoration(
-          color: isSelected || isDropdownOpen
-              ? AppColors.primaryBlue
-              : AppColors.transparent,
+          color: shouldHighlight ? AppColors.primaryBlue : AppColors.transparent,
           borderRadius: BorderRadius.circular(15.r),
         ),
         alignment: Alignment.center,
-        padding: EdgeInsets.symmetric(horizontal: 10.w),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Flexible(
-              child: FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Text(
-                  tab.title,
-                  textAlign: TextAlign.center,
-                  maxLines: 1,
-                  style: GoogleFonts.openSans(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w600,
-                    height: 1.0,
-                    letterSpacing: 0.15,
-                    color: isSelected || isDropdownOpen
-                        ? AppColors.white
-                        : AppColors.textDark,
-                  ),
-                ),
-              ),
-            ),
-            if (hasDropdown) ...[
-              SizedBox(width: 4.w),
-              AnimatedRotation(
-                turns: isDropdownOpen ? 0.5 : 0,
-                duration: const Duration(milliseconds: 200),
-                child: Icon(
-                  Icons.keyboard_arrow_down,
-                  size: 16.sp,
-                  color: isSelected || isDropdownOpen
-                      ? AppColors.white
-                      : AppColors.textDark,
-                ),
-              ),
-            ],
-          ],
+        padding: EdgeInsets.symmetric(horizontal: 8.w),
+        child: Text(
+          displayTitle,
+          textAlign: TextAlign.center,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: GoogleFonts.openSans(
+            fontSize: 13.sp, // Slightly smaller font
+            fontWeight: FontWeight.w600,
+            height: 1.0,
+            letterSpacing: 0.15,
+            color: shouldHighlight ? AppColors.white : AppColors.textDark,
+          ),
         ),
       ),
     );
@@ -273,7 +258,6 @@ class _CommonAppBarState extends State<CommonAppBar>
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        // Export buttons with animation
         AnimatedSize(
           duration: const Duration(milliseconds: 300),
           curve: Curves.easeInOut,
@@ -287,7 +271,6 @@ class _CommonAppBarState extends State<CommonAppBar>
           )
               : const SizedBox.shrink(),
         ),
-        // Reload button (conditional)
         if (widget.showReloadIcon) ...[
           _buildReloadButton(context),
           SizedBox(width: 15.w),
@@ -308,7 +291,6 @@ class _CommonAppBarState extends State<CommonAppBar>
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // PDF Export Button
           _ExportButton(
             icon: AppImages.pdfIcon,
             label: 'PDF',
@@ -320,14 +302,12 @@ class _CommonAppBarState extends State<CommonAppBar>
             margin: EdgeInsets.symmetric(horizontal: 8.w),
             color: AppColors.greyBorder,
           ),
-          // Excel Export Button
           _ExportButton(
             icon: AppImages.excelIcon,
             label: 'XLS',
             onTap: widget.onExportExcel,
           ),
           SizedBox(width: 8.w),
-          // Close button
           GestureDetector(
             onTap: widget.onCloseExport,
             child: Icon(
@@ -448,7 +428,6 @@ class _CommonAppBarState extends State<CommonAppBar>
   }
 }
 
-/// Export button widget
 class _ExportButton extends StatelessWidget {
   final String icon;
   final String label;
@@ -498,14 +477,15 @@ class _ExportButton extends StatelessWidget {
   }
 }
 
-/// Dropdown menu widget
 class _DropdownMenu extends StatelessWidget {
   final List<MenuItemData> items;
   final VoidCallback onDismiss;
+  final String? selectedItem;
 
   const _DropdownMenu({
     required this.items,
     required this.onDismiss,
+    this.selectedItem,
   });
 
   @override
@@ -537,25 +517,14 @@ class _DropdownMenu extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: items.map((item) {
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  _DropdownMenuItem(
-                    title: item.title,
-                    onTap: () {
-                      onDismiss();
-                      item.onTap?.call();
-                    },
-                  ),
-                  if (item.hasDivider)
-                    Divider(
-                      height: 1,
-                      thickness: 1,
-                      color: AppColors.greyBorder,
-                      indent: 16.w,
-                      endIndent: 16.w,
-                    ),
-                ],
+              final isSelected = selectedItem == item.title;
+              return _DropdownMenuItem(
+                title: item.title,
+                isSelected: isSelected,
+                onTap: () {
+                  onDismiss();
+                  item.onTap?.call();
+                },
               );
             }).toList(),
           ),
@@ -565,14 +534,15 @@ class _DropdownMenu extends StatelessWidget {
   }
 }
 
-/// Dropdown menu item widget
 class _DropdownMenuItem extends StatefulWidget {
   final String title;
   final VoidCallback? onTap;
+  final bool isSelected;
 
   const _DropdownMenuItem({
     required this.title,
     this.onTap,
+    this.isSelected = false,
   });
 
   @override
@@ -591,14 +561,38 @@ class _DropdownMenuItemState extends State<_DropdownMenuItem> {
         onTap: widget.onTap,
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-          color: _isHovered ? AppColors.primaryBgColor : AppColors.transparent,
-          child: Text(
-            widget.title,
-            style: GoogleFonts.openSans(
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w500,
-              color: AppColors.textDark,
-            ),
+          decoration: BoxDecoration(
+            color: widget.isSelected
+                ? AppColors.primaryBlue.withOpacity(0.15)
+                : (_isHovered ? AppColors.primaryBgColor : AppColors.transparent),
+            border: widget.isSelected
+                ? Border(
+              left: BorderSide(
+                color: AppColors.primaryBlue,
+                width: 3.w,
+              ),
+            )
+                : null,
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                child: Text(
+                  widget.title,
+                  style: GoogleFonts.openSans(
+                    fontSize: 14.sp,
+                    fontWeight: widget.isSelected ? FontWeight.w700 : FontWeight.w500,
+                    color: widget.isSelected ? AppColors.primaryBlue : AppColors.textDark,
+                  ),
+                ),
+              ),
+              if (widget.isSelected)
+                Icon(
+                  Icons.check_circle,
+                  size: 20.sp,
+                  color: AppColors.primaryBlue,
+                ),
+            ],
           ),
         ),
       ),

@@ -6,11 +6,13 @@ class AppImages {
   static const String _iconsPath = 'assets/icons/auth';
   static const String _commonIconsPath = 'assets/icons/market';
   static const String _menuIconsPath = 'assets/icons/menu';
-
+  static const String _viewIconsPath = 'assets/icons/view';
   // Images
   static const String appLogo = '$_imagesPath/bazaar_logo.png';
   static const String loginBackgroundGif = '$_gifsPath/login_background.gif';
   static const String userPlaceholder = '$_imagesPath/user_placeholder.png';
+  static const String pdfIcon ='$_imagesPath/pdf.png';
+  static const String excelIcon ='$_imagesPath/excel.png';
 
   // Input Field SVG Icons
   static const String input1 = '$_iconsPath/driver.svg';
@@ -40,11 +42,7 @@ class AppImages {
   static const String buyIcon = '$_commonIconsPath/buy.svg';
   static const String sellIcon = '$_commonIconsPath/sell.svg';
 
-  static const String pdfIconSvg = 'assets/icons/pdf.svg';
-  static const String excelIconSvg = 'assets/icons/excel.svg';
-  // Export icons - Add these
-  static const String pdfIcon = 'assets/icons/pdf_icon.png';
-  static const String excelIcon = 'assets/icons/excel_icon.png';
+
 
   //menu Icons
   static const String menu1Icon = '$_menuIconsPath/menu1.svg';
@@ -57,4 +55,7 @@ class AppImages {
   static const String menu8Icon = '$_menuIconsPath/menu8.svg';
   static const String menu9Icon = '$_menuIconsPath/menu9.svg';
   static const String menu10Icon = '$_menuIconsPath/menu10.svg';
+
+  //view Icon
+  static const String fileExportIcon = '$_viewIconsPath/file_export.svg';
 }

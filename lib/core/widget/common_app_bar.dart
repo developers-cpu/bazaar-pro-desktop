@@ -7,7 +7,6 @@ import '../constants/app_images.dart';
 import '../constants/app_strings.dart';
 import 'svg_icon.dart';
 
-
 /// Common AppBar Widget - Reusable across all pages
 class CommonAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String username;
@@ -16,11 +15,10 @@ class CommonAppBar extends StatefulWidget implements PreferredSizeWidget {
   final Function(int)? onTabSelected;
   final List<AppBarTab> tabs;
   final bool showReloadIcon;
-  final bool showExportButtons;
+  final bool showExportIcon; // Changed: Now controls if export icon is visible
   final VoidCallback? onReload;
   final VoidCallback? onExportPdf;
   final VoidCallback? onExportExcel;
-  final VoidCallback? onCloseExport;
   final Map<int, String>? selectedDropdownItems;
 
   const CommonAppBar({
@@ -31,16 +29,15 @@ class CommonAppBar extends StatefulWidget implements PreferredSizeWidget {
     this.onTabSelected,
     required this.tabs,
     this.showReloadIcon = false,
-    this.showExportButtons = false,
+    this.showExportIcon = false, // Changed parameter name
     this.onReload,
     this.onExportPdf,
     this.onExportExcel,
-    this.onCloseExport,
     this.selectedDropdownItems,
   }) : super(key: key);
 
   @override
-  Size get preferredSize => Size.fromHeight(64.h); // Reduced from 76.h
+  Size get preferredSize => Size.fromHeight(64.h);
 
   @override
   State<CommonAppBar> createState() => _CommonAppBarState();
@@ -51,6 +48,7 @@ class _CommonAppBarState extends State<CommonAppBar>
   int? _hoveredDropdownIndex;
   OverlayEntry? _dropdownOverlay;
   final Map<int, GlobalKey> _tabKeys = {};
+  bool _isExportExpanded = false;
 
   @override
   void initState() {
@@ -68,6 +66,9 @@ class _CommonAppBarState extends State<CommonAppBar>
       for (int i = 0; i < widget.tabs.length; i++) {
         _tabKeys[i] = GlobalKey();
       }
+    }
+    if (oldWidget.selectedIndex != widget.selectedIndex) {
+      _isExportExpanded = false;
     }
   }
 
@@ -97,7 +98,7 @@ class _CommonAppBarState extends State<CommonAppBar>
     _dropdownOverlay = OverlayEntry(
       builder: (context) => Positioned(
         left: position.dx,
-        top: position.dy + size.height + 6.h, // Reduced from 8.h
+        top: position.dy + size.height + 6.h,
         child: _DropdownMenu(
           items: widget.tabs[index].dropdownItems!,
           selectedItem: widget.selectedDropdownItems?[index],
@@ -113,12 +114,24 @@ class _CommonAppBarState extends State<CommonAppBar>
     setState(() => _hoveredDropdownIndex = index);
   }
 
+  void _toggleExportButtons() {
+    setState(() {
+      _isExportExpanded = !_isExportExpanded;
+    });
+  }
+
+  void _closeExportButtons() {
+    setState(() {
+      _isExportExpanded = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 64.h, // Reduced from 76.h
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h), // Reduced from 20.w, 10.h
+      height: 64.h,
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
       decoration: const BoxDecoration(
         color: AppColors.white,
       ),
@@ -135,11 +148,11 @@ class _CommonAppBarState extends State<CommonAppBar>
 
   Widget _buildLogo() {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(10.r), // Reduced from 12.r
+      borderRadius: BorderRadius.circular(10.r),
       child: Image.asset(
         AppImages.appLogo,
-        width: 42.w, // Reduced from 49.w
-        height: 42.h, // Reduced from 50.h
+        width: 42.w,
+        height: 42.h,
         fit: BoxFit.contain,
         errorBuilder: (context, error, stackTrace) {
           return Container(
@@ -153,7 +166,7 @@ class _CommonAppBarState extends State<CommonAppBar>
               child: Text(
                 AppStrings.logoFallback,
                 style: GoogleFonts.openSans(
-                  fontSize: 20.sp, // Reduced from 24.sp
+                  fontSize: 20.sp,
                   fontWeight: FontWeight.w700,
                   color: AppColors.white,
                 ),
@@ -167,12 +180,12 @@ class _CommonAppBarState extends State<CommonAppBar>
 
   Widget _buildMenuBar() {
     return Container(
-      height: 44.h, // Reduced from 50.h
-      margin: EdgeInsets.symmetric(horizontal: 12.w), // Reduced from 16.w
-      padding: EdgeInsets.all(4.w), // Reduced from 5.w
+      height: 44.h,
+      margin: EdgeInsets.symmetric(horizontal: 12.w),
+      padding: EdgeInsets.all(4.w),
       decoration: BoxDecoration(
         color: AppColors.primaryBgColor,
-        borderRadius: BorderRadius.circular(12.r), // Reduced from 15.r
+        borderRadius: BorderRadius.circular(12.r),
       ),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
@@ -182,7 +195,7 @@ class _CommonAppBarState extends State<CommonAppBar>
           children: List.generate(widget.tabs.length, (index) {
             final isLast = index == widget.tabs.length - 1;
             return Padding(
-              padding: EdgeInsets.only(right: isLast ? 0 : 6.w), // Reduced from 8.w
+              padding: EdgeInsets.only(right: isLast ? 0 : 6.w),
               child: _buildNavTab(
                 index,
                 widget.tabs[index],
@@ -199,14 +212,14 @@ class _CommonAppBarState extends State<CommonAppBar>
     final hasDropdown = tab.hasDropdown;
     final isDropdownOpen = _hoveredDropdownIndex == index;
 
-    // Get the display title - use selected item if available, otherwise use default title
     String displayTitle = tab.title;
-    if (widget.selectedDropdownItems != null && widget.selectedDropdownItems!.containsKey(index)) {
+    if (widget.selectedDropdownItems != null &&
+        widget.selectedDropdownItems!.containsKey(index)) {
       displayTitle = widget.selectedDropdownItems![index]!;
     }
 
-    // Determine if tab should be highlighted
-    final shouldHighlight = isSelected || isDropdownOpen ||
+    final shouldHighlight = isSelected ||
+        isDropdownOpen ||
         (hasDropdown && widget.selectedDropdownItems?.containsKey(index) == true);
 
     return GestureDetector(
@@ -229,21 +242,21 @@ class _CommonAppBarState extends State<CommonAppBar>
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         curve: Curves.easeInOut,
-        width: 110.w, // Reduced from 120.w
-        height: 36.h, // Reduced from 40.h
+        width: 110.w,
+        height: 36.h,
         decoration: BoxDecoration(
           color: shouldHighlight ? AppColors.primaryBlue : AppColors.transparent,
-          borderRadius: BorderRadius.circular(12.r), // Reduced from 15.r
+          borderRadius: BorderRadius.circular(12.r),
         ),
         alignment: Alignment.center,
-        padding: EdgeInsets.symmetric(horizontal: 6.w), // Reduced from 8.w
+        padding: EdgeInsets.symmetric(horizontal: 6.w),
         child: Text(
           displayTitle,
           textAlign: TextAlign.center,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: GoogleFonts.openSans(
-            fontSize: 12.sp, // Reduced from 13.sp
+            fontSize: 12.sp,
             fontWeight: FontWeight.w600,
             height: 1.0,
             letterSpacing: 0.15,
@@ -258,66 +271,114 @@ class _CommonAppBarState extends State<CommonAppBar>
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        AnimatedSize(
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeInOut,
-          child: widget.showExportButtons
-              ? Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              _buildExportButtons(),
-              SizedBox(width: 10.w), // Reduced from 15.w
-            ],
-          )
-              : const SizedBox.shrink(),
-        ),
+        // Export Button Section
+        if (widget.showExportIcon) ...[
+          AnimatedSize(
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeInOut,
+            child: _isExportExpanded
+                ? _buildExpandedExportButtons()
+                : _buildCollapsedExportButton(),
+          ),
+          SizedBox(width: 10.w),
+        ],
+        // Reload Icon
         if (widget.showReloadIcon) ...[
           _buildReloadButton(context),
-          SizedBox(width: 10.w), // Reduced from 15.w
+          SizedBox(width: 10.w),
         ],
+        // User Info
         _buildUserInfoSection(context),
       ],
     );
   }
 
-  Widget _buildExportButtons() {
-    return Container(
-      height: 44.h, // Reduced from 50.h
-      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h), // Reduced from 10.w, 5.h
-      decoration: BoxDecoration(
-        color: AppColors.primaryBgColor,
-        borderRadius: BorderRadius.circular(12.r), // Reduced from 15.r
+  // Collapsed state - Just the export icon
+  Widget _buildCollapsedExportButton() {
+    return GestureDetector(
+      onTap: _toggleExportButtons,
+      child: Container(
+        width: 45.w,
+        height: 45.h,
+        padding: EdgeInsets.all(10.w),
+        decoration: BoxDecoration(
+          color: const Color(0xFF1F4A66), // #1F4A66
+          borderRadius: BorderRadius.circular(15.r),
+        ),
+        child: Center(
+          child: SvgIcon(
+            assetPath: AppImages.fileExportIcon,
+            isActive: true,
+            size: 35.sp,
+            activeColor: AppColors.white,
+          ),
+        ),
       ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          _ExportButton(
-            icon: AppImages.pdfIcon,
-            label: 'PDF',
-            onTap: widget.onExportPdf,
+    );
+  }
+
+  // Expanded state - PDF, Excel, and Close icons
+  Widget _buildExpandedExportButtons() {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        // PDF and Excel container
+        Container(
+          height: 45.h,
+          padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+          decoration: BoxDecoration(
+            color: const Color(0xFFE8F4FA), // Light blue background
+            borderRadius: BorderRadius.circular(15.r),
           ),
-          Container(
-            width: 1,
-            height: 26.h, // Reduced from 30.h
-            margin: EdgeInsets.symmetric(horizontal: 6.w), // Reduced from 8.w
-            color: AppColors.greyBorder,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _ExportButton(
+                icon: AppImages.pdfIcon,
+                label: 'PDF',
+                onTap: () {
+                  widget.onExportPdf?.call();
+                  _closeExportButtons();
+                },
+              ),
+              Container(
+                width: 2.w,
+                height: 35.h,
+                margin: EdgeInsets.symmetric(horizontal: 10.w),
+                color: Color(0xFF1F4A66),
+              ),
+              _ExportButton(
+                icon: AppImages.excelIcon,
+                label: 'XLS',
+                onTap: () {
+                  widget.onExportExcel?.call();
+                  _closeExportButtons();
+                },
+              ),
+            ],
           ),
-          _ExportButton(
-            icon: AppImages.excelIcon,
-            label: 'XLS',
-            onTap: widget.onExportExcel,
-          ),
-          SizedBox(width: 6.w), // Reduced from 8.w
-          GestureDetector(
-            onTap: widget.onCloseExport,
-            child: Icon(
-              Icons.close,
-              size: 18.sp, // Reduced from 20.sp
-              color: AppColors.textDark,
+        ),
+        SizedBox(width: 10.w),
+        // Close button
+        GestureDetector(
+          onTap: _closeExportButtons,
+          child: Container(
+            width: 45.w,
+            height: 45.h,
+            decoration: BoxDecoration(
+              color: const Color(0xFFE8F4FA),
+              borderRadius: BorderRadius.circular(15.r),
+            ),
+            child: Center(
+              child: Icon(
+                Icons.close,
+                size: 24.sp,
+                color: const Color(0xFF1F4A66),
+              ),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -327,26 +388,26 @@ class _CommonAppBarState extends State<CommonAppBar>
       child: SvgIcon(
         assetPath: AppImages.reloadIcon,
         isActive: true,
-        size: 36.sp, // Reduced from 40.sp
+        size: 36.sp,
       ),
     );
   }
 
   Widget _buildUserInfoSection(BuildContext context) {
     return Container(
-      height: 44.h, // Reduced from 50.h
-      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h), // Reduced from 10.w, 5.h
+      height: 44.h,
+      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
       decoration: BoxDecoration(
         color: AppColors.primaryBgColor,
-        borderRadius: BorderRadius.circular(12.r), // Reduced from 15.r
+        borderRadius: BorderRadius.circular(12.r),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           _buildUserInitial(),
-          SizedBox(width: 6.w), // Reduced from 8.w
+          SizedBox(width: 6.w),
           _buildUserDetails(),
-          SizedBox(width: 3.w), // Reduced from 4.w
+          SizedBox(width: 3.w),
           _buildLogoutButton(context),
         ],
       ),
@@ -355,10 +416,10 @@ class _CommonAppBarState extends State<CommonAppBar>
 
   Widget _buildUserInitial() {
     return Container(
-      width: 26.w, // Reduced from 30.w
-      height: 26.h, // Reduced from 30.h
+      width: 26.w,
+      height: 26.h,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8.r), // Reduced from 10.r
+        borderRadius: BorderRadius.circular(8.r),
         border: Border.all(color: AppColors.red, width: 1.w),
       ),
       alignment: Alignment.center,
@@ -369,7 +430,7 @@ class _CommonAppBarState extends State<CommonAppBar>
               ? widget.username[0].toUpperCase()
               : AppStrings.userInitialFallback,
           style: GoogleFonts.openSans(
-            fontSize: 12.sp, // Reduced from 14.sp
+            fontSize: 12.sp,
             fontWeight: FontWeight.w600,
             height: 1.0,
             letterSpacing: 0.46,
@@ -388,18 +449,18 @@ class _CommonAppBarState extends State<CommonAppBar>
         Text(
           widget.username,
           style: GoogleFonts.openSans(
-            fontSize: 11.sp, // Reduced from 12.sp
+            fontSize: 11.sp,
             fontWeight: FontWeight.w700,
             height: 1.0,
             letterSpacing: 0.1,
             color: AppColors.primaryBlue,
           ),
         ),
-        SizedBox(height: 3.h), // Reduced from 4.h
+        SizedBox(height: 3.h),
         Text(
           widget.version,
           style: GoogleFonts.openSans(
-            fontSize: 9.sp, // Reduced from 10.sp
+            fontSize: 9.sp,
             fontWeight: FontWeight.w600,
             height: 1.0,
             letterSpacing: 0.5,
@@ -414,13 +475,13 @@ class _CommonAppBarState extends State<CommonAppBar>
     return GestureDetector(
       onTap: () => Navigator.of(context).pushReplacementNamed('/'),
       child: SizedBox(
-        width: 32.w, // Reduced from 36.w
-        height: 32.h, // Reduced from 36.h
+        width: 32.w,
+        height: 32.h,
         child: Center(
           child: SvgIcon(
             assetPath: AppImages.logoutIcon,
             isActive: true,
-            size: 22.sp, // Reduced from 24.sp
+            size: 22.sp,
           ),
         ),
       ),
@@ -444,27 +505,27 @@ class _ExportButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 3.h), // Reduced from 8.w, 4.h
+
         child: Image.asset(
           icon,
-          width: 28.w, // Reduced from 32.w
-          height: 28.h, // Reduced from 32.h
+          width: 35.w,
+          height: 35.h,
           fit: BoxFit.contain,
           errorBuilder: (context, error, stackTrace) {
             return Container(
-              width: 28.w,
-              height: 28.h,
+              width: 35.w,
+              height: 35.h,
               decoration: BoxDecoration(
                 color: label == 'PDF'
                     ? const Color(0xFFFF6B6B)
                     : const Color(0xFF4CAF50),
-                borderRadius: BorderRadius.circular(4.r),
+                borderRadius: BorderRadius.circular(8.r),
               ),
               alignment: Alignment.center,
               child: Text(
                 label,
                 style: GoogleFonts.openSans(
-                  fontSize: 9.sp, // Reduced from 10.sp
+                  fontSize: 10.sp,
                   fontWeight: FontWeight.w700,
                   color: AppColors.white,
                 ),
@@ -498,10 +559,10 @@ class _DropdownMenu extends StatelessWidget {
         color: AppColors.white,
         child: Container(
           constraints: BoxConstraints(
-            minWidth: 160.w, // Reduced from 180.w
-            maxWidth: 220.w, // Reduced from 250.w
+            minWidth: 160.w,
+            maxWidth: 220.w,
           ),
-          padding: EdgeInsets.symmetric(vertical: 6.h), // Reduced from 8.h
+          padding: EdgeInsets.symmetric(vertical: 6.h),
           decoration: BoxDecoration(
             color: AppColors.white,
             borderRadius: BorderRadius.circular(12.r),
@@ -560,7 +621,7 @@ class _DropdownMenuItemState extends State<_DropdownMenuItem> {
       child: GestureDetector(
         onTap: widget.onTap,
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 10.h), // Reduced from 16.w, 12.h
+          padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 10.h),
           decoration: BoxDecoration(
             color: widget.isSelected
                 ? AppColors.primaryBlue.withOpacity(0.15)
@@ -580,7 +641,7 @@ class _DropdownMenuItemState extends State<_DropdownMenuItem> {
                 child: Text(
                   widget.title,
                   style: GoogleFonts.openSans(
-                    fontSize: 13.sp, // Reduced from 14.sp
+                    fontSize: 13.sp,
                     fontWeight: widget.isSelected ? FontWeight.w700 : FontWeight.w500,
                     color: widget.isSelected ? AppColors.primaryBlue : AppColors.textDark,
                   ),
@@ -589,7 +650,7 @@ class _DropdownMenuItemState extends State<_DropdownMenuItem> {
               if (widget.isSelected)
                 Icon(
                   Icons.check_circle,
-                  size: 18.sp, // Reduced from 20.sp
+                  size: 18.sp,
                   color: AppColors.primaryBlue,
                 ),
             ],

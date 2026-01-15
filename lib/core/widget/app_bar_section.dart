@@ -5,7 +5,6 @@ import '../../../../core/widget/common_app_bar.dart';
 import '../../features/market_watch/data/models/menu_Item_data.dart';
 
 /// Unified AppBar Section
-/// Single AppBar that works for all pages (Market Watch, Dashboard, View pages, etc.)
 class AppBarSection extends StatefulWidget implements PreferredSizeWidget {
   final int selectedTabIndex;
   final String? currentPageTitle; // For View pages, shows the current page name
@@ -39,16 +38,13 @@ class AppBarSection extends StatefulWidget implements PreferredSizeWidget {
   State<AppBarSection> createState() => AppBarSectionState();
 }
 
-/// Exposed state class for external access to hasDropdown method
 class AppBarSectionState extends State<AppBarSection> {
-  late bool _showExportButtons;
   late List<AppBarTab> _tabs;
   final Map<int, String> _selectedDropdownItems = {};
 
   @override
   void initState() {
     super.initState();
-    _showExportButtons = widget.showExportByDefault;
     _initializeTabs();
 
     // Set the current page title in View dropdown if provided
@@ -176,7 +172,7 @@ class AppBarSectionState extends State<AppBarSection> {
             title: 'Export Report',
             onTap: () {
               _selectDropdownItem(4, 'Export Report');
-              _toggleExportButtons();
+              // Export toggle is now handled by the CommonAppBar itself
             },
           ),
         ],
@@ -211,14 +207,6 @@ class AppBarSectionState extends State<AppBarSection> {
     }
   }
 
-  void _toggleExportButtons() {
-    setState(() => _showExportButtons = !_showExportButtons);
-  }
-
-  void _closeExportButtons() {
-    setState(() => _showExportButtons = false);
-  }
-
   void _onTabSelected(int index) {
     // Handle navigation to main tabs
     if (index == 0) {
@@ -228,11 +216,6 @@ class AppBarSectionState extends State<AppBarSection> {
     } else if (index == 5) {
       // Tools tab - navigate to tools page
       Navigator.of(context).pushReplacementNamed('/tools');
-    }
-
-    // Hide export buttons when switching tabs (except for Report tab or View pages)
-    if (index != 4 && !widget.showExportByDefault) {
-      _closeExportButtons();
     }
 
     widget.onTabSelected(index);
@@ -246,7 +229,6 @@ class AppBarSectionState extends State<AppBarSection> {
 
   /// Show reload icon based on selected tab
   bool get _shouldShowReloadIcon {
-    // Only show reload on Market Watch page
     return widget.selectedTabIndex == 0;
   }
 
@@ -257,11 +239,10 @@ class AppBarSectionState extends State<AppBarSection> {
       selectedIndex: widget.selectedTabIndex,
       onTabSelected: _onTabSelected,
       showReloadIcon: _shouldShowReloadIcon,
-      showExportButtons: _showExportButtons,
+      showExportIcon: widget.showExportByDefault,
       onReload: widget.onReload,
       onExportPdf: widget.onExportPdf,
       onExportExcel: widget.onExportExcel,
-      onCloseExport: _closeExportButtons,
       selectedDropdownItems: _selectedDropdownItems,
     );
   }

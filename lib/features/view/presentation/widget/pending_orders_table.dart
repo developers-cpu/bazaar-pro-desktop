@@ -1,40 +1,28 @@
+import 'package:bazarpro/features/view/presentation/widget/table/pending_orders_column_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
+import 'package:data_table_2/data_table_2.dart';
 import '../../../../../core/constants/app_colors.dart';
-import '../../../../../core/constants/app_images.dart';
-import '../../../../../core/widget/svg_icon.dart';
-import '../../domain/entities/pending_order.dart';
-import '../bloc/pending_orders/pending_orders_bloc.dart';
+import '../../../market_watch/presentation/bloc/arrangesymbol/arrange_symbol_state.dart';
+import '../../../market_watch/presentation/widgets/table/table_header_cell.dart';
+import '../../domain/entities/pending_order.dart' show PendingOrder;
+import '../bloc/pending_orders/pending_orders_bloc.dart' show PendingOrdersBloc;
 import '../bloc/pending_orders/pending_orders_event.dart';
 import '../bloc/pending_orders/pending_orders_state.dart';
+import 'table/pending_orders_cell_builder.dart';
 
-/// Column configuration for Pending Orders table
-class _ColumnConfig {
-  final String id;
-  final String label;
-  final double width;
-  final bool sortable;
-  final TextAlign align;
 
-  const _ColumnConfig({
-    required this.id,
-    required this.label,
-    required this.width,
-    this.sortable = true,
-    this.align = TextAlign.center,
-  });
-}
-
-/// Pending Orders Data Table
+/// Pending Orders Data Table using data_table_2 package
 class PendingOrdersTable extends StatefulWidget {
   final bool showDeviceInfo;
+  final bool isDarkMode;
 
   const PendingOrdersTable({
     Key? key,
     this.showDeviceInfo = false,
+    this.isDarkMode = false,
   }) : super(key: key);
 
   @override
@@ -42,36 +30,13 @@ class PendingOrdersTable extends StatefulWidget {
 }
 
 class _PendingOrdersTableState extends State<PendingOrdersTable> {
-  final ScrollController _horizontalController = ScrollController();
-  final ScrollController _verticalController = ScrollController();
+  int? _sortColumnIndex;
+  bool _sortAscending = true;
 
-  // Column configurations
-  List<_ColumnConfig> get _columns => [
-    _ColumnConfig(id: 'userId', label: 'USER ID', width: 100.w),
-    _ColumnConfig(id: 'upline', label: 'UPLINE', width: 100.w),
-    _ColumnConfig(id: 'exchange', label: 'EXCH', width: 80.w),
-    _ColumnConfig(id: 'symbol', label: 'SYMBOL', width: 120.w),
-    _ColumnConfig(id: 'buySell', label: 'B/S', width: 180.w),
-    _ColumnConfig(id: 'qty', label: 'QTY', width: 100.w, align: TextAlign.right),
-    _ColumnConfig(id: 'lot', label: 'LOT', width: 80.w, align: TextAlign.right),
-    _ColumnConfig(id: 'triggerPrice', label: 'T. PRICE', width: 120.w, align: TextAlign.right),
-    _ColumnConfig(id: 'orderDateTime', label: 'ORDER D/T', width: 180.w),
-    _ColumnConfig(id: 'modifyOrderDateTime', label: 'MODIFY ORDER D/T', width: 180.w),
-    _ColumnConfig(id: 'orderType', label: 'TYPE', width: 80.w),
-    _ColumnConfig(id: 'cmp', label: 'CMP', width: 100.w, align: TextAlign.right),
-    _ColumnConfig(id: 'rPrice', label: 'R.PRICE', width: 100.w, align: TextAlign.right),
-    if (widget.showDeviceInfo) ...[
-      _ColumnConfig(id: 'deviceId', label: 'DEVICE ID', width: 280.w),
-      _ColumnConfig(id: 'ipAddress', label: 'IP ADDRESS', width: 120.w),
-    ],
-  ];
-
-  @override
-  void dispose() {
-    _horizontalController.dispose();
-    _verticalController.dispose();
-    super.dispose();
-  }
+  // Font settings - can be made dynamic via BLoC
+  final String _fontFamily = 'Open Sans';
+  final double _fontSize = 13.0;
+  final FontWeight _fontWeight = FontWeight.w500;
 
   @override
   Widget build(BuildContext context) {
@@ -82,29 +47,7 @@ class _PendingOrdersTableState extends State<PendingOrdersTable> {
         }
 
         if (state is PendingOrdersError) {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  state.message,
-                  style: GoogleFonts.openSans(
-                    fontSize: 14.sp,
-                    color: AppColors.red,
-                  ),
-                ),
-                SizedBox(height: 16.h),
-                ElevatedButton(
-                  onPressed: () {
-                    context.read<PendingOrdersBloc>().add(
-                      const LoadPendingOrdersEvent(),
-                    );
-                  },
-                  child: const Text('Retry'),
-                ),
-              ],
-            ),
-          );
+          return _buildErrorState(state.message);
         }
 
         if (state is! PendingOrdersLoaded) {
@@ -141,247 +84,225 @@ class _PendingOrdersTableState extends State<PendingOrdersTable> {
     );
   }
 
-  Widget _buildTable(PendingOrdersLoaded state) {
-    final totalWidth = _columns.fold<double>(0, (sum, col) => sum + col.width);
-
-    return Scrollbar(
-      controller: _horizontalController,
-      thumbVisibility: true,
-      child: SingleChildScrollView(
-        controller: _horizontalController,
-        scrollDirection: Axis.horizontal,
-        child: SizedBox(
-          width: totalWidth,
-          child: Column(
-            children: [
-              // Header
-              _buildHeader(state),
-              // Data rows
-              Expanded(
-                child: _buildDataRows(state),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildHeader(PendingOrdersLoaded state) {
-    return Container(
-      height: 48.h,
-      decoration: BoxDecoration(
-        color: AppColors.primaryBgColor,
-        border: Border(
-          bottom: BorderSide(color: AppColors.greyBorder, width: 1),
-        ),
-      ),
-      child: Row(
-        children: _columns.map((column) {
-          return _buildHeaderCell(column, state);
-        }).toList(),
-      ),
-    );
-  }
-
-  Widget _buildHeaderCell(_ColumnConfig column, PendingOrdersLoaded state) {
-    final isSorted = state.sortColumn == column.id;
-
-    return GestureDetector(
-      onTap: column.sortable
-          ? () {
-        context.read<PendingOrdersBloc>().add(
-          SortByColumnEvent(
-            columnId: column.id,
-            ascending: isSorted ? !state.sortAscending : true,
-          ),
-        );
-      }
-          : null,
-      child: Container(
-        width: column.width,
-        padding: EdgeInsets.symmetric(horizontal: 8.w),
-        alignment: Alignment.center,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Flexible(
-              child: Text(
-                column.label,
-                style: GoogleFonts.openSans(
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.w600,
-                  color: LightThemeColors.textColor,
-                ),
-                overflow: TextOverflow.ellipsis,
-              ),
+  Widget _buildErrorState(String message) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            message,
+            style: GoogleFonts.openSans(
+              fontSize: 14.sp,
+              color: AppColors.red,
             ),
-            if (column.sortable) ...[
-              SizedBox(width: 4.w),
-              SvgIcon(
-                assetPath: AppImages.sortIcon,
-                isActive: isSorted,
-                size: 14.sp,
-                activeColor: isSorted ? AppColors.primaryBlue : null,
-              ),
-            ],
-          ],
-        ),
+          ),
+          SizedBox(height: 16.h),
+          ElevatedButton(
+            onPressed: () {
+              context.read<PendingOrdersBloc>().add(const LoadPendingOrdersEvent());
+            },
+            child: const Text('Retry'),
+          ),
+        ],
       ),
     );
   }
 
-  Widget _buildDataRows(PendingOrdersLoaded state) {
+  Widget _buildTable(PendingOrdersLoaded state) {
+    final isDark = widget.isDarkMode;
+    final visibleColumns = PendingOrdersColumnHelper.getDefaultColumns(
+      showDeviceInfo: widget.showDeviceInfo,
+    );
+    final minWidth = PendingOrdersColumnHelper.calculateMinWidth(visibleColumns, _fontSize);
+
     if (state.filteredOrders.isEmpty) {
-      return Center(
+      return _buildEmptyState(isDark);
+    }
+
+    return _buildTableContainer(
+      isDark: isDark,
+      visibleColumns: visibleColumns,
+      minWidth: minWidth,
+      state: state,
+    );
+  }
+
+  Widget _buildEmptyState(bool isDark) {
+    return Container(
+      color: isDark ? DarkThemeColors.backgroundColor : LightThemeColors.backgroundColor,
+      child: Center(
         child: Text(
           'No orders found',
           style: GoogleFonts.openSans(
-            fontSize: 14.sp,
-            color: LightThemeColors.supportiveTextColor,
+            fontSize: 16.sp,
+            color: isDark
+                ? DarkThemeColors.supportiveTextColor
+                : LightThemeColors.supportiveTextColor,
           ),
         ),
-      );
-    }
-
-    return Scrollbar(
-      controller: _verticalController,
-      thumbVisibility: true,
-      child: ListView.builder(
-        controller: _verticalController,
-        itemCount: state.filteredOrders.length,
-        itemBuilder: (context, index) {
-          final order = state.filteredOrders[index];
-          final isSelected = state.selectedOrderId == order.id;
-          final isEven = index % 2 == 0;
-
-          return GestureDetector(
-            onTap: () {
-              context.read<PendingOrdersBloc>().add(
-                SelectOrderEvent(order.id),
-              );
-            },
-            child: Container(
-              height: 40.h,
-              decoration: BoxDecoration(
-                color: isSelected
-                    ? AppColors.primaryBlue.withOpacity(0.1)
-                    : (isEven ? AppColors.white : AppColors.primaryBgColor.withOpacity(0.3)),
-                border: Border(
-                  bottom: BorderSide(
-                    color: AppColors.greyBorder.withOpacity(0.5),
-                    width: 0.5,
-                  ),
-                ),
-              ),
-              child: Row(
-                children: _columns.map((column) {
-                  return _buildDataCell(column, order);
-                }).toList(),
-              ),
-            ),
-          );
-        },
       ),
     );
   }
 
-  Widget _buildDataCell(_ColumnConfig column, PendingOrder order) {
-    final value = _getCellValue(column.id, order);
-    final textColor = _getCellColor(column.id, order);
-
+  Widget _buildTableContainer({
+    required bool isDark,
+    required List<ColumnItem> visibleColumns,
+    required double minWidth,
+    required PendingOrdersLoaded state,
+  }) {
     return Container(
-      width: column.width,
-      padding: EdgeInsets.symmetric(horizontal: 8.w),
-      alignment: _getAlignment(column.align),
-      child: Text(
-        value,
-        style: GoogleFonts.openSans(
-          fontSize: 12.sp,
-          fontWeight: FontWeight.w500,
-          color: textColor,
+      margin: EdgeInsets.all(10.w),
+      decoration: BoxDecoration(
+        color: isDark ? DarkThemeColors.backgroundColor : LightThemeColors.backgroundColor,
+        border: Border.all(
+          color: isDark ? DarkThemeColors.dividerColor : LightThemeColors.dividerColor,
+          width: 1,
         ),
-        overflow: TextOverflow.ellipsis,
-        maxLines: 1,
+        borderRadius: BorderRadius.circular(10.r),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10.r),
+        child: _buildDataTable(
+          isDark: isDark,
+          visibleColumns: visibleColumns,
+          minWidth: minWidth,
+          state: state,
+        ),
       ),
     );
   }
 
-  String _getCellValue(String columnId, PendingOrder order) {
-    switch (columnId) {
-      case 'userId':
-        return order.userId;
-      case 'upline':
-        return order.upline;
-      case 'exchange':
-        return order.exchange;
-      case 'symbol':
-        return order.symbol;
-      case 'buySell':
-        return order.buySell;
-      case 'qty':
-        return _formatNumber(order.qty);
-      case 'lot':
-        return order.lot.toStringAsFixed(2);
-      case 'triggerPrice':
-        return _formatNumber(order.triggerPrice);
-      case 'orderDateTime':
-        return _formatDateTime(order.orderDateTime);
-      case 'modifyOrderDateTime':
-        return _formatDateTime(order.modifyOrderDateTime);
-      case 'orderType':
-        return order.orderType;
-      case 'cmp':
-        return _formatNumber(order.cmp);
-      case 'rPrice':
-        return _formatNumber(order.rPrice);
-      case 'deviceId':
-        return order.deviceId ?? '-';
-      case 'ipAddress':
-        return order.ipAddress ?? '-';
-      default:
-        return '-';
-    }
+  Widget _buildDataTable({
+    required bool isDark,
+    required List<ColumnItem> visibleColumns,
+    required double minWidth,
+    required PendingOrdersLoaded state,
+  }) {
+    final rowHeight = (_fontSize * 3.2).clamp(48.0, 80.0);
+    final headerHeight = (_fontSize * 3.5).clamp(55.0, 85.0);
+
+    return DataTable2(
+      columnSpacing: 12,
+      horizontalMargin: 12,
+      minWidth: minWidth,
+      headingRowHeight: headerHeight.h,
+      dataRowHeight: rowHeight.h,
+      headingRowColor: WidgetStateProperty.all(
+        LightThemeColors.tableColumnHeadColor,
+      ),
+      dividerThickness: 1,
+      border: TableBorder.all(
+        color: isDark ? AppColors.white.withOpacity(0.2) : AppColors.greyBorder,
+        width: 0.5,
+      ),
+      sortColumnIndex: _sortColumnIndex,
+      sortAscending: _sortAscending,
+      columns: _buildColumns(
+        visibleColumns: visibleColumns,
+        isDark: isDark,
+      ),
+      rows: _buildRows(
+        visibleColumns: visibleColumns,
+        isDark: isDark,
+        state: state,
+      ),
+    );
   }
 
-  Color _getCellColor(String columnId, PendingOrder order) {
-    switch (columnId) {
-      case 'symbol':
-        return AppColors.primaryBlue;
-      case 'buySell':
-        return order.isBuy ? LightThemeColors.positiveTextColor : LightThemeColors.negativeTextColor;
-      case 'qty':
-        return order.qty >= 0 ? LightThemeColors.textColor : LightThemeColors.negativeTextColor;
-      case 'triggerPrice':
-        return order.triggerPrice >= 0 ? AppColors.primaryBlue : LightThemeColors.negativeTextColor;
-      case 'cmp':
-      case 'rPrice':
-        return AppColors.primaryBlue;
-      default:
-        return LightThemeColors.textColor;
-    }
+  List<DataColumn2> _buildColumns({
+    required List<ColumnItem> visibleColumns,
+    required bool isDark,
+  }) {
+    return visibleColumns.asMap().entries.map((entry) {
+      final index = entry.key;
+      final column = entry.value;
+      final config = PendingOrdersColumnHelper.getConfig(column.id);
+
+      return DataColumn2(
+        label: TableHeaderCell(
+          title: PendingOrdersColumnHelper.getLabel(column.id),
+          isDark: isDark,
+          fontFamily: _fontFamily,
+          fontSize: _fontSize,
+          fontWeight: FontWeight.w600,
+        ),
+        size: _getColumnSize(visibleColumns.length),
+        numeric: config?.isNumeric ?? false,
+        onSort: (columnIndex, ascending) => _onSort(columnIndex, ascending, column.id),
+      );
+    }).toList();
   }
 
-  Alignment _getAlignment(TextAlign align) {
-    switch (align) {
-      case TextAlign.left:
-        return Alignment.centerLeft;
-      case TextAlign.right:
-        return Alignment.centerRight;
-      default:
-        return Alignment.center;
+  ColumnSize _getColumnSize(int visibleColumnCount) {
+    if (visibleColumnCount <= 5) {
+      return ColumnSize.L;
+    } else if (visibleColumnCount <= 10) {
+      return ColumnSize.M;
     }
+    return ColumnSize.S;
   }
 
-  String _formatNumber(double value) {
-    if (value == value.toInt()) {
-      return value.toInt().toString();
-    }
-    return value.toStringAsFixed(2);
+  void _onSort(int columnIndex, bool ascending, String columnId) {
+    setState(() {
+      _sortColumnIndex = columnIndex;
+      _sortAscending = ascending;
+    });
+
+    context.read<PendingOrdersBloc>().add(
+      SortByColumnEvent(columnId: columnId, ascending: ascending),
+    );
   }
 
-  String _formatDateTime(DateTime dateTime) {
-    return DateFormat('dd/MM/yy hh:mm:ss a').format(dateTime);
+  List<DataRow2> _buildRows({
+    required List<ColumnItem> visibleColumns,
+    required bool isDark,
+    required PendingOrdersLoaded state,
+  }) {
+    return state.filteredOrders.map((item) {
+      final isSelected = state.selectedOrderId == item.id;
+
+      return DataRow2(
+        selected: isSelected,
+        color: WidgetStateProperty.resolveWith<Color?>((states) {
+          if (states.contains(WidgetState.selected)) {
+            return isDark
+                ? DarkThemeColors.selectedRowBackground
+                : LightThemeColors.selectedRowBackground;
+          }
+          return isDark
+              ? DarkThemeColors.backgroundColor
+              : LightThemeColors.backgroundColor;
+        }),
+        onTap: () => _onRowTap(item.id),
+        cells: _buildCells(
+          visibleColumns: visibleColumns,
+          item: item,
+          isDark: isDark,
+        ),
+      );
+    }).toList();
+  }
+
+  void _onRowTap(String itemId) {
+    context.read<PendingOrdersBloc>().add(SelectOrderEvent(itemId));
+  }
+
+  List<DataCell> _buildCells({
+    required List<ColumnItem> visibleColumns,
+    required PendingOrder item,
+    required bool isDark,
+  }) {
+    return visibleColumns.map((column) {
+      return DataCell(
+        PendingOrdersCellBuilder(
+          columnId: column.id,
+          item: item,
+          isDark: isDark,
+          fontFamily: _fontFamily,
+          fontSize: _fontSize,
+          fontWeight: _fontWeight,
+        ),
+      );
+    }).toList();
   }
 }

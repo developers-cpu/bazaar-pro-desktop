@@ -1,3 +1,4 @@
+import 'package:bazarpro/features/view/domain/usecases/pending_order/export_orders.dart';
 import 'package:get_it/get_it.dart';
 import 'core/network/api_client.dart';
 import 'features/auth/data/datasources/auth_remote_data_source.dart';
@@ -23,6 +24,13 @@ import 'features/market_watch/presentation/bloc/order/order_dialog_bloc.dart';
 import 'features/market_watch/presentation/bloc/symbolfont/symbol_font_bloc.dart';
 import 'features/market_watch/presentation/bloc/theme/theme_bloc.dart';
 import 'features/market_watch/presentation/bloc/watchlist/watch_list_bloc.dart';
+// View Feature imports
+import 'features/view/data/datasources/pending_orders_remote_datasource.dart';
+import 'features/view/data/repositories/pending_orders_repository_impl.dart';
+import 'features/view/domain/repositories/pending_orders_repository.dart';
+import 'features/view/domain/usecases/pending_order/get_filter_data.dart' show GetClients, GetSymbols, GetExchanges, GetOrderTypes;
+import 'features/view/domain/usecases/pending_order/get_pending_orders.dart';
+import 'features/view/presentation/bloc/pending_orders/pending_orders_bloc.dart';
 
 final sl = GetIt.instance;
 
@@ -112,6 +120,42 @@ Future<void> init() async {
   // Dashboard Data Sources
   sl.registerLazySingleton<DashboardDataSource>(
         () => DashboardDataSource(),
+  );
+
+  // ============================================================
+  // VIEW FEATURE - PENDING ORDERS
+  // ============================================================
+
+  // Pending Orders BLoC
+  sl.registerFactory(() => PendingOrdersBloc(
+    getPendingOrders: sl(),
+    getPendingOrdersWithFilters: sl(),
+    getClients: sl(),
+    getExchanges: sl(),
+    getSymbols: sl(),
+    getOrderTypes: sl(),
+    exportToPdf: sl(),
+    exportToExcel: sl(),
+  ));
+
+  // Pending Orders Use Cases
+  sl.registerLazySingleton(() => GetPendingOrders(sl()));
+  sl.registerLazySingleton(() => GetPendingOrdersWithFilters(sl()));
+  sl.registerLazySingleton(() => GetClients(sl()));
+  sl.registerLazySingleton(() => GetExchanges(sl()));
+  sl.registerLazySingleton(() => GetSymbols(sl()));
+  sl.registerLazySingleton(() => GetOrderTypes(sl()));
+  sl.registerLazySingleton(() => ExportToPdf(sl()));
+  sl.registerLazySingleton(() => ExportToExcel(sl()));
+
+  // Pending Orders Repository
+  sl.registerLazySingleton<PendingOrdersRepository>(
+        () => PendingOrdersRepositoryImpl(remoteDataSource: sl()),
+  );
+
+  // Pending Orders Data Sources
+  sl.registerLazySingleton<PendingOrdersRemoteDataSource>(
+        () => PendingOrdersRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
   );
 
   // ============================================================

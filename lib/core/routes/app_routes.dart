@@ -12,7 +12,7 @@ class AppRoutes {
   static const String dashboard = '/dashboard';
 
   // View routes
-  static const String pendingOrders = '/pending-orders';
+  static const String pendingOrders = '/pending_order-orders';
   static const String trades = '/trades';
   static const String deals = '/deals';
   static const String netPosition = '/net-position';

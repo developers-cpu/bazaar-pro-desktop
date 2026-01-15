@@ -198,7 +198,7 @@ class PendingOrdersPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return const DummyPage(
       title: 'Pending Orders',
-      description: 'View and manage all your pending orders in one place.',
+      description: 'View and manage all your pending_order orders in one place.',
       accentColor: Color(0xFF2563EB),
       icon: Icons.pending_actions,
     );

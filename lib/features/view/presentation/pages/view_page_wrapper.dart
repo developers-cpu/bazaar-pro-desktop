@@ -5,8 +5,10 @@ import '../../../../core/widget/app_bar_section.dart';
 import '../bloc/pending_orders/pending_orders_bloc.dart';
 import '../bloc/pending_orders/pending_orders_event.dart';
 import 'pending_orders_page.dart';
+import '../../../../../injection_container.dart' as di;
 
 /// View Page Wrapper
+/// Wraps all View section pages with the common AppBar that includes export icons
 class ViewPageWrapper extends StatelessWidget {
   final String pageTitle;
   final Widget child;
@@ -38,14 +40,15 @@ class ViewPageWrapper extends StatelessWidget {
   }
 }
 
-
+/// Pending Orders Page with Wrapper
+/// Complete page with AppBar and export functionality
 class PendingOrdersPageWithAppBar extends StatelessWidget {
   const PendingOrdersPageWithAppBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => PendingOrdersBloc(),
+      create: (context) => di.sl<PendingOrdersBloc>(),
       child: Builder(
         builder: (context) {
           return ViewPageWrapper(

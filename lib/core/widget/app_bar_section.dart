@@ -4,10 +4,10 @@ import '../../../../core/constants/app_strings.dart';
 import '../../../../core/widget/common_app_bar.dart';
 import '../../features/market_watch/data/models/menu_Item_data.dart';
 
-/// Unified AppBar Section
+///  AppBar Section
 class AppBarSection extends StatefulWidget implements PreferredSizeWidget {
   final int selectedTabIndex;
-  final String? currentPageTitle; // For View pages, shows the current page name
+  final String? currentPageTitle;
   final Function(int) onTabSelected;
   final VoidCallback? onReload;
   final VoidCallback? onExportPdf;
@@ -15,7 +15,7 @@ class AppBarSection extends StatefulWidget implements PreferredSizeWidget {
   final Function(String)? onViewAction;
   final Function(String)? onUserAction;
   final Function(String)? onReportAction;
-  final bool showExportByDefault; // Whether to show export buttons on load
+  final bool showExportByDefault;
 
   const AppBarSection({
     Key? key,
@@ -76,7 +76,7 @@ class AppBarSectionState extends State<AppBarSection> {
         dropdownItems: [
           MenuItemData(
             title: 'Pending Orders',
-            onTap: () => _navigateToPage(2, 'Pending Orders', '/pending-orders'),
+            onTap: () => _navigateToPage(2, 'Pending Orders', '/pending_order-orders'),
           ),
           MenuItemData(
             title: 'Trades',

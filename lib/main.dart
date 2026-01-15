@@ -4,9 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:window_manager/window_manager.dart';
 import 'features/auth/presentation/bloc/auth_bloc.dart';
-import 'features/auth/presentation/pages/login_page.dart';
 import 'features/dashboard/presentation/bloc/dashboard_bloc.dart';
-import 'features/dashboard/presentation/pages/dashboard_page.dart';
 import 'features/market_watch/presentation/bloc/arrangesymbol/arrange_symbol_bloc.dart';
 import 'features/market_watch/presentation/bloc/market_depth/market_depth_bloc.dart';
 import 'features/market_watch/presentation/bloc/marketwatch/market_watch_bloc.dart';
@@ -14,7 +12,7 @@ import 'features/market_watch/presentation/bloc/order/order_dialog_bloc.dart';
 import 'features/market_watch/presentation/bloc/symbolfont/symbol_font_bloc.dart';
 import 'features/market_watch/presentation/bloc/theme/theme_bloc.dart';
 import 'features/market_watch/presentation/bloc/watchlist/watch_list_bloc.dart';
-import 'features/market_watch/presentation/pages/market_watch_page.dart';
+import 'core/routes/app_routes.dart';
 import 'injection_container.dart' as di;
 
 void main() async {
@@ -110,13 +108,9 @@ class MyApp extends StatelessWidget {
                 debugShowCheckedModeBanner: false,
                 themeMode: ThemeMode.system,
 
-                // Routing configuration
-                initialRoute: '/',
-                routes: {
-                  '/': (_) => const LoginPage(),
-                  '/market-watch': (_) => const MarketWatchPage(),
-                  '/dashboard': (_) => const DashboardPage(),
-                },
+                // Routing configuration - FIXED: removed duplicate routes
+                initialRoute: AppRoutes.login,
+                routes: AppRoutes.getRoutes(),
               ),
             );
           },

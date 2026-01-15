@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
+import '../../../../core/widget/app_bar_section.dart';
 import '../bloc/dashboard_bloc.dart';
 import '../bloc/dashboard_event.dart';
 import '../bloc/dashboard_state.dart';
@@ -11,7 +12,7 @@ import '../widget/report_card.dart';
 import '../widget/symbol_wise_chart.dart';
 import '../widget/trade_reports_chart.dart';
 
-/// Dashboard Page
+/// Dashboard Page (Content Only - for embedding in MarketWatchPage)
 class DashboardPage extends StatefulWidget {
   const DashboardPage({Key? key}) : super(key: key);
 
@@ -32,14 +33,32 @@ class _DashboardPageState extends State<DashboardPage> {
   }
 }
 
+/// Dashboard Page with AppBar (Standalone - for direct route access)
+class DashboardPageWithAppBar extends StatelessWidget {
+  const DashboardPageWithAppBar({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppColors.white,
+      appBar: AppBarSection(
+        selectedTabIndex: 1, // Dashboard tab is selected
+        onTabSelected: (_) {},
+        showExportByDefault: false,
+      ),
+      body: const DashboardPage(),
+    );
+  }
+}
+
 class _DashboardView extends StatelessWidget {
   const _DashboardView();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: LightThemeColors.backgroundColor,
-      body: BlocBuilder<DashboardBloc, DashboardState>(
+    return Container(
+      color: LightThemeColors.backgroundColor,
+      child: BlocBuilder<DashboardBloc, DashboardState>(
         builder: (context, state) {
           if (state is DashboardLoading) {
             return _buildLoading();
@@ -128,7 +147,7 @@ class _DashboardView extends StatelessWidget {
             ),
           ),
         ),
-        // Reports Row - Takes most of the height
+
         Expanded(
           child: Align(
             alignment: Alignment.topCenter,

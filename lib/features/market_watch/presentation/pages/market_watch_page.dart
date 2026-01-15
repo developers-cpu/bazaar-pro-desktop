@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/constants/app_strings.dart';
+import '../../../../core/widget/app_bar_section.dart';
 import '../../../dashboard/presentation/pages/dashboard_page.dart';
 import '../bloc/arrangesymbol/arrange_symbol_bloc.dart';
 import '../bloc/arrangesymbol/arrange_symbol_event.dart';
@@ -16,7 +17,6 @@ import '../bloc/symbolfont/symbol_font_event.dart';
 import '../widgets/arrange_symbol_dialog.dart';
 import '../widgets/ban_trade_info.dart';
 import '../widgets/context_menu_widget.dart';
-import '../widgets/market_app_bar_section.dart';
 import '../widgets/table/market_data_table.dart';
 import '../widgets/market_filtter.dart';
 import '../widgets/order/common_order_dialog.dart';
@@ -42,8 +42,8 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
   int _selectedTabIndex = 0;
   int _selectedWatchlistIndex = -1;
 
-  // Use MarketAppBarSectionState (public class, not private)
-  final GlobalKey<MarketAppBarSectionState> _appBarKey = GlobalKey();
+  // Use unified AppBarSection
+  final GlobalKey<AppBarSectionState> _appBarKey = GlobalKey();
 
   @override
   void initState() {
@@ -58,8 +58,6 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
     super.dispose();
   }
 
-
-
   void _onTabSelected(int index) {
     // Check if tab has dropdown - if so, don't change selected index
     final hasDropdown = _appBarKey.currentState?.hasDropdown(index) ?? false;
@@ -70,7 +68,6 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
       });
     }
   }
-
 
   void _onReload() {
     context.read<MarketWatchBloc>().add(const LoadMarketItemsEvent());
@@ -99,7 +96,6 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
     _showMessage('Report: $action');
   }
 
-
   void _onWatchlistSelected(int index) {
     setState(() => _selectedWatchlistIndex = index);
   }
@@ -124,10 +120,6 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
   void _openSellOrderDialog() => CommonOrderDialog.showSellOrder(context);
   void _openMarketDepthDialog() => MarketDepthDialog.show(context);
 
-  // ============================================================
-  // BUILD
-  // ============================================================
-
   @override
   Widget build(BuildContext context) {
     return Focus(
@@ -140,7 +132,7 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
           onTap: () => _focusNode.requestFocus(),
           child: Scaffold(
             backgroundColor: AppColors.white,
-            appBar: MarketAppBarSection(
+            appBar: AppBarSection(
               key: _appBarKey,
               selectedTabIndex: _selectedTabIndex,
               onTabSelected: _onTabSelected,
@@ -150,6 +142,7 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
               onViewAction: _handleViewAction,
               onUserAction: _handleUserAction,
               onReportAction: _handleReportAction,
+              showExportByDefault: false, // Don't show export by default on Market Watch
             ),
             body: _buildBodyContent(),
           ),
@@ -361,7 +354,6 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
       ),
     );
   }
-
 
   void _handleKeyEvent(KeyEvent event) {
     if (event is! KeyDownEvent) return;

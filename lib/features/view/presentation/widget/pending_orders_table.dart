@@ -1,21 +1,18 @@
-import 'package:bazarpro/features/view/presentation/widget/table/pending_orders_column_helper.dart';
+import 'package:bazarpro/features/view/presentation/widget/table/view_data_table.dart';
+import 'package:bazarpro/features/view/presentation/widget/table/view_record_count.dart';
+import 'package:bazarpro/features/view/presentation/widget/table/view_table_cell_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:data_table_2/data_table_2.dart';
-import '../../../../../core/constants/app_colors.dart';
-import '../../../market_watch/presentation/bloc/arrangesymbol/arrange_symbol_state.dart';
-import '../../../market_watch/presentation/widgets/table/table_header_cell.dart';
-import '../../domain/entities/pending_order.dart' show PendingOrder;
-import '../bloc/pending_orders/pending_orders_bloc.dart' show PendingOrdersBloc;
+import '../../../../core/constants/app_colors.dart';
+import '../../domain/entities/pending_order.dart';
+import '../bloc/pending_orders/pending_orders_bloc.dart';
 import '../bloc/pending_orders/pending_orders_event.dart';
 import '../bloc/pending_orders/pending_orders_state.dart';
-import 'table/pending_orders_cell_builder.dart';
 
-
-/// Pending Orders Data Table using data_table_2 package
-class PendingOrdersTable extends StatefulWidget {
+/// Pending Orders Table using table ViewDataTable
+class PendingOrdersTable extends StatelessWidget {
   final bool showDeviceInfo;
   final bool isDarkMode;
 
@@ -25,18 +22,87 @@ class PendingOrdersTable extends StatefulWidget {
     this.isDarkMode = false,
   }) : super(key: key);
 
-  @override
-  State<PendingOrdersTable> createState() => _PendingOrdersTableState();
-}
+  /// Get column definitions for Pending Orders
+  List<ViewTableColumn> _getColumns() {
+    final columns = <ViewTableColumn>[
+      const ViewTableColumn(id: 'userId', label: 'USER ID', width: 120),
+      const ViewTableColumn(id: 'upline', label: 'UPLINE', width: 120),
+      const ViewTableColumn(id: 'exchange', label: 'EXCH', width: 100),
+      const ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 150),
+      const ViewTableColumn(id: 'buySell', label: 'B/S', width: 280),
+      const ViewTableColumn(id: 'qty', label: 'QTY', width: 120, isNumeric: true),
+      const ViewTableColumn(id: 'lot', label: 'LOT', width: 100, isNumeric: true),
+      const ViewTableColumn(id: 'triggerPrice', label: 'T. PRICE', width: 130, isNumeric: true),
+      const ViewTableColumn(id: 'orderDateTime', label: 'ORDER D/T', width: 220),
+      const ViewTableColumn(id: 'modifyOrderDateTime', label: 'MODIFY ORDER D/T', width: 240),
+      const ViewTableColumn(id: 'orderType', label: 'TYPE', width: 100),
+      const ViewTableColumn(id: 'cmp', label: 'CMP', width: 120, isNumeric: true),
+      const ViewTableColumn(id: 'rPrice', label: 'R.PRICE', width: 120, isNumeric: true),
+      const ViewTableColumn(id: 'deviceId', label: 'DEVICE ID', width: 1200),
+      const ViewTableColumn(id: 'ipAddress', label: 'IP ADDRESS', width: 160),
+    ];
 
-class _PendingOrdersTableState extends State<PendingOrdersTable> {
-  int? _sortColumnIndex;
-  bool _sortAscending = true;
 
-  // Font settings - can be made dynamic via BLoC
-  final String _fontFamily = 'Open Sans';
-  final double _fontSize = 13.0;
-  final FontWeight _fontWeight = FontWeight.w500;
+
+    return columns;
+  }
+
+  /// Build cell content based on column
+  Widget _buildCell(PendingOrder item, ViewTableColumn column, bool isDark) {
+    switch (column.id) {
+      case 'userId':
+        return ViewTextCell(text: item.userId, isDark: isDark);
+      case 'upline':
+        return ViewTextCell(text: item.upline, isDark: isDark);
+      case 'exchange':
+        return ViewTextCell(text: item.exchange, isDark: isDark);
+      case 'symbol':
+        return ViewLinkCell(text: item.symbol, isDark: isDark);
+      case 'buySell':
+        return ViewBuySellCell(text: item.buySell, isDark: isDark);
+      case 'qty':
+        return ViewNumberCell(
+          value: item.qty,
+          colorByValue: true,
+          isDark: isDark,
+        );
+      case 'lot':
+        return ViewTextCell(
+          text: item.lot.toStringAsFixed(2),
+          isDark: isDark,
+        );
+      case 'triggerPrice':
+        return ViewNumberCell(
+          value: item.triggerPrice,
+          colorByValue: true,
+          isDark: isDark,
+        );
+      case 'orderDateTime':
+        return ViewDateTimeCell(dateTime: item.orderDateTime, isDark: isDark);
+      case 'modifyOrderDateTime':
+        return ViewDateTimeCell(dateTime: item.modifyOrderDateTime, isDark: isDark);
+      case 'orderType':
+        return ViewTextCell(text: item.orderType, isDark: isDark);
+      case 'cmp':
+        return ViewNumberCell(
+          value: item.cmp,
+          fixedColor: AppColors.primaryBlue,
+          isDark: isDark,
+        );
+      case 'rPrice':
+        return ViewNumberCell(
+          value: item.rPrice,
+          fixedColor: AppColors.primaryBlue,
+          isDark: isDark,
+        );
+      case 'deviceId':
+        return ViewTextCell(text: item.deviceId ?? '-', isDark: isDark);
+      case 'ipAddress':
+        return ViewTextCell(text: item.ipAddress ?? '-', isDark: isDark);
+      default:
+        return const SizedBox.shrink();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +113,7 @@ class _PendingOrdersTableState extends State<PendingOrdersTable> {
         }
 
         if (state is PendingOrdersError) {
-          return _buildErrorState(state.message);
+          return _buildErrorState(context, state.message);
         }
 
         if (state is! PendingOrdersLoaded) {
@@ -57,10 +123,28 @@ class _PendingOrdersTableState extends State<PendingOrdersTable> {
         return Column(
           children: [
             // Record count
-            _buildRecordCount(state.totalRecords),
+            ViewRecordCount(count: state.totalRecords),
             // Table
             Expanded(
-              child: _buildTable(state),
+              child: ViewDataTable<PendingOrder>(
+                columns: _getColumns(),
+                data: state.filteredOrders,
+                idExtractor: (item) => item.id,
+                selectedId: state.selectedOrderId,
+                sortColumn: state.sortColumn,
+                sortAscending: state.sortAscending,
+                isDarkMode: isDarkMode,
+                emptyMessage: 'No pending orders found',
+                cellBuilder: (item, column) => _buildCell(item, column, isDarkMode),
+                onRowTap: (item) {
+                  context.read<PendingOrdersBloc>().add(SelectOrderEvent(item.id));
+                },
+                onSort: (columnId, ascending) {
+                  context.read<PendingOrdersBloc>().add(
+                    SortByColumnEvent(columnId: columnId, ascending: ascending),
+                  );
+                },
+              ),
             ),
           ],
         );
@@ -68,23 +152,7 @@ class _PendingOrdersTableState extends State<PendingOrdersTable> {
     );
   }
 
-  Widget _buildRecordCount(int count) {
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-      alignment: Alignment.centerRight,
-      child: Text(
-        'RECORD : $count',
-        style: GoogleFonts.openSans(
-          fontSize: 13.sp,
-          fontWeight: FontWeight.w600,
-          color: AppColors.primaryBlue,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildErrorState(String message) {
+  Widget _buildErrorState(BuildContext context, String message) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -106,203 +174,5 @@ class _PendingOrdersTableState extends State<PendingOrdersTable> {
         ],
       ),
     );
-  }
-
-  Widget _buildTable(PendingOrdersLoaded state) {
-    final isDark = widget.isDarkMode;
-    final visibleColumns = PendingOrdersColumnHelper.getDefaultColumns(
-      showDeviceInfo: widget.showDeviceInfo,
-    );
-    final minWidth = PendingOrdersColumnHelper.calculateMinWidth(visibleColumns, _fontSize);
-
-    if (state.filteredOrders.isEmpty) {
-      return _buildEmptyState(isDark);
-    }
-
-    return _buildTableContainer(
-      isDark: isDark,
-      visibleColumns: visibleColumns,
-      minWidth: minWidth,
-      state: state,
-    );
-  }
-
-  Widget _buildEmptyState(bool isDark) {
-    return Container(
-      color: isDark ? DarkThemeColors.backgroundColor : LightThemeColors.backgroundColor,
-      child: Center(
-        child: Text(
-          'No orders found',
-          style: GoogleFonts.openSans(
-            fontSize: 16.sp,
-            color: isDark
-                ? DarkThemeColors.supportiveTextColor
-                : LightThemeColors.supportiveTextColor,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTableContainer({
-    required bool isDark,
-    required List<ColumnItem> visibleColumns,
-    required double minWidth,
-    required PendingOrdersLoaded state,
-  }) {
-    return Container(
-      margin: EdgeInsets.all(10.w),
-      decoration: BoxDecoration(
-        color: isDark ? DarkThemeColors.backgroundColor : LightThemeColors.backgroundColor,
-        border: Border.all(
-          color: isDark ? DarkThemeColors.dividerColor : LightThemeColors.dividerColor,
-          width: 1,
-        ),
-        borderRadius: BorderRadius.circular(10.r),
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(10.r),
-        child: _buildDataTable(
-          isDark: isDark,
-          visibleColumns: visibleColumns,
-          minWidth: minWidth,
-          state: state,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildDataTable({
-    required bool isDark,
-    required List<ColumnItem> visibleColumns,
-    required double minWidth,
-    required PendingOrdersLoaded state,
-  }) {
-    final rowHeight = (_fontSize * 3.2).clamp(48.0, 80.0);
-    final headerHeight = (_fontSize * 3.5).clamp(55.0, 85.0);
-
-    return DataTable2(
-      columnSpacing: 12,
-      horizontalMargin: 12,
-      minWidth: minWidth,
-      headingRowHeight: headerHeight.h,
-      dataRowHeight: rowHeight.h,
-      headingRowColor: WidgetStateProperty.all(
-        LightThemeColors.tableColumnHeadColor,
-      ),
-      dividerThickness: 1,
-      border: TableBorder.all(
-        color: isDark ? AppColors.white.withOpacity(0.2) : AppColors.greyBorder,
-        width: 0.5,
-      ),
-      sortColumnIndex: _sortColumnIndex,
-      sortAscending: _sortAscending,
-      columns: _buildColumns(
-        visibleColumns: visibleColumns,
-        isDark: isDark,
-      ),
-      rows: _buildRows(
-        visibleColumns: visibleColumns,
-        isDark: isDark,
-        state: state,
-      ),
-    );
-  }
-
-  List<DataColumn2> _buildColumns({
-    required List<ColumnItem> visibleColumns,
-    required bool isDark,
-  }) {
-    return visibleColumns.asMap().entries.map((entry) {
-      final index = entry.key;
-      final column = entry.value;
-      final config = PendingOrdersColumnHelper.getConfig(column.id);
-
-      return DataColumn2(
-        label: TableHeaderCell(
-          title: PendingOrdersColumnHelper.getLabel(column.id),
-          isDark: isDark,
-          fontFamily: _fontFamily,
-          fontSize: _fontSize,
-          fontWeight: FontWeight.w600,
-        ),
-        size: _getColumnSize(visibleColumns.length),
-        numeric: config?.isNumeric ?? false,
-        onSort: (columnIndex, ascending) => _onSort(columnIndex, ascending, column.id),
-      );
-    }).toList();
-  }
-
-  ColumnSize _getColumnSize(int visibleColumnCount) {
-    if (visibleColumnCount <= 5) {
-      return ColumnSize.L;
-    } else if (visibleColumnCount <= 10) {
-      return ColumnSize.M;
-    }
-    return ColumnSize.S;
-  }
-
-  void _onSort(int columnIndex, bool ascending, String columnId) {
-    setState(() {
-      _sortColumnIndex = columnIndex;
-      _sortAscending = ascending;
-    });
-
-    context.read<PendingOrdersBloc>().add(
-      SortByColumnEvent(columnId: columnId, ascending: ascending),
-    );
-  }
-
-  List<DataRow2> _buildRows({
-    required List<ColumnItem> visibleColumns,
-    required bool isDark,
-    required PendingOrdersLoaded state,
-  }) {
-    return state.filteredOrders.map((item) {
-      final isSelected = state.selectedOrderId == item.id;
-
-      return DataRow2(
-        selected: isSelected,
-        color: WidgetStateProperty.resolveWith<Color?>((states) {
-          if (states.contains(WidgetState.selected)) {
-            return isDark
-                ? DarkThemeColors.selectedRowBackground
-                : LightThemeColors.selectedRowBackground;
-          }
-          return isDark
-              ? DarkThemeColors.backgroundColor
-              : LightThemeColors.backgroundColor;
-        }),
-        onTap: () => _onRowTap(item.id),
-        cells: _buildCells(
-          visibleColumns: visibleColumns,
-          item: item,
-          isDark: isDark,
-        ),
-      );
-    }).toList();
-  }
-
-  void _onRowTap(String itemId) {
-    context.read<PendingOrdersBloc>().add(SelectOrderEvent(itemId));
-  }
-
-  List<DataCell> _buildCells({
-    required List<ColumnItem> visibleColumns,
-    required PendingOrder item,
-    required bool isDark,
-  }) {
-    return visibleColumns.map((column) {
-      return DataCell(
-        PendingOrdersCellBuilder(
-          columnId: column.id,
-          item: item,
-          isDark: isDark,
-          fontFamily: _fontFamily,
-          fontSize: _fontSize,
-          fontWeight: _fontWeight,
-        ),
-      );
-    }).toList();
   }
 }

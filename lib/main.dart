@@ -12,6 +12,7 @@ import 'features/market_watch/presentation/bloc/order/order_dialog_bloc.dart';
 import 'features/market_watch/presentation/bloc/symbolfont/symbol_font_bloc.dart';
 import 'features/market_watch/presentation/bloc/theme/theme_bloc.dart';
 import 'features/market_watch/presentation/bloc/watchlist/watch_list_bloc.dart';
+import 'features/view/presentation/bloc/net_position/net_position_bloc.dart';
 import 'features/view/presentation/bloc/pending_orders/pending_orders_bloc.dart';
 import 'core/routes/app_routes.dart';
 import 'injection_container.dart' as di;
@@ -107,7 +108,8 @@ class MyApp extends StatelessWidget {
                 // Pending Orders BLoC - For View section pending orders
                 BlocProvider(create: (_) => di.sl<PendingOrdersBloc>()),
 
-
+                // Net Position BLoC - For View section net positions (NEW)
+                BlocProvider(create: (_) => di.sl<NetPositionBloc>()),
               ],
               child: MaterialApp(
                 title: 'BAZAAR Pro',

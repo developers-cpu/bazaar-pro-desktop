@@ -23,8 +23,7 @@ class ViewTableColumn {
   });
 }
 
-/// Generic View Data Table Widget
-/// Reusable across all View section pages (Pending Orders, Trades, Deals, etc.)
+
 class ViewDataTable<T> extends StatefulWidget {
   final List<ViewTableColumn> columns;
   final List<T> data;
@@ -39,6 +38,7 @@ class ViewDataTable<T> extends StatefulWidget {
   final String emptyMessage;
   final double? rowHeight;
   final double? headerHeight;
+  final Widget Function(List<ViewTableColumn> columns)? footerBuilder;
 
   const ViewDataTable({
     Key? key,
@@ -55,6 +55,7 @@ class ViewDataTable<T> extends StatefulWidget {
     this.emptyMessage = 'No data found',
     this.rowHeight,
     this.headerHeight,
+    this.footerBuilder,
   }) : super(key: key);
 
   @override
@@ -63,11 +64,18 @@ class ViewDataTable<T> extends StatefulWidget {
 
 class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
   int? _sortColumnIndex;
+  final ScrollController _horizontalScrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
     _updateSortIndex();
+  }
+
+  @override
+  void dispose() {
+    _horizontalScrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -93,11 +101,11 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.data.isEmpty) {
+    if (widget.data.isEmpty && widget.footerBuilder == null) {
       return _buildEmptyState();
     }
 
-    return _buildTable();
+    return _buildTableWithFooter();
   }
 
   Widget _buildEmptyState() {
@@ -119,9 +127,10 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
     );
   }
 
-  Widget _buildTable() {
+  Widget _buildTableWithFooter() {
     final rowHeight = widget.rowHeight ?? 45.h;
     final headerHeight = widget.headerHeight ?? 50.h;
+    final hasFooter = widget.footerBuilder != null;
 
     return Container(
       margin: EdgeInsets.all(10.w),
@@ -133,29 +142,128 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(10.r),
-        child: DataTable2(
-          columnSpacing: 12,
-          horizontalMargin: 12,
-          minWidth: _totalWidth,
-          headingRowHeight: headerHeight,
-          dataRowHeight: rowHeight,
-          headingRowColor: WidgetStateProperty.all(
-            LightThemeColors.tableColumnHeadColor,
-          ),
-          dividerThickness: 0,
-          border: TableBorder(
-            horizontalInside: BorderSide(
-              color: AppColors.greyBorder.withOpacity(0.3),
-              width: 0.5,
+        child: Column(
+          children: [
+            // Scrollable table + footer area
+            Expanded(
+              child: Scrollbar(
+                controller: _horizontalScrollController,
+                thumbVisibility: true,
+                child: SingleChildScrollView(
+                  controller: _horizontalScrollController,
+                  scrollDirection: Axis.horizontal,
+                  child: SizedBox(
+                    width: _totalWidth + 24, // Account for horizontal margins
+                    child: Column(
+                      children: [
+                        // Table header and data rows
+                        Expanded(
+                          child: _buildTableContent(rowHeight, headerHeight),
+                        ),
+                        // Footer row (aligned with columns)
+                        if (hasFooter)
+                          _buildFooterRow(),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             ),
-          ),
-          sortColumnIndex: _sortColumnIndex,
-          sortAscending: widget.sortAscending,
-          columns: _buildColumns(),
-          rows: _buildRows(),
+          ],
         ),
       ),
     );
+  }
+
+  Widget _buildTableContent(double rowHeight, double headerHeight) {
+    if (widget.data.isEmpty) {
+      return Column(
+        children: [
+          _buildHeaderRow(headerHeight),
+          Expanded(
+            child: Center(
+              child: Text(
+                widget.emptyMessage,
+                style: GoogleFonts.openSans(
+                  fontSize: 16.sp,
+                  color: widget.isDarkMode
+                      ? DarkThemeColors.supportiveTextColor
+                      : LightThemeColors.supportiveTextColor,
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
+    }
+
+    return DataTable2(
+      columnSpacing: 12,
+      horizontalMargin: 12,
+      minWidth: _totalWidth,
+      headingRowHeight: headerHeight,
+      dataRowHeight: rowHeight,
+      headingRowColor: WidgetStateProperty.all(
+        LightThemeColors.tableColumnHeadColor,
+      ),
+      dividerThickness: 0,
+      border: TableBorder(
+        horizontalInside: BorderSide(
+          color: AppColors.greyBorder.withOpacity(0.3),
+          width: 0.5,
+        ),
+      ),
+      sortColumnIndex: _sortColumnIndex,
+      sortAscending: widget.sortAscending,
+      columns: _buildColumns(),
+      rows: _buildRows(),
+    );
+  }
+
+  Widget _buildHeaderRow(double headerHeight) {
+    return Container(
+      height: headerHeight,
+      color: LightThemeColors.tableColumnHeadColor,
+      child: Row(
+        children: widget.columns.map((column) {
+          return Container(
+            width: column.width,
+            padding: EdgeInsets.symmetric(horizontal: 12.w),
+            alignment: Alignment.center,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  column.label,
+                  style: GoogleFonts.openSans(
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w600,
+                    color: LightThemeColors.textColor,
+                  ),
+                  textAlign: TextAlign.center,
+                  maxLines: 1,
+                  softWrap: false,
+                ),
+                if (column.sortable) ...[
+                  SizedBox(width: 4.w),
+                  SvgIcon(
+                    assetPath: AppImages.sortIcon,
+                    isActive: widget.sortColumn == column.id,
+                    size: 12.sp,
+                    activeColor: widget.sortColumn == column.id ? AppColors.primaryBlue : null,
+                  ),
+                ],
+              ],
+            ),
+          );
+        }).toList(),
+      ),
+    );
+  }
+
+  Widget _buildFooterRow() {
+    return widget.footerBuilder!(widget.columns);
   }
 
   List<DataColumn2> _buildColumns() {

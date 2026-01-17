@@ -1,4 +1,3 @@
-import 'package:bazarpro/features/view/domain/usecases/pending_order/export_orders.dart';
 import 'package:get_it/get_it.dart';
 import 'core/network/api_client.dart';
 import 'features/auth/data/datasources/auth_remote_data_source.dart';
@@ -26,19 +25,25 @@ import 'features/market_watch/presentation/bloc/theme/theme_bloc.dart';
 import 'features/market_watch/presentation/bloc/watchlist/watch_list_bloc.dart';
 // View Feature imports
 import 'features/view/data/datasources/deals_remote_datasource.dart';
+import 'features/view/data/datasources/net_position_remote_datasource.dart';
 import 'features/view/data/datasources/pending_orders_remote_datasource.dart';
 import 'features/view/data/datasources/trades_remote_datasource.dart';
 import 'features/view/data/repositories/deals_repository_impl.dart';
+import 'features/view/data/repositories/net_position_repository_impl.dart' hide NetPositionRepository;
 import 'features/view/data/repositories/pending_orders_repository_impl.dart';
 import 'features/view/data/repositories/trades_repository_impl.dart';
 import 'features/view/domain/repositories/deals_repository.dart';
+import 'features/view/domain/repositories/net_position_repository.dart';
 import 'features/view/domain/repositories/pending_orders_repository.dart';
 import 'features/view/domain/repositories/trades_repository.dart';
 import 'features/view/domain/usecases/deals/deals_usecases.dart';
+import 'features/view/domain/usecases/netposition/net_position_usecases.dart';
+import 'features/view/domain/usecases/pending_order/export_orders.dart';
 import 'features/view/domain/usecases/pending_order/get_filter_data.dart' show GetClients, GetSymbols, GetExchanges, GetOrderTypes;
 import 'features/view/domain/usecases/pending_order/get_pending_orders.dart';
 import 'features/view/domain/usecases/trade/trades_usecases.dart';
 import 'features/view/presentation/bloc/deals/deals_bloc.dart';
+import 'features/view/presentation/bloc/net_position/net_position_bloc.dart';
 import 'features/view/presentation/bloc/pending_orders/pending_orders_bloc.dart';
 import 'features/view/presentation/bloc/trade/trades_bloc.dart';
 
@@ -168,14 +173,11 @@ Future<void> init() async {
         () => PendingOrdersRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
   );
 
+  // ============================================================
+  // VIEW FEATURE - TRADES
+  // ============================================================
 
-
-
-// ============================================================
-// VIEW FEATURE - TRADES
-// ============================================================
-
-// Trades BLoC
+  // Trades BLoC
   sl.registerFactory(() => TradesBloc(
     getTrades: sl(),
     getTradesWithFilters: sl(),
@@ -187,7 +189,7 @@ Future<void> init() async {
     exportToExcel: sl(),
   ));
 
-// Trades Use Cases
+  // Trades Use Cases
   sl.registerLazySingleton(() => GetTrades(sl()));
   sl.registerLazySingleton(() => GetTradesWithFilters(sl()));
   sl.registerLazySingleton(() => GetTradesClients(sl()));
@@ -197,17 +199,19 @@ Future<void> init() async {
   sl.registerLazySingleton(() => ExportTradesToPdf(sl()));
   sl.registerLazySingleton(() => ExportTradesToExcel(sl()));
 
-// Trades Repository
+  // Trades Repository
   sl.registerLazySingleton<TradesRepository>(
         () => TradesRepositoryImpl(remoteDataSource: sl()),
   );
 
-// Trades Data Sources
+  // Trades Data Sources
   sl.registerLazySingleton<TradesRemoteDataSource>(
         () => TradesRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
   );
 
-
+  // ============================================================
+  // VIEW FEATURE - DEALS
+  // ============================================================
 
   // Deals BLoC
   sl.registerFactory(() => DealsBloc(
@@ -222,7 +226,7 @@ Future<void> init() async {
     exportToExcel: sl(),
   ));
 
-// Deals Use Cases
+  // Deals Use Cases
   sl.registerLazySingleton(() => GetDeals(sl()));
   sl.registerLazySingleton(() => GetDealsWithFilters(sl()));
   sl.registerLazySingleton(() => GetDealsClients(sl()));
@@ -233,16 +237,53 @@ Future<void> init() async {
   sl.registerLazySingleton(() => ExportDealsToPdf(sl()));
   sl.registerLazySingleton(() => ExportDealsToExcel(sl()));
 
-// Deals Repository
+  // Deals Repository
   sl.registerLazySingleton<DealsRepository>(
         () => DealsRepositoryImpl(remoteDataSource: sl()),
   );
 
-// Deals Data Sources
+  // Deals Data Sources
   sl.registerLazySingleton<DealsRemoteDataSource>(
         () => DealsRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
   );
 
+  // ============================================================
+  // VIEW FEATURE - NET POSITION (NEW)
+  // ============================================================
+
+  // Net Position BLoC
+  sl.registerFactory(() => NetPositionBloc(
+    getNetPositions: sl(),
+    getNetPositionsWithFilters: sl(),
+    getClients: sl(),
+    getExchanges: sl(),
+    getSymbols: sl(),
+    getUserTypes: sl(),
+    exportToPdf: sl(),
+    exportToExcel: sl(),
+    getPositionDetails: sl(),
+  ));
+
+  // Net Position Use Cases
+  sl.registerLazySingleton(() => GetNetPositions(sl()));
+  sl.registerLazySingleton(() => GetNetPositionsWithFilters(sl()));
+  sl.registerLazySingleton(() => GetNetPositionClients(sl()));
+  sl.registerLazySingleton(() => GetNetPositionExchanges(sl()));
+  sl.registerLazySingleton(() => GetNetPositionSymbols(sl()));
+  sl.registerLazySingleton(() => GetNetPositionUserTypes(sl()));
+  sl.registerLazySingleton(() => ExportNetPositionsToPdf(sl()));
+  sl.registerLazySingleton(() => ExportNetPositionsToExcel(sl()));
+  sl.registerLazySingleton(() => GetPositionDetails(sl()));
+
+  // Net Position Repository
+  sl.registerLazySingleton<NetPositionRepository>(
+        () => NetPositionRepositoryImpl(remoteDataSource: sl()),
+  );
+
+  // Net Position Data Sources
+  sl.registerLazySingleton<NetPositionRemoteDataSource>(
+        () => NetPositionRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
+  );
 
   // ============================================================
   // CORE

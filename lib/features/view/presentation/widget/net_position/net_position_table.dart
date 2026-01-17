@@ -1,0 +1,260 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
+import '../../../../../core/constants/app_colors.dart';
+import '../../../domain/entities/net_position.dart';
+import '../../bloc/net_position/net_position_bloc.dart';
+import '../../bloc/net_position/net_position_event.dart';
+import '../../bloc/net_position/net_position_state.dart';
+import '../table/view_data_table.dart';
+import '../table/view_record_count.dart';
+import '../table/view_table_cell_styles.dart';
+import 'open_postion_dilog.dart';
+
+
+/// Net Position table widget with clickable NET QTY
+class NetPositionTable extends StatelessWidget {
+  final bool showDeviceInfo;
+  final bool isDarkMode;
+
+  const NetPositionTable({
+    Key? key,
+    this.showDeviceInfo = true,
+    this.isDarkMode = false,
+  }) : super(key: key);
+
+  /// Get column definitions for Net Position
+  List<ViewTableColumn> _getColumns() {
+    return const [
+      ViewTableColumn(id: 'exchange', label: 'EXCH', width: 110),
+      ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 160),
+      ViewTableColumn(id: 'buyQty', label: 'BUY QTY', width: 130, isNumeric: true),
+      ViewTableColumn(id: 'sellQty', label: 'SELL QTY', width: 130, isNumeric: true),
+      ViewTableColumn(id: 'netQty', label: 'NET QTY', width: 130, isNumeric: true),
+      ViewTableColumn(id: 'netAvgPrice', label: 'NET AVG PRICE', width: 220, isNumeric: true),
+      ViewTableColumn(id: 'cmp', label: 'CMP', width: 120, isNumeric: true),
+      ViewTableColumn(id: 'm2mAmount', label: 'M2M AMT', width: 150, isNumeric: true),
+      ViewTableColumn(id: 'ourPercentage', label: 'OUR %', width: 150, isNumeric: true),
+      ViewTableColumn(id: 'userCount', label: 'USER', width: 90, isNumeric: true),
+    ];
+  }
+
+  Widget _buildCell(BuildContext context, NetPosition item, ViewTableColumn column, bool isDark) {
+    switch (column.id) {
+      case 'exchange':
+        return ViewTextCell(text: item.exchange, isDark: isDark);
+      case 'symbol':
+        return ViewLinkCell(text: item.symbol, isDark: isDark);
+      case 'buyQty':
+        return ViewNumberCell(
+          value: item.buyQty,
+          fixedColor: item.buyQty > 0 ? AppColors.blue : AppColors.primaryTextColor,
+          isDark: isDark,
+        );
+      case 'sellQty':
+        return ViewNumberCell(
+          value: item.sellQty,
+          fixedColor: item.sellQty > 0 ? AppColors.red : AppColors.primaryTextColor,
+          isDark: isDark,
+        );
+      case 'netQty':
+        return _buildNetQtyCell(context, item, isDark);
+      case 'netAvgPrice':
+        return ViewNumberCell(
+          value: item.netAvgPrice,
+          isDark: isDark,
+        );
+      case 'cmp':
+        return ViewNumberCell(
+          value: item.cmp,
+          fixedColor: AppColors.primaryBlue,
+          isDark: isDark,
+        );
+      case 'm2mAmount':
+        return ViewNumberCell(
+          value: item.m2mAmount,
+          colorByValue: true,
+          isDark: isDark,
+        );
+      case 'ourPercentage':
+        return ViewTextCell(
+          text: '${item.ourPercentage.toStringAsFixed(2)}%',
+          isDark: isDark,
+        );
+      case 'userCount':
+        return ViewTextCell(
+          text: item.userCount.toString(),
+          isDark: isDark,
+        );
+      default:
+        return const SizedBox.shrink();
+    }
+  }
+
+  /// Build clickable NET QTY cell with underline
+  Widget _buildNetQtyCell(BuildContext context, NetPosition item, bool isDark) {
+    return GestureDetector(
+      onTap: () {
+        // Open Open Position dialog as shown in screenshots
+        OpenPositionDialog.show(
+          context: context,
+          isDarkMode: isDark,
+        );
+      },
+      child: Container(
+        alignment: Alignment.centerRight,
+        child: Text(
+          item.netQty.toStringAsFixed(2),
+          style: GoogleFonts.openSans(
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w600,
+            color: item.netQty > 0 ? AppColors.blue : AppColors.red,
+            decoration: TextDecoration.underline,
+            decorationColor: item.netQty > 0 ? AppColors.blue : AppColors.red,
+            decorationThickness: 1.5,
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<NetPositionBloc, NetPositionState>(
+      builder: (context, state) {
+        if (state is NetPositionLoading) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (state is NetPositionError) {
+          return _buildErrorState(context, state.message);
+        }
+
+        if (state is! NetPositionLoaded) {
+          return const SizedBox.shrink();
+        }
+
+        return Column(
+          children: [
+            // Record count
+            ViewRecordCount(count: state.totalRecords),
+            // Table with totals using footerBuilder for proper alignment
+            Expanded(
+              child: ViewDataTable<NetPosition>(
+                columns: _getColumns(),
+                data: state.filteredPositions,
+                idExtractor: (item) => item.id,
+                selectedId: state.selectedPositionId,
+                sortColumn: state.sortColumn,
+                sortAscending: state.sortAscending,
+                isDarkMode: isDarkMode,
+                emptyMessage: 'No net positions found',
+                cellBuilder: (item, column) => _buildCell(context, item, column, isDarkMode),
+                onRowTap: (item) {
+                  context.read<NetPositionBloc>().add(SelectPositionEvent(item.id));
+                },
+                onSort: (columnId, ascending) {
+                  context.read<NetPositionBloc>().add(
+                    SortPositionsByColumnEvent(columnId: columnId, ascending: ascending),
+                  );
+                },
+                // Footer builder - receives columns to ensure alignment
+                footerBuilder: (columns) => _buildTotalsRow(columns, state.filteredPositions),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  /// Build totals row for the table footer - aligned with columns
+  Widget _buildTotalsRow(List<ViewTableColumn> columns, List<NetPosition> positions) {
+    // Calculate totals
+    double totalM2M = positions.fold(0.0, (sum, item) => sum + item.m2mAmount);
+    double totalOurPercentage = positions.fold(0.0, (sum, item) => sum + item.ourPercentage);
+
+    return Container(
+      height: 45.h,
+      decoration: BoxDecoration(
+        color: const Color(0xFFC6DBE8),
+        border: Border(
+          top: BorderSide(color: AppColors.greyBorder, width: 2),
+        ),
+      ),
+      child: Row(
+        children: columns.map((column) {
+          return _buildTotalCell(column, totalM2M, totalOurPercentage);
+        }).toList(),
+      ),
+    );
+  }
+
+  /// Build individual total cell based on column
+  Widget _buildTotalCell(ViewTableColumn column, double totalM2M, double totalOurPercentage) {
+    String text = '';
+    Color textColor = const Color(0xFF2C5F7A);
+    TextAlign alignment = TextAlign.center;
+
+    switch (column.id) {
+      case 'exchange':
+        text = 'TOTAL';
+        alignment = TextAlign.left;
+        break;
+      case 'm2mAmount':
+        text = totalM2M.toStringAsFixed(2);
+        textColor = totalM2M >= 0 ? const Color(0xFF1565C0) : const Color(0xFFD32F2F);
+        alignment = TextAlign.right;
+        break;
+      case 'ourPercentage':
+        text = '${totalOurPercentage.toStringAsFixed(2)}%';
+        alignment = TextAlign.right;
+        break;
+      default:
+        text = '';
+    }
+
+    return Container(
+      width: column.width,
+      padding: EdgeInsets.symmetric(horizontal: 8.w),
+      alignment: alignment == TextAlign.left
+          ? Alignment.centerLeft
+          : alignment == TextAlign.right
+          ? Alignment.centerRight
+          : Alignment.center,
+      child: Text(
+        text,
+        style: GoogleFonts.openSans(
+          fontSize: 14.sp,
+          fontWeight: FontWeight.w700,
+          color: textColor,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildErrorState(BuildContext context, String message) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            message,
+            style: GoogleFonts.openSans(
+              fontSize: 14.sp,
+              color: AppColors.red,
+            ),
+          ),
+          SizedBox(height: 16.h),
+          ElevatedButton(
+            onPressed: () {
+              context.read<NetPositionBloc>().add(const LoadNetPositionsEvent());
+            },
+            child: const Text('Retry'),
+          ),
+        ],
+      ),
+    );
+  }
+}

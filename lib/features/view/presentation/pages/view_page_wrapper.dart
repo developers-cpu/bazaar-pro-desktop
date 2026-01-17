@@ -1,9 +1,12 @@
+import 'package:bazarpro/features/view/presentation/pages/trades_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../core/widget/app_bar_section.dart';
 import '../bloc/pending_orders/pending_orders_bloc.dart';
 import '../bloc/pending_orders/pending_orders_event.dart';
+import '../bloc/trade/trades_bloc.dart';
+import '../bloc/trade/trades_event.dart';
 import 'pending_orders_page.dart';
 import '../../../../../injection_container.dart' as di;
 
@@ -68,20 +71,28 @@ class PendingOrdersPageWithAppBar extends StatelessWidget {
 }
 
 /// Trades Page with Wrapper
+/// Trades Page with Wrapper
 class TradesPageWithAppBar extends StatelessWidget {
   const TradesPageWithAppBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ViewPageWrapper(
-      pageTitle: 'Trades',
-      onExportPdf: () {
-        // TODO: Implement PDF export for Trades
-      },
-      onExportExcel: () {
-        // TODO: Implement Excel export for Trades
-      },
-      child: const Center(child: Text('Trades Page - Coming Soon')),
+    return BlocProvider(
+      create: (context) => di.sl<TradesBloc>(),
+      child: Builder(
+        builder: (context) {
+          return ViewPageWrapper(
+            pageTitle: 'Trades',
+            onExportPdf: () {
+              context.read<TradesBloc>().add(const ExportTradesToPdfEvent());
+            },
+            onExportExcel: () {
+              context.read<TradesBloc>().add(const ExportTradesToExcelEvent());
+            },
+            child: const TradesPage(),
+          );
+        },
+      ),
     );
   }
 }

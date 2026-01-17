@@ -26,11 +26,16 @@ import 'features/market_watch/presentation/bloc/theme/theme_bloc.dart';
 import 'features/market_watch/presentation/bloc/watchlist/watch_list_bloc.dart';
 // View Feature imports
 import 'features/view/data/datasources/pending_orders_remote_datasource.dart';
+import 'features/view/data/datasources/trades_remote_datasource.dart';
 import 'features/view/data/repositories/pending_orders_repository_impl.dart';
+import 'features/view/data/repositories/trades_repository_impl.dart';
 import 'features/view/domain/repositories/pending_orders_repository.dart';
+import 'features/view/domain/repositories/trades_repository.dart';
 import 'features/view/domain/usecases/pending_order/get_filter_data.dart' show GetClients, GetSymbols, GetExchanges, GetOrderTypes;
 import 'features/view/domain/usecases/pending_order/get_pending_orders.dart';
+import 'features/view/domain/usecases/trade/trades_usecases.dart';
 import 'features/view/presentation/bloc/pending_orders/pending_orders_bloc.dart';
+import 'features/view/presentation/bloc/trade/trades_bloc.dart';
 
 final sl = GetIt.instance;
 
@@ -157,6 +162,46 @@ Future<void> init() async {
   sl.registerLazySingleton<PendingOrdersRemoteDataSource>(
         () => PendingOrdersRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
   );
+
+
+
+
+// ============================================================
+// VIEW FEATURE - TRADES
+// ============================================================
+
+// Trades BLoC
+  sl.registerFactory(() => TradesBloc(
+    getTrades: sl(),
+    getTradesWithFilters: sl(),
+    getClients: sl(),
+    getExchanges: sl(),
+    getSymbols: sl(),
+    getOrderTypes: sl(),
+    exportToPdf: sl(),
+    exportToExcel: sl(),
+  ));
+
+// Trades Use Cases
+  sl.registerLazySingleton(() => GetTrades(sl()));
+  sl.registerLazySingleton(() => GetTradesWithFilters(sl()));
+  sl.registerLazySingleton(() => GetTradesClients(sl()));
+  sl.registerLazySingleton(() => GetTradesExchanges(sl()));
+  sl.registerLazySingleton(() => GetTradesSymbols(sl()));
+  sl.registerLazySingleton(() => GetTradesOrderTypes(sl()));
+  sl.registerLazySingleton(() => ExportTradesToPdf(sl()));
+  sl.registerLazySingleton(() => ExportTradesToExcel(sl()));
+
+// Trades Repository
+  sl.registerLazySingleton<TradesRepository>(
+        () => TradesRepositoryImpl(remoteDataSource: sl()),
+  );
+
+// Trades Data Sources
+  sl.registerLazySingleton<TradesRemoteDataSource>(
+        () => TradesRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
+  );
+
 
   // ============================================================
   // CORE

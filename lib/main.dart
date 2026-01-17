@@ -106,6 +106,8 @@ class MyApp extends StatelessWidget {
 
                 // Pending Orders BLoC - For View section pending orders
                 BlocProvider(create: (_) => di.sl<PendingOrdersBloc>()),
+
+
               ],
               child: MaterialApp(
                 title: 'BAZAAR Pro',

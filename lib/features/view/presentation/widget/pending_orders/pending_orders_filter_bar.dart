@@ -1,0 +1,112 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../../../core/widget/app_dropdown.dart';
+import '../../bloc/pending_orders/pending_orders_bloc.dart';
+import '../../bloc/pending_orders/pending_orders_event.dart';
+import '../../bloc/pending_orders/pending_orders_state.dart';
+import '../view_reset_buttons.dart';
+
+/// Filter bar for Pending Orders page
+class PendingOrdersFilterBar extends StatelessWidget {
+  const PendingOrdersFilterBar({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<PendingOrdersBloc, PendingOrdersState>(
+      builder: (context, state) {
+        if (state is! PendingOrdersLoaded) {
+          return const SizedBox.shrink();
+        }
+
+        return Container(
+          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+          child: Row(
+            children: [
+              Expanded(
+                child: AppDropdown(
+                  type: AppDropdownType.search,
+                  hintText: 'Client',
+                  value: state.selectedClient,
+                  items: state.clients,
+                  onChanged: (value) {
+                    context.read<PendingOrdersBloc>().add(
+                      FilterByClientEvent(value),
+                    );
+                  },
+                ),
+              ),
+              SizedBox(width: 12.w),
+
+              Expanded(
+                child: AppDropdown(
+                  type: AppDropdownType.simple,
+                  hintText: 'Exchange',
+                  value: state.selectedExchange,
+                  items: state.exchanges,
+                  showAllOption: true,
+                  onChanged: (value) {
+                    context.read<PendingOrdersBloc>().add(
+                      FilterByExchangeEvent(value),
+                    );
+                  },
+                ),
+              ),
+              SizedBox(width: 12.w),
+
+              Expanded(
+                child: AppDropdown(
+                  type: AppDropdownType.search,
+                  hintText: 'Symbol',
+                  value: state.selectedSymbol,
+                  items: state.symbols,
+                  onChanged: (value) {
+                    context.read<PendingOrdersBloc>().add(
+                      FilterBySymbolEvent(value),
+                    );
+                  },
+                ),
+              ),
+              SizedBox(width: 12.w),
+
+              Expanded(
+                child: AppDropdown(
+                  type: AppDropdownType.simple,
+                  hintText: 'Type',
+                  value: state.selectedType,
+                  items: state.types,
+                  showAllOption: true,
+                  onChanged: (value) {
+                    context.read<PendingOrdersBloc>().add(
+                      FilterByTypeEvent(value),
+                    );
+                  },
+                ),
+              ),
+
+              const Spacer(),
+
+              ViewResetButtons(
+                onReset: () {
+                  context.read<PendingOrdersBloc>().add(
+                    const ResetFiltersEvent(),
+                  );
+                },
+                onView: () {
+                  context.read<PendingOrdersBloc>().add(
+                    ApplyFiltersEvent(
+                      client: state.selectedClient,
+                      exchange: state.selectedExchange,
+                      symbol: state.selectedSymbol,
+                      type: state.selectedType,
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}

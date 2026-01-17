@@ -2,48 +2,49 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/constants/app_colors.dart';
-import '../bloc/pending_orders/pending_orders_bloc.dart';
-import '../bloc/pending_orders/pending_orders_event.dart';
-import '../bloc/pending_orders/pending_orders_state.dart';
-import '../widget/pending_orders/pending_orders_filter_bar.dart';
-import '../widget/pending_orders/pending_orders_table.dart';
+import '../bloc/rejection_log/rejection_log_bloc.dart';
+import '../bloc/rejection_log/rejection_log_event.dart';
+import '../bloc/rejection_log/rejection_log_state.dart';
+import '../widget/ rejection_log/rejection_log_filter_bar.dart';
+import '../widget/ rejection_log/rejection_log_table.dart';
 
-/// Pending Orders Page
-class PendingOrdersPage extends StatefulWidget {
-  const PendingOrdersPage({Key? key}) : super(key: key);
+
+class RejectionLogPage extends StatefulWidget {
+  const RejectionLogPage({Key? key}) : super(key: key);
 
   @override
-  State<PendingOrdersPage> createState() => _PendingOrdersPageState();
+  State<RejectionLogPage> createState() => _RejectionLogPageState();
 }
 
-class _PendingOrdersPageState extends State<PendingOrdersPage> {
+class _RejectionLogPageState extends State<RejectionLogPage> {
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<PendingOrdersBloc>().add(const LoadPendingOrdersEvent());
+      context.read<RejectionLogBloc>().add(const LoadRejectionLogsEvent());
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<PendingOrdersBloc, PendingOrdersState>(
+    return BlocListener<RejectionLogBloc, RejectionLogState>(
       listener: _handleStateChange,
       child: Container(
         color: AppColors.white,
         child: Column(
           children: [
-            const PendingOrdersFilterBar(),
+            // Filter Bar
+            const RejectionLogFilterBar(),
 
+            // Divider
             Container(
               height: 1.h,
               color: AppColors.greyBorder,
             ),
 
+            // Table
             const Expanded(
-              child: PendingOrdersTable(
-                showDeviceInfo: false, // Set to true to show Device ID and IP Address columns
-              ),
+              child: RejectionLogTable(),
             ),
           ],
         ),
@@ -51,8 +52,8 @@ class _PendingOrdersPageState extends State<PendingOrdersPage> {
     );
   }
 
-  void _handleStateChange(BuildContext context, PendingOrdersState state) {
-    if (state is PendingOrdersExportSuccess) {
+  void _handleStateChange(BuildContext context, RejectionLogState state) {
+    if (state is RejectionLogExportSuccess) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(state.message),
@@ -62,7 +63,7 @@ class _PendingOrdersPageState extends State<PendingOrdersPage> {
       );
     }
 
-    if (state is PendingOrdersError) {
+    if (state is RejectionLogError) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(state.message),

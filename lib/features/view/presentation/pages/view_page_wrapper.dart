@@ -1,3 +1,4 @@
+import 'package:bazarpro/features/view/presentation/pages/rejection_log_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/constants/app_colors.dart';
@@ -8,6 +9,8 @@ import '../bloc/net_position/net_position_bloc.dart';
 import '../bloc/net_position/net_position_event.dart';
 import '../bloc/pending_orders/pending_orders_bloc.dart';
 import '../bloc/pending_orders/pending_orders_event.dart';
+import '../bloc/rejection_log/rejection_log_bloc.dart';
+import '../bloc/rejection_log/rejection_log_event.dart';
 import '../bloc/trade/trades_bloc.dart';
 import '../bloc/trade/trades_event.dart';
 import 'deals_page.dart';
@@ -160,11 +163,27 @@ class RejectionLogPageWithAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ViewPageWrapper(
-      pageTitle: 'Rejection Log',
-      onExportPdf: () {},
-      onExportExcel: () {},
-      child: const Center(child: Text('Rejection Log Page - Coming Soon')),
+    return BlocProvider(
+      create: (context) => di.sl<RejectionLogBloc>()
+        ..add(const LoadRejectionLogsEvent()),
+      child: Builder(
+        builder: (context) {
+          return ViewPageWrapper(
+            pageTitle: 'Rejection Log',
+            onExportPdf: () {
+              context
+                  .read<RejectionLogBloc>()
+                  .add(const ExportRejectionLogsToPdfEvent());
+            },
+            onExportExcel: () {
+              context
+                  .read<RejectionLogBloc>()
+                  .add(const ExportRejectionLogsToExcelEvent());
+            },
+            child: const RejectionLogPage(),
+          );
+        },
+      ),
     );
   }
 }

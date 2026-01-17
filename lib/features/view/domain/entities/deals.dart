@@ -19,8 +19,8 @@ class Deal extends Equatable {
   final DateTime? executionDateTime;
   final String? deviceId;
   final String? ipAddress;
-  final String orderDuration; // e.g., "11 hours 47 minutes"
-  final String status; // Market, Intraday, Settled, etc.
+  final String orderDuration;
+  final String status;
 
   const Deal({
     required this.id,

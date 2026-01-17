@@ -15,6 +15,7 @@ import 'features/market_watch/presentation/bloc/watchlist/watch_list_bloc.dart';
 import 'features/view/presentation/bloc/net_position/net_position_bloc.dart';
 import 'features/view/presentation/bloc/pending_orders/pending_orders_bloc.dart';
 import 'core/routes/app_routes.dart';
+import 'features/view/presentation/bloc/rejection_log/rejection_log_bloc.dart';
 import 'injection_container.dart' as di;
 
 void main() async {
@@ -108,8 +109,11 @@ class MyApp extends StatelessWidget {
                 // Pending Orders BLoC - For View section pending orders
                 BlocProvider(create: (_) => di.sl<PendingOrdersBloc>()),
 
-                // Net Position BLoC - For View section net positions (NEW)
+                // Net Position BLoC - For View section net positions
                 BlocProvider(create: (_) => di.sl<NetPositionBloc>()),
+
+                // Net Position BLoC - For View section net positions
+                BlocProvider(create: (_) => di.sl<RejectionLogBloc>()),
               ],
               child: MaterialApp(
                 title: 'BAZAAR Pro',

@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../../../core/constants/app_colors.dart';
-import '../../domain/entities/pending_order.dart';
-import '../bloc/pending_orders/pending_orders_bloc.dart';
-import '../bloc/pending_orders/pending_orders_event.dart';
-import '../bloc/pending_orders/pending_orders_state.dart';
+import '../../../../../core/constants/app_colors.dart';
+import '../../../domain/entities/pending_order.dart';
+import '../../bloc/pending_orders/pending_orders_bloc.dart';
+import '../../bloc/pending_orders/pending_orders_event.dart';
+import '../../bloc/pending_orders/pending_orders_state.dart';
 
 /// Pending Orders Table using table ViewDataTable
 class PendingOrdersTable extends StatelessWidget {

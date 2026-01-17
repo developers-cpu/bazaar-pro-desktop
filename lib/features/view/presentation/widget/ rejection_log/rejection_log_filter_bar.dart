@@ -2,20 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/widget/app_dropdown.dart';
-import '../bloc/pending_orders/pending_orders_bloc.dart';
-import '../bloc/pending_orders/pending_orders_event.dart';
-import '../bloc/pending_orders/pending_orders_state.dart';
-import 'view_reset_buttons.dart';
+import '../../bloc/rejection_log/rejection_log_bloc.dart';
+import '../../bloc/rejection_log/rejection_log_event.dart';
+import '../../bloc/rejection_log/rejection_log_state.dart';
+import '../view_reset_buttons.dart';
 
-/// Filter bar for Pending Orders page
-class PendingOrdersFilterBar extends StatelessWidget {
-  const PendingOrdersFilterBar({Key? key}) : super(key: key);
+class RejectionLogFilterBar extends StatelessWidget {
+  const RejectionLogFilterBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<PendingOrdersBloc, PendingOrdersState>(
+    return BlocBuilder<RejectionLogBloc, RejectionLogState>(
       builder: (context, state) {
-        if (state is! PendingOrdersLoaded) {
+        if (state is! RejectionLogLoaded) {
           return const SizedBox.shrink();
         }
 
@@ -23,6 +22,8 @@ class PendingOrdersFilterBar extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Row(
             children: [
+
+              // Client Dropdown
               Expanded(
                 child: AppDropdown(
                   type: AppDropdownType.search,
@@ -30,30 +31,43 @@ class PendingOrdersFilterBar extends StatelessWidget {
                   value: state.selectedClient,
                   items: state.clients,
                   onChanged: (value) {
-                    context.read<PendingOrdersBloc>().add(
-                      FilterByClientEvent(value),
+                    context.read<RejectionLogBloc>().add(
+                      ApplyRejectionLogFiltersEvent(
+                        startDate: state.startDate,
+                        endDate: state.endDate,
+                        client: value,
+                        exchange: state.selectedExchange,
+                        symbol: state.selectedSymbol,
+                      ),
                     );
                   },
                 ),
               ),
               SizedBox(width: 12.w),
 
+              // Exchange Dropdown
               Expanded(
                 child: AppDropdown(
                   type: AppDropdownType.simple,
                   hintText: 'Exchange',
                   value: state.selectedExchange,
                   items: state.exchanges,
-                  showAllOption: true,
                   onChanged: (value) {
-                    context.read<PendingOrdersBloc>().add(
-                      FilterByExchangeEvent(value),
+                    context.read<RejectionLogBloc>().add(
+                      ApplyRejectionLogFiltersEvent(
+                        startDate: state.startDate,
+                        endDate: state.endDate,
+                        client: state.selectedClient,
+                        exchange: value,
+                        symbol: state.selectedSymbol,
+                      ),
                     );
                   },
                 ),
               ),
               SizedBox(width: 12.w),
 
+              // Symbol Dropdown
               Expanded(
                 child: AppDropdown(
                   type: AppDropdownType.search,
@@ -61,24 +75,14 @@ class PendingOrdersFilterBar extends StatelessWidget {
                   value: state.selectedSymbol,
                   items: state.symbols,
                   onChanged: (value) {
-                    context.read<PendingOrdersBloc>().add(
-                      FilterBySymbolEvent(value),
-                    );
-                  },
-                ),
-              ),
-              SizedBox(width: 12.w),
-
-              Expanded(
-                child: AppDropdown(
-                  type: AppDropdownType.simple,
-                  hintText: 'Type',
-                  value: state.selectedType,
-                  items: state.types,
-                  showAllOption: true,
-                  onChanged: (value) {
-                    context.read<PendingOrdersBloc>().add(
-                      FilterByTypeEvent(value),
+                    context.read<RejectionLogBloc>().add(
+                      ApplyRejectionLogFiltersEvent(
+                        startDate: state.startDate,
+                        endDate: state.endDate,
+                        client: state.selectedClient,
+                        exchange: state.selectedExchange,
+                        symbol: value,
+                      ),
                     );
                   },
                 ),
@@ -86,19 +90,21 @@ class PendingOrdersFilterBar extends StatelessWidget {
 
               const Spacer(),
 
+              // Reset and View Buttons
               ViewResetButtons(
                 onReset: () {
-                  context.read<PendingOrdersBloc>().add(
-                    const ResetFiltersEvent(),
+                  context.read<RejectionLogBloc>().add(
+                    const ResetRejectionLogFiltersEvent(),
                   );
                 },
                 onView: () {
-                  context.read<PendingOrdersBloc>().add(
-                    ApplyFiltersEvent(
+                  context.read<RejectionLogBloc>().add(
+                    ApplyRejectionLogFiltersEvent(
+                      startDate: state.startDate,
+                      endDate: state.endDate,
                       client: state.selectedClient,
                       exchange: state.selectedExchange,
                       symbol: state.selectedSymbol,
-                      type: state.selectedType,
                     ),
                   );
                 },
@@ -109,4 +115,5 @@ class PendingOrdersFilterBar extends StatelessWidget {
       },
     );
   }
+
 }

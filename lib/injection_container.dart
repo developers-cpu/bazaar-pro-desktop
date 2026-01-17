@@ -27,29 +27,41 @@ import 'features/market_watch/presentation/bloc/watchlist/watch_list_bloc.dart';
 import 'features/view/data/datasources/deals_remote_datasource.dart';
 import 'features/view/data/datasources/net_position_remote_datasource.dart';
 import 'features/view/data/datasources/pending_orders_remote_datasource.dart';
+import 'features/view/data/datasources/rejection_log_remote_datasource.dart';
 import 'features/view/data/datasources/trades_remote_datasource.dart';
 import 'features/view/data/repositories/deals_repository_impl.dart';
-import 'features/view/data/repositories/net_position_repository_impl.dart' hide NetPositionRepository;
+import 'features/view/data/repositories/net_position_repository_impl.dart';
 import 'features/view/data/repositories/pending_orders_repository_impl.dart';
+import 'features/view/data/repositories/rejection_log_repository_impl.dart';
 import 'features/view/data/repositories/trades_repository_impl.dart';
 import 'features/view/domain/repositories/deals_repository.dart';
 import 'features/view/domain/repositories/net_position_repository.dart';
 import 'features/view/domain/repositories/pending_orders_repository.dart';
+import 'features/view/domain/repositories/rejection_log_repository.dart';
 import 'features/view/domain/repositories/trades_repository.dart';
+import 'features/view/domain/usecases/ rejection_log/rejection_log_usecases.dart';
 import 'features/view/domain/usecases/deals/deals_usecases.dart';
 import 'features/view/domain/usecases/netposition/net_position_usecases.dart';
 import 'features/view/domain/usecases/pending_order/export_orders.dart';
-import 'features/view/domain/usecases/pending_order/get_filter_data.dart' show GetClients, GetSymbols, GetExchanges, GetOrderTypes;
+import 'features/view/domain/usecases/pending_order/get_filter_data.dart';
 import 'features/view/domain/usecases/pending_order/get_pending_orders.dart';
 import 'features/view/domain/usecases/trade/trades_usecases.dart';
 import 'features/view/presentation/bloc/deals/deals_bloc.dart';
 import 'features/view/presentation/bloc/net_position/net_position_bloc.dart';
 import 'features/view/presentation/bloc/pending_orders/pending_orders_bloc.dart';
+import 'features/view/presentation/bloc/rejection_log/rejection_log_bloc.dart';
 import 'features/view/presentation/bloc/trade/trades_bloc.dart';
 
 final sl = GetIt.instance;
 
 Future<void> init() async {
+  // ============================================================
+  // CORE - Register first to avoid dependency issues
+  // ============================================================
+
+  // API Client
+  sl.registerLazySingleton(() => ApiClient());
+
   // ============================================================
   // AUTH FEATURE
   // ============================================================
@@ -248,7 +260,7 @@ Future<void> init() async {
   );
 
   // ============================================================
-  // VIEW FEATURE - NET POSITION (NEW)
+  // VIEW FEATURE - NET POSITION
   // ============================================================
 
   // Net Position BLoC
@@ -286,9 +298,36 @@ Future<void> init() async {
   );
 
   // ============================================================
-  // CORE
+  // VIEW FEATURE - REJECTION LOG
   // ============================================================
 
-  // API Client
-  sl.registerLazySingleton(() => ApiClient());
+  // Rejection Log BLoC
+  sl.registerFactory(() => RejectionLogBloc(
+    getRejectionLogs: sl(),
+    getRejectionLogsWithFilters: sl(),
+    getClients: sl(),
+    getExchanges: sl(),
+    getSymbols: sl(),
+    exportToPdf: sl(),
+    exportToExcel: sl(),
+  ));
+
+  // Rejection Log Use Cases
+  sl.registerLazySingleton(() => GetRejectionLogs(sl()));
+  sl.registerLazySingleton(() => GetRejectionLogsWithFilters(sl()));
+  sl.registerLazySingleton(() => GetRejectionLogClients(sl()));
+  sl.registerLazySingleton(() => GetRejectionLogExchanges(sl()));
+  sl.registerLazySingleton(() => GetRejectionLogSymbols(sl()));
+  sl.registerLazySingleton(() => ExportRejectionLogsToPdf(sl()));
+  sl.registerLazySingleton(() => ExportRejectionLogsToExcel(sl()));
+
+  // Rejection Log Repository
+  sl.registerLazySingleton<RejectionLogRepository>(
+        () => RejectionLogRepositoryImpl(remoteDataSource: sl()),
+  );
+
+  // Rejection Log Data Sources
+  sl.registerLazySingleton<RejectionLogRemoteDataSource>(
+        () => RejectionLogRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
+  );
 }

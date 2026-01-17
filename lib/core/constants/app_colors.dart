@@ -172,6 +172,8 @@ class AppColors {
   static const Color selectedRowBackground = Color(0xFFE3F2FD);
   static const Color highlightColor = Color(0xFFBBDEFB);
 
+  static const Color blue = Color(0xFF0066FF);
+
 
   static bool isDarkMode(BuildContext context) {
     return Theme.of(context).brightness == Brightness.dark;

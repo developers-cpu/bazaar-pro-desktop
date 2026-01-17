@@ -25,15 +25,20 @@ import 'features/market_watch/presentation/bloc/symbolfont/symbol_font_bloc.dart
 import 'features/market_watch/presentation/bloc/theme/theme_bloc.dart';
 import 'features/market_watch/presentation/bloc/watchlist/watch_list_bloc.dart';
 // View Feature imports
+import 'features/view/data/datasources/deals_remote_datasource.dart';
 import 'features/view/data/datasources/pending_orders_remote_datasource.dart';
 import 'features/view/data/datasources/trades_remote_datasource.dart';
+import 'features/view/data/repositories/deals_repository_impl.dart';
 import 'features/view/data/repositories/pending_orders_repository_impl.dart';
 import 'features/view/data/repositories/trades_repository_impl.dart';
+import 'features/view/domain/repositories/deals_repository.dart';
 import 'features/view/domain/repositories/pending_orders_repository.dart';
 import 'features/view/domain/repositories/trades_repository.dart';
+import 'features/view/domain/usecases/deals/deals_usecases.dart';
 import 'features/view/domain/usecases/pending_order/get_filter_data.dart' show GetClients, GetSymbols, GetExchanges, GetOrderTypes;
 import 'features/view/domain/usecases/pending_order/get_pending_orders.dart';
 import 'features/view/domain/usecases/trade/trades_usecases.dart';
+import 'features/view/presentation/bloc/deals/deals_bloc.dart';
 import 'features/view/presentation/bloc/pending_orders/pending_orders_bloc.dart';
 import 'features/view/presentation/bloc/trade/trades_bloc.dart';
 
@@ -200,6 +205,42 @@ Future<void> init() async {
 // Trades Data Sources
   sl.registerLazySingleton<TradesRemoteDataSource>(
         () => TradesRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
+  );
+
+
+
+  // Deals BLoC
+  sl.registerFactory(() => DealsBloc(
+    getDeals: sl(),
+    getDealsWithFilters: sl(),
+    getClients: sl(),
+    getExchanges: sl(),
+    getSymbols: sl(),
+    getOrderTypes: sl(),
+    getStatuses: sl(),
+    exportToPdf: sl(),
+    exportToExcel: sl(),
+  ));
+
+// Deals Use Cases
+  sl.registerLazySingleton(() => GetDeals(sl()));
+  sl.registerLazySingleton(() => GetDealsWithFilters(sl()));
+  sl.registerLazySingleton(() => GetDealsClients(sl()));
+  sl.registerLazySingleton(() => GetDealsExchanges(sl()));
+  sl.registerLazySingleton(() => GetDealsSymbols(sl()));
+  sl.registerLazySingleton(() => GetDealsOrderTypes(sl()));
+  sl.registerLazySingleton(() => GetDealsStatuses(sl()));
+  sl.registerLazySingleton(() => ExportDealsToPdf(sl()));
+  sl.registerLazySingleton(() => ExportDealsToExcel(sl()));
+
+// Deals Repository
+  sl.registerLazySingleton<DealsRepository>(
+        () => DealsRepositoryImpl(remoteDataSource: sl()),
+  );
+
+// Deals Data Sources
+  sl.registerLazySingleton<DealsRemoteDataSource>(
+        () => DealsRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
   );
 
 

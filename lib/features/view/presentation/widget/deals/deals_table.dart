@@ -1,0 +1,230 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
+import '../../../../../core/constants/app_colors.dart';
+import '../../../domain/entities/deals.dart';
+import '../../bloc/deals/deals_bloc.dart';
+import '../../bloc/deals/deals_event.dart';
+import '../../bloc/deals/deals_state.dart';
+import '../table/view_data_table.dart';
+import '../table/view_record_count.dart';
+import '../table/view_table_cell_styles.dart';
+import 'order_duration_dialog.dart';
+
+/// Deals table widget with clickable order duration
+class DealsTable extends StatelessWidget {
+  final bool showDeviceInfo;
+  final bool isDarkMode;
+
+  const DealsTable({
+    Key? key,
+    this.showDeviceInfo = true,
+    this.isDarkMode = false,
+  }) : super(key: key);
+
+  /// Get column definitions for Deals
+  List<ViewTableColumn> _getColumns() {
+    final columns = <ViewTableColumn>[
+      const ViewTableColumn(id: 'userName', label: 'U. NAME', width: 120),
+      const ViewTableColumn(id: 'pUser', label: 'P USER', width: 120),
+      const ViewTableColumn(id: 'exchange', label: 'EXCH', width: 100),
+      const ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 150),
+      const ViewTableColumn(id: 'orderDateTime', label: 'ORDER D/T', width: 220),
+      const ViewTableColumn(id: 'buySell', label: 'B/S', width: 280),
+      const ViewTableColumn(id: 'qty', label: 'QTY', width: 120, isNumeric: true),
+      const ViewTableColumn(id: 'lot', label: 'LOT', width: 100, isNumeric: true),
+      const ViewTableColumn(id: 'orderType', label: 'TYPE', width: 100),
+      const ViewTableColumn(id: 'pl', label: 'P/L', width: 120, isNumeric: true),
+      const ViewTableColumn(id: 'triggerPrice', label: 'T. PRICE', width: 130, isNumeric: true),
+      const ViewTableColumn(id: 'brokerage', label: 'BRK', width: 100, isNumeric: true),
+      const ViewTableColumn(id: 'executionDateTime', label: 'EXECUTION D/T', width: 220),
+      const ViewTableColumn(id: 'rPrice', label: 'R. PRICE', width: 120, isNumeric: true),
+      const ViewTableColumn(id: 'orderDuration', label: 'ORDER DURATION', width: 180),
+    ];
+
+    if (showDeviceInfo) {
+      columns.addAll(const [
+        ViewTableColumn(id: 'deviceId', label: 'DEVICE ID', width: 400),
+        ViewTableColumn(id: 'ipAddress', label: 'IP ADDRESS', width: 160),
+      ]);
+    }
+
+    return columns;
+  }
+
+  Widget _buildCell(BuildContext context, Deal item, ViewTableColumn column, bool isDark) {
+    switch (column.id) {
+      case 'userName':
+        return ViewTextCell(text: item.userName, isDark: isDark);
+      case 'pUser':
+        return ViewTextCell(text: item.pUser, isDark: isDark);
+      case 'exchange':
+        return ViewTextCell(text: item.exchange, isDark: isDark);
+      case 'symbol':
+        return ViewLinkCell(text: item.symbol, isDark: isDark);
+      case 'orderDateTime':
+        return ViewDateTimeCell(dateTime: item.orderDateTime, isDark: isDark);
+      case 'buySell':
+        return ViewBuySellCell(text: item.buySell, isDark: isDark);
+      case 'qty':
+        return ViewNumberCell(
+          value: item.qty,
+          colorByValue: true,
+          isDark: isDark,
+        );
+      case 'lot':
+        return ViewTextCell(
+          text: item.lot.toStringAsFixed(2),
+          isDark: isDark,
+        );
+      case 'orderType':
+        return ViewTextCell(text: item.orderType, isDark: isDark);
+      case 'pl':
+        return ViewNumberCell(
+          value: item.pl,
+          colorByValue: false,
+          isDark: isDark,
+        );
+      case 'triggerPrice':
+        return ViewNumberCell(
+          value: item.triggerPrice,
+          fixedColor: AppColors.primaryBlue,
+          isDark: isDark,
+        );
+      case 'brokerage':
+        return ViewNumberCell(
+          value: item.brokerage,
+          fixedColor: AppColors.primaryBlue,
+          isDark: isDark,
+        );
+      case 'rPrice':
+        return ViewNumberCell(
+          value: item.rPrice,
+          fixedColor: AppColors.primaryBlue,
+          isDark: isDark,
+        );
+      case 'executionDateTime':
+        return item.executionDateTime != null
+            ? ViewDateTimeCell(dateTime: item.executionDateTime!, isDark: isDark)
+            : ViewTextCell(text: '-', isDark: isDark);
+      case 'orderDuration':
+        return _buildOrderDurationCell(context, item, isDark);
+      case 'deviceId':
+        return ViewTextCell(text: item.deviceId ?? '-', isDark: isDark);
+      case 'ipAddress':
+        return ViewTextCell(text: item.ipAddress ?? '-', isDark: isDark);
+      default:
+        return const SizedBox.shrink();
+    }
+  }
+
+  /// Build clickable order duration cell with underline
+  Widget _buildOrderDurationCell(BuildContext context, Deal item, bool isDark) {
+    return GestureDetector(
+      onTap: () {
+        // Get related orders for the same symbol/user
+        final state = context.read<DealsBloc>().state;
+        if (state is DealsLoaded) {
+          final relatedOrders = state.filteredDeals
+              .where((deal) =>
+          deal.symbol == item.symbol &&
+              deal.userName == item.userName)
+              .toList();
+
+          OrderDurationDialog.show(
+            context: context,
+            relatedOrders: relatedOrders,
+            isDarkMode: isDark,
+          );
+        }
+      },
+      child: Container(
+        alignment: Alignment.centerLeft,
+        child: Text(
+          item.orderDuration,
+          style: GoogleFonts.openSans(
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w600,
+            color: const Color(0xFF2C5F7A),
+            decoration: TextDecoration.underline,
+            decorationColor: const Color(0xFF2C5F7A),
+            decorationThickness: 1.5,
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<DealsBloc, DealsState>(
+      builder: (context, state) {
+        if (state is DealsLoading) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (state is DealsError) {
+          return _buildErrorState(context, state.message);
+        }
+
+        if (state is! DealsLoaded) {
+          return const SizedBox.shrink();
+        }
+
+        return Column(
+          children: [
+            // Record count
+            ViewRecordCount(count: state.totalRecords),
+            // Table
+            Expanded(
+              child: ViewDataTable<Deal>(
+                columns: _getColumns(),
+                data: state.filteredDeals,
+                idExtractor: (item) => item.id,
+                selectedId: state.selectedDealId,
+                sortColumn: state.sortColumn,
+                sortAscending: state.sortAscending,
+                isDarkMode: isDarkMode,
+                emptyMessage: 'No deals found',
+                cellBuilder: (item, column) => _buildCell(context, item, column, isDarkMode),
+                onRowTap: (item) {
+                  context.read<DealsBloc>().add(SelectDealEvent(item.id));
+                },
+                onSort: (columnId, ascending) {
+                  context.read<DealsBloc>().add(
+                    SortDealsByColumnEvent(columnId: columnId, ascending: ascending),
+                  );
+                },
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildErrorState(BuildContext context, String message) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            message,
+            style: GoogleFonts.openSans(
+              fontSize: 14.sp,
+              color: AppColors.red,
+            ),
+          ),
+          SizedBox(height: 16.h),
+          ElevatedButton(
+            onPressed: () {
+              context.read<DealsBloc>().add(const LoadDealsEvent());
+            },
+            child: const Text('Retry'),
+          ),
+        ],
+      ),
+    );
+  }
+}

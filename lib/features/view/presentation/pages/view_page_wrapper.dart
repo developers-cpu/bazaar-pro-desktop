@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../core/widget/app_bar_section.dart';
+import '../bloc/deals/deals_bloc.dart';
+import '../bloc/deals/deals_event.dart';
 import '../bloc/pending_orders/pending_orders_bloc.dart';
 import '../bloc/pending_orders/pending_orders_event.dart';
 import '../bloc/trade/trades_bloc.dart';
 import '../bloc/trade/trades_event.dart';
+import 'deals_page.dart';
 import 'pending_orders_page.dart';
 import '../../../../../injection_container.dart' as di;
 
@@ -103,11 +106,22 @@ class DealsPageWithAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ViewPageWrapper(
-      pageTitle: 'Deals',
-      onExportPdf: () {},
-      onExportExcel: () {},
-      child: const Center(child: Text('Deals Page - Coming Soon')),
+    return BlocProvider(
+      create: (context) => di.sl<DealsBloc>()..add(const LoadDealsEvent()),
+      child: Builder(
+        builder: (context) {
+          return ViewPageWrapper(
+            pageTitle: 'Deals',
+            onExportPdf: () {
+              context.read<DealsBloc>().add(const ExportDealsToPdfEvent());
+            },
+            onExportExcel: () {
+              context.read<DealsBloc>().add(const ExportDealsToExcelEvent());
+            },
+            child: const DealsPage(),
+          );
+        },
+      ),
     );
   }
 }

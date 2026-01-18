@@ -24,7 +24,8 @@ class RejectionLogFilterBar extends StatelessWidget {
             children: [
 
               // Client Dropdown
-              Expanded(
+              SizedBox(
+                width: 230.w,
                 child: AppDropdown(
                   type: AppDropdownType.search,
                   hintText: 'Client',
@@ -46,7 +47,8 @@ class RejectionLogFilterBar extends StatelessWidget {
               SizedBox(width: 12.w),
 
               // Exchange Dropdown
-              Expanded(
+              SizedBox(
+                width: 230.w,
                 child: AppDropdown(
                   type: AppDropdownType.simple,
                   hintText: 'Exchange',
@@ -68,7 +70,8 @@ class RejectionLogFilterBar extends StatelessWidget {
               SizedBox(width: 12.w),
 
               // Symbol Dropdown
-              Expanded(
+              SizedBox(
+                width: 230.w,
                 child: AppDropdown(
                   type: AppDropdownType.search,
                   hintText: 'Symbol',

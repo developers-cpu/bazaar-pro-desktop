@@ -22,7 +22,7 @@ class LoginHistoryTable extends StatelessWidget {
     const ViewTableColumn(id: 'userName', label: 'USER NAME', width: 150),
     const ViewTableColumn(id: 'userType', label: 'USER TYPE', width: 150),
     const ViewTableColumn(id: 'ipAddress', label: 'IP ADDRESS', width: 150),
-    const ViewTableColumn(id: 'deviceId', label: 'DEVICE ID', width: 350),
+    const ViewTableColumn(id: 'deviceId', label: 'DEVICE ID', width: 550),
   ];
 
   @override

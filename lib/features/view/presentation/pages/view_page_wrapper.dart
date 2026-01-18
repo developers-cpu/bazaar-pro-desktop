@@ -1,4 +1,5 @@
 import 'package:bazarpro/features/view/presentation/pages/rejection_log_page.dart';
+import 'package:bazarpro/features/view/presentation/pages/script_master_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/constants/app_colors.dart';
@@ -13,6 +14,8 @@ import '../bloc/pending_orders/pending_orders_bloc.dart';
 import '../bloc/pending_orders/pending_orders_event.dart';
 import '../bloc/rejection_log/rejection_log_bloc.dart';
 import '../bloc/rejection_log/rejection_log_event.dart';
+import '../bloc/script_master/script_master_bloc.dart';
+import '../bloc/script_master/script_master_event.dart';
 import '../bloc/trade/trades_bloc.dart';
 import '../bloc/trade/trades_event.dart';
 import 'deals_page.dart';
@@ -238,19 +241,40 @@ class IntradayHistoryPageWithAppBar extends StatelessWidget {
 }
 
 /// Script Master Page with Wrapper
+/// Script Master Page with Wrapper (UPDATED)
 class ScriptMasterPageWithAppBar extends StatelessWidget {
   const ScriptMasterPageWithAppBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ViewPageWrapper(
-      pageTitle: 'Script Master',
-      onExportPdf: () {},
-      onExportExcel: () {},
-      child: const Center(child: Text('Script Master Page - Coming Soon')),
+    return BlocProvider(
+      create: (context) => di.sl<ScriptMasterBloc>()
+        ..add(const LoadScriptMastersEvent()),
+      child: Builder(
+        builder: (context) {
+          return ViewPageWrapper(
+            pageTitle: 'Script Master',
+
+            onExportPdf: () {
+              context
+                  .read<ScriptMasterBloc>()
+                  .add(const ExportScriptMastersToPdfEvent());
+            },
+
+            onExportExcel: () {
+              context
+                  .read<ScriptMasterBloc>()
+                  .add(const ExportScriptMastersToExcelEvent());
+            },
+
+            child: const ScriptMasterPage(),
+          );
+        },
+      ),
     );
   }
 }
+
 
 /// Script Quantity Page with Wrapper
 class ScriptQuantityPageWithAppBar extends StatelessWidget {

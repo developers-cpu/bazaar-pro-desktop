@@ -63,7 +63,7 @@ class _ExchangeChip extends StatelessWidget {
         child: Text(
           label,
           style: GoogleFonts.openSans(
-            fontSize: 14.sp,
+            fontSize: 12.sp,
             color: isSelected ? AppColors.white : LightThemeColors.primaryColor,
           ),
         ),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:data_table_2/data_table_2.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/constants/app_images.dart';
 import '../../../../../core/widget/svg_icon.dart';
@@ -22,7 +21,6 @@ class ViewTableColumn {
     this.sortable = true,
   });
 }
-
 
 class ViewDataTable<T> extends StatefulWidget {
   final List<ViewTableColumn> columns;
@@ -63,88 +61,65 @@ class ViewDataTable<T> extends StatefulWidget {
 }
 
 class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
-  int? _sortColumnIndex;
   final ScrollController _horizontalScrollController = ScrollController();
-
-  @override
-  void initState() {
-    super.initState();
-    _updateSortIndex();
-  }
+  final ScrollController _verticalScrollController = ScrollController();
 
   @override
   void dispose() {
     _horizontalScrollController.dispose();
+    _verticalScrollController.dispose();
     super.dispose();
-  }
-
-  @override
-  void didUpdateWidget(ViewDataTable<T> oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.sortColumn != widget.sortColumn) {
-      _updateSortIndex();
-    }
-  }
-
-  void _updateSortIndex() {
-    if (widget.sortColumn != null) {
-      final index = widget.columns.indexWhere((c) => c.id == widget.sortColumn);
-      _sortColumnIndex = index >= 0 ? index : null;
-    } else {
-      _sortColumnIndex = null;
-    }
   }
 
   double get _totalWidth {
     return widget.columns.fold<double>(0, (sum, col) => sum + col.width);
   }
 
+  // Colors
+  Color get _headerBgColor => widget.isDarkMode
+      ? DarkThemeColors.tableColumnHeadColor
+      : LightThemeColors.tableColumnHeadColor;
+
+  Color get _rowBgColor => widget.isDarkMode
+      ? DarkThemeColors.tableRowBackground
+      : LightThemeColors.tableRowBackground;
+
+  Color get _selectedRowBgColor => widget.isDarkMode
+      ? DarkThemeColors.selectedRowBackground
+      : LightThemeColors.selectedRowBackground;
+
+  Color get _dividerColor => widget.isDarkMode
+      ? DarkThemeColors.dividerColor
+      : AppColors.greyBorder;
+
+  Color get _headerDividerColor => widget.isDarkMode
+      ? DarkThemeColors.dividerColor.withOpacity(0.5)
+      : AppColors.white.withOpacity(0.8);
+
+  Color get _textColor => widget.isDarkMode
+      ? DarkThemeColors.textColor
+      : LightThemeColors.textColor;
+
   @override
   Widget build(BuildContext context) {
-    if (widget.data.isEmpty && widget.footerBuilder == null) {
-      return _buildEmptyState();
-    }
-
-    return _buildTableWithFooter();
-  }
-
-  Widget _buildEmptyState() {
-    return Container(
-      color: widget.isDarkMode
-          ? DarkThemeColors.backgroundColor
-          : LightThemeColors.backgroundColor,
-      child: Center(
-        child: Text(
-          widget.emptyMessage,
-          style: GoogleFonts.openSans(
-            fontSize: 16.sp,
-            color: widget.isDarkMode
-                ? DarkThemeColors.supportiveTextColor
-                : LightThemeColors.supportiveTextColor,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTableWithFooter() {
     final rowHeight = widget.rowHeight ?? 45.h;
     final headerHeight = widget.headerHeight ?? 50.h;
-    final hasFooter = widget.footerBuilder != null;
 
     return Container(
       margin: EdgeInsets.all(10.w),
       decoration: BoxDecoration(
-        color: widget.isDarkMode
-            ? DarkThemeColors.backgroundColor
-            : LightThemeColors.backgroundColor,
+        color: _rowBgColor,
         borderRadius: BorderRadius.circular(10.r),
+        border: Border.all(
+          color: _dividerColor.withOpacity(0.5),
+          width: 1,
+        ),
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(10.r),
         child: Column(
           children: [
-            // Scrollable table + footer area
+            // Scrollable table
             Expanded(
               child: Scrollbar(
                 controller: _horizontalScrollController,
@@ -153,16 +128,20 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
                   controller: _horizontalScrollController,
                   scrollDirection: Axis.horizontal,
                   child: SizedBox(
-                    width: _totalWidth + 24, // Account for horizontal margins
+                    width: _totalWidth,
                     child: Column(
                       children: [
-                        // Table header and data rows
+                        // Header row
+                        _buildHeaderRow(headerHeight),
+                        // Data rows
                         Expanded(
-                          child: _buildTableContent(rowHeight, headerHeight),
+                          child: widget.data.isEmpty
+                              ? _buildEmptyState()
+                              : _buildDataRows(rowHeight),
                         ),
-                        // Footer row (aligned with columns)
-                        if (hasFooter)
-                          _buildFooterRow(),
+                        // Footer row
+                        if (widget.footerBuilder != null)
+                          _buildFooterRow(rowHeight),
                       ],
                     ),
                   ),
@@ -175,188 +154,159 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
     );
   }
 
-  Widget _buildTableContent(double rowHeight, double headerHeight) {
-    if (widget.data.isEmpty) {
-      return Column(
-        children: [
-          _buildHeaderRow(headerHeight),
-          Expanded(
-            child: Center(
-              child: Text(
-                widget.emptyMessage,
-                style: GoogleFonts.openSans(
-                  fontSize: 16.sp,
-                  color: widget.isDarkMode
-                      ? DarkThemeColors.supportiveTextColor
-                      : LightThemeColors.supportiveTextColor,
-                ),
-              ),
-            ),
-          ),
-        ],
-      );
-    }
-
-    return DataTable2(
-      columnSpacing: 12,
-      horizontalMargin: 12,
-      minWidth: _totalWidth,
-      headingRowHeight: headerHeight,
-      dataRowHeight: rowHeight,
-      headingRowColor: WidgetStateProperty.all(
-        LightThemeColors.tableColumnHeadColor,
-      ),
-      dividerThickness: 0,
-      border: TableBorder(
-        horizontalInside: BorderSide(
-          color: AppColors.greyBorder.withOpacity(0.3),
-          width: 0.5,
+  Widget _buildEmptyState() {
+    return Center(
+      child: Text(
+        widget.emptyMessage,
+        style: GoogleFonts.openSans(
+          fontSize: 16.sp,
+          color: widget.isDarkMode
+              ? DarkThemeColors.supportiveTextColor
+              : LightThemeColors.supportiveTextColor,
         ),
       ),
-      sortColumnIndex: _sortColumnIndex,
-      sortAscending: widget.sortAscending,
-      columns: _buildColumns(),
-      rows: _buildRows(),
     );
   }
 
   Widget _buildHeaderRow(double headerHeight) {
     return Container(
       height: headerHeight,
-      color: LightThemeColors.tableColumnHeadColor,
+      decoration: BoxDecoration(
+        color: _headerBgColor,
+        border: Border(
+          bottom: BorderSide(
+            color: _dividerColor,
+            width: 1,
+          ),
+        ),
+      ),
       child: Row(
-        children: widget.columns.map((column) {
-          return Container(
-            width: column.width,
-            padding: EdgeInsets.symmetric(horizontal: 12.w),
-            alignment: Alignment.center,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  column.label,
-                  style: GoogleFonts.openSans(
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.w600,
-                    color: LightThemeColors.textColor,
-                  ),
-                  textAlign: TextAlign.center,
-                  maxLines: 1,
-                  softWrap: false,
-                ),
-                if (column.sortable) ...[
-                  SizedBox(width: 4.w),
-                  SvgIcon(
-                    assetPath: AppImages.sortIcon,
-                    isActive: widget.sortColumn == column.id,
-                    size: 12.sp,
-                    activeColor: widget.sortColumn == column.id ? AppColors.primaryBlue : null,
-                  ),
-                ],
-              ],
-            ),
-          );
+        children: widget.columns.asMap().entries.map((entry) {
+          final index = entry.key;
+          final column = entry.value;
+          final isLast = index == widget.columns.length - 1;
+
+          return _buildHeaderCell(column, isLast);
         }).toList(),
       ),
     );
   }
 
-  Widget _buildFooterRow() {
-    return widget.footerBuilder!(widget.columns);
-  }
-
-  List<DataColumn2> _buildColumns() {
-    return widget.columns.asMap().entries.map((entry) {
-      final index = entry.key;
-      final column = entry.value;
-
-      return DataColumn2(
-        label: _buildHeaderCell(column),
-        size: ColumnSize.L,
-        numeric: column.isNumeric,
-        headingRowAlignment: MainAxisAlignment.center,
-        onSort: column.sortable && widget.onSort != null
-            ? (_, ascending) {
-          setState(() {
-            _sortColumnIndex = index;
-          });
-          widget.onSort!(column.id, ascending);
-        }
-            : null,
-      );
-    }).toList();
-  }
-
-  Widget _buildHeaderCell(ViewTableColumn column) {
+  Widget _buildHeaderCell(ViewTableColumn column, bool isLast) {
     final isSorted = widget.sortColumn == column.id;
 
-    return Center(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            column.label,
-            style: GoogleFonts.openSans(
-              fontSize: 12.sp,
-              fontWeight: FontWeight.w600,
-              color: LightThemeColors.textColor,
+    return GestureDetector(
+      onTap: column.sortable && widget.onSort != null
+          ? () => widget.onSort!(column.id, !widget.sortAscending)
+          : null,
+      child: Container(
+        width: column.width,
+        decoration: BoxDecoration(
+          border: isLast
+              ? null
+              : Border(
+            right: BorderSide(
+              color: _headerDividerColor,
+              width: 1,
             ),
-            textAlign: TextAlign.center,
-            maxLines: 1,
-            softWrap: false,
           ),
-          if (column.sortable) ...[
-            SizedBox(width: 4.w),
-            SvgIcon(
-              assetPath: AppImages.sortIcon,
-              isActive: isSorted,
-              size: 12.sp,
-              activeColor: isSorted ? AppColors.primaryBlue : null,
-            ),
-          ],
-        ],
+        ),
+        child: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Flexible(
+                child: Text(
+                  column.label,
+                  style: GoogleFonts.openSans(
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w600,
+                    color: _textColor,
+                  ),
+                  textAlign: TextAlign.center,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              if (column.sortable) ...[
+                SizedBox(width: 4.w),
+                SvgIcon(
+                  assetPath: AppImages.sortIcon,
+                  isActive: isSorted,
+                  size: 12.sp,
+                  activeColor: isSorted ? AppColors.primaryBlue : null,
+                ),
+              ],
+            ],
+          ),
+        ),
       ),
     );
   }
 
-  List<DataRow2> _buildRows() {
-    return widget.data.asMap().entries.map((entry) {
-      final index = entry.key;
-      final item = entry.value;
-      final itemId = widget.idExtractor(item);
-      final isSelected = itemId == widget.selectedId;
+  Widget _buildDataRows(double rowHeight) {
+    return Scrollbar(
+      controller: _verticalScrollController,
+      thumbVisibility: true,
+      child: ListView.builder(
+        controller: _verticalScrollController,
+        padding: EdgeInsets.zero,
+        itemCount: widget.data.length,
+        itemBuilder: (context, index) {
+          final item = widget.data[index];
+          final itemId = widget.idExtractor(item);
+          final isSelected = itemId == widget.selectedId;
+          final isLast = index == widget.data.length - 1;
 
-      return DataRow2(
-        selected: isSelected,
-        color: WidgetStateProperty.resolveWith<Color?>((states) {
-          if (states.contains(WidgetState.selected)) {
-            return widget.isDarkMode
-                ? DarkThemeColors.selectedRowBackground
-                : LightThemeColors.selectedRowBackground;
-          }
-          // Alternate row colors
-          if (index % 2 == 0) {
-            return widget.isDarkMode
-                ? DarkThemeColors.backgroundColor
-                : AppColors.white;
-          }
-          return widget.isDarkMode
-              ? DarkThemeColors.backgroundColor.withOpacity(0.8)
-              : AppColors.primaryBgColor.withOpacity(0.3);
-        }),
-        onTap: widget.onRowTap != null ? () => widget.onRowTap!(item) : null,
-        cells: _buildCells(item),
-      );
-    }).toList();
+          return _buildDataRow(item, index, isSelected, isLast, rowHeight);
+        },
+      ),
+    );
   }
 
-  List<DataCell> _buildCells(T item) {
-    return widget.columns.map((column) {
-      return DataCell(
-        Center(child: widget.cellBuilder(item, column)),
-      );
-    }).toList();
+  Widget _buildDataRow(T item, int index, bool isSelected, bool isLast, double rowHeight) {
+    return GestureDetector(
+      onTap: widget.onRowTap != null ? () => widget.onRowTap!(item) : null,
+      child: Container(
+        height: rowHeight,
+        decoration: BoxDecoration(
+          color: isSelected ? _selectedRowBgColor : _rowBgColor,
+          border: isLast
+              ? null
+              : Border(
+            bottom: BorderSide(
+              color: _dividerColor.withOpacity(0.5),
+              width: 1,
+            ),
+          ),
+        ),
+        child: Row(
+          children: widget.columns.map((column) {
+            return Container(
+              width: column.width,
+              alignment: Alignment.center,
+              child: widget.cellBuilder(item, column),
+            );
+          }).toList(),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFooterRow(double rowHeight) {
+    return Container(
+      height: rowHeight,
+      decoration: BoxDecoration(
+        color: _headerBgColor,
+        border: Border(
+          top: BorderSide(
+            color: _dividerColor,
+            width: 1,
+          ),
+        ),
+      ),
+      child: widget.footerBuilder!(widget.columns),
+    );
   }
 }

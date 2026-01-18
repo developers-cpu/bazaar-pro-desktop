@@ -72,7 +72,7 @@ class _AppDropdownState extends State<AppDropdown>
   late AnimationController _controller;
   late Animation<double> _animation;
 
-  // Constants for sizing
+  // Constants for sizing - Figma specs
   static const int _maxVisibleItems = 6;
   static double get _itemHeight => 40.h;
   static double get _searchFieldHeight => 50.h;
@@ -177,13 +177,11 @@ class _AppDropdownState extends State<AppDropdown>
     _overlayEntry?.markNeedsBuild();
   }
 
-  // Colors
+  // Colors - Using AppColors constants
   Color get _borderColor => widget.borderColor ?? AppColors.primaryBlue;
   Color get _textColor => widget.textColor ??
       (widget.isDarkMode ? DarkThemeColors.textColor : LightThemeColors.textColor);
-  Color get _hintColor => widget.isDarkMode
-      ? DarkThemeColors.supportiveTextColor
-      : LightThemeColors.supportiveTextColor;
+  Color get _hintColor => AppColors.primaryBlue;
   Color get _bgColor => widget.isDarkMode
       ? DarkThemeColors.cardBackground
       : LightThemeColors.cardBackground;
@@ -191,12 +189,13 @@ class _AppDropdownState extends State<AppDropdown>
       ? DarkThemeColors.cardBackground
       : AppColors.white;
 
+  // Text style matching Figma specs
   TextStyle get _textStyle => GoogleFonts.openSans(
-    fontSize: 16.sp,
+    fontSize: 14.sp,
     fontWeight: FontWeight.w600,
     height: 1.0,
     letterSpacing: 0.15,
-    color: _textColor,
+    color: AppColors.primaryBlue,
   );
 
   String get _displayText {
@@ -210,25 +209,19 @@ class _AppDropdownState extends State<AppDropdown>
   }
 
   double _calculateDropdownHeight(int filteredCount) {
-    // Calculate total items count
     int totalItems = filteredCount;
     if (widget.showAllOption && widget.type == AppDropdownType.simple) {
-      totalItems += 1; // Add "All" option
+      totalItems += 1;
     }
 
-    // Visible items (max 6)
     final visibleItems = totalItems > _maxVisibleItems ? _maxVisibleItems : totalItems;
-
-    // Calculate list height
     double listHeight = visibleItems * _itemHeight;
 
-    // Add search field height if needed
     double searchHeight = 0;
     if (widget.type != AppDropdownType.simple) {
       searchHeight = _searchFieldHeight;
     }
 
-    // Add select all height if multiSelect
     double selectAllHeight = 0;
     if (widget.type == AppDropdownType.multiSelect) {
       selectAllHeight = _selectAllHeight;
@@ -369,21 +362,20 @@ class _AppDropdownState extends State<AppDropdown>
             size: 20.w,
             activeColor: _borderColor,
           ),
-
           SizedBox(width: 8.w),
           Expanded(
             child: TextField(
               controller: _searchController,
               onChanged: _onSearch,
               style: GoogleFonts.openSans(
-                fontSize: 14.sp,
+                fontSize: 12.sp,
                 color: _textColor,
               ),
               decoration: InputDecoration(
                 hintText: widget.searchHint,
                 hintStyle: GoogleFonts.openSans(
-                  fontSize: 14.sp,
-                  color: _hintColor,
+                  fontSize: 12.sp,
+                  color: AppColors.supportiveTextColor(context),
                 ),
                 border: InputBorder.none,
                 contentPadding: EdgeInsets.zero,
@@ -411,7 +403,7 @@ class _AppDropdownState extends State<AppDropdown>
             Text(
               'Select All',
               style: GoogleFonts.openSans(
-                fontSize: 14.sp,
+                fontSize: 12.sp,
                 fontWeight: FontWeight.w500,
                 color: _textColor,
               ),
@@ -438,7 +430,7 @@ class _AppDropdownState extends State<AppDropdown>
               child: Text(
                 item,
                 style: GoogleFonts.openSans(
-                  fontSize: 14.sp,
+                  fontSize: 12.sp,
                   fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
                   color: _textColor,
                 ),
@@ -489,10 +481,11 @@ class _AppDropdownState extends State<AppDropdown>
         child: Text(
           item,
           style: GoogleFonts.openSans(
-            fontSize: 14.sp,
+            fontSize: 12.sp,
             fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
             color: _textColor,
           ),
+          overflow: TextOverflow.ellipsis,
         ),
       ),
     );
@@ -500,6 +493,8 @@ class _AppDropdownState extends State<AppDropdown>
 
   @override
   Widget build(BuildContext context) {
+    final bool hasValue = widget.value != null || _selectedSet.isNotEmpty;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -509,44 +504,53 @@ class _AppDropdownState extends State<AppDropdown>
           Text(
             widget.label!,
             style: GoogleFonts.openSans(
-              fontSize: 14.sp,
+              fontSize: 12.sp,
               fontWeight: FontWeight.w400,
               color: widget.labelColor ?? AppColors.white,
             ),
           ),
           SizedBox(height: 5.h),
         ],
-        // Dropdown button
+        // Dropdown button - Figma specs: 250x45, border-radius: 10, border: 2px, padding: 10px
         SizedBox(
           width: widget.width ?? 250.w,
+          height: 45.h,
           child: CompositedTransformTarget(
             link: _layerLink,
             child: GestureDetector(
               onTap: _toggle,
               child: Container(
-                height: 45.h,
                 padding: EdgeInsets.symmetric(horizontal: 10.w),
                 decoration: BoxDecoration(
                   color: _bgColor,
                   borderRadius: BorderRadius.circular(10.r),
-                  border: Border.all(color: _borderColor, width: 2.w),
+                  border: Border.all(
+                    color: _borderColor,
+                    width: 2.w,
+                  ),
                 ),
                 child: Row(
                   children: [
+                    // Text with ellipsis to prevent overflow
                     Expanded(
                       child: Text(
                         _displayText,
-                        style: _textStyle.copyWith(
-                          color: (widget.value != null || _selectedSet.isNotEmpty)
-                              ? _textColor
-                              : AppColors.primaryBlue,
+                        style: GoogleFonts.openSans(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w600,
+                          height: 1.0,
+                          letterSpacing: 0.15,
+                          color: hasValue ? _textColor : AppColors.primaryBlue,
                         ),
                         overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
                       ),
                     ),
+                    SizedBox(width: 8.w),
+                    // Arrow icon
                     Icon(
                       _isOpen ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
-                      color: _textColor,
+                      color: AppColors.primaryBlue,
                       size: 24.sp,
                     ),
                   ],

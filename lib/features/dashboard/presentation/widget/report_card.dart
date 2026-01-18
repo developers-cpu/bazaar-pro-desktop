@@ -95,7 +95,7 @@ class ReportCard extends StatelessWidget {
                 child: Text(
                   title,
                   style: GoogleFonts.openSans(
-                    fontSize: 18.sp,
+                    fontSize: 14.sp,
                     fontWeight: FontWeight.w600,
                     color: LightThemeColors.textColor,
                   ),

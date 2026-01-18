@@ -89,7 +89,7 @@ class _DateRangePickerDialogState extends State<DateRangePickerDialog> {
           Text(
             'Market Timing',
             style: GoogleFonts.openSans(
-              fontSize: 18.sp,
+              fontSize: 16.sp,
               fontWeight: FontWeight.w600,
               color: AppColors.white,
             ),
@@ -124,7 +124,7 @@ class _DateRangePickerDialogState extends State<DateRangePickerDialog> {
           Text(
             monthFormat.format(_currentMonth),
             style: GoogleFonts.openSans(
-              fontSize: 16.sp,
+              fontSize: 14.sp,
               fontWeight: FontWeight.w600,
               color: AppColors.primaryTextColor,
             ),
@@ -159,7 +159,7 @@ class _DateRangePickerDialogState extends State<DateRangePickerDialog> {
               day,
               textAlign: TextAlign.center,
               style: GoogleFonts.openSans(
-                fontSize: 14.sp,
+                fontSize: 12.sp,
                 fontWeight: FontWeight.w600,
                 color: isWeekend ? AppColors.red : AppColors.primaryBlue,
               ),
@@ -262,7 +262,7 @@ class _DateRangePickerDialogState extends State<DateRangePickerDialog> {
         child: Text(
           date.day.toString(),
           style: GoogleFonts.openSans(
-            fontSize: 14.sp,
+            fontSize: 12.sp,
             fontWeight: (isStartDate || isEndDate) ? FontWeight.w600 : FontWeight.w500,
             color: textColor,
           ),
@@ -386,7 +386,7 @@ class _DateRangePickerDialogState extends State<DateRangePickerDialog> {
               child: Text(
                 'Cancel',
                 style: GoogleFonts.openSans(
-                  fontSize: 14.sp,
+                  fontSize: 12.sp,
                   fontWeight: FontWeight.w600,
                   color: AppColors.primaryBlue,
                 ),
@@ -415,7 +415,7 @@ class _DateRangePickerDialogState extends State<DateRangePickerDialog> {
               child: Text(
                 'Apply',
                 style: GoogleFonts.openSans(
-                  fontSize: 14.sp,
+                  fontSize: 12.sp,
                   fontWeight: FontWeight.w600,
                   color: AppColors.white,
                 ),

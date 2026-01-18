@@ -110,22 +110,22 @@ class AppBarSectionState extends State<AppBarSection> {
             title: 'Script Quantity',
             onTap: () => _navigateToPage(2, 'Script Quantity', '/script-quantity'),
           ),
-          MenuItemData(
-            title: 'Bulk Trade',
-            onTap: () => _navigateToPage(2, 'Bulk Trade', '/bulk-trade'),
-          ),
-          MenuItemData(
-            title: 'Total Volume',
-            onTap: () => _navigateToPage(2, 'Total Volume', '/total-volume'),
-          ),
-          MenuItemData(
-            title: 'Deleted Trade',
-            onTap: () => _navigateToPage(2, 'Deleted Trade', '/deleted-trade'),
-          ),
-          MenuItemData(
-            title: 'Manual Trade',
-            onTap: () => _navigateToPage(2, 'Manual Trade', '/manual-trade'),
-          ),
+          // MenuItemData(
+          //   title: 'Bulk Trade',
+          //   onTap: () => _navigateToPage(2, 'Bulk Trade', '/bulk-trade'),
+          // ),
+          // MenuItemData(
+          //   title: 'Total Volume',
+          //   onTap: () => _navigateToPage(2, 'Total Volume', '/total-volume'),
+          // ),
+          // MenuItemData(
+          //   title: 'Deleted Trade',
+          //   onTap: () => _navigateToPage(2, 'Deleted Trade', '/deleted-trade'),
+          // ),
+          // MenuItemData(
+          //   title: 'Manual Trade',
+          //   onTap: () => _navigateToPage(2, 'Manual Trade', '/manual-trade'),
+          // ),
         ],
       ),
 

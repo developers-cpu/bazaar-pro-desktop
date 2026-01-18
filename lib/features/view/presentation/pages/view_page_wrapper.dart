@@ -1,5 +1,6 @@
 import 'package:bazarpro/features/view/presentation/pages/rejection_log_page.dart';
 import 'package:bazarpro/features/view/presentation/pages/script_master_page.dart';
+import 'package:bazarpro/features/view/presentation/pages/script_quantity_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/constants/app_colors.dart';
@@ -16,6 +17,8 @@ import '../bloc/rejection_log/rejection_log_bloc.dart';
 import '../bloc/rejection_log/rejection_log_event.dart';
 import '../bloc/script_master/script_master_bloc.dart';
 import '../bloc/script_master/script_master_event.dart';
+import '../bloc/script_quantity/script_quantity_bloc.dart';
+import '../bloc/script_quantity/script_quantity_event.dart';
 import '../bloc/trade/trades_bloc.dart';
 import '../bloc/trade/trades_event.dart';
 import 'deals_page.dart';
@@ -282,11 +285,18 @@ class ScriptQuantityPageWithAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ViewPageWrapper(
-      pageTitle: 'Script Quantity',
-      onExportPdf: () {},
-      onExportExcel: () {},
-      child: const Center(child: Text('Script Quantity Page - Coming Soon')),
+    return BlocProvider(
+      create: (context) => di.sl<ScriptQuantityBloc>()
+        ..add(const LoadFiltersEvent()),
+      child: Builder(
+        builder: (context) {
+          return ViewPageWrapper(
+            pageTitle: 'Script Quantity',
+            // No export buttons needed for this page
+            child: const ScriptQuantityPage(),
+          );
+        },
+      ),
     );
   }
 }

@@ -30,6 +30,7 @@ import 'features/view/data/datasources/net_position_remote_datasource.dart';
 import 'features/view/data/datasources/pending_orders_remote_datasource.dart';
 import 'features/view/data/datasources/rejection_log_remote_datasource.dart';
 import 'features/view/data/datasources/script_master_remote_datasource.dart';
+import 'features/view/data/datasources/script_quantity_remote_datasource.dart';
 import 'features/view/data/datasources/trades_remote_datasource.dart';
 import 'features/view/data/repositories/deals_repository_impl.dart';
 import 'features/view/data/repositories/login_history_repository_impl.dart';
@@ -37,6 +38,7 @@ import 'features/view/data/repositories/net_position_repository_impl.dart';
 import 'features/view/data/repositories/pending_orders_repository_impl.dart';
 import 'features/view/data/repositories/rejection_log_repository_impl.dart';
 import 'features/view/data/repositories/script_master_repository_impl.dart';
+import 'features/view/data/repositories/script_quantity_repository_impl.dart';
 import 'features/view/data/repositories/trades_repository_impl.dart';
 import 'features/view/domain/repositories/deals_repository.dart';
 import 'features/view/domain/repositories/login_history_repository.dart';
@@ -44,6 +46,7 @@ import 'features/view/domain/repositories/net_position_repository.dart';
 import 'features/view/domain/repositories/pending_orders_repository.dart';
 import 'features/view/domain/repositories/rejection_log_repository.dart';
 import 'features/view/domain/repositories/script_master_repository.dart';
+import 'features/view/domain/repositories/script_quantity_repository.dart';
 import 'features/view/domain/repositories/trades_repository.dart';
 import 'features/view/domain/usecases/ rejection_log/rejection_log_usecases.dart';
 import 'features/view/domain/usecases/deals/deals_usecases.dart';
@@ -53,6 +56,7 @@ import 'features/view/domain/usecases/pending_order/export_orders.dart';
 import 'features/view/domain/usecases/pending_order/get_filter_data.dart';
 import 'features/view/domain/usecases/pending_order/get_pending_orders.dart';
 import 'features/view/domain/usecases/script_master/script_master_usecases.dart';
+import 'features/view/domain/usecases/script_quantity/script_quantity_usecases.dart';
 import 'features/view/domain/usecases/trade/trades_usecases.dart';
 import 'features/view/presentation/bloc/deals/deals_bloc.dart';
 import 'features/view/presentation/bloc/login_history/login_history_bloc.dart';
@@ -60,6 +64,7 @@ import 'features/view/presentation/bloc/net_position/net_position_bloc.dart';
 import 'features/view/presentation/bloc/pending_orders/pending_orders_bloc.dart';
 import 'features/view/presentation/bloc/rejection_log/rejection_log_bloc.dart';
 import 'features/view/presentation/bloc/script_master/script_master_bloc.dart';
+import 'features/view/presentation/bloc/script_quantity/script_quantity_bloc.dart';
 import 'features/view/presentation/bloc/trade/trades_bloc.dart';
 
 final sl = GetIt.instance;
@@ -341,8 +346,9 @@ Future<void> init() async {
         () => RejectionLogRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
   );
 
-
-
+  // ============================================================
+  // VIEW FEATURE - LOGIN HISTORY
+  // ============================================================
 
   // Login History BLoC
   sl.registerFactory(() => LoginHistoryBloc(
@@ -367,6 +373,10 @@ Future<void> init() async {
   sl.registerLazySingleton<LoginHistoryRemoteDataSource>(
         () => LoginHistoryRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
   );
+
+  // ============================================================
+  // VIEW FEATURE - SCRIPT MASTER
+  // ============================================================
 
   // Script Master BLoC
   sl.registerFactory(() => ScriptMasterBloc(
@@ -396,5 +406,35 @@ Future<void> init() async {
         () => ScriptMasterRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
   );
 
+  // ============================================================
+  // VIEW FEATURE - SCRIPT QUANTITY
+  // ============================================================
 
+  // Script Quantity BLoC
+  sl.registerFactory(
+        () => ScriptQuantityBloc(
+      getExchanges: sl(),
+      getGroups: sl(),
+      getScriptQuantities: sl(),
+    ),
+  );
+
+  // Script Quantity Use Cases
+  sl.registerLazySingleton(() => GetScriptQuantityExchanges(sl()));
+  sl.registerLazySingleton(() => GetScriptQuantityGroups(sl()));
+  sl.registerLazySingleton(() => GetScriptQuantities(sl()));
+
+  // Script Quantity Repository
+  sl.registerLazySingleton<ScriptQuantityRepository>(
+        () => ScriptQuantityRepositoryImpl(
+      remoteDataSource: sl(),
+    ),
+  );
+
+  // Script Quantity Data Sources
+  sl.registerLazySingleton<ScriptQuantityRemoteDataSource>(
+        () => ScriptQuantityRemoteDataSourceImpl(
+      dio: sl<ApiClient>().dio,
+    ),
+  );
 }

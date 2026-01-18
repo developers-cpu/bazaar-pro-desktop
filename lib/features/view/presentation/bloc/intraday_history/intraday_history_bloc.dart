@@ -27,6 +27,7 @@ class IntradayHistoryBloc
     on<LoadIntradayHistoryEvent>(_onLoadIntradayHistory);
     on<ApplyIntradayFiltersEvent>(_onApplyFilters);
     on<ResetIntradayFiltersEvent>(_onResetFilters);
+    on<NavigateToSecondsViewEvent>(_onNavigateToSecondsView);
     on<LoadSecondsDataEvent>(_onLoadSecondsData);
     on<BackToListViewEvent>(_onBackToListView);
     on<SortIntradayByColumnEvent>(_onSortByColumn);
@@ -129,6 +130,23 @@ class IntradayHistoryBloc
         timings: currentState.timings,
       )),
     );
+  }
+
+  Future<void> _onNavigateToSecondsView(
+      NavigateToSecondsViewEvent event,
+      Emitter<IntradayHistoryState> emit,
+      ) async {
+    // Simply transition to seconds view without loading data yet
+    // User will select exchange and symbol, then click View
+    emit(IntradayHistorySecondsView(
+      history: const [],
+      totalRecords: 0,
+      date: event.date,
+      exchange: event.exchange,
+      symbol: event.symbol,
+      startTime: event.startTime,
+      endTime: event.endTime,
+    ));
   }
 
   Future<void> _onLoadSecondsData(

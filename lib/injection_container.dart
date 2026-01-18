@@ -25,6 +25,7 @@ import 'features/market_watch/presentation/bloc/theme/theme_bloc.dart';
 import 'features/market_watch/presentation/bloc/watchlist/watch_list_bloc.dart';
 // View Feature imports
 import 'features/view/data/datasources/deals_remote_datasource.dart';
+import 'features/view/data/datasources/intraday_history_remote_datasource.dart';
 import 'features/view/data/datasources/login_history_remote_datasource.dart';
 import 'features/view/data/datasources/net_position_remote_datasource.dart';
 import 'features/view/data/datasources/pending_orders_remote_datasource.dart';
@@ -33,6 +34,7 @@ import 'features/view/data/datasources/script_master_remote_datasource.dart';
 import 'features/view/data/datasources/script_quantity_remote_datasource.dart';
 import 'features/view/data/datasources/trades_remote_datasource.dart';
 import 'features/view/data/repositories/deals_repository_impl.dart';
+import 'features/view/data/repositories/intraday_history_repository_impl.dart';
 import 'features/view/data/repositories/login_history_repository_impl.dart';
 import 'features/view/data/repositories/net_position_repository_impl.dart';
 import 'features/view/data/repositories/pending_orders_repository_impl.dart';
@@ -41,6 +43,7 @@ import 'features/view/data/repositories/script_master_repository_impl.dart';
 import 'features/view/data/repositories/script_quantity_repository_impl.dart';
 import 'features/view/data/repositories/trades_repository_impl.dart';
 import 'features/view/domain/repositories/deals_repository.dart';
+import 'features/view/domain/repositories/intraday_history_repository.dart';
 import 'features/view/domain/repositories/login_history_repository.dart';
 import 'features/view/domain/repositories/net_position_repository.dart';
 import 'features/view/domain/repositories/pending_orders_repository.dart';
@@ -50,6 +53,7 @@ import 'features/view/domain/repositories/script_quantity_repository.dart';
 import 'features/view/domain/repositories/trades_repository.dart';
 import 'features/view/domain/usecases/ rejection_log/rejection_log_usecases.dart';
 import 'features/view/domain/usecases/deals/deals_usecases.dart';
+import 'features/view/domain/usecases/intraday_history/intraday_history_usecases.dart';
 import 'features/view/domain/usecases/login_history/login_history_usecases.dart';
 import 'features/view/domain/usecases/netposition/net_position_usecases.dart';
 import 'features/view/domain/usecases/pending_order/export_orders.dart';
@@ -59,6 +63,7 @@ import 'features/view/domain/usecases/script_master/script_master_usecases.dart'
 import 'features/view/domain/usecases/script_quantity/script_quantity_usecases.dart';
 import 'features/view/domain/usecases/trade/trades_usecases.dart';
 import 'features/view/presentation/bloc/deals/deals_bloc.dart';
+import 'features/view/presentation/bloc/intraday_history/intraday_history_bloc.dart';
 import 'features/view/presentation/bloc/login_history/login_history_bloc.dart';
 import 'features/view/presentation/bloc/net_position/net_position_bloc.dart';
 import 'features/view/presentation/bloc/pending_orders/pending_orders_bloc.dart';
@@ -437,4 +442,42 @@ Future<void> init() async {
       dio: sl<ApiClient>().dio,
     ),
   );
+
+
+
+  // ============================================================
+  // VIEW FEATURE - INTRADAY HISTORY
+  // ============================================================
+
+  // Intraday History BLoC
+  sl.registerFactory(() => IntradayHistoryBloc(
+    getIntradayHistory: sl(),
+    getIntradayHistoryInSeconds: sl(),
+    getExchanges: sl(),
+    getSymbols: sl(),
+    getTimings: sl(),
+    exportToPdf: sl(),
+    exportToExcel: sl(),
+  ));
+
+  // Intraday History Use Cases
+  sl.registerLazySingleton(() => GetIntradayHistory(sl()));
+  sl.registerLazySingleton(() => GetIntradayHistoryInSeconds(sl()));
+  sl.registerLazySingleton(() => GetIntradayExchanges(sl()));
+  sl.registerLazySingleton(() => GetIntradaySymbols(sl()));
+  sl.registerLazySingleton(() => GetIntradayTimings(sl()));
+  sl.registerLazySingleton(() => GetAvailableTimeSlots(sl()));
+  sl.registerLazySingleton(() => ExportIntradayToPdf(sl()));
+  sl.registerLazySingleton(() => ExportIntradayToExcel(sl()));
+
+  // Intraday History Repository
+  sl.registerLazySingleton<IntradayHistoryRepository>(
+        () => IntradayHistoryRepositoryImpl(remoteDataSource: sl()),
+  );
+
+  // Intraday History Data Sources
+  sl.registerLazySingleton<IntradayHistoryRemoteDataSource>(
+        () => IntradayHistoryRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
+  );
+
 }

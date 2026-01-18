@@ -7,6 +7,8 @@ import '../../../../../core/constants/app_colors.dart';
 import '../../../../core/widget/app_bar_section.dart';
 import '../bloc/deals/deals_bloc.dart';
 import '../bloc/deals/deals_event.dart';
+import '../bloc/intraday_history/intraday_history_bloc.dart';
+import '../bloc/intraday_history/intraday_history_event.dart';
 import '../bloc/login_history/login_history_bloc.dart';
 import '../bloc/login_history/login_history_event.dart';
 import '../bloc/net_position/net_position_bloc.dart';
@@ -22,6 +24,7 @@ import '../bloc/script_quantity/script_quantity_event.dart';
 import '../bloc/trade/trades_bloc.dart';
 import '../bloc/trade/trades_event.dart';
 import 'deals_page.dart';
+import 'intraday_history_page.dart';
 import 'login_history_page.dart';
 import 'net_position_page.dart';
 import 'pending_orders_page.dart';
@@ -234,11 +237,27 @@ class IntradayHistoryPageWithAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ViewPageWrapper(
-      pageTitle: 'Intraday History',
-      onExportPdf: () {},
-      onExportExcel: () {},
-      child: const Center(child: Text('Intraday History Page - Coming Soon')),
+    return BlocProvider(
+      create: (context) => di.sl<IntradayHistoryBloc>()
+        ..add(const LoadIntradayHistoryEvent()),
+      child: Builder(
+        builder: (context) {
+          return ViewPageWrapper(
+            pageTitle: 'Intraday History',
+            onExportPdf: () {
+              context
+                  .read<IntradayHistoryBloc>()
+                  .add(const ExportIntradayToPdfEvent());
+            },
+            onExportExcel: () {
+              context
+                  .read<IntradayHistoryBloc>()
+                  .add(const ExportIntradayToExcelEvent());
+            },
+            child: const IntradayHistoryPage(),
+          );
+        },
+      ),
     );
   }
 }

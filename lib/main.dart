@@ -12,6 +12,7 @@ import 'features/market_watch/presentation/bloc/order/order_dialog_bloc.dart';
 import 'features/market_watch/presentation/bloc/symbolfont/symbol_font_bloc.dart';
 import 'features/market_watch/presentation/bloc/theme/theme_bloc.dart';
 import 'features/market_watch/presentation/bloc/watchlist/watch_list_bloc.dart';
+import 'features/view/presentation/bloc/intraday_history/intraday_history_bloc.dart';
 import 'features/view/presentation/bloc/login_history/login_history_bloc.dart';
 import 'features/view/presentation/bloc/net_position/net_position_bloc.dart';
 import 'features/view/presentation/bloc/pending_orders/pending_orders_bloc.dart';
@@ -123,6 +124,7 @@ class MyApp extends StatelessWidget {
                 BlocProvider(create: (_) => di.sl<ScriptMasterBloc>()),
                 // Script Quantity BLoC - For View section script quantities
                 BlocProvider(create: (_) => di.sl<ScriptQuantityBloc>()),
+                BlocProvider(create: (_) => di.sl<IntradayHistoryBloc>()),
               ],
               child: MaterialApp(
                 title: 'BAZAAR Pro',

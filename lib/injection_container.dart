@@ -25,28 +25,33 @@ import 'features/market_watch/presentation/bloc/theme/theme_bloc.dart';
 import 'features/market_watch/presentation/bloc/watchlist/watch_list_bloc.dart';
 // View Feature imports
 import 'features/view/data/datasources/deals_remote_datasource.dart';
+import 'features/view/data/datasources/login_history_remote_datasource.dart';
 import 'features/view/data/datasources/net_position_remote_datasource.dart';
 import 'features/view/data/datasources/pending_orders_remote_datasource.dart';
 import 'features/view/data/datasources/rejection_log_remote_datasource.dart';
 import 'features/view/data/datasources/trades_remote_datasource.dart';
 import 'features/view/data/repositories/deals_repository_impl.dart';
+import 'features/view/data/repositories/login_history_repository_impl.dart';
 import 'features/view/data/repositories/net_position_repository_impl.dart';
 import 'features/view/data/repositories/pending_orders_repository_impl.dart';
 import 'features/view/data/repositories/rejection_log_repository_impl.dart';
 import 'features/view/data/repositories/trades_repository_impl.dart';
 import 'features/view/domain/repositories/deals_repository.dart';
+import 'features/view/domain/repositories/login_history_repository.dart';
 import 'features/view/domain/repositories/net_position_repository.dart';
 import 'features/view/domain/repositories/pending_orders_repository.dart';
 import 'features/view/domain/repositories/rejection_log_repository.dart';
 import 'features/view/domain/repositories/trades_repository.dart';
 import 'features/view/domain/usecases/ rejection_log/rejection_log_usecases.dart';
 import 'features/view/domain/usecases/deals/deals_usecases.dart';
+import 'features/view/domain/usecases/login_history/login_history_usecases.dart';
 import 'features/view/domain/usecases/netposition/net_position_usecases.dart';
 import 'features/view/domain/usecases/pending_order/export_orders.dart';
 import 'features/view/domain/usecases/pending_order/get_filter_data.dart';
 import 'features/view/domain/usecases/pending_order/get_pending_orders.dart';
 import 'features/view/domain/usecases/trade/trades_usecases.dart';
 import 'features/view/presentation/bloc/deals/deals_bloc.dart';
+import 'features/view/presentation/bloc/login_history/login_history_bloc.dart';
 import 'features/view/presentation/bloc/net_position/net_position_bloc.dart';
 import 'features/view/presentation/bloc/pending_orders/pending_orders_bloc.dart';
 import 'features/view/presentation/bloc/rejection_log/rejection_log_bloc.dart';
@@ -329,5 +334,32 @@ Future<void> init() async {
   // Rejection Log Data Sources
   sl.registerLazySingleton<RejectionLogRemoteDataSource>(
         () => RejectionLogRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
+  );
+
+
+
+
+  // Login History BLoC
+  sl.registerFactory(() => LoginHistoryBloc(
+    getLoginHistory: sl(),
+    getClients: sl(),
+    exportToPdf: sl(),
+    exportToExcel: sl(),
+  ));
+
+  // Login History Use Cases
+  sl.registerLazySingleton(() => GetLoginHistory(sl()));
+  sl.registerLazySingleton(() => GetLoginHistoryClients(sl()));
+  sl.registerLazySingleton(() => ExportLoginHistoryToPdf(sl()));
+  sl.registerLazySingleton(() => ExportLoginHistoryToExcel(sl()));
+
+  // Login History Repository
+  sl.registerLazySingleton<LoginHistoryRepository>(
+        () => LoginHistoryRepositoryImpl(remoteDataSource: sl()),
+  );
+
+  // Login History Data Sources
+  sl.registerLazySingleton<LoginHistoryRemoteDataSource>(
+        () => LoginHistoryRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
   );
 }

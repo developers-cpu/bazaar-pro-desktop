@@ -5,6 +5,8 @@ import '../../../../../core/constants/app_colors.dart';
 import '../../../../core/widget/app_bar_section.dart';
 import '../bloc/deals/deals_bloc.dart';
 import '../bloc/deals/deals_event.dart';
+import '../bloc/login_history/login_history_bloc.dart';
+import '../bloc/login_history/login_history_event.dart';
 import '../bloc/net_position/net_position_bloc.dart';
 import '../bloc/net_position/net_position_event.dart';
 import '../bloc/pending_orders/pending_orders_bloc.dart';
@@ -14,6 +16,7 @@ import '../bloc/rejection_log/rejection_log_event.dart';
 import '../bloc/trade/trades_bloc.dart';
 import '../bloc/trade/trades_event.dart';
 import 'deals_page.dart';
+import 'login_history_page.dart';
 import 'net_position_page.dart';
 import 'pending_orders_page.dart';
 import 'trades_page.dart';
@@ -194,11 +197,27 @@ class LoginHistoryPageWithAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ViewPageWrapper(
-      pageTitle: 'Login History',
-      onExportPdf: () {},
-      onExportExcel: () {},
-      child: const Center(child: Text('Login History Page - Coming Soon')),
+    return BlocProvider(
+      create: (context) => di.sl<LoginHistoryBloc>()
+        ..add(const LoadClientsEvent()),
+      child: Builder(
+        builder: (context) {
+          return ViewPageWrapper(
+            pageTitle: 'Login History',
+            onExportPdf: () {
+              context
+                  .read<LoginHistoryBloc>()
+                  .add(const ExportLoginHistoryToPdfEvent());
+            },
+            onExportExcel: () {
+              context
+                  .read<LoginHistoryBloc>()
+                  .add(const ExportLoginHistoryToExcelEvent());
+            },
+            child: const LoginHistoryPage(),
+          );
+        },
+      ),
     );
   }
 }

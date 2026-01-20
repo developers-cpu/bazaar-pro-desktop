@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import '../../../domain/entities/script_quantity.dart';
+import '../../../domain/entities/script_quantity/script_quantity.dart';
 
 /// Base state for Script Quantity BLoC
 abstract class ScriptQuantityState extends Equatable {

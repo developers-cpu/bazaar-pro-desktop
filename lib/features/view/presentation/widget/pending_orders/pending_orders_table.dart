@@ -1,17 +1,17 @@
-import 'package:bazarpro/features/view/presentation/widget/table/view_data_table.dart';
-import 'package:bazarpro/features/view/presentation/widget/table/view_record_count.dart';
-import 'package:bazarpro/features/view/presentation/widget/table/view_table_cell_styles.dart';
+import 'package:bazarpro/features/view/presentation/widget/common/view_data_table.dart';
+import 'package:bazarpro/features/view/presentation/widget/common/view_record_count.dart';
+import 'package:bazarpro/features/view/presentation/widget/common/view_table_cell_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
-import '../../../domain/entities/pending_order.dart';
+import '../../../domain/entities/pending_orders/pending_order.dart';
 import '../../bloc/pending_orders/pending_orders_bloc.dart';
 import '../../bloc/pending_orders/pending_orders_event.dart';
 import '../../bloc/pending_orders/pending_orders_state.dart';
 
-/// Pending Orders Table using table ViewDataTable
+/// Pending Orders Table using common ViewDataTable
 class PendingOrdersTable extends StatelessWidget {
   final bool showDeviceInfo;
   final bool isDarkMode;

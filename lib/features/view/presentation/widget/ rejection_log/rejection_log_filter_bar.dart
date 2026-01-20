@@ -5,7 +5,7 @@ import '../../../../../core/widget/app_dropdown.dart';
 import '../../bloc/rejection_log/rejection_log_bloc.dart';
 import '../../bloc/rejection_log/rejection_log_event.dart';
 import '../../bloc/rejection_log/rejection_log_state.dart';
-import '../view_reset_buttons.dart';
+import '../common/view_reset_buttons.dart';
 
 class RejectionLogFilterBar extends StatelessWidget {
   const RejectionLogFilterBar({Key? key}) : super(key: key);

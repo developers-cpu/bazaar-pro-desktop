@@ -4,15 +4,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import '../../../../../core/constants/app_colors.dart';
-import '../../../domain/entities/script_master.dart';
+import '../../../domain/entities/script_master/script_master.dart';
 import '../../bloc/script_master/script_master_bloc.dart';
 import '../../bloc/script_master/script_master_event.dart';
 import '../../bloc/script_master/script_master_state.dart';
-import '../table/view_data_table.dart';
-import '../table/view_record_count.dart';
-import '../table/view_table_cell_styles.dart';
+import '../common/view_data_table.dart';
+import '../common/view_record_count.dart';
+import '../common/view_table_cell_styles.dart';
 
-/// Script Master table widget matching screenshot design
+/// Script Master common widget matching screenshot design
 class ScriptMasterTable extends StatelessWidget {
   final bool isDarkMode;
 

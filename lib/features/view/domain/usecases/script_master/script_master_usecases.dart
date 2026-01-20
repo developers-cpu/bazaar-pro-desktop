@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 import '../../../../../core/errors/failures.dart';
 import '../../../../../core/usecases/usecase.dart';
-import '../../entities/script_master.dart';
-import '../../repositories/script_master_repository.dart';
+import '../../entities/script_master/script_master.dart';
+import '../../repositories/script_master/script_master_repository.dart';
 
 /// Get all script masters usecase
 class GetScriptMasters implements UseCase<List<ScriptMaster>, NoParams> {

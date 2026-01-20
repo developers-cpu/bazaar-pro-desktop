@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 import '../../../../../core/errors/failures.dart';
 import '../../../../../core/usecases/usecase.dart';
-import '../../entities/deals.dart';
-import '../../repositories/deals_repository.dart';
+import '../../entities/deals/deals.dart';
+import '../../repositories/deals/deals_repository.dart';
 
 /// Get all deals usecase
 class GetDeals implements UseCase<List<Deal>, NoParams> {

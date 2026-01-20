@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import '../../../domain/entities/trade.dart';
+import '../../../domain/entities/trades/trade.dart';
 
 /// Base state for Trades BLoC
 abstract class TradesState extends Equatable {

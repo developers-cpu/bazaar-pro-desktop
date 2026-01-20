@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/usecases/usecase.dart';
-import '../../../domain/entities/trade.dart';
+import '../../../domain/entities/trades/trade.dart';
 import '../../../domain/usecases/trade/trades_usecases.dart';
 import 'trades_event.dart';
 import 'trades_state.dart';

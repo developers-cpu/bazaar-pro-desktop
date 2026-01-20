@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/usecases/usecase.dart';
-import '../../../domain/entities/rejection_log.dart';
+import '../../../domain/entities/rejection_log/rejection_log.dart';
 
 import '../../../domain/usecases/ rejection_log/rejection_log_usecases.dart';
 import 'rejection_log_event.dart';

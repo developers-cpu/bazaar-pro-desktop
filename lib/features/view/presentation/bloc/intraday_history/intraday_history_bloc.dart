@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/usecases/usecase.dart';
-import '../../../domain/entities/intraday_history.dart';
+import '../../../domain/entities/intraday_history/intraday_history.dart';
 import '../../../domain/usecases/intraday_history/intraday_history_usecases.dart';
 import 'intraday_history_event.dart';
 import 'intraday_history_state.dart';

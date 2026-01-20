@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import '../../../domain/entities/pending_order.dart';
+import '../../../domain/entities/pending_orders/pending_order.dart';
 
 /// Pending Orders State
 abstract class PendingOrdersState extends Equatable {

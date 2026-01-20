@@ -9,7 +9,7 @@ import '../../../../../core/widget/date_range_picker_dialog.dart';
 import '../../bloc/deals/deals_bloc.dart';
 import '../../bloc/deals/deals_event.dart';
 import '../../bloc/deals/deals_state.dart';
-import '../view_reset_buttons.dart';
+import '../common/view_reset_buttons.dart';
 
 /// Filter bar for Deals page
 class DealsFilterBar extends StatelessWidget {

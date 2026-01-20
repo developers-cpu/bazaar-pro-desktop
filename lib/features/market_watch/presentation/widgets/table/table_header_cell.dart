@@ -5,7 +5,7 @@ import '../../../../../core/constants/app_images.dart';
 import '../../../../../core/widget/svg_icon.dart';
 import 'table_text_style_helper.dart';
 
-/// Widget for building table header cell
+/// Widget for building common header cell
 class TableHeaderCell extends StatelessWidget {
   final String title;
   final bool isDark;

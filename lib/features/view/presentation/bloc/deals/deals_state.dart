@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../domain/entities/deals.dart';
+import '../../../domain/entities/deals/deals.dart';
 
 
 /// Base state for Deals BLoC

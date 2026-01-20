@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 import '../../../../../core/errors/failures.dart';
 import '../../../../../core/usecases/usecase.dart';
-import '../../entities/script_quantity.dart';
-import '../../repositories/script_quantity_repository.dart';
+import '../../entities/script_quantity/script_quantity.dart';
+import '../../repositories/script_quantity/script_quantity_repository.dart';
 
 /// Get script quantities
 class GetScriptQuantities implements UseCase<List<ScriptQuantity>, ScriptQuantityParams> {

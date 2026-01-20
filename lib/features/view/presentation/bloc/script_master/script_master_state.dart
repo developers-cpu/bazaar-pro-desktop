@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../domain/entities/script_master.dart';
+import '../../../domain/entities/script_master/script_master.dart';
 
 /// Base state for Script Master BLoC
 abstract class ScriptMasterState extends Equatable {

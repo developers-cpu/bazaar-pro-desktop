@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/usecases/usecase.dart';
-import '../../../domain/entities/net_position.dart';
+import '../../../domain/entities/net_postion/net_position.dart';
 import '../../../domain/usecases/netposition/net_position_usecases.dart';
 import 'net_position_event.dart';
 import 'net_position_state.dart';

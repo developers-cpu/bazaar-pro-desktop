@@ -6,7 +6,7 @@ import '../../../../../core/widget/app_dropdown.dart';
 import '../../bloc/net_position/net_position_bloc.dart';
 import '../../bloc/net_position/net_position_event.dart';
 import '../../bloc/net_position/net_position_state.dart';
-import '../view_reset_buttons.dart';
+import '../common/view_reset_buttons.dart';
 
 /// Filter bar for Net Position page
 class NetPositionFilterBar extends StatelessWidget {

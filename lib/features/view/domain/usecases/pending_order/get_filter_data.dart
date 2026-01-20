@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 
 import '../../../../../core/errors/failures.dart';
 import '../../../../../core/usecases/usecase.dart';
-import '../../repositories/pending_orders_repository.dart';
+import '../../repositories/pending_orders/pending_orders_repository.dart';
 
 
 /// Get Clients Use Case

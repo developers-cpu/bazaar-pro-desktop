@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import '../../../domain/entities/login_history.dart';
+import '../../../domain/entities/login_history/login_history.dart';
 
 /// Base state
 abstract class LoginHistoryState extends Equatable {

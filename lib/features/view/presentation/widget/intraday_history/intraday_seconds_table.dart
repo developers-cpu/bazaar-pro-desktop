@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/constants/app_colors.dart';
-import '../../../domain/entities/intraday_history.dart';
+import '../../../domain/entities/intraday_history/intraday_history.dart';
 import '../../bloc/intraday_history/intraday_history_bloc.dart';
 import '../../bloc/intraday_history/intraday_history_event.dart';
 import '../../bloc/intraday_history/intraday_history_state.dart';
-import '../table/view_data_table.dart';
-import '../table/view_record_count.dart';
-import '../table/view_table_cell_styles.dart';
+import '../common/view_data_table.dart';
+import '../common/view_record_count.dart';
+import '../common/view_table_cell_styles.dart';
 
 
 class IntradaySecondsTable extends StatelessWidget {

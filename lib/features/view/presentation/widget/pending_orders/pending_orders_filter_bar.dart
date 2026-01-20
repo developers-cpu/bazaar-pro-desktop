@@ -5,7 +5,7 @@ import '../../../../../../core/widget/app_dropdown.dart';
 import '../../bloc/pending_orders/pending_orders_bloc.dart';
 import '../../bloc/pending_orders/pending_orders_event.dart';
 import '../../bloc/pending_orders/pending_orders_state.dart';
-import '../view_reset_buttons.dart';
+import '../common/view_reset_buttons.dart';
 
 /// Filter bar for Pending Orders page
 class PendingOrdersFilterBar extends StatelessWidget {

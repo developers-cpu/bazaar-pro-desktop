@@ -4,11 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/app_dropdown.dart';
-import '../../../domain/entities/net_position.dart';
+import '../../../domain/entities/net_postion/net_position.dart';
 import '../../bloc/net_position/net_position_bloc.dart';
 import '../../bloc/net_position/net_position_event.dart';
 import '../../bloc/net_position/net_position_state.dart';
-import '../view_reset_buttons.dart';
+import '../common/view_reset_buttons.dart';
 
 
 /// Open Position Dialog

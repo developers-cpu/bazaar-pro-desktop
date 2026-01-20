@@ -3,15 +3,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
-import '../../../domain/entities/trade.dart';
+import '../../../domain/entities/trades/trade.dart';
 import '../../bloc/trade/trades_bloc.dart';
 import '../../bloc/trade/trades_event.dart';
 import '../../bloc/trade/trades_state.dart';
-import '../table/view_data_table.dart';
-import '../table/view_record_count.dart';
-import '../table/view_table_cell_styles.dart';
+import '../common/view_data_table.dart';
+import '../common/view_record_count.dart';
+import '../common/view_table_cell_styles.dart';
 
-/// Trades table widget using shared ViewDataTable
+/// Trades common widget using shared ViewDataTable
 class TradesTable extends StatelessWidget {
   final bool showDeviceInfo;
   final bool isDarkMode;

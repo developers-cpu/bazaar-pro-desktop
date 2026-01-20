@@ -1,6 +1,6 @@
-import 'package:bazarpro/features/view/presentation/pages/rejection_log_page.dart';
-import 'package:bazarpro/features/view/presentation/pages/script_master_page.dart';
-import 'package:bazarpro/features/view/presentation/pages/script_quantity_page.dart';
+import 'package:bazarpro/features/view/presentation/pages/rejection_log/rejection_log_page.dart';
+import 'package:bazarpro/features/view/presentation/pages/script_master/script_master_page.dart';
+import 'package:bazarpro/features/view/presentation/pages/script_quantity/script_quantity_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/constants/app_colors.dart';
@@ -23,12 +23,12 @@ import '../bloc/script_quantity/script_quantity_bloc.dart';
 import '../bloc/script_quantity/script_quantity_event.dart';
 import '../bloc/trade/trades_bloc.dart';
 import '../bloc/trade/trades_event.dart';
-import 'deals_page.dart';
-import 'intraday_history_page.dart';
-import 'login_history_page.dart';
-import 'net_position_page.dart';
-import 'pending_orders_page.dart';
-import 'trades_page.dart';
+import 'deals/deals_page.dart';
+import 'intraday_history/intraday_history_page.dart';
+import 'login_history/login_history_page.dart';
+import 'net_postion/net_position_page.dart';
+import 'pending_orders/pending_orders_page.dart';
+import 'trades/trades_page.dart';
 import '../../../../../injection_container.dart' as di;
 
 /// View Page Wrapper

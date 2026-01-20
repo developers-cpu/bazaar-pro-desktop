@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 import '../../../../../core/errors/failures.dart';
 import '../../../../../core/usecases/usecase.dart';
-import '../../entities/login_history.dart';
-import '../../repositories/login_history_repository.dart';
+import '../../entities/login_history/login_history.dart';
+import '../../repositories/login_history/login_history_repository.dart';
 
 /// Get login history for a client
 class GetLoginHistory implements UseCase<List<LoginHistory>, String> {

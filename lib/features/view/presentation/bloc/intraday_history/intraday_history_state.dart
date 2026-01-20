@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import '../../../domain/entities/intraday_history.dart';
+import '../../../domain/entities/intraday_history/intraday_history.dart';
 
 abstract class IntradayHistoryState extends Equatable {
   const IntradayHistoryState();

@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 import '../../../../../core/errors/failures.dart';
 import '../../../../../core/usecases/usecase.dart';
-import '../../entities/intraday_history.dart';
-import '../../repositories/intraday_history_repository.dart';
+import '../../entities/intraday_history/intraday_history.dart';
+import '../../repositories/intraday_history/intraday_history_repository.dart';
 
 class GetIntradayHistory
     implements UseCase<List<IntradayHistory>, IntradayHistoryParams> {

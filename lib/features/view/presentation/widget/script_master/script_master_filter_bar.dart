@@ -5,7 +5,7 @@ import '../../../../../core/widget/app_dropdown.dart';
 import '../../bloc/script_master/script_master_bloc.dart';
 import '../../bloc/script_master/script_master_event.dart';
 import '../../bloc/script_master/script_master_state.dart';
-import '../view_reset_buttons.dart';
+import '../common/view_reset_buttons.dart';
 
 /// Filter bar for Script Master page
 class ScriptMasterFilterBar extends StatelessWidget {

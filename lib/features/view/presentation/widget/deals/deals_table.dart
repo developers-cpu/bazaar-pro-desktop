@@ -3,16 +3,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
-import '../../../domain/entities/deals.dart';
+import '../../../domain/entities/deals/deals.dart';
 import '../../bloc/deals/deals_bloc.dart';
 import '../../bloc/deals/deals_event.dart';
 import '../../bloc/deals/deals_state.dart';
-import '../table/view_data_table.dart';
-import '../table/view_record_count.dart';
-import '../table/view_table_cell_styles.dart';
+import '../common/view_data_table.dart';
+import '../common/view_record_count.dart';
+import '../common/view_table_cell_styles.dart';
 import 'order_duration_dialog.dart';
 
-/// Deals table widget with clickable order duration
+/// Deals common widget with clickable order duration
 class DealsTable extends StatelessWidget {
   final bool showDeviceInfo;
   final bool isDarkMode;

@@ -3,17 +3,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
-import '../../../domain/entities/net_position.dart';
+import '../../../domain/entities/net_postion/net_position.dart';
 import '../../bloc/net_position/net_position_bloc.dart';
 import '../../bloc/net_position/net_position_event.dart';
 import '../../bloc/net_position/net_position_state.dart';
-import '../table/view_data_table.dart';
-import '../table/view_record_count.dart';
-import '../table/view_table_cell_styles.dart';
+import '../common/view_data_table.dart';
+import '../common/view_record_count.dart';
+import '../common/view_table_cell_styles.dart';
 import 'open_postion_dilog.dart';
 
 
-/// Net Position table widget with clickable NET QTY
+/// Net Position common widget with clickable NET QTY
 class NetPositionTable extends StatelessWidget {
   final bool showDeviceInfo;
   final bool isDarkMode;
@@ -169,7 +169,7 @@ class NetPositionTable extends StatelessWidget {
     );
   }
 
-  /// Build totals row for the table footer - aligned with columns
+  /// Build totals row for the common footer - aligned with columns
   Widget _buildTotalsRow(List<ViewTableColumn> columns, List<NetPosition> positions) {
     // Calculate totals
     double totalM2M = positions.fold(0.0, (sum, item) => sum + item.m2mAmount);

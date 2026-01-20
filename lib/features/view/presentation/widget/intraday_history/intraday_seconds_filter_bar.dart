@@ -9,7 +9,7 @@ import '../../../../../core/widget/single_date_picker_dialog.dart';
 import '../../bloc/intraday_history/intraday_history_bloc.dart';
 import '../../bloc/intraday_history/intraday_history_event.dart';
 import '../../bloc/intraday_history/intraday_history_state.dart';
-import '../view_reset_buttons.dart';
+import '../common/view_reset_buttons.dart';
 
 class IntradaySecondsFilterBar extends StatefulWidget {
   const IntradaySecondsFilterBar({Key? key}) : super(key: key);

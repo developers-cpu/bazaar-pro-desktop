@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
-import '../../../domain/entities/deals.dart';
+import '../../../domain/entities/deals/deals.dart';
 
 
 /// Order Duration Dialog
-/// Shows detailed order duration information when clicking on order duration in table
+/// Shows detailed order duration information when clicking on order duration in common
 class OrderDurationDialog extends StatelessWidget {
   final List<Deal> relatedOrders;
   final bool isDarkMode;

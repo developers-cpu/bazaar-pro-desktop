@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/usecases/usecase.dart';
-import '../../../domain/entities/script_master.dart';
+import '../../../domain/entities/script_master/script_master.dart';
 import '../../../domain/usecases/script_master/script_master_usecases.dart';
 import 'script_master_event.dart';
 import 'script_master_state.dart';

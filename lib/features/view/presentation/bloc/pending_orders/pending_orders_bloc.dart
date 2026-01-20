@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/usecases/usecase.dart';
-import '../../../domain/entities/pending_order.dart';
+import '../../../domain/entities/pending_orders/pending_order.dart';
 import '../../../domain/usecases/pending_order/export_orders.dart';
 import '../../../domain/usecases/pending_order/get_filter_data.dart';
 import '../../../domain/usecases/pending_order/get_pending_orders.dart';

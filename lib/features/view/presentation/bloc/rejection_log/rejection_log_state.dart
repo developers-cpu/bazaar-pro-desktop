@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import '../../../domain/entities/rejection_log.dart';
+import '../../../domain/entities/rejection_log/rejection_log.dart';
 
 /// Base state
 abstract class RejectionLogState extends Equatable {

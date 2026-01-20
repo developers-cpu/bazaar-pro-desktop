@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../domain/entities/net_position.dart';
+import '../../../domain/entities/net_postion/net_position.dart';
 
 /// Base state for Net Position BLoC
 abstract class NetPositionState extends Equatable {

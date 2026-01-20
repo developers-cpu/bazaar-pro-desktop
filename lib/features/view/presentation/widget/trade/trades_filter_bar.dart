@@ -9,7 +9,7 @@ import '../../../../../core/widget/date_range_picker_dialog.dart';
 import '../../bloc/trade/trades_bloc.dart';
 import '../../bloc/trade/trades_event.dart';
 import '../../bloc/trade/trades_state.dart';
-import '../view_reset_buttons.dart';
+import '../common/view_reset_buttons.dart';
 
 /// Filter bar for Trades page
 class TradesFilterBar extends StatelessWidget {

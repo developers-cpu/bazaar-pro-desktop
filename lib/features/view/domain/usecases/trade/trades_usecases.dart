@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 import '../../../../../core/errors/failures.dart';
 import '../../../../../core/usecases/usecase.dart';
-import '../../entities/trade.dart';
-import '../../repositories/trades_repository.dart';
+import '../../entities/trades/trade.dart';
+import '../../repositories/trades/trades_repository.dart';
 
 /// Get all trades usecase
 class GetTrades implements UseCase<List<Trade>, NoParams> {

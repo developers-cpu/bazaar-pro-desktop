@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 import '../../../../../core/errors/failures.dart';
 import '../../../../../core/usecases/usecase.dart';
-import '../../entities/net_position.dart';
-import '../../repositories/net_position_repository.dart';
+import '../../entities/net_postion/net_position.dart';
+import '../../repositories/net_postion/net_position_repository.dart';
 
 /// Get all net positions usecase
 class GetNetPositions implements UseCase<List<NetPosition>, NoParams> {

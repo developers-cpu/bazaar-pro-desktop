@@ -2,8 +2,8 @@ import 'package:dartz/dartz.dart';
 
 import '../../../../../core/errors/failures.dart';
 import '../../../../../core/usecases/usecase.dart';
-import '../../entities/pending_order.dart';
-import '../../repositories/pending_orders_repository.dart';
+import '../../entities/pending_orders/pending_order.dart';
+import '../../repositories/pending_orders/pending_orders_repository.dart';
 
 
 /// Export to PDF Use Case

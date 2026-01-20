@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 import '../../../../../core/errors/failures.dart';
 import '../../../../../core/usecases/usecase.dart';
-import '../../entities/rejection_log.dart';
-import '../../repositories/rejection_log_repository.dart';
+import '../../entities/rejection_log/rejection_log.dart';
+import '../../repositories/rejection_log/rejection_log_repository.dart';
 
 /// Get all rejection logs
 class GetRejectionLogs implements UseCase<List<RejectionLog>, NoParams> {

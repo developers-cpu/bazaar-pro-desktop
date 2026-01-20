@@ -6,7 +6,7 @@ import '../../../../../core/widget/app_dropdown.dart';
 import '../../bloc/script_quantity/script_quantity_bloc.dart';
 import '../../bloc/script_quantity/script_quantity_event.dart';
 import '../../bloc/script_quantity/script_quantity_state.dart';
-import '../view_reset_buttons.dart';
+import '../common/view_reset_buttons.dart';
 
 /// Filter bar for Script Quantity page
 class ScriptQuantityFilterBar extends StatefulWidget {

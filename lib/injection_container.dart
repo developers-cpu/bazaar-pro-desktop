@@ -479,4 +479,8 @@ Future<void> init() async {
         () => IntradayHistoryRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
   );
 
+
+
+
+
 }

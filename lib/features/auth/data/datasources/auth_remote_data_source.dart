@@ -6,14 +6,14 @@ import '../models/user_model.dart';
 
 abstract class AuthRemoteDataSource {
 
-  Future<UserModel> login({
+  Future<LoginUserModel> login({
     required String username,
     required String password,
     int expiresInMins,
   });
 
   /// Refresh access token
-  Future<UserModel> refreshToken({required String refreshToken});
+  Future<LoginUserModel> refreshToken({required String refreshToken});
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -22,7 +22,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   AuthRemoteDataSourceImpl({required this.dio});
 
   @override
-  Future<UserModel> login({
+  Future<LoginUserModel> login({
     required String username,
     required String password,
     int expiresInMins = 30,
@@ -45,7 +45,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       );
 
       if (response.statusCode == 200) {
-        return UserModel.fromJson(response.data);
+        return LoginUserModel.fromJson(response.data);
       } else {
         throw DioException(
           requestOptions: response.requestOptions,
@@ -66,7 +66,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<UserModel> refreshToken({required String refreshToken}) async {
+  Future<LoginUserModel> refreshToken({required String refreshToken}) async {
     try {
       final response = await dio.post(
         AuthConstants.refreshTokenEndpoint,
@@ -81,7 +81,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       );
 
       if (response.statusCode == 200) {
-        return UserModel.fromJson(response.data);
+        return LoginUserModel.fromJson(response.data);
       } else {
         throw DioException(
           requestOptions: response.requestOptions,

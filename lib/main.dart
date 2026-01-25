@@ -38,10 +38,8 @@ void main() async {
     final initialHeight = (screenHeight * 0.7).clamp(720.0, 1080.0);
 
     final WindowOptions windowOptions = WindowOptions(
-      // Dynamic initial window size based on screen
       size: Size(initialWidth, initialHeight),
       minimumSize: const Size(1280, 720),
-      // No maximum size - let it grow with screen
       center: true,
       backgroundColor: Colors.transparent,
       skipTaskbar: false,

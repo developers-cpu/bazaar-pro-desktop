@@ -511,7 +511,7 @@ class _AppDropdownState extends State<AppDropdown>
           ),
           SizedBox(height: 5.h),
         ],
-        // Dropdown button - Figma specs: 250x45, border-radius: 10, border: 2px, padding: 10px
+    
         SizedBox(
           width: widget.width ?? 250.w,
           height: 45.h,

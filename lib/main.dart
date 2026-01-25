@@ -20,6 +20,7 @@ import 'core/routes/app_routes.dart';
 import 'features/view/presentation/bloc/rejection_log/rejection_log_bloc.dart';
 import 'features/view/presentation/bloc/script_master/script_master_bloc.dart';
 import 'features/view/presentation/bloc/script_quantity/script_quantity_bloc.dart';
+import 'features/users/presentation/bloc/user_list/user_list_bloc.dart';
 import 'injection_container.dart' as di;
 
 void main() async {
@@ -123,6 +124,8 @@ class MyApp extends StatelessWidget {
                 // Script Quantity BLoC - For View section script quantities
                 BlocProvider(create: (_) => di.sl<ScriptQuantityBloc>()),
                 BlocProvider(create: (_) => di.sl<IntradayHistoryBloc>()),
+                // User List BLoC - For Users section user list
+                BlocProvider(create: (_) => di.sl<UserListBloc>()),
               ],
               child: MaterialApp(
                 title: 'BAZAAR Pro',

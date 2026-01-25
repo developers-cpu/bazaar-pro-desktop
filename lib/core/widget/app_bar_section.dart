@@ -47,9 +47,10 @@ class AppBarSectionState extends State<AppBarSection> {
     super.initState();
     _initializeTabs();
 
-    // Set the current page title in View dropdown if provided
+    // Set the current page title in the correct dropdown based on selectedTabIndex
     if (widget.currentPageTitle != null) {
-      _selectedDropdownItems[2] = widget.currentPageTitle!;
+      _selectedDropdownItems[widget.selectedTabIndex] =
+          widget.currentPageTitle!;
     }
   }
 
@@ -58,7 +59,8 @@ class AppBarSectionState extends State<AppBarSection> {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.currentPageTitle != widget.currentPageTitle &&
         widget.currentPageTitle != null) {
-      _selectedDropdownItems[2] = widget.currentPageTitle!;
+      _selectedDropdownItems[widget.selectedTabIndex] =
+          widget.currentPageTitle!;
     }
   }
 
@@ -76,7 +78,8 @@ class AppBarSectionState extends State<AppBarSection> {
         dropdownItems: [
           MenuItemData(
             title: 'Pending Orders',
-            onTap: () => _navigateToPage(2, 'Pending Orders', '/pending_order-orders'),
+            onTap: () =>
+                _navigateToPage(2, 'Pending Orders', '/pending_order-orders'),
           ),
           MenuItemData(
             title: 'Trades',
@@ -100,7 +103,8 @@ class AppBarSectionState extends State<AppBarSection> {
           ),
           MenuItemData(
             title: 'Intraday History',
-            onTap: () => _navigateToPage(2, 'Intraday History', '/intraday-history'),
+            onTap: () =>
+                _navigateToPage(2, 'Intraday History', '/intraday-history'),
           ),
           MenuItemData(
             title: 'Script Master',
@@ -108,7 +112,8 @@ class AppBarSectionState extends State<AppBarSection> {
           ),
           MenuItemData(
             title: 'Script Quantity',
-            onTap: () => _navigateToPage(2, 'Script Quantity', '/script-quantity'),
+            onTap: () =>
+                _navigateToPage(2, 'Script Quantity', '/script-quantity'),
           ),
           // MenuItemData(
           //   title: 'Bulk Trade',
@@ -162,7 +167,8 @@ class AppBarSectionState extends State<AppBarSection> {
           ),
           MenuItemData(
             title: 'Monthly Report',
-            onTap: () => _navigateToPage(4, 'Monthly Report', '/monthly-report'),
+            onTap: () =>
+                _navigateToPage(4, 'Monthly Report', '/monthly-report'),
           ),
           MenuItemData(
             title: 'Custom Report',

@@ -3,6 +3,7 @@ import '../../features/auth/presentation/pages/login_page.dart';
 import '../../features/dashboard/presentation/pages/dashboard_page.dart';
 import '../../features/market_watch/presentation/pages/market_watch_page.dart';
 import '../../features/view/presentation/pages/view_page_wrapper.dart';
+import '../../features/users/presentation/pages/user_page_wrapper.dart';
 
 /// App Routes Configuration
 class AppRoutes {
@@ -30,6 +31,7 @@ class AppRoutes {
   static const String createUser = '/create-user';
   static const String inactiveUser = '/inactive-user';
   static const String searchUser = '/search-user';
+  static const String userList = '/user-list';
 
   // Report routes
   static const String dailyReport = '/daily-report';
@@ -46,7 +48,7 @@ class AppRoutes {
       // Main routes
       login: (context) => const LoginPage(),
       marketWatch: (context) => const MarketWatchPage(),
-      dashboard: (context) => const DashboardPageWithAppBar(), // Changed to use wrapper
+      dashboard: (context) => const DashboardPageWithAppBar(),
 
       // View dropdown routes - using pages with AppBar wrapper
       pendingOrders: (context) => const PendingOrdersPageWithAppBar(),
@@ -64,14 +66,16 @@ class AppRoutes {
       manualTrade: (context) => const ManualTradePageWithAppBar(),
 
       // User dropdown routes
-      createUser: (context) => const _PlaceholderPage(title: 'Create User'),
-      inactiveUser: (context) => const _PlaceholderPage(title: 'In-Active User'),
-      searchUser: (context) => const _PlaceholderPage(title: 'Search User'),
+      createUser: (context) => const CreateUserPageWithAppBar(),
+      inactiveUser: (context) => const InactiveUserPageWithAppBar(),
+      searchUser: (context) => const SearchUserPageWithAppBar(),
+      userList: (context) => const UserListPageWithAppBar(),
 
       // Report dropdown routes
       dailyReport: (context) => const _PlaceholderPage(title: 'Daily Report'),
       weeklyReport: (context) => const _PlaceholderPage(title: 'Weekly Report'),
-      monthlyReport: (context) => const _PlaceholderPage(title: 'Monthly Report'),
+      monthlyReport: (context) =>
+          const _PlaceholderPage(title: 'Monthly Report'),
       customReport: (context) => const _PlaceholderPage(title: 'Custom Report'),
 
       // Tools route
@@ -89,12 +93,8 @@ class _PlaceholderPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-      ),
-      body: Center(
-        child: Text('$title - Coming Soon'),
-      ),
+      appBar: AppBar(title: Text(title)),
+      body: Center(child: Text('$title - Coming Soon')),
     );
   }
 }

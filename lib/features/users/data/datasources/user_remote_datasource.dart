@@ -3,17 +3,13 @@ import '../models/user_model.dart';
 
 /// Abstract class for User Remote Data Source
 abstract class UserRemoteDataSource {
-  /// Fetch users from server
   Future<List<UserModel>> getUsers();
-
-  /// Fetch users with filters
   Future<List<UserModel>> getUsersWithFilters({
     String? userType,
     String? userStatus,
   });
 }
 
-/// Implementation of User Remote Data Source
 class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   final Dio dio;
 
@@ -68,7 +64,6 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
     }
   }
 
-  /// Generate dummy users for testing
   List<UserModel> _generateDummyUsers() {
     final List<String> userNames = [
       'RAJ03',

@@ -5,7 +5,7 @@ import '../../../domain/usecases/user_usecases.dart';
 import 'user_list_event.dart';
 import 'user_list_state.dart';
 
-/// User List BLoC - Clean Architecture version
+/// User List BLoC
 class UserListBloc extends Bloc<UserListEvent, UserListState> {
   final GetUsers getUsers;
   final GetUsersWithFilters getUsersWithFilters;

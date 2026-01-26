@@ -3,13 +3,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import '../../../../core/constants/app_colors.dart';
+import '../../data/models/user_filter_dropdown.dart';
 import '../../domain/entities/user.dart';
 import '../bloc/user_list/user_list_bloc.dart';
 import '../bloc/user_list/user_list_event.dart';
 import '../bloc/user_list/user_list_state.dart';
 import '../widgets/common/user_data_table.dart';
 import '../widgets/common/user_filter_bar.dart';
-import '../widgets/dialogs/user_form_dialog.dart';
+import '../widgets/dialogs/master_form_dialog.dart';
+import '../widgets/dialogs/client_form_dialog.dart';
 import '../widgets/dialogs/leverage_update_dialog.dart';
 
 class UserListPage extends StatefulWidget {
@@ -29,25 +31,37 @@ class _UserListPageState extends State<UserListPage> {
     context.read<UserListBloc>().add(const LoadUsersEvent());
   }
 
-  /// Show edit user dialog
   void _showEditUserDialog(User user) {
-    UserFormDialog.showEdit(
-      context: context,
-      userType: user.type,
-      userName: user.userName,
-      name: user.name,
-      credit: user.credit.toStringAsFixed(0),
-      leverage: user.leverage,
-      plSharing: user.plPercent.toStringAsFixed(0),
-      brokerageSharing: user.brkPercent.toStringAsFixed(0),
-      onUserUpdated: () {
-        // Refresh user list after update
-        context.read<UserListBloc>().add(const LoadUsersEvent());
-      },
-    );
+    final userData = {
+      'name': user.name,
+      'username': user.userName,
+      'mobile': '',
+      'credit': user.credit.toStringAsFixed(0),
+      'leverage': user.leverage,
+      'plSharing': user.plPercent.toStringAsFixed(0),
+      'brokerageSharing': user.brkPercent.toStringAsFixed(0),
+    };
+
+    if (user.type == 'Master') {
+      MasterFormDialog.showEdit(
+        context: context,
+        userData: userData,
+        onComplete: () {
+          context.read<UserListBloc>().add(const LoadUsersEvent());
+        },
+      );
+    } else {
+      ClientFormDialog.showEdit(
+        context: context,
+        userData: userData,
+        onComplete: () {
+          context.read<UserListBloc>().add(const LoadUsersEvent());
+        },
+      );
+    }
   }
 
-  /// Show leverage update dialog
+
   void _showLeverageDialog(User user) {
     LeverageUpdateDialog.show(
       context: context,
@@ -56,7 +70,7 @@ class _UserListPageState extends State<UserListPage> {
       currentLeverage: user.leverage,
       onUpdate: (newLeverage) {
         // TODO: Call API to update leverage
-        // Refresh user list after update
+
         context.read<UserListBloc>().add(const LoadUsersEvent());
       },
     );

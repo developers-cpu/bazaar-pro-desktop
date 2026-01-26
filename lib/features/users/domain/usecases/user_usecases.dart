@@ -17,7 +17,6 @@ class GetUsers implements UseCase<List<User>, NoParams> {
   }
 }
 
-/// Get Users With Filters Use Case
 class GetUsersWithFilters implements UseCase<List<User>, UserFilterParams> {
   final UserRepository repository;
 
@@ -31,8 +30,6 @@ class GetUsersWithFilters implements UseCase<List<User>, UserFilterParams> {
     );
   }
 }
-
-/// Get User Types Use Case (synchronous)
 class GetUserTypes {
   final UserRepository repository;
 
@@ -43,7 +40,6 @@ class GetUserTypes {
   }
 }
 
-/// Get User Statuses Use Case (synchronous)
 class GetUserStatuses {
   final UserRepository repository;
 
@@ -54,7 +50,6 @@ class GetUserStatuses {
   }
 }
 
-/// Export Users to PDF Use Case
 class ExportUsersToPdf implements UseCase<String, ExportUsersParams> {
   final UserRepository repository;
 
@@ -66,7 +61,6 @@ class ExportUsersToPdf implements UseCase<String, ExportUsersParams> {
   }
 }
 
-/// Export Users to Excel Use Case
 class ExportUsersToExcel implements UseCase<String, ExportUsersParams> {
   final UserRepository repository;
 
@@ -78,7 +72,6 @@ class ExportUsersToExcel implements UseCase<String, ExportUsersParams> {
   }
 }
 
-/// Filter Parameters for Users
 class UserFilterParams {
   final String? userType;
   final String? userStatus;
@@ -86,7 +79,6 @@ class UserFilterParams {
   const UserFilterParams({this.userType, this.userStatus});
 }
 
-/// Export Parameters for Users
 class ExportUsersParams {
   final List<User> users;
 

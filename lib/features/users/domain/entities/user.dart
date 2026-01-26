@@ -1,26 +1,26 @@
 import 'package:equatable/equatable.dart';
 
-/// User Entity - represents a user in the system
+/// User Entity
 class User extends Equatable {
   final String id;
   final String userName;
   final String parentUser;
-  final String type; // Master or Client
+  final String type;
   final String name;
-  final double plPercent; // P/L %
-  final double brkPercent; // BRK %
-  final String leverage; // LVRJ - e.g., "1:1"
+  final double plPercent;
+  final double brkPercent;
+  final String leverage;
   final double credit;
-  final double pl; // P/L value
+  final double pl;
   final double equity;
-  final double totalMargin; // TOT. MARGIN %
-  final double usedMargin; // USED MARGIN %
-  final double freeMargin; // FREE MARGIN %
+  final double totalMargin;
+  final double usedMargin;
+  final double freeMargin;
   final DateTime createdDate;
   final DateTime? lastLoginDateTime;
-  final String? deviceType; // TY. OFF DEVICE
+  final String? deviceType;
   final String? ipAddress;
-  final String status; // Active or In-Active
+  final String status;
 
   const User({
     required this.id,
@@ -44,13 +44,8 @@ class User extends Equatable {
     required this.status,
   });
 
-  /// Check if user is a Master
   bool get isMaster => type.toLowerCase() == 'master';
-
-  /// Check if user is a Client
   bool get isClient => type.toLowerCase() == 'client';
-
-  /// Check if user is active
   bool get isActive => status.toLowerCase() == 'active';
 
   @override

@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/common_dilog_box.dart';
 
-/// Leverage Update Dialog - Opens when clicking on LVRJ column
 class LeverageUpdateDialog extends StatefulWidget {
   final String userId;
   final String userName;
@@ -19,7 +18,6 @@ class LeverageUpdateDialog extends StatefulWidget {
     this.onUpdate,
   });
 
-  /// Show the leverage update dialog
   static void show({
     required BuildContext context,
     required String userId,

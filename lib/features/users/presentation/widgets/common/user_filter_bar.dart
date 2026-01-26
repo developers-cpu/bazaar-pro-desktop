@@ -1,8 +1,10 @@
 import 'package:bazarpro/core/constants/app_colors.dart';
 import 'package:bazarpro/core/widget/app_dropdown.dart';
+import 'package:bazarpro/features/users/presentation/widgets/common/user_record_count.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../../data/models/user_filter_dropdown.dart';
 
 /// Filter bar widget for Users section pages
 class UserFilterBar extends StatelessWidget {
@@ -35,45 +37,45 @@ class UserFilterBar extends StatelessWidget {
       ),
       child: Row(
         children: [
-          // Filter dropdowns using AppDropdown
           ...filters.map(
-            (filter) => Padding(
+                (filter) => Padding(
               padding: EdgeInsets.only(right: 16.w),
               child: AppDropdown(
                 type: AppDropdownType.simple,
                 hintText: filter.hint,
-                value: filter.value,
+                value: filter!.value,
                 items: filter.items,
                 onChanged: filter.onChanged,
                 width: 150.w,
+                height: 40.h,
               ),
             ),
           ),
+
           const Spacer(),
-          // Record count
-          Text(
-            'RECORD : $recordCount',
-            style: GoogleFonts.openSans(
-              fontSize: 12.sp,
-              fontWeight: FontWeight.w600,
-              color: AppColors.primaryBlue,
-            ),
+          UserRecordCount(
+            count: recordCount,
+            compact: true,
           ),
+
           SizedBox(width: 16.w),
-          // Reset Button
           _buildActionButton(
             label: 'Reset',
             onPressed: isLoading ? null : onReset,
             isPrimary: false,
           ),
           SizedBox(width: 8.w),
-          // View Button
+
           _buildActionButton(
             label: 'View',
             onPressed: isLoading ? null : onView,
             isPrimary: true,
           ),
-          if (trailing != null) ...[SizedBox(width: 16.w), trailing!],
+
+          if (trailing != null) ...[
+            SizedBox(width: 16.w),
+            trailing!,
+          ],
         ],
       ),
     );
@@ -92,7 +94,9 @@ class UserFilterBar extends StatelessWidget {
           backgroundColor: isPrimary ? AppColors.primaryBlue : AppColors.white,
           foregroundColor: isPrimary ? AppColors.white : AppColors.primaryBlue,
           elevation: 0,
-          side: isPrimary ? null : BorderSide(color: AppColors.borderColor),
+          side: isPrimary
+              ? null
+              : BorderSide(color: AppColors.borderColor, width: 1),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(4.r),
           ),
@@ -110,17 +114,3 @@ class UserFilterBar extends StatelessWidget {
   }
 }
 
-/// Filter dropdown configuration
-class UserFilterDropdown {
-  final String hint;
-  final String? value;
-  final List<String> items;
-  final ValueChanged<String?> onChanged;
-
-  const UserFilterDropdown({
-    required this.hint,
-    required this.value,
-    required this.items,
-    required this.onChanged,
-  });
-}

@@ -21,8 +21,6 @@ class UserTableColumn {
     this.sortable = true,
   });
 }
-
-/// Generic data table widget for User section
 class UserDataTable<T> extends StatefulWidget {
   final List<UserTableColumn> columns;
   final List<T> data;

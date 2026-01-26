@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/routes/app_routes.dart';
-import 'user_form_dialog.dart';
+import 'master_form_dialog.dart';
+import 'client_form_dialog.dart';
 
 /// User Type Selection Dialog
-/// First step in create user flow - select Master or Client
 class UserTypeSelectionDialog extends StatefulWidget {
   final VoidCallback? onUserCreated;
 
@@ -195,14 +195,23 @@ class _UserTypeSelectionDialogState extends State<UserTypeSelectionDialog> {
 
   void _onCreatePressed() {
     Navigator.pop(context);
-    UserFormDialog.showCreate(
-      context: context,
-      userType: _selectedUserType!,
-      onUserCreated: () {
-        // Navigate to user list after creation
-        widget.onUserCreated?.call();
-        Navigator.of(context).pushReplacementNamed(AppRoutes.userList);
-      },
-    );
+
+    if (_selectedUserType == 'Master') {
+      MasterFormDialog.showCreate(
+        context: context,
+        onComplete: () {
+          widget.onUserCreated?.call();
+          Navigator.of(context).pushReplacementNamed(AppRoutes.userList);
+        },
+      );
+    } else {
+      ClientFormDialog.showCreate(
+        context: context,
+        onComplete: () {
+          widget.onUserCreated?.call();
+          Navigator.of(context).pushReplacementNamed(AppRoutes.userList);
+        },
+      );
+    }
   }
 }

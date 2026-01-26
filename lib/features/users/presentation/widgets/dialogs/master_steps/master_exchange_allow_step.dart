@@ -1,0 +1,140 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../../../core/constants/app_colors.dart';
+import '../../../../../../core/widget/app_checkbox.dart';
+import '../../../../../../core/widget/app_dropdown.dart';
+import '../../../bloc/user_form/user_form_bloc.dart';
+import '../../../bloc/user_form/user_form_event.dart';
+import '../../../bloc/user_form/user_form_state.dart';
+
+/// Master Step: Exchange Allow
+class MasterExchangeAllowStep extends StatelessWidget {
+  const MasterExchangeAllowStep({super.key});
+
+  static const List<String> _availableGroups = [
+    'NSE_X',
+    'NSE_2X',
+    'NSE_3X',
+    'NSE_4X',
+    'NSE_5X',
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<UserFormBloc, UserFormState>(
+      builder: (context, state) {
+        final exchanges = UserFormState.availableExchanges;
+        final isAllSelected = state.selectedExchanges.length == exchanges.length;
+
+        return Container(
+          padding: EdgeInsets.all(16.w),
+          decoration: BoxDecoration(
+            border: Border.all(color: AppColors.primaryBlue, width: 1.5),
+            borderRadius: BorderRadius.circular(12.r),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Allow All checkbox
+              AppCheckbox(
+                label: 'Allow All',
+                value: isAllSelected,
+                onChanged: (value) {
+                  context.read<UserFormBloc>().add(
+                    ToggleAllExchangesEvent(value ?? false),
+                  );
+                },
+              ),
+              SizedBox(height: 16.h),
+
+              GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  crossAxisSpacing: 12.w,
+                  mainAxisSpacing: 12.h,
+                  mainAxisExtent: 100.h, // Fixed height for each card
+                ),
+                itemCount: exchanges.length,
+                itemBuilder: (context, index) {
+                  final exchange = exchanges[index];
+                  return _buildExchangeCard(context, state, exchange);
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildExchangeCard(
+      BuildContext context,
+      UserFormState state,
+      String exchange,
+      ) {
+    final isSelected = state.selectedExchanges.contains(exchange);
+
+    List<String> selectedGroups = [];
+    final groupData = state.exchangeGroups[exchange];
+    if (groupData != null) {
+      if (groupData is List<String>) {
+        selectedGroups = groupData as List<String>;
+      } else if (groupData is String) {
+        selectedGroups = [groupData];
+      }
+    }
+
+    return Container(
+      padding: EdgeInsets.all(12.w),
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: isSelected
+              ? AppColors.primaryBlue
+              : AppColors.grey.withValues(alpha: 0.3),
+          width: 1.5,
+        ),
+        borderRadius: BorderRadius.circular(8.r),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          AppCheckbox(
+            label: exchange,
+            value: isSelected,
+            onChanged: (value) {
+              context.read<UserFormBloc>().add(
+                UpdateExchangeSelectionEvent(
+                  exchange: exchange,
+                  isSelected: value ?? false,
+                ),
+              );
+            },
+          ),
+          SizedBox(height: 8.h),
+
+
+          AppDropdown(
+            type: AppDropdownType.multiSelect,
+            height: 35.h,
+            hintText: 'Select Group',
+            selectedValues: selectedGroups,
+            items: _availableGroups,
+            searchHint: 'Search Groups',
+            onMultiChanged: (values) {
+              context.read<UserFormBloc>().add(
+                UpdateExchangeGroupEvent(
+                  exchange: exchange,
+                  group: values,
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}

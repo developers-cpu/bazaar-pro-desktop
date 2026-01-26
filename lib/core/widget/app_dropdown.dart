@@ -9,8 +9,10 @@ import '../../../../core/constants/app_images.dart';
 enum AppDropdownType {
   /// Simple dropdown with list of items
   simple,
+
   /// Dropdown with search field
   search,
+
   /// Dropdown with search and multi-select checkboxes
   multiSelect,
 }
@@ -25,6 +27,7 @@ class AppDropdown extends StatefulWidget {
   final ValueChanged<List<String>>? onMultiChanged;
 
   final double? width;
+  final double? height;
   final double? dropdownHeight;
   final String searchHint;
   final bool showAllOption;
@@ -45,6 +48,7 @@ class AppDropdown extends StatefulWidget {
     this.onChanged,
     this.onMultiChanged,
     this.width,
+    this.height,
     this.dropdownHeight,
     this.searchHint = 'Search & Add',
     this.showAllOption = false,
@@ -66,6 +70,7 @@ class _AppDropdownState extends State<AppDropdown>
   OverlayEntry? _overlayEntry;
   bool _isOpen = false;
   final TextEditingController _searchController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
   List<String> _filteredItems = [];
   Set<String> _selectedSet = {};
 
@@ -108,6 +113,7 @@ class _AppDropdownState extends State<AppDropdown>
     _removeOverlay();
     _controller.dispose();
     _searchController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -179,15 +185,17 @@ class _AppDropdownState extends State<AppDropdown>
 
   // Colors - Using AppColors constants
   Color get _borderColor => widget.borderColor ?? AppColors.primaryBlue;
-  Color get _textColor => widget.textColor ??
-      (widget.isDarkMode ? DarkThemeColors.textColor : LightThemeColors.textColor);
+  Color get _textColor =>
+      widget.textColor ??
+      (widget.isDarkMode
+          ? DarkThemeColors.textColor
+          : LightThemeColors.textColor);
   Color get _hintColor => AppColors.primaryBlue;
   Color get _bgColor => widget.isDarkMode
       ? DarkThemeColors.cardBackground
       : LightThemeColors.cardBackground;
-  Color get _dropdownBgColor => widget.isDarkMode
-      ? DarkThemeColors.cardBackground
-      : AppColors.white;
+  Color get _dropdownBgColor =>
+      widget.isDarkMode ? DarkThemeColors.cardBackground : AppColors.white;
 
   // Text style matching Figma specs
   TextStyle get _textStyle => GoogleFonts.openSans(
@@ -214,7 +222,9 @@ class _AppDropdownState extends State<AppDropdown>
       totalItems += 1;
     }
 
-    final visibleItems = totalItems > _maxVisibleItems ? _maxVisibleItems : totalItems;
+    final visibleItems = totalItems > _maxVisibleItems
+        ? _maxVisibleItems
+        : totalItems;
     double listHeight = visibleItems * _itemHeight;
 
     double searchHeight = 0;
@@ -237,7 +247,9 @@ class _AppDropdownState extends State<AppDropdown>
 
     return OverlayEntry(
       builder: (context) {
-        final dropdownHeight = widget.dropdownHeight ?? _calculateDropdownHeight(_filteredItems.length);
+        final dropdownHeight =
+            widget.dropdownHeight ??
+            _calculateDropdownHeight(_filteredItems.length);
 
         return Stack(
           children: [
@@ -286,11 +298,13 @@ class _AppDropdownState extends State<AppDropdown>
                         // Items list with scrollbar
                         Expanded(
                           child: RawScrollbar(
+                            controller: _scrollController,
                             thumbVisibility: _getItemCount() > _maxVisibleItems,
                             thickness: 6.w,
                             radius: Radius.circular(3.r),
                             thumbColor: _borderColor.withOpacity(0.5),
                             child: ListView.builder(
+                              controller: _scrollController,
                               padding: EdgeInsets.zero,
                               physics: const ClampingScrollPhysics(),
                               itemCount: _getItemCount(),
@@ -326,7 +340,8 @@ class _AppDropdownState extends State<AppDropdown>
       return _buildSimpleItem(widget.allOptionText, isAllOption: true);
     }
 
-    final itemIndex = (widget.showAllOption && widget.type == AppDropdownType.simple)
+    final itemIndex =
+        (widget.showAllOption && widget.type == AppDropdownType.simple)
         ? index - 1
         : index;
 
@@ -348,10 +363,7 @@ class _AppDropdownState extends State<AppDropdown>
       height: 30.h,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(6.r),
-        border: Border.all(
-          color: AppColors.primaryBlue,
-          width: 0.5,
-        ),
+        border: Border.all(color: AppColors.primaryBlue, width: 0.5),
       ),
       child: Row(
         children: [
@@ -367,10 +379,7 @@ class _AppDropdownState extends State<AppDropdown>
             child: TextField(
               controller: _searchController,
               onChanged: _onSearch,
-              style: GoogleFonts.openSans(
-                fontSize: 12.sp,
-                color: _textColor,
-              ),
+              style: GoogleFonts.openSans(fontSize: 12.sp, color: _textColor),
               decoration: InputDecoration(
                 hintText: widget.searchHint,
                 hintStyle: GoogleFonts.openSans(
@@ -389,7 +398,8 @@ class _AppDropdownState extends State<AppDropdown>
   }
 
   Widget _buildSelectAllOption() {
-    final isAllSelected = _selectedSet.length == widget.items.length && widget.items.isNotEmpty;
+    final isAllSelected =
+        _selectedSet.length == widget.items.length && widget.items.isNotEmpty;
 
     return InkWell(
       onTap: () => _onSelectAll(!isAllSelected),
@@ -456,18 +466,14 @@ class _AppDropdownState extends State<AppDropdown>
         ),
       ),
       child: isChecked
-          ? Icon(
-        Icons.check,
-        size: 16.sp,
-        color: AppColors.white,
-      )
+          ? Icon(Icons.check, size: 16.sp, color: AppColors.white)
           : null,
     );
   }
 
   Widget _buildSimpleItem(String item, {bool isAllOption = false}) {
-    final isSelected = widget.value == item ||
-        (isAllOption && widget.value == null);
+    final isSelected =
+        widget.value == item || (isAllOption && widget.value == null);
 
     return InkWell(
       onTap: () => _onItemSelected(isAllOption ? '' : item),
@@ -475,7 +481,9 @@ class _AppDropdownState extends State<AppDropdown>
         height: _itemHeight,
         padding: EdgeInsets.symmetric(horizontal: 14.w),
         decoration: BoxDecoration(
-          color: isSelected ? _borderColor.withOpacity(0.1) : AppColors.transparent,
+          color: isSelected
+              ? _borderColor.withOpacity(0.1)
+              : AppColors.transparent,
         ),
         alignment: Alignment.centerLeft,
         child: Text(
@@ -511,10 +519,10 @@ class _AppDropdownState extends State<AppDropdown>
           ),
           SizedBox(height: 5.h),
         ],
-    
+
         SizedBox(
           width: widget.width ?? 250.w,
-          height: 45.h,
+          height: widget.height ?? 45.h,
           child: CompositedTransformTarget(
             link: _layerLink,
             child: GestureDetector(
@@ -524,10 +532,7 @@ class _AppDropdownState extends State<AppDropdown>
                 decoration: BoxDecoration(
                   color: _bgColor,
                   borderRadius: BorderRadius.circular(10.r),
-                  border: Border.all(
-                    color: _borderColor,
-                    width: 2.w,
-                  ),
+                  border: Border.all(color: _borderColor, width: 2.w),
                 ),
                 child: Row(
                   children: [
@@ -549,7 +554,9 @@ class _AppDropdownState extends State<AppDropdown>
                     SizedBox(width: 8.w),
                     // Arrow icon
                     Icon(
-                      _isOpen ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                      _isOpen
+                          ? Icons.keyboard_arrow_up
+                          : Icons.keyboard_arrow_down,
                       color: AppColors.primaryBlue,
                       size: 24.sp,
                     ),

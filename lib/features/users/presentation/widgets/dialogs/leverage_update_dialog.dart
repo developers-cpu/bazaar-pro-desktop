@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/common_dilog_box.dart';
+import '../../../../../core/widget/app_dropdown.dart';
 
 class LeverageUpdateDialog extends StatefulWidget {
   final String userId;
@@ -62,9 +63,11 @@ class _LeverageUpdateDialogState extends State<LeverageUpdateDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return CommonDialog(
-      title: 'Update Leverage',
-      width: 400.w,
+      title: 'Update Leverage (${widget.userName})',
+      width: 500.w,
       showButtons: true,
       cancelText: 'Cancel',
       saveText: 'Update',
@@ -73,114 +76,47 @@ class _LeverageUpdateDialogState extends State<LeverageUpdateDialog> {
           widget.onUpdate?.call(_selectedLeverage!);
         }
       },
-      content: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // User Info
-          Row(
+      content: LayoutBuilder(
+        builder: (context, constraints) {
+
+          final availableWidth = constraints.maxWidth;
+
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Container(
-                width: 40.w,
-                height: 40.w,
-                decoration: BoxDecoration(
-                  color: AppColors.primaryBlue.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(8.r),
-                ),
-                child: Icon(
-                  Icons.person,
-                  color: AppColors.primaryBlue,
-                  size: 24.sp,
+
+              Text(
+                'Leverage',
+                style: GoogleFonts.openSans(
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.textColor(context),
                 ),
               ),
-              SizedBox(width: 12.w),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      widget.userName,
-                      style: GoogleFonts.openSans(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.primaryBlue,
-                      ),
-                    ),
-                    Text(
-                      'Current: ${widget.currentLeverage}',
-                      style: GoogleFonts.openSans(
-                        fontSize: 12.sp,
-                        color: AppColors.grey,
-                      ),
-                    ),
-                  ],
-                ),
+              SizedBox(height: 8.h),
+
+              AppDropdown(
+                type: AppDropdownType.simple,
+                hintText: 'Select Leverage',
+                value: _selectedLeverage,
+                items: _leverageOptions,
+                width: availableWidth,
+                height: 48.h,
+                isDarkMode: isDarkMode,
+                borderColor: AppColors.primaryBlue,
+                textColor: AppColors.textColor(context),
+                onChanged: (value) {
+                  if (mounted) {
+                    setState(() {
+                      _selectedLeverage = value;
+                    });
+                  }
+                },
               ),
             ],
-          ),
-          SizedBox(height: 24.h),
-          // Leverage Selection
-          Text(
-            'Select Leverage',
-            style: GoogleFonts.openSans(
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w600,
-              color: AppColors.primaryBlue,
-            ),
-          ),
-          SizedBox(height: 12.h),
-          Container(
-            height: 48.h,
-            decoration: BoxDecoration(
-              border: Border.all(color: AppColors.borderColor),
-              borderRadius: BorderRadius.circular(8.r),
-            ),
-            child: DropdownButtonHideUnderline(
-              child: DropdownButton<String>(
-                isExpanded: true,
-                value: _selectedLeverage,
-                hint: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w),
-                  child: Text(
-                    'Select Leverage',
-                    style: TextStyle(
-                      fontSize: 14.sp,
-                      color: AppColors.primaryBlue,
-                    ),
-                  ),
-                ),
-                items: _leverageOptions.map((leverage) {
-                  return DropdownMenuItem(
-                    value: leverage,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16.w),
-                      child: Text(
-                        leverage,
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          color: AppColors.textColor(context),
-                        ),
-                      ),
-                    ),
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  setState(() {
-                    _selectedLeverage = value;
-                  });
-                },
-                icon: Padding(
-                  padding: EdgeInsets.only(right: 12.w),
-                  child: Icon(
-                    Icons.keyboard_arrow_down,
-                    size: 20.sp,
-                    color: AppColors.primaryBlue,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
+          );
+        },
       ),
     );
   }

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import '../../../../core/constants/app_colors.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../data/models/user_filter_dropdown.dart';
 import '../../domain/entities/user.dart';
 import '../bloc/user_list/user_list_bloc.dart';
@@ -13,6 +14,8 @@ import '../widgets/common/user_filter_bar.dart';
 import '../widgets/dialogs/master_form_dialog.dart';
 import '../widgets/dialogs/client_form_dialog.dart';
 import '../widgets/dialogs/leverage_update_dialog.dart';
+import '../widgets/dialogs/change_password_dialog.dart';
+import '../widgets/dialogs/update_access_dialog.dart';
 
 class UserListPage extends StatefulWidget {
   const UserListPage({super.key});
@@ -61,7 +64,6 @@ class _UserListPageState extends State<UserListPage> {
     }
   }
 
-
   void _showLeverageDialog(User user) {
     LeverageUpdateDialog.show(
       context: context,
@@ -72,6 +74,46 @@ class _UserListPageState extends State<UserListPage> {
         // TODO: Call API to update leverage
 
         context.read<UserListBloc>().add(const LoadUsersEvent());
+      },
+    );
+  }
+
+  void _showChangePasswordDialog(User user) {
+    ChangePasswordDialog.show(
+      context: context,
+      userId: user.id,
+      userName: user.userName,
+      onChangePassword: (oldPassword, newPassword) {
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Password updated successfully')),
+        );
+      },
+    );
+  }
+
+  void _showActionDialog(User user) {
+    final currentSettings = {
+      'bet': true,
+      'closeOnly': false,
+      'viewOnly': false,
+      'status': user.isActive,
+      'allowChat': true,
+      'positionCut15Days': false,
+      'freshLimitSL': true,
+      'lockUser': false,
+    };
+
+    UpdateAccessDialog.show(
+      context: context,
+      userId: user.id,
+      userName: user.userName,
+      currentSettings: currentSettings,
+      onUpdate: (updatedSettings) {
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Access settings updated successfully')),
+        );
       },
     );
   }
@@ -302,13 +344,81 @@ class _UserListPageState extends State<UserListPage> {
         );
       case 'action':
         return Center(
-          child: CircleAvatar(
-            radius: 12.r,
-            backgroundColor: AppColors.primaryBlue.withValues(alpha: 0.1),
-            child: Icon(
-              Icons.person,
-              size: 14.sp,
-              color: AppColors.primaryBlue,
+          child: Theme(
+            data: Theme.of(context).copyWith(
+              cardColor: AppColors.white,
+              popupMenuTheme: PopupMenuThemeData(
+                color: AppColors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.r),
+                ),
+                elevation: 4,
+              ),
+            ),
+            child: PopupMenuButton<String>(
+              tooltip: 'Actions',
+              offset: const Offset(0, 30),
+              padding: EdgeInsets.zero,
+              icon: CircleAvatar(
+                radius: 12.r,
+                backgroundColor: AppColors.primaryBlue.withValues(alpha: 0.1),
+                child: Icon(
+                  Icons.person,
+                  size: 14.sp,
+                  color: AppColors.primaryBlue,
+                ),
+              ),
+              onSelected: (value) {
+                switch (value) {
+                  case 'change_password':
+                    _showChangePasswordDialog(user);
+                    break;
+                  case 'update_leverage':
+                    _showLeverageDialog(user);
+                    break;
+                  case 'action':
+                    _showActionDialog(user);
+                    break;
+                }
+              },
+              itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+                PopupMenuItem<String>(
+                  value: 'change_password',
+                  height: 40.h,
+                  child: Text(
+                    'Change Password',
+                    style: GoogleFonts.openSans(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.primaryBlue,
+                    ),
+                  ),
+                ),
+                PopupMenuItem<String>(
+                  value: 'update_leverage',
+                  height: 40.h,
+                  child: Text(
+                    'Update Leverage',
+                    style: GoogleFonts.openSans(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.primaryBlue,
+                    ),
+                  ),
+                ),
+                PopupMenuItem<String>(
+                  value: 'action',
+                  height: 40.h,
+                  child: Text(
+                    'Action',
+                    style: GoogleFonts.openSans(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.primaryBlue,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         );

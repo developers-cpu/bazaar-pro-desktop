@@ -81,7 +81,6 @@ class _UserDetailsDialogState extends State<UserDetailsDialog>
       _tabs.remove('User List');
     }
 
-    // Tab Controller
     _tabController = TabController(
       length: _tabs.length,
       vsync: this,
@@ -138,7 +137,7 @@ class _UserDetailsDialogState extends State<UserDetailsDialog>
                   case 'Pending Orders':
                     return UserPendingOrdersTab(user: widget.user);
                   case 'Change Password':
-                    return const SizedBox(); // Placeholder, dialog opens on tap
+                    return const SizedBox();
                   case 'Intraday Square off':
                     return UserIntradaySquareOffTab(user: widget.user);
                   default:
@@ -251,10 +250,11 @@ class _UserDetailsDialogState extends State<UserDetailsDialog>
     return Container(
       color: AppColors.white,
       width: double.infinity,
-      // Removed border below header as per request
       child: TabBar(
         controller: _tabController,
         isScrollable: true,
+        dividerColor: Colors.transparent,
+        dividerHeight: 0,
         labelColor: AppColors.primaryBlue,
         unselectedLabelColor: AppColors.textColor(context),
         indicatorColor: AppColors.primaryBlue,
@@ -273,7 +273,6 @@ class _UserDetailsDialogState extends State<UserDetailsDialog>
               userId: widget.user.id,
               userName: widget.user.userName,
               onChangePassword: (oldPass, newPass) {
-                // TODO: Implement API call
                 print('Change password: $oldPass -> $newPass');
               },
             );

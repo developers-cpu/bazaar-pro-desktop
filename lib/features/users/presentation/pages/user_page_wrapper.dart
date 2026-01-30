@@ -4,6 +4,10 @@ import '../../../../core/constants/app_colors.dart';
 import '../../../../core/routes/app_routes.dart';
 import '../../../../core/widget/app_bar_section.dart';
 import '../widgets/dialogs/user_type_selection_dialog.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../injection_container.dart';
+import '../bloc/inactive_user_list/inactive_user_list_bloc.dart';
+import 'inactive_user_list_page.dart';
 import 'user_list_page.dart';
 
 /// User Page Wrapper - Common wrapper for all User section pages
@@ -154,20 +158,15 @@ class _CreateUserPageState extends State<CreateUserPage> {
   }
 }
 
-/// In-Active User Page - Placeholder
+/// In-Active User Page
 class InactiveUserPage extends StatelessWidget {
   const InactiveUserPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        'In-Active User - Coming Soon',
-        style: TextStyle(
-          fontSize: 18.sp,
-          color: AppColors.supportiveTextColor(context),
-        ),
-      ),
+    return BlocProvider(
+      create: (context) => sl<InactiveUserListBloc>(),
+      child: const InactiveUserListPage(),
     );
   }
 }

@@ -75,6 +75,7 @@ import 'features/users/data/repositories/user_repository_impl.dart';
 import 'features/users/domain/repositories/user_repository.dart';
 import 'features/users/domain/usecases/user_usecases.dart';
 import 'features/users/presentation/bloc/user_list/user_list_bloc.dart';
+import 'features/users/presentation/bloc/inactive_user_list/inactive_user_list_bloc.dart';
 
 final sl = GetIt.instance;
 
@@ -501,6 +502,18 @@ Future<void> init() async {
   // User List BLoC
   sl.registerFactory(
     () => UserListBloc(
+      getUsers: sl(),
+      getUsersWithFilters: sl(),
+      getUserTypes: sl(),
+      getUserStatuses: sl(),
+      exportUsersToPdf: sl(),
+      exportUsersToExcel: sl(),
+    ),
+  );
+
+  // Inactive User List BLoC
+  sl.registerFactory(
+    () => InactiveUserListBloc(
       getUsers: sl(),
       getUsersWithFilters: sl(),
       getUserTypes: sl(),

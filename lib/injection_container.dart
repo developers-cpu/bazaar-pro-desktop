@@ -76,6 +76,7 @@ import 'features/users/domain/repositories/user_repository.dart';
 import 'features/users/domain/usecases/user_usecases.dart';
 import 'features/users/presentation/bloc/user_list/user_list_bloc.dart';
 import 'features/users/presentation/bloc/inactive_user_list/inactive_user_list_bloc.dart';
+import 'features/users/presentation/bloc/search_user/search_user_bloc.dart';
 
 final sl = GetIt.instance;
 
@@ -522,6 +523,9 @@ Future<void> init() async {
       exportUsersToExcel: sl(),
     ),
   );
+
+  // Search User BLoC
+  sl.registerFactory(() => SearchUserBloc(getUsers: sl()));
 
   // User Use Cases
   sl.registerLazySingleton(() => GetUsers(sl()));

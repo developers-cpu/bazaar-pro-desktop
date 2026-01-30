@@ -124,8 +124,8 @@ class _UserListPageState extends State<UserListPage> {
       context,
       user,
       initialTab: initialTab,
-      onEdit: () => _showEditUserDialog(user),
-      onAction: () => _showActionDialog(user),
+      onEdit: (_) => _showEditUserDialog(user),
+      onAction: (_) => _showActionDialog(user),
     );
   }
 

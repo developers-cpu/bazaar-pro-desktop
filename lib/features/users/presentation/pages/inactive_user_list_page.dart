@@ -130,8 +130,8 @@ class _InactiveUserListPageState extends State<InactiveUserListPage> {
       context,
       user,
       initialTab: initialTab,
-      onEdit: () => _showEditUserDialog(user),
-      onAction: () => _showActionDialog(user),
+      onEdit: (_) => _showEditUserDialog(user),
+      onAction: (_) => _showActionDialog(user),
     );
   }
 

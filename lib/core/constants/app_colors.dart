@@ -171,6 +171,7 @@ class AppColors {
   // Selection colors (static)
   static const Color selectedRowBackground = Color(0xFFE3F2FD);
   static const Color highlightColor = Color(0xFFBBDEFB);
+  static const Color textGrey = Color(0xFF9E99E);
 
   static const Color blue = Color(0xFF0066FF);
 

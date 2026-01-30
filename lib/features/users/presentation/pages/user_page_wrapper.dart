@@ -61,19 +61,6 @@ class InactiveUserPageWithAppBar extends StatelessWidget {
   }
 }
 
-/// Search User Page with AppBar
-class SearchUserPageWithAppBar extends StatelessWidget {
-  const SearchUserPageWithAppBar({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const UserPageWrapper(
-      pageTitle: 'Search User',
-      child: SearchUserPage(),
-    );
-  }
-}
-
 /// User List Page with AppBar
 class UserListPageWithAppBar extends StatelessWidget {
   const UserListPageWithAppBar({super.key});
@@ -167,24 +154,6 @@ class InactiveUserPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => sl<InactiveUserListBloc>(),
       child: const InactiveUserListPage(),
-    );
-  }
-}
-
-/// Search User Page - Placeholder
-class SearchUserPage extends StatelessWidget {
-  const SearchUserPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        'Search User - Coming Soon',
-        style: TextStyle(
-          fontSize: 18.sp,
-          color: AppColors.supportiveTextColor(context),
-        ),
-      ),
     );
   }
 }

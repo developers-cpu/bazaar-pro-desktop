@@ -21,8 +21,8 @@ import '../dialogs/change_password_dialog.dart';
 class UserDetailsDialog extends StatefulWidget {
   final User user;
   final String? initialTab;
-  final VoidCallback? onEdit;
-  final VoidCallback? onAction;
+  final void Function(BuildContext)? onEdit;
+  final void Function(BuildContext)? onAction;
 
   const UserDetailsDialog({
     super.key,
@@ -36,8 +36,8 @@ class UserDetailsDialog extends StatefulWidget {
     BuildContext context,
     User user, {
     String? initialTab,
-    VoidCallback? onEdit,
-    VoidCallback? onAction,
+    void Function(BuildContext)? onEdit,
+    void Function(BuildContext)? onAction,
   }) {
     showDialog(
       context: context,
@@ -189,11 +189,11 @@ class _UserDetailsDialogState extends State<UserDetailsDialog>
           ),
           const Spacer(),
           _buildActionButton(Icons.edit, 'Edit', () {
-            if (widget.onEdit != null) widget.onEdit!();
+            if (widget.onEdit != null) widget.onEdit!(context);
           }),
           SizedBox(width: 8.w),
           _buildActionButton(Icons.person, 'Action', () {
-            if (widget.onAction != null) widget.onAction!();
+            if (widget.onAction != null) widget.onAction!(context);
           }, isPrimary: true),
         ],
       ),

@@ -68,7 +68,6 @@ class AppRoutes {
       // User dropdown routes
       createUser: (context) => const CreateUserPageWithAppBar(),
       inactiveUser: (context) => const InactiveUserPageWithAppBar(),
-      searchUser: (context) => const SearchUserPageWithAppBar(),
       userList: (context) => const UserListPageWithAppBar(),
 
       // Report dropdown routes

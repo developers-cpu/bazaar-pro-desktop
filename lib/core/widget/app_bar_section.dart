@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/widget/common_app_bar.dart';
 import '../../features/market_watch/data/models/menu_Item_data.dart';
+import '../../features/users/presentation/widgets/dialogs/user_search_dialog.dart';
 
 ///  AppBar Section
 class AppBarSection extends StatefulWidget implements PreferredSizeWidget {
@@ -148,7 +149,9 @@ class AppBarSectionState extends State<AppBarSection> {
           ),
           MenuItemData(
             title: 'Search User',
-            onTap: () => _navigateToPage(3, 'Search User', '/search-user'),
+            onTap: () {
+              UserSearchDialog.show(context);
+            },
           ),
         ],
       ),

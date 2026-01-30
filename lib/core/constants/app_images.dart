@@ -7,6 +7,7 @@ class AppImages {
   static const String _commonIconsPath = 'assets/icons/market';
   static const String _menuIconsPath = 'assets/icons/menu';
   static const String _viewIconsPath = 'assets/icons/view';
+  static const String _usersIconsPath = 'assets/icons/users';
   // Images
   static const String appLogo = '$_imagesPath/bazaar_logo.png';
   static const String loginBackgroundGif = '$_gifsPath/login_background.gif';
@@ -58,4 +59,21 @@ class AppImages {
 
   //view Icon
   static const String fileExportIcon = '$_viewIconsPath/file_export.svg';
+
+  // Users Icons
+  static const String addClientIcon = '$_usersIconsPath/add_client.svg';
+  static const String addMasterIcon = '$_usersIconsPath/add_master.svg';
+  static const String autoSquareOffIcon = '$_usersIconsPath/auto_square_off.svg';
+  static const String canTradeForClientIcon = '$_usersIconsPath/can_trade_for_client.svg';
+  static const String changePasswordIcon = '$_usersIconsPath/change_password.svg';
+  static const String closeModeIcon = '$_usersIconsPath/close_mode.svg';
+  static const String editPermissionIcon = '$_usersIconsPath/edit_permission.svg';
+  static const String fifteenDaysIcon = '$_usersIconsPath/fifteen_days.svg';
+  static const String freshLimitSlIcon = '$_usersIconsPath/fresh_limit_sl.svg';
+  static const String lockUserIcon = '$_usersIconsPath/lock_user.svg';
+  static const String messageIcon = '$_usersIconsPath/message.svg';
+  static const String statusIcon = '$_usersIconsPath/status.svg';
+  static const String symbolWiseIcon = '$_usersIconsPath/symbol_wise.svg';
+  static const String tradeLockIcon = '$_usersIconsPath/trade_lock.svg';
+
 }

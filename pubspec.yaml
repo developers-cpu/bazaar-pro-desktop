@@ -53,6 +53,7 @@ flutter:
     - assets/icons/menu/
     - assets/icons/common/
     - assets/icons/view/
+    - assets/icons/users/
     - assets/images/bazaar_logo.png
 
 

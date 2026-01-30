@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../../core/constants/app_colors.dart';
+import '../../../../../../core/constants/app_images.dart';
 import '../../../../../../core/widget/app_switch.dart';
 import '../../../bloc/user_form/user_form_bloc.dart';
 import '../../../bloc/user_form/user_form_event.dart';
@@ -65,10 +67,10 @@ class ClientTriggerSettingsStep extends StatelessWidget {
   }
 
   Widget _buildSettingRow(
-    BuildContext context,
-    UserFormState state,
-    TriggerSetting setting,
-  ) {
+      BuildContext context,
+      UserFormState state,
+      TriggerSetting setting,
+      ) {
     final isEnabled = state.triggerSettings[setting.key] ?? false;
 
     return Row(
@@ -81,10 +83,13 @@ class ClientTriggerSettingsStep extends StatelessWidget {
             color: AppColors.primaryBlue.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(4.r),
           ),
-          child: Icon(
-            _getIconForSetting(setting.key),
-            size: 16.sp,
-            color: AppColors.primaryBlue,
+          child: Center(
+            child: SvgPicture.asset(
+              _getSvgIconForSetting(setting.key),
+              width: 18.w,
+              height: 18.h,
+              fit: BoxFit.contain,
+            ),
           ),
         ),
         SizedBox(width: 8.w),
@@ -113,20 +118,20 @@ class ClientTriggerSettingsStep extends StatelessWidget {
     );
   }
 
-  IconData _getIconForSetting(String key) {
+  String _getSvgIconForSetting(String key) {
     switch (key) {
       case 'fifteenDays':
-        return Icons.calendar_today;
+        return AppImages.fifteenDaysIcon;
       case 'freshLimitSL':
-        return Icons.trending_up;
+        return AppImages.freshLimitSlIcon;
       case 'autoSquareOff':
-        return Icons.timer;
+        return AppImages.autoSquareOffIcon;
       case 'symbolWiseSLLimit':
-        return Icons.percent;
+        return AppImages.symbolWiseIcon;
       case 'changePasswordFirstTime':
-        return Icons.password;
+        return AppImages.changePasswordIcon;
       default:
-        return Icons.settings;
+        return AppImages.statusIcon; // fallback icon
     }
   }
 }

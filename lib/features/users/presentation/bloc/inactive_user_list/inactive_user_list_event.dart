@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-/// Inactive User List Events
+
 abstract class InactiveUserListEvent extends Equatable {
   const InactiveUserListEvent();
 

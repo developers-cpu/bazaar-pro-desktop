@@ -3,7 +3,7 @@ import '../../../../../core/errors/failures.dart';
 import '../../entities/deals/deals.dart';
 
 
-/// Deals repository interface
+
 abstract class DealsRepository {
   Future<Either<Failure, List<Deal>>> getDeals();
 

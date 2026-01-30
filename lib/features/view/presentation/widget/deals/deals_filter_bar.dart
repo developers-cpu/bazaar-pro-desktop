@@ -11,7 +11,7 @@ import '../../bloc/deals/deals_event.dart';
 import '../../bloc/deals/deals_state.dart';
 import '../common/view_reset_buttons.dart';
 
-/// Filter bar for Deals page
+
 class DealsFilterBar extends StatelessWidget {
   const DealsFilterBar({Key? key}) : super(key: key);
 
@@ -27,13 +27,13 @@ class DealsFilterBar extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Row(
             children: [
-              // Date Range Picker
+              
               Expanded(
                 child: _buildDateRangePicker(context, state),
               ),
               SizedBox(width: 12.w),
 
-              // Client Dropdown
+              
               Expanded(
                 child: AppDropdown(
                   type: AppDropdownType.search,
@@ -57,7 +57,7 @@ class DealsFilterBar extends StatelessWidget {
               ),
               SizedBox(width: 12.w),
 
-              // Exchange Dropdown
+              
               Expanded(
                 child: AppDropdown(
                   type: AppDropdownType.simple,
@@ -82,7 +82,7 @@ class DealsFilterBar extends StatelessWidget {
               ),
               SizedBox(width: 12.w),
 
-              // Symbol Dropdown
+              
               Expanded(
                 child: AppDropdown(
                   type: AppDropdownType.search,
@@ -106,7 +106,7 @@ class DealsFilterBar extends StatelessWidget {
               ),
               SizedBox(width: 12.w),
 
-              // Order Type Dropdown
+              
               Expanded(
                 child: AppDropdown(
                   type: AppDropdownType.simple,
@@ -131,7 +131,7 @@ class DealsFilterBar extends StatelessWidget {
               ),
               SizedBox(width: 12.w),
 
-              // Status Dropdown
+              
               Expanded(
                 child: AppDropdown(
                   type: AppDropdownType.simple,
@@ -157,7 +157,7 @@ class DealsFilterBar extends StatelessWidget {
 
               const Spacer(),
 
-              // Reset and View Buttons
+              
               ViewResetButtons(
                 onReset: () {
                   context.read<DealsBloc>().add(

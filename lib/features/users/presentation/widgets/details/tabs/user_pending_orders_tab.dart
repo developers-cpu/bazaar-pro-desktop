@@ -18,10 +18,10 @@ class UserPendingOrdersTab extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Placeholder image for empty state
+              
               Icon(Icons.folder_open, size: 100.sp, color: Colors.orangeAccent),
               SizedBox(height: 20.h),
-              // Could add more graphical elements to match the "no data" illustration
+              
             ],
           ),
         ),

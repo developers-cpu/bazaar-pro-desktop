@@ -5,7 +5,7 @@ import '../../../../core/widget/common_app_bar.dart';
 import '../../features/market_watch/data/models/menu_Item_data.dart';
 import '../../features/users/presentation/widgets/dialogs/user_search_dialog.dart';
 
-///  AppBar Section
+
 class AppBarSection extends StatefulWidget implements PreferredSizeWidget {
   final int selectedTabIndex;
   final String? currentPageTitle;
@@ -48,7 +48,7 @@ class AppBarSectionState extends State<AppBarSection> {
     super.initState();
     _initializeTabs();
 
-    // Set the current page title in the correct dropdown based on selectedTabIndex
+    
     if (widget.currentPageTitle != null) {
       _selectedDropdownItems[widget.selectedTabIndex] =
           widget.currentPageTitle!;
@@ -67,13 +67,13 @@ class AppBarSectionState extends State<AppBarSection> {
 
   void _initializeTabs() {
     _tabs = [
-      // Market Watch - No dropdown (index 0)
+      
       const AppBarTab(title: AppStrings.marketWatch),
 
-      // Dashboard - No dropdown (index 1)
+      
       const AppBarTab(title: AppStrings.dashboard),
 
-      // View - Has dropdown (index 2)
+      
       AppBarTab(
         title: AppStrings.view,
         dropdownItems: [
@@ -116,26 +116,26 @@ class AppBarSectionState extends State<AppBarSection> {
             onTap: () =>
                 _navigateToPage(2, 'Script Quantity', '/script-quantity'),
           ),
-          // MenuItemData(
-          //   title: 'Bulk Trade',
-          //   onTap: () => _navigateToPage(2, 'Bulk Trade', '/bulk-trade'),
-          // ),
-          // MenuItemData(
-          //   title: 'Total Volume',
-          //   onTap: () => _navigateToPage(2, 'Total Volume', '/total-volume'),
-          // ),
-          // MenuItemData(
-          //   title: 'Deleted Trade',
-          //   onTap: () => _navigateToPage(2, 'Deleted Trade', '/deleted-trade'),
-          // ),
-          // MenuItemData(
-          //   title: 'Manual Trade',
-          //   onTap: () => _navigateToPage(2, 'Manual Trade', '/manual-trade'),
-          // ),
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
         ],
       ),
 
-      // User - Has dropdown (index 3)
+      
       AppBarTab(
         title: 'User',
         dropdownItems: [
@@ -156,7 +156,7 @@ class AppBarSectionState extends State<AppBarSection> {
         ],
       ),
 
-      // Report - Has dropdown (index 4)
+      
       AppBarTab(
         title: AppStrings.report,
         dropdownItems: [
@@ -181,18 +181,18 @@ class AppBarSectionState extends State<AppBarSection> {
             title: 'Export Report',
             onTap: () {
               _selectDropdownItem(4, 'Export Report');
-              // Export toggle is now handled by the CommonAppBar itself
+              
             },
           ),
         ],
       ),
 
-      // Tools - No dropdown (index 5)
+      
       const AppBarTab(title: AppStrings.tools),
     ];
   }
 
-  /// Navigate to specific page and update selection
+  
   void _navigateToPage(int tabIndex, String itemTitle, String routeName) {
     setState(() {
       _selectedDropdownItems[tabIndex] = itemTitle;
@@ -200,43 +200,43 @@ class AppBarSectionState extends State<AppBarSection> {
 
     widget.onViewAction?.call(routeName);
 
-    // Use pushReplacementNamed to replace current route
+    
     Navigator.of(context).pushReplacementNamed(routeName);
   }
 
-  /// Select dropdown item and navigate to that tab
+  
   void _selectDropdownItem(int tabIndex, String itemTitle) {
     setState(() {
       _selectedDropdownItems[tabIndex] = itemTitle;
     });
 
-    // Navigate to the tab if not already selected
+    
     if (widget.selectedTabIndex != tabIndex) {
       widget.onTabSelected(tabIndex);
     }
   }
 
   void _onTabSelected(int index) {
-    // Handle navigation to main tabs
+    
     if (index == 0) {
       Navigator.of(context).pushReplacementNamed('/market-watch');
     } else if (index == 1) {
       Navigator.of(context).pushReplacementNamed('/dashboard');
     } else if (index == 5) {
-      // Tools tab - navigate to tools page
+      
       Navigator.of(context).pushReplacementNamed('/tools');
     }
 
     widget.onTabSelected(index);
   }
 
-  /// Check if tab has dropdown - exposed for external access
+  
   bool hasDropdown(int index) {
     if (index < 0 || index >= _tabs.length) return false;
     return _tabs[index].hasDropdown;
   }
 
-  /// Show reload icon based on selected tab
+  
   bool get _shouldShowReloadIcon {
     return widget.selectedTabIndex == 0;
   }

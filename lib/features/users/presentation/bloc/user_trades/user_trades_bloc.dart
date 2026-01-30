@@ -16,7 +16,7 @@ class UserTradesBloc extends Bloc<UserTradesEvent, UserTradesState> {
   ) async {
     emit(UserTradesLoading());
     try {
-      // TOD: Replace with API call
+      
       await Future.delayed(const Duration(seconds: 1)); 
 
       final trades = _generateMockTrades();

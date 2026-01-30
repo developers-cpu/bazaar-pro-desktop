@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 
 import '../../../domain/entities/script_master/script_master.dart';
 
-/// Base state for Script Master BLoC
+
 abstract class ScriptMasterState extends Equatable {
   const ScriptMasterState();
 
@@ -10,17 +10,17 @@ abstract class ScriptMasterState extends Equatable {
   List<Object?> get props => [];
 }
 
-/// Initial state
+
 class ScriptMasterInitial extends ScriptMasterState {
   const ScriptMasterInitial();
 }
 
-/// Loading state
+
 class ScriptMasterLoading extends ScriptMasterState {
   const ScriptMasterLoading();
 }
 
-/// Loaded state
+
 class ScriptMasterLoaded extends ScriptMasterState {
   final List<ScriptMaster> scripts;
   final List<ScriptMaster> filteredScripts;
@@ -29,11 +29,11 @@ class ScriptMasterLoaded extends ScriptMasterState {
   final String? sortColumn;
   final bool sortAscending;
 
-  // Filter values
+  
   final String? selectedExchange;
   final String? selectedSymbol;
 
-  // Filter options
+  
   final List<String> exchanges;
   final List<String> symbols;
 
@@ -91,7 +91,7 @@ class ScriptMasterLoaded extends ScriptMasterState {
   }
 }
 
-/// Error state
+
 class ScriptMasterError extends ScriptMasterState {
   final String message;
 
@@ -101,7 +101,7 @@ class ScriptMasterError extends ScriptMasterState {
   List<Object?> get props => [message];
 }
 
-/// Export success state
+
 class ScriptMasterExportSuccess extends ScriptMasterState {
   final String message;
   final String filePath;

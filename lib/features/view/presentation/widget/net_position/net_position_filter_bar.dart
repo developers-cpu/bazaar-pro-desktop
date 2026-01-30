@@ -8,7 +8,7 @@ import '../../bloc/net_position/net_position_event.dart';
 import '../../bloc/net_position/net_position_state.dart';
 import '../common/view_reset_buttons.dart';
 
-/// Filter bar for Net Position page
+
 class NetPositionFilterBar extends StatelessWidget {
   const NetPositionFilterBar({Key? key}) : super(key: key);
 
@@ -24,7 +24,7 @@ class NetPositionFilterBar extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Row(
             children: [
-              // User Type Dropdown
+              
               Expanded(
                 child: AppDropdown(
                   type: AppDropdownType.simple,
@@ -46,7 +46,7 @@ class NetPositionFilterBar extends StatelessWidget {
               ),
               SizedBox(width: 12.w),
 
-              // Client Dropdown
+              
               Expanded(
                 child: AppDropdown(
                   type: AppDropdownType.search,
@@ -67,7 +67,7 @@ class NetPositionFilterBar extends StatelessWidget {
               ),
               SizedBox(width: 12.w),
 
-              // Exchange Dropdown
+              
               Expanded(
                 child: AppDropdown(
                   type: AppDropdownType.simple,
@@ -89,7 +89,7 @@ class NetPositionFilterBar extends StatelessWidget {
               ),
               SizedBox(width: 12.w),
 
-              // Symbol Dropdown
+              
               Expanded(
                 child: AppDropdown(
                   type: AppDropdownType.search,
@@ -111,7 +111,7 @@ class NetPositionFilterBar extends StatelessWidget {
 
               const Spacer(),
 
-              // Reset and View Buttons
+              
               ViewResetButtons(
                 onReset: () {
                   context.read<NetPositionBloc>().add(

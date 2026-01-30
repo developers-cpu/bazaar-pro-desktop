@@ -5,7 +5,7 @@ import '../../../../../core/constants/app_images.dart';
 import '../../../../../core/widget/svg_icon.dart';
 import 'table_text_style_helper.dart';
 
-/// Widget for building common header cell
+
 class TableHeaderCell extends StatelessWidget {
   final String title;
   final bool isDark;
@@ -39,7 +39,7 @@ class TableHeaderCell extends StatelessWidget {
     );
 
     if (!showSortIcon) {
-      // Without sort icon - simple centered text
+      
       return Center(
         child: Text(
           title,
@@ -51,7 +51,7 @@ class TableHeaderCell extends StatelessWidget {
       );
     }
 
-    // With sort icon - use FittedBox to scale down if needed
+    
     return Center(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 2.w),

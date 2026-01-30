@@ -76,7 +76,7 @@ class _InactiveUserListPageState extends State<InactiveUserListPage> {
       userName: user.userName,
       currentLeverage: user.leverage,
       onUpdate: (newLeverage) {
-        // TODO: Call API to update leverage
+        
 
         context.read<InactiveUserListBloc>().add(
           const LoadInactiveUsersEvent(),

@@ -12,7 +12,7 @@ class UserListTab extends StatelessWidget {
 
   const UserListTab({super.key, required this.user});
 
-  // Mock data for nested users
+  
   List<User> get _nestedUsers => [
     User(
       id: '1',
@@ -56,7 +56,7 @@ class UserListTab extends StatelessWidget {
       deviceType: 'Android',
       ipAddress: '192.168.1.1',
     ),
-    // Add more mock users as needed to match screenshot
+    
   ];
 
   @override
@@ -161,7 +161,7 @@ class UserListTab extends StatelessWidget {
             ),
           ),
         );
-      case 'balance': // Using equity as mockup for balance
+      case 'balance': 
         return Text(user.equity.toStringAsFixed(0), style: _textStyle(context));
       case 'brkPercent':
         return Text(
@@ -174,9 +174,9 @@ class UserListTab extends StatelessWidget {
           style: _textStyle(context),
         );
       case 'deviceId':
-        return Text('AFCAGFREG-2132-1265', style: _textStyle(context)); // Mock
+        return Text('AFCAGFREG-2132-1265', style: _textStyle(context)); 
       case 'createdDate':
-        return Text('26/11/25 01:33:04 PM', style: _textStyle(context)); // Mock
+        return Text('26/11/25 01:33:04 PM', style: _textStyle(context)); 
       case 'ipAddress':
         return Text(user.ipAddress ?? '', style: _textStyle(context));
       default:
@@ -196,10 +196,10 @@ class UserListTab extends StatelessWidget {
     User user, {
     String? initialTab,
   }) {
-    // Recursively show User Details for the clicked user
-    // Note: This relies on UserDetailsDialog being imported and having a show method that can be called.
-    // Since we are inside a tab of UserDetailsDialog, we are opening another one on top.
-    // This depth might need management, but for now this fulfills the request.
+    
+    
+    
+    
     UserDetailsDialog.show(context, user, initialTab: initialTab);
   }
 }

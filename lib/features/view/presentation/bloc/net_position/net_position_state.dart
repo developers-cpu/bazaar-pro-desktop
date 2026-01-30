@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 
 import '../../../domain/entities/net_postion/net_position.dart';
 
-/// Base state for Net Position BLoC
+
 abstract class NetPositionState extends Equatable {
   const NetPositionState();
 
@@ -10,17 +10,17 @@ abstract class NetPositionState extends Equatable {
   List<Object?> get props => [];
 }
 
-/// Initial state
+
 class NetPositionInitial extends NetPositionState {
   const NetPositionInitial();
 }
 
-/// Loading state
+
 class NetPositionLoading extends NetPositionState {
   const NetPositionLoading();
 }
 
-/// Loaded state
+
 class NetPositionLoaded extends NetPositionState {
   final List<NetPosition> positions;
   final List<NetPosition> filteredPositions;
@@ -29,13 +29,13 @@ class NetPositionLoaded extends NetPositionState {
   final String? sortColumn;
   final bool sortAscending;
 
-  // Filter values
+  
   final String? selectedUserType;
   final String? selectedClient;
   final String? selectedExchange;
   final String? selectedSymbol;
 
-  // Filter options
+  
   final List<String> userTypes;
   final List<String> clients;
   final List<String> exchanges;
@@ -111,7 +111,7 @@ class NetPositionLoaded extends NetPositionState {
   }
 }
 
-/// Error state
+
 class NetPositionError extends NetPositionState {
   final String message;
 
@@ -121,7 +121,7 @@ class NetPositionError extends NetPositionState {
   List<Object?> get props => [message];
 }
 
-/// Export success state
+
 class NetPositionExportSuccess extends NetPositionState {
   final String message;
   final String filePath;
@@ -135,7 +135,7 @@ class NetPositionExportSuccess extends NetPositionState {
   List<Object?> get props => [message, filePath];
 }
 
-/// Position details loaded for dialog
+
 class PositionDetailsLoaded extends NetPositionState {
   final List<NetPosition> detailPositions;
   final String symbol;
@@ -151,12 +151,12 @@ class PositionDetailsLoaded extends NetPositionState {
   List<Object?> get props => [detailPositions, symbol, userName];
 }
 
-/// Position details loading
+
 class PositionDetailsLoading extends NetPositionState {
   const PositionDetailsLoading();
 }
 
-/// Position details error
+
 class PositionDetailsError extends NetPositionState {
   final String message;
 

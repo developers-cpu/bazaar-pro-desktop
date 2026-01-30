@@ -8,7 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 
 
-/// Generic column configuration for View section tables
+
 class ViewTableColumn {
   final String id;
   final String label;
@@ -78,7 +78,7 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
     return widget.columns.fold<double>(0, (sum, col) => sum + col.width);
   }
 
-  // Colors
+  
   Color get _headerBgColor => widget.isDarkMode
       ? DarkThemeColors.tableColumnHeadColor
       : LightThemeColors.tableColumnHeadColor;
@@ -122,7 +122,7 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
         borderRadius: BorderRadius.circular(10.r),
         child: Column(
           children: [
-            // Scrollable table
+            
             Expanded(
               child: Scrollbar(
                 controller: _horizontalScrollController,
@@ -134,15 +134,15 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
                     width: _totalWidth,
                     child: Column(
                       children: [
-                        // Header row
+                        
                         _buildHeaderRow(headerHeight),
-                        // Data rows
+                        
                         Expanded(
                           child: widget.data.isEmpty
                               ? _buildEmptyState()
                               : _buildDataRows(rowHeight),
                         ),
-                        // Footer row
+                        
                         if (widget.footerBuilder != null)
                           _buildFooterRow(rowHeight),
                       ],

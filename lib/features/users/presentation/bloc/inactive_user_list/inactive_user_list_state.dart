@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import '../../../domain/entities/user.dart';
 
-/// Inactive User List State
+
 abstract class InactiveUserListState extends Equatable {
   const InactiveUserListState();
 
@@ -99,7 +99,7 @@ class InactiveUserListError extends InactiveUserListState {
 }
 
 class InactiveUserListExporting extends InactiveUserListState {
-  final String exportType; // 'pdf' or 'excel'
+  final String exportType; 
 
   const InactiveUserListExporting(this.exportType);
 

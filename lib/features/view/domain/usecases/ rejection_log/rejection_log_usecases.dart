@@ -4,7 +4,7 @@ import '../../../../../core/usecases/usecase.dart';
 import '../../entities/rejection_log/rejection_log.dart';
 import '../../repositories/rejection_log/rejection_log_repository.dart';
 
-/// Get all rejection logs
+
 class GetRejectionLogs implements UseCase<List<RejectionLog>, NoParams> {
   final RejectionLogRepository repository;
 
@@ -16,7 +16,7 @@ class GetRejectionLogs implements UseCase<List<RejectionLog>, NoParams> {
   }
 }
 
-/// Get rejection logs with filters
+
 class GetRejectionLogsWithFilters
     implements UseCase<List<RejectionLog>, RejectionLogFilterParams> {
   final RejectionLogRepository repository;
@@ -36,7 +36,7 @@ class GetRejectionLogsWithFilters
   }
 }
 
-/// Filter parameters
+
 class RejectionLogFilterParams {
   final DateTime? startDate;
   final DateTime? endDate;
@@ -53,7 +53,7 @@ class RejectionLogFilterParams {
   });
 }
 
-/// Get clients
+
 class GetRejectionLogClients implements UseCase<List<String>, NoParams> {
   final RejectionLogRepository repository;
 
@@ -65,7 +65,7 @@ class GetRejectionLogClients implements UseCase<List<String>, NoParams> {
   }
 }
 
-/// Get exchanges
+
 class GetRejectionLogExchanges implements UseCase<List<String>, NoParams> {
   final RejectionLogRepository repository;
 
@@ -77,7 +77,7 @@ class GetRejectionLogExchanges implements UseCase<List<String>, NoParams> {
   }
 }
 
-/// Get symbols
+
 class GetRejectionLogSymbols implements UseCase<List<String>, NoParams> {
   final RejectionLogRepository repository;
 
@@ -89,7 +89,7 @@ class GetRejectionLogSymbols implements UseCase<List<String>, NoParams> {
   }
 }
 
-/// Export to PDF
+
 class ExportRejectionLogsToPdf implements UseCase<String, List<RejectionLog>> {
   final RejectionLogRepository repository;
 
@@ -101,7 +101,7 @@ class ExportRejectionLogsToPdf implements UseCase<String, List<RejectionLog>> {
   }
 }
 
-/// Export to Excel
+
 class ExportRejectionLogsToExcel
     implements UseCase<String, List<RejectionLog>> {
   final RejectionLogRepository repository;

@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../domain/entities/dashboard_entity.dart';
 
-/// Trade Reports Bar Chart Widget
+
 class TradeReportsChart extends StatefulWidget {
   final List<TradeReportData> data;
 
@@ -22,15 +22,15 @@ class _TradeReportsChartState extends State<TradeReportsChart> {
   int? _touchedGroupIndex;
   int? _touchedRodIndex;
 
-  // Colors matching Figma design
-  static const Color _deletedColor = Color(0xFF4993F4); // Light blue
-  static const Color _cancelledColor = Color(0xFFFF1201); // Red
-  static const Color _successColor = Color(0xFF1F4A66); // Dark blue-gray
+  
+  static const Color _deletedColor = Color(0xFF4993F4); 
+  static const Color _cancelledColor = Color(0xFFFF1201); 
+  static const Color _successColor = Color(0xFF1F4A66); 
 
-  // Background colors for the shadow effect
-  static const Color _deletedBgColor = Color(0xFFE8F2FE); // Very light blue
-  static const Color _cancelledBgColor = Color(0xFFFFE8E6); // Very light red
-  static const Color _successBgColor = Color(0xFFE6EEF2); // Very light blue-gray
+  
+  static const Color _deletedBgColor = Color(0xFFE8F2FE); 
+  static const Color _cancelledBgColor = Color(0xFFFFE8E6); 
+  static const Color _successBgColor = Color(0xFFE6EEF2); 
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +48,7 @@ class _TradeReportsChartState extends State<TradeReportsChart> {
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        // Adjust sizing based on available width
+        
         final isCompact = constraints.maxWidth < 600;
         final barWidth = isCompact ? 24.w : (constraints.maxWidth < 650 ? 32.w : 42.w);
         final groupSpacing = isCompact ? 12.w : (constraints.maxWidth < 650 ? 20.w : 30.w);

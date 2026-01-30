@@ -5,11 +5,11 @@ import 'package:google_fonts/google_fonts.dart';
 
 
 
-/// Shared cell styles and builders for View section tables
+
 class ViewTableCellStyles {
   ViewTableCellStyles._();
 
-  /// Default text style for common cells
+  
   static TextStyle getTextStyle({
     bool isDark = false,
     Color? color,
@@ -23,7 +23,7 @@ class ViewTableCellStyles {
     );
   }
 
-  /// Get color for positive/negative values
+  
   static Color getValueColor(double value, {bool isDark = false}) {
     if (value > 0) {
       return isDark ? DarkThemeColors.positiveTextColor : LightThemeColors.positiveTextColor;
@@ -33,7 +33,7 @@ class ViewTableCellStyles {
     return isDark ? DarkThemeColors.textColor : LightThemeColors.textColor;
   }
 
-  /// Get color for Buy/Sell text
+  
   static Color getBuySellColor(String text, {bool isDark = false}) {
     final isBuy = text.toUpperCase().startsWith('BUY');
     if (isBuy) {
@@ -43,7 +43,7 @@ class ViewTableCellStyles {
   }
 }
 
-/// Simple text cell
+
 class ViewTextCell extends StatelessWidget {
   final String text;
   final Color? color;
@@ -74,7 +74,7 @@ class ViewTextCell extends StatelessWidget {
   }
 }
 
-/// Buy/Sell colored cell
+
 class ViewBuySellCell extends StatelessWidget {
   final String text;
   final bool isDark;
@@ -100,7 +100,7 @@ class ViewBuySellCell extends StatelessWidget {
   }
 }
 
-/// Number cell with positive/negative coloring
+
 class ViewNumberCell extends StatelessWidget {
   final double value;
   final String? displayText;
@@ -143,7 +143,7 @@ class ViewNumberCell extends StatelessWidget {
   }
 }
 
-/// Link-style cell (blue text)
+
 class ViewLinkCell extends StatelessWidget {
   final String text;
   final VoidCallback? onTap;
@@ -175,7 +175,7 @@ class ViewLinkCell extends StatelessWidget {
   }
 }
 
-/// Date/Time cell
+
 class ViewDateTimeCell extends StatelessWidget {
   final DateTime dateTime;
   final String format;

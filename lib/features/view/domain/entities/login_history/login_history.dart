@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-/// Login History entity
+
 class LoginHistory extends Equatable {
   final String id;
   final int index;

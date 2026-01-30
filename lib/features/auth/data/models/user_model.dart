@@ -1,7 +1,7 @@
 import '../../domain/entities/user.dart';
 
-/// User model for data layer
-/// Extends User entity and adds fromJson/toJson methods
+
+
 class LoginUserModel extends User {
   const LoginUserModel({
     required super.id,
@@ -15,7 +15,7 @@ class LoginUserModel extends User {
     required super.refreshToken,
   });
 
-  /// Create UserModel from JSON
+  
   factory LoginUserModel.fromJson(Map<String, dynamic> json) {
     return LoginUserModel(
       id: json['id'] as int,
@@ -30,7 +30,7 @@ class LoginUserModel extends User {
     );
   }
 
-  /// Convert UserModel to JSON
+  
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -45,7 +45,7 @@ class LoginUserModel extends User {
     };
   }
 
-  /// Create UserModel from User entity
+  
   factory LoginUserModel.fromEntity(User user) {
     return LoginUserModel(
       id: user.id,

@@ -31,8 +31,8 @@ import 'pending_orders/pending_orders_page.dart';
 import 'trades/trades_page.dart';
 import '../../../../../injection_container.dart' as di;
 
-/// View Page Wrapper
-/// Wraps all View section pages with the common AppBar that includes export icons
+
+
 class ViewPageWrapper extends StatelessWidget {
   final String pageTitle;
   final Widget child;
@@ -52,7 +52,7 @@ class ViewPageWrapper extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: AppBarSection(
-        selectedTabIndex: 2, // View tab is selected
+        selectedTabIndex: 2, 
         currentPageTitle: pageTitle,
         onTabSelected: (_) {},
         onExportPdf: onExportPdf,
@@ -64,8 +64,8 @@ class ViewPageWrapper extends StatelessWidget {
   }
 }
 
-/// Pending Orders Page with Wrapper
-/// Complete page with AppBar and export functionality
+
+
 class PendingOrdersPageWithAppBar extends StatelessWidget {
   const PendingOrdersPageWithAppBar({Key? key}) : super(key: key);
 
@@ -91,7 +91,7 @@ class PendingOrdersPageWithAppBar extends StatelessWidget {
   }
 }
 
-/// Trades Page with Wrapper
+
 class TradesPageWithAppBar extends StatelessWidget {
   const TradesPageWithAppBar({Key? key}) : super(key: key);
 
@@ -117,7 +117,7 @@ class TradesPageWithAppBar extends StatelessWidget {
   }
 }
 
-/// Deals Page with Wrapper
+
 class DealsPageWithAppBar extends StatelessWidget {
   const DealsPageWithAppBar({Key? key}) : super(key: key);
 
@@ -143,7 +143,7 @@ class DealsPageWithAppBar extends StatelessWidget {
   }
 }
 
-/// Net Position Page with Wrapper - UPDATED WITH FUNCTIONALITY
+
 class NetPositionPageWithAppBar extends StatelessWidget {
   const NetPositionPageWithAppBar({Key? key}) : super(key: key);
 
@@ -169,7 +169,7 @@ class NetPositionPageWithAppBar extends StatelessWidget {
   }
 }
 
-/// Rejection Log Page with Wrapper
+
 class RejectionLogPageWithAppBar extends StatelessWidget {
   const RejectionLogPageWithAppBar({Key? key}) : super(key: key);
 
@@ -200,7 +200,7 @@ class RejectionLogPageWithAppBar extends StatelessWidget {
   }
 }
 
-/// Login History Page with Wrapper
+
 class LoginHistoryPageWithAppBar extends StatelessWidget {
   const LoginHistoryPageWithAppBar({Key? key}) : super(key: key);
 
@@ -231,7 +231,7 @@ class LoginHistoryPageWithAppBar extends StatelessWidget {
   }
 }
 
-/// Intraday History Page with Wrapper
+
 class IntradayHistoryPageWithAppBar extends StatelessWidget {
   const IntradayHistoryPageWithAppBar({Key? key}) : super(key: key);
 
@@ -262,8 +262,8 @@ class IntradayHistoryPageWithAppBar extends StatelessWidget {
   }
 }
 
-/// Script Master Page with Wrapper
-/// Script Master Page with Wrapper (UPDATED)
+
+
 class ScriptMasterPageWithAppBar extends StatelessWidget {
   const ScriptMasterPageWithAppBar({Key? key}) : super(key: key);
 
@@ -298,7 +298,7 @@ class ScriptMasterPageWithAppBar extends StatelessWidget {
 }
 
 
-/// Script Quantity Page with Wrapper
+
 class ScriptQuantityPageWithAppBar extends StatelessWidget {
   const ScriptQuantityPageWithAppBar({Key? key}) : super(key: key);
 
@@ -311,7 +311,7 @@ class ScriptQuantityPageWithAppBar extends StatelessWidget {
         builder: (context) {
           return ViewPageWrapper(
             pageTitle: 'Script Quantity',
-            // No export buttons needed for this page
+            
             child: const ScriptQuantityPage(),
           );
         },
@@ -320,7 +320,7 @@ class ScriptQuantityPageWithAppBar extends StatelessWidget {
   }
 }
 
-/// Bulk Trade Page with Wrapper
+
 class BulkTradePageWithAppBar extends StatelessWidget {
   const BulkTradePageWithAppBar({Key? key}) : super(key: key);
 
@@ -335,7 +335,7 @@ class BulkTradePageWithAppBar extends StatelessWidget {
   }
 }
 
-/// Total Volume Page with Wrapper
+
 class TotalVolumePageWithAppBar extends StatelessWidget {
   const TotalVolumePageWithAppBar({Key? key}) : super(key: key);
 
@@ -350,7 +350,7 @@ class TotalVolumePageWithAppBar extends StatelessWidget {
   }
 }
 
-/// Deleted Trade Page with Wrapper
+
 class DeletedTradePageWithAppBar extends StatelessWidget {
   const DeletedTradePageWithAppBar({Key? key}) : super(key: key);
 
@@ -365,7 +365,7 @@ class DeletedTradePageWithAppBar extends StatelessWidget {
   }
 }
 
-/// Manual Trade Page with Wrapper
+
 class ManualTradePageWithAppBar extends StatelessWidget {
   const ManualTradePageWithAppBar({Key? key}) : super(key: key);
 

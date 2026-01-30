@@ -1,8 +1,8 @@
 import '../models/dashboard_model.dart';
 
-/// Dashboard Data Source
+
 class DashboardDataSource {
-  /// Get mock trade reports
+  
   Future<List<TradeReportModel>> getTradeReports({
     String? clientId,
     String? showPeriod,
@@ -43,7 +43,7 @@ class DashboardDataSource {
     ];
   }
 
-  /// Get mock symbol reports
+  
   Future<List<SymbolReportModel>> getSymbolReports({
     String? clientId,
     String? showPeriod,
@@ -70,7 +70,7 @@ class DashboardDataSource {
     return allSymbols.take(topCount).toList();
   }
 
-  /// Get mock dashboard summary
+  
   Future<DashboardSummaryModel> getDashboardSummary() async {
     await Future.delayed(const Duration(milliseconds: 300));
     return const DashboardSummaryModel(

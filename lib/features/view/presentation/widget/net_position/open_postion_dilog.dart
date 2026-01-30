@@ -11,7 +11,7 @@ import '../../bloc/net_position/net_position_state.dart';
 import '../common/view_reset_buttons.dart';
 
 
-/// Open Position Dialog
+
 class OpenPositionDialog extends StatelessWidget {
   final bool isDarkMode;
 
@@ -144,9 +144,9 @@ class OpenPositionDialog extends StatelessWidget {
 
           return Row(
             children: [
-              // Client Dropdown - optimized width
+              
               SizedBox(
-                width: 250.w, // Fixed width to prevent taking too much space
+                width: 250.w, 
                 child: AppDropdown(
                   type: AppDropdownType.search,
                   hintText: 'Client',
@@ -167,7 +167,7 @@ class OpenPositionDialog extends StatelessWidget {
 
               const Spacer(),
 
-              // Reset and View Buttons
+              
               ViewResetButtons(
                 onReset: () {
                   context.read<NetPositionBloc>().add(
@@ -198,7 +198,7 @@ class OpenPositionDialog extends StatelessWidget {
 
       child: Column(
         children: [
-          // Record count
+          
           Container(
             padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 12.w),
             alignment: Alignment.centerRight,
@@ -211,9 +211,9 @@ class OpenPositionDialog extends StatelessWidget {
               ),
             ),
           ),
-          // Table Header (Fixed)
+          
           _buildTableHeader(),
-          // Scrollable Table Content
+          
           Expanded(
             child: SingleChildScrollView(
               scrollDirection: Axis.vertical,
@@ -300,7 +300,7 @@ class OpenPositionDialog extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        // Close this dialog and open NET QTY details
+        
 
       },
       child: Container(

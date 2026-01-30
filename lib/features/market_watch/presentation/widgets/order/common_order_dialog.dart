@@ -145,7 +145,7 @@ class CommonOrderDialog extends StatelessWidget {
   Widget _buildFirstRow(BuildContext context, OrderDialogState state) {
     return Row(
       children: [
-        // Client Name
+        
         Expanded(
           flex: 2,
           child: AppDropdown(
@@ -165,7 +165,7 @@ class CommonOrderDialog extends StatelessWidget {
         ),
         SizedBox(width: 10.w),
 
-        // Order Type
+        
         Expanded(
           flex: 2,
           child: AppDropdown(
@@ -185,7 +185,7 @@ class CommonOrderDialog extends StatelessWidget {
         ),
         SizedBox(width: 10.w),
 
-        // Qty
+        
         Expanded(
           flex: 2,
           child: OrderNumberField(
@@ -200,7 +200,7 @@ class CommonOrderDialog extends StatelessWidget {
         ),
         SizedBox(width: 10.w),
 
-        // Lot
+        
         Expanded(
           flex: 2,
           child: OrderNumberField(
@@ -215,7 +215,7 @@ class CommonOrderDialog extends StatelessWidget {
         ),
         SizedBox(width: 10.w),
 
-        // Price
+        
         Expanded(
           flex: 2,
           child: OrderNumberField(
@@ -235,7 +235,7 @@ class CommonOrderDialog extends StatelessWidget {
   Widget _buildSecondRow(BuildContext context, OrderDialogState state) {
     return Row(
       children: [
-        // Exchange
+        
         Expanded(
           flex: 2,
           child: AppDropdown(
@@ -255,7 +255,7 @@ class CommonOrderDialog extends StatelessWidget {
         ),
         SizedBox(width: 10.w),
 
-        // Symbol
+        
         Expanded(
           flex: 2,
           child: AppDropdown(
@@ -275,7 +275,7 @@ class CommonOrderDialog extends StatelessWidget {
         ),
         SizedBox(width: 10.w),
 
-        // Cancel Button
+        
         Expanded(
           flex: 3,
           child: OrderActionButton(
@@ -289,7 +289,7 @@ class CommonOrderDialog extends StatelessWidget {
         ),
         SizedBox(width: 10.w),
 
-        // Order Button (Buy/Sell)
+        
         Expanded(
           flex: 3,
           child: OrderActionButton(

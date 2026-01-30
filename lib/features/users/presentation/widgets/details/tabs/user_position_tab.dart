@@ -11,6 +11,7 @@ import '../../../../domain/entities/user.dart';
 import '../../../../domain/entities/user_position.dart';
 import '../../../bloc/user_position/user_position_bloc.dart';
 
+
 class UserPositionTab extends StatelessWidget {
   final User user;
 
@@ -100,9 +101,7 @@ class UserPositionTabView extends StatelessWidget {
                     const FilterUserPositions(exchange: null, symbol: null),
                   );
                 },
-                onView: () {
-                  
-                },
+                onView: () {},
               ),
             ],
           );
@@ -144,6 +143,9 @@ class UserPositionTabView extends StatelessWidget {
         }
 
         return UserDataTable<UserPosition>(
+          headerColor: AppColors.primaryBlue.withOpacity(
+            0.2,
+          ), // Matching header color
           columns: [
             UserTableColumn(id: 'exch', label: 'EXCH', width: 80.w),
             UserTableColumn(id: 'symbol', label: 'SYMBOL', width: 120.w),
@@ -192,7 +194,7 @@ class UserPositionTabView extends StatelessWidget {
           ],
           data: positions,
           idExtractor: (item) =>
-              '${item.exchange}_${item.symbol}_${item.buyQty}', // Simple unique ID
+              '${item.exchange}_${item.symbol}_${item.buyQty}',
           cellBuilder: (item, column) {
             switch (column.id) {
               case 'exch':
@@ -247,8 +249,7 @@ class UserPositionTabView extends StatelessWidget {
     return GoogleFonts.openSans(
       fontSize: 11.sp,
       fontWeight: isSymbol ? FontWeight.bold : FontWeight.w600,
-      color:
-          color, 
+      color: color ?? AppColors.primaryBlue,
     );
   }
 
@@ -262,9 +263,7 @@ class UserPositionTabView extends StatelessWidget {
           Container(
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
             decoration: BoxDecoration(
-              color: const Color(
-                0xFFC6DBE8,
-              ).withOpacity(0.5), 
+              color: const Color(0xFFC6DBE8).withOpacity(0.5),
               borderRadius: BorderRadius.circular(8.r),
             ),
             child: Row(

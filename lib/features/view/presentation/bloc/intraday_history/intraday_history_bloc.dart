@@ -136,8 +136,8 @@ class IntradayHistoryBloc
       NavigateToSecondsViewEvent event,
       Emitter<IntradayHistoryState> emit,
       ) async {
-    // Simply transition to seconds view without loading data yet
-    // User will select exchange and symbol, then click View
+    
+    
     emit(IntradayHistorySecondsView(
       history: const [],
       totalRecords: 0,

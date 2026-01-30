@@ -2,7 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'user_form_event.dart';
 import 'user_form_state.dart';
 
-/// User Form BLoC - Manages dialog state for Create/Edit Master
+
 class UserFormBloc extends Bloc<UserFormEvent, UserFormState> {
   UserFormBloc() : super(const UserFormState()) {
     on<InitializeFormEvent>(_onInitializeForm);
@@ -28,7 +28,7 @@ class UserFormBloc extends Bloc<UserFormEvent, UserFormState> {
     Emitter<UserFormState> emit,
   ) {
     if (event.isEditMode && event.userData != null) {
-      // Pre-populate form with existing user data
+      
       final userData = event.userData!;
       emit(
         state.copyWith(
@@ -277,7 +277,7 @@ class UserFormBloc extends Bloc<UserFormEvent, UserFormState> {
     emit(state.copyWith(isSubmitting: true, error: null));
 
     try {
-      // TODO: Call API to create/update user
+      
       await Future.delayed(const Duration(milliseconds: 500));
 
       emit(state.copyWith(isSubmitting: false, isSuccess: true));

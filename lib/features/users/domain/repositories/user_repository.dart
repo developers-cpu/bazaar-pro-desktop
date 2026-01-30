@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import '../../../../core/errors/failures.dart';
 import '../entities/user.dart';
 
-/// Abstract repository for Users
+
 abstract class UserRepository {
   Future<Either<Failure, List<User>>> getUsers();
   Future<Either<Failure, List<User>>> getUsersWithFilters({

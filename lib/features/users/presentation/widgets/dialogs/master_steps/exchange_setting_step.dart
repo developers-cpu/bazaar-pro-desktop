@@ -11,7 +11,7 @@ import '../../../bloc/user_form/user_form_bloc.dart';
 import '../../../bloc/user_form/user_form_event.dart';
 import '../../../bloc/user_form/user_form_state.dart';
 
-/// Master Step: Exchange Setting
+
 class ExchangeSettingStep extends StatefulWidget {
   const ExchangeSettingStep({super.key});
 
@@ -158,7 +158,7 @@ class _ExchangeSettingStepState extends State<ExchangeSettingStep> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Section title
+                    
                     Text(
                       'Market Open Time Restriction for SL / Limit',
                       style: GoogleFonts.openSans(

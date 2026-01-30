@@ -222,7 +222,7 @@ class _MarketDataTableState extends State<MarketDataTable> {
           fontSize: fontSize,
           fontWeight: fontWeight,
         ),
-        // Use size instead of fixedWidth to allow flexible sizing
+        
         size: _getColumnSize(column.id, visibleColumns.length),
         numeric: config?.isNumeric ?? false,
         onSort: _onSort,

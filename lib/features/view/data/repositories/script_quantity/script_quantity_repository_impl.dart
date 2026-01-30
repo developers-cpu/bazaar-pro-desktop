@@ -4,7 +4,7 @@ import '../../../domain/entities/script_quantity/script_quantity.dart';
 import '../../../domain/repositories/script_quantity/script_quantity_repository.dart';
 import '../../datasources/script_quantity/script_quantity_remote_datasource.dart';
 
-/// Script Quantity repository implementation
+
 class ScriptQuantityRepositoryImpl implements ScriptQuantityRepository {
   final ScriptQuantityRemoteDataSource remoteDataSource;
 

@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'svg_icon.dart';
 
-/// Custom Input Field Widget
+
 class CustomInputField extends StatelessWidget {
   final String hintText;
   final String? svgIconPath;
@@ -89,7 +89,7 @@ class CustomInputField extends StatelessWidget {
     );
   }
 
-  /// Build suffix icon widget
+  
   Widget? _buildSuffixIcon() {
     if (suffixIcon != null) {
       return IconButton(
@@ -108,7 +108,7 @@ class CustomInputField extends StatelessWidget {
     return null;
   }
 
-  /// Build input border
+  
   OutlineInputBorder _buildBorder({
     bool isError = false,
     bool isDisabled = false,

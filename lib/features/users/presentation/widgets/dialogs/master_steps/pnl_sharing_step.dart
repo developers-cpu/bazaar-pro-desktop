@@ -7,7 +7,7 @@ import '../../../bloc/user_form/user_form_bloc.dart';
 import '../../../bloc/user_form/user_form_event.dart';
 import '../../../bloc/user_form/user_form_state.dart';
 
-/// Master Step: Profit & Loss Sharing Details
+
 class PnlSharingStep extends StatefulWidget {
   const PnlSharingStep({super.key});
 

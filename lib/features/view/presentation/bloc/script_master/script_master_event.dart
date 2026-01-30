@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-/// Base event for Script Master BLoC
+
 abstract class ScriptMasterEvent extends Equatable {
   const ScriptMasterEvent();
 

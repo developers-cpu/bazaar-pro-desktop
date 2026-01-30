@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-/// Intraday History entity
+
 class IntradayHistory extends Equatable {
   final String id;
   final DateTime timestamp;
@@ -32,7 +32,7 @@ class IntradayHistory extends Equatable {
   ];
 }
 
-/// Time slot for trading
+
 class TimeSlot extends Equatable {
   final DateTime startTime;
   final DateTime endTime;

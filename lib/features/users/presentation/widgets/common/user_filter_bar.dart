@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../data/models/user_filter_dropdown.dart';
 
-/// Filter bar widget for Users section pages
+
 class UserFilterBar extends StatelessWidget {
   final List<UserFilterDropdown> filters;
   final Widget? trailing;

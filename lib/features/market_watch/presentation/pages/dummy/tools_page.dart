@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-/// Tools Demo Screen
+
 class ToolsPage extends StatelessWidget {
   const ToolsPage({Key? key}) : super(key: key);
 

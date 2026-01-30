@@ -1,4 +1,4 @@
-/// Login request model for API calls
+
 class LoginRequestModel {
   final String username;
   final String password;
@@ -10,7 +10,7 @@ class LoginRequestModel {
     this.expiresInMins = 30,
   });
 
-  /// Convert to JSON for API request
+  
   Map<String, dynamic> toJson() {
     return {
       'username': username,

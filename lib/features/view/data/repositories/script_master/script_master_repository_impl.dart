@@ -6,7 +6,7 @@ import '../../datasources/script_master/script_master_remote_datasource.dart';
 import '../../models/script_master/script_master.dart';
 
 
-/// Script Master repository implementation
+
 class ScriptMasterRepositoryImpl implements ScriptMasterRepository {
   final ScriptMasterRemoteDataSource remoteDataSource;
 

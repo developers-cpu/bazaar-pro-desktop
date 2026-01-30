@@ -5,15 +5,15 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_images.dart';
 
-/// Dropdown Type Enum
+
 enum AppDropdownType {
-  /// Simple dropdown with list of items
+  
   simple,
 
-  /// Dropdown with search field
+  
   search,
 
-  /// Dropdown with search and multi-select checkboxes
+  
   multiSelect,
 }
 
@@ -77,7 +77,7 @@ class _AppDropdownState extends State<AppDropdown>
   late AnimationController _controller;
   late Animation<double> _animation;
 
-  // Constants for sizing - Figma specs
+  
   static const int _maxVisibleItems = 6;
   static double get _itemHeight => 40.h;
   static double get _searchFieldHeight => 50.h;
@@ -183,7 +183,7 @@ class _AppDropdownState extends State<AppDropdown>
     _overlayEntry?.markNeedsBuild();
   }
 
-  // Colors - Using AppColors constants
+  
   Color get _borderColor => widget.borderColor ?? AppColors.primaryBlue;
   Color get _textColor =>
       widget.textColor ??
@@ -197,7 +197,7 @@ class _AppDropdownState extends State<AppDropdown>
   Color get _dropdownBgColor =>
       widget.isDarkMode ? DarkThemeColors.cardBackground : AppColors.white;
 
-  // Text style matching Figma specs
+  
   TextStyle get _textStyle => GoogleFonts.openSans(
     fontSize: 14.sp,
     fontWeight: FontWeight.w600,
@@ -253,7 +253,7 @@ class _AppDropdownState extends State<AppDropdown>
 
         return Stack(
           children: [
-            // Dismiss layer
+            
             Positioned.fill(
               child: GestureDetector(
                 onTap: _close,
@@ -261,7 +261,7 @@ class _AppDropdownState extends State<AppDropdown>
                 child: Container(color: AppColors.transparent),
               ),
             ),
-            // Dropdown menu
+            
             Positioned(
               left: offset.dx,
               top: offset.dy + size.height + 5.h,
@@ -287,15 +287,15 @@ class _AppDropdownState extends State<AppDropdown>
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        // Search field (for search and multiSelect types)
+                        
                         if (widget.type != AppDropdownType.simple)
                           _buildSearchField(),
 
-                        // Select All (for multiSelect type)
+                        
                         if (widget.type == AppDropdownType.multiSelect)
                           _buildSelectAllOption(),
 
-                        // Items list with scrollbar
+                        
                         Expanded(
                           child: RawScrollbar(
                             controller: _scrollController,
@@ -507,7 +507,7 @@ class _AppDropdownState extends State<AppDropdown>
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        // Optional label
+        
         if (widget.label != null) ...[
           Text(
             widget.label!,
@@ -536,7 +536,7 @@ class _AppDropdownState extends State<AppDropdown>
                 ),
                 child: Row(
                   children: [
-                    // Text with ellipsis to prevent overflow
+                    
                     Expanded(
                       child: Text(
                         _displayText,
@@ -552,7 +552,7 @@ class _AppDropdownState extends State<AppDropdown>
                       ),
                     ),
                     SizedBox(width: 8.w),
-                    // Arrow icon
+                    
                     Icon(
                       _isOpen
                           ? Icons.keyboard_arrow_up

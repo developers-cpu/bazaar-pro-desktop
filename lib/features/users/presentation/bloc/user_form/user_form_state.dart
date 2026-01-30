@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 
-/// User Form State for BLoC
+
 class UserFormState extends Equatable {
-  /// Whether in edit mode (vs create mode)
+  
   final bool isEditMode;
 
   final String userType;
@@ -57,7 +57,7 @@ class UserFormState extends Equatable {
       'Triggers Setting',
       'Brokerage Setting',
     ],
-    // Personal Details
+    
     this.name = '',
     this.username = '',
     this.password = '',
@@ -90,7 +90,7 @@ class UserFormState extends Equatable {
     this.isSuccess = false,
   });
 
-  /// Available exchanges list
+  
   static const List<String> availableExchanges = [
     'MCX',
     'NSE',
@@ -103,7 +103,7 @@ class UserFormState extends Equatable {
     'FOREX',
   ];
 
-  /// Master step titles (7 steps)
+  
   static const List<String> masterStepTitles = [
     'Personal Details',
     'Profit & Loss Sharing Details',
@@ -114,7 +114,7 @@ class UserFormState extends Equatable {
     'Brokerage Setting',
   ];
 
-  /// Client step titles (5 steps)
+  
   static const List<String> clientStepTitles = [
     'Personal Details',
     'Exchange Allow',
@@ -123,7 +123,7 @@ class UserFormState extends Equatable {
     'Brokerage Settings',
   ];
 
-  /// Master trigger settings (11 toggles)
+  
   static const List<TriggerSetting> masterTriggerSettings = [
     TriggerSetting(key: 'addMaster', label: 'Add Master', icon: 'add_master'),
     TriggerSetting(key: 'addClient', label: 'Add Client', icon: 'add_client'),
@@ -168,7 +168,7 @@ class UserFormState extends Equatable {
     TriggerSetting(key: 'status', label: 'Status', icon: 'status'),
   ];
 
-  /// Client trigger settings (5 toggles)
+  
   static const List<TriggerSetting> clientTriggerSettings = [
     TriggerSetting(
       key: 'fifteenDays',
@@ -234,7 +234,7 @@ class UserFormState extends Equatable {
     int? currentStep,
     int? totalSteps,
     List<String>? stepTitles,
-    // Personal Details
+    
     String? name,
     String? username,
     String? password,
@@ -245,7 +245,7 @@ class UserFormState extends Equatable {
     String? creditLimit,
     String? remark,
     String? allowedDevice,
-    // Exchange Allow
+    
     Set<String>? selectedExchanges,
     Map<String, String?>? exchangeGroups,
     String? plSharing,
@@ -273,7 +273,7 @@ class UserFormState extends Equatable {
       currentStep: currentStep ?? this.currentStep,
       totalSteps: totalSteps ?? this.totalSteps,
       stepTitles: stepTitles ?? this.stepTitles,
-      // Personal Details
+      
       name: name ?? this.name,
       username: username ?? this.username,
       password: password ?? this.password,

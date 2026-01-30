@@ -1,6 +1,6 @@
 import '../../../domain/entities/deals/deals.dart';
 
-/// Deal model
+
 class DealModel extends Deal {
   const DealModel({
     required super.id,
@@ -76,7 +76,7 @@ class DealModel extends Deal {
     };
   }
 
-  /// Create from entity
+  
   factory DealModel.fromEntity(Deal deal) {
     return DealModel(
       id: deal.id,

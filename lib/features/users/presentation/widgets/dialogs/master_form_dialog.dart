@@ -15,7 +15,7 @@ import 'master_steps/pnl_sharing_step.dart';
 import 'master_steps/exchange_setting_step.dart';
 import 'master_steps/master_trigger_settings_step.dart';
 
-/// Create/Edit Master Dialog
+
 
 class MasterFormDialog extends StatelessWidget {
   final bool isEditMode;
@@ -165,14 +165,14 @@ class MasterFormDialog extends StatelessWidget {
     );
   }
 
-  /// Master flow: 7 steps
-  /// 0: Personal Details
-  /// 1: P&L Sharing
-  /// 2: Exchange Allow
-  /// 3: Exchange Setting
-  /// 4: High Low Limit
-  /// 5: Triggers Setting
-  /// 6: Brokerage Setting
+  
+  
+  
+  
+  
+  
+  
+  
   Widget _buildStepContent(UserFormState state) {
     switch (state.currentStep) {
       case 0:
@@ -229,7 +229,7 @@ class MasterFormDialog extends StatelessWidget {
             ),
             SizedBox(width: 16.w),
           ],
-          // Next/Create button
+          
           Expanded(
             child: SizedBox(
               height: 48.h,

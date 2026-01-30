@@ -6,7 +6,7 @@ import 'net_position_event.dart';
 import 'net_position_state.dart';
 
 
-/// Net Position BLoC
+
 class NetPositionBloc extends Bloc<NetPositionEvent, NetPositionState> {
   final GetNetPositions getNetPositions;
   final GetNetPositionsWithFilters getNetPositionsWithFilters;
@@ -46,7 +46,7 @@ class NetPositionBloc extends Bloc<NetPositionEvent, NetPositionState> {
     emit(const NetPositionLoading());
 
     try {
-      // Fetch all data in parallel
+      
       final results = await Future.wait([
         getNetPositions(NoParams()),
         getClients(NoParams()),
@@ -61,7 +61,7 @@ class NetPositionBloc extends Bloc<NetPositionEvent, NetPositionState> {
       final symbolsResult = results[3];
       final userTypesResult = results[4];
 
-      // Check for failures
+      
       if (positionsResult.isLeft()) {
         final failure = positionsResult.fold((l) => l, (r) => null);
         emit(NetPositionError(failure?.message ?? 'Failed to load net positions'));
@@ -224,7 +224,7 @@ class NetPositionBloc extends Bloc<NetPositionEvent, NetPositionState> {
           message: 'PDF exported successfully',
           filePath: path,
         ));
-        // Restore previous state
+        
         emit(currentState);
       },
     );
@@ -247,7 +247,7 @@ class NetPositionBloc extends Bloc<NetPositionEvent, NetPositionState> {
           message: 'Excel exported successfully',
           filePath: path,
         ));
-        // Restore previous state
+        
         emit(currentState);
       },
     );

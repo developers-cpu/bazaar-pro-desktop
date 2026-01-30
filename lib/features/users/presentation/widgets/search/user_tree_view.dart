@@ -27,19 +27,19 @@ class UserTreeView extends StatelessWidget {
   }
 
   Widget _buildNode(BuildContext context, UserHierarchyNode node) {
-    // Styling based on user type (mimicking screenshot)
-    // Red for Admin/Master, Blue/Green/Yellow for Clients/Others
+    
+    
     Color iconColor;
     Color textColor;
 
-    // Simple logic based on type char or specific type string
-    // Simple logic based on type char or specific type string
+    
+    
     if (node.user.type == 'Super Admin' || node.user.type == 'Master') {
-      iconColor = AppColors.errorColor; // Red
+      iconColor = AppColors.errorColor; 
       textColor = AppColors.errorColor;
     } else {
-      // Rotate colors for clients
-      // Screenshot has Blue, Green, Yellow
+      
+      
       if (level % 3 == 0) {
         iconColor = AppColors.primaryBlue;
       } else if (level % 3 == 1) {
@@ -48,10 +48,10 @@ class UserTreeView extends StatelessWidget {
         iconColor = Colors.orange;
       }
 
-      textColor = iconColor; // Text color matches icon color for clients too
+      textColor = iconColor; 
     }
 
-    // Constraint: Clients should not show sub-clients (leaf nodes)
+    
     final isClient = node.user.type == 'Client';
     final shouldShowChildren =
         node.isExpanded && node.children.isNotEmpty && !isClient;
@@ -62,7 +62,7 @@ class UserTreeView extends StatelessWidget {
         _buildNodeRow(context, node, iconColor, textColor),
         if (shouldShowChildren)
           Padding(
-            padding: EdgeInsets.only(left: 20.w), // Indentation
+            padding: EdgeInsets.only(left: 20.w), 
             child: _buildDottedLineWrapper(
               context,
               UserTreeView(nodes: node.children, level: level + 1),
@@ -84,8 +84,8 @@ class UserTreeView extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 4.h),
       child: Row(
         children: [
-          // Expand/Collapse Icon - Only for non-clients (Masters/Admins) with children
-          // Users said: "only in master show dropdown do not show dropdown for client"
+          
+          
           if (hasChildren && node.user.type != 'Client')
             InkWell(
               onTap: () {
@@ -94,7 +94,7 @@ class UserTreeView extends StatelessWidget {
                 );
               },
               child: Padding(
-                padding: EdgeInsets.all(4.w), // Touch area
+                padding: EdgeInsets.all(4.w), 
                 child: Icon(
                   node.isExpanded
                       ? Icons.keyboard_arrow_down
@@ -105,12 +105,12 @@ class UserTreeView extends StatelessWidget {
               ),
             )
           else
-            SizedBox(width: 28.w), // Placeholder (20 icon + 8 padding roughly)
-          // User Content - Click to Open Details
+            SizedBox(width: 28.w), 
+          
           Expanded(
             child: InkWell(
               onTap: () {
-                // Open User Details Dialog
+                
                 UserDetailsDialog.show(
                   context,
                   node.user,
@@ -155,8 +155,8 @@ class UserTreeView extends StatelessWidget {
           left: BorderSide(
             color: AppColors.greyBorder,
             width: 1,
-            // Using solid for now as standard Flutter Border doesn't support dashed.
-            // A custom painter would be needed for true dotted lines.
+            
+            
           ),
         ),
       ),
@@ -170,7 +170,7 @@ class UserTreeView extends StatelessWidget {
       'name': user.name,
       'username': user.userName,
       'mobile':
-          '', // Parsing from user if available, else empty as per UserList implementation
+          '', 
       'credit': user.credit.toStringAsFixed(0),
       'leverage': user.leverage,
       'plSharing': user.plPercent.toStringAsFixed(0),
@@ -201,7 +201,7 @@ class UserTreeView extends StatelessWidget {
     final currentSettings = {
       'bet': true,
       'closeOnly':
-          false, // You might want to map these from real user properties if available
+          false, 
       'viewOnly': false,
       'status': user.isActive,
       'allowChat': true,
@@ -216,9 +216,9 @@ class UserTreeView extends StatelessWidget {
       userName: user.userName,
       currentSettings: currentSettings,
       onUpdate: (updatedSettings) {
-        // Typically call API here, then refresh
-        // UserList just shows snackbar and maybe refreshes? UserList code shows snackbar explicitly.
-        // We'll just refresh the tree.
+        
+        
+        
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Access settings updated successfully')),
         );

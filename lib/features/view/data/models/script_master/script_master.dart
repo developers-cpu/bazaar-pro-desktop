@@ -1,6 +1,6 @@
 import '../../../domain/entities/script_master/script_master.dart';
 
-/// Script Master model
+
 class ScriptMasterModel extends ScriptMaster {
   const ScriptMasterModel({
     required super.id,
@@ -40,7 +40,7 @@ class ScriptMasterModel extends ScriptMaster {
     };
   }
 
-  /// Create from entity
+  
   factory ScriptMasterModel.fromEntity(ScriptMaster script) {
     return ScriptMasterModel(
       id: script.id,

@@ -4,10 +4,10 @@ import '../../../../../core/constants/app_strings.dart';
 import 'watchlist_state.dart';
 
 
-/// BLoC for managing watchlist state and business logic
+
 class WatchlistBloc extends Bloc<WatchlistEvent, WatchlistState> {
   WatchlistBloc() : super(const WatchlistInitial()) {
-    // Register event handlers
+    
     on<LoadWatchlistsEvent>(_onLoadWatchlists);
     on<AddWatchlistEvent>(_onAddWatchlist);
     on<RemoveWatchlistEvent>(_onRemoveWatchlist);
@@ -15,7 +15,7 @@ class WatchlistBloc extends Bloc<WatchlistEvent, WatchlistState> {
     on<RenameWatchlistEvent>(_onRenameWatchlist);
   }
 
-  /// Handle loading initial watchlists
+  
   void _onLoadWatchlists(
       LoadWatchlistsEvent event,
       Emitter<WatchlistState> emit,
@@ -30,7 +30,7 @@ class WatchlistBloc extends Bloc<WatchlistEvent, WatchlistState> {
     ));
   }
 
-  /// Handle adding a new watchlist
+  
   void _onAddWatchlist(
       AddWatchlistEvent event,
       Emitter<WatchlistState> emit,
@@ -49,7 +49,7 @@ class WatchlistBloc extends Bloc<WatchlistEvent, WatchlistState> {
     }
   }
 
-  /// Handle removing a watchlist
+  
   Future<void> _onRemoveWatchlist(
       RemoveWatchlistEvent event,
       Emitter<WatchlistState> emit,
@@ -81,7 +81,7 @@ class WatchlistBloc extends Bloc<WatchlistEvent, WatchlistState> {
     }
   }
 
-  /// Handle selecting a watchlist
+  
   void _onSelectWatchlist(
       SelectWatchlistEvent event,
       Emitter<WatchlistState> emit,
@@ -94,7 +94,7 @@ class WatchlistBloc extends Bloc<WatchlistEvent, WatchlistState> {
     }
   }
 
-  /// Handle renaming a watchlist
+  
   void _onRenameWatchlist(
       RenameWatchlistEvent event,
       Emitter<WatchlistState> emit,

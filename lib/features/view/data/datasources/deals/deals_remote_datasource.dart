@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import '../../models/deals/deals_model.dart';
 
-/// Deals remote data source interface
+
 abstract class DealsRemoteDataSource {
   Future<List<DealModel>> getDeals();
   Future<List<DealModel>> getDealsWithFilters({
@@ -22,7 +22,7 @@ abstract class DealsRemoteDataSource {
   Future<String> exportToExcel(List<DealModel> deals);
 }
 
-/// Deals remote data source implementation
+
 class DealsRemoteDataSourceImpl implements DealsRemoteDataSource {
   final Dio dio;
 
@@ -31,11 +31,11 @@ class DealsRemoteDataSourceImpl implements DealsRemoteDataSource {
   @override
   Future<List<DealModel>> getDeals() async {
     try {
-      // TODO: Replace with actual API call
-      // final response = await dio.get('/deals');
-      // return (response.data as List).map((e) => DealModel.fromJson(e)).toList();
+      
+      
+      
 
-      // Mock data for development
+      
       await Future.delayed(const Duration(milliseconds: 500));
       return _generateMockDeals();
     } catch (e) {
@@ -54,7 +54,7 @@ class DealsRemoteDataSourceImpl implements DealsRemoteDataSource {
     String? status,
   }) async {
     try {
-      // TODO: Replace with actual API call with filters
+      
       await Future.delayed(const Duration(milliseconds: 300));
 
       final allDeals = await getDeals();
@@ -152,7 +152,7 @@ class DealsRemoteDataSourceImpl implements DealsRemoteDataSource {
   @override
   Future<String> exportToPdf(List<DealModel> deals) async {
     try {
-      // TODO: Implement PDF export
+      
       await Future.delayed(const Duration(seconds: 1));
       return 'deals_export_${DateTime.now().millisecondsSinceEpoch}.pdf';
     } catch (e) {
@@ -163,7 +163,7 @@ class DealsRemoteDataSourceImpl implements DealsRemoteDataSource {
   @override
   Future<String> exportToExcel(List<DealModel> deals) async {
     try {
-      // TODO: Implement Excel export
+      
       await Future.delayed(const Duration(seconds: 1));
       return 'deals_export_${DateTime.now().millisecondsSinceEpoch}.xlsx';
     } catch (e) {
@@ -171,7 +171,7 @@ class DealsRemoteDataSourceImpl implements DealsRemoteDataSource {
     }
   }
 
-  /// Generate mock deals for development
+  
   List<DealModel> _generateMockDeals() {
     final List<DealModel> deals = [];
     final symbols = ['GOLD05DEC', 'SILVER05DEC', 'CRUDE05DEC', 'MCX SILVER Dec 05'];
@@ -203,7 +203,7 @@ class DealsRemoteDataSourceImpl implements DealsRemoteDataSource {
       final orderDate = DateTime(2025, 11, 22, 3, 6, 34);
       final executionDate = DateTime(2025, 11, 22, 3, 6, 34);
 
-      // Calculate order duration
+      
       final duration = DateTime.now().difference(orderDate);
       final hours = duration.inHours;
       final minutes = duration.inMinutes % 60;

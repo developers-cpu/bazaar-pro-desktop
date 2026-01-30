@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../domain/entities/dashboard_entity.dart';
 
-/// Symbol Wise Report Pie Chart Widget with connector lines
+
 class SymbolWiseChart extends StatefulWidget {
   final List<SymbolReportData> data;
 
@@ -22,18 +22,18 @@ class _SymbolWiseChartState extends State<SymbolWiseChart> {
   int? _touchedIndex;
 
   static const List<Color> _chartColors = [
-    Color(0xFF5B8DEF), // Blue - GIFTNIFTY
-    Color(0xFFB8A8E8), // Light Purple - DOWJONES
-    Color(0xFFFF9B8A), // Coral/Orange - NASDAQ
-    Color(0xFF6EC4DB), // Cyan - GOLD
-    Color(0xFFFFB347), // Orange - COPPER
-    Color(0xFF7CB89D), // Green - ETHUSD
-    Color(0xFF5B9BD5), // Bright Blue - BTUSD
-    Color(0xFF9B7EBD), // Purple - CRUDOIL
-    Color(0xFFE8D44D), // Yellow - NATURALGAS
-    Color(0xFF6EC4DB), // Cyan - SILVER
-    Color(0xFFFFB347), // Orange - COPPER
-    Color(0xFF9B7EBD), // Purple - GOLD
+    Color(0xFF5B8DEF), 
+    Color(0xFFB8A8E8), 
+    Color(0xFFFF9B8A), 
+    Color(0xFF6EC4DB), 
+    Color(0xFFFFB347), 
+    Color(0xFF7CB89D), 
+    Color(0xFF5B9BD5), 
+    Color(0xFF9B7EBD), 
+    Color(0xFFE8D44D), 
+    Color(0xFF6EC4DB), 
+    Color(0xFFFFB347), 
+    Color(0xFF9B7EBD), 
   ];
 
   @override
@@ -55,17 +55,17 @@ class _SymbolWiseChartState extends State<SymbolWiseChart> {
         final availableHeight = constraints.maxHeight;
         final availableWidth = constraints.maxWidth;
 
-        // Better constraints for different screen sizes
+        
         final minChartSize = 200.0;
         final maxChartSize = math.min(availableWidth * 0.6, availableHeight * 0.9);
         final chartSize = math.max(minChartSize, maxChartSize);
 
-        // Calculate if we can fit side by side
+        
         final legendMinWidth = 180.0;
         final canFitSideBySide = availableWidth > (chartSize + legendMinWidth);
 
         if (!canFitSideBySide) {
-          // Stack vertically if not enough width
+          
           return SingleChildScrollView(
             child: Column(
               children: [
@@ -202,7 +202,7 @@ class _PieChartWithLabelsPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final center = Offset(size.width / 2, size.height / 2);
 
-    // Adjust pie radius based on size to leave room for labels
+    
     final pieRadius = math.min(size.width, size.height) * 0.25;
     final totalPercentage = data.fold<double>(0, (sum, item) => sum + item.percentage);
 

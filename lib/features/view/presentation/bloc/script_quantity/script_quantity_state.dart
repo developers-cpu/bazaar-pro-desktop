@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import '../../../domain/entities/script_quantity/script_quantity.dart';
 
-/// Base state for Script Quantity BLoC
+
 abstract class ScriptQuantityState extends Equatable {
   const ScriptQuantityState();
 
@@ -9,17 +9,17 @@ abstract class ScriptQuantityState extends Equatable {
   List<Object?> get props => [];
 }
 
-/// Initial state
+
 class ScriptQuantityInitial extends ScriptQuantityState {
   const ScriptQuantityInitial();
 }
 
-/// Loading state
+
 class ScriptQuantityLoading extends ScriptQuantityState {
   const ScriptQuantityLoading();
 }
 
-/// Filters loaded state (shows dropdowns only)
+
 class ScriptQuantityFiltersLoaded extends ScriptQuantityState {
   final List<String> exchanges;
   final List<String> groups;
@@ -51,7 +51,7 @@ class ScriptQuantityFiltersLoaded extends ScriptQuantityState {
   }
 }
 
-/// Data loaded state (triggers dialog)
+
 class ScriptQuantityDataLoaded extends ScriptQuantityState {
   final List<ScriptQuantity> quantities;
   final String exchange;
@@ -69,7 +69,7 @@ class ScriptQuantityDataLoaded extends ScriptQuantityState {
   List<Object?> get props => [quantities, exchange, group, totalRecords];
 }
 
-/// Error state
+
 class ScriptQuantityError extends ScriptQuantityState {
   final String message;
 

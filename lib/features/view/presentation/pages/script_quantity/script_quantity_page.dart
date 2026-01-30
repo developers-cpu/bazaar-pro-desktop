@@ -8,9 +8,9 @@ import '../../bloc/script_quantity/script_quantity_state.dart';
 import '../../widget/script_quantity/script_quantity_dialog.dart';
 import '../../widget/script_quantity/script_quantity_filter_bar.dart';
 
-/// Script Quantity Page
-/// Shows only filter dropdowns by default
-/// Opens dialog with data when filters are applied
+
+
+
 class ScriptQuantityPage extends StatefulWidget {
   const ScriptQuantityPage({Key? key}) : super(key: key);
 
@@ -22,7 +22,7 @@ class _ScriptQuantityPageState extends State<ScriptQuantityPage> {
   @override
   void initState() {
     super.initState();
-    // Load filter options on init
+    
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<ScriptQuantityBloc>().add(const LoadFiltersEvent());
     });
@@ -36,16 +36,16 @@ class _ScriptQuantityPageState extends State<ScriptQuantityPage> {
         color: AppColors.white,
         child: Column(
           children: [
-            // Filter Bar
+            
             const ScriptQuantityFilterBar(),
 
-            // Divider
+            
             Container(
               height: 1.h,
               color: AppColors.greyBorder,
             ),
 
-            // Empty space (no table shown by default)
+            
             Expanded(
               child: Center(
                 child: Text(
@@ -65,7 +65,7 @@ class _ScriptQuantityPageState extends State<ScriptQuantityPage> {
 
   void _handleStateChange(BuildContext context, ScriptQuantityState state) {
     if (state is ScriptQuantityDataLoaded) {
-      // Show dialog with loaded data
+      
       ScriptQuantityDialog.show(
         context: context,
         quantities: state.quantities,
@@ -74,7 +74,7 @@ class _ScriptQuantityPageState extends State<ScriptQuantityPage> {
         totalRecords: state.totalRecords,
       );
 
-      // After showing dialog, revert to filters loaded state
+      
       Future.delayed(const Duration(milliseconds: 100), () {
         if (mounted) {
           context.read<ScriptQuantityBloc>().add(const LoadFiltersEvent());

@@ -7,7 +7,7 @@ import '../constants/app_images.dart';
 import '../constants/app_strings.dart';
 import 'svg_icon.dart';
 
-/// Common AppBar Widget - Reusable across all pages
+
 class CommonAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String username;
   final String version;
@@ -15,7 +15,7 @@ class CommonAppBar extends StatefulWidget implements PreferredSizeWidget {
   final Function(int)? onTabSelected;
   final List<AppBarTab> tabs;
   final bool showReloadIcon;
-  final bool showExportIcon; // Changed: Now controls if export icon is visible
+  final bool showExportIcon; 
   final VoidCallback? onReload;
   final VoidCallback? onExportPdf;
   final VoidCallback? onExportExcel;
@@ -29,7 +29,7 @@ class CommonAppBar extends StatefulWidget implements PreferredSizeWidget {
     this.onTabSelected,
     required this.tabs,
     this.showReloadIcon = false,
-    this.showExportIcon = false, // Changed parameter name
+    this.showExportIcon = false, 
     this.onReload,
     this.onExportPdf,
     this.onExportExcel,
@@ -271,7 +271,7 @@ class _CommonAppBarState extends State<CommonAppBar>
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        // Export Button Section
+        
         if (widget.showExportIcon) ...[
           AnimatedSize(
             duration: const Duration(milliseconds: 300),
@@ -282,18 +282,18 @@ class _CommonAppBarState extends State<CommonAppBar>
           ),
           SizedBox(width: 10.w),
         ],
-        // Reload Icon
+        
         if (widget.showReloadIcon) ...[
           _buildReloadButton(context),
           SizedBox(width: 10.w),
         ],
-        // User Info
+        
         _buildUserInfoSection(context),
       ],
     );
   }
 
-  // Collapsed state - Just the export icon
+  
   Widget _buildCollapsedExportButton() {
     return GestureDetector(
       onTap: _toggleExportButtons,
@@ -302,7 +302,7 @@ class _CommonAppBarState extends State<CommonAppBar>
         height: 45.h,
         padding: EdgeInsets.all(10.w),
         decoration: BoxDecoration(
-          color: const Color(0xFF1F4A66), // #1F4A66
+          color: const Color(0xFF1F4A66), 
           borderRadius: BorderRadius.circular(15.r),
         ),
         child: Center(
@@ -317,17 +317,17 @@ class _CommonAppBarState extends State<CommonAppBar>
     );
   }
 
-  // Expanded state - PDF, Excel, and Close icons
+  
   Widget _buildExpandedExportButtons() {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        // PDF and Excel container
+        
         Container(
           height: 45.h,
           padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
           decoration: BoxDecoration(
-            color: const Color(0xFFE8F4FA), // Light blue background
+            color: const Color(0xFFE8F4FA), 
             borderRadius: BorderRadius.circular(15.r),
           ),
           child: Row(
@@ -359,7 +359,7 @@ class _CommonAppBarState extends State<CommonAppBar>
           ),
         ),
         SizedBox(width: 10.w),
-        // Close button
+        
         GestureDetector(
           onTap: _closeExportButtons,
           child: Container(

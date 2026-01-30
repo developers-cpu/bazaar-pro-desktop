@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 
 
-/// View and Reset Buttons Widget
+
 class ViewResetButtons extends StatelessWidget {
   final VoidCallback? onView;
   final VoidCallback? onReset;
@@ -27,10 +27,10 @@ class ViewResetButtons extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        // Reset Button
+        
         _buildResetButton(),
         SizedBox(width: 12.w),
-        // View Button
+        
         _buildViewButton(),
       ],
     );
@@ -100,8 +100,8 @@ class ViewResetButtons extends StatelessWidget {
   }
 }
 
-/// Record Count Widget
-/// Shows the total record count
+
+
 class RecordCountWidget extends StatelessWidget {
   final int count;
   final String label;

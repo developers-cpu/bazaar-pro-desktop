@@ -20,7 +20,7 @@ class MarketFilters extends StatelessWidget {
   Widget build(BuildContext context) {
     final availableSymbols = state.items.map((item) => item.symbol).toSet().toList()..sort();
 
-    // Exchange list
+    
     final exchanges = [
       AppStrings.nse,
       AppStrings.mcx,

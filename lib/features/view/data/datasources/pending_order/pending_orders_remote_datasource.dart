@@ -1,12 +1,12 @@
 import 'package:dio/dio.dart';
 import '../../models/pending_orders/pending_order_model.dart';
 
-/// Abstract class for Pending Orders Remote Data Source
+
 abstract class PendingOrdersRemoteDataSource {
-  /// Fetch pending orders from server
+  
   Future<List<PendingOrderModel>> getPendingOrders();
 
-  /// Fetch pending orders with filters
+  
   Future<List<PendingOrderModel>> getPendingOrdersWithFilters({
     String? client,
     String? exchange,
@@ -14,17 +14,17 @@ abstract class PendingOrdersRemoteDataSource {
     String? type,
   });
 
-  /// Get available clients for filter
+  
   Future<List<String>> getClients();
 
-  /// Get available exchanges for filter
+  
   Future<List<String>> getExchanges();
 
-  /// Get available symbols for filter
+  
   Future<List<String>> getSymbols();
 }
 
-/// Implementation of Pending Orders Remote Data Source
+
 class PendingOrdersRemoteDataSourceImpl implements PendingOrdersRemoteDataSource {
   final Dio dio;
 
@@ -33,13 +33,13 @@ class PendingOrdersRemoteDataSourceImpl implements PendingOrdersRemoteDataSource
   @override
   Future<List<PendingOrderModel>> getPendingOrders() async {
     try {
-      // TODO: Replace with actual API endpoint
-      // final response = await dio.get('/api/pending-orders');
-      // return (response.data as List)
-      //     .map((json) => PendingOrderModel.fromJson(json))
-      //     .toList();
+      
+      
+      
+      
+      
 
-      // For now, return dummy data
+      
       await Future.delayed(const Duration(milliseconds: 500));
       return _generateDummyOrders();
     } catch (e) {
@@ -55,13 +55,13 @@ class PendingOrdersRemoteDataSourceImpl implements PendingOrdersRemoteDataSource
     String? type,
   }) async {
     try {
-      // TODO: Replace with actual API endpoint with query params
-      // final response = await dio.get('/api/pending-orders', queryParameters: {
-      //   if (client != null) 'client': client,
-      //   if (exchange != null) 'exchange': exchange,
-      //   if (symbol != null) 'symbol': symbol,
-      //   if (type != null) 'type': type,
-      // });
+      
+      
+      
+      
+      
+      
+      
 
       await Future.delayed(const Duration(milliseconds: 300));
       final allOrders = _generateDummyOrders();
@@ -91,7 +91,7 @@ class PendingOrdersRemoteDataSourceImpl implements PendingOrdersRemoteDataSource
   @override
   Future<List<String>> getClients() async {
     try {
-      // TODO: Replace with actual API endpoint
+      
       await Future.delayed(const Duration(milliseconds: 200));
       return ['PATIL', 'DEMO', 'DEMO4', 'DEMO12', 'DEMO49'];
     } catch (e) {
@@ -102,7 +102,7 @@ class PendingOrdersRemoteDataSourceImpl implements PendingOrdersRemoteDataSource
   @override
   Future<List<String>> getExchanges() async {
     try {
-      // TODO: Replace with actual API endpoint
+      
       await Future.delayed(const Duration(milliseconds: 200));
       return ['NSE', 'MCX', 'CE/PE', 'OTHERS', 'COMEX', 'CRYPTO', 'GIFT', 'FOREX'];
     } catch (e) {
@@ -113,7 +113,7 @@ class PendingOrdersRemoteDataSourceImpl implements PendingOrdersRemoteDataSource
   @override
   Future<List<String>> getSymbols() async {
     try {
-      // TODO: Replace with actual API endpoint
+      
       await Future.delayed(const Duration(milliseconds: 200));
       return [
         'GOLD05DEC',
@@ -133,7 +133,7 @@ class PendingOrdersRemoteDataSourceImpl implements PendingOrdersRemoteDataSource
     }
   }
 
-  /// Generate dummy orders for testing
+  
   List<PendingOrderModel> _generateDummyOrders() {
     final List<String> users = ['PATIL', 'DEMO4', 'DEMO49', 'DEMO12', 'DEMO'];
     final List<String> uplines = ['DEMO', 'DEMO49', 'DEMO12'];

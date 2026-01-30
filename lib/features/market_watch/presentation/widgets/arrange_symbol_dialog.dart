@@ -14,7 +14,7 @@ class ArrangeSymbolDialog extends StatelessWidget {
   const ArrangeSymbolDialog({Key? key}) : super(key: key);
 
   static void show(BuildContext context) {
-    // Load columns when opening dialog
+    
     context.read<ArrangeSymbolBloc>().add(const LoadColumnsEvent());
 
     CommonDialog.show(
@@ -74,7 +74,7 @@ class _ArrangeSymbolContent extends StatelessWidget {
           constraints: BoxConstraints(maxHeight: 450.h),
           child: ReorderableListView.builder(
             shrinkWrap: true,
-            buildDefaultDragHandles: false, // IMPORTANT: Disable default drag handles
+            buildDefaultDragHandles: false, 
             itemCount: state.columns.length,
             onReorder: (oldIndex, newIndex) {
               context.read<ArrangeSymbolBloc>().add(
@@ -123,14 +123,14 @@ class _ArrangeSymbolContent extends StatelessWidget {
       ),
       child: Row(
         children: [
-          // Drag Handle (SVG Icon) - ONLY THIS IS DRAGGABLE
+          
           ReorderableDragStartListener(
             index: index,
             child: _buildDragHandle(),
           ),
           SizedBox(width: 16.w),
 
-          // Column Name
+          
           Expanded(
             child: Text(
               column.name,
@@ -143,7 +143,7 @@ class _ArrangeSymbolContent extends StatelessWidget {
             ),
           ),
 
-          // Toggle Checkbox - NOT DRAGGABLE
+          
           _buildToggleCheckbox(context, column),
         ],
       ),
@@ -165,7 +165,7 @@ class _ArrangeSymbolContent extends StatelessWidget {
 
   Widget _buildToggleCheckbox(BuildContext context, ColumnItem column) {
     return GestureDetector(
-      behavior: HitTestBehavior.opaque, // IMPORTANT: Makes entire area tappable
+      behavior: HitTestBehavior.opaque, 
       onTap: () {
         print('Checkbox tapped: ${column.id} -> ${!column.isVisible}');
         context.read<ArrangeSymbolBloc>().add(

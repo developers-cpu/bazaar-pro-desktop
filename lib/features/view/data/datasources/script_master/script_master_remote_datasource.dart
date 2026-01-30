@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import '../../models/script_master/script_master.dart';
 
 
-/// Script Master remote data source interface
+
 abstract class ScriptMasterRemoteDataSource {
   Future<List<ScriptMasterModel>> getScriptMasters();
   Future<List<ScriptMasterModel>> getScriptMastersWithFilters({
@@ -15,7 +15,7 @@ abstract class ScriptMasterRemoteDataSource {
   Future<String> exportToExcel(List<ScriptMasterModel> scripts);
 }
 
-/// Script Master remote data source implementation
+
 class ScriptMasterRemoteDataSourceImpl implements ScriptMasterRemoteDataSource {
   final Dio dio;
 
@@ -24,11 +24,11 @@ class ScriptMasterRemoteDataSourceImpl implements ScriptMasterRemoteDataSource {
   @override
   Future<List<ScriptMasterModel>> getScriptMasters() async {
     try {
-      // TODO: Replace with actual API call
-      // final response = await dio.get('/script-masters');
-      // return (response.data as List).map((e) => ScriptMasterModel.fromJson(e)).toList();
+      
+      
+      
 
-      // Mock data for development based on screenshots
+      
       await Future.delayed(const Duration(milliseconds: 500));
       return _generateMockScriptMasters();
     } catch (e) {
@@ -42,7 +42,7 @@ class ScriptMasterRemoteDataSourceImpl implements ScriptMasterRemoteDataSource {
     String? symbol,
   }) async {
     try {
-      // TODO: Replace with actual API call with filters
+      
       await Future.delayed(const Duration(milliseconds: 300));
 
       final allScripts = await getScriptMasters();
@@ -100,7 +100,7 @@ class ScriptMasterRemoteDataSourceImpl implements ScriptMasterRemoteDataSource {
   @override
   Future<String> exportToPdf(List<ScriptMasterModel> scripts) async {
     try {
-      // TODO: Implement PDF export
+      
       await Future.delayed(const Duration(seconds: 1));
       return 'script_masters_export_${DateTime.now().millisecondsSinceEpoch}.pdf';
     } catch (e) {
@@ -111,7 +111,7 @@ class ScriptMasterRemoteDataSourceImpl implements ScriptMasterRemoteDataSource {
   @override
   Future<String> exportToExcel(List<ScriptMasterModel> scripts) async {
     try {
-      // TODO: Implement Excel export
+      
       await Future.delayed(const Duration(seconds: 1));
       return 'script_masters_export_${DateTime.now().millisecondsSinceEpoch}.xlsx';
     } catch (e) {
@@ -119,7 +119,7 @@ class ScriptMasterRemoteDataSourceImpl implements ScriptMasterRemoteDataSource {
     }
   }
 
-  /// Generate mock script masters for development based on screenshots
+  
   List<ScriptMasterModel> _generateMockScriptMasters() {
     final List<ScriptMasterModel> scripts = [];
     final exchanges = ['NSE', 'MCX', 'CE/PE', 'COMEX', 'GIFT'];
@@ -139,7 +139,7 @@ class ScriptMasterRemoteDataSourceImpl implements ScriptMasterRemoteDataSource {
     ];
     final tradeAttributes = ['full', 'close'];
 
-    // Create expiry date: 30/12/25 | 12:00:00 AM
+    
     final expiryDate = DateTime(2025, 12, 30, 0, 0, 0);
 
     for (int i = 0; i < 100; i++) {
@@ -149,7 +149,7 @@ class ScriptMasterRemoteDataSourceImpl implements ScriptMasterRemoteDataSource {
         symbol: symbols[i % symbols.length],
         expiryDate: expiryDate,
         tradeAttribute: tradeAttributes[i % tradeAttributes.length],
-        allowTrade: true, // All showing "Yes" in screenshots
+        allowTrade: true, 
         lastUpdated: DateTime.now().subtract(Duration(hours: i)),
       ));
     }

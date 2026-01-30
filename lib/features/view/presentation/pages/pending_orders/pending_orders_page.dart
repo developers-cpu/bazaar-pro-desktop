@@ -8,7 +8,7 @@ import '../../bloc/pending_orders/pending_orders_state.dart';
 import '../../widget/pending_orders/pending_orders_filter_bar.dart';
 import '../../widget/pending_orders/pending_orders_table.dart';
 
-/// Pending Orders Page
+
 class PendingOrdersPage extends StatefulWidget {
   const PendingOrdersPage({Key? key}) : super(key: key);
 
@@ -42,7 +42,7 @@ class _PendingOrdersPageState extends State<PendingOrdersPage> {
 
             const Expanded(
               child: PendingOrdersTable(
-                showDeviceInfo: false, // Set to true to show Device ID and IP Address columns
+                showDeviceInfo: false, 
               ),
             ),
           ],

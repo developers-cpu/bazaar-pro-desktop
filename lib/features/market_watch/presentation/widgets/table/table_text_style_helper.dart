@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-/// Helper class for generating text styles based on font settings
+
 class TableTextStyleHelper {
   TableTextStyleHelper._();
 

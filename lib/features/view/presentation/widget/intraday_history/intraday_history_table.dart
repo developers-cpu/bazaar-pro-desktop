@@ -130,14 +130,14 @@ class IntradayHistoryTable extends StatelessWidget {
       IntradayHistory history,
       IntradayHistoryLoaded state,
       ) {
-    // Use selected date from state, or default to today
+    
     final selectedDate = state.selectedDate ?? DateTime.now();
 
-    // Set default time range (full day)
+    
     final startTime = DateTime(selectedDate.year, selectedDate.month, selectedDate.day, 0, 0);
     final endTime = DateTime(selectedDate.year, selectedDate.month, selectedDate.day, 23, 59);
 
-    // Navigate directly to seconds view with all data
+    
     context.read<IntradayHistoryBloc>().add(
       LoadSecondsDataEvent(
         date: selectedDate,

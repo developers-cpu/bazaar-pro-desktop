@@ -7,7 +7,7 @@ import '../../bloc/pending_orders/pending_orders_event.dart';
 import '../../bloc/pending_orders/pending_orders_state.dart';
 import '../common/view_reset_buttons.dart';
 
-/// Filter bar for Pending Orders page
+
 class PendingOrdersFilterBar extends StatelessWidget {
   const PendingOrdersFilterBar({Key? key}) : super(key: key);
 

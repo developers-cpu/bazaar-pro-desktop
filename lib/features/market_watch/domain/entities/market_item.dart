@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 
-/// Domain entity representing a market item
-/// This is the core business object used throughout the application
-/// Pure Dart class with no dependencies on external frameworks
+
+
+
 class MarketItem extends Equatable {
   final String id;
   final String exchange;
@@ -40,7 +40,7 @@ class MarketItem extends Equatable {
     required this.lut,
   });
 
-  /// Create a copy of this entity with updated fields
+  
   MarketItem copyWith({
     String? id,
     String? exchange,

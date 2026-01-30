@@ -39,10 +39,10 @@ class UserSearchDialogContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return CommonDialog(
       title: 'Search User',
-      width: 600.w, // Adjust width as needed
+      width: 600.w, 
       height: 700.h,
       showButtons: false,
-      scrollable: false, // content handles scrolling internally
+      scrollable: false, 
       contentPadding: EdgeInsets.all(16.w),
       content: const UserSearchView(),
     );
@@ -56,7 +56,7 @@ class UserSearchView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // Search Bar
+        
         Container(
           height: 48.h,
           decoration: BoxDecoration(
@@ -95,7 +95,7 @@ class UserSearchView extends StatelessWidget {
         ),
         SizedBox(height: 16.h),
 
-        // Tree View
+        
         Expanded(
           child: BlocBuilder<SearchUserBloc, SearchUserState>(
             builder: (context, state) {

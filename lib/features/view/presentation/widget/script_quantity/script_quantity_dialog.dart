@@ -4,8 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../domain/entities/script_quantity/script_quantity.dart';
 
-/// Script Quantity Dialog
-/// Shows script quantity data in a dialog matching the screenshot design
+
+
 class ScriptQuantityDialog extends StatefulWidget {
   final List<ScriptQuantity> quantities;
   final String exchange;

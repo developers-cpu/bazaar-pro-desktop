@@ -7,7 +7,7 @@ import '../../../bloc/user_form/user_form_bloc.dart';
 import '../../../bloc/user_form/user_form_event.dart';
 import '../../../bloc/user_form/user_form_state.dart';
 
-/// Shared Step: High Low Between Trade Limit
+
 class HighLowLimitStep extends StatelessWidget {
   const HighLowLimitStep({super.key});
 
@@ -42,7 +42,7 @@ class HighLowLimitStep extends StatelessWidget {
               LayoutBuilder(
                 builder: (context, constraints) {
                   final availableWidth = constraints.maxWidth;
-                  final itemWidth = (availableWidth - (4 * 32.w)) / 5; // 4 spacings between 5 items
+                  final itemWidth = (availableWidth - (4 * 32.w)) / 5; 
 
                   return Wrap(
                     spacing: 32.w,

@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import '../../models/script_quantity/script_quantity_model.dart';
 
-/// Script Quantity remote data source interface
+
 abstract class ScriptQuantityRemoteDataSource {
   Future<List<ScriptQuantityModel>> getScriptQuantities({
     required String exchange,
@@ -11,7 +11,7 @@ abstract class ScriptQuantityRemoteDataSource {
   Future<List<String>> getGroups(String exchange);
 }
 
-/// Script Quantity remote data source implementation
+
 class ScriptQuantityRemoteDataSourceImpl implements ScriptQuantityRemoteDataSource {
   final Dio dio;
 
@@ -23,19 +23,19 @@ class ScriptQuantityRemoteDataSourceImpl implements ScriptQuantityRemoteDataSour
     required String group,
   }) async {
     try {
-      // TODO: Replace with actual API call
-      // final response = await dio.get(
-      //   '/script-quantities',
-      //   queryParameters: {
-      //     'exchange': exchange,
-      //     'group': group,
-      //   },
-      // );
-      // return (response.data as List)
-      //     .map((e) => ScriptQuantityModel.fromJson(e))
-      //     .toList();
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
 
-      // Mock data for development
+      
       await Future.delayed(const Duration(milliseconds: 500));
       return _generateMockData(exchange, group);
     } catch (e) {
@@ -46,7 +46,7 @@ class ScriptQuantityRemoteDataSourceImpl implements ScriptQuantityRemoteDataSour
   @override
   Future<List<String>> getExchanges() async {
     try {
-      // TODO: Replace with actual API call
+      
       await Future.delayed(const Duration(milliseconds: 200));
       return ['NSE', 'MCX', 'CE/PE', 'OTHERS', 'COMEX', 'CRYPTO', 'GIFT', 'FOREX'];
     } catch (e) {
@@ -57,10 +57,10 @@ class ScriptQuantityRemoteDataSourceImpl implements ScriptQuantityRemoteDataSour
   @override
   Future<List<String>> getGroups(String exchange) async {
     try {
-      // TODO: Replace with actual API call
+      
       await Future.delayed(const Duration(milliseconds: 200));
 
-      // Return groups based on exchange
+      
       if (exchange == 'NSE') {
         return ['NSE_X', 'NSE_2X', 'NSE_3X', 'NSE_4X'];
       } else if (exchange == 'MCX') {
@@ -75,7 +75,7 @@ class ScriptQuantityRemoteDataSourceImpl implements ScriptQuantityRemoteDataSour
     }
   }
 
-  /// Generate mock data for development
+  
   List<ScriptQuantityModel> _generateMockData(String exchange, String group) {
     final List<ScriptQuantityModel> quantities = [];
     final symbols = [

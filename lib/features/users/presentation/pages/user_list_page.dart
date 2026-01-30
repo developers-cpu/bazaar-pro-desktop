@@ -72,7 +72,7 @@ class _UserListPageState extends State<UserListPage> {
       userName: user.userName,
       currentLeverage: user.leverage,
       onUpdate: (newLeverage) {
-        // TODO: Call API to update leverage
+        
 
         context.read<UserListBloc>().add(const LoadUsersEvent());
       },

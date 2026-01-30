@@ -176,14 +176,14 @@ class _SingleDatePickerDialogState extends State<SingleDatePickerDialog> {
     final List<Widget> rows = [];
     List<Widget> currentRow = [];
 
-    // Add empty cells for days before the first day of the month
+    
     for (int i = 0; i < firstWeekday; i++) {
       final prevMonthDay =
       firstDayOfMonth.subtract(Duration(days: firstWeekday - i));
       currentRow.add(_buildDayCell(prevMonthDay, isCurrentMonth: false));
     }
 
-    // Add days of the month
+    
     for (int day = 1; day <= lastDayOfMonth.day; day++) {
       final date = DateTime(_currentMonth.year, _currentMonth.month, day);
       currentRow.add(_buildDayCell(date, isCurrentMonth: true));
@@ -200,7 +200,7 @@ class _SingleDatePickerDialogState extends State<SingleDatePickerDialog> {
       }
     }
 
-    // Add empty cells for days after the last day of the month
+    
     if (currentRow.isNotEmpty) {
       int nextMonthDay = 1;
       while (currentRow.length < 7) {

@@ -134,13 +134,13 @@ class _OrderNumberFieldState extends State<OrderNumberField> {
           ),
           child: Row(
             children: [
-              // Decrement button
+              
               _buildButton(
                 icon: '−',
                 onTap: _decrement,
                 isLeft: true,
               ),
-              // Input field
+              
               Expanded(
                 child: TextField(
                   controller: _controller,
@@ -163,7 +163,7 @@ class _OrderNumberFieldState extends State<OrderNumberField> {
                   onSubmitted: (_) => _validateAndUpdate(),
                 ),
               ),
-              // Increment button
+              
               _buildButton(
                 icon: '+',
                 onTap: _increment,

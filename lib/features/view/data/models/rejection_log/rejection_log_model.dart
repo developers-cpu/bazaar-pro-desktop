@@ -1,6 +1,6 @@
 import '../../../domain/entities/rejection_log/rejection_log.dart';
 
-/// Rejection Log model
+
 class RejectionLogModel extends RejectionLog {
   const RejectionLogModel({
     required super.id,

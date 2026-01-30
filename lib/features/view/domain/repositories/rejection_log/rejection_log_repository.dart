@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import '../../../../../core/errors/failures.dart';
 import '../../entities/rejection_log/rejection_log.dart';
 
-/// Rejection Log repository interface
+
 abstract class RejectionLogRepository {
   Future<Either<Failure, List<RejectionLog>>> getRejectionLogs();
 

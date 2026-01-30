@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import '../../models/trades/trade_model.dart';
 
-/// Trades remote data source interface
+
 abstract class TradesRemoteDataSource {
   Future<List<TradeModel>> getTrades();
   Future<List<TradeModel>> getTradesWithFilters({
@@ -20,7 +20,7 @@ abstract class TradesRemoteDataSource {
   Future<String> exportToExcel(List<TradeModel> trades);
 }
 
-/// Trades remote data source implementation
+
 class TradesRemoteDataSourceImpl implements TradesRemoteDataSource {
   final Dio dio;
 
@@ -29,11 +29,11 @@ class TradesRemoteDataSourceImpl implements TradesRemoteDataSource {
   @override
   Future<List<TradeModel>> getTrades() async {
     try {
-      // TODO: Replace with actual API call
-      // final response = await dio.get('/trades');
-      // return (response.data as List).map((e) => TradeModel.fromJson(e)).toList();
+      
+      
+      
 
-      // Mock data for development
+      
       await Future.delayed(const Duration(milliseconds: 500));
       return _generateMockTrades();
     } catch (e) {
@@ -51,7 +51,7 @@ class TradesRemoteDataSourceImpl implements TradesRemoteDataSource {
     String? orderType,
   }) async {
     try {
-      // TODO: Replace with actual API call with filters
+      
       await Future.delayed(const Duration(milliseconds: 300));
 
       final allTrades = await getTrades();
@@ -135,7 +135,7 @@ class TradesRemoteDataSourceImpl implements TradesRemoteDataSource {
   @override
   Future<String> exportToPdf(List<TradeModel> trades) async {
     try {
-      // TODO: Implement PDF export
+      
       await Future.delayed(const Duration(seconds: 1));
       return 'trades_export_${DateTime.now().millisecondsSinceEpoch}.pdf';
     } catch (e) {
@@ -146,7 +146,7 @@ class TradesRemoteDataSourceImpl implements TradesRemoteDataSource {
   @override
   Future<String> exportToExcel(List<TradeModel> trades) async {
     try {
-      // TODO: Implement Excel export
+      
       await Future.delayed(const Duration(seconds: 1));
       return 'trades_export_${DateTime.now().millisecondsSinceEpoch}.xlsx';
     } catch (e) {
@@ -154,7 +154,7 @@ class TradesRemoteDataSourceImpl implements TradesRemoteDataSource {
     }
   }
 
-  /// Generate mock trades for development
+  
   List<TradeModel> _generateMockTrades() {
     final List<TradeModel> trades = [];
     final symbols = ['GOLD05DEC', 'SILVER05DEC', 'CRUDE05DEC'];

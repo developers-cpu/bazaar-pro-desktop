@@ -7,7 +7,7 @@ import '../../../domain/usecases/pending_order/get_pending_orders.dart';
 import 'pending_orders_event.dart';
 import 'pending_orders_state.dart';
 
-/// Pending Orders BLoC - Clean Architecture version
+
 class PendingOrdersBloc extends Bloc<PendingOrdersEvent, PendingOrdersState> {
   final GetPendingOrders getPendingOrders;
   final GetPendingOrdersWithFilters getPendingOrdersWithFilters;
@@ -48,7 +48,7 @@ class PendingOrdersBloc extends Bloc<PendingOrdersEvent, PendingOrdersState> {
     emit(const PendingOrdersLoading());
 
     try {
-      // Fetch all data in parallel
+      
       final results = await Future.wait([
         getPendingOrders( NoParams()),
         getClients( NoParams()),
@@ -61,7 +61,7 @@ class PendingOrdersBloc extends Bloc<PendingOrdersEvent, PendingOrdersState> {
       final exchangesResult = results[2];
       final symbolsResult = results[3];
 
-      // Check for failures
+      
       if (ordersResult.isLeft()) {
         final failure = ordersResult.fold((l) => l, (r) => null);
         emit(PendingOrdersError(failure?.message ?? 'Failed to load orders'));

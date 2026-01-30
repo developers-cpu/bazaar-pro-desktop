@@ -17,7 +17,7 @@ class DeleteMarketItem implements UseCase<bool, DeleteMarketItemParams> {
   }
 }
 
-/// Parameters for DeleteMarketItem use case
+
 class DeleteMarketItemParams extends Equatable {
   final String id;
 

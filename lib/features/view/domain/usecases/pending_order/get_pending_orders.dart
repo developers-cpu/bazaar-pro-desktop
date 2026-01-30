@@ -6,7 +6,7 @@ import '../../entities/pending_orders/pending_order.dart';
 import '../../repositories/pending_orders/pending_orders_repository.dart';
 
 
-/// Get Pending Orders Use Case
+
 class GetPendingOrders implements UseCase<List<PendingOrder>, NoParams> {
   final PendingOrdersRepository repository;
 
@@ -18,7 +18,7 @@ class GetPendingOrders implements UseCase<List<PendingOrder>, NoParams> {
   }
 }
 
-/// Get Pending Orders With Filters Use Case
+
 class GetPendingOrdersWithFilters implements UseCase<List<PendingOrder>, FilterParams> {
   final PendingOrdersRepository repository;
 
@@ -35,7 +35,7 @@ class GetPendingOrdersWithFilters implements UseCase<List<PendingOrder>, FilterP
   }
 }
 
-/// Filter Parameters
+
 class FilterParams {
   final String? client;
   final String? exchange;

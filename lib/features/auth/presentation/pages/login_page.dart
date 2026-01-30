@@ -86,15 +86,15 @@ class _LoginPageState extends State<LoginPage> {
 
   void _handleAuthStateChange(BuildContext context, AuthState state) {
     Navigator.of(context).pushReplacementNamed('/market-watch');
-    // if (state is AuthError) {
-    //   // _showSnackBar(state.message, backgroundColor: AppColors.errorColor);
-    // } else if (state is AuthAuthenticated) {
-    //   _showSnackBar(
-    //     AuthConstants.loginSuccessMessage,
-    //     backgroundColor: AppColors.successColor,
-    //   );
-    //   Navigator.of(context).pushReplacementNamed('/market-watch');
-    // }
+    
+    
+    
+    
+    
+    
+    
+    
+    
   }
 
   Widget _buildForm(BuildContext context, bool isLoading) {
@@ -129,9 +129,9 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  // ─────────────────────────────────────────────────────────────────
-  // BACKGROUND
-  // ─────────────────────────────────────────────────────────────────
+  
+  
+  
 
   BoxDecoration _buildBackgroundWithImage() {
     return BoxDecoration(
@@ -166,9 +166,9 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  // ─────────────────────────────────────────────────────────────────
-  // HEADER SECTION
-  // ─────────────────────────────────────────────────────────────────
+  
+  
+  
 
   Widget _buildLogo(BuildContext context) {
     return Center(
@@ -244,9 +244,9 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  // ─────────────────────────────────────────────────────────────────
-  // FORM FIELDS
-  // ─────────────────────────────────────────────────────────────────
+  
+  
+  
 
   Widget _buildServerDropdown(BuildContext context) {
     return CustomDropdownField(
@@ -312,9 +312,9 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  // ─────────────────────────────────────────────────────────────────
-  // FOOTER SECTION
-  // ─────────────────────────────────────────────────────────────────
+  
+  
+  
 
   Widget _buildFooterLinks(BuildContext context) {
     return Row(

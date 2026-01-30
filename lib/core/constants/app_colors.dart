@@ -5,50 +5,50 @@ import 'package:flutter/material.dart';
 class LightThemeColors {
   LightThemeColors._();
 
-  // Background Colors
+  
   static const Color backgroundColor = Color(0xFFFFFFFF);
   static const Color inputFieldBackground = Color(0xFFFFFFFF);
   static const Color cardBackground = Color(0xFFFFFFFF);
 
-  // Primary & Secondary Colors
+  
   static const Color primaryColor = Color(0xFF1F4A66);
   static const Color secondaryColor = Color(0xFFFF0000);
 
-  // Text Colors
+  
   static const Color textColor = Color(0xFF1F4A66);
   static const Color supportiveTextColor = Color(0xFF788088);
 
-  // Border & Divider Colors
+  
   static const Color cardBorderColor = Color(0xFFE9E9E9);
   static const Color dividerColor = Color(0xFFE9E9E9);
 
-  // Table Colors
+  
   static const Color tableBackground = Color(0xFFEDEDED);
   static const Color tableColumnHeadColor = Color(0xFFC6DBE8);
   static const Color tableRowBackground = Color(0xFFFFFFFF);
   static const Color tableAlternateRowBackground = Color(0xFFF5F5F5);
 
-  // Chip Colors - Blue
+  
   static const Color chipTextBlueColor = Color(0xFF0051FF);
   static const Color chipBgBlue = Color(0xFFDFECFE);
 
-  // Chip Colors - Red
+  
   static const Color chipTextRedColor = Color(0xFFE05E50);
   static const Color chipBgRed = Color(0xFFFBE7E4);
 
-  // Selection Colors
+  
   static const Color selectedRowBackground = Color(0xFFE3F2FD);
   static const Color highlightColor = Color(0xFFBBDEFB);
   static const Color selectedRowBorder = Color(0xFF0066FF);
 
-  // Context Menu Colors
+  
   static const Color contextMenuBackground = Color(0xFFFFFFFF);
   static const Color contextMenuHover = Color(0xFFE3F2FD);
 
-  // Positive/Negative Colors
+  
   static const Color positiveTextColor = AppColors.buyColor;
   static const Color negativeTextColor = AppColors.sellColor;
-  // Gradient Colors (for reference - gradients need to be built separately)
+  
   static const Color gradientPrimaryColor = Color(0xFF368AE9);
   static const Color gradientBaseColor = Color(0xFFFFFFFF);
 }
@@ -58,51 +58,51 @@ class LightThemeColors {
 class DarkThemeColors {
   DarkThemeColors._();
 
-  // Background Colors
+  
   static const Color backgroundColor = Color(0xFF0D0D0D);
   static const Color inputFieldBackground = Color(0xFF0D0D0D);
   static const Color cardBackground = Color(0xFF1C1C1C);
 
-  // Primary & Secondary Colors
+  
   static const Color primaryColor = Color(0xFF1F4A66);
   static const Color secondaryColor = Color(0xFFE05E50);
 
-  // Text Colors
+  
   static const Color textColor = Color(0xFFFFFFFF);
   static const Color supportiveTextColor = Color(0xFFA1A9B1);
 
-  // Border & Divider Colors
+  
   static const Color cardBorderColor = Color(0xFF494949);
   static const Color dividerColor = Color(0xFF494949);
 
-  // Table Colors
+  
   static const Color tableBackground = Color(0xFF282829);
   static const Color tableColumnHeadColor = Color(0xFF232E3D);
   static const Color tableRowBackground = Color(0xFF1C1C1C);
   static const Color tableAlternateRowBackground = Color(0xFF282829);
 
-  // Chip Colors - Blue
+  
   static const Color chipTextBlueColor = Color(0xFF1F4A66);
   static const Color chipBgBlue = Color(0xFF162032);
 
-  // Chip Colors - Red
+  
   static const Color chipTextRedColor = Color(0xFFE05E50);
   static const Color chipBgRed = Color(0xFF2B1A1A);
 
-  // Selection Colors
+  
   static const Color selectedRowBackground = Color(0xFF162032);
   static const Color highlightColor = Color(0xFF232E3D);
   static const Color selectedRowBorder = Color(0xFF1F4A66);
 
-  // Context Menu Colors
+  
   static const Color contextMenuBackground = Color(0xFF1C1C1C);
   static const Color contextMenuHover = Color(0xFF162032);
 
-  // Positive/Negative Colors
+  
   static const Color positiveTextColor = AppColors.buyColor;
   static const Color negativeTextColor = AppColors.sellColor;
 
-  // Gradient Colors (for reference - gradients need to be built separately)
+  
   static const Color gradientPrimaryColor = Color(0xFF1F4A66);
   static const Color gradientBaseColor = Color(0xFF0D0D0D);
 }
@@ -112,16 +112,16 @@ class DarkThemeColors {
 class AppColors {
   AppColors._();
 
-  // Primary colors (for ThemeData)
+  
   static const Color primaryBlue = Color(0xFF1F4A66);
   static const Color darkNavy = Color(0xFF1A3A52);
 
-// Grey Colors
+
   static const Color greyLight = Color(0xFFF5F5F5);
   static const Color grey = Color(0xFFBDBDBD);
   static const Color greyDark = Color(0xFF9E9E9E);
 
-  // Static Colors - Used throughout the app
+  
   static const Color white = Color(0xFFFFFFFF);
   static const Color black = Color(0xFF000000);
   static const Color transparent = Colors.transparent;
@@ -133,10 +133,10 @@ class AppColors {
 
 
 
-  // Primary Background Color (with opacity)
+  
   static const Color primaryBgColor = Color(0x0D1F4A66);
 
-  // Background colors (static - for const contexts)
+  
   static const Color backgroundColorLight = Color(0xFFFFFFFF);
   static const Color tableHeaderBackground = Color(0xFFC6DBE8);
   static const Color headerBgColor = Color(0xFFE3F2FD);
@@ -144,7 +144,7 @@ class AppColors {
   static const Color tableAlternateRowBackground = Color(0xFFF5F5F5);
   static const Color altRowBgColor = Color(0xFFF8F9FA);
 
-  // Text colors (static - for const contexts)
+  
   static const Color primaryTextColor = Color(0xFF1F4A66);
   static const Color secondaryTextColor = Color(0xFF788088);
   static const Color positiveColor = Color(0xFF4CAF50);
@@ -152,23 +152,23 @@ class AppColors {
   static const Color positiveTextColor = AppColors.buyColor;
   static const Color negativeTextColor = AppColors.sellColor;
 
-  // Border colors (static)
+  
   static const Color borderColor = Color(0xFFE9E9E9);
   static const Color tableBorderColor = Color(0xFFE0E0E0);
   static const Color selectedRowBorder = Color(0xFF0066FF);
   static const Color greyBorder = Color(0xFFBDBDBD);
 
-  // Status colors (Common for both themes)
+  
   static const Color successColor = Color(0xFF4CAF50);
   static const Color errorColor = Color(0xFFF44336);
   static const Color warningColor = Color(0xFFFF9800);
   static const Color infoColor = Color(0xFF2196F3);
 
-  // Context menu colors (static)
+  
   static const Color contextMenuBackground = Color(0xFFFFFFFF);
   static const Color contextMenuHover = Color(0xFFE3F2FD);
 
-  // Selection colors (static)
+  
   static const Color selectedRowBackground = Color(0xFFE3F2FD);
   static const Color highlightColor = Color(0xFFBBDEFB);
   static const Color textGrey = Color(0xFF9E99E);
@@ -181,7 +181,7 @@ class AppColors {
   }
 
 
-  // Background Colors
+  
   static Color backgroundColor(BuildContext context) {
     return isDarkMode(context)
         ? DarkThemeColors.backgroundColor
@@ -200,7 +200,7 @@ class AppColors {
         : LightThemeColors.cardBackground;
   }
 
-  // Primary & Secondary Colors
+  
   static Color primaryColor(BuildContext context) {
     return isDarkMode(context)
         ? DarkThemeColors.primaryColor
@@ -213,7 +213,7 @@ class AppColors {
         : LightThemeColors.secondaryColor;
   }
 
-  // Text Colors
+  
   static Color textColor(BuildContext context) {
     return isDarkMode(context)
         ? DarkThemeColors.textColor
@@ -226,7 +226,7 @@ class AppColors {
         : LightThemeColors.supportiveTextColor;
   }
 
-  // Border & Divider Colors
+  
   static Color cardBorderColor(BuildContext context) {
     return isDarkMode(context)
         ? DarkThemeColors.cardBorderColor
@@ -239,7 +239,7 @@ class AppColors {
         : LightThemeColors.dividerColor;
   }
 
-  // Table Colors
+  
   static Color tableBackground(BuildContext context) {
     return isDarkMode(context)
         ? DarkThemeColors.tableBackground
@@ -264,7 +264,7 @@ class AppColors {
         : LightThemeColors.tableAlternateRowBackground;
   }
 
-  // Chip Colors - Blue
+  
   static Color chipTextBlueColor(BuildContext context) {
     return isDarkMode(context)
         ? DarkThemeColors.chipTextBlueColor
@@ -277,7 +277,7 @@ class AppColors {
         : LightThemeColors.chipBgBlue;
   }
 
-  // Chip Colors - Red
+  
   static Color chipTextRedColor(BuildContext context) {
     return isDarkMode(context)
         ? DarkThemeColors.chipTextRedColor
@@ -290,7 +290,7 @@ class AppColors {
         : LightThemeColors.chipBgRed;
   }
 
-  // Selection Colors
+  
   static Color getSelectedRowBackground(BuildContext context) {
     return isDarkMode(context)
         ? DarkThemeColors.selectedRowBackground
@@ -309,7 +309,7 @@ class AppColors {
         : LightThemeColors.selectedRowBorder;
   }
 
-  // Context Menu Colors
+  
   static Color getContextMenuBackground(BuildContext context) {
     return isDarkMode(context)
         ? DarkThemeColors.contextMenuBackground
@@ -322,7 +322,7 @@ class AppColors {
         : LightThemeColors.contextMenuHover;
   }
 
-  // Positive/Negative Colors
+  
   static Color getPositiveTextColor(BuildContext context) {
     return isDarkMode(context)
         ? DarkThemeColors.positiveTextColor
@@ -335,11 +335,11 @@ class AppColors {
         : LightThemeColors.negativeTextColor;
   }
 
-  // -------------------------------------------------------------------------
-  // Gradient Builders
-  // -------------------------------------------------------------------------
+  
+  
+  
 
-  /// Input Field Gradient (Dark mode only - Light mode uses solid color)
+  
   static Decoration inputFieldDecoration(BuildContext context) {
     if (isDarkMode(context)) {
       return BoxDecoration(
@@ -360,7 +360,7 @@ class AppColors {
     );
   }
 
-  /// Collapse Card Gradient
+  
   static LinearGradient collapseCardGradient(BuildContext context) {
     final baseColor = isDarkMode(context)
         ? DarkThemeColors.gradientBaseColor
@@ -378,7 +378,7 @@ class AppColors {
     );
   }
 
-  /// Login Screen Background Gradient
+  
   static LinearGradient loginScreenBgGradient(BuildContext context) {
     final baseColor = isDarkMode(context)
         ? DarkThemeColors.gradientBaseColor

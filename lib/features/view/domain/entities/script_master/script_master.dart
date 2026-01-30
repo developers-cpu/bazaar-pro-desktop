@@ -1,12 +1,12 @@
 import 'package:equatable/equatable.dart';
 
-/// Script Master entity for View section
+
 class ScriptMaster extends Equatable {
   final String id;
   final String exchange;
   final String symbol;
   final DateTime expiryDate;
-  final String tradeAttribute; // 'full' or 'close'
+  final String tradeAttribute; 
   final bool allowTrade;
   final DateTime lastUpdated;
 

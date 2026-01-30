@@ -184,7 +184,7 @@ class CommonDialog extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // CANCEL BUTTON
+          
           SizedBox(
             width: btnWidth,
             height: btnHeight,
@@ -216,7 +216,7 @@ class CommonDialog extends StatelessWidget {
 
           SizedBox(width: 16.w),
 
-          // SAVE BUTTON
+          
           SizedBox(
             width: btnWidth,
             height: btnHeight,

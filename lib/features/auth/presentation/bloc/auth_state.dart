@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import '../../domain/entities/user.dart';
 
-/// Base class for all auth states
+
 abstract class AuthState extends Equatable {
   const AuthState();
 
@@ -9,17 +9,17 @@ abstract class AuthState extends Equatable {
   List<Object?> get props => [];
 }
 
-/// Initial state
+
 class AuthInitial extends AuthState {
   const AuthInitial();
 }
 
-/// State when login is in progress
+
 class AuthLoading extends AuthState {
   const AuthLoading();
 }
 
-/// State when user is authenticated
+
 class AuthAuthenticated extends AuthState {
   final User user;
 
@@ -29,12 +29,12 @@ class AuthAuthenticated extends AuthState {
   List<Object?> get props => [user];
 }
 
-/// State when user is not authenticated
+
 class AuthUnauthenticated extends AuthState {
   const AuthUnauthenticated();
 }
 
-/// State when an error occurs
+
 class AuthError extends AuthState {
   final String message;
 

@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import '../../../domain/entities/user.dart';
 
-/// User List State
+
 abstract class UserListState extends Equatable {
   const UserListState();
 
@@ -99,7 +99,7 @@ class UserListError extends UserListState {
 }
 
 class UserListExporting extends UserListState {
-  final String exportType; // 'pdf' or 'excel'
+  final String exportType; 
 
   const UserListExporting(this.exportType);
 

@@ -5,8 +5,8 @@ import '../../../../../core/constants/app_colors.dart';
 import '../../../domain/entities/deals/deals.dart';
 
 
-/// Order Duration Dialog
-/// Shows detailed order duration information when clicking on order duration in common
+
+
 class OrderDurationDialog extends StatelessWidget {
   final List<Deal> relatedOrders;
   final bool isDarkMode;

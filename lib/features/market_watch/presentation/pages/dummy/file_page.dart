@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-/// File Demo Screen
+
 class FilePage extends StatelessWidget {
   const FilePage({Key? key}) : super(key: key);
 

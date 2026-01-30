@@ -4,7 +4,7 @@ import 'market_depth_dialog.dart';
 import 'order/common_order_dialog.dart';
 
 
-/// Keyboard Shortcut Handler Widget
+
 class KeyboardShortcutHandler extends StatelessWidget {
   final Widget child;
 
@@ -36,7 +36,7 @@ class KeyboardShortcutHandler extends StatelessWidget {
   }
 }
 
-// ==================== INTENTS ====================
+
 
 class BuyOrderIntent extends Intent {
   const BuyOrderIntent();
@@ -50,7 +50,7 @@ class MarketDepthIntent extends Intent {
   const MarketDepthIntent();
 }
 
-// ==================== ACTIONS ====================
+
 
 class BuyOrderAction extends Action<BuyOrderIntent> {
   final BuildContext context;
@@ -88,8 +88,8 @@ class MarketDepthAction extends Action<MarketDepthIntent> {
   }
 }
 
-/// Alternative: RawKeyboardListener based implementation
-/// Use this if Shortcuts/Actions don't work in your setup
+
+
 class KeyboardShortcutListener extends StatefulWidget {
   final Widget child;
 

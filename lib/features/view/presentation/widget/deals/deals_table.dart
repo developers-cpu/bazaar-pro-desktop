@@ -12,7 +12,7 @@ import '../common/view_record_count.dart';
 import '../common/view_table_cell_styles.dart';
 import 'order_duration_dialog.dart';
 
-/// Deals common widget with clickable order duration
+
 class DealsTable extends StatelessWidget {
   final bool showDeviceInfo;
   final bool isDarkMode;
@@ -23,7 +23,7 @@ class DealsTable extends StatelessWidget {
     this.isDarkMode = false,
   }) : super(key: key);
 
-  /// Get column definitions for Deals
+  
   List<ViewTableColumn> _getColumns() {
     final columns = <ViewTableColumn>[
       const ViewTableColumn(id: 'userName', label: 'U. NAME', width: 120),
@@ -119,11 +119,11 @@ class DealsTable extends StatelessWidget {
     }
   }
 
-  /// Build clickable order duration cell with underline
+  
   Widget _buildOrderDurationCell(BuildContext context, Deal item, bool isDark) {
     return GestureDetector(
       onTap: () {
-        // Get related orders for the same symbol/user
+        
         final state = context.read<DealsBloc>().state;
         if (state is DealsLoaded) {
           final relatedOrders = state.filteredDeals
@@ -174,9 +174,9 @@ class DealsTable extends StatelessWidget {
 
         return Column(
           children: [
-            // Record count
+            
             ViewRecordCount(count: state.totalRecords),
-            // Table
+            
             Expanded(
               child: ViewDataTable<Deal>(
                 columns: _getColumns(),

@@ -1,32 +1,32 @@
 import '../../../../core/errors/exceptions.dart';
 import '../models/market_item_model.dart';
 
-/// Local data source for market watch data
-/// Provides dummy data for the application
-/// In a real app, this would interact with a local database or cache
+
+
+
 abstract class MarketWatchLocalDataSource {
-  /// Get all market items from local storage
+  
   Future<List<MarketItemModel>> getMarketItems();
   
-  /// Add a market item to local storage
+  
   Future<MarketItemModel> addMarketItem(MarketItemModel item);
   
-  /// Delete a market item from local storage
+  
   Future<bool> deleteMarketItem(String id);
   
-  /// Update a market item in local storage
+  
   Future<MarketItemModel> updateMarketItem(MarketItemModel item);
 }
 
-/// Implementation of local data source with in-memory dummy data
+
 class MarketWatchLocalDataSourceImpl implements MarketWatchLocalDataSource {
-  /// In-memory list of market items (simulating local database)
+  
   final List<MarketItemModel> _marketItems = _getDummyData();
 
   @override
   Future<List<MarketItemModel>> getMarketItems() async {
     try {
-      // Simulate network delay
+      
       await Future.delayed(const Duration(milliseconds: 300));
       return List.from(_marketItems);
     } catch (e) {
@@ -37,7 +37,7 @@ class MarketWatchLocalDataSourceImpl implements MarketWatchLocalDataSource {
   @override
   Future<MarketItemModel> addMarketItem(MarketItemModel item) async {
     try {
-      // Simulate network delay
+      
       await Future.delayed(const Duration(milliseconds: 200));
       _marketItems.add(item);
       return item;
@@ -49,7 +49,7 @@ class MarketWatchLocalDataSourceImpl implements MarketWatchLocalDataSource {
   @override
   Future<bool> deleteMarketItem(String id) async {
     try {
-      // Simulate network delay
+      
       await Future.delayed(const Duration(milliseconds: 200));
       final index = _marketItems.indexWhere((item) => item.id == id);
       if (index != -1) {
@@ -65,7 +65,7 @@ class MarketWatchLocalDataSourceImpl implements MarketWatchLocalDataSource {
   @override
   Future<MarketItemModel> updateMarketItem(MarketItemModel item) async {
     try {
-      // Simulate network delay
+      
       await Future.delayed(const Duration(milliseconds: 200));
       final index = _marketItems.indexWhere((i) => i.id == item.id);
       if (index != -1) {
@@ -79,8 +79,8 @@ class MarketWatchLocalDataSourceImpl implements MarketWatchLocalDataSource {
     }
   }
 
-  /// Generate dummy market data
-  /// This simulates data that would come from an API or database
+  
+  
   static List<MarketItemModel> _getDummyData() {
     final now = DateTime.now();
     

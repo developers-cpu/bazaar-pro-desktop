@@ -8,7 +8,7 @@ import '../../bloc/deals/deals_state.dart';
 import '../../widget/deals/deals_filter_bar.dart';
 import '../../widget/deals/deals_table.dart';
 
-/// Deals Page
+
 class DealsPage extends StatefulWidget {
   const DealsPage({Key? key}) : super(key: key);
 
@@ -33,16 +33,16 @@ class _DealsPageState extends State<DealsPage> {
         color: AppColors.white,
         child: Column(
           children: [
-            // Filter Bar
+            
             const DealsFilterBar(),
 
-            // Divider
+            
             Container(
               height: 1.h,
               color: AppColors.greyBorder,
             ),
 
-            // Table
+            
             const Expanded(
               child: DealsTable(
                 showDeviceInfo: true,

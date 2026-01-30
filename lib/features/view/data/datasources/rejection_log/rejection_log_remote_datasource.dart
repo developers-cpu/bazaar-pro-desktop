@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import '../../models/rejection_log/rejection_log_model.dart';
 
-/// Rejection Log remote data source interface
+
 abstract class RejectionLogRemoteDataSource {
   Future<List<RejectionLogModel>> getRejectionLogs();
 
@@ -21,7 +21,7 @@ abstract class RejectionLogRemoteDataSource {
   Future<String> exportToExcel(List<RejectionLogModel> logs);
 }
 
-/// Implementation
+
 class RejectionLogRemoteDataSourceImpl
     implements RejectionLogRemoteDataSource {
   final Dio dio;
@@ -31,7 +31,7 @@ class RejectionLogRemoteDataSourceImpl
   @override
   Future<List<RejectionLogModel>> getRejectionLogs() async {
     try {
-      // TODO: Replace with actual API call
+      
       await Future.delayed(const Duration(milliseconds: 500));
       return _generateMockRejectionLogs();
     } catch (e) {
@@ -66,8 +66,8 @@ class RejectionLogRemoteDataSourceImpl
           matches = matches && log.userName == client;
         }
         if (exchange != null && exchange.isNotEmpty) {
-          // Filter by exchange if needed (add exchange field to entity)
-          // matches = matches && log.exchange == exchange;
+          
+          
         }
         if (symbol != null && symbol.isNotEmpty) {
           matches = matches && log.symbol == symbol;
@@ -137,7 +137,7 @@ class RejectionLogRemoteDataSourceImpl
     }
   }
 
-  /// Generate mock data based on the screenshots
+  
   List<RejectionLogModel> _generateMockRejectionLogs() {
     final List<RejectionLogModel> logs = [];
     final symbols = [

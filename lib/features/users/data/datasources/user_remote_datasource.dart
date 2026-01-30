@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import '../models/user_model.dart';
 
-/// Abstract class for User Remote Data Source
+
 abstract class UserRemoteDataSource {
   Future<List<UserModel>> getUsers();
   Future<List<UserModel>> getUsersWithFilters({
@@ -18,13 +18,13 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   @override
   Future<List<UserModel>> getUsers() async {
     try {
-      // TODO: Replace with actual API endpoint
-      // final response = await dio.get('/api/users');
-      // return (response.data as List)
-      //     .map((json) => UserModel.fromJson(json))
-      //     .toList();
+      
+      
+      
+      
+      
 
-      // For now, return dummy data
+      
       await Future.delayed(const Duration(milliseconds: 500));
       return _generateDummyUsers();
     } catch (e) {
@@ -38,11 +38,11 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
     String? userStatus,
   }) async {
     try {
-      // TODO: Replace with actual API endpoint with query params
-      // final response = await dio.get('/api/users', queryParameters: {
-      //   if (userType != null) 'user_type': userType,
-      //   if (userStatus != null) 'status': userStatus,
-      // });
+      
+      
+      
+      
+      
 
       await Future.delayed(const Duration(milliseconds: 300));
       final allUsers = _generateDummyUsers();

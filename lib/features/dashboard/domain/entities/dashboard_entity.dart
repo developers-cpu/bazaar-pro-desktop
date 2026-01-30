@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-/// Trade Report Data for a specific date
+
 class TradeReportData extends Equatable {
   final String date;
   final double deleted;
@@ -18,7 +18,7 @@ class TradeReportData extends Equatable {
   List<Object?> get props => [date, deleted, cancelled, success];
 }
 
-/// Symbol wise report data for pie chart
+
 class SymbolReportData extends Equatable {
   final String symbol;
   final double value;
@@ -36,7 +36,7 @@ class SymbolReportData extends Equatable {
   List<Object?> get props => [symbol, value, percentage, colorIndex];
 }
 
-/// Dashboard summary data
+
 class DashboardSummary extends Equatable {
   final double pnl;
   final double bk;
@@ -54,7 +54,7 @@ class DashboardSummary extends Equatable {
   List<Object?> get props => [pnl, bk, other, balance];
 }
 
-/// Complete Dashboard Data
+
 class DashboardData extends Equatable {
   final List<TradeReportData> tradeReports;
   final List<SymbolReportData> symbolReports;

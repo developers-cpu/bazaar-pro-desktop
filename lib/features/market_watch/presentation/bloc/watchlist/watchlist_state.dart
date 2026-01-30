@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-/// Base class for all watchlist states
+
 abstract class WatchlistState extends Equatable {
   const WatchlistState();
 
@@ -8,22 +8,22 @@ abstract class WatchlistState extends Equatable {
   List<Object?> get props => [];
 }
 
-/// Initial state when the BLoC is created
+
 class WatchlistInitial extends WatchlistState {
   const WatchlistInitial();
 }
 
-/// State when watchlist are loaded
+
 class WatchlistLoaded extends WatchlistState {
   final List<String> watchlists;
-  final int selectedIndex; // -1 means "All" is selected
+  final int selectedIndex; 
 
   const WatchlistLoaded({
     required this.watchlists,
     this.selectedIndex = -1,
   });
 
-  /// Create a copy of this state with updated fields
+  
   WatchlistLoaded copyWith({
     List<String>? watchlists,
     int? selectedIndex,
@@ -38,7 +38,7 @@ class WatchlistLoaded extends WatchlistState {
   List<Object?> get props => [watchlists, selectedIndex];
 }
 
-/// State when an error occurs
+
 class WatchlistError extends WatchlistState {
   final String message;
 
@@ -48,7 +48,7 @@ class WatchlistError extends WatchlistState {
   List<Object> get props => [message];
 }
 
-/// State for showing success messages
+
 class WatchlistSuccess extends WatchlistState {
   final String message;
   final WatchlistLoaded previousState;

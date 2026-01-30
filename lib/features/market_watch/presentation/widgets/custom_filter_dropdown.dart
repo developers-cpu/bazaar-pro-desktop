@@ -107,7 +107,7 @@ class _CustomFilterDropdownState extends State<CustomFilterDropdown>
         onTap: _close,
         child: Stack(
           children: [
-            // Dropdown menu
+            
             Positioned(
               width: widget.width ?? size.width,
               child: CompositedTransformFollower(
@@ -190,14 +190,14 @@ class _CustomFilterDropdownState extends State<CustomFilterDropdown>
             ),
             child: Row(
               children: [
-                // Text
+                
                 Expanded(
                   child: Text(
                     widget.value ?? widget.hintText,
                     style: _textStyle,
                   ),
                 ),
-                // Dropdown arrow icon
+                
                 Icon(
                   _isOpen
                       ? Icons.keyboard_arrow_up

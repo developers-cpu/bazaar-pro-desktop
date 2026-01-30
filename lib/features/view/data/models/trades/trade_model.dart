@@ -1,6 +1,6 @@
 import '../../../domain/entities/trades/trade.dart';
 
-/// Trade model for data layer
+
 class TradeModel extends Trade {
   const TradeModel({
     required super.id,
@@ -70,7 +70,7 @@ class TradeModel extends Trade {
     };
   }
 
-  /// Create from entity
+  
   factory TradeModel.fromEntity(Trade trade) {
     return TradeModel(
       id: trade.id,

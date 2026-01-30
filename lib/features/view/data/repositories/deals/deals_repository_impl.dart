@@ -6,7 +6,7 @@ import '../../datasources/deals/deals_remote_datasource.dart';
 import '../../models/deals/deals_model.dart';
 
 
-/// Deals repository implementation
+
 class DealsRepositoryImpl implements DealsRepository {
   final DealsRemoteDataSource remoteDataSource;
 

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-/// View and Reset Buttons Widget for Users section
+
 class UserResetButtons extends StatelessWidget {
   final VoidCallback? onView;
   final VoidCallback? onReset;
@@ -93,7 +93,7 @@ class UserResetButtons extends StatelessWidget {
   }
 }
 
-/// Record Count Widget (inline version)
+
 class UserRecordCountWidget extends StatelessWidget {
   final int count;
   final String label;

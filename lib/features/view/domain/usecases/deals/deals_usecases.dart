@@ -4,7 +4,7 @@ import '../../../../../core/usecases/usecase.dart';
 import '../../entities/deals/deals.dart';
 import '../../repositories/deals/deals_repository.dart';
 
-/// Get all deals usecase
+
 class GetDeals implements UseCase<List<Deal>, NoParams> {
   final DealsRepository repository;
 
@@ -16,7 +16,7 @@ class GetDeals implements UseCase<List<Deal>, NoParams> {
   }
 }
 
-/// Get deals with filters usecase
+
 class GetDealsWithFilters implements UseCase<List<Deal>, DealsFilterParams> {
   final DealsRepository repository;
 
@@ -36,7 +36,7 @@ class GetDealsWithFilters implements UseCase<List<Deal>, DealsFilterParams> {
   }
 }
 
-/// Filter parameters for deals
+
 class DealsFilterParams {
   final DateTime? startDate;
   final DateTime? endDate;
@@ -57,7 +57,7 @@ class DealsFilterParams {
   });
 }
 
-/// Get clients for filter
+
 class GetDealsClients implements UseCase<List<String>, NoParams> {
   final DealsRepository repository;
 
@@ -69,7 +69,7 @@ class GetDealsClients implements UseCase<List<String>, NoParams> {
   }
 }
 
-/// Get exchanges for filter
+
 class GetDealsExchanges implements UseCase<List<String>, NoParams> {
   final DealsRepository repository;
 
@@ -81,7 +81,7 @@ class GetDealsExchanges implements UseCase<List<String>, NoParams> {
   }
 }
 
-/// Get symbols for filter
+
 class GetDealsSymbols implements UseCase<List<String>, NoParams> {
   final DealsRepository repository;
 
@@ -93,7 +93,7 @@ class GetDealsSymbols implements UseCase<List<String>, NoParams> {
   }
 }
 
-/// Get order types for filter
+
 class GetDealsOrderTypes implements UseCase<List<String>, NoParams> {
   final DealsRepository repository;
 
@@ -105,7 +105,7 @@ class GetDealsOrderTypes implements UseCase<List<String>, NoParams> {
   }
 }
 
-/// Get statuses for filter
+
 class GetDealsStatuses implements UseCase<List<String>, NoParams> {
   final DealsRepository repository;
 
@@ -117,7 +117,7 @@ class GetDealsStatuses implements UseCase<List<String>, NoParams> {
   }
 }
 
-/// Export deals to PDF
+
 class ExportDealsToPdf implements UseCase<String, List<Deal>> {
   final DealsRepository repository;
 
@@ -129,7 +129,7 @@ class ExportDealsToPdf implements UseCase<String, List<Deal>> {
   }
 }
 
-/// Export deals to Excel
+
 class ExportDealsToExcel implements UseCase<String, List<Deal>> {
   final DealsRepository repository;
 

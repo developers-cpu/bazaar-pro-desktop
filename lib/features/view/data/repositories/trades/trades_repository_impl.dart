@@ -6,7 +6,7 @@ import '../../../domain/repositories/trades/trades_repository.dart';
 import '../../datasources/trades/trades_remote_datasource.dart';
 import '../../models/trades/trade_model.dart';
 
-/// Trades repository implementation
+
 class TradesRepositoryImpl implements TradesRepository {
   final TradesRemoteDataSource remoteDataSource;
 

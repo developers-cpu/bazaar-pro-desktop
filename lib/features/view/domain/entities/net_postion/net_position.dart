@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-/// Net Position entity for View section
+
 class NetPosition extends Equatable {
   final String id;
   final String userName;
@@ -11,8 +11,8 @@ class NetPosition extends Equatable {
   final double sellQty;
   final double netQty;
   final double netAvgPrice;
-  final double cmp; // Current Market Price
-  final double m2mAmount; // Mark to Market Amount
+  final double cmp; 
+  final double m2mAmount; 
   final double ourPercentage;
   final int userCount;
   final int days;

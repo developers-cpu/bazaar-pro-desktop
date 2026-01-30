@@ -4,7 +4,7 @@ import '../../../../../core/usecases/usecase.dart';
 import '../../entities/trades/trade.dart';
 import '../../repositories/trades/trades_repository.dart';
 
-/// Get all trades usecase
+
 class GetTrades implements UseCase<List<Trade>, NoParams> {
   final TradesRepository repository;
 
@@ -16,7 +16,7 @@ class GetTrades implements UseCase<List<Trade>, NoParams> {
   }
 }
 
-/// Get trades with filters usecase
+
 class GetTradesWithFilters implements UseCase<List<Trade>, TradesFilterParams> {
   final TradesRepository repository;
 
@@ -35,7 +35,7 @@ class GetTradesWithFilters implements UseCase<List<Trade>, TradesFilterParams> {
   }
 }
 
-/// Filter parameters for trades
+
 class TradesFilterParams {
   final DateTime? startDate;
   final DateTime? endDate;
@@ -54,7 +54,7 @@ class TradesFilterParams {
   });
 }
 
-/// Get clients for filter
+
 class GetTradesClients implements UseCase<List<String>, NoParams> {
   final TradesRepository repository;
 
@@ -66,7 +66,7 @@ class GetTradesClients implements UseCase<List<String>, NoParams> {
   }
 }
 
-/// Get exchanges for filter
+
 class GetTradesExchanges implements UseCase<List<String>, NoParams> {
   final TradesRepository repository;
 
@@ -78,7 +78,7 @@ class GetTradesExchanges implements UseCase<List<String>, NoParams> {
   }
 }
 
-/// Get symbols for filter
+
 class GetTradesSymbols implements UseCase<List<String>, NoParams> {
   final TradesRepository repository;
 
@@ -90,7 +90,7 @@ class GetTradesSymbols implements UseCase<List<String>, NoParams> {
   }
 }
 
-/// Get order types for filter
+
 class GetTradesOrderTypes implements UseCase<List<String>, NoParams> {
   final TradesRepository repository;
 
@@ -102,7 +102,7 @@ class GetTradesOrderTypes implements UseCase<List<String>, NoParams> {
   }
 }
 
-/// Export trades to PDF
+
 class ExportTradesToPdf implements UseCase<String, List<Trade>> {
   final TradesRepository repository;
 
@@ -114,7 +114,7 @@ class ExportTradesToPdf implements UseCase<String, List<Trade>> {
   }
 }
 
-/// Export trades to Excel
+
 class ExportTradesToExcel implements UseCase<String, List<Trade>> {
   final TradesRepository repository;
 

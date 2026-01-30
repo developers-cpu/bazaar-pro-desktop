@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import '../../models/net_postion/net_position_model.dart';
 
-/// Net Position remote data source interface
+
 abstract class NetPositionRemoteDataSource {
   Future<List<NetPositionModel>> getNetPositions();
   Future<List<NetPositionModel>> getNetPositionsWithFilters({
@@ -22,7 +22,7 @@ abstract class NetPositionRemoteDataSource {
   });
 }
 
-/// Net Position remote data source implementation
+
 class NetPositionRemoteDataSourceImpl implements NetPositionRemoteDataSource {
   final Dio dio;
 
@@ -31,11 +31,11 @@ class NetPositionRemoteDataSourceImpl implements NetPositionRemoteDataSource {
   @override
   Future<List<NetPositionModel>> getNetPositions() async {
     try {
-      // TODO: Replace with actual API call
-      // final response = await dio.get('/net-positions');
-      // return (response.data as List).map((e) => NetPositionModel.fromJson(e)).toList();
+      
+      
+      
 
-      // Mock data for development
+      
       await Future.delayed(const Duration(milliseconds: 500));
       return _generateMockNetPositions();
     } catch (e) {
@@ -51,7 +51,7 @@ class NetPositionRemoteDataSourceImpl implements NetPositionRemoteDataSource {
     String? symbol,
   }) async {
     try {
-      // TODO: Replace with actual API call with filters
+      
       await Future.delayed(const Duration(milliseconds: 300));
 
       final allPositions = await getNetPositions();
@@ -127,7 +127,7 @@ class NetPositionRemoteDataSourceImpl implements NetPositionRemoteDataSource {
   @override
   Future<String> exportToPdf(List<NetPositionModel> positions) async {
     try {
-      // TODO: Implement PDF export
+      
       await Future.delayed(const Duration(seconds: 1));
       return 'net_positions_export_${DateTime.now().millisecondsSinceEpoch}.pdf';
     } catch (e) {
@@ -138,7 +138,7 @@ class NetPositionRemoteDataSourceImpl implements NetPositionRemoteDataSource {
   @override
   Future<String> exportToExcel(List<NetPositionModel> positions) async {
     try {
-      // TODO: Implement Excel export
+      
       await Future.delayed(const Duration(seconds: 1));
       return 'net_positions_export_${DateTime.now().millisecondsSinceEpoch}.xlsx';
     } catch (e) {
@@ -154,7 +154,7 @@ class NetPositionRemoteDataSourceImpl implements NetPositionRemoteDataSource {
     try {
       await Future.delayed(const Duration(milliseconds: 300));
 
-      // Return detailed position breakdown for the clicked NET QTY
+      
       final allPositions = await getNetPositions();
       return allPositions
           .where((position) =>
@@ -165,7 +165,7 @@ class NetPositionRemoteDataSourceImpl implements NetPositionRemoteDataSource {
     }
   }
 
-  /// Generate mock net positions for development
+  
   List<NetPositionModel> _generateMockNetPositions() {
     final List<NetPositionModel> positions = [];
     final symbols = ['GOLD05DEC', 'SILVER05DEC', 'CRUDE05DEC', 'MCX SILVER Dec 05'];

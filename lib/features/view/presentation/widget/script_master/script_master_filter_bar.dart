@@ -7,7 +7,7 @@ import '../../bloc/script_master/script_master_event.dart';
 import '../../bloc/script_master/script_master_state.dart';
 import '../common/view_reset_buttons.dart';
 
-/// Filter bar for Script Master page
+
 class ScriptMasterFilterBar extends StatelessWidget {
   const ScriptMasterFilterBar({Key? key}) : super(key: key);
 
@@ -23,7 +23,7 @@ class ScriptMasterFilterBar extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Row(
             children: [
-              // Exchange Dropdown
+              
               SizedBox(
                 width: 200.w,
                 child: AppDropdown(
@@ -44,7 +44,7 @@ class ScriptMasterFilterBar extends StatelessWidget {
               ),
               SizedBox(width: 12.w),
 
-              // Symbol Dropdown
+              
               SizedBox(
                 width: 200.w,
                 child: AppDropdown(
@@ -65,7 +65,7 @@ class ScriptMasterFilterBar extends StatelessWidget {
 
               const Spacer(),
 
-              // Reset and View Buttons
+              
               ViewResetButtons(
                 onReset: () {
                   context.read<ScriptMasterBloc>().add(

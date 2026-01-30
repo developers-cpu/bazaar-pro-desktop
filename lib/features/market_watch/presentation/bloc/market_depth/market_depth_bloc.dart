@@ -16,7 +16,7 @@ class MarketDepthBloc extends Bloc<MarketDepthEvent, MarketDepthState> {
 
   void _onOpenMarketDepth(
       OpenMarketDepthEvent event, Emitter<MarketDepthState> emit) {
-    // Sample market depth data
+    
     final sampleData = MarketDepthData(
       lotSize: 35,
       ltp: 60013,
@@ -60,14 +60,14 @@ class MarketDepthBloc extends Bloc<MarketDepthEvent, MarketDepthState> {
   void _onUpdateExchange(
       UpdateExchangeEvent event, Emitter<MarketDepthState> emit) {
     emit(state.copyWith(exchange: event.exchange));
-    // Optionally refresh data when exchange changes
+    
     add(const RefreshMarketDepthEvent());
   }
 
   void _onUpdateSymbol(
       UpdateSymbolEvent event, Emitter<MarketDepthState> emit) {
     emit(state.copyWith(symbol: event.symbol));
-    // Optionally refresh data when symbol changes
+    
     add(const RefreshMarketDepthEvent());
   }
 
@@ -75,10 +75,10 @@ class MarketDepthBloc extends Bloc<MarketDepthEvent, MarketDepthState> {
       RefreshMarketDepthEvent event, Emitter<MarketDepthState> emit) async {
     emit(state.copyWith(isLoading: true));
 
-    // Simulate API call
+    
     await Future.delayed(const Duration(milliseconds: 500));
 
-    // Generate new sample data (in real app, fetch from API)
+    
     final sampleData = MarketDepthData(
       lotSize: 35,
       ltp: 60013,

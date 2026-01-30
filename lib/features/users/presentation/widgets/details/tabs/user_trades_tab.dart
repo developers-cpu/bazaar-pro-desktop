@@ -63,7 +63,7 @@ class UserTradesTabView extends StatelessWidget {
 
           return Row(
             children: [
-              // Date Range Picker
+              
               InkWell(
                 onTap: () async {
                   final result = await DateRangePickerDialog.show(
@@ -113,7 +113,7 @@ class UserTradesTabView extends StatelessWidget {
               ),
               SizedBox(width: 12.w),
 
-              // Exchange Dropdown
+              
               AppDropdown(
                 hintText: 'Exchange',
                 items: const ['NSE', 'MCX'],
@@ -134,7 +134,7 @@ class UserTradesTabView extends StatelessWidget {
               ),
               SizedBox(width: 12.w),
 
-              // Symbol Dropdown (Search)
+              
               AppDropdown(
                 hintText: 'Symbol',
                 items: const [
@@ -165,7 +165,7 @@ class UserTradesTabView extends StatelessWidget {
               ),
               SizedBox(width: 12.w),
 
-              // Status Dropdown
+              
               AppDropdown(
                 hintText: 'Status',
                 items: const [
@@ -205,7 +205,7 @@ class UserTradesTabView extends StatelessWidget {
                   );
                 },
                 onView: () {
-                  // View logic
+                  
                 },
               ),
             ],

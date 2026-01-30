@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-/// Deal entity for View section
+
 class Deal extends Equatable {
   final String id;
   final String userName;

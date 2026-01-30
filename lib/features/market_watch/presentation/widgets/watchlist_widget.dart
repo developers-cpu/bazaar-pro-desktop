@@ -107,7 +107,7 @@ class WatchlistWidget extends StatelessWidget {
     );
   }
 
-  /// Build Add Button
+  
   Widget _buildAddButton(BuildContext context) {
     return InkWell(
       onTap: () {

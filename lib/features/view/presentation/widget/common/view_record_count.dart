@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 
 
-/// Shared record count widget for View section tables
+
 class ViewRecordCount extends StatelessWidget {
   final int count;
   final String label;

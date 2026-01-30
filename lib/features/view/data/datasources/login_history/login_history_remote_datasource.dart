@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import '../../models/login_history/login_history_model.dart';
 
-/// Login History remote data source interface
+
 abstract class LoginHistoryRemoteDataSource {
   Future<List<LoginHistoryModel>> getLoginHistory(String client);
   Future<List<String>> getClients();
@@ -9,7 +9,7 @@ abstract class LoginHistoryRemoteDataSource {
   Future<String> exportToExcel(List<LoginHistoryModel> history);
 }
 
-/// Implementation
+
 class LoginHistoryRemoteDataSourceImpl implements LoginHistoryRemoteDataSource {
   final Dio dio;
 
@@ -18,7 +18,7 @@ class LoginHistoryRemoteDataSourceImpl implements LoginHistoryRemoteDataSource {
   @override
   Future<List<LoginHistoryModel>> getLoginHistory(String client) async {
     try {
-      // TODO: Replace with actual API call
+      
       await Future.delayed(const Duration(milliseconds: 500));
       return _generateMockLoginHistory(client);
     } catch (e) {
@@ -56,7 +56,7 @@ class LoginHistoryRemoteDataSourceImpl implements LoginHistoryRemoteDataSource {
     }
   }
 
-  /// Generate mock data
+  
   List<LoginHistoryModel> _generateMockLoginHistory(String client) {
     final List<LoginHistoryModel> history = [];
     final userTypes = ['MASTER', 'CLIENT'];

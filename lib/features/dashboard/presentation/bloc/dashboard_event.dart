@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-/// Dashboard Events
+
 abstract class DashboardEvent extends Equatable {
   const DashboardEvent();
 

@@ -13,7 +13,7 @@ import 'shared/high_low_limit_step.dart';
 import 'shared/brokerage_setting_step.dart';
 import 'client_steps/client_trigger_settings_step.dart';
 
-/// Create/Edit Client Dialog
+
 class ClientFormDialog extends StatelessWidget {
   final bool isEditMode;
   final Map<String, dynamic>? userData;
@@ -162,12 +162,12 @@ class ClientFormDialog extends StatelessWidget {
     );
   }
 
-  /// Client flow: 5 steps
-  /// 0: Personal Details
-  /// 1: Exchange Allow
-  /// 2: High Low Limit
-  /// 3: Trigger Settings
-  /// 4: Brokerage Settings
+  
+  
+  
+  
+  
+  
   Widget _buildStepContent(UserFormState state) {
     switch (state.currentStep) {
       case 0:

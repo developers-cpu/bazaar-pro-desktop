@@ -1,8 +1,8 @@
 import '../../domain/entities/market_item.dart';
 
-/// Data model for MarketItem
-/// Extends the domain entity and adds serialization capabilities
-/// Handles conversion between JSON and domain entities
+
+
+
 class MarketItemModel extends MarketItem {
   const MarketItemModel({
     required super.id,
@@ -23,8 +23,8 @@ class MarketItemModel extends MarketItem {
     required super.lut,
   });
 
-  /// Create a model from JSON data
-  /// Handles parsing and type conversions from JSON
+  
+  
   factory MarketItemModel.fromJson(Map<String, dynamic> json) {
     return MarketItemModel(
       id: json['id'] as String,
@@ -48,7 +48,7 @@ class MarketItemModel extends MarketItem {
     );
   }
 
-  /// Convert model to JSON for storage or transmission
+  
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -70,7 +70,7 @@ class MarketItemModel extends MarketItem {
     };
   }
 
-  /// Create a model from a domain entity
+  
   factory MarketItemModel.fromEntity(MarketItem entity) {
     return MarketItemModel(
       id: entity.id,
@@ -92,7 +92,7 @@ class MarketItemModel extends MarketItem {
     );
   }
 
-  /// Convert model to domain entity
+  
   MarketItem toEntity() {
     return MarketItem(
       id: id,

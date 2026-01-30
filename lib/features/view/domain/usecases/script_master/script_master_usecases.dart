@@ -4,7 +4,7 @@ import '../../../../../core/usecases/usecase.dart';
 import '../../entities/script_master/script_master.dart';
 import '../../repositories/script_master/script_master_repository.dart';
 
-/// Get all script masters usecase
+
 class GetScriptMasters implements UseCase<List<ScriptMaster>, NoParams> {
   final ScriptMasterRepository repository;
 
@@ -16,7 +16,7 @@ class GetScriptMasters implements UseCase<List<ScriptMaster>, NoParams> {
   }
 }
 
-/// Get script masters with filters usecase
+
 class GetScriptMastersWithFilters implements UseCase<List<ScriptMaster>, ScriptMasterFilterParams> {
   final ScriptMasterRepository repository;
 
@@ -31,7 +31,7 @@ class GetScriptMastersWithFilters implements UseCase<List<ScriptMaster>, ScriptM
   }
 }
 
-/// Filter parameters for script masters
+
 class ScriptMasterFilterParams {
   final String? exchange;
   final String? symbol;
@@ -42,7 +42,7 @@ class ScriptMasterFilterParams {
   });
 }
 
-/// Get exchanges for filter
+
 class GetScriptMasterExchanges implements UseCase<List<String>, NoParams> {
   final ScriptMasterRepository repository;
 
@@ -54,7 +54,7 @@ class GetScriptMasterExchanges implements UseCase<List<String>, NoParams> {
   }
 }
 
-/// Get symbols for filter
+
 class GetScriptMasterSymbols implements UseCase<List<String>, NoParams> {
   final ScriptMasterRepository repository;
 
@@ -66,7 +66,7 @@ class GetScriptMasterSymbols implements UseCase<List<String>, NoParams> {
   }
 }
 
-/// Export script masters to PDF
+
 class ExportScriptMastersToPdf implements UseCase<String, List<ScriptMaster>> {
   final ScriptMasterRepository repository;
 
@@ -78,7 +78,7 @@ class ExportScriptMastersToPdf implements UseCase<String, List<ScriptMaster>> {
   }
 }
 
-/// Export script masters to Excel
+
 class ExportScriptMastersToExcel implements UseCase<String, List<ScriptMaster>> {
   final ScriptMasterRepository repository;
 

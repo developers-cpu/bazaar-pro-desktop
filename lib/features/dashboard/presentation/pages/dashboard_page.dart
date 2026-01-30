@@ -12,7 +12,7 @@ import '../widget/report_card.dart';
 import '../widget/symbol_wise_chart.dart';
 import '../widget/trade_reports_chart.dart';
 
-/// Dashboard Page (Content Only - for embedding in MarketWatchPage)
+
 class DashboardPage extends StatefulWidget {
   const DashboardPage({Key? key}) : super(key: key);
 
@@ -33,7 +33,7 @@ class _DashboardPageState extends State<DashboardPage> {
   }
 }
 
-/// Dashboard Page with AppBar (Standalone - for direct route access)
+
 class DashboardPageWithAppBar extends StatelessWidget {
   const DashboardPageWithAppBar({Key? key}) : super(key: key);
 
@@ -42,7 +42,7 @@ class DashboardPageWithAppBar extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: AppBarSection(
-        selectedTabIndex: 1, // Dashboard tab is selected
+        selectedTabIndex: 1, 
         onTabSelected: (_) {},
         showExportByDefault: false,
       ),
@@ -136,7 +136,7 @@ class _DashboardView extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Title
+        
         Padding(
           padding: EdgeInsets.fromLTRB(20.w, 16.h, 20.w, 12.h),
           child: Text(
@@ -161,7 +161,7 @@ class _DashboardView extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    // Trade Reports
+                    
                     Expanded(
                       child: ConstrainedBox(
                         constraints: BoxConstraints(
@@ -198,7 +198,7 @@ class _DashboardView extends StatelessWidget {
                       ),
                     ),
                     SizedBox(width: 16.w),
-                    // Symbol Wise Report
+                    
                     Expanded(
                       child: ConstrainedBox(
                         constraints: BoxConstraints(
@@ -251,7 +251,7 @@ class _DashboardView extends StatelessWidget {
             ),
           ),
         ),
-        // Footer - Dynamic spacing
+        
         SizedBox(height: 16.h),
         DashboardFooter(summary: state.summary),
         SizedBox(height: 8.h),

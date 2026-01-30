@@ -18,7 +18,7 @@ class UserSharingDetailsTab extends StatelessWidget {
         children: [
           Expanded(
             child: _buildSharingCard(context, 'PL Sharing', [
-              {'Person': 'Person', 'Share': 'Share'}, // Header
+              {'Person': 'Person', 'Share': 'Share'}, 
               {'Person': 'Admin', 'Share': '5000%'},
               {'Person': 'Master ( RAJ701 )', 'Share': '5000%'},
               {'Person': 'Client ( marko )', 'Share': '000%'},
@@ -27,7 +27,7 @@ class UserSharingDetailsTab extends StatelessWidget {
           SizedBox(width: 16.w),
           Expanded(
             child: _buildSharingCard(context, 'Brokerage Sharing', [
-              {'Person': 'Person', 'Share': 'Share'}, // Header
+              {'Person': 'Person', 'Share': 'Share'}, 
               {'Person': 'Admin', 'Share': '5000%'},
               {'Person': 'Master ( RAJ701 )', 'Share': '5000%'},
               {'Person': 'Client ( marko )', 'Share': '000%'},

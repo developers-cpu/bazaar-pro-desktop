@@ -1,19 +1,19 @@
 import 'package:equatable/equatable.dart';
 
-/// Pending Order Entity
+
 class PendingOrder extends Equatable {
   final String id;
   final String userId;
   final String upline;
   final String exchange;
   final String symbol;
-  final String buySell; // BUY or SELL with type
+  final String buySell; 
   final double qty;
   final double lot;
   final double triggerPrice;
   final DateTime orderDateTime;
   final DateTime modifyOrderDateTime;
-  final String orderType; // Market, Limit, Stop, etc.
+  final String orderType; 
   final double cmp;
   final double rPrice;
   final String? deviceId;
@@ -38,10 +38,10 @@ class PendingOrder extends Equatable {
     this.ipAddress,
   });
 
-  /// Check if this is a BUY order
+  
   bool get isBuy => buySell.toUpperCase().startsWith('BUY');
 
-  /// Check if this is a SELL order
+  
   bool get isSell => buySell.toUpperCase().startsWith('SELL');
 
   @override

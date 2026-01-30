@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-/// Base event for Trades BLoC
+
 abstract class TradesEvent extends Equatable {
   const TradesEvent();
 

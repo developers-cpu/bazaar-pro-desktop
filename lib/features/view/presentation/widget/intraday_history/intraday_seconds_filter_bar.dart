@@ -20,7 +20,7 @@ class IntradaySecondsFilterBar extends StatefulWidget {
 }
 
 class _IntradaySecondsFilterBarState extends State<IntradaySecondsFilterBar> {
-  // Local state for dropdowns and times
+  
   String? _selectedExchange;
   String? _selectedSymbol;
   DateTime? _startTime;
@@ -56,7 +56,7 @@ class _IntradaySecondsFilterBarState extends State<IntradaySecondsFilterBar> {
           return const SizedBox.shrink();
         }
 
-        // Initialize values from state if not set
+        
         _selectedExchange ??= state.exchange.isNotEmpty ? state.exchange : null;
         _selectedSymbol ??= state.symbol.isNotEmpty ? state.symbol : null;
         _startTime ??= state.startTime;
@@ -66,7 +66,7 @@ class _IntradaySecondsFilterBarState extends State<IntradaySecondsFilterBar> {
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Column(
             children: [
-              // Row 1: Back Button with Title
+              
               Row(
                 children: [
                   _buildBackButton(context),
@@ -74,16 +74,16 @@ class _IntradaySecondsFilterBarState extends State<IntradaySecondsFilterBar> {
               ),
               SizedBox(height: 12.h),
 
-              // Row 2: All Filters
+              
               Row(
                 children: [
-                  // Date Picker
+                  
                   Expanded(
                     child: _buildDatePicker(context, state),
                   ),
                   SizedBox(width: 12.w),
 
-                  // Exchange Dropdown (Editable)
+                  
                   Expanded(
                     child: AppDropdown(
                       type: AppDropdownType.simple,
@@ -99,7 +99,7 @@ class _IntradaySecondsFilterBarState extends State<IntradaySecondsFilterBar> {
                   ),
                   SizedBox(width: 12.w),
 
-                  // Symbol Dropdown (Editable with search)
+                  
                   Expanded(
                     child: AppDropdown(
                       type: AppDropdownType.search,
@@ -115,7 +115,7 @@ class _IntradaySecondsFilterBarState extends State<IntradaySecondsFilterBar> {
                   ),
                   SizedBox(width: 12.w),
 
-                  // Start Time Picker (Editable)
+                  
                   Expanded(
                     child: _buildTimePicker(
                       context,
@@ -130,7 +130,7 @@ class _IntradaySecondsFilterBarState extends State<IntradaySecondsFilterBar> {
                   ),
                   SizedBox(width: 12.w),
 
-                  // End Time Picker (Editable)
+                  
                   Expanded(
                     child: _buildTimePicker(
                       context,
@@ -146,7 +146,7 @@ class _IntradaySecondsFilterBarState extends State<IntradaySecondsFilterBar> {
 
                   const Spacer(),
 
-                  // Reset and View Buttons
+                  
                   ViewResetButtons(
                     onReset: () {
                       context.read<IntradayHistoryBloc>().add(
@@ -154,7 +154,7 @@ class _IntradaySecondsFilterBarState extends State<IntradaySecondsFilterBar> {
                       );
                     },
                     onView: () {
-                      // Validate selections
+                      
                       if (_selectedExchange == null ||
                           _selectedExchange!.isEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -176,7 +176,7 @@ class _IntradaySecondsFilterBarState extends State<IntradaySecondsFilterBar> {
                         return;
                       }
 
-                      // Load data with selected filters
+                      
                       context.read<IntradayHistoryBloc>().add(
                         LoadSecondsDataEvent(
                           date: state.date,

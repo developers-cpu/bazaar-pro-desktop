@@ -42,7 +42,7 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
   int _selectedTabIndex = 0;
   int _selectedWatchlistIndex = -1;
 
-  // Use unified AppBarSection
+  
   final GlobalKey<AppBarSectionState> _appBarKey = GlobalKey();
 
   @override
@@ -59,7 +59,7 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
   }
 
   void _onTabSelected(int index) {
-    // Check if tab has dropdown - if so, don't change selected index
+    
     final hasDropdown = _appBarKey.currentState?.hasDropdown(index) ?? false;
     if (!hasDropdown) {
       setState(() {
@@ -75,17 +75,17 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
 
   void _onExportPdf() {
     _showMessage('Exporting to PDF...');
-    // Implement PDF export
+    
   }
 
   void _onExportExcel() {
     _showMessage('Exporting to Excel...');
-    // Implement Excel export
+    
   }
 
   void _handleViewAction(String action) {
     _showMessage('View: $action');
-    // Add navigation logic based on action
+    
   }
 
   void _handleUserAction(String action) {
@@ -142,7 +142,7 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
               onViewAction: _handleViewAction,
               onUserAction: _handleUserAction,
               onReportAction: _handleReportAction,
-              showExportByDefault: false, // Don't show export by default on Market Watch
+              showExportByDefault: false, 
             ),
             body: _buildBodyContent(),
           ),

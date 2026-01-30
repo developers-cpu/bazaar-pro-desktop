@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import '../../../domain/entities/deals/deals.dart';
 
 
-/// Base state for Deals BLoC
+
 abstract class DealsState extends Equatable {
   const DealsState();
 
@@ -11,17 +11,17 @@ abstract class DealsState extends Equatable {
   List<Object?> get props => [];
 }
 
-/// Initial state
+
 class DealsInitial extends DealsState {
   const DealsInitial();
 }
 
-/// Loading state
+
 class DealsLoading extends DealsState {
   const DealsLoading();
 }
 
-/// Loaded state
+
 class DealsLoaded extends DealsState {
   final List<Deal> deals;
   final List<Deal> filteredDeals;
@@ -30,7 +30,7 @@ class DealsLoaded extends DealsState {
   final String? sortColumn;
   final bool sortAscending;
 
-  // Filter values
+  
   final DateTime? startDate;
   final DateTime? endDate;
   final String? selectedClient;
@@ -39,7 +39,7 @@ class DealsLoaded extends DealsState {
   final String? selectedOrderType;
   final String? selectedStatus;
 
-  // Filter options
+  
   final List<String> clients;
   final List<String> exchanges;
   final List<String> symbols;
@@ -132,7 +132,7 @@ class DealsLoaded extends DealsState {
   }
 }
 
-/// Error state
+
 class DealsError extends DealsState {
   final String message;
 
@@ -142,7 +142,7 @@ class DealsError extends DealsState {
   List<Object?> get props => [message];
 }
 
-/// Export success state
+
 class DealsExportSuccess extends DealsState {
   final String message;
   final String filePath;

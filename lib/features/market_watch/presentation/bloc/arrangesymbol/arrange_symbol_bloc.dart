@@ -22,7 +22,7 @@ class ArrangeSymbolBloc extends Bloc<ArrangeSymbolEvent, ArrangeSymbolState> {
     ColumnItem(id: 'lut', name: 'LUT', isVisible: true),
   ];
 
-  // Saved columns (persisted)
+  
   List<ColumnItem> _savedColumns = List.from(_defaultColumns);
 
   ArrangeSymbolBloc() : super(const ArrangeSymbolState()) {
@@ -83,7 +83,7 @@ class ArrangeSymbolBloc extends Bloc<ArrangeSymbolEvent, ArrangeSymbolState> {
     ));
   }
 
-  // Get visible columns in order
+  
   List<ColumnItem> get visibleColumns {
     return _savedColumns.where((c) => c.isVisible).toList();
   }

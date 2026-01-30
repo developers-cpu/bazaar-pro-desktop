@@ -116,7 +116,7 @@ class SymbolFontBloc extends Bloc<SymbolFontEvent, SymbolFontState> {
     ));
   }
 
-  // Getters for saved values
+  
   String get savedFontFamily => _savedFontFamily;
   String get savedFontStyle => _savedFontStyle;
   int get savedFontSize => _savedFontSize;

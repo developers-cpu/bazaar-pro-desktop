@@ -29,12 +29,12 @@ void main() async {
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
     await windowManager.ensureInitialized();
 
-    // Get screen size
+    
     final screenSize = await windowManager.getSize();
     final screenWidth = screenSize.width;
     final screenHeight = screenSize.height;
 
-    // Calculate initial size (80% of screen size, but not exceeding 1920x1080)
+    
     final initialWidth = (screenWidth * 0.7).clamp(1280.0, 1920.0);
     final initialHeight = (screenHeight * 0.7).clamp(720.0, 1080.0);
 
@@ -65,7 +65,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        // Get actual window size
+        
         final windowWidth = constraints.maxWidth > 0
             ? constraints.maxWidth
             : 1920.0;
@@ -74,7 +74,7 @@ class MyApp extends StatelessWidget {
             : 1080.0;
 
         return ScreenUtilInit(
-          // Use actual window size for design size
+          
           designSize: Size(windowWidth, windowHeight),
           minTextAdapt: true,
           splitScreenMode: true,
@@ -82,49 +82,49 @@ class MyApp extends StatelessWidget {
           builder: (context, child) {
             return MultiBlocProvider(
               providers: [
-                // Auth BLoC
+                
                 BlocProvider(create: (_) => di.sl<AuthBloc>()),
 
-                // Market Watch BLoC
+                
                 BlocProvider(create: (_) => di.sl<MarketWatchBloc>()),
 
-                // Theme BLoC - For dark/light mode toggle
+                
                 BlocProvider(create: (_) => di.sl<ThemeBloc>()),
 
-                // Watchlist BLoC
+                
                 BlocProvider(create: (_) => di.sl<WatchlistBloc>()),
 
-                // Arrange Symbol BLoC - For column arrangement
+                
                 BlocProvider(create: (_) => di.sl<ArrangeSymbolBloc>()),
 
-                // Symbol Font BLoC - For font settings
+                
                 BlocProvider(create: (_) => di.sl<SymbolFontBloc>()),
 
-                // Order Dialog BLoC - For Buy/Sell dialogs
+                
                 BlocProvider(create: (_) => di.sl<OrderDialogBloc>()),
 
-                // Market Depth BLoC - For Market Depth dialog (F5)
+                
                 BlocProvider(create: (_) => di.sl<MarketDepthBloc>()),
 
-                // Dashboard BLoC - For Dashboard charts and reports
+                
                 BlocProvider(create: (_) => di.sl<DashboardBloc>()),
 
-                // Pending Orders BLoC - For View section pending orders
+                
                 BlocProvider(create: (_) => di.sl<PendingOrdersBloc>()),
 
-                // Net Position BLoC - For View section net positions
+                
                 BlocProvider(create: (_) => di.sl<NetPositionBloc>()),
 
-                // Net Position BLoC - For View section net positions
+                
                 BlocProvider(create: (_) => di.sl<RejectionLogBloc>()),
 
                 BlocProvider(create: (_) => di.sl<LoginHistoryBloc>()),
-                // Script Master BLoC - For View section script masters
+                
                 BlocProvider(create: (_) => di.sl<ScriptMasterBloc>()),
-                // Script Quantity BLoC - For View section script quantities
+                
                 BlocProvider(create: (_) => di.sl<ScriptQuantityBloc>()),
                 BlocProvider(create: (_) => di.sl<IntradayHistoryBloc>()),
-                // User List BLoC - For Users section user list
+                
                 BlocProvider(create: (_) => di.sl<UserListBloc>()),
               ],
               child: MaterialApp(
@@ -132,7 +132,7 @@ class MyApp extends StatelessWidget {
                 debugShowCheckedModeBanner: false,
                 themeMode: ThemeMode.system,
 
-                // Routing configuration
+                
                 initialRoute: AppRoutes.login,
                 routes: AppRoutes.getRoutes(),
               ),

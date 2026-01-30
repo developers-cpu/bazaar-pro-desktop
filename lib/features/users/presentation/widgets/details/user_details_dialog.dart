@@ -6,8 +6,10 @@ import '../../../../../../core/widget/common_dilog_box.dart';
 import 'package:bazarpro/features/users/domain/entities/user.dart';
 import 'tabs/user_placeholder_tab.dart';
 import 'tabs/user_position_tab.dart';
+import 'tabs/user_quantity_settings_tab.dart';
 import 'tabs/user_trades_tab.dart';
 import 'tabs/user_group_settings_tab.dart';
+
 import 'tabs/user_brokerage_tab.dart';
 import 'tabs/user_credit_tab.dart';
 import 'tabs/user_list_tab.dart';
@@ -56,10 +58,10 @@ class UserDetailsDialog extends StatefulWidget {
 }
 
 class _UserDetailsDialogState extends State<UserDetailsDialog>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   late TabController _tabController;
 
-  final List<String> _tabs = [
+  final List<String> _baseTabs = [
     'Position',
     'Trades',
     'Group Settings',
@@ -74,28 +76,79 @@ class _UserDetailsDialogState extends State<UserDetailsDialog>
     'Intraday Square off',
   ];
 
+  late List<String> _currentTabs;
+
+  String? _selectedQuantityGroup;
+
   @override
   void initState() {
     super.initState();
+    _currentTabs = List.from(_baseTabs);
+
     if (widget.user.type != 'Master') {
-      _tabs.remove('User List');
+      _currentTabs.remove('User List');
     }
 
+    _initTabController();
+  }
+
+  void _initTabController({int initialIndex = 0}) {
     _tabController = TabController(
-      length: _tabs.length,
+      length: _currentTabs.length,
       vsync: this,
-      initialIndex: widget.initialTab != null
-          ? _tabs.indexOf(widget.initialTab!) == -1
-                ? 0
-                : _tabs.indexOf(widget.initialTab!)
-          : 0,
+      initialIndex: initialIndex,
     );
+    _tabController.addListener(_handleTabSelection);
+  }
+
+  void _handleTabSelection() {
+    if (_tabController.indexIsChanging) {
+      return;
+    }
+
+    final currentTabName = _currentTabs[_tabController.index];
+    if (currentTabName != 'Quantity Settings' &&
+        _currentTabs.contains('Quantity Settings')) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+        setState(() {
+          _currentTabs.remove('Quantity Settings');
+          _selectedQuantityGroup = null;
+
+          int newIndex = _currentTabs.indexOf(currentTabName);
+          if (newIndex == -1) newIndex = 0;
+
+          _tabController.removeListener(_handleTabSelection);
+          _tabController.dispose();
+          _initTabController(initialIndex: newIndex);
+        });
+      });
+    }
   }
 
   @override
   void dispose() {
     _tabController.dispose();
     super.dispose();
+  }
+
+  void _onViewSettings(String groupName) {
+    setState(() {
+      _selectedQuantityGroup = groupName;
+      if (!_currentTabs.contains('Quantity Settings')) {
+        int groupIndex = _currentTabs.indexOf('Group Settings');
+        if (groupIndex != -1) {
+          _currentTabs.insert(groupIndex + 1, 'Quantity Settings');
+        } else {
+          _currentTabs.add('Quantity Settings');
+        }
+      }
+
+      int qtyIndex = _currentTabs.indexOf('Quantity Settings');
+      _tabController.removeListener(_handleTabSelection);
+      _tabController.dispose();
+      _initTabController(initialIndex: qtyIndex);
+    });
   }
 
   @override
@@ -114,14 +167,22 @@ class _UserDetailsDialogState extends State<UserDetailsDialog>
           Expanded(
             child: TabBarView(
               controller: _tabController,
-              children: _tabs.map((tab) {
+              children: _currentTabs.map((tab) {
                 switch (tab) {
                   case 'Position':
                     return UserPositionTab(user: widget.user);
                   case 'Trades':
                     return UserTradesTab(user: widget.user);
                   case 'Group Settings':
-                    return UserGroupSettingsTab(user: widget.user);
+                    return UserGroupSettingsTab(
+                      user: widget.user,
+                      onViewSettings: _onViewSettings,
+                    );
+                  case 'Quantity Settings':
+                    return UserQuantitySettingsTab(
+                      user: widget.user,
+                      groupName: _selectedQuantityGroup,
+                    );
                   case 'Brk':
                     return UserBrokerageTab(user: widget.user);
                   case 'Credit':
@@ -263,10 +324,10 @@ class _UserDetailsDialogState extends State<UserDetailsDialog>
           fontSize: 12.sp,
           fontWeight: FontWeight.w600,
         ),
-        tabs: _tabs.map((tab) => Tab(text: tab)).toList(),
+        tabs: _currentTabs.map((tab) => Tab(text: tab)).toList(),
         tabAlignment: TabAlignment.start,
         onTap: (index) {
-          if (_tabs[index] == 'Change Password') {
+          if (_currentTabs[index] == 'Change Password') {
             _tabController.index = _tabController.previousIndex;
             ChangePasswordDialog.show(
               context: context,

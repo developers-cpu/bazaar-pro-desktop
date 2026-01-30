@@ -98,7 +98,7 @@ class AppRadioGroup<T> extends StatelessWidget {
   }
 }
 
-/// A single radio option.
+
 class RadioOption<T> {
   final T value;
   final String label;

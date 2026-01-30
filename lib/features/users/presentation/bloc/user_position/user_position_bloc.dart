@@ -11,7 +11,7 @@ class UserPositionBloc extends Bloc<UserPositionEvent, UserPositionState> {
     on<FilterUserPositions>(_onFilterUserPositions);
   }
 
-  // Mock data as provided
+  
   final List<Map<String, dynamic>> _mockPositions = [
     {
       'exch': 'MCX',
@@ -153,7 +153,7 @@ class UserPositionBloc extends Bloc<UserPositionEvent, UserPositionState> {
   ) async {
     emit(UserPositionLoading());
     try {
-      // Simulate network delay
+      
       await Future.delayed(const Duration(milliseconds: 500));
 
       final positions = _mockPositions

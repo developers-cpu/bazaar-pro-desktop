@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-/// Base event
+
 abstract class LoginHistoryEvent extends Equatable {
   const LoginHistoryEvent();
 

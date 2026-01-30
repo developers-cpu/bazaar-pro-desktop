@@ -1,6 +1,6 @@
 import '../../domain/entities/user.dart';
 
-/// User Model - extends entity with JSON serialization
+
 class UserModel extends User {
   const UserModel({
     required super.id,
@@ -24,7 +24,7 @@ class UserModel extends User {
     required super.status,
   });
 
-  /// Create from JSON
+  
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
       id: json['id'] ?? '',
@@ -60,7 +60,7 @@ class UserModel extends User {
     );
   }
 
-  /// Convert to JSON
+  
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -85,7 +85,7 @@ class UserModel extends User {
     };
   }
 
-  /// Convert entity to model
+  
   factory UserModel.fromEntity(User entity) {
     return UserModel(
       id: entity.id,

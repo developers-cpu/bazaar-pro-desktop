@@ -12,7 +12,7 @@ import '../../../bloc/user_form/user_form_event.dart';
 import '../../../bloc/user_form/user_form_state.dart';
 import '../../common/user_record_count.dart';
 
-/// Shared Step: Brokerage Setting
+
 class BrokerageSettingStep extends StatefulWidget {
   const BrokerageSettingStep({super.key});
 
@@ -129,7 +129,7 @@ class _BrokerageSettingStepState extends State<BrokerageSettingStep> {
                   height: 50.h,
                   child: ElevatedButton(
                     onPressed: () {
-                      // Handle update
+                      
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primaryBlue,

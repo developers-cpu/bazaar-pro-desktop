@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-/// Menu item model for dropdown options
+
 class MenuItemData {
   final String title;
   final VoidCallback? onTap;
@@ -13,7 +13,7 @@ class MenuItemData {
   });
 }
 
-/// Tab configuration for AppBar
+
 class AppBarTab {
   final String title;
   final List<MenuItemData>? dropdownItems;

@@ -46,7 +46,7 @@ class MarketDepthState extends Equatable {
   ];
 }
 
-// Market Depth Data Model
+
 class MarketDepthData extends Equatable {
   final int lotSize;
   final double ltp;

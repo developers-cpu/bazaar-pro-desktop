@@ -83,7 +83,7 @@ class _UpdateAccessDialogState extends State<UpdateAccessDialog> {
 
     return Row(
       children: [
-        // Icon Box
+        
         if (iconPath != null)
           Container(
             width: 32.w,

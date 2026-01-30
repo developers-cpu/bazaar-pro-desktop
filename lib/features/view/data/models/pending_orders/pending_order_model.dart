@@ -1,6 +1,6 @@
 import '../../../domain/entities/pending_orders/pending_order.dart';
 
-/// Pending Order Model - extends entity with JSON serialization
+
 class PendingOrderModel extends PendingOrder {
   const PendingOrderModel({
     required super.id,
@@ -21,7 +21,7 @@ class PendingOrderModel extends PendingOrder {
     super.ipAddress,
   });
 
-  /// Create from JSON
+  
   factory PendingOrderModel.fromJson(Map<String, dynamic> json) {
     return PendingOrderModel(
       id: json['id'] ?? '',
@@ -43,7 +43,7 @@ class PendingOrderModel extends PendingOrder {
     );
   }
 
-  /// Convert to JSON
+  
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -65,7 +65,7 @@ class PendingOrderModel extends PendingOrder {
     };
   }
 
-  /// Convert entity to model
+  
   factory PendingOrderModel.fromEntity(PendingOrder entity) {
     return PendingOrderModel(
       id: entity.id,

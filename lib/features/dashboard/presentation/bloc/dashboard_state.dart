@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import '../../domain/entities/dashboard_entity.dart';
 
-/// Dashboard State
+
 abstract class DashboardState extends Equatable {
   const DashboardState();
 

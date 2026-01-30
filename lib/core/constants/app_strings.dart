@@ -1,10 +1,10 @@
 class AppStrings {
   AppStrings._();
 
-  // App title
+  
   static const String appTitle = 'Market Watch';
 
-  // Navigation tabs
+  
   static const String marketWatch = 'Market Watch';
   static const String dashboard = 'Dashboard';
   static const String file = 'File';
@@ -12,7 +12,7 @@ class AppStrings {
   static const String report = 'Report';
   static const String tools = 'Tools';
 
-  // Table headers
+  
   static const String exchange = 'EXCHANGE';
   static const String symbol = 'SYMBOL';
   static const String buyQty = 'BUY QTY';
@@ -29,7 +29,7 @@ class AppStrings {
   static const String expiry = 'EXPIRY';
   static const String lut = 'LUT';
 
-  // Context menu items
+  
   static const String viewChart = 'View Chart';
   static const String arrangeSymbol = 'Arrange Symbol';
   static const String setSymbolFont = 'Set Symbol Font';
@@ -43,13 +43,13 @@ class AppStrings {
   static const String redo = 'Redo ( Ctrl + Y )';
   static const String delete = 'Delete';
 
-  // Filter labels
+  
   static const String exchangeFilter = 'Exchange';
   static const String symbolFilter = 'Symbol';
   static const String searchAndAdd = 'Search & Add';
   static const String selectAll = 'Select All';
 
-  // Exchange types
+  
   static const String nse = 'NSE';
   static const String mcx = 'MCX';
   static const String cePe = 'CE/PE';
@@ -59,7 +59,7 @@ class AppStrings {
   static const String gift = 'GIFT';
   static const String forex = 'FOREX';
 
-  // Messages
+  
   static const String noDataAvailable = 'No data available';
   static const String itemCopied = 'Item copied';
   static const String itemCut = 'Item cut';
@@ -75,7 +75,7 @@ class AppStrings {
   static const String themeToggleClicked = 'Theme toggle clicked';
   static const String atLeastOneWatchlistRequired = 'At least one watchlist is required';
 
-  // Watchlist
+  
   static const String add = 'Add';
   static const String all = 'All';
   static const String watchlist = 'Watchlist';
@@ -83,15 +83,15 @@ class AppStrings {
   static const String watchlist2 = 'Watchlist 2';
   static const String watchlist3 = 'Watchlist 3';
 
-  // User info
+  
   static const String defaultUsername = 'DEMO02';
   static const String defaultVersion = 'v1.1.0.0';
   static const String userInitialFallback = 'U';
   static const String logoFallback = 'B';
 
-  // Ban for trade
+  
   static const String banForTradeMessage = 'ies in Ban For Trade Date 27-OCT-25: 1 SAIL 2 SAMN';
 
-  // Placeholder text
+  
   static const String dashPlaceholder = '-';
 }

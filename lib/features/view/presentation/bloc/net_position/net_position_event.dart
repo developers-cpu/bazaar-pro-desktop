@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-/// Base event for Net Position BLoC
+
 abstract class NetPositionEvent extends Equatable {
   const NetPositionEvent();
 

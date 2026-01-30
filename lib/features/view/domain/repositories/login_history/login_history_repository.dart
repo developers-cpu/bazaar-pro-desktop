@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import '../../../../../core/errors/failures.dart';
 import '../../entities/login_history/login_history.dart';
 
-/// Login History repository interface
+
 abstract class LoginHistoryRepository {
   Future<Either<Failure, List<LoginHistory>>> getLoginHistory(String client);
   Future<Either<Failure, List<String>>> getClients();

@@ -10,7 +10,7 @@ import '../bloc/inactive_user_list/inactive_user_list_bloc.dart';
 import 'inactive_user_list_page.dart';
 import 'user_list_page.dart';
 
-/// User Page Wrapper - Common wrapper for all User section pages
+
 class UserPageWrapper extends StatelessWidget {
   final String pageTitle;
   final Widget child;
@@ -35,7 +35,7 @@ class UserPageWrapper extends StatelessWidget {
   }
 }
 
-/// Create User Page with AppBar
+
 class CreateUserPageWithAppBar extends StatelessWidget {
   const CreateUserPageWithAppBar({super.key});
 
@@ -48,7 +48,7 @@ class CreateUserPageWithAppBar extends StatelessWidget {
   }
 }
 
-/// In-Active User Page with AppBar
+
 class InactiveUserPageWithAppBar extends StatelessWidget {
   const InactiveUserPageWithAppBar({super.key});
 
@@ -61,7 +61,7 @@ class InactiveUserPageWithAppBar extends StatelessWidget {
   }
 }
 
-/// User List Page with AppBar
+
 class UserListPageWithAppBar extends StatelessWidget {
   const UserListPageWithAppBar({super.key});
 
@@ -71,7 +71,7 @@ class UserListPageWithAppBar extends StatelessWidget {
   }
 }
 
-/// Create User Page - Shows dialog to create a new user
+
 class CreateUserPage extends StatefulWidget {
   const CreateUserPage({super.key});
 
@@ -95,7 +95,7 @@ class _CreateUserPageState extends State<CreateUserPage> {
       barrierColor: AppColors.black.withValues(alpha: 0.54),
       builder: (dialogContext) => UserTypeSelectionDialog(
         onUserCreated: () {
-          // Navigate to user list after creation
+          
           Navigator.of(context).pushReplacementNamed(AppRoutes.userList);
         },
       ),
@@ -145,7 +145,7 @@ class _CreateUserPageState extends State<CreateUserPage> {
   }
 }
 
-/// In-Active User Page
+
 class InactiveUserPage extends StatelessWidget {
   const InactiveUserPage({super.key});
 

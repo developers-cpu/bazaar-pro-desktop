@@ -15,7 +15,7 @@ class UserTradeMarginTab extends StatefulWidget {
 }
 
 class _UserTradeMarginTabState extends State<UserTradeMarginTab> {
-  // Mock Data
+  
   final List<Map<String, dynamic>> _margins = [
     {
       'exch': 'MCX',
@@ -171,7 +171,7 @@ class _UserTradeMarginTabState extends State<UserTradeMarginTab> {
               SizedBox(width: 12.w),
               Expanded(child: _buildDropdown('Margin%')),
               SizedBox(width: 12.w),
-              Expanded(child: SizedBox()), // Search spacer
+              Expanded(child: SizedBox()), 
               SizedBox(width: 12.w),
               Expanded(
                 child: Align(
@@ -294,7 +294,7 @@ class _UserTradeMarginTabState extends State<UserTradeMarginTab> {
       ),
       child: Row(
         children: [
-          SizedBox(width: 40.w), // Checkbox placeholder
+          SizedBox(width: 40.w), 
           _buildHeaderCell('EXCH', flex: 1),
           _buildHeaderCell('SYMBOL', flex: 2),
           _buildHeaderCell('EXPIRY DATE', flex: 3),

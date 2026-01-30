@@ -1,6 +1,6 @@
 import '../../bloc/arrangesymbol/arrange_symbol_state.dart';
 
-/// Column configuration class
+
 class TableColumnConfig {
   final double baseWidth;
   final bool isNumeric;

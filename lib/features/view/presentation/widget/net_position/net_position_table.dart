@@ -13,7 +13,7 @@ import '../common/view_table_cell_styles.dart';
 import 'open_postion_dilog.dart';
 
 
-/// Net Position common widget with clickable NET QTY
+
 class NetPositionTable extends StatelessWidget {
   final bool showDeviceInfo;
   final bool isDarkMode;
@@ -24,7 +24,7 @@ class NetPositionTable extends StatelessWidget {
     this.isDarkMode = false,
   }) : super(key: key);
 
-  /// Get column definitions for Net Position
+  
   List<ViewTableColumn> _getColumns() {
     return const [
       ViewTableColumn(id: 'exchange', label: 'EXCH', width: 110),
@@ -92,11 +92,11 @@ class NetPositionTable extends StatelessWidget {
     }
   }
 
-  /// Build clickable NET QTY cell with underline
+  
   Widget _buildNetQtyCell(BuildContext context, NetPosition item, bool isDark) {
     return GestureDetector(
       onTap: () {
-        // Open Open Position dialog as shown in screenshots
+        
         OpenPositionDialog.show(
           context: context,
           isDarkMode: isDark,
@@ -137,9 +137,9 @@ class NetPositionTable extends StatelessWidget {
 
         return Column(
           children: [
-            // Record count
+            
             ViewRecordCount(count: state.totalRecords),
-            // Table with totals using footerBuilder for proper alignment
+            
             Expanded(
               child: ViewDataTable<NetPosition>(
                 columns: _getColumns(),
@@ -159,7 +159,7 @@ class NetPositionTable extends StatelessWidget {
                     SortPositionsByColumnEvent(columnId: columnId, ascending: ascending),
                   );
                 },
-                // Footer builder - receives columns to ensure alignment
+                
                 footerBuilder: (columns) => _buildTotalsRow(columns, state.filteredPositions),
               ),
             ),
@@ -169,9 +169,9 @@ class NetPositionTable extends StatelessWidget {
     );
   }
 
-  /// Build totals row for the common footer - aligned with columns
+  
   Widget _buildTotalsRow(List<ViewTableColumn> columns, List<NetPosition> positions) {
-    // Calculate totals
+    
     double totalM2M = positions.fold(0.0, (sum, item) => sum + item.m2mAmount);
     double totalOurPercentage = positions.fold(0.0, (sum, item) => sum + item.ourPercentage);
 
@@ -191,7 +191,7 @@ class NetPositionTable extends StatelessWidget {
     );
   }
 
-  /// Build individual total cell based on column
+  
   Widget _buildTotalCell(ViewTableColumn column, double totalM2M, double totalOurPercentage) {
     String text = '';
     Color textColor = const Color(0xFF2C5F7A);

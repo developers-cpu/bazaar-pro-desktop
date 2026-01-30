@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import '../../../../../core/errors/failures.dart';
 import '../../entities/script_quantity/script_quantity.dart';
 
-/// Script Quantity repository interface
+
 abstract class ScriptQuantityRepository {
   Future<Either<Failure, List<ScriptQuantity>>> getScriptQuantities({
     required String exchange,

@@ -15,7 +15,7 @@ class UserRejectionLogTab extends StatefulWidget {
 }
 
 class _UserRejectionLogTabState extends State<UserRejectionLogTab> {
-  // Mock Data
+  
   final List<Map<String, dynamic>> _logs = [
     {
       'date': '04/11/25 01:25:35 PM',
@@ -67,8 +67,8 @@ class _UserRejectionLogTabState extends State<UserRejectionLogTab> {
   }
 
   Widget _buildFilterBar() {
-    // Reusing UserFilterBar or building custom one if specific fields needed
-    // The screenshot has "Select Date Range", "Exchange", "Symbol"
+    
+    
     return Padding(
       padding: EdgeInsets.all(16.w),
       child: Row(

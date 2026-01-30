@@ -9,7 +9,7 @@ import '../../../../../core/widget/svg_icon.dart';
 import '../../../domain/entities/market_item.dart';
 import 'table_text_style_helper.dart';
 
-/// Widget for building common cell content
+
 class TableCellBuilder extends StatelessWidget {
   final String columnId;
   final MarketItem item;

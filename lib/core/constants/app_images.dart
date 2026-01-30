@@ -8,34 +8,34 @@ class AppImages {
   static const String _menuIconsPath = 'assets/icons/menu';
   static const String _viewIconsPath = 'assets/icons/view';
   static const String _usersIconsPath = 'assets/icons/users';
-  // Images
+  
   static const String appLogo = '$_imagesPath/bazaar_logo.png';
   static const String loginBackgroundGif = '$_gifsPath/login_background.gif';
   static const String userPlaceholder = '$_imagesPath/user_placeholder.png';
   static const String pdfIcon ='$_imagesPath/pdf.png';
   static const String excelIcon ='$_imagesPath/excel.png';
 
-  // Input Field SVG Icons
+  
   static const String input1 = '$_iconsPath/driver.svg';
   static const String input2 = '$_iconsPath/profile.svg';
   static const String input3 = '$_iconsPath/view.svg';
 
-  // Dropdown Item Icons (Leading icons - left side)
-  static const String dropDown1 = '$_iconsPath/dp1.png'; // RGX icons
-  static const String dropDown2 = '$_iconsPath/dp2.png'; // TESTS icons
-  static const String dropDown3 = '$_iconsPath/dp3.png'; // FOREXSERVER icons
+  
+  static const String dropDown1 = '$_iconsPath/dp1.png'; 
+  static const String dropDown2 = '$_iconsPath/dp2.png'; 
+  static const String dropDown3 = '$_iconsPath/dp3.png'; 
 
-  // Server Icon (Trailing icons - right side in dropdown)
+  
   static const String serverIcon = '$_iconsPath/driver.svg';
 
-  // AppBar Icons
+  
   static const String reloadIcon = '$_commonIconsPath/reload.svg';
   static const String logoutIcon = '$_commonIconsPath/logout.svg';
 
-  // Filter Icons
+  
   static const String themeIcon = '$_commonIconsPath/theme.svg';
 
-  // Table Icons
+  
   static const String sortIcon = '$_commonIconsPath/sort.svg';
   static const String banIcon = '$_commonIconsPath/campaign.svg' ;
   static const String arrangeIcon = '$_commonIconsPath/compress.svg';
@@ -45,7 +45,7 @@ class AppImages {
 
 
 
-  //menu Icons
+  
   static const String menu1Icon = '$_menuIconsPath/menu1.svg';
   static const String menu2con = '$_menuIconsPath/menu2.svg';
   static const String menu3Icon = '$_menuIconsPath/menu3.svg';
@@ -57,10 +57,10 @@ class AppImages {
   static const String menu9Icon = '$_menuIconsPath/menu9.svg';
   static const String menu10Icon = '$_menuIconsPath/menu10.svg';
 
-  //view Icon
+  
   static const String fileExportIcon = '$_viewIconsPath/file_export.svg';
 
-  // Users Icons
+  
   static const String addClientIcon = '$_usersIconsPath/add_client.svg';
   static const String addMasterIcon = '$_usersIconsPath/add_master.svg';
   static const String autoSquareOffIcon = '$_usersIconsPath/auto_square_off.svg';

@@ -23,7 +23,7 @@ class RejectionLogFilterBar extends StatelessWidget {
           child: Row(
             children: [
 
-              // Client Dropdown
+              
               SizedBox(
                 width: 230.w,
                 child: AppDropdown(
@@ -46,7 +46,7 @@ class RejectionLogFilterBar extends StatelessWidget {
               ),
               SizedBox(width: 12.w),
 
-              // Exchange Dropdown
+              
               SizedBox(
                 width: 230.w,
                 child: AppDropdown(
@@ -69,7 +69,7 @@ class RejectionLogFilterBar extends StatelessWidget {
               ),
               SizedBox(width: 12.w),
 
-              // Symbol Dropdown
+              
               SizedBox(
                 width: 230.w,
                 child: AppDropdown(
@@ -93,7 +93,7 @@ class RejectionLogFilterBar extends StatelessWidget {
 
               const Spacer(),
 
-              // Reset and View Buttons
+              
               ViewResetButtons(
                 onReset: () {
                   context.read<RejectionLogBloc>().add(

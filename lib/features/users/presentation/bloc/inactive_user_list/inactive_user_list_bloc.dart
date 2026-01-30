@@ -5,7 +5,7 @@ import '../../../domain/usecases/user_usecases.dart';
 import 'inactive_user_list_event.dart';
 import 'inactive_user_list_state.dart';
 
-/// Inactive User List BLoC
+
 class InactiveUserListBloc
     extends Bloc<InactiveUserListEvent, InactiveUserListState> {
   final GetUsers getUsers;
@@ -41,7 +41,7 @@ class InactiveUserListBloc
     emit(const InactiveUserListLoading());
 
     try {
-      // Load only inactive users by default
+      
       final result = await getUsersWithFilters(
         UserFilterParams(userStatus: 'Inactive'),
       );
@@ -56,7 +56,7 @@ class InactiveUserListBloc
             filteredUsers: users,
             userTypes: types,
             userStatuses: statuses,
-            // Pre-select 'Inactive' status to reflect the default filter
+            
             selectedUserStatus: 'Inactive',
             totalRecords: users.length,
           ),
@@ -159,7 +159,7 @@ class InactiveUserListBloc
     if (state is InactiveUserListLoaded) {
       final currentState = state as InactiveUserListLoaded;
 
-      // Reset to default Inactive filter
+      
       final result = await getUsersWithFilters(
         UserFilterParams(userStatus: 'Inactive'),
       );

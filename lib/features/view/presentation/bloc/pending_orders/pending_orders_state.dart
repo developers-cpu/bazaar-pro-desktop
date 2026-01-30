@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import '../../../domain/entities/pending_orders/pending_order.dart';
 
-/// Pending Orders State
+
 abstract class PendingOrdersState extends Equatable {
   const PendingOrdersState();
 
@@ -117,7 +117,7 @@ class PendingOrdersError extends PendingOrdersState {
 }
 
 class PendingOrdersExporting extends PendingOrdersState {
-  final String exportType; // 'pdf' or 'excel'
+  final String exportType; 
 
   const PendingOrdersExporting(this.exportType);
 

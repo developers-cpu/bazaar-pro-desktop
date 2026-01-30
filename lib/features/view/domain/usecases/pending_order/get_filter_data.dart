@@ -5,7 +5,7 @@ import '../../../../../core/usecases/usecase.dart';
 import '../../repositories/pending_orders/pending_orders_repository.dart';
 
 
-/// Get Clients Use Case
+
 class GetClients implements UseCase<List<String>, NoParams> {
   final PendingOrdersRepository repository;
 
@@ -17,7 +17,7 @@ class GetClients implements UseCase<List<String>, NoParams> {
   }
 }
 
-/// Get Exchanges Use Case
+
 class GetExchanges implements UseCase<List<String>, NoParams> {
   final PendingOrdersRepository repository;
 
@@ -29,7 +29,7 @@ class GetExchanges implements UseCase<List<String>, NoParams> {
   }
 }
 
-/// Get Symbols Use Case
+
 class GetSymbols implements UseCase<List<String>, NoParams> {
   final PendingOrdersRepository repository;
 
@@ -41,7 +41,7 @@ class GetSymbols implements UseCase<List<String>, NoParams> {
   }
 }
 
-/// Get Order Types - Synchronous, no API call needed
+
 class GetOrderTypes {
   final PendingOrdersRepository repository;
 

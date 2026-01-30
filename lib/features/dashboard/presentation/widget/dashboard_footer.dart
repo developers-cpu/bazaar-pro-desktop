@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../domain/entities/dashboard_entity.dart';
 
-/// Dashboard Footer Widget
+
 class DashboardFooter extends StatelessWidget {
   final DashboardSummary summary;
 

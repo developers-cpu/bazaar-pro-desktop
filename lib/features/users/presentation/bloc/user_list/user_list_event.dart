@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-/// User List Events
+
 abstract class UserListEvent extends Equatable {
   const UserListEvent();
 

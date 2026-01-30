@@ -26,7 +26,7 @@ class OrderSuccessDialog extends StatelessWidget {
     this.isDarkMode = false,
   }) : super(key: key);
 
-  /// Show the success dialog
+  
   static Future<void> show(
       BuildContext context, {
         required OrderType orderType,
@@ -90,7 +90,7 @@ class OrderSuccessDialog extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Success Icon
+            
             Container(
               width: 80.w,
               height: 80.h,
@@ -106,7 +106,7 @@ class OrderSuccessDialog extends StatelessWidget {
             ),
             SizedBox(height: 20.h),
 
-            // Title
+            
             Text(
               'Order Placed Successfully!',
               style: GoogleFonts.openSans(
@@ -118,7 +118,7 @@ class OrderSuccessDialog extends StatelessWidget {
             ),
             SizedBox(height: 12.h),
 
-            // Subtitle
+            
             Text(
               'Your $_orderTypeText order has been placed.',
               style: GoogleFonts.openSans(
@@ -130,7 +130,7 @@ class OrderSuccessDialog extends StatelessWidget {
             ),
             SizedBox(height: 20.h),
 
-            // Order Details (if provided)
+            
             if (symbol != null || exchange != null || quantity != null || price != null)
               Container(
                 padding: EdgeInsets.all(16.w),
@@ -156,7 +156,7 @@ class OrderSuccessDialog extends StatelessWidget {
 
             SizedBox(height: 24.h),
 
-            // OK Button
+            
             SizedBox(
               width: double.infinity,
               height: 45.h,

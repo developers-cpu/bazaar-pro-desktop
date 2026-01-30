@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-/// Base event
+
 abstract class RejectionLogEvent extends Equatable {
   const RejectionLogEvent();
 

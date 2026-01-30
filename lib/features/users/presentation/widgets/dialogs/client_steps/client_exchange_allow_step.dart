@@ -36,10 +36,10 @@ class ClientExchangeAllowStep extends StatelessWidget {
           ),
           child: Column(
             children: [
-              // Table header
+              
               _buildTableHeader(context, state, isAllSelected),
 
-              // Table rows
+              
               ...exchanges.asMap().entries.map((entry) {
                 final index = entry.key;
                 final exchange = entry.value;
@@ -70,7 +70,7 @@ class ClientExchangeAllowStep extends StatelessWidget {
       ),
       child: Row(
         children: [
-          // Exch column
+          
           Expanded(
             flex: 3,
             child: Column(
@@ -99,7 +99,7 @@ class ClientExchangeAllowStep extends StatelessWidget {
             ),
           ),
 
-          // Brokerage column
+          
           Expanded(
             flex: 3,
             child: Column(
@@ -144,7 +144,7 @@ class ClientExchangeAllowStep extends StatelessWidget {
             ),
           ),
 
-          // Groups column
+          
           Expanded(
             flex: 4,
             child: Column(

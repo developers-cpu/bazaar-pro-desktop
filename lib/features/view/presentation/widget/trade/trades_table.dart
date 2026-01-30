@@ -11,7 +11,7 @@ import '../common/view_data_table.dart';
 import '../common/view_record_count.dart';
 import '../common/view_table_cell_styles.dart';
 
-/// Trades common widget using shared ViewDataTable
+
 class TradesTable extends StatelessWidget {
   final bool showDeviceInfo;
   final bool isDarkMode;
@@ -22,7 +22,7 @@ class TradesTable extends StatelessWidget {
     this.isDarkMode = false,
   }) : super(key: key);
 
-  /// Get column definitions for Trades
+  
   List<ViewTableColumn> _getColumns() {
     final columns = <ViewTableColumn>[
       const ViewTableColumn(id: 'userName', label: 'U. NAME', width: 120),
@@ -133,9 +133,9 @@ class TradesTable extends StatelessWidget {
 
         return Column(
           children: [
-            // Record count
+            
             ViewRecordCount(count: state.totalRecords),
-            // Table
+            
             Expanded(
               child: ViewDataTable<Trade>(
                 columns: _getColumns(),

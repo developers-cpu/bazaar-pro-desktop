@@ -8,7 +8,7 @@ import '../../bloc/script_quantity/script_quantity_event.dart';
 import '../../bloc/script_quantity/script_quantity_state.dart';
 import '../common/view_reset_buttons.dart';
 
-/// Filter bar for Script Quantity page
+
 class ScriptQuantityFilterBar extends StatefulWidget {
   const ScriptQuantityFilterBar({Key? key}) : super(key: key);
 
@@ -40,7 +40,7 @@ class _ScriptQuantityFilterBarState extends State<ScriptQuantityFilterBar> {
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Row(
             children: [
-              // Exchange Dropdown
+              
               SizedBox(
                 width: 230.w,
                 child: AppDropdown(
@@ -63,7 +63,7 @@ class _ScriptQuantityFilterBarState extends State<ScriptQuantityFilterBar> {
               ),
               SizedBox(width: 12.w),
 
-              // Group Dropdown
+              
               SizedBox(
                 width: 230.w,
                 child: IgnorePointer(
@@ -81,7 +81,7 @@ class _ScriptQuantityFilterBarState extends State<ScriptQuantityFilterBar> {
                             _tempSelectedGroup = value;
                           });
 
-                          // Automatically load data when group is selected
+                          
                           context.read<ScriptQuantityBloc>().add(
                             LoadScriptQuantitiesEvent(
                               exchange: state.selectedExchange!,
@@ -97,7 +97,7 @@ class _ScriptQuantityFilterBarState extends State<ScriptQuantityFilterBar> {
 
               const Spacer(),
 
-              // Reset and View Buttons
+              
               ViewResetButtons(
                 onReset: () {
                   setState(() {
@@ -108,7 +108,7 @@ class _ScriptQuantityFilterBarState extends State<ScriptQuantityFilterBar> {
                   );
                 },
                 onView: () {
-                  // View button now just re-triggers load if both are selected
+                  
                   if (state.selectedExchange != null && _tempSelectedGroup != null) {
                     context.read<ScriptQuantityBloc>().add(
                       LoadScriptQuantitiesEvent(

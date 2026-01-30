@@ -15,7 +15,7 @@ class UserIntradaySquareOffTab extends StatefulWidget {
 }
 
 class _UserIntradaySquareOffTabState extends State<UserIntradaySquareOffTab> {
-  // Mock State
+  
   final Map<String, bool> _toggles = {
     'MCX': true,
     'NSE': true,
@@ -40,8 +40,8 @@ class _UserIntradaySquareOffTabState extends State<UserIntradaySquareOffTab> {
           SizedBox(height: 16.h),
           _buildToggleRow('USSTOCK', 'GIFY', 'CRYPTO'),
           SizedBox(height: 32.h),
-          // Add Update Button if needed, or assume auto-save.
-          // Screenshot doesn't show button nearby, but usually needed.
+          
+          
         ],
       ),
     );

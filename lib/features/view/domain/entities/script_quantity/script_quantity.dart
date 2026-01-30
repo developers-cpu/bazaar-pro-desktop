@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-/// Script Quantity entity
+
 class ScriptQuantity extends Equatable {
   final String id;
   final String symbol;

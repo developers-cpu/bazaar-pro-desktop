@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import '../../../domain/entities/trades/trade.dart';
 
-/// Base state for Trades BLoC
+
 abstract class TradesState extends Equatable {
   const TradesState();
 
@@ -9,17 +9,17 @@ abstract class TradesState extends Equatable {
   List<Object?> get props => [];
 }
 
-/// Initial state
+
 class TradesInitial extends TradesState {
   const TradesInitial();
 }
 
-/// Loading state
+
 class TradesLoading extends TradesState {
   const TradesLoading();
 }
 
-/// Loaded state
+
 class TradesLoaded extends TradesState {
   final List<Trade> trades;
   final List<Trade> filteredTrades;
@@ -28,7 +28,7 @@ class TradesLoaded extends TradesState {
   final String? sortColumn;
   final bool sortAscending;
 
-  // Filter values
+  
   final DateTime? startDate;
   final DateTime? endDate;
   final String? selectedClient;
@@ -36,7 +36,7 @@ class TradesLoaded extends TradesState {
   final String? selectedSymbol;
   final String? selectedOrderType;
 
-  // Filter options
+  
   final List<String> clients;
   final List<String> exchanges;
   final List<String> symbols;
@@ -120,7 +120,7 @@ class TradesLoaded extends TradesState {
   }
 }
 
-/// Error state
+
 class TradesError extends TradesState {
   final String message;
 
@@ -130,7 +130,7 @@ class TradesError extends TradesState {
   List<Object?> get props => [message];
 }
 
-/// Export success state
+
 class TradesExportSuccess extends TradesState {
   final String message;
   final String filePath;

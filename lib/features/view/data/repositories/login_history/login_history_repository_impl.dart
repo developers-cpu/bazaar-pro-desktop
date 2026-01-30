@@ -5,7 +5,7 @@ import '../../../domain/repositories/login_history/login_history_repository.dart
 import '../../datasources/login_history/login_history_remote_datasource.dart';
 import '../../models/login_history/login_history_model.dart';
 
-/// Login History repository implementation
+
 class LoginHistoryRepositoryImpl implements LoginHistoryRepository {
   final LoginHistoryRemoteDataSource remoteDataSource;
 

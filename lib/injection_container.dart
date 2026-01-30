@@ -81,38 +81,38 @@ import 'features/users/presentation/bloc/search_user/search_user_bloc.dart';
 final sl = GetIt.instance;
 
 Future<void> init() async {
-  // ============================================================
-  // CORE - Register first to avoid dependency issues
-  // ============================================================
+  
+  
+  
 
-  // API Client
+  
   sl.registerLazySingleton(() => ApiClient());
 
-  // ============================================================
-  // AUTH FEATURE
-  // ============================================================
+  
+  
+  
 
-  // Auth BLoC
+  
   sl.registerFactory(() => AuthBloc(loginUser: sl()));
 
-  // Auth Use Cases
+  
   sl.registerLazySingleton(() => LoginUser(repository: sl()));
 
-  // Auth Repository
+  
   sl.registerLazySingleton<AuthRepository>(
     () => AuthRepositoryImpl(remoteDataSource: sl()),
   );
 
-  // Auth Data Sources
+  
   sl.registerLazySingleton<AuthRemoteDataSource>(
     () => AuthRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
   );
 
-  // ============================================================
-  // MARKET WATCH FEATURE
-  // ============================================================
+  
+  
+  
 
-  // Market Watch BLoC
+  
   sl.registerFactory(
     () => MarketWatchBloc(
       getMarketItems: sl(),
@@ -121,65 +121,65 @@ Future<void> init() async {
     ),
   );
 
-  // Theme BLoC - Singleton to persist theme state across screens
+  
   sl.registerLazySingleton(() => ThemeBloc());
 
-  // Watchlist BLoC
+  
   sl.registerFactory(() => WatchlistBloc());
 
-  // Arrange Symbol BLoC - Singleton to persist column arrangement
+  
   sl.registerLazySingleton(() => ArrangeSymbolBloc());
 
-  // Symbol Font BLoC - Singleton to persist font settings
+  
   sl.registerLazySingleton(() => SymbolFontBloc());
 
-  // Order Dialog BLoC - Singleton for Buy/Sell dialogs
+  
   sl.registerLazySingleton(() => OrderDialogBloc());
 
-  // Market Depth BLoC - Singleton for Market Depth dialog (F5)
+  
   sl.registerLazySingleton(() => MarketDepthBloc());
 
-  // Market Watch Use Cases
+  
   sl.registerLazySingleton(() => GetMarketItems(sl()));
   sl.registerLazySingleton(() => AddMarketItem(sl()));
   sl.registerLazySingleton(() => DeleteMarketItem(sl()));
 
-  // Market Watch Repository
+  
   sl.registerLazySingleton<MarketWatchRepository>(
     () => MarketWatchRepositoryImpl(localDataSource: sl()),
   );
 
-  // Market Watch Data Sources
+  
   sl.registerLazySingleton<MarketWatchLocalDataSource>(
     () => MarketWatchLocalDataSourceImpl(),
   );
 
-  // ============================================================
-  // DASHBOARD FEATURE
-  // ============================================================
+  
+  
+  
 
-  // Dashboard BLoC
+  
   sl.registerFactory(() => DashboardBloc(repository: sl()));
 
-  // Dashboard Use Cases
+  
   sl.registerLazySingleton(() => GetDashboardDataUseCase(repository: sl()));
   sl.registerLazySingleton(() => GetTradeReportsUseCase(repository: sl()));
   sl.registerLazySingleton(() => GetSymbolReportsUseCase(repository: sl()));
   sl.registerLazySingleton(() => GetDashboardSummaryUseCase(repository: sl()));
 
-  // Dashboard Repository
+  
   sl.registerLazySingleton<DashboardRepository>(
     () => DashboardRepositoryImpl(dataSource: sl()),
   );
 
-  // Dashboard Data Sources
+  
   sl.registerLazySingleton<DashboardDataSource>(() => DashboardDataSource());
 
-  // ============================================================
-  // VIEW FEATURE - PENDING ORDERS
-  // ============================================================
+  
+  
+  
 
-  // Pending Orders BLoC
+  
   sl.registerFactory(
     () => PendingOrdersBloc(
       getPendingOrders: sl(),
@@ -193,7 +193,7 @@ Future<void> init() async {
     ),
   );
 
-  // Pending Orders Use Cases
+  
   sl.registerLazySingleton(() => GetPendingOrders(sl()));
   sl.registerLazySingleton(() => GetPendingOrdersWithFilters(sl()));
   sl.registerLazySingleton(() => GetClients(sl()));
@@ -203,21 +203,21 @@ Future<void> init() async {
   sl.registerLazySingleton(() => ExportToPdf(sl()));
   sl.registerLazySingleton(() => ExportToExcel(sl()));
 
-  // Pending Orders Repository
+  
   sl.registerLazySingleton<PendingOrdersRepository>(
     () => PendingOrdersRepositoryImpl(remoteDataSource: sl()),
   );
 
-  // Pending Orders Data Sources
+  
   sl.registerLazySingleton<PendingOrdersRemoteDataSource>(
     () => PendingOrdersRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
   );
 
-  // ============================================================
-  // VIEW FEATURE - TRADES
-  // ============================================================
+  
+  
+  
 
-  // Trades BLoC
+  
   sl.registerFactory(
     () => TradesBloc(
       getTrades: sl(),
@@ -231,7 +231,7 @@ Future<void> init() async {
     ),
   );
 
-  // Trades Use Cases
+  
   sl.registerLazySingleton(() => GetTrades(sl()));
   sl.registerLazySingleton(() => GetTradesWithFilters(sl()));
   sl.registerLazySingleton(() => GetTradesClients(sl()));
@@ -241,21 +241,21 @@ Future<void> init() async {
   sl.registerLazySingleton(() => ExportTradesToPdf(sl()));
   sl.registerLazySingleton(() => ExportTradesToExcel(sl()));
 
-  // Trades Repository
+  
   sl.registerLazySingleton<TradesRepository>(
     () => TradesRepositoryImpl(remoteDataSource: sl()),
   );
 
-  // Trades Data Sources
+  
   sl.registerLazySingleton<TradesRemoteDataSource>(
     () => TradesRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
   );
 
-  // ============================================================
-  // VIEW FEATURE - DEALS
-  // ============================================================
+  
+  
+  
 
-  // Deals BLoC
+  
   sl.registerFactory(
     () => DealsBloc(
       getDeals: sl(),
@@ -270,7 +270,7 @@ Future<void> init() async {
     ),
   );
 
-  // Deals Use Cases
+  
   sl.registerLazySingleton(() => GetDeals(sl()));
   sl.registerLazySingleton(() => GetDealsWithFilters(sl()));
   sl.registerLazySingleton(() => GetDealsClients(sl()));
@@ -281,21 +281,21 @@ Future<void> init() async {
   sl.registerLazySingleton(() => ExportDealsToPdf(sl()));
   sl.registerLazySingleton(() => ExportDealsToExcel(sl()));
 
-  // Deals Repository
+  
   sl.registerLazySingleton<DealsRepository>(
     () => DealsRepositoryImpl(remoteDataSource: sl()),
   );
 
-  // Deals Data Sources
+  
   sl.registerLazySingleton<DealsRemoteDataSource>(
     () => DealsRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
   );
 
-  // ============================================================
-  // VIEW FEATURE - NET POSITION
-  // ============================================================
+  
+  
+  
 
-  // Net Position BLoC
+  
   sl.registerFactory(
     () => NetPositionBloc(
       getNetPositions: sl(),
@@ -310,7 +310,7 @@ Future<void> init() async {
     ),
   );
 
-  // Net Position Use Cases
+  
   sl.registerLazySingleton(() => GetNetPositions(sl()));
   sl.registerLazySingleton(() => GetNetPositionsWithFilters(sl()));
   sl.registerLazySingleton(() => GetNetPositionClients(sl()));
@@ -321,21 +321,21 @@ Future<void> init() async {
   sl.registerLazySingleton(() => ExportNetPositionsToExcel(sl()));
   sl.registerLazySingleton(() => GetPositionDetails(sl()));
 
-  // Net Position Repository
+  
   sl.registerLazySingleton<NetPositionRepository>(
     () => NetPositionRepositoryImpl(remoteDataSource: sl()),
   );
 
-  // Net Position Data Sources
+  
   sl.registerLazySingleton<NetPositionRemoteDataSource>(
     () => NetPositionRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
   );
 
-  // ============================================================
-  // VIEW FEATURE - REJECTION LOG
-  // ============================================================
+  
+  
+  
 
-  // Rejection Log BLoC
+  
   sl.registerFactory(
     () => RejectionLogBloc(
       getRejectionLogs: sl(),
@@ -348,7 +348,7 @@ Future<void> init() async {
     ),
   );
 
-  // Rejection Log Use Cases
+  
   sl.registerLazySingleton(() => GetRejectionLogs(sl()));
   sl.registerLazySingleton(() => GetRejectionLogsWithFilters(sl()));
   sl.registerLazySingleton(() => GetRejectionLogClients(sl()));
@@ -357,21 +357,21 @@ Future<void> init() async {
   sl.registerLazySingleton(() => ExportRejectionLogsToPdf(sl()));
   sl.registerLazySingleton(() => ExportRejectionLogsToExcel(sl()));
 
-  // Rejection Log Repository
+  
   sl.registerLazySingleton<RejectionLogRepository>(
     () => RejectionLogRepositoryImpl(remoteDataSource: sl()),
   );
 
-  // Rejection Log Data Sources
+  
   sl.registerLazySingleton<RejectionLogRemoteDataSource>(
     () => RejectionLogRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
   );
 
-  // ============================================================
-  // VIEW FEATURE - LOGIN HISTORY
-  // ============================================================
+  
+  
+  
 
-  // Login History BLoC
+  
   sl.registerFactory(
     () => LoginHistoryBloc(
       getLoginHistory: sl(),
@@ -381,27 +381,27 @@ Future<void> init() async {
     ),
   );
 
-  // Login History Use Cases
+  
   sl.registerLazySingleton(() => GetLoginHistory(sl()));
   sl.registerLazySingleton(() => GetLoginHistoryClients(sl()));
   sl.registerLazySingleton(() => ExportLoginHistoryToPdf(sl()));
   sl.registerLazySingleton(() => ExportLoginHistoryToExcel(sl()));
 
-  // Login History Repository
+  
   sl.registerLazySingleton<LoginHistoryRepository>(
     () => LoginHistoryRepositoryImpl(remoteDataSource: sl()),
   );
 
-  // Login History Data Sources
+  
   sl.registerLazySingleton<LoginHistoryRemoteDataSource>(
     () => LoginHistoryRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
   );
 
-  // ============================================================
-  // VIEW FEATURE - SCRIPT MASTER
-  // ============================================================
+  
+  
+  
 
-  // Script Master BLoC
+  
   sl.registerFactory(
     () => ScriptMasterBloc(
       getScriptMasters: sl(),
@@ -413,7 +413,7 @@ Future<void> init() async {
     ),
   );
 
-  // Script Master Use Cases
+  
   sl.registerLazySingleton(() => GetScriptMasters(sl()));
   sl.registerLazySingleton(() => GetScriptMastersWithFilters(sl()));
   sl.registerLazySingleton(() => GetScriptMasterExchanges(sl()));
@@ -421,21 +421,21 @@ Future<void> init() async {
   sl.registerLazySingleton(() => ExportScriptMastersToPdf(sl()));
   sl.registerLazySingleton(() => ExportScriptMastersToExcel(sl()));
 
-  // Script Master Repository
+  
   sl.registerLazySingleton<ScriptMasterRepository>(
     () => ScriptMasterRepositoryImpl(remoteDataSource: sl()),
   );
 
-  // Script Master Data Sources
+  
   sl.registerLazySingleton<ScriptMasterRemoteDataSource>(
     () => ScriptMasterRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
   );
 
-  // ============================================================
-  // VIEW FEATURE - SCRIPT QUANTITY
-  // ============================================================
+  
+  
+  
 
-  // Script Quantity BLoC
+  
   sl.registerFactory(
     () => ScriptQuantityBloc(
       getExchanges: sl(),
@@ -444,26 +444,26 @@ Future<void> init() async {
     ),
   );
 
-  // Script Quantity Use Cases
+  
   sl.registerLazySingleton(() => GetScriptQuantityExchanges(sl()));
   sl.registerLazySingleton(() => GetScriptQuantityGroups(sl()));
   sl.registerLazySingleton(() => GetScriptQuantities(sl()));
 
-  // Script Quantity Repository
+  
   sl.registerLazySingleton<ScriptQuantityRepository>(
     () => ScriptQuantityRepositoryImpl(remoteDataSource: sl()),
   );
 
-  // Script Quantity Data Sources
+  
   sl.registerLazySingleton<ScriptQuantityRemoteDataSource>(
     () => ScriptQuantityRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
   );
 
-  // ============================================================
-  // VIEW FEATURE - INTRADAY HISTORY
-  // ============================================================
+  
+  
+  
 
-  // Intraday History BLoC
+  
   sl.registerFactory(
     () => IntradayHistoryBloc(
       getIntradayHistory: sl(),
@@ -476,7 +476,7 @@ Future<void> init() async {
     ),
   );
 
-  // Intraday History Use Cases
+  
   sl.registerLazySingleton(() => GetIntradayHistory(sl()));
   sl.registerLazySingleton(() => GetIntradayHistoryInSeconds(sl()));
   sl.registerLazySingleton(() => GetIntradayExchanges(sl()));
@@ -486,21 +486,21 @@ Future<void> init() async {
   sl.registerLazySingleton(() => ExportIntradayToPdf(sl()));
   sl.registerLazySingleton(() => ExportIntradayToExcel(sl()));
 
-  // Intraday History Repository
+  
   sl.registerLazySingleton<IntradayHistoryRepository>(
     () => IntradayHistoryRepositoryImpl(remoteDataSource: sl()),
   );
 
-  // Intraday History Data Sources
+  
   sl.registerLazySingleton<IntradayHistoryRemoteDataSource>(
     () => IntradayHistoryRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
   );
 
-  // ============================================================
-  // USERS FEATURE - USER LIST
-  // ============================================================
+  
+  
+  
 
-  // User List BLoC
+  
   sl.registerFactory(
     () => UserListBloc(
       getUsers: sl(),
@@ -512,7 +512,7 @@ Future<void> init() async {
     ),
   );
 
-  // Inactive User List BLoC
+  
   sl.registerFactory(
     () => InactiveUserListBloc(
       getUsers: sl(),
@@ -524,10 +524,10 @@ Future<void> init() async {
     ),
   );
 
-  // Search User BLoC
+  
   sl.registerFactory(() => SearchUserBloc(getUsers: sl()));
 
-  // User Use Cases
+  
   sl.registerLazySingleton(() => GetUsers(sl()));
   sl.registerLazySingleton(() => GetUsersWithFilters(sl()));
   sl.registerLazySingleton(() => GetUserTypes(sl()));
@@ -535,12 +535,12 @@ Future<void> init() async {
   sl.registerLazySingleton(() => ExportUsersToPdf(sl()));
   sl.registerLazySingleton(() => ExportUsersToExcel(sl()));
 
-  // User Repository
+  
   sl.registerLazySingleton<UserRepository>(
     () => UserRepositoryImpl(remoteDataSource: sl()),
   );
 
-  // User Data Sources
+  
   sl.registerLazySingleton<UserRemoteDataSource>(
     () => UserRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
   );

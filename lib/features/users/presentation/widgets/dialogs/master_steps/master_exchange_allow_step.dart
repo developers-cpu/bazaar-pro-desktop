@@ -8,7 +8,7 @@ import '../../../bloc/user_form/user_form_bloc.dart';
 import '../../../bloc/user_form/user_form_event.dart';
 import '../../../bloc/user_form/user_form_state.dart';
 
-/// Master Step: Exchange Allow
+
 class MasterExchangeAllowStep extends StatelessWidget {
   const MasterExchangeAllowStep({super.key});
 
@@ -36,7 +36,7 @@ class MasterExchangeAllowStep extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Allow All checkbox
+              
               AppCheckbox(
                 label: 'Allow All',
                 value: isAllSelected,
@@ -55,7 +55,7 @@ class MasterExchangeAllowStep extends StatelessWidget {
                   crossAxisCount: 3,
                   crossAxisSpacing: 12.w,
                   mainAxisSpacing: 12.h,
-                  mainAxisExtent: 100.h, // Fixed height for each card
+                  mainAxisExtent: 100.h, 
                 ),
                 itemCount: exchanges.length,
                 itemBuilder: (context, index) {

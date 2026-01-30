@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// Filter dropdown configuration
+
 class UserFilterDropdown {
   final String hint;
   final String? value;

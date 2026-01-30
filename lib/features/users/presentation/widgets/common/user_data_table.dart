@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-/// Generic column configuration for User section tables
 class UserTableColumn {
   final String id;
   final String label;
@@ -19,7 +18,10 @@ class UserTableColumn {
     required this.width,
     this.isNumeric = false,
     this.sortable = true,
+    this.customHeader,
   });
+
+  final Widget? customHeader;
 }
 
 class UserDataTable<T> extends StatefulWidget {
@@ -37,6 +39,7 @@ class UserDataTable<T> extends StatefulWidget {
   final double? rowHeight;
   final double? headerHeight;
   final Widget Function(List<UserTableColumn> columns)? footerBuilder;
+  final Color? headerColor;
 
   const UserDataTable({
     super.key,
@@ -54,6 +57,7 @@ class UserDataTable<T> extends StatefulWidget {
     this.rowHeight,
     this.headerHeight,
     this.footerBuilder,
+    this.headerColor,
   });
 
   @override
@@ -166,7 +170,7 @@ class _UserDataTableState<T> extends State<UserDataTable<T>> {
     return Container(
       height: headerHeight,
       decoration: BoxDecoration(
-        color: _headerBgColor,
+        color: widget.headerColor ?? _headerBgColor,
         border: Border(bottom: BorderSide(color: _dividerColor, width: 1)),
       ),
       child: Row(
@@ -201,17 +205,19 @@ class _UserDataTableState<T> extends State<UserDataTable<T>> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Flexible(
-                child: Text(
-                  column.label,
-                  style: GoogleFonts.openSans(
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.w600,
-                    color: _textColor,
-                  ),
-                  textAlign: TextAlign.center,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
+                child:
+                    column.customHeader ??
+                    Text(
+                      column.label,
+                      style: GoogleFonts.openSans(
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w600,
+                        color: _textColor,
+                      ),
+                      textAlign: TextAlign.center,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
               ),
               if (column.sortable) ...[
                 SizedBox(width: 4.w),

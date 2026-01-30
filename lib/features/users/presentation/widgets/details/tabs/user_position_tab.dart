@@ -1,243 +1,289 @@
-import 'package:data_table_2/data_table_2.dart';
+import 'package:bazarpro/features/users/presentation/widgets/common/user_data_table.dart';
+import 'package:bazarpro/features/users/presentation/widgets/common/user_record_count.dart';
+import 'package:bazarpro/features/users/presentation/widgets/common/user_reset_buttons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../../core/constants/app_colors.dart';
 import '../../../../../../core/widget/app_dropdown.dart';
-import 'package:bazarpro/features/users/domain/entities/user.dart';
-import '../../common/user_reset_buttons.dart';
+import '../../../../domain/entities/user.dart';
+import '../../../../domain/entities/user_position.dart';
+import '../../../bloc/user_position/user_position_bloc.dart';
 
-class UserPositionTab extends StatefulWidget {
+class UserPositionTab extends StatelessWidget {
   final User user;
 
   const UserPositionTab({super.key, required this.user});
 
   @override
-  State<UserPositionTab> createState() => _UserPositionTabState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => UserPositionBloc()..add(LoadUserPositions(user.id)),
+      child: const UserPositionTabView(),
+    );
+  }
 }
 
-class _UserPositionTabState extends State<UserPositionTab> {
-  String? _selectedExchange = 'Exchange';
-  String? _selectedSymbol = 'Symbol';
-
-  // Mock data for position
-  final List<Map<String, dynamic>> _positions = [
-    {
-      'exch': 'MCX',
-      'symbol': 'GOLD05DEC',
-      'buyQty': 500.0,
-      'sellQty': 500.0,
-      'netQty': 500.0,
-      'netAp': 124191.0,
-      'cmp': -124191.0,
-      'm2m': -124191.0,
-      'lot': 1.0,
-    },
-    {
-      'exch': 'MCX',
-      'symbol': 'GOLD05DEC',
-      'buyQty': 1000000.0,
-      'sellQty': 1000000.0,
-      'netQty': 1000000.0,
-      'netAp': 124191.0,
-      'cmp': 124191.0,
-      'm2m': 124191.0,
-      'lot': 1.0,
-    },
-    {
-      'exch': 'MCX',
-      'symbol': 'GOLD05DEC',
-      'buyQty': 500.0,
-      'sellQty': 500.0,
-      'netQty': 500.0,
-      'netAp': -256.0,
-      'cmp': -256.0,
-      'm2m': -256.0,
-      'lot': 1.0,
-    },
-  ];
+class UserPositionTabView extends StatelessWidget {
+  const UserPositionTabView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        _buildFilterBar(),
-        _buildRecordCount(),
-        Expanded(child: _buildTable()),
-        _buildFooter(),
+        _buildFilterBar(context),
+        _buildRecordCount(context),
+        Expanded(child: _buildTable(context)),
+        _buildFooter(context),
       ],
     );
   }
 
-  Widget _buildFilterBar() {
+  Widget _buildFilterBar(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(12.w),
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        border: Border(bottom: BorderSide(color: AppColors.greyBorder)),
-      ),
-      child: Row(
-        children: [
-          Row(
+      color: AppColors.white,
+      child: BlocBuilder<UserPositionBloc, UserPositionState>(
+        builder: (context, state) {
+          String? selectedExchange;
+          String? selectedSymbol;
+
+          if (state is UserPositionLoaded) {
+            selectedExchange = state.selectedExchange;
+            selectedSymbol = state.selectedSymbol;
+          }
+
+          return Row(
             children: [
-              AppDropdown(
-                hintText: 'Exchange',
-                items: const ['NSE', 'MCX'],
-                value: _selectedExchange == 'Exchange'
-                    ? null
-                    : _selectedExchange,
-                onChanged: (val) => setState(() => _selectedExchange = val),
-                width: 150.w,
-                height: 35.h,
+              Row(
+                children: [
+                  AppDropdown(
+                    hintText: 'Exchange',
+                    items: const ['NSE', 'MCX'],
+                    value: selectedExchange,
+                    onChanged: (val) {
+                      context.read<UserPositionBloc>().add(
+                        FilterUserPositions(
+                          exchange: val,
+                          symbol: selectedSymbol,
+                        ),
+                      );
+                    },
+                    width: 150.w,
+                    height: 35.h,
+                    type: AppDropdownType.simple,
+                  ),
+                  SizedBox(width: 12.w),
+                  AppDropdown(
+                    hintText: 'NIFTY Oct 28',
+                    items: const ['NIFTY Oct 28', 'BANKNIFTY Oct 28'],
+                    value: selectedSymbol,
+                    onChanged: (val) {
+                      context.read<UserPositionBloc>().add(
+                        FilterUserPositions(
+                          exchange: selectedExchange,
+                          symbol: val,
+                        ),
+                      );
+                    },
+                    width: 150.w,
+                    height: 35.h,
+                    type: AppDropdownType.search,
+                  ),
+                ],
               ),
-              SizedBox(width: 12.w),
-              AppDropdown(
-                hintText: 'Symbol',
-                items: const ['GOLD', 'SILVER'],
-                value: _selectedSymbol == 'Symbol' ? null : _selectedSymbol,
-                onChanged: (val) => setState(() => _selectedSymbol = val),
-                width: 150.w,
-                height: 35.h,
+              const Spacer(),
+              UserResetButtons(
+                onReset: () {
+                  context.read<UserPositionBloc>().add(
+                    const FilterUserPositions(exchange: null, symbol: null),
+                  );
+                },
+                onView: () {
+                  
+                },
               ),
             ],
-          ),
-          const Spacer(),
-          UserResetButtons(
-            onReset: () {
-              setState(() {
-                _selectedExchange = 'Exchange';
-                _selectedSymbol = 'Symbol';
-              });
-            },
-            onView: () {},
-          ),
-        ],
+          );
+        },
       ),
     );
   }
 
-  Widget _buildRecordCount() {
+  Widget _buildRecordCount(BuildContext context) {
     return Container(
       color: AppColors.white,
       width: double.infinity,
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
-      alignment: Alignment.centerRight,
-      child: UserRecordCountWidget(count: 12550),
-    );
-  }
-
-  Widget _buildTable() {
-    return Theme(
-      data: Theme.of(
-        context,
-      ).copyWith(dividerColor: AppColors.greyBorder.withOpacity(0.5)),
-      child: DataTable2(
-        columnSpacing: 12,
-        horizontalMargin: 12,
-        minWidth: 900,
-        headingRowColor: MaterialStateProperty.all(
-          AppColors.primaryBlue.withOpacity(0.1),
-        ),
-        headingRowHeight: 40.h,
-        dataRowHeight: 40.h,
-        columns: [
-          _buildColumn('EXCH', numeric: false),
-          _buildColumn('SYMBOL', numeric: false),
-          _buildColumn('BUY QTY'),
-          _buildColumn('SELL QTY'),
-          _buildColumn('NET QTY'),
-          _buildColumn('NET A. P.'),
-          _buildColumn('CMP'),
-          _buildColumn('M2M AMT'),
-          _buildColumn('Lot'),
-        ],
-        rows: _positions.map((pos) => _buildRow(pos)).toList(),
+      child: BlocBuilder<UserPositionBloc, UserPositionState>(
+        builder: (context, state) {
+          int count = 0;
+          if (state is UserPositionLoaded) {
+            count = state.filteredPositions.length;
+          }
+          return UserRecordCount(count: count);
+        },
       ),
     );
   }
 
-  DataColumn2 _buildColumn(String label, {bool numeric = true}) {
-    return DataColumn2(
-      label: Text(
-        label,
-        style: GoogleFonts.openSans(
-          fontSize: 11.sp,
-          fontWeight: FontWeight.bold,
-          color: AppColors.primaryBlue,
-        ),
-      ),
-      numeric: numeric,
-      size: ColumnSize.L,
-    );
-  }
+  Widget _buildTable(BuildContext context) {
+    return BlocBuilder<UserPositionBloc, UserPositionState>(
+      builder: (context, state) {
+        if (state is UserPositionLoading) {
+          return const Center(child: CircularProgressIndicator());
+        }
 
-  DataRow _buildRow(Map<String, dynamic> pos) {
-    return DataRow(
-      cells: [
-        DataCell(Text(pos['exch'], style: _cellStyle())),
-        DataCell(Text(pos['symbol'], style: _cellStyle(isSymbol: true))),
-        DataCell(
-          Text(
-            pos['buyQty'].toStringAsFixed(2),
-            style: _cellStyle(color: AppColors.primaryBlue),
-          ),
-        ),
-        DataCell(
-          Text(
-            pos['sellQty'].toStringAsFixed(2),
-            style: _cellStyle(color: AppColors.errorColor),
-          ),
-        ),
-        DataCell(Text(pos['netQty'].toStringAsFixed(2), style: _cellStyle())),
-        DataCell(Text(pos['netAp'].toStringAsFixed(2), style: _cellStyle())),
-        DataCell(
-          Text(
-            pos['cmp'].toStringAsFixed(2),
-            style: _cellStyle(color: AppColors.errorColor),
-          ),
-        ),
-        DataCell(
-          Text(
-            pos['m2m'].toStringAsFixed(2),
-            style: _cellStyle(color: AppColors.errorColor),
-          ),
-        ),
-        DataCell(Text(pos['lot'].toStringAsFixed(2), style: _cellStyle())),
-      ],
+        if (state is UserPositionError) {
+          return Center(child: Text('Error: ${state.message}'));
+        }
+
+        List<UserPosition> positions = [];
+        if (state is UserPositionLoaded) {
+          positions = state.filteredPositions;
+        }
+
+        return UserDataTable<UserPosition>(
+          columns: [
+            UserTableColumn(id: 'exch', label: 'EXCH', width: 80.w),
+            UserTableColumn(id: 'symbol', label: 'SYMBOL', width: 120.w),
+            UserTableColumn(
+              id: 'buyQty',
+              label: 'BUY QTY',
+              width: 120.w,
+              isNumeric: true,
+            ),
+            UserTableColumn(
+              id: 'sellQty',
+              label: 'SELL QTY',
+              width: 120.w,
+              isNumeric: true,
+            ),
+            UserTableColumn(
+              id: 'netQty',
+              label: 'NET QTY',
+              width: 120.w,
+              isNumeric: true,
+            ),
+            UserTableColumn(
+              id: 'netAp',
+              label: 'NET A. P.',
+              width: 120.w,
+              isNumeric: true,
+            ),
+            UserTableColumn(
+              id: 'cmp',
+              label: 'CMP',
+              width: 120.w,
+              isNumeric: true,
+            ),
+            UserTableColumn(
+              id: 'm2m',
+              label: 'M2M AMT',
+              width: 120.w,
+              isNumeric: true,
+            ),
+            UserTableColumn(
+              id: 'lot',
+              label: 'Lot',
+              width: 80.w,
+              isNumeric: true,
+            ),
+          ],
+          data: positions,
+          idExtractor: (item) =>
+              '${item.exchange}_${item.symbol}_${item.buyQty}', // Simple unique ID
+          cellBuilder: (item, column) {
+            switch (column.id) {
+              case 'exch':
+                return Text(item.exchange, style: _cellStyle());
+              case 'symbol':
+                return Text(
+                  item.symbol,
+                  style: _cellStyle(
+                    isSymbol: true,
+                    color: AppColors.errorColor,
+                  ),
+                );
+              case 'buyQty':
+                return Text(
+                  item.buyQty.toStringAsFixed(2),
+                  style: _cellStyle(color: AppColors.primaryBlue),
+                );
+              case 'sellQty':
+                return Text(
+                  item.sellQty.toStringAsFixed(2),
+                  style: _cellStyle(color: AppColors.errorColor),
+                );
+              case 'netQty':
+                return Text(
+                  item.netQty.toStringAsFixed(2),
+                  style: _cellStyle(),
+                );
+              case 'netAp':
+                return Text(item.netAp.toStringAsFixed(2), style: _cellStyle());
+              case 'cmp':
+                return Text(
+                  item.cmp.toStringAsFixed(2),
+                  style: _cellStyle(color: AppColors.errorColor),
+                );
+              case 'm2m':
+                return Text(
+                  item.m2m.toStringAsFixed(2),
+                  style: _cellStyle(color: AppColors.errorColor),
+                );
+              case 'lot':
+                return Text(item.lot.toStringAsFixed(2), style: _cellStyle());
+              default:
+                return const SizedBox();
+            }
+          },
+        );
+      },
     );
   }
 
   TextStyle _cellStyle({Color? color, bool isSymbol = false}) {
     return GoogleFonts.openSans(
       fontSize: 11.sp,
-      fontWeight: isSymbol ? FontWeight.bold : FontWeight.w500,
-      color: color ?? AppColors.textColor(context),
+      fontWeight: isSymbol ? FontWeight.bold : FontWeight.w600,
+      color:
+          color, 
     );
   }
 
-  Widget _buildFooter() {
+  Widget _buildFooter(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(12.w),
-      decoration: BoxDecoration(
-        color: AppColors.primaryBlue.withOpacity(0.1),
-        border: Border(top: BorderSide(color: AppColors.greyBorder)),
-      ),
+      color: AppColors.white,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _buildFooterItem('Used Margin', '1000000.00'),
-          Container(height: 20.h, width: 1, color: AppColors.greyBorder),
-          _buildFooterItem('Free Margin', '1000000.00'),
-          Container(height: 20.h, width: 1, color: AppColors.greyBorder),
-          _buildFooterItem('Credit', '500000.00'),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+            decoration: BoxDecoration(
+              color: const Color(
+                0xFFC6DBE8,
+              ).withOpacity(0.5), 
+              borderRadius: BorderRadius.circular(8.r),
+            ),
+            child: Row(
+              children: [
+                _buildFooterItem('Used Margin', '1000000.00'),
+                _buildVerticalDivider(),
+                _buildFooterItem('Free Margin', '1000000.00'),
+                _buildVerticalDivider(),
+                _buildFooterItem('Credit', '500000.00'),
+              ],
+            ),
+          ),
 
           const Spacer(),
-
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
             decoration: BoxDecoration(
-              color: AppColors.primaryBlue.withOpacity(0.2),
-              borderRadius: BorderRadius.circular(4.r),
+              color: const Color(0xFFC6DBE8).withOpacity(0.5),
+              borderRadius: BorderRadius.circular(8.r),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
@@ -266,23 +312,32 @@ class _UserPositionTabState extends State<UserPositionTab> {
     );
   }
 
+  Widget _buildVerticalDivider() {
+    return Container(
+      height: 20.h,
+      width: 1.w,
+      color: const Color(0xFF1F4A66),
+      margin: EdgeInsets.symmetric(horizontal: 12.w),
+    );
+  }
+
   Widget _buildFooterItem(String label, String value) {
     return Row(
       children: [
         Text(
-          '$label : ',
+          '$label: ',
           style: GoogleFonts.openSans(
             fontSize: 12.sp,
             fontWeight: FontWeight.w600,
-            color: AppColors.textColor(context),
+            color: const Color(0xFF1F4A66),
           ),
         ),
         Text(
           value,
           style: GoogleFonts.openSans(
             fontSize: 12.sp,
-            fontWeight: FontWeight.bold,
-            color: AppColors.primaryBlue,
+            fontWeight: FontWeight.w600,
+            color: const Color(0xFF1F4A66),
           ),
         ),
       ],
@@ -297,15 +352,15 @@ class _UserPositionTabState extends State<UserPositionTab> {
           style: GoogleFonts.openSans(
             fontSize: 12.sp,
             fontWeight: FontWeight.w600,
-            color: AppColors.textColor(context),
+            color: const Color(0xFF1F4A66),
           ),
         ),
         Text(
           value,
           style: GoogleFonts.openSans(
             fontSize: 12.sp,
-            fontWeight: FontWeight.bold,
-            color: AppColors.primaryBlue,
+            fontWeight: FontWeight.w600,
+            color: const Color(0xFF1F4A66),
           ),
         ),
       ],

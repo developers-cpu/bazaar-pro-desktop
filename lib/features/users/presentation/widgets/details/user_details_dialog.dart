@@ -155,47 +155,50 @@ class _UserDetailsDialogState extends State<UserDetailsDialog>
   Widget _buildHeader() {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        border: Border(
-          bottom: BorderSide(color: AppColors.greyBorder, width: 1),
+      color: AppColors.white,
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 6.h),
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          border: Border.all(color: const Color(0xFF1F4A66), width: 1.5),
+          borderRadius: BorderRadius.circular(8.r),
         ),
-      ),
-      child: Row(
-        children: [
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
-            decoration: BoxDecoration(
-              border: Border.all(color: AppColors.errorColor),
-              borderRadius: BorderRadius.circular(4.r),
-            ),
-            child: Text(
-              widget.user.type.substring(0, 1).toUpperCase(),
-              style: GoogleFonts.openSans(
-                fontSize: 14.sp,
-                fontWeight: FontWeight.bold,
-                color: AppColors.errorColor,
+        child: Row(
+          children: [
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
+              decoration: BoxDecoration(
+                border: Border.all(color: AppColors.errorColor),
+                borderRadius: BorderRadius.circular(4.r),
+              ),
+              child: Text(
+                widget.user.type.substring(0, 1).toUpperCase(),
+                style: GoogleFonts.openSans(
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.errorColor,
+                ),
               ),
             ),
-          ),
-          SizedBox(width: 8.w),
-          Text(
-            widget.user.userName,
-            style: GoogleFonts.openSans(
-              fontSize: 16.sp,
-              fontWeight: FontWeight.w600,
-              color: AppColors.textColor(context),
+            SizedBox(width: 8.w),
+            Text(
+              widget.user.userName,
+              style: GoogleFonts.openSans(
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w600,
+                color: const Color(0xFF1F4A66),
+              ),
             ),
-          ),
-          const Spacer(),
-          _buildActionButton(Icons.edit, 'Edit', () {
-            if (widget.onEdit != null) widget.onEdit!(context);
-          }),
-          SizedBox(width: 8.w),
-          _buildActionButton(Icons.person, 'Action', () {
-            if (widget.onAction != null) widget.onAction!(context);
-          }, isPrimary: true),
-        ],
+            const Spacer(),
+            _buildActionButton(Icons.edit, 'Edit', () {
+              if (widget.onEdit != null) widget.onEdit!(context);
+            }),
+            SizedBox(width: 8.w),
+            _buildActionButton(Icons.person, 'Action', () {
+              if (widget.onAction != null) widget.onAction!(context);
+            }, isPrimary: true),
+          ],
+        ),
       ),
     );
   }
@@ -209,13 +212,14 @@ class _UserDetailsDialogState extends State<UserDetailsDialog>
     return InkWell(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
         decoration: BoxDecoration(
-          color: isPrimary
-              ? AppColors.primaryBlue.withOpacity(0.1)
-              : AppColors.white,
+          color: isPrimary ? const Color(0xFFDFECFE) : const Color(0xFFFFF4E5),
           border: Border.all(
-            color: isPrimary ? AppColors.primaryBlue : AppColors.borderColor,
+            color: isPrimary
+                ? const Color(0xFF0066FF)
+                : const Color(0xFFFFCC80),
+            width: 1,
           ),
           borderRadius: BorderRadius.circular(4.r),
         ),
@@ -224,7 +228,9 @@ class _UserDetailsDialogState extends State<UserDetailsDialog>
             Icon(
               icon,
               size: 14.sp,
-              color: isPrimary ? AppColors.primaryBlue : AppColors.warningColor,
+              color: isPrimary
+                  ? const Color(0xFF0066FF)
+                  : const Color(0xFFFF9800),
             ),
             SizedBox(width: 4.w),
             Text(
@@ -232,9 +238,7 @@ class _UserDetailsDialogState extends State<UserDetailsDialog>
               style: GoogleFonts.openSans(
                 fontSize: 12.sp,
                 fontWeight: FontWeight.w600,
-                color: isPrimary
-                    ? AppColors.primaryBlue
-                    : AppColors.textColor(context),
+                color: const Color(0xFF1F4A66),
               ),
             ),
           ],
@@ -247,6 +251,7 @@ class _UserDetailsDialogState extends State<UserDetailsDialog>
     return Container(
       color: AppColors.white,
       width: double.infinity,
+      // Removed border below header as per request
       child: TabBar(
         controller: _tabController,
         isScrollable: true,

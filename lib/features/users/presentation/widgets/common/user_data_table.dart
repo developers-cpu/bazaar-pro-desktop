@@ -21,6 +21,7 @@ class UserTableColumn {
     this.sortable = true,
   });
 }
+
 class UserDataTable<T> extends StatefulWidget {
   final List<UserTableColumn> columns;
   final List<T> data;

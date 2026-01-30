@@ -16,6 +16,7 @@ import '../widgets/dialogs/client_form_dialog.dart';
 import '../widgets/dialogs/leverage_update_dialog.dart';
 import '../widgets/dialogs/change_password_dialog.dart';
 import '../widgets/dialogs/update_access_dialog.dart';
+import '../widgets/details/user_details_dialog.dart';
 
 class UserListPage extends StatefulWidget {
   const UserListPage({super.key});
@@ -115,6 +116,16 @@ class _UserListPageState extends State<UserListPage> {
           const SnackBar(content: Text('Access settings updated successfully')),
         );
       },
+    );
+  }
+
+  void _showUserDetailsDialog(User user, {String? initialTab}) {
+    UserDetailsDialog.show(
+      context,
+      user,
+      initialTab: initialTab,
+      onEdit: () => _showEditUserDialog(user),
+      onAction: () => _showActionDialog(user),
     );
   }
 
@@ -423,82 +434,82 @@ class _UserListPageState extends State<UserListPage> {
           ),
         );
       case 'userName':
-        return GestureDetector(
-          onTap: () {
-            // Navigate to user details
-          },
+        return InkWell(
+          onTap: () => _showUserDetailsDialog(user),
           child: Text(
             user.userName,
-            style: TextStyle(
-              fontSize: 11.sp,
-              color: AppColors.primaryBlue,
+            style: GoogleFonts.openSans(
+              fontSize: 12.sp,
+              fontWeight: FontWeight.w600,
               decoration: TextDecoration.underline,
+              color: AppColors.primaryBlue,
             ),
-            overflow: TextOverflow.ellipsis,
           ),
         );
       case 'parentUser':
         return Text(
           user.parentUser,
-          style: TextStyle(
-            fontSize: 11.sp,
+          style: GoogleFonts.openSans(
+            fontSize: 12.sp,
             color: AppColors.textColor(context),
           ),
-          overflow: TextOverflow.ellipsis,
         );
       case 'type':
         return Text(
           user.type,
-          style: TextStyle(
-            fontSize: 11.sp,
+          style: GoogleFonts.openSans(
+            fontSize: 12.sp,
             color: AppColors.textColor(context),
           ),
-          overflow: TextOverflow.ellipsis,
         );
       case 'name':
         return Text(
           user.name,
-          style: TextStyle(
-            fontSize: 11.sp,
+          style: GoogleFonts.openSans(
+            fontSize: 12.sp,
             color: AppColors.textColor(context),
           ),
-          overflow: TextOverflow.ellipsis,
         );
       case 'plPercent':
         return Text(
-          user.plPercent.toStringAsFixed(0),
-          style: TextStyle(
-            fontSize: 11.sp,
+          '${user.plPercent}%',
+          style: GoogleFonts.openSans(
+            fontSize: 12.sp,
             color: AppColors.textColor(context),
           ),
         );
       case 'brkPercent':
         return Text(
-          user.brkPercent.toStringAsFixed(0),
-          style: TextStyle(
-            fontSize: 11.sp,
+          '${user.brkPercent}%',
+          style: GoogleFonts.openSans(
+            fontSize: 12.sp,
             color: AppColors.textColor(context),
           ),
         );
       case 'leverage':
-        return GestureDetector(
+        return InkWell(
           onTap: () => _showLeverageDialog(user),
           child: Text(
-            user.leverage,
-            style: TextStyle(
-              fontSize: 11.sp,
-              color: AppColors.primaryBlue,
+            '1:${user.leverage}',
+            style: GoogleFonts.openSans(
+              fontSize: 12.sp,
+              fontWeight: FontWeight.w600,
               decoration: TextDecoration.underline,
+              color: AppColors.primaryBlue,
             ),
           ),
         );
       case 'credit':
-        return Text(
-          _formatNumber(user.credit),
-          style: TextStyle(
-            fontSize: 11.sp,
-            color: AppColors.primaryBlue,
-            decoration: TextDecoration.underline,
+        return InkWell(
+          onTap: () => _showUserDetailsDialog(user, initialTab: 'Credit'),
+          child: Text(
+            user.credit.toStringAsFixed(0),
+            style: GoogleFonts.openSans(
+              fontSize: 12.sp,
+              fontWeight: FontWeight.w600,
+              decoration: TextDecoration.underline,
+              color: AppColors.primaryBlue,
+            ),
           ),
         );
       case 'pl':

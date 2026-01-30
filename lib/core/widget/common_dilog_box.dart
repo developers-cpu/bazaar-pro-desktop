@@ -19,6 +19,7 @@ class CommonDialog extends StatelessWidget {
   final EdgeInsets? contentPadding;
   final double? buttonWidth;
   final double? buttonHeight;
+  final bool scrollable;
 
   const CommonDialog({
     Key? key,
@@ -37,6 +38,7 @@ class CommonDialog extends StatelessWidget {
     this.contentPadding,
     this.buttonWidth,
     this.buttonHeight,
+    this.scrollable = true,
   }) : super(key: key);
 
   static void show({
@@ -56,6 +58,7 @@ class CommonDialog extends StatelessWidget {
     EdgeInsets? contentPadding,
     double? buttonWidth,
     double? buttonHeight,
+    bool scrollable = true,
   }) {
     showDialog(
       context: context,
@@ -76,24 +79,25 @@ class CommonDialog extends StatelessWidget {
         contentPadding: contentPadding,
         buttonWidth: buttonWidth,
         buttonHeight: buttonHeight,
+        scrollable: scrollable,
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final bgColor = backgroundColor ??
+    final bgColor =
+        backgroundColor ??
         (isDarkMode
             ? DarkThemeColors.cardBackground
             : LightThemeColors.cardBackground);
 
-    final headerBgColor = headerColor ??
+    final headerBgColor =
+        headerColor ??
         (isDarkMode ? LightThemeColors.primaryColor : AppColors.primaryBlue);
 
     return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.r),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
       backgroundColor: Colors.transparent,
       child: Container(
         width: width ?? 400.w,
@@ -107,12 +111,17 @@ class CommonDialog extends StatelessWidget {
           children: [
             _buildHeader(context, headerBgColor),
             Flexible(
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: contentPadding ?? EdgeInsets.all(20.w),
-                  child: content,
-                ),
-              ),
+              child: scrollable
+                  ? SingleChildScrollView(
+                      child: Padding(
+                        padding: contentPadding ?? EdgeInsets.all(20.w),
+                        child: content,
+                      ),
+                    )
+                  : Padding(
+                      padding: contentPadding ?? EdgeInsets.all(20.w),
+                      child: content,
+                    ),
             ),
             if (showButtons) ...[
               SizedBox(height: 20.h),
@@ -154,11 +163,7 @@ class CommonDialog extends StatelessWidget {
                 }
                 Navigator.pop(context);
               },
-              child: Icon(
-                Icons.close,
-                size: 22.sp,
-                color: AppColors.white,
-              ),
+              child: Icon(Icons.close, size: 22.sp, color: AppColors.white),
             ),
           ],
         ),
@@ -192,10 +197,7 @@ class CommonDialog extends StatelessWidget {
               },
               style: OutlinedButton.styleFrom(
                 padding: EdgeInsets.symmetric(vertical: 12.h),
-                side: BorderSide(
-                  color: primaryColor,
-                  width: 1.5,
-                ),
+                side: BorderSide(color: primaryColor, width: 1.5),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.r),
                 ),

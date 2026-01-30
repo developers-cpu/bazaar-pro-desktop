@@ -142,6 +142,9 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
         _currentPasswordController.text,
         _newPasswordController.text,
       );
+      Navigator.pop(
+        context,
+      ); 
     }
   }
 }

@@ -376,7 +376,7 @@ class UserTradesTabView extends StatelessWidget {
                 return Text(
                   DateFormat('dd/MM/yy hh:mm:ss a').format(item.orderTime),
                   style: _cellStyle(
-                    color: AppColors.errorColor, // Matches screenshot red date
+                    color: AppColors.errorColor,
                   ),
                 );
               case 'execDt':
@@ -384,7 +384,7 @@ class UserTradesTabView extends StatelessWidget {
                   DateFormat('dd/MM/yy hh:mm:ss a').format(item.executionTime),
                   style: _cellStyle(
                     color:
-                        AppColors.primaryBlue, // Matches screenshot blue date
+                        AppColors.primaryBlue,
                   ),
                 );
               case 'reqPrice':
@@ -418,7 +418,7 @@ class UserTradesTabView extends StatelessWidget {
       fontSize: 11.sp,
       fontWeight: isSymbol ? FontWeight.bold : FontWeight.w600,
       color:
-          color, // Removed default color to allow inheritance or specific color
+          color, 
       decoration: isUnderline ? TextDecoration.underline : null,
     );
   }

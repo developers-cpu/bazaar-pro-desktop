@@ -1,310 +1,275 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide DateRangePickerDialog;
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import '../../../../../../core/constants/app_colors.dart';
-import '../../../../../users/domain/entities/user.dart';
+import '../../../../../../core/widget/app_dropdown.dart';
+import '../../../../../../core/widget/date_range_picker_dialog.dart';
+import '../../../../domain/entities/user.dart';
+import '../../../../domain/entities/user_rejection_log.dart';
+import '../../../bloc/user_rejection_log/user_rejection_log_bloc.dart';
+import '../../../bloc/user_rejection_log/user_rejection_log_event.dart';
+import '../../../bloc/user_rejection_log/user_rejection_log_state.dart';
+import '../../common/user_data_table.dart';
 import '../../common/user_record_count.dart';
+import '../../common/user_reset_buttons.dart';
 
-class UserRejectionLogTab extends StatefulWidget {
+class UserRejectionLogTab extends StatelessWidget {
   final User user;
 
   const UserRejectionLogTab({super.key, required this.user});
 
   @override
-  State<UserRejectionLogTab> createState() => _UserRejectionLogTabState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) =>
+          UserRejectionLogBloc()..add(LoadUserRejectionLogs(user.id)),
+      child: const UserRejectionLogTabView(),
+    );
+  }
 }
 
-class _UserRejectionLogTabState extends State<UserRejectionLogTab> {
-  
-  final List<Map<String, dynamic>> _logs = [
-    {
-      'date': '04/11/25 01:25:35 PM',
-      'status': 'rejected',
-      'uName': 'DEMO03',
-      'symbol': 'NIFTY25N0425550CE',
-      'type': 'BUY',
-      'qty': 95,
-      'price': 15000,
-      'comment': 'SCRIPT BLOCKED IF YOU HAVE POSITION ONLY CLOSED BY MARKET',
-    },
-    {
-      'date': '04/11/25 01:25:35 PM',
-      'status': 'rejected',
-      'uName': 'DEMO03',
-      'symbol': 'NIFTY25N0425550CE',
-      'type': 'BUY',
-      'qty': 178,
-      'price': 5000,
-      'comment': 'SCRIPT BLOCKED IF YOU HAVE POSITION ONLY CLOSED BY MARKET',
-    },
-    {
-      'date': '04/11/25 01:25:35 PM',
-      'status': 'rejected',
-      'uName': 'DEMO03',
-      'symbol': 'GOLD',
-      'type': 'SELL',
-      'qty': 125,
-      'price': 50000,
-      'comment': 'SCRIPT BLOCKED IF YOU HAVE POSITION ONLY CLOSED BY MARKET',
-    },
-  ];
+class UserRejectionLogTabView extends StatelessWidget {
+  const UserRejectionLogTabView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        _buildFilterBar(),
-        Container(
-          color: AppColors.white,
-          width: double.infinity,
-          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
-          alignment: Alignment.centerRight,
-          child: UserRecordCount(count: 12550),
-        ),
-        Expanded(child: _buildTable()),
+        _buildFilterBar(context),
+        _buildRecordCount(context),
+        Expanded(child: _buildTable(context)),
       ],
     );
   }
 
-  Widget _buildFilterBar() {
-    
-    
-    return Padding(
-      padding: EdgeInsets.all(16.w),
-      child: Row(
-        children: [
-          Expanded(
-            child: Container(
-              height: 40.h,
-              padding: EdgeInsets.symmetric(horizontal: 12.w),
-              decoration: BoxDecoration(
-                border: Border.all(color: AppColors.primaryBlue),
-                borderRadius: BorderRadius.circular(4.r),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Select Date Range',
-                    style: GoogleFonts.openSans(
-                      fontSize: 14.sp,
-                      color: AppColors.textColor(context),
-                    ),
+  Widget _buildFilterBar(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(12.w),
+      color: AppColors.white,
+      child: BlocBuilder<UserRejectionLogBloc, UserRejectionLogState>(
+        builder: (context, state) {
+          DateTimeRange? selectedDateRange;
+          String? selectedExchange;
+          String? selectedSymbol;
+
+          if (state is UserRejectionLogLoaded) {
+            selectedDateRange = state.selectedDateRange;
+            selectedExchange = state.selectedExchange;
+            selectedSymbol = state.selectedSymbol;
+          }
+
+          return Row(
+            children: [
+              InkWell(
+                onTap: () async {
+                  final result = await DateRangePickerDialog.show(
+                    context,
+                    initialStartDate: selectedDateRange?.start,
+                    initialEndDate: selectedDateRange?.end,
+                  );
+                  if (result != null) {
+                    context.read<UserRejectionLogBloc>().add(
+                      FilterUserRejectionLogs(
+                        dateRange: result,
+                        exchange: selectedExchange,
+                        symbol: selectedSymbol,
+                      ),
+                    );
+                  }
+                },
+                child: Container(
+                  height: 35.h,
+                  padding: EdgeInsets.symmetric(horizontal: 12.w),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: AppColors.primaryBlue),
+                    borderRadius: BorderRadius.circular(4.r),
                   ),
-                  Icon(
-                    Icons.calendar_today,
-                    size: 16.sp,
+                  alignment: Alignment.centerLeft,
+                  child: Row(
+                    children: [
+                      Text(
+                        selectedDateRange != null
+                            ? '${DateFormat('yyyy-MM-dd').format(selectedDateRange.start)} - ${DateFormat('yyyy-MM-dd').format(selectedDateRange.end)}'
+                            : 'Select Date Range',
+                        style: GoogleFonts.openSans(
+                          fontSize: 12.sp,
+                          color: AppColors.primaryBlue,
+                        ),
+                      ),
+                      SizedBox(width: 8.w),
+                      Icon(
+                        Icons.calendar_today,
+                        size: 16.sp,
+                        color: AppColors.primaryBlue,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(width: 12.w),
+
+              AppDropdown(
+                hintText: 'Exchange',
+                items: const ['NSE', 'MCX'],
+                value: selectedExchange,
+                onChanged: (val) {
+                  context.read<UserRejectionLogBloc>().add(
+                    FilterUserRejectionLogs(
+                      dateRange: selectedDateRange,
+                      exchange: val,
+                      symbol: selectedSymbol,
+                    ),
+                  );
+                },
+                width: 150.w,
+                height: 35.h,
+                type: AppDropdownType.simple,
+              ),
+              SizedBox(width: 12.w),
+
+              AppDropdown(
+                hintText: 'Symbol',
+                items: const [
+                  'SGX GIFTNIFTY Oct 28',
+                  'NSE NIFTY Oct 28',
+                  'NSE BANKNIFTY Oct 28',
+                  'MINI GOLDMINI Dec 05',
+                  'MINI SILVERMINI Dec 05',
+                  'OTHER DOW Dec 19',
+                  'OTHER NASDAQ Dec 19',
+                  'OTHER S & P Dec 19',
+                ],
+                value: selectedSymbol,
+                onChanged: (val) {
+                  context.read<UserRejectionLogBloc>().add(
+                    FilterUserRejectionLogs(
+                      dateRange: selectedDateRange,
+                      exchange: selectedExchange,
+                      symbol: val,
+                    ),
+                  );
+                },
+                width: 250.w,
+                height: 35.h,
+                type: AppDropdownType.search,
+                searchHint: 'Search & Add',
+              ),
+
+              const Spacer(),
+
+              UserResetButtons(
+                onReset: () {
+                  context.read<UserRejectionLogBloc>().add(
+                    const FilterUserRejectionLogs(
+                      dateRange: null,
+                      exchange: null,
+                      symbol: null,
+                    ),
+                  );
+                },
+                onView: () {},
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildRecordCount(BuildContext context) {
+    return Container(
+      color: AppColors.white,
+      width: double.infinity,
+      child: BlocBuilder<UserRejectionLogBloc, UserRejectionLogState>(
+        builder: (context, state) {
+          int count = 0;
+          if (state is UserRejectionLogLoaded) {
+            count = state.filteredLogs.length;
+          }
+          return UserRecordCount(count: count);
+        },
+      ),
+    );
+  }
+
+  Widget _buildTable(BuildContext context) {
+    return BlocBuilder<UserRejectionLogBloc, UserRejectionLogState>(
+      builder: (context, state) {
+        if (state is UserRejectionLogLoading) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (state is UserRejectionLogError) {
+          return Center(child: Text('Error: ${state.message}'));
+        }
+
+        List<UserRejectionLog> logs = [];
+        if (state is UserRejectionLogLoaded) {
+          logs = state.filteredLogs;
+        }
+
+        return UserDataTable<UserRejectionLog>(
+          headerColor: AppColors.primaryBlue.withOpacity(0.2),
+          columns: [
+            UserTableColumn(id: 'uName', label: 'U.Name', width: 80.w),
+            UserTableColumn(id: 'symbol', label: 'SYMBOL', width: 150.w),
+            UserTableColumn(id: 'type', label: 'TYPE', width: 60.w),
+            UserTableColumn(
+              id: 'qty',
+              label: 'QTY',
+              width: 60.w,
+              isNumeric: true,
+            ),
+            UserTableColumn(
+              id: 'price',
+              label: 'PRICE',
+              width: 80.w,
+              isNumeric: true,
+            ),
+            UserTableColumn(id: 'comment', label: 'COMMENT', width: 350.w),
+            UserTableColumn(id: 'date', label: 'DATE', width: 160.w),
+          ],
+          data: logs,
+          idExtractor: (item) => item.id,
+          cellBuilder: (item, column) {
+            final commonStyle = GoogleFonts.openSans(
+              fontSize: 12.sp,
+              fontWeight: FontWeight.w600,
+              color: AppColors.primaryBlue,
+            );
+
+            switch (column.id) {
+              case 'uName':
+                return Text(item.userName, style: commonStyle);
+              case 'symbol':
+                return Text(item.symbol, style: commonStyle);
+              case 'type':
+                return Text(item.type, style: commonStyle);
+              case 'qty':
+                return Text(item.qty.toString(), style: commonStyle);
+              case 'price':
+                return Text(item.price.toStringAsFixed(0), style: commonStyle);
+              case 'comment':
+                return Text(
+                  item.comment,
+                  style: commonStyle.copyWith(
+                    fontWeight: FontWeight.bold,
                     color: AppColors.primaryBlue,
                   ),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(width: 12.w),
-          Expanded(child: _buildDropdown('Exchange')),
-          SizedBox(width: 12.w),
-          Expanded(child: _buildDropdown('Symbol')),
-          SizedBox(width: 12.w),
-          Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                OutlinedButton(
-                  onPressed: () {},
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: AppColors.textColor(context),
-                    side: BorderSide(color: AppColors.greyBorder),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4.r),
-                    ),
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 24.w,
-                      vertical: 12.h,
-                    ),
-                  ),
-                  child: Text(
-                    'Reset',
-                    style: GoogleFonts.openSans(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-                SizedBox(width: 12.w),
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primaryBlue,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4.r),
-                    ),
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 24.w,
-                      vertical: 12.h,
-                    ),
-                  ),
-                  child: Text(
-                    'View',
-                    style: GoogleFonts.openSans(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildDropdown(String hint) {
-    return Container(
-      height: 40.h,
-      padding: EdgeInsets.symmetric(horizontal: 12.w),
-      decoration: BoxDecoration(
-        border: Border.all(color: AppColors.primaryBlue),
-        borderRadius: BorderRadius.circular(4.r),
-      ),
-      child: DropdownButtonHideUnderline(
-        child: DropdownButton<String>(
-          hint: Text(
-            hint,
-            style: GoogleFonts.openSans(
-              fontSize: 14.sp,
-              color: AppColors.textColor(context),
-            ),
-          ),
-          isExpanded: true,
-          icon: Icon(Icons.keyboard_arrow_down, color: AppColors.primaryBlue),
-          items: [],
-          onChanged: (value) {},
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTable() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 16.w),
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        border: Border.all(color: AppColors.borderColor),
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(8.r),
-          topRight: Radius.circular(8.r),
-        ),
-      ),
-      child: Column(
-        children: [
-          _buildTableHeader(),
-          Expanded(
-            child: ListView.builder(
-              itemCount: _logs.length,
-              itemBuilder: (context, index) {
-                final log = _logs[index];
-                return _buildTableRow(log, index);
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildTableHeader() {
-    return Container(
-      height: 40.h,
-      decoration: BoxDecoration(
-        color: AppColors.primaryBlue.withOpacity(0.2),
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(8.r),
-          topRight: Radius.circular(8.r),
-        ),
-      ),
-      child: Row(
-        children: [
-          _buildHeaderCell('Order D/T', flex: 2),
-          _buildHeaderCell('STATUS', flex: 1),
-          _buildHeaderCell('U.Name', flex: 1),
-          _buildHeaderCell('SYMBOL', flex: 2),
-          _buildHeaderCell('TYPE', flex: 1),
-          _buildHeaderCell('QTY', flex: 1),
-          _buildHeaderCell('PRICE', flex: 1),
-          _buildHeaderCell('COMMENT', flex: 4),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildHeaderCell(String label, {int flex = 1}) {
-    return Expanded(
-      flex: flex,
-      child: Container(
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          border: Border(
-            right: BorderSide(color: AppColors.borderColor, width: 0.5),
-          ),
-        ),
-        child: Text(
-          label,
-          style: GoogleFonts.openSans(
-            fontSize: 11.sp,
-            fontWeight: FontWeight.bold,
-            color: AppColors.primaryBlue,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTableRow(Map<String, dynamic> log, int index) {
-    return Container(
-      height: 40.h,
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        border: Border(bottom: BorderSide(color: AppColors.borderColor)),
-      ),
-      child: Row(
-        children: [
-          _buildCell(log['date'], flex: 2),
-          _buildCell(log['status'], flex: 1),
-          _buildCell(log['uName'], flex: 1),
-          _buildCell(log['symbol'], flex: 2),
-          _buildCell(log['type'], flex: 1),
-          _buildCell(log['qty'].toString(), flex: 1),
-          _buildCell(log['price'].toString(), flex: 1),
-          _buildCell(log['comment'], flex: 4, alignLeft: true),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildCell(String text, {int flex = 1, bool alignLeft = false}) {
-    return Expanded(
-      flex: flex,
-      child: Container(
-        alignment: alignLeft ? Alignment.centerLeft : Alignment.center,
-        padding: alignLeft ? EdgeInsets.only(left: 8.w) : null,
-        decoration: BoxDecoration(
-          border: Border(
-            right: BorderSide(color: AppColors.borderColor, width: 0.5),
-          ),
-        ),
-        child: Text(
-          text,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: GoogleFonts.openSans(
-            fontSize: 11.sp,
-            fontWeight: FontWeight.w500,
-            color: AppColors.textColor(context),
-          ),
-        ),
-      ),
+                );
+              case 'date':
+                return Text(
+                  DateFormat('dd/MM/yy hh:mm:ss a').format(item.dateTime),
+                  style: commonStyle.copyWith(fontSize: 11.sp),
+                );
+              default:
+                return const SizedBox();
+            }
+          },
+        );
+      },
     );
   }
 }

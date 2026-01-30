@@ -1,93 +1,93 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../../../../../core/constants/app_colors.dart';
-import '../../../../../users/domain/entities/user.dart';
+import '../../../../../../core/widget/app_switch.dart';
+import '../../../../domain/entities/user.dart';
+import '../../../bloc/user_intraday/user_intraday_bloc.dart';
+import '../../../bloc/user_intraday/user_intraday_event.dart';
+import '../../../bloc/user_intraday/user_intraday_state.dart';
 
-class UserIntradaySquareOffTab extends StatefulWidget {
+class UserIntradaySquareOffTab extends StatelessWidget {
   final User user;
 
   const UserIntradaySquareOffTab({super.key, required this.user});
 
   @override
-  State<UserIntradaySquareOffTab> createState() =>
-      _UserIntradaySquareOffTabState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) =>
+          UserIntradayBloc()..add(LoadUserIntradaySettings(user.id)),
+      child: const UserIntradaySquareOffTabView(),
+    );
+  }
 }
 
-class _UserIntradaySquareOffTabState extends State<UserIntradaySquareOffTab> {
-  
-  final Map<String, bool> _toggles = {
-    'MCX': true,
-    'NSE': true,
-    'CE/PE': true,
-    'OTHER': true,
-    'COMEX': true,
-    'FOREX': true,
-    'USSTOCK': true,
-    'GIFY': true,
-    'CRYPTO': true,
-  };
+class UserIntradaySquareOffTabView extends StatelessWidget {
+  const UserIntradaySquareOffTabView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(16.w),
-      child: Column(
-        children: [
-          _buildToggleRow('MCX', 'NSE', 'CE/PE'),
-          SizedBox(height: 16.h),
-          _buildToggleRow('OTHER', 'COMEX', 'FOREX'),
-          SizedBox(height: 16.h),
-          _buildToggleRow('USSTOCK', 'GIFY', 'CRYPTO'),
-          SizedBox(height: 32.h),
-          
-          
-        ],
-      ),
-    );
-  }
+      child: BlocBuilder<UserIntradayBloc, UserIntradayState>(
+        builder: (context, state) {
+          if (state is UserIntradayLoading) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (state is UserIntradayError) {
+            return Center(child: Text('Error: ${state.message}'));
+          }
+          if (state is UserIntradayLoaded) {
+            final settings = state.settings;
+            final keys = [
+              'MCX',
+              'NSE',
+              'CE/PE',
+              'OTHER',
+              'COMEX',
+              'FOREX',
+              'USSTOCK',
+              'GIFY',
+              'CRYPTO',
+            ];
 
-  Widget _buildToggleRow(String label1, String label2, String label3) {
-    return Row(
-      children: [
-        Expanded(child: _buildToggleCard(label1)),
-        SizedBox(width: 16.w),
-        Expanded(child: _buildToggleCard(label2)),
-        SizedBox(width: 16.w),
-        Expanded(child: _buildToggleCard(label3)),
-      ],
-    );
-  }
+            return GridView.builder(
+              itemCount: keys.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                crossAxisSpacing: 16.w,
+                mainAxisSpacing: 16.h,
+                childAspectRatio: 5, // Adjust ratio to match the card height
+              ),
+              itemBuilder: (context, index) {
+                final key = keys[index];
+                final value = settings[key] ?? false;
 
-  Widget _buildToggleCard(String label) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(8.r),
-        border: Border.all(color: AppColors.primaryBlue),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            label,
-            style: GoogleFonts.openSans(
-              fontSize: 14.sp,
-              fontWeight: FontWeight.bold,
-              color: AppColors.primaryBlue,
-            ),
-          ),
-          Switch(
-            value: _toggles[label] ?? false,
-            activeColor: AppColors.primaryBlue,
-            onChanged: (val) {
-              setState(() {
-                _toggles[label] = val;
-              });
-            },
-          ),
-        ],
+                return Container(
+                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  decoration: BoxDecoration(
+                    color: AppColors.white,
+                    borderRadius: BorderRadius.circular(10.r),
+                    border: Border.all(
+                      color: AppColors.primaryBlue.withOpacity(0.5),
+                    ),
+                  ),
+                  child: AppSwitchRow(
+                    label: key,
+                    value: value,
+                    onChanged: (val) {
+                      context.read<UserIntradayBloc>().add(
+                        ToggleIntradaySetting(key, val),
+                      );
+                    },
+                  ),
+                );
+              },
+            );
+          }
+          return const SizedBox();
+        },
       ),
     );
   }

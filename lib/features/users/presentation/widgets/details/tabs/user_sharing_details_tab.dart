@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../../core/constants/app_colors.dart';
-import '../../../../../users/domain/entities/user.dart';
+import '../../../../domain/entities/user.dart';
+import '../../../../domain/entities/user_sharing_info.dart';
+import '../../../bloc/user_sharing/user_sharing_bloc.dart';
+import '../../../bloc/user_sharing/user_sharing_event.dart';
+import '../../../bloc/user_sharing/user_sharing_state.dart';
 
 class UserSharingDetailsTab extends StatelessWidget {
   final User user;
@@ -11,89 +16,135 @@ class UserSharingDetailsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(16.w),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: _buildSharingCard(context, 'PL Sharing', [
-              {'Person': 'Person', 'Share': 'Share'}, 
-              {'Person': 'Admin', 'Share': '5000%'},
-              {'Person': 'Master ( RAJ701 )', 'Share': '5000%'},
-              {'Person': 'Client ( marko )', 'Share': '000%'},
-            ]),
-          ),
-          SizedBox(width: 16.w),
-          Expanded(
-            child: _buildSharingCard(context, 'Brokerage Sharing', [
-              {'Person': 'Person', 'Share': 'Share'}, 
-              {'Person': 'Admin', 'Share': '5000%'},
-              {'Person': 'Master ( RAJ701 )', 'Share': '5000%'},
-              {'Person': 'Client ( marko )', 'Share': '000%'},
-            ]),
-          ),
-        ],
-      ),
+    return BlocProvider(
+      create: (context) =>
+          UserSharingBloc()..add(LoadUserSharingDetails(user.id)),
+      child: const UserSharingDetailsTabView(),
+    );
+  }
+}
+
+class UserSharingDetailsTabView extends StatelessWidget {
+  const UserSharingDetailsTabView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<UserSharingBloc, UserSharingState>(
+      builder: (context, state) {
+        if (state is UserSharingLoading) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        if (state is UserSharingError) {
+          return Center(child: Text('Error: ${state.message}'));
+        }
+        if (state is UserSharingLoaded) {
+          return Padding(
+            padding: EdgeInsets.all(16.w),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: _buildSharingCard(
+                    context,
+                    title: 'PL Sharing',
+                    data: state.plSharing,
+                  ),
+                ),
+                SizedBox(width: 16.w),
+                Expanded(
+                  child: _buildSharingCard(
+                    context,
+                    title: 'Brokerage Sharing',
+                    data: state.brokerageSharing,
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
+        return const SizedBox();
+      },
     );
   }
 
   Widget _buildSharingCard(
-    BuildContext context,
-    String title,
-    List<Map<String, String>> data,
-  ) {
+    BuildContext context, {
+    required String title,
+    required List<UserSharingInfo> data,
+  }) {
     return Container(
+      padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(8.r),
-        border: Border.all(color: AppColors.primaryBlue),
+        borderRadius: BorderRadius.circular(12.r),
+        border: Border.all(color: AppColors.primaryBlue, width: 1.5),
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 12.h),
-            child: Text(
-              title,
-              style: GoogleFonts.openSans(
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w500,
-                color: AppColors.primaryBlue,
-              ),
+          Text(
+            title,
+            textAlign: TextAlign.center,
+            style: GoogleFonts.openSans(
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w600,
+              color: AppColors.primaryBlue,
             ),
           ),
-          Divider(color: AppColors.primaryBlue, height: 1),
-          ...data.map((item) {
-            final isHeader = item['Person'] == 'Person';
-            return Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-              child: Row(
+          SizedBox(height: 24.h),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Person',
+                style: GoogleFonts.openSans(
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.primaryBlue.withOpacity(0.8),
+                ),
+              ),
+              Text(
+                'Share',
+                style: GoogleFonts.openSans(
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.primaryBlue.withOpacity(0.8),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 16.h),
+          ListView.separated(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: data.length,
+            separatorBuilder: (context, index) => SizedBox(height: 24.h),
+            itemBuilder: (context, index) {
+              final info = data[index];
+              return Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    item['Person']!,
+                    info.person,
                     style: GoogleFonts.openSans(
-                      fontSize: 12.sp,
-                      fontWeight: isHeader ? FontWeight.bold : FontWeight.w500,
-                      color: isHeader
-                          ? AppColors.primaryBlue
-                          : AppColors.textColor(context),
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.primaryBlue,
                     ),
                   ),
                   Text(
-                    item['Share']!,
+                    info.share,
                     style: GoogleFonts.openSans(
-                      fontSize: 12.sp,
-                      fontWeight: isHeader ? FontWeight.bold : FontWeight.w500,
-                      color: isHeader
-                          ? AppColors.primaryBlue
-                          : AppColors.textColor(context),
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.primaryBlue,
                     ),
                   ),
                 ],
-              ),
-            );
-          }).toList(),
+              );
+            },
+          ),
           SizedBox(height: 16.h),
         ],
       ),

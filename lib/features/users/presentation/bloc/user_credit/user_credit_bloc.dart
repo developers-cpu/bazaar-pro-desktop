@@ -1,9 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
+
 import '../../../domain/entities/user_credit_transaction.dart';
 import 'user_credit_event.dart';
 import 'user_credit_state.dart';
-
 
 class UserCreditBloc extends Bloc<UserCreditEvent, UserCreditState> {
   UserCreditBloc() : super(UserCreditLoading()) {

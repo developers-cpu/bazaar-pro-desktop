@@ -1,383 +1,304 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import '../../../../../../core/constants/app_colors.dart';
-import '../../../../../users/domain/entities/user.dart';
+import '../../../../../../core/widget/app_dropdown.dart';
+import '../../../../../../core/widget/custom_input_field.dart';
+import '../../../../domain/entities/user.dart';
+import '../../../../domain/entities/user_trade_margin.dart';
+import '../../../bloc/user_trade_margin/user_trade_margin_bloc.dart';
+import '../../../bloc/user_trade_margin/user_trade_margin_event.dart';
+import '../../../bloc/user_trade_margin/user_trade_margin_state.dart';
+import '../../common/user_data_table.dart';
 import '../../common/user_record_count.dart';
+import '../../common/user_reset_buttons.dart';
+import '../../common/user_update_button.dart'; // Reusing this generic button
 
-class UserTradeMarginTab extends StatefulWidget {
+class UserTradeMarginTab extends StatelessWidget {
   final User user;
 
   const UserTradeMarginTab({super.key, required this.user});
 
   @override
-  State<UserTradeMarginTab> createState() => _UserTradeMarginTabState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) =>
+          UserTradeMarginBloc()..add(LoadUserTradeMargins(user.id)),
+      child: const UserTradeMarginTabView(),
+    );
+  }
 }
 
-class _UserTradeMarginTabState extends State<UserTradeMarginTab> {
-  
-  final List<Map<String, dynamic>> _margins = [
-    {
-      'exch': 'MCX',
-      'symbol': '360NE',
-      'expiry': '26/12/25 | 12:00:00 AM',
-      'margin_pct': 10000,
-      'margin_a': 10000,
-    },
-    {
-      'exch': 'MCX',
-      'symbol': 'AARTIND',
-      'expiry': '26/12/25 | 12:00:00 AM',
-      'margin_pct': 1500,
-      'margin_a': 1500,
-    },
-    {
-      'exch': 'MCX',
-      'symbol': 'ABB',
-      'expiry': '26/12/25 | 12:00:00 AM',
-      'margin_pct': 00,
-      'margin_a': 00,
-    },
-    {
-      'exch': 'MCX',
-      'symbol': 'ABBOTINDIA',
-      'expiry': '26/12/25 | 12:00:00 AM',
-      'margin_pct': 00,
-      'margin_a': 00,
-    },
-    {
-      'exch': 'MCX',
-      'symbol': 'ABCAPITAL',
-      'expiry': '26/12/25 | 12:00:00 AM',
-      'margin_pct': 1000,
-      'margin_a': 1000,
-    },
-    {
-      'exch': 'MCX',
-      'symbol': 'ACC',
-      'expiry': '26/12/25 | 12:00:00 AM',
-      'margin_pct': 2000,
-      'margin_a': 2000,
-    },
-    {
-      'exch': 'MCX',
-      'symbol': 'AMBER',
-      'expiry': '26/12/25 | 12:00:00 AM',
-      'margin_pct': 1000,
-      'margin_a': 1000,
-    },
-    {
-      'exch': 'MCX',
-      'symbol': 'ALKEM',
-      'expiry': '26/12/25 | 12:00:00 AM',
-      'margin_pct': 2000,
-      'margin_a': 2000,
-    },
-    {
-      'exch': 'MCX',
-      'symbol': 'AMBUJACEM',
-      'expiry': '26/12/25 | 12:00:00 AM',
-      'margin_pct': 1000,
-      'margin_a': 1000,
-    },
-  ];
+class UserTradeMarginTabView extends StatelessWidget {
+  const UserTradeMarginTabView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        _buildFilterSection(),
-        Container(
-          color: AppColors.white,
-          width: double.infinity,
-          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
-          alignment: Alignment.centerRight,
-          child: UserRecordCount(count: 12550),
-        ),
-        Expanded(child: _buildTable()),
+        _buildFilterBar(context),
+        _buildActionRow(context),
+        _buildRecordCount(context),
+        Expanded(child: _buildTable(context)),
       ],
     );
   }
 
-  Widget _buildFilterSection() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-      child: Column(
-        children: [
-          Row(
+  Widget _buildFilterBar(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(12.w),
+      color: AppColors.white,
+      child: BlocBuilder<UserTradeMarginBloc, UserTradeMarginState>(
+        builder: (context, state) {
+          String? selectedExchange;
+          String? selectedSymbol;
+          String searchQuery = '';
+
+          if (state is UserTradeMarginLoaded) {
+            selectedExchange = state.selectedExchange;
+            selectedSymbol = state.selectedSymbol;
+            searchQuery = state.searchQuery ?? '';
+          }
+
+          return Row(
             children: [
-              Expanded(child: _buildDropdown('Exchange')),
-              SizedBox(width: 12.w),
-              Expanded(child: _buildDropdown('Symbol')),
-              SizedBox(width: 12.w),
-              Expanded(child: _buildSearchField()),
-              SizedBox(width: 12.w),
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    OutlinedButton(
-                      onPressed: () {},
-                      style: OutlinedButton.styleFrom(
-                        foregroundColor: AppColors.textColor(context),
-                        side: BorderSide(color: AppColors.greyBorder),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(4.r),
-                        ),
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 24.w,
-                          vertical: 12.h,
-                        ),
-                      ),
-                      child: Text(
-                        'Reset',
-                        style: GoogleFonts.openSans(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
+              AppDropdown(
+                hintText: 'Exchange',
+                items: const ['NSE', 'MCX'],
+                value: selectedExchange,
+                onChanged: (val) {
+                  context.read<UserTradeMarginBloc>().add(
+                    FilterUserTradeMargins(
+                      exchange: val,
+                      symbol: selectedSymbol,
+                      searchQuery: searchQuery,
                     ),
-                    SizedBox(width: 12.w),
-                    ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primaryBlue,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(4.r),
-                        ),
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 24.w,
-                          vertical: 12.h,
-                        ),
-                      ),
-                      child: Text(
-                        'View',
-                        style: GoogleFonts.openSans(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
+                  );
+                },
+                width: 150.w,
+                height: 35.h,
+                type: AppDropdownType.simple,
+              ),
+              SizedBox(width: 12.w),
+              AppDropdown(
+                hintText: 'Symbol',
+                items: const [
+                  '360NE',
+                  'AARTIND',
+                  'ABB',
+                  'ABBOTINDIA',
+                  'ABCAPITAL',
+                  'ACC',
+                  'AMBER',
+                  'ALKEM',
+                  'AMBUJACEM',
+                ],
+                value: selectedSymbol,
+                onChanged: (val) {
+                  context.read<UserTradeMarginBloc>().add(
+                    FilterUserTradeMargins(
+                      exchange: selectedExchange,
+                      symbol: val,
+                      searchQuery: searchQuery,
                     ),
-                  ],
+                  );
+                },
+                width: 200.w,
+                height: 35.h,
+                type: AppDropdownType.search,
+              ),
+              SizedBox(width: 12.w),
+              SizedBox(
+                width: 200.w,
+                child: CustomInputField(
+                  hintText: 'Search',
+                
+                  height: 35.h,
+                  onChanged: (val) {
+                    context.read<UserTradeMarginBloc>().add(
+                      FilterUserTradeMargins(
+                        exchange: selectedExchange,
+                        symbol: selectedSymbol,
+                        searchQuery: val,
+                      ),
+                    );
+                  },
                 ),
               ),
-            ],
-          ),
-          SizedBox(height: 12.h),
-          Row(
-            children: [
-              Expanded(child: _buildDropdown('Margin Type')),
-              SizedBox(width: 12.w),
-              Expanded(child: _buildDropdown('Margin%')),
-              SizedBox(width: 12.w),
-              Expanded(child: SizedBox()), 
-              SizedBox(width: 12.w),
-              Expanded(
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primaryBlue,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(4.r),
-                      ),
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 24.w,
-                        vertical: 12.h,
-                      ),
-                      minimumSize: Size(double.infinity, 40.h),
+              const Spacer(),
+              UserResetButtons(
+                onReset: () {
+                  context.read<UserTradeMarginBloc>().add(
+                    const FilterUserTradeMargins(
+                      exchange: null,
+                      symbol: null,
+                      searchQuery: null,
                     ),
-                    child: Text(
-                      'Update',
-                      style: GoogleFonts.openSans(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
+                  );
+                },
+                onView: () {}, // View logic if needed
               ),
             ],
-          ),
-        ],
+          );
+        },
       ),
     );
   }
 
-  Widget _buildDropdown(String hint) {
+  Widget _buildActionRow(BuildContext context) {
     return Container(
-      height: 40.h,
-      padding: EdgeInsets.symmetric(horizontal: 12.w),
-      decoration: BoxDecoration(
-        border: Border.all(color: AppColors.primaryBlue),
-        borderRadius: BorderRadius.circular(4.r),
-      ),
-      child: DropdownButtonHideUnderline(
-        child: DropdownButton<String>(
-          hint: Text(
-            hint,
-            style: GoogleFonts.openSans(
-              fontSize: 14.sp,
-              color: AppColors.textColor(context),
-            ),
-          ),
-          isExpanded: true,
-          icon: Icon(Icons.keyboard_arrow_down, color: AppColors.primaryBlue),
-          items: [],
-          onChanged: (value) {},
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSearchField() {
-    return Container(
-      height: 40.h,
-      child: TextField(
-        decoration: InputDecoration(
-          hintText: 'Search',
-          prefixIcon: Icon(Icons.search, color: AppColors.primaryBlue),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(4.r),
-            borderSide: BorderSide(color: AppColors.primaryBlue),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(4.r),
-            borderSide: BorderSide(color: AppColors.primaryBlue),
-          ),
-          contentPadding: EdgeInsets.zero,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTable() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 16.w),
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        border: Border.all(color: AppColors.borderColor),
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(8.r),
-          topRight: Radius.circular(8.r),
-        ),
-      ),
-      child: Column(
-        children: [
-          _buildTableHeader(),
-          Expanded(
-            child: ListView.builder(
-              itemCount: _margins.length,
-              itemBuilder: (context, index) {
-                final margin = _margins[index];
-                return _buildTableRow(margin, index);
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildTableHeader() {
-    return Container(
-      height: 40.h,
-      decoration: BoxDecoration(
-        color: AppColors.primaryBlue.withOpacity(0.2),
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(8.r),
-          topRight: Radius.circular(8.r),
-        ),
-      ),
+      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+      color: AppColors.white,
       child: Row(
         children: [
-          SizedBox(width: 40.w), 
-          _buildHeaderCell('EXCH', flex: 1),
-          _buildHeaderCell('SYMBOL', flex: 2),
-          _buildHeaderCell('EXPIRY DATE', flex: 3),
-          _buildHeaderCell('MARGIN (%)', flex: 3),
-          _buildHeaderCell('MARGIN (A.)', flex: 3),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildHeaderCell(String label, {int flex = 1}) {
-    return Expanded(
-      flex: flex,
-      child: Container(
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          border: Border(
-            right: BorderSide(color: AppColors.borderColor, width: 0.5),
+          AppDropdown(
+            hintText: 'Margin Type',
+            items: const ['Percentage', 'Amount'], // Mock items
+            value: null,
+            onChanged: (val) {},
+            width: 200.w,
+            height: 35.h,
+            type: AppDropdownType.simple,
           ),
-        ),
-        child: Text(
-          label,
-          style: GoogleFonts.openSans(
-            fontSize: 11.sp,
-            fontWeight: FontWeight.bold,
-            color: AppColors.primaryBlue,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTableRow(Map<String, dynamic> margin, int index) {
-    return Container(
-      height: 40.h,
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        border: Border(bottom: BorderSide(color: AppColors.borderColor)),
-      ),
-      child: Row(
-        children: [
+          SizedBox(width: 12.w),
           SizedBox(
-            width: 40.w,
-            child: Center(
-              child: Container(
-                width: 16.w,
-                height: 16.w,
-                decoration: BoxDecoration(
-                  border: Border.all(color: AppColors.borderColor),
-                  borderRadius: BorderRadius.circular(4.r),
-                ),
-              ),
-            ),
+            width: 200.w,
+            child: CustomInputField(hintText: 'Margin%', height: 35.h),
           ),
-          _buildCell(margin['exch'], flex: 1),
-          _buildCell(margin['symbol'], flex: 2),
-          _buildCell(margin['expiry'], flex: 3),
-          _buildCell(margin['margin_pct'].toString(), flex: 3),
-          _buildCell(margin['margin_a'].toString(), flex: 3),
+          const Spacer(),
+          UserUpdateButton(
+            label: 'Update',
+            onPressed: () {
+              // Trigger update
+            },
+           
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildCell(String text, {int flex = 1}) {
-    return Expanded(
-      flex: flex,
-      child: Container(
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          border: Border(
-            right: BorderSide(color: AppColors.borderColor, width: 0.5),
-          ),
-        ),
-        child: Text(
-          text,
-          style: GoogleFonts.openSans(
-            fontSize: 11.sp,
-            fontWeight: FontWeight.w500,
-            color: AppColors.textColor(context),
-          ),
-        ),
+  Widget _buildRecordCount(BuildContext context) {
+    return Container(
+      color: AppColors.white,
+      width: double.infinity,
+      child: BlocBuilder<UserTradeMarginBloc, UserTradeMarginState>(
+        builder: (context, state) {
+          int count = 0;
+          if (state is UserTradeMarginLoaded) {
+            count = state.filteredMargins.length;
+          }
+          return UserRecordCount(count: count);
+        },
       ),
+    );
+  }
+
+  Widget _buildTable(BuildContext context) {
+    return BlocBuilder<UserTradeMarginBloc, UserTradeMarginState>(
+      builder: (context, state) {
+        if (state is UserTradeMarginLoading) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        if (state is UserTradeMarginError) {
+          return Center(child: Text('Error: ${state.message}'));
+        }
+
+        List<UserTradeMargin> data = [];
+        bool isAllSelected = false;
+
+        if (state is UserTradeMarginLoaded) {
+          data = state.filteredMargins;
+          isAllSelected = state.isAllSelected;
+        }
+
+        return UserDataTable<UserTradeMargin>(
+          headerColor: AppColors.primaryBlue.withOpacity(0.2),
+          columns: [
+            UserTableColumn(
+              id: 'checkbox',
+              label: '',
+              width: 50.w,
+              sortable: false,
+              customHeader: Checkbox(
+                value: isAllSelected,
+                onChanged: (val) {
+                  context.read<UserTradeMarginBloc>().add(
+                    ToggleAllUserTradeMarginSelection(val ?? false),
+                  );
+                },
+                activeColor: AppColors.primaryBlue,
+                side: const BorderSide(color: AppColors.primaryBlue),
+              ),
+            ),
+            UserTableColumn(id: 'exchange', label: 'EXCH', width: 100.w),
+            UserTableColumn(id: 'symbol', label: 'SYMBOL', width: 150.w),
+            UserTableColumn(
+              id: 'expiryDate',
+              label: 'EXPIRY DATE',
+              width: 250.w,
+            ),
+            UserTableColumn(
+              id: 'marginPct',
+              label: 'MARGIN (%)',
+              width: 250.w,
+              isNumeric: true,
+            ),
+            UserTableColumn(
+              id: 'marginAmt',
+              label: 'MARGIN (A.)',
+              width: 250.w,
+              isNumeric: true,
+            ),
+          ],
+          data: data,
+          idExtractor: (item) => item.id,
+          cellBuilder: (item, column) {
+            final commonStyle = GoogleFonts.openSans(
+              fontSize: 12.sp,
+              fontWeight: FontWeight.w600,
+              color: AppColors.primaryBlue,
+            );
+
+            switch (column.id) {
+              case 'checkbox':
+                return Checkbox(
+                  value: item.isSelected,
+                  onChanged: (val) {
+                    context.read<UserTradeMarginBloc>().add(
+                      ToggleUserTradeMarginSelection(item.id),
+                    );
+                  },
+                  activeColor: AppColors.primaryBlue,
+                  side: const BorderSide(color: AppColors.primaryBlue),
+                );
+              case 'exchange':
+                return Text(item.exchange, style: commonStyle);
+              case 'symbol':
+                return Text(item.symbol, style: commonStyle);
+              case 'expiryDate':
+                return Text(
+                  DateFormat('dd/MM/yy | hh:mm:ss a').format(item.expiryDate),
+                  style: commonStyle,
+                );
+              case 'marginPct':
+                return Text(
+                  item.marginPercentage.toStringAsFixed(0),
+                  style: commonStyle,
+                );
+              case 'marginAmt':
+                return Text(
+                  item.marginAmount.toStringAsFixed(0),
+                  style: commonStyle,
+                );
+              default:
+                return const SizedBox();
+            }
+          },
+        );
+      },
     );
   }
 }

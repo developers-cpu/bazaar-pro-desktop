@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../../../core/constants/app_colors.dart';
-import '../../../../../users/domain/entities/user.dart';
+import '../../../../../../core/constants/app_images.dart';
+import '../../../../../../core/widget/app_dropdown.dart';
+import '../../../../domain/entities/user.dart';
+import '../../../bloc/user_pending_order/user_pending_order_bloc.dart';
+import '../../../bloc/user_pending_order/user_pending_order_event.dart';
+import '../../../bloc/user_pending_order/user_pending_order_state.dart';
+import '../../common/user_reset_buttons.dart';
 
 class UserPendingOrdersTab extends StatelessWidget {
   final User user;
@@ -11,113 +18,145 @@ class UserPendingOrdersTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) =>
+          UserPendingOrderBloc()..add(LoadUserPendingOrders(user.id)),
+      child: const UserPendingOrdersTabView(),
+    );
+  }
+}
+
+class UserPendingOrdersTabView extends StatelessWidget {
+  const UserPendingOrdersTabView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       children: [
         _buildFilterBar(context),
-        Expanded(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              
-              Icon(Icons.folder_open, size: 100.sp, color: Colors.orangeAccent),
-              SizedBox(height: 20.h),
-              
-            ],
-          ),
-        ),
+        Expanded(child: _buildContent(context)),
       ],
     );
   }
 
   Widget _buildFilterBar(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(16.w),
-      child: Row(
-        children: [
-          Expanded(child: _buildDropdown(context, 'MCX')),
-          SizedBox(width: 12.w),
-          Expanded(child: _buildDropdown(context, 'Symbol')),
-          SizedBox(width: 12.w),
-          Expanded(child: _buildDropdown(context, 'All')),
-          SizedBox(width: 12.w),
-          Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                OutlinedButton(
-                  onPressed: () {},
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: AppColors.textColor(context),
-                    side: BorderSide(color: AppColors.greyBorder),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4.r),
+    return Container(
+      padding: EdgeInsets.all(12.w),
+      color: AppColors.white,
+      child: BlocBuilder<UserPendingOrderBloc, UserPendingOrderState>(
+        builder: (context, state) {
+          String? selectedExchange;
+          String? selectedSymbol;
+          String? selectedOrderType;
+
+          if (state is UserPendingOrderLoaded) {
+            selectedExchange = state.selectedExchange;
+            selectedSymbol = state.selectedSymbol;
+            selectedOrderType = state.selectedOrderType;
+          }
+
+          return Row(
+            children: [
+              AppDropdown(
+                hintText: 'Exchange',
+                items: const ['NSE', 'MCX'],
+                value: selectedExchange,
+                onChanged: (val) {
+                  context.read<UserPendingOrderBloc>().add(
+                    FilterUserPendingOrders(
+                      exchange: val,
+                      symbol: selectedSymbol,
+                      orderType: selectedOrderType,
                     ),
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 24.w,
-                      vertical: 12.h,
+                  );
+                },
+                width: 150.w,
+                height: 35.h,
+                type: AppDropdownType.simple,
+              ),
+              SizedBox(width: 12.w),
+              AppDropdown(
+                hintText: 'Symbol',
+                items: const [
+                  'SGX GIFTNIFTY Oct 28',
+                  'NSE NIFTY Oct 28',
+                  'NSE BANKNIFTY Oct 28',
+                ], // Mock items
+                value: selectedSymbol,
+                onChanged: (val) {
+                  context.read<UserPendingOrderBloc>().add(
+                    FilterUserPendingOrders(
+                      exchange: selectedExchange,
+                      symbol: val,
+                      orderType: selectedOrderType,
                     ),
-                  ),
-                  child: Text(
-                    'Reset',
-                    style: GoogleFonts.openSans(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w600,
+                  );
+                },
+                width: 250.w,
+                height: 35.h,
+                type: AppDropdownType.search,
+                searchHint: 'Search & Add',
+              ),
+              SizedBox(width: 12.w),
+              AppDropdown(
+                hintText: 'Order Type',
+                items: const [
+                  'All',
+                  'Buy Limit',
+                  'Buy Stop',
+                  'Sell Limit',
+                  'Sell Stop',
+                ],
+                value: selectedOrderType,
+                onChanged: (val) {
+                  context.read<UserPendingOrderBloc>().add(
+                    FilterUserPendingOrders(
+                      exchange: selectedExchange,
+                      symbol: selectedSymbol,
+                      orderType: val,
                     ),
-                  ),
-                ),
-                SizedBox(width: 12.w),
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primaryBlue,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4.r),
+                  );
+                },
+                width: 150.w,
+                height: 35.h,
+                type: AppDropdownType.simple,
+              ),
+              const Spacer(),
+              UserResetButtons(
+                onReset: () {
+                  context.read<UserPendingOrderBloc>().add(
+                    const FilterUserPendingOrders(
+                      exchange: null,
+                      symbol: null,
+                      orderType: null,
                     ),
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 24.w,
-                      vertical: 12.h,
-                    ),
-                  ),
-                  child: Text(
-                    'View',
-                    style: GoogleFonts.openSans(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
+                  );
+                },
+                onView: () {},
+              ),
+            ],
+          );
+        },
       ),
     );
   }
 
-  Widget _buildDropdown(BuildContext context, String hint) {
-    return Container(
-      height: 40.h,
-      padding: EdgeInsets.symmetric(horizontal: 12.w),
-      decoration: BoxDecoration(
-        border: Border.all(color: AppColors.primaryBlue),
-        borderRadius: BorderRadius.circular(4.r),
-      ),
-      child: DropdownButtonHideUnderline(
-        child: DropdownButton<String>(
-          hint: Text(
-            hint,
-            style: GoogleFonts.openSans(
-              fontSize: 14.sp,
-              color: AppColors.textColor(context),
-            ),
+  Widget _buildContent(BuildContext context) {
+    return BlocBuilder<UserPendingOrderBloc, UserPendingOrderState>(
+      builder: (context, state) {
+        if (state is UserPendingOrderLoading) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        // Always show empty state for now as per requirement/screenshot showing the illustration
+        return Center(
+          child: SvgPicture.asset(
+            AppImages.pendingOrdersIcon,
+            width: 300.w, // Adjust size as needed
+            height: 300.h,
           ),
-          isExpanded: true,
-          icon: Icon(Icons.keyboard_arrow_down, color: AppColors.primaryBlue),
-          items: [],
-          onChanged: (value) {},
-        ),
-      ),
+        );
+      },
     );
   }
 }

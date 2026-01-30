@@ -91,7 +91,6 @@ class AppSwitch extends StatelessWidget {
   }
 }
 
-
 class AppSwitchRow extends StatelessWidget {
   final String label;
   final Widget? icon;

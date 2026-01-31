@@ -156,6 +156,12 @@ import 'features/users/data/datasources/user_position/user_position_datasource.d
 import 'features/users/domain/repositories/user_brokerage_setting/user_brokerage_setting_repository.dart';
 import 'features/users/data/repositories/user_brokerage_setting/user_brokerage_setting_repository_impl.dart';
 
+import 'features/report/data/datasources/trade_log_remote_datasource.dart';
+import 'features/report/data/repositories/trade_log_repository_impl.dart';
+import 'features/report/domain/repositories/trade_log_repository.dart';
+import 'features/report/presentation/bloc/trade_log/trade_log_bloc.dart';
+import 'features/report/domain/usecases/get_trade_logs.dart';
+
 final sl = GetIt.instance;
 
 Future<void> init() async {
@@ -581,6 +587,11 @@ Future<void> init() async {
       getUserRejectionLogMetadata: sl(),
     ),
   );
+
+  sl.registerFactory(() => TradeLogBloc(getTradeLogs: sl()));
+
+  sl.registerLazySingleton(() => GetTradeLogsUseCase(repository: sl()));
+
   sl.registerFactory(() => UserSharingBloc(getUserSharingDetails: sl()));
   sl.registerFactory(
     () => UserTradeMarginBloc(
@@ -629,9 +640,15 @@ Future<void> init() async {
   sl.registerLazySingleton<UserQuantitySettingsDataSource>(
     () => UserQuantitySettingsDataSourceImpl(),
   );
+
   sl.registerLazySingleton<UserRejectionLogDataSource>(
     () => UserRejectionLogDataSourceImpl(),
   );
+
+  sl.registerLazySingleton<TradeLogRemoteDataSource>(
+    () => TradeLogRemoteDataSourceImpl(),
+  );
+
   sl.registerLazySingleton<UserSharingDetailsDataSource>(
     () => UserSharingDetailsDataSourceImpl(),
   );
@@ -645,9 +662,15 @@ Future<void> init() async {
   sl.registerLazySingleton<UserQuantitySettingsRepository>(
     () => UserQuantitySettingsRepositoryImpl(dataSource: sl()),
   );
+
   sl.registerLazySingleton<UserRejectionLogRepository>(
     () => UserRejectionLogRepositoryImpl(dataSource: sl()),
   );
+
+  sl.registerLazySingleton<TradeLogRepository>(
+    () => TradeLogRepositoryImpl(remoteDataSource: sl()),
+  );
+
   sl.registerLazySingleton<UserSharingDetailsRepository>(
     () => UserSharingDetailsRepositoryImpl(dataSource: sl()),
   );

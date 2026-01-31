@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../core/widget/app_bar_section.dart';
+import 'trade_logs_page.dart';
 
 class ReportPageWrapper extends StatelessWidget {
   final String pageTitle;
@@ -21,7 +22,7 @@ class ReportPageWrapper extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: AppBarSection(
-        selectedTabIndex: 4,  
+        selectedTabIndex: 4,
         currentPageTitle: pageTitle,
         onTabSelected: (_) {},
         onExportPdf: onExportPdf,
@@ -42,7 +43,7 @@ class TradeLogsPageWithAppBar extends StatelessWidget {
       pageTitle: 'Trade Logs',
       onExportPdf: () {},
       onExportExcel: () {},
-      child: const Center(child: Text('Trade Logs - Coming Soon')),
+      child: const TradeLogsPage(),
     );
   }
 }

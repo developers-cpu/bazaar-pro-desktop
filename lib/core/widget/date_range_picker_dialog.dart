@@ -9,16 +9,16 @@ class DateRangePickerDialog extends StatefulWidget {
   final DateTime? initialEndDate;
 
   const DateRangePickerDialog({
-    Key? key,
+    super.key,
     this.initialStartDate,
     this.initialEndDate,
-  }) : super(key: key);
+  });
 
   static Future<DateTimeRange?> show(
-      BuildContext context, {
-        DateTime? initialStartDate,
-        DateTime? initialEndDate,
-      }) async {
+    BuildContext context, {
+    DateTime? initialStartDate,
+    DateTime? initialEndDate,
+  }) async {
     return await showDialog<DateTimeRange>(
       context: context,
       barrierColor: AppColors.black.withOpacity(0.5),
@@ -64,7 +64,8 @@ class _DateRangePickerDialogState extends State<DateRangePickerDialog> {
             _buildMonthNavigation(),
             _buildWeekdayHeaders(),
             _buildCalendarGrid(),
-            if (_startDate != null && _endDate != null) _buildSelectedDateDisplay(),
+            if (_startDate != null && _endDate != null)
+              _buildSelectedDateDisplay(),
             _buildButtons(),
           ],
         ),
@@ -115,10 +116,17 @@ class _DateRangePickerDialogState extends State<DateRangePickerDialog> {
           IconButton(
             onPressed: () {
               setState(() {
-                _currentMonth = DateTime(_currentMonth.year, _currentMonth.month - 1);
+                _currentMonth = DateTime(
+                  _currentMonth.year,
+                  _currentMonth.month - 1,
+                );
               });
             },
-            icon: Icon(Icons.chevron_left, color: AppColors.primaryBlue, size: 28.sp),
+            icon: Icon(
+              Icons.chevron_left,
+              color: AppColors.primaryBlue,
+              size: 28.sp,
+            ),
           ),
           Text(
             monthFormat.format(_currentMonth),
@@ -131,10 +139,17 @@ class _DateRangePickerDialogState extends State<DateRangePickerDialog> {
           IconButton(
             onPressed: () {
               setState(() {
-                _currentMonth = DateTime(_currentMonth.year, _currentMonth.month + 1);
+                _currentMonth = DateTime(
+                  _currentMonth.year,
+                  _currentMonth.month + 1,
+                );
               });
             },
-            icon: Icon(Icons.chevron_right, color: AppColors.primaryBlue, size: 28.sp),
+            icon: Icon(
+              Icons.chevron_right,
+              color: AppColors.primaryBlue,
+              size: 28.sp,
+            ),
           ),
         ],
       ),
@@ -170,15 +185,25 @@ class _DateRangePickerDialogState extends State<DateRangePickerDialog> {
   }
 
   Widget _buildCalendarGrid() {
-    final firstDayOfMonth = DateTime(_currentMonth.year, _currentMonth.month, 1);
-    final lastDayOfMonth = DateTime(_currentMonth.year, _currentMonth.month + 1, 0);
+    final firstDayOfMonth = DateTime(
+      _currentMonth.year,
+      _currentMonth.month,
+      1,
+    );
+    final lastDayOfMonth = DateTime(
+      _currentMonth.year,
+      _currentMonth.month + 1,
+      0,
+    );
     final firstWeekday = firstDayOfMonth.weekday % 7;
 
     final List<Widget> rows = [];
     List<Widget> currentRow = [];
 
     for (int i = 0; i < firstWeekday; i++) {
-      final prevMonthDay = firstDayOfMonth.subtract(Duration(days: firstWeekday - i));
+      final prevMonthDay = firstDayOfMonth.subtract(
+        Duration(days: firstWeekday - i),
+      );
       currentRow.add(_buildDayCell(prevMonthDay, isCurrentMonth: false));
     }
 
@@ -187,13 +212,15 @@ class _DateRangePickerDialogState extends State<DateRangePickerDialog> {
       currentRow.add(_buildDayCell(date, isCurrentMonth: true));
 
       if (currentRow.length == 7) {
-        rows.add(Padding(
-          padding: EdgeInsets.symmetric(vertical: 2.h),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: currentRow,
+        rows.add(
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 2.h),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: currentRow,
+            ),
           ),
-        ));
+        );
         currentRow = [];
       }
     }
@@ -201,16 +228,22 @@ class _DateRangePickerDialogState extends State<DateRangePickerDialog> {
     if (currentRow.isNotEmpty) {
       int nextMonthDay = 1;
       while (currentRow.length < 7) {
-        final nextDate = DateTime(_currentMonth.year, _currentMonth.month + 1, nextMonthDay++);
+        final nextDate = DateTime(
+          _currentMonth.year,
+          _currentMonth.month + 1,
+          nextMonthDay++,
+        );
         currentRow.add(_buildDayCell(nextDate, isCurrentMonth: false));
       }
-      rows.add(Padding(
-        padding: EdgeInsets.symmetric(vertical: 2.h),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: currentRow,
+      rows.add(
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: 2.h),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: currentRow,
+          ),
         ),
-      ));
+      );
     }
 
     return Padding(
@@ -223,7 +256,8 @@ class _DateRangePickerDialogState extends State<DateRangePickerDialog> {
     final isStartDate = _startDate != null && _isSameDay(date, _startDate!);
     final isEndDate = _endDate != null && _isSameDay(date, _endDate!);
     final isInRange = _isDateInRange(date);
-    final isWeekend = date.weekday == DateTime.sunday || date.weekday == DateTime.saturday;
+    final isWeekend =
+        date.weekday == DateTime.sunday || date.weekday == DateTime.saturday;
 
     Color textColor;
     Color? backgroundColor;
@@ -238,10 +272,10 @@ class _DateRangePickerDialogState extends State<DateRangePickerDialog> {
       );
     } else if (isInRange) {
       textColor = AppColors.primaryTextColor;
-      backgroundColor = AppColors.primaryBlue.withOpacity(0.1);
+      backgroundColor = AppColors.primaryBlue.withValues(alpha: 0.1);
       decoration = BoxDecoration(color: backgroundColor);
     } else if (!isCurrentMonth) {
-      textColor = AppColors.secondaryTextColor.withOpacity(0.3);
+      textColor = AppColors.secondaryTextColor.withValues(alpha: 0.3);
     } else if (isWeekend) {
       textColor = AppColors.red;
     } else {
@@ -259,7 +293,9 @@ class _DateRangePickerDialogState extends State<DateRangePickerDialog> {
           date.day.toString(),
           style: GoogleFonts.openSans(
             fontSize: 12.sp,
-            fontWeight: (isStartDate || isEndDate) ? FontWeight.w600 : FontWeight.w500,
+            fontWeight: (isStartDate || isEndDate)
+                ? FontWeight.w600
+                : FontWeight.w500,
             color: textColor,
           ),
         ),
@@ -394,11 +430,11 @@ class _DateRangePickerDialogState extends State<DateRangePickerDialog> {
             child: ElevatedButton(
               onPressed: (_startDate != null && _endDate != null)
                   ? () {
-                Navigator.pop(
-                  context,
-                  DateTimeRange(start: _startDate!, end: _endDate!),
-                );
-              }
+                      Navigator.pop(
+                        context,
+                        DateTimeRange(start: _startDate!, end: _endDate!),
+                      );
+                    }
                   : null,
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primaryBlue,

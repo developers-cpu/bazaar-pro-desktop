@@ -171,6 +171,13 @@ import 'features/report/domain/usecases/get_activity_report.dart';
 import 'features/report/presentation/bloc/trade_margin/trade_margin_bloc.dart';
 import 'features/report/presentation/bloc/credit_history/credit_history_bloc.dart';
 import 'features/report/presentation/bloc/activity_report/activity_report_bloc.dart';
+import 'features/report/domain/entities/symbol_wise_position_report.dart';
+import 'features/report/domain/repositories/symbol_wise_position_report_repository.dart';
+import 'features/report/domain/usecases/get_symbol_wise_position_report.dart';
+import 'features/report/data/models/symbol_wise_position_report_model.dart';
+import 'features/report/data/datasources/symbol_wise_position_report_remote_datasource.dart';
+import 'features/report/data/repositories/symbol_wise_position_report_repository_impl.dart';
+import 'features/report/presentation/bloc/symbol_wise_position_report/symbol_wise_position_report_bloc.dart';
 
 final sl = GetIt.instance;
 
@@ -713,6 +720,19 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<ActivityReportRemoteDataSource>(
     () => ActivityReportRemoteDataSourceImpl(),
+  );
+
+  sl.registerFactory(
+    () => SymbolWisePositionReportBloc(getSymbolWisePositionReport: sl()),
+  );
+  sl.registerLazySingleton(
+    () => GetSymbolWisePositionReportUseCase(repository: sl()),
+  );
+  sl.registerLazySingleton<SymbolWisePositionReportRepository>(
+    () => SymbolWisePositionReportRepositoryImpl(dataSource: sl()),
+  );
+  sl.registerLazySingleton<SymbolWisePositionReportRemoteDataSource>(
+    () => SymbolWisePositionReportRemoteDataSourceImpl(),
   );
 
   sl.registerLazySingleton<UserTradeMarginRepository>(

@@ -1,3 +1,4 @@
+import 'package:bazarpro/features/report/presentation/bloc/trade_log/trade_log_bloc.dart';
 import 'package:bazarpro/features/users/data/datasources/user/user_remote_datasource.dart';
 import 'package:bazarpro/features/users/data/datasources/user_brokerage_setting/user_brokerage_setting_datasource.dart';
 import 'package:bazarpro/features/users/data/datasources/user_credit_transaction/user_credit_datasource.dart';
@@ -116,6 +117,8 @@ import 'features/users/data/datasources/user_sharing_details/user_sharing_detail
 import 'features/users/data/datasources/user_trade_margin/user_trade_margin_datasource.dart';
 import 'features/users/domain/repositories/user_pending_order/user_pending_order_repository.dart';
 import 'features/users/domain/repositories/user_quantity_setting/user_quantity_settings_repository.dart';
+import 'features/users/data/repositories/user_position/user_position_repository_impl.dart';
+import 'features/users/domain/repositories/user_position/user_position_repository.dart';
 import 'features/users/domain/repositories/user_rejection_log/user_rejection_log_repository.dart';
 import 'features/users/domain/repositories/user_sharing_details/user_sharing_details_repository.dart';
 import 'features/users/domain/repositories/user_trade_margin/user_trade_margin_repository.dart';
@@ -139,28 +142,25 @@ import 'features/users/data/repositories/user_intraday_square_off/user_intraday_
 import 'features/users/domain/repositories/user_credit_transaction/user_credit_repository.dart';
 import 'features/users/domain/repositories/user_group_settings/user_group_settings_repository.dart';
 import 'features/users/domain/repositories/user_intraday_square_off/user_intraday_square_off_repository.dart';
-
 import 'features/users/data/repositories/user_trade_margin/user_trade_margin_repository_impl.dart';
 import 'features/users/presentation/bloc/user_form/user_form_bloc.dart';
-
 import 'features/users/domain/usecases/user_trades/get_user_trades_metadata_usecase.dart';
 import 'features/users/domain/repositories/user_trades/user_trades_repository.dart';
 import 'features/users/data/repositories/user_trades/user_trades_repository_impl.dart';
 import 'features/users/data/datasources/user_trades/user_trades_datasource.dart';
-
 import 'features/users/domain/usecases/user_position/get_user_positions.dart';
-import 'features/users/domain/repositories/user_position/user_position_repository.dart';
-import 'features/users/data/repositories/user_position/user_position_repository_impl.dart';
 import 'features/users/data/datasources/user_position/user_position_datasource.dart';
-
 import 'features/users/domain/repositories/user_brokerage_setting/user_brokerage_setting_repository.dart';
 import 'features/users/data/repositories/user_brokerage_setting/user_brokerage_setting_repository_impl.dart';
-
 import 'features/report/data/datasources/trade_log_remote_datasource.dart';
+import 'features/report/data/datasources/trade_margin_remote_datasource.dart';
 import 'features/report/data/repositories/trade_log_repository_impl.dart';
+import 'features/report/data/repositories/trade_margin_repository_impl.dart';
 import 'features/report/domain/repositories/trade_log_repository.dart';
-import 'features/report/presentation/bloc/trade_log/trade_log_bloc.dart';
+import 'features/report/domain/repositories/trade_margin_repository.dart';
 import 'features/report/domain/usecases/get_trade_logs.dart';
+import 'features/report/domain/usecases/get_trade_margins.dart';
+import 'features/report/presentation/bloc/trade_margin/trade_margin_bloc.dart';
 
 final sl = GetIt.instance;
 
@@ -590,7 +590,10 @@ Future<void> init() async {
 
   sl.registerFactory(() => TradeLogBloc(getTradeLogs: sl()));
 
+  sl.registerFactory(() => TradeMarginBloc(getTradeMargins: sl()));
+
   sl.registerLazySingleton(() => GetTradeLogsUseCase(repository: sl()));
+  sl.registerLazySingleton(() => GetTradeMarginsUseCase(repository: sl()));
 
   sl.registerFactory(() => UserSharingBloc(getUserSharingDetails: sl()));
   sl.registerFactory(
@@ -649,6 +652,10 @@ Future<void> init() async {
     () => TradeLogRemoteDataSourceImpl(),
   );
 
+  sl.registerLazySingleton<TradeMarginRemoteDataSource>(
+    () => TradeMarginRemoteDataSourceImpl(),
+  );
+
   sl.registerLazySingleton<UserSharingDetailsDataSource>(
     () => UserSharingDetailsDataSourceImpl(),
   );
@@ -659,6 +666,7 @@ Future<void> init() async {
   sl.registerLazySingleton<UserPendingOrderRepository>(
     () => UserPendingOrderRepositoryImpl(dataSource: sl()),
   );
+
   sl.registerLazySingleton<UserQuantitySettingsRepository>(
     () => UserQuantitySettingsRepositoryImpl(dataSource: sl()),
   );
@@ -669,6 +677,10 @@ Future<void> init() async {
 
   sl.registerLazySingleton<TradeLogRepository>(
     () => TradeLogRepositoryImpl(remoteDataSource: sl()),
+  );
+
+  sl.registerLazySingleton<TradeMarginRepository>(
+    () => TradeMarginRepositoryImpl(remoteDataSource: sl()),
   );
 
   sl.registerLazySingleton<UserSharingDetailsRepository>(

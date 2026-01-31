@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/widget/common_app_bar.dart';
 import '../../features/market_watch/data/models/menu_Item_data.dart';
+import '../../features/report/presentation/widgets/trade_margin/trade_margin_dialog.dart';
 import '../../features/users/presentation/widgets/create_user/user_search_dialog.dart';
 
 class AppBarSection extends StatefulWidget implements PreferredSizeWidget {
@@ -143,7 +144,9 @@ class AppBarSectionState extends State<AppBarSection> {
           ),
           MenuItemData(
             title: 'Trade Margin',
-            onTap: () => _navigateToPage(4, 'Trade Margin', '/trade-margin'),
+            onTap: () {
+              TradeMarginDialog.show(context);
+            },
           ),
           MenuItemData(
             title: 'Settlement',

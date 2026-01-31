@@ -15,12 +15,12 @@ import 'shared/high_low_limit_step.dart';
 import 'shared/brokerage_setting_step.dart';
 import 'client_steps/client_trigger_settings_step.dart';
 
-class ClientFormDialog extends StatelessWidget {
+class MastersClientFormDialog extends StatelessWidget {
   final bool isEditMode;
   final Map<String, dynamic>? userData;
   final VoidCallback? onComplete;
 
-  const ClientFormDialog({
+  const MastersClientFormDialog({
     super.key,
     this.isEditMode = false,
     this.userData,
@@ -38,9 +38,15 @@ class ClientFormDialog extends StatelessWidget {
       builder: (_) => BlocProvider(
         create: (_) => sl<UserFormBloc>()
           ..add(
-            const InitializeFormEvent(isEditMode: false, userType: 'Client'),
+            const InitializeFormEvent(
+              isEditMode: false,
+              userType: "Master's Client",
+            ),
           ),
-        child: ClientFormDialog(isEditMode: false, onComplete: onComplete),
+        child: MastersClientFormDialog(
+          isEditMode: false,
+          onComplete: onComplete,
+        ),
       ),
     );
   }
@@ -59,11 +65,11 @@ class ClientFormDialog extends StatelessWidget {
           ..add(
             InitializeFormEvent(
               isEditMode: true,
-              userType: 'Client',
+              userType: "Master's Client",
               userData: userData,
             ),
           ),
-        child: ClientFormDialog(
+        child: MastersClientFormDialog(
           isEditMode: true,
           userData: userData,
           onComplete: onComplete,
@@ -123,7 +129,9 @@ class ClientFormDialog extends StatelessWidget {
   }
 
   Widget _buildHeader(BuildContext context, UserFormState state) {
-    final title = state.isEditMode ? 'Edit Client' : 'Create Client';
+    final title = state.isEditMode
+        ? "Edit Master's Client"
+        : "Create Master's Client";
 
     return ClipRRect(
       borderRadius: BorderRadius.only(
@@ -159,7 +167,7 @@ class ClientFormDialog extends StatelessWidget {
     return AppStepIndicator(
       currentStep: state.currentStep,
       totalSteps: 5,
-      stepTitles: UserFormState.clientStepTitles,
+      stepTitles: UserFormState.mastersClientStepTitles,
     );
   }
 

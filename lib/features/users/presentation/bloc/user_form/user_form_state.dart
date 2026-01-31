@@ -8,7 +8,6 @@ class UserFormState extends Equatable {
   final int totalSteps;
   final List<String> stepTitles;
 
-  
   final String name;
   final String username;
   final String password;
@@ -42,6 +41,8 @@ class UserFormState extends Equatable {
   final bool isSuccess;
   final List<String> leverageOptions;
   final List<String> exchangeGroupOptions;
+  final String? selectedMaster;
+  final List<String> masterOptions;
 
   const UserFormState({
     this.isEditMode = false,
@@ -91,6 +92,14 @@ class UserFormState extends Equatable {
     this.isSuccess = false,
     this.leverageOptions = const [],
     this.exchangeGroupOptions = const [],
+    this.selectedMaster,
+    this.masterOptions = const [
+      'Master 1',
+      'Master 2',
+      'Master 3',
+      'Master 4',
+      'Master 5',
+    ],
   });
 
   static const List<String> availableExchanges = [
@@ -116,6 +125,14 @@ class UserFormState extends Equatable {
   ];
 
   static const List<String> clientStepTitles = [
+    'Personal Details',
+    'Exchange Allow',
+    'High Low Between Trade Limit',
+    'Trigger Settings',
+    'Brokerage Settings',
+  ];
+
+  static const List<String> mastersClientStepTitles = [
     'Personal Details',
     'Exchange Allow',
     'High Low Between Trade Limit',
@@ -200,11 +217,14 @@ class UserFormState extends Equatable {
   }
 
   static List<String> getStepTitles(String userType) {
-    return userType == 'Master' ? masterStepTitles : clientStepTitles;
+    if (userType == 'Master') return masterStepTitles;
+    if (userType == "Master's Client") return mastersClientStepTitles;
+    return clientStepTitles;
   }
 
   static int getTotalSteps(String userType) {
-    return userType == 'Master' ? 7 : 5;
+    if (userType == 'Master') return 7;
+    return 5;
   }
 
   static const List<TriggerSetting> availableTriggerSettings =
@@ -269,6 +289,8 @@ class UserFormState extends Equatable {
     bool? isSuccess,
     List<String>? leverageOptions,
     List<String>? exchangeGroupOptions,
+    String? selectedMaster,
+    List<String>? masterOptions,
   }) {
     return UserFormState(
       isEditMode: isEditMode ?? this.isEditMode,
@@ -315,6 +337,8 @@ class UserFormState extends Equatable {
       isSuccess: isSuccess ?? this.isSuccess,
       leverageOptions: leverageOptions ?? this.leverageOptions,
       exchangeGroupOptions: exchangeGroupOptions ?? this.exchangeGroupOptions,
+      selectedMaster: selectedMaster ?? this.selectedMaster,
+      masterOptions: masterOptions ?? this.masterOptions,
     );
   }
 
@@ -357,6 +381,8 @@ class UserFormState extends Equatable {
     isSubmitting,
     isSuccess,
     error,
+    selectedMaster,
+    masterOptions,
   ];
 }
 

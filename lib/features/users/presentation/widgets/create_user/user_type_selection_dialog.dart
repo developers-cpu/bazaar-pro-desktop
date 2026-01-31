@@ -4,6 +4,7 @@ import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/custom_action_button.dart';
 import 'master_form_dialog.dart';
 import 'client_form_dialog.dart';
+import 'masters_client_form_dialog.dart';
 
 class UserTypeSelectionDialog extends StatefulWidget {
   final VoidCallback? onUserCreated;
@@ -57,8 +58,7 @@ class _UserTypeSelectionDialogState extends State<UserTypeSelectionDialog> {
                       Text(
                         'User Type',
                         style: TextStyle(
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.w600,
+                          fontSize: 16.sp,
                           color: AppColors.primaryBlue,
                         ),
                       ),
@@ -69,7 +69,6 @@ class _UserTypeSelectionDialogState extends State<UserTypeSelectionDialog> {
                     'Select',
                     style: TextStyle(
                       fontSize: 14.sp,
-                      fontWeight: FontWeight.w600,
                       color: AppColors.primaryBlue,
                     ),
                   ),
@@ -79,13 +78,15 @@ class _UserTypeSelectionDialogState extends State<UserTypeSelectionDialog> {
                       _buildRadioOption('Master'),
                       SizedBox(width: 24.w),
                       _buildRadioOption('Client'),
+                      SizedBox(width: 24.w),
+                      _buildRadioOption("Master's Client"),
                     ],
                   ),
                   SizedBox(height: 24.h),
                   CustomActionButton(
                     text: 'Create',
                     width: double.infinity,
-                    height: 48.h,
+                    height: 35.h,
                     borderRadius: 8.r,
                     backgroundColor: _selectedUserType != null
                         ? AppColors.primaryBlue
@@ -118,11 +119,7 @@ class _UserTypeSelectionDialogState extends State<UserTypeSelectionDialog> {
             Expanded(
               child: Text(
                 'User Type',
-                style: TextStyle(
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.white,
-                ),
+                style: TextStyle(fontSize: 16.sp, color: AppColors.white),
               ),
             ),
             GestureDetector(
@@ -189,8 +186,15 @@ class _UserTypeSelectionDialogState extends State<UserTypeSelectionDialog> {
           widget.onUserCreated?.call();
         },
       );
-    } else {
+    } else if (_selectedUserType == 'Client') {
       ClientFormDialog.showCreate(
+        context: context,
+        onComplete: () {
+          widget.onUserCreated?.call();
+        },
+      );
+    } else if (_selectedUserType == "Master's Client") {
+      MastersClientFormDialog.showCreate(
         context: context,
         onComplete: () {
           widget.onUserCreated?.call();

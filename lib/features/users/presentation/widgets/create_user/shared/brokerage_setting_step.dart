@@ -7,11 +7,11 @@ import '../../../../../../core/widget/app_checkbox.dart';
 import '../../../../../../core/widget/app_dropdown.dart';
 import '../../../../../../core/widget/app_radio_group.dart';
 import '../../../../../../core/widget/app_text_field.dart';
+import '../../../../../../core/widget/custom_action_button.dart';
 import '../../../bloc/user_form/user_form_bloc.dart';
 import '../../../bloc/user_form/user_form_event.dart';
 import '../../../bloc/user_form/user_form_state.dart';
 import '../../common/user_record_count.dart';
-
 
 class BrokerageSettingStep extends StatefulWidget {
   const BrokerageSettingStep({super.key});
@@ -76,9 +76,7 @@ class _BrokerageSettingStepState extends State<BrokerageSettingStep> {
                 _buildSymbolWiseInputs(state),
               SizedBox(height: 16.h),
 
-              UserRecordCount(
-                count: UserFormState.availableExchanges.length,
-              ),
+              UserRecordCount(count: UserFormState.availableExchanges.length),
               SizedBox(height: 8.h),
 
               Container(
@@ -100,7 +98,11 @@ class _BrokerageSettingStepState extends State<BrokerageSettingStep> {
                     children: [
                       _buildTableHeader(context, state),
 
-                      Divider(height: 1, thickness: 1, color: Colors.grey.withOpacity(0.2)),
+                      Divider(
+                        height: 1,
+                        thickness: 1,
+                        color: Colors.grey.withOpacity(0.2),
+                      ),
 
                       ...UserFormState.availableExchanges.map((exchange) {
                         final data = state.brokerageData[exchange];
@@ -124,28 +126,12 @@ class _BrokerageSettingStepState extends State<BrokerageSettingStep> {
               SizedBox(height: 20.h),
 
               Center(
-                child: SizedBox(
+                child: CustomActionButton(
+                  text: 'Update',
                   width: 200.w,
-                  height: 50.h,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primaryBlue,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.r),
-                      ),
-                    ),
-                    child: Text(
-                      'Update',
-                      style: GoogleFonts.openSans(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.white,
-                      ),
-                    ),
-                  ),
+                  height: 35.h,
+                  borderRadius: 10.r,
+                  onPressed: () {},
                 ),
               ),
             ],
@@ -183,10 +169,7 @@ class _BrokerageSettingStepState extends State<BrokerageSettingStep> {
             keyboardType: TextInputType.number,
             onChanged: (v) {
               context.read<UserFormBloc>().add(
-                UpdateFormFieldEvent(
-                  fieldName: 'exchangeWiseBrk',
-                  value: v,
-                ),
+                UpdateFormFieldEvent(fieldName: 'exchangeWiseBrk', value: v),
               );
             },
           ),
@@ -200,10 +183,7 @@ class _BrokerageSettingStepState extends State<BrokerageSettingStep> {
             keyboardType: TextInputType.number,
             onChanged: (v) {
               context.read<UserFormBloc>().add(
-                UpdateFormFieldEvent(
-                  fieldName: 'symbolWiseBrk',
-                  value: v,
-                ),
+                UpdateFormFieldEvent(fieldName: 'symbolWiseBrk', value: v),
               );
             },
           ),
@@ -240,10 +220,7 @@ class _BrokerageSettingStepState extends State<BrokerageSettingStep> {
             keyboardType: TextInputType.number,
             onChanged: (v) {
               context.read<UserFormBloc>().add(
-                UpdateFormFieldEvent(
-                  fieldName: 'exchangeWiseBrk',
-                  value: v,
-                ),
+                UpdateFormFieldEvent(fieldName: 'exchangeWiseBrk', value: v),
               );
             },
           ),
@@ -257,7 +234,7 @@ class _BrokerageSettingStepState extends State<BrokerageSettingStep> {
   Widget _buildTableHeader(BuildContext context, UserFormState state) {
     final isAllSelected =
         state.selectedBrokerageExchanges.length ==
-            UserFormState.availableExchanges.length;
+        UserFormState.availableExchanges.length;
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 14.h),
@@ -334,11 +311,11 @@ class _BrokerageSettingStepState extends State<BrokerageSettingStep> {
   }
 
   Widget _buildTableRow(
-      BuildContext context,
-      UserFormState state,
-      String exchange,
-      BrokerageData? data,
-      ) {
+    BuildContext context,
+    UserFormState state,
+    String exchange,
+    BrokerageData? data,
+  ) {
     final isSelected = state.selectedBrokerageExchanges.contains(exchange);
     final index = UserFormState.availableExchanges.indexOf(exchange);
     final isLast = index == UserFormState.availableExchanges.length - 1;
@@ -352,16 +329,16 @@ class _BrokerageSettingStepState extends State<BrokerageSettingStep> {
         border: isLast
             ? null
             : Border(
-          bottom: BorderSide(
-            color: AppColors.grey.withOpacity(0.2),
-            width: 1,
-          ),
-        ),
+                bottom: BorderSide(
+                  color: AppColors.grey.withOpacity(0.2),
+                  width: 1,
+                ),
+              ),
         borderRadius: isLast
             ? BorderRadius.only(
-          bottomLeft: Radius.circular(8.r),
-          bottomRight: Radius.circular(8.r),
-        )
+                bottomLeft: Radius.circular(8.r),
+                bottomRight: Radius.circular(8.r),
+              )
             : null,
       ),
       child: Row(

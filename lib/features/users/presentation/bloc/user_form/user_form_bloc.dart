@@ -28,8 +28,6 @@ class UserFormBloc extends Bloc<UserFormEvent, UserFormState> {
     LoadFormDataEvent event,
     Emitter<UserFormState> emit,
   ) async {
-    
-    
     await Future.delayed(const Duration(milliseconds: 200));
     final leverageOptions = [
       '1:1',
@@ -146,6 +144,12 @@ class UserFormBloc extends Bloc<UserFormEvent, UserFormState> {
         break;
       case 'allowedDevice':
         emit(state.copyWith(allowedDevice: event.value as String));
+        break;
+      case 'cutOff':
+        emit(state.copyWith(cutOff: event.value as String));
+        break;
+      case 'selectedMaster':
+        emit(state.copyWith(selectedMaster: event.value as String?));
         break;
       case 'plSharing':
         emit(state.copyWith(plSharing: event.value as String));

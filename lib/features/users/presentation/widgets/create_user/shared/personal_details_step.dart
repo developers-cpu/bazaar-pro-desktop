@@ -74,6 +74,7 @@ class _PersonalDetailsStepState extends State<PersonalDetailsStep> {
     return BlocBuilder<UserFormBloc, UserFormState>(
       builder: (context, state) {
         final isClient = state.userType == 'Client';
+        final isMastersClient = state.userType == "Master's Client";
 
         return Container(
           padding: EdgeInsets.all(16.w),
@@ -83,7 +84,11 @@ class _PersonalDetailsStepState extends State<PersonalDetailsStep> {
           ),
           child: Column(
             children: [
-              
+              if (isMastersClient) ...[
+                _buildMasterSelector(state),
+                SizedBox(height: 8.h),
+              ],
+
               Row(
                 children: [
                   Expanded(
@@ -108,7 +113,6 @@ class _PersonalDetailsStepState extends State<PersonalDetailsStep> {
               ),
               SizedBox(height: 8.h),
 
-              
               Row(
                 children: [
                   Expanded(
@@ -149,7 +153,6 @@ class _PersonalDetailsStepState extends State<PersonalDetailsStep> {
               ),
               SizedBox(height: 8.h),
 
-              
               Row(
                 children: [
                   Expanded(
@@ -175,9 +178,7 @@ class _PersonalDetailsStepState extends State<PersonalDetailsStep> {
               ),
               SizedBox(height: 8.h),
 
-              
               if (isClient) ...[
-                
                 Row(
                   children: [
                     Expanded(
@@ -205,7 +206,7 @@ class _PersonalDetailsStepState extends State<PersonalDetailsStep> {
                   ],
                 ),
                 SizedBox(height: 8.h),
-                
+
                 Row(
                   children: [
                     Expanded(
@@ -229,7 +230,6 @@ class _PersonalDetailsStepState extends State<PersonalDetailsStep> {
                   ],
                 ),
               ] else ...[
-                
                 Row(
                   children: [
                     Expanded(
@@ -256,7 +256,7 @@ class _PersonalDetailsStepState extends State<PersonalDetailsStep> {
                   ],
                 ),
                 SizedBox(height: 8.h),
-                
+
                 Row(
                   children: [
                     Expanded(
@@ -284,6 +284,25 @@ class _PersonalDetailsStepState extends State<PersonalDetailsStep> {
           ),
         );
       },
+    );
+  }
+
+  Widget _buildMasterSelector(UserFormState state) {
+    return Row(
+      children: [
+        Expanded(
+          child: AppDropdown(
+            type: AppDropdownType.search,
+            height: 50.h,
+            width: 330.w,
+            hintText: 'Master',
+            value: state.selectedMaster,
+            items: state.masterOptions,
+            searchHint: 'Search & Add',
+            onChanged: (v) => _updateField('selectedMaster', v ?? ''),
+          ),
+        ),
+      ],
     );
   }
 }

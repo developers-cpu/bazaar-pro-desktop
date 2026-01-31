@@ -198,7 +198,7 @@ class MasterFormDialog extends StatelessWidget {
             Expanded(
               child: CustomActionButton(
                 text: 'Back',
-                height: 48.h,
+                height: 35.h,
                 borderRadius: 8.r,
                 onPressed: () =>
                     context.read<UserFormBloc>().add(const PreviousStepEvent()),
@@ -212,7 +212,7 @@ class MasterFormDialog extends StatelessWidget {
               text: isLastStep
                   ? (state.isEditMode ? 'Update' : 'Create')
                   : 'Next',
-              height: 48.h,
+              height: 35.h,
               borderRadius: 8.r,
               isLoading: state.isSubmitting,
               onPressed: () {

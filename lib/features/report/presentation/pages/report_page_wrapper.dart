@@ -3,6 +3,7 @@ import '../../../../../core/constants/app_colors.dart';
 import '../../../../core/widget/app_bar_section.dart';
 import 'trade_logs_page.dart';
 import 'credit_history_page.dart';
+import 'activity_report_page.dart';
 
 class ReportPageWrapper extends StatelessWidget {
   final String pageTitle;
@@ -114,7 +115,7 @@ class ActivityReportPageWithAppBar extends StatelessWidget {
       pageTitle: 'Activity Report',
       onExportPdf: () {},
       onExportExcel: () {},
-      child: const Center(child: Text('Activity Report - Coming Soon')),
+      child: const ActivityReportPage(),
     );
   }
 }

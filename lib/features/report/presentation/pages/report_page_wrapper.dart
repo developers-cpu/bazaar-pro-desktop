@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../core/widget/app_bar_section.dart';
 import 'trade_logs_page.dart';
+import 'credit_history_page.dart';
 
 class ReportPageWrapper extends StatelessWidget {
   final String pageTitle;
@@ -85,7 +86,7 @@ class CreditHistoryPageWithAppBar extends StatelessWidget {
       pageTitle: 'Credit History',
       onExportPdf: () {},
       onExportExcel: () {},
-      child: const Center(child: Text('Credit History - Coming Soon')),
+      child: const CreditHistoryPage(),
     );
   }
 }

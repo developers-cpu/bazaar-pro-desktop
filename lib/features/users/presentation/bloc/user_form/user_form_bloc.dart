@@ -2,10 +2,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'user_form_event.dart';
 import 'user_form_state.dart';
 
-
 class UserFormBloc extends Bloc<UserFormEvent, UserFormState> {
   UserFormBloc() : super(const UserFormState()) {
     on<InitializeFormEvent>(_onInitializeForm);
+    on<LoadFormDataEvent>(_onLoadFormData);
     on<UpdateStepEvent>(_onUpdateStep);
     on<NextStepEvent>(_onNextStep);
     on<PreviousStepEvent>(_onPreviousStep);
@@ -18,9 +18,41 @@ class UserFormBloc extends Bloc<UserFormEvent, UserFormState> {
     on<UpdateTriggerSettingEvent>(_onUpdateTriggerSetting);
     on<UpdateExchangeSettingEvent>(_onUpdateExchangeSetting);
     on<UpdateBrokerageEvent>(_onUpdateBrokerage);
+    on<ToggleAllBrokerageExchangesEvent>(_onToggleAllBrokerageExchanges);
     on<UpdateBrokerageViewModeEvent>(_onUpdateBrokerageViewMode);
     on<SubmitFormEvent>(_onSubmitForm);
     on<ResetFormEvent>(_onResetForm);
+  }
+
+  Future<void> _onLoadFormData(
+    LoadFormDataEvent event,
+    Emitter<UserFormState> emit,
+  ) async {
+    
+    
+    await Future.delayed(const Duration(milliseconds: 200));
+    final leverageOptions = [
+      '1:1',
+      '1:2',
+      '1:5',
+      '1:10',
+      '1:50',
+      '1:100',
+      '1:500',
+    ];
+    final exchangeGroupOptions = [
+      'NSE_X',
+      'NSE_2X',
+      'NSE_3X',
+      'NSE_4X',
+      'NSE_5X',
+    ];
+    emit(
+      state.copyWith(
+        leverageOptions: leverageOptions,
+        exchangeGroupOptions: exchangeGroupOptions,
+      ),
+    );
   }
 
   void _onInitializeForm(
@@ -28,7 +60,6 @@ class UserFormBloc extends Bloc<UserFormEvent, UserFormState> {
     Emitter<UserFormState> emit,
   ) {
     if (event.isEditMode && event.userData != null) {
-      
       final userData = event.userData!;
       emit(
         state.copyWith(
@@ -60,6 +91,7 @@ class UserFormBloc extends Bloc<UserFormEvent, UserFormState> {
         ),
       );
     }
+    add(const LoadFormDataEvent());
   }
 
   void _onUpdateStep(UpdateStepEvent event, Emitter<UserFormState> emit) {
@@ -263,6 +295,23 @@ class UserFormBloc extends Bloc<UserFormEvent, UserFormState> {
     );
   }
 
+  void _onToggleAllBrokerageExchanges(
+    ToggleAllBrokerageExchangesEvent event,
+    Emitter<UserFormState> emit,
+  ) {
+    if (event.selectAll) {
+      emit(
+        state.copyWith(
+          selectedBrokerageExchanges: Set.from(
+            UserFormState.availableExchanges,
+          ),
+        ),
+      );
+    } else {
+      emit(state.copyWith(selectedBrokerageExchanges: {}));
+    }
+  }
+
   void _onUpdateBrokerageViewMode(
     UpdateBrokerageViewModeEvent event,
     Emitter<UserFormState> emit,
@@ -277,7 +326,6 @@ class UserFormBloc extends Bloc<UserFormEvent, UserFormState> {
     emit(state.copyWith(isSubmitting: true, error: null));
 
     try {
-      
       await Future.delayed(const Duration(milliseconds: 500));
 
       emit(state.copyWith(isSubmitting: false, isSuccess: true));

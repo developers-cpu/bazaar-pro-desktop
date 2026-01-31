@@ -1,13 +1,8 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import '../../../domain/entities/user_trade.dart';
+import '../../../domain/entities/user_trades/user_trade.dart';
+import '../../../domain/entities/user_trades/user_trades_metadata.dart';
 
-abstract class UserTradesState extends Equatable {
-  const UserTradesState();
-
-  @override
-  List<Object?> get props => [];
-}
+abstract class UserTradesState {}
 
 class UserTradesInitial extends UserTradesState {}
 
@@ -20,32 +15,40 @@ class UserTradesLoaded extends UserTradesState {
   final String? selectedExchange;
   final String? selectedSymbol;
   final String? selectedStatus;
+  final UserTradesMetadata? metadata;
 
-  const UserTradesLoaded({
+  UserTradesLoaded({
     required this.allTrades,
     required this.filteredTrades,
     this.selectedDateRange,
     this.selectedExchange,
     this.selectedSymbol,
     this.selectedStatus,
+    this.metadata,
   });
 
-  @override
-  List<Object?> get props => [
-    allTrades,
-    filteredTrades,
-    selectedDateRange,
-    selectedExchange,
-    selectedSymbol,
-    selectedStatus,
-  ];
+  UserTradesLoaded copyWith({
+    List<UserTrade>? allTrades,
+    List<UserTrade>? filteredTrades,
+    DateTimeRange? selectedDateRange,
+    String? selectedExchange,
+    String? selectedSymbol,
+    String? selectedStatus,
+    UserTradesMetadata? metadata,
+  }) {
+    return UserTradesLoaded(
+      allTrades: allTrades ?? this.allTrades,
+      filteredTrades: filteredTrades ?? this.filteredTrades,
+      selectedDateRange: selectedDateRange ?? this.selectedDateRange,
+      selectedExchange: selectedExchange ?? this.selectedExchange,
+      selectedSymbol: selectedSymbol ?? this.selectedSymbol,
+      selectedStatus: selectedStatus ?? this.selectedStatus,
+      metadata: metadata ?? this.metadata,
+    );
+  }
 }
 
 class UserTradesError extends UserTradesState {
   final String message;
-
-  const UserTradesError(this.message);
-
-  @override
-  List<Object?> get props => [message];
+  UserTradesError(this.message);
 }

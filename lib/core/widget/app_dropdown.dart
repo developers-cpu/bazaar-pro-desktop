@@ -5,17 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_images.dart';
 
-
-enum AppDropdownType {
-  
-  simple,
-
-  
-  search,
-
-  
-  multiSelect,
-}
+enum AppDropdownType { simple, search, multiSelect }
 
 class AppDropdown extends StatefulWidget {
   final AppDropdownType type;
@@ -77,7 +67,6 @@ class _AppDropdownState extends State<AppDropdown>
   late AnimationController _controller;
   late Animation<double> _animation;
 
-  
   static const int _maxVisibleItems = 6;
   static double get _itemHeight => 40.h;
   static double get _searchFieldHeight => 50.h;
@@ -183,7 +172,6 @@ class _AppDropdownState extends State<AppDropdown>
     _overlayEntry?.markNeedsBuild();
   }
 
-  
   Color get _borderColor => widget.borderColor ?? AppColors.primaryBlue;
   Color get _textColor =>
       widget.textColor ??
@@ -197,7 +185,6 @@ class _AppDropdownState extends State<AppDropdown>
   Color get _dropdownBgColor =>
       widget.isDarkMode ? DarkThemeColors.cardBackground : AppColors.white;
 
-  
   TextStyle get _textStyle => GoogleFonts.openSans(
     fontSize: 14.sp,
     fontWeight: FontWeight.w600,
@@ -253,7 +240,6 @@ class _AppDropdownState extends State<AppDropdown>
 
         return Stack(
           children: [
-            
             Positioned.fill(
               child: GestureDetector(
                 onTap: _close,
@@ -261,11 +247,13 @@ class _AppDropdownState extends State<AppDropdown>
                 child: Container(color: AppColors.transparent),
               ),
             ),
-            
+
             Positioned(
               left: offset.dx,
               top: offset.dy + size.height + 5.h,
-              width: widget.width ?? size.width,
+              width: (widget.width == null || widget.width == double.infinity)
+                  ? size.width
+                  : widget.width,
               child: FadeTransition(
                 opacity: _animation,
                 child: Material(
@@ -287,15 +275,12 @@ class _AppDropdownState extends State<AppDropdown>
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        
                         if (widget.type != AppDropdownType.simple)
                           _buildSearchField(),
 
-                        
                         if (widget.type == AppDropdownType.multiSelect)
                           _buildSelectAllOption(),
 
-                        
                         Expanded(
                           child: RawScrollbar(
                             controller: _scrollController,
@@ -507,7 +492,6 @@ class _AppDropdownState extends State<AppDropdown>
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        
         if (widget.label != null) ...[
           Text(
             widget.label!,
@@ -521,7 +505,9 @@ class _AppDropdownState extends State<AppDropdown>
         ],
 
         SizedBox(
-          width: widget.width ?? 250.w,
+          width: (widget.width == null || widget.width == double.infinity)
+              ? null
+              : widget.width,
           height: widget.height ?? 45.h,
           child: CompositedTransformTarget(
             link: _layerLink,
@@ -536,7 +522,6 @@ class _AppDropdownState extends State<AppDropdown>
                 ),
                 child: Row(
                   children: [
-                    
                     Expanded(
                       child: Text(
                         _displayText,
@@ -552,7 +537,7 @@ class _AppDropdownState extends State<AppDropdown>
                       ),
                     ),
                     SizedBox(width: 8.w),
-                    
+
                     Icon(
                       _isOpen
                           ? Icons.keyboard_arrow_up

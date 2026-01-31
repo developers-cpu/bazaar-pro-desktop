@@ -1,14 +1,14 @@
+import 'package:bazarpro/features/users/domain/entities/user_sharing_info.dart';
 import 'package:equatable/equatable.dart';
-
-import '../../../domain/entities/user_sharing_info.dart';
-
 
 abstract class UserSharingState extends Equatable {
   const UserSharingState();
 
   @override
-  List<Object?> get props => [];
+  List<Object> get props => [];
 }
+
+class UserSharingInitial extends UserSharingState {}
 
 class UserSharingLoading extends UserSharingState {}
 
@@ -22,13 +22,14 @@ class UserSharingLoaded extends UserSharingState {
   });
 
   @override
-  List<Object?> get props => [plSharing, brokerageSharing];
+  List<Object> get props => [plSharing, brokerageSharing];
 }
 
 class UserSharingError extends UserSharingState {
   final String message;
+
   const UserSharingError(this.message);
 
   @override
-  List<Object?> get props => [message];
+  List<Object> get props => [message];
 }

@@ -36,8 +36,7 @@ class AppImages {
   static const String searchIcon = '$_commonIconsPath/search.svg';
   static const String buyIcon = '$_commonIconsPath/buy.svg';
   static const String sellIcon = '$_commonIconsPath/sell.svg';
-  static const String pendingOrdersIcon =
-      '$_commonIconsPath/pending_orders.svg';
+  static const String pendingOrdersIcon = '$_commonIconsPath/campaign.svg';
 
   static const String menu1Icon = '$_menuIconsPath/menu1.svg';
   static const String menu2con = '$_menuIconsPath/menu2.svg';

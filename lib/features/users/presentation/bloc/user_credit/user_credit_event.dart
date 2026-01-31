@@ -16,7 +16,7 @@ class LoadUserCredit extends UserCreditEvent {
 }
 
 class AddCreditTransaction extends UserCreditEvent {
-  final String type; // 'Credit' or 'Debit'
+  final String type;
   final double amount;
   final String comment;
 

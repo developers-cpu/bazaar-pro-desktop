@@ -1,248 +1,135 @@
+import 'package:bazarpro/features/users/domain/entities/user_trade_margin/user_trade_margin.dart';
+import 'package:bazarpro/features/users/domain/usecases/user_trade_margin/get_user_trade_margin_usecase.dart';
+import 'package:bazarpro/features/users/domain/usecases/user_trade_margin/get_user_trade_margin_metadata_usecase.dart';
+import 'package:bazarpro/core/usecases/usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../domain/entities/user_trade_margin.dart';
 import 'user_trade_margin_event.dart';
 import 'user_trade_margin_state.dart';
 
-
 class UserTradeMarginBloc
     extends Bloc<UserTradeMarginEvent, UserTradeMarginState> {
-  UserTradeMarginBloc() : super(UserTradeMarginLoading()) {
-    on<LoadUserTradeMargins>(_onLoadUserTradeMargins);
-    on<FilterUserTradeMargins>(_onFilterUserTradeMargins);
-    on<ToggleUserTradeMarginSelection>(_onToggleSelection);
-    on<ToggleAllUserTradeMarginSelection>(_onToggleAllSelection);
-    on<UpdateUserTradeMargin>(_onUpdateMargin);
+  final GetUserTradeMargin getUserTradeMargin;
+  final GetUserTradeMarginMetadata getUserTradeMarginMetadata;
+
+  UserTradeMarginBloc({
+    required this.getUserTradeMargin,
+    required this.getUserTradeMarginMetadata,
+  }) : super(UserTradeMarginInitial()) {
+    on<LoadUserTradeMargin>(_onLoadMargins);
+    on<FilterUserTradeMargins>(_onFilterMargins);
+    on<ToggleAllUserTradeMarginSelection>(_onToggleSelectAll);
+    on<ToggleUserTradeMarginSelection>(_onToggleSelectRow);
+    on<UpdateUserTradeMargins>(_onUpdateMargins);
   }
 
-  final List<UserTradeMargin> _mockMargins = [
-    UserTradeMargin(
-      id: '1',
-      exchange: 'MCX',
-      symbol: '360NE',
-      expiryDate: DateTime(2025, 12, 26, 12, 0),
-      marginPercentage: 10000,
-      marginAmount: 10000,
-    ),
-    UserTradeMargin(
-      id: '2',
-      exchange: 'MCX',
-      symbol: 'AARTIND',
-      expiryDate: DateTime(2025, 12, 26, 12, 0),
-      marginPercentage: 1500,
-      marginAmount: 1500,
-    ),
-    UserTradeMargin(
-      id: '3',
-      exchange: 'MCX',
-      symbol: 'ABB',
-      expiryDate: DateTime(2025, 12, 26, 12, 0),
-      marginPercentage: 0,
-      marginAmount: 0,
-    ),
-    UserTradeMargin(
-      id: '4',
-      exchange: 'MCX',
-      symbol: 'ABBOTINDIA',
-      expiryDate: DateTime(2025, 12, 26, 12, 0),
-      marginPercentage: 0,
-      marginAmount: 0,
-    ),
-    UserTradeMargin(
-      id: '5',
-      exchange: 'MCX',
-      symbol: 'ABCAPITAL',
-      expiryDate: DateTime(2025, 12, 26, 12, 0),
-      marginPercentage: 1000,
-      marginAmount: 1000,
-    ),
-    UserTradeMargin(
-      id: '6',
-      exchange: 'MCX',
-      symbol: 'ACC',
-      expiryDate: DateTime(2025, 12, 26, 12, 0),
-      marginPercentage: 2000,
-      marginAmount: 2000,
-    ),
-    UserTradeMargin(
-      id: '7',
-      exchange: 'MCX',
-      symbol: 'AMBER',
-      expiryDate: DateTime(2025, 12, 26, 12, 0),
-      marginPercentage: 1000,
-      marginAmount: 1000,
-    ),
-    UserTradeMargin(
-      id: '8',
-      exchange: 'MCX',
-      symbol: 'ALKEM',
-      expiryDate: DateTime(2025, 12, 26, 12, 0),
-      marginPercentage: 2000,
-      marginAmount: 2000,
-    ),
-    UserTradeMargin(
-      id: '9',
-      exchange: 'MCX',
-      symbol: 'AMBUJACEM',
-      expiryDate: DateTime(2025, 12, 26, 12, 0),
-      marginPercentage: 1000,
-      marginAmount: 1000,
-    ),
-  ];
-
-  void _onLoadUserTradeMargins(
-    LoadUserTradeMargins event,
+  void _onLoadMargins(
+    LoadUserTradeMargin event,
     Emitter<UserTradeMarginState> emit,
   ) async {
     emit(UserTradeMarginLoading());
-    await Future.delayed(const Duration(seconds: 1));
-    emit(
-      UserTradeMarginLoaded(
-        allMargins: _mockMargins,
-        filteredMargins: _mockMargins,
-      ),
+    final marginsResult = await getUserTradeMargin(event.userId);
+    final metadataResult = await getUserTradeMarginMetadata(NoParams());
+
+    marginsResult.fold(
+      (failure) => emit(UserTradeMarginError(failure.message)),
+      (margins) {
+        metadataResult.fold(
+          (metaFailure) => emit(
+            UserTradeMarginLoaded(
+              margins: margins,
+              filteredMargins: margins,
+              metadata: null,
+            ),
+          ),
+          (metadata) => emit(
+            UserTradeMarginLoaded(
+              margins: margins,
+              filteredMargins: margins,
+              metadata: metadata,
+            ),
+          ),
+        );
+      },
     );
   }
 
-  void _onFilterUserTradeMargins(
+  void _onFilterMargins(
     FilterUserTradeMargins event,
     Emitter<UserTradeMarginState> emit,
   ) {
     if (state is UserTradeMarginLoaded) {
       final currentState = state as UserTradeMarginLoaded;
+      List<UserTradeMargin> filtered = currentState.margins;
 
-      List<UserTradeMargin> filtered = currentState.allMargins.where((item) {
-        bool matchesExchange =
-            event.exchange == null || item.exchange == event.exchange;
-        bool matchesSymbol =
-            event.symbol == null || item.symbol == event.symbol;
-        bool matchesSearch =
-            event.searchQuery == null ||
-            event.searchQuery!.isEmpty ||
-            item.symbol.toLowerCase().contains(
-              event.searchQuery!.toLowerCase(),
-            );
+      if (event.exchange != null && event.exchange != 'All') {
+        filtered = filtered.where((m) => m.exchange == event.exchange).toList();
+      }
 
-        return matchesExchange && matchesSymbol && matchesSearch;
-      }).toList();
+      if (event.symbol != null && event.symbol!.isNotEmpty) {
+        filtered = filtered
+            .where(
+              (m) =>
+                  m.symbol.toLowerCase().contains(event.symbol!.toLowerCase()),
+            )
+            .toList();
+      }
 
       emit(
         currentState.copyWith(
           filteredMargins: filtered,
           selectedExchange: event.exchange,
           selectedSymbol: event.symbol,
-          searchQuery: event.searchQuery,
         ),
       );
     }
   }
 
-  void _onToggleSelection(
-    ToggleUserTradeMarginSelection event,
-    Emitter<UserTradeMarginState> emit,
-  ) {
-    if (state is UserTradeMarginLoaded) {
-      final currentState = state as UserTradeMarginLoaded;
-      final updatedFiltered = currentState.filteredMargins.map((item) {
-        if (item.id == event.id) {
-          return item.copyWith(isSelected: !item.isSelected);
-        }
-        return item;
-      }).toList();
-
-      // Also update in allMargins
-      final updatedAll = currentState.allMargins.map((item) {
-        if (item.id == event.id) {
-          return item.copyWith(isSelected: !item.isSelected);
-        }
-        return item;
-      }).toList();
-
-      final allSelected =
-          updatedFiltered.isNotEmpty &&
-          updatedFiltered.every((item) => item.isSelected);
-
-      emit(
-        currentState.copyWith(
-          filteredMargins: updatedFiltered,
-          allMargins: updatedAll,
-          isAllSelected: allSelected,
-        ),
-      );
-    }
-  }
-
-  void _onToggleAllSelection(
+  void _onToggleSelectAll(
     ToggleAllUserTradeMarginSelection event,
     Emitter<UserTradeMarginState> emit,
   ) {
     if (state is UserTradeMarginLoaded) {
       final currentState = state as UserTradeMarginLoaded;
-      final updatedFiltered = currentState.filteredMargins.map((item) {
-        return item.copyWith(isSelected: event.isSelected);
-      }).toList();
-
-      // Also update matching items in allMargins
-      final updatedAll = currentState.allMargins.map((item) {
-        // Naive update: if exists in filteredList (by ID), update it.
-        final isInFiltered = updatedFiltered.any((f) => f.id == item.id);
-        if (isInFiltered) {
-          return item.copyWith(isSelected: event.isSelected);
-        }
-        return item;
+      final updatedMargins = currentState.filteredMargins.map((m) {
+        return m.copyWith(isSelected: event.isSelected);
       }).toList();
 
       emit(
         currentState.copyWith(
-          filteredMargins: updatedFiltered,
-          allMargins: updatedAll,
+          filteredMargins: updatedMargins,
           isAllSelected: event.isSelected,
         ),
       );
     }
   }
 
-  void _onUpdateMargin(
-    UpdateUserTradeMargin event,
+  void _onToggleSelectRow(
+    ToggleUserTradeMarginSelection event,
     Emitter<UserTradeMarginState> emit,
   ) {
     if (state is UserTradeMarginLoaded) {
       final currentState = state as UserTradeMarginLoaded;
-
-      final updatedAll = currentState.allMargins.map((item) {
-        if (item.isSelected) {
-          // Logic based on marginType. For now assuming simple update
-          return item.copyWith(
-            marginPercentage: event.value, // Simplified
-            marginAmount: event.value, // Simplified
-          );
+      final updatedMargins = currentState.filteredMargins.map((m) {
+        if (m.id == event.id) {
+          return m.copyWith(isSelected: event.isSelected);
         }
-        return item;
+        return m;
       }).toList();
 
-      // Re-filter
-      List<UserTradeMargin> filtered = updatedAll.where((item) {
-        // Re-apply current filters
-        bool matchesExchange =
-            currentState.selectedExchange == null ||
-            item.exchange == currentState.selectedExchange;
-        bool matchesSymbol =
-            currentState.selectedSymbol == null ||
-            item.symbol == currentState.selectedSymbol;
-        bool matchesSearch =
-            currentState.searchQuery == null ||
-            currentState.searchQuery!.isEmpty ||
-            item.symbol.toLowerCase().contains(
-              currentState.searchQuery!.toLowerCase(),
-            );
-        return matchesExchange && matchesSymbol && matchesSearch;
-      }).toList();
-
+      bool allSelected = updatedMargins.every((m) => m.isSelected);
       emit(
         currentState.copyWith(
-          allMargins: updatedAll,
-          filteredMargins: filtered,
+          filteredMargins: updatedMargins,
+          isAllSelected: allSelected,
         ),
       );
     }
+  }
+
+  void _onUpdateMargins(
+    UpdateUserTradeMargins event,
+    Emitter<UserTradeMarginState> emit,
+  ) {
+    print('Updating margins: IDs=${event.selectedIds}');
   }
 }

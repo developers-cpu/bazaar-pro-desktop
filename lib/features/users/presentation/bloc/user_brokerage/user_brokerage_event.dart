@@ -16,7 +16,7 @@ class LoadUserBrokerage extends UserBrokerageEvent {
 }
 
 class ToggleBrokerageType extends UserBrokerageEvent {
-  final String viewType; // 'Exchange' or 'Symbol'
+  final String viewType;
   const ToggleBrokerageType(this.viewType);
 
   @override
@@ -25,7 +25,7 @@ class ToggleBrokerageType extends UserBrokerageEvent {
 
 class FilterBrokerage extends UserBrokerageEvent {
   final String? exchange;
-  final String? symbol; // For symbol wise filtering if needed
+  final String? symbol;
 
   const FilterBrokerage({this.exchange, this.symbol});
 
@@ -36,8 +36,7 @@ class FilterBrokerage extends UserBrokerageEvent {
 class UpdateBrokerageSettings extends UserBrokerageEvent {
   final List<String> selectedIds;
   final double? turnoverWiseBrk;
-  final double?
-  symbolWiseBrk; // Used for both modes (in Symbol mode only this is used)
+  final double? symbolWiseBrk;
 
   const UpdateBrokerageSettings({
     required this.selectedIds,

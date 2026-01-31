@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/usecases/usecase.dart';
 import '../../../domain/entities/user.dart';
-import '../../../domain/entities/user_hierarchy_node.dart';
-import '../../../domain/usecases/user_usecases.dart';
+import '../../../domain/entities/user_hierarchy_node/user_hierarchy_node.dart';
+import '../../../domain/usecases/user/get_users.dart';
 import 'search_user_event.dart';
 import 'search_user_state.dart';
 
@@ -132,9 +132,7 @@ class SearchUserBloc extends Bloc<SearchUserEvent, SearchUserState> {
           node.copyWith(
             children: children,
             isVisible: true,
-            isExpanded:
-                hasVisibleChildren ||
-                matches, 
+            isExpanded: hasVisibleChildren || matches,
           ),
         );
       } else {

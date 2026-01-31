@@ -1,17 +1,14 @@
 import 'package:equatable/equatable.dart';
 
-
 class UserFormState extends Equatable {
-  
   final bool isEditMode;
-
   final String userType;
-
+  final Map<String, dynamic>? userData;
   final int currentStep;
-
   final int totalSteps;
   final List<String> stepTitles;
 
+  
   final String name;
   final String username;
   final String password;
@@ -22,6 +19,7 @@ class UserFormState extends Equatable {
   final String creditLimit;
   final String remark;
   final String allowedDevice;
+  final String cutOff;
   final Set<String> selectedExchanges;
   final Map<String, String?> exchangeGroups;
   final String plSharing;
@@ -42,10 +40,13 @@ class UserFormState extends Equatable {
   final bool isSubmitting;
   final String? error;
   final bool isSuccess;
+  final List<String> leverageOptions;
+  final List<String> exchangeGroupOptions;
 
   const UserFormState({
     this.isEditMode = false,
     this.userType = 'Master',
+    this.userData,
     this.currentStep = 0,
     this.totalSteps = 7,
     this.stepTitles = const [
@@ -57,7 +58,6 @@ class UserFormState extends Equatable {
       'Triggers Setting',
       'Brokerage Setting',
     ],
-    
     this.name = '',
     this.username = '',
     this.password = '',
@@ -68,6 +68,7 @@ class UserFormState extends Equatable {
     this.creditLimit = '',
     this.remark = '',
     this.allowedDevice = '',
+    this.cutOff = '',
     this.selectedExchanges = const {},
     this.exchangeGroups = const {},
     this.plSharing = '',
@@ -88,9 +89,10 @@ class UserFormState extends Equatable {
     this.isSubmitting = false,
     this.error,
     this.isSuccess = false,
+    this.leverageOptions = const [],
+    this.exchangeGroupOptions = const [],
   });
 
-  
   static const List<String> availableExchanges = [
     'MCX',
     'NSE',
@@ -103,7 +105,6 @@ class UserFormState extends Equatable {
     'FOREX',
   ];
 
-  
   static const List<String> masterStepTitles = [
     'Personal Details',
     'Profit & Loss Sharing Details',
@@ -114,7 +115,6 @@ class UserFormState extends Equatable {
     'Brokerage Setting',
   ];
 
-  
   static const List<String> clientStepTitles = [
     'Personal Details',
     'Exchange Allow',
@@ -123,7 +123,6 @@ class UserFormState extends Equatable {
     'Brokerage Settings',
   ];
 
-  
   static const List<TriggerSetting> masterTriggerSettings = [
     TriggerSetting(key: 'addMaster', label: 'Add Master', icon: 'add_master'),
     TriggerSetting(key: 'addClient', label: 'Add Client', icon: 'add_client'),
@@ -168,7 +167,6 @@ class UserFormState extends Equatable {
     TriggerSetting(key: 'status', label: 'Status', icon: 'status'),
   ];
 
-  
   static const List<TriggerSetting> clientTriggerSettings = [
     TriggerSetting(
       key: 'fifteenDays',
@@ -208,6 +206,7 @@ class UserFormState extends Equatable {
   static int getTotalSteps(String userType) {
     return userType == 'Master' ? 7 : 5;
   }
+
   static const List<TriggerSetting> availableTriggerSettings =
       masterTriggerSettings;
 
@@ -231,10 +230,11 @@ class UserFormState extends Equatable {
   UserFormState copyWith({
     bool? isEditMode,
     String? userType,
+    Map<String, dynamic>? userData,
     int? currentStep,
     int? totalSteps,
     List<String>? stepTitles,
-    
+
     String? name,
     String? username,
     String? password,
@@ -245,7 +245,8 @@ class UserFormState extends Equatable {
     String? creditLimit,
     String? remark,
     String? allowedDevice,
-    
+    String? cutOff,
+
     Set<String>? selectedExchanges,
     Map<String, String?>? exchangeGroups,
     String? plSharing,
@@ -266,14 +267,17 @@ class UserFormState extends Equatable {
     bool? isSubmitting,
     String? error,
     bool? isSuccess,
+    List<String>? leverageOptions,
+    List<String>? exchangeGroupOptions,
   }) {
     return UserFormState(
       isEditMode: isEditMode ?? this.isEditMode,
       userType: userType ?? this.userType,
+      userData: userData ?? this.userData,
       currentStep: currentStep ?? this.currentStep,
       totalSteps: totalSteps ?? this.totalSteps,
       stepTitles: stepTitles ?? this.stepTitles,
-      
+
       name: name ?? this.name,
       username: username ?? this.username,
       password: password ?? this.password,
@@ -284,6 +288,7 @@ class UserFormState extends Equatable {
       creditLimit: creditLimit ?? this.creditLimit,
       remark: remark ?? this.remark,
       allowedDevice: allowedDevice ?? this.allowedDevice,
+      cutOff: cutOff ?? this.cutOff,
       selectedExchanges: selectedExchanges ?? this.selectedExchanges,
       exchangeGroups: exchangeGroups ?? this.exchangeGroups,
       plSharing: plSharing ?? this.plSharing,
@@ -308,6 +313,8 @@ class UserFormState extends Equatable {
       isSubmitting: isSubmitting ?? this.isSubmitting,
       error: error,
       isSuccess: isSuccess ?? this.isSuccess,
+      leverageOptions: leverageOptions ?? this.leverageOptions,
+      exchangeGroupOptions: exchangeGroupOptions ?? this.exchangeGroupOptions,
     );
   }
 
@@ -315,9 +322,9 @@ class UserFormState extends Equatable {
   List<Object?> get props => [
     isEditMode,
     userType,
+    userData,
     currentStep,
     totalSteps,
-    stepTitles,
     name,
     username,
     password,
@@ -328,26 +335,28 @@ class UserFormState extends Equatable {
     creditLimit,
     remark,
     allowedDevice,
-    selectedExchanges,
-    exchangeGroups,
+    cutOff,
     plSharing,
     brokerageSharing,
-    selectedExchangeSetting,
-    allowSquareOff,
     squareOffTiming,
-    marketOpenTimeRestriction,
     specificTime,
-    selectedTradeLimits,
-    triggerSettings,
-    brokerageViewMode,
-    selectedBrokerageExchange,
     exchangeWiseBrk,
     symbolWiseBrk,
-    selectedBrokerageExchanges,
+    selectedExchanges,
+    exchangeGroups,
+    selectedTradeLimits,
+    triggerSettings,
     brokerageData,
+    brokerageViewMode,
+    selectedBrokerageExchanges,
+    leverageOptions,
+    exchangeGroupOptions,
+    selectedExchangeSetting,
+    allowSquareOff,
+    marketOpenTimeRestriction,
     isSubmitting,
-    error,
     isSuccess,
+    error,
   ];
 }
 

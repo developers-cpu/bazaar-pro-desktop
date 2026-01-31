@@ -1,5 +1,5 @@
+import 'package:bazarpro/features/users/domain/entities/user_brokerage_setting/user_brokerage_setting.dart';
 import 'package:equatable/equatable.dart';
-import '../../../domain/entities/user_brokerage_setting.dart';
 
 abstract class UserBrokerageState extends Equatable {
   const UserBrokerageState();
@@ -8,21 +8,28 @@ abstract class UserBrokerageState extends Equatable {
   List<Object?> get props => [];
 }
 
+class UserBrokerageInitial extends UserBrokerageState {}
+
 class UserBrokerageLoading extends UserBrokerageState {}
 
 class UserBrokerageLoaded extends UserBrokerageState {
   final List<UserBrokerageSetting> allSettings;
   final List<UserBrokerageSetting> filteredSettings;
-  final String viewType; // 'Exchange' or 'Symbol'
+  final String viewType;
   final String? selectedExchange;
   final String? selectedSymbol;
 
+  final List<String> exchanges;
+  final List<String> symbols;
+
   const UserBrokerageLoaded({
-    this.allSettings = const [],
-    this.filteredSettings = const [],
+    required this.allSettings,
+    required this.filteredSettings,
     this.viewType = 'Exchange',
     this.selectedExchange,
     this.selectedSymbol,
+    this.exchanges = const [],
+    this.symbols = const [],
   });
 
   UserBrokerageLoaded copyWith({
@@ -31,6 +38,8 @@ class UserBrokerageLoaded extends UserBrokerageState {
     String? viewType,
     String? selectedExchange,
     String? selectedSymbol,
+    List<String>? exchanges,
+    List<String>? symbols,
   }) {
     return UserBrokerageLoaded(
       allSettings: allSettings ?? this.allSettings,
@@ -38,6 +47,8 @@ class UserBrokerageLoaded extends UserBrokerageState {
       viewType: viewType ?? this.viewType,
       selectedExchange: selectedExchange ?? this.selectedExchange,
       selectedSymbol: selectedSymbol ?? this.selectedSymbol,
+      exchanges: exchanges ?? this.exchanges,
+      symbols: symbols ?? this.symbols,
     );
   }
 
@@ -48,6 +59,8 @@ class UserBrokerageLoaded extends UserBrokerageState {
     viewType,
     selectedExchange,
     selectedSymbol,
+    exchanges,
+    symbols,
   ];
 }
 

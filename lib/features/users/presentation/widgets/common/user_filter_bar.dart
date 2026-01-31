@@ -4,8 +4,7 @@ import 'package:bazarpro/features/users/presentation/widgets/common/user_record_
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../../data/models/user_filter_dropdown.dart';
-
+import '../../../data/models/user/user_filter_dropdown.dart';
 
 class UserFilterBar extends StatelessWidget {
   final List<UserFilterDropdown> filters;
@@ -38,12 +37,12 @@ class UserFilterBar extends StatelessWidget {
       child: Row(
         children: [
           ...filters.map(
-                (filter) => Padding(
+            (filter) => Padding(
               padding: EdgeInsets.only(right: 16.w),
               child: AppDropdown(
                 type: AppDropdownType.simple,
                 hintText: filter.hint,
-                value: filter!.value,
+                value: filter.value,
                 items: filter.items,
                 onChanged: filter.onChanged,
                 width: 150.w,
@@ -53,10 +52,7 @@ class UserFilterBar extends StatelessWidget {
           ),
 
           const Spacer(),
-          UserRecordCount(
-            count: recordCount,
-            compact: true,
-          ),
+          UserRecordCount(count: recordCount, compact: true),
 
           SizedBox(width: 16.w),
           _buildActionButton(
@@ -72,10 +68,7 @@ class UserFilterBar extends StatelessWidget {
             isPrimary: true,
           ),
 
-          if (trailing != null) ...[
-            SizedBox(width: 16.w),
-            trailing!,
-          ],
+          if (trailing != null) ...[SizedBox(width: 16.w), trailing!],
         ],
       ),
     );
@@ -113,4 +106,3 @@ class UserFilterBar extends StatelessWidget {
     );
   }
 }
-

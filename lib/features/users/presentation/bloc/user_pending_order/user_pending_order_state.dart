@@ -1,5 +1,6 @@
+import 'package:bazarpro/features/users/domain/entities/user_pending_order/user_pending_order.dart';
+import 'package:bazarpro/features/users/domain/entities/user_pending_order/user_pending_order_metadata.dart';
 import 'package:equatable/equatable.dart';
-import '../../../domain/entities/user_pending_order.dart';
 
 abstract class UserPendingOrderState extends Equatable {
   const UserPendingOrderState();
@@ -8,16 +9,22 @@ abstract class UserPendingOrderState extends Equatable {
   List<Object?> get props => [];
 }
 
+class UserPendingOrderInitial extends UserPendingOrderState {}
+
 class UserPendingOrderLoading extends UserPendingOrderState {}
 
 class UserPendingOrderLoaded extends UserPendingOrderState {
-  final List<UserPendingOrder> orders; // Empty list for now as per screenshot
+  final List<UserPendingOrder> orders;
+  final List<UserPendingOrder> filteredOrders;
+  final UserPendingOrderMetadata? metadata;
   final String? selectedExchange;
   final String? selectedSymbol;
   final String? selectedOrderType;
 
   const UserPendingOrderLoaded({
-    this.orders = const [],
+    required this.orders,
+    required this.filteredOrders,
+    this.metadata,
     this.selectedExchange,
     this.selectedSymbol,
     this.selectedOrderType,
@@ -25,12 +32,16 @@ class UserPendingOrderLoaded extends UserPendingOrderState {
 
   UserPendingOrderLoaded copyWith({
     List<UserPendingOrder>? orders,
+    List<UserPendingOrder>? filteredOrders,
+    UserPendingOrderMetadata? metadata,
     String? selectedExchange,
     String? selectedSymbol,
     String? selectedOrderType,
   }) {
     return UserPendingOrderLoaded(
       orders: orders ?? this.orders,
+      filteredOrders: filteredOrders ?? this.filteredOrders,
+      metadata: metadata ?? this.metadata,
       selectedExchange: selectedExchange ?? this.selectedExchange,
       selectedSymbol: selectedSymbol ?? this.selectedSymbol,
       selectedOrderType: selectedOrderType ?? this.selectedOrderType,
@@ -40,6 +51,8 @@ class UserPendingOrderLoaded extends UserPendingOrderState {
   @override
   List<Object?> get props => [
     orders,
+    filteredOrders,
+    metadata,
     selectedExchange,
     selectedSymbol,
     selectedOrderType,
@@ -48,8 +61,9 @@ class UserPendingOrderLoaded extends UserPendingOrderState {
 
 class UserPendingOrderError extends UserPendingOrderState {
   final String message;
+
   const UserPendingOrderError(this.message);
 
   @override
-  List<Object?> get props => [message];
+  List<Object> get props => [message];
 }

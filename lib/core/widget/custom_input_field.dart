@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'svg_icon.dart';
 
-
 class CustomInputField extends StatelessWidget {
   final String hintText;
   final String? svgIconPath;
@@ -18,6 +17,8 @@ class CustomInputField extends StatelessWidget {
   final bool enabled;
   final ValueChanged<String>? onChanged;
   final double? height;
+  final double? width;
+  final String? prefixSvgPath;
 
   const CustomInputField({
     Key? key,
@@ -33,17 +34,20 @@ class CustomInputField extends StatelessWidget {
     this.enabled = true,
     this.onChanged,
     this.height,
+    this.width,
+    this.prefixSvgPath,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: height ?? 45.h,
+      width: width ?? 250.w,        
+      height: height ?? 45.h,       
       child: TextFormField(
         controller: controller,
         obscureText: obscureText,
         keyboardType: keyboardType,
-        maxLines: maxLines,
+        maxLines: 1,                
         enabled: enabled,
         style: GoogleFonts.openSans(
           fontSize: 14.sp,
@@ -64,23 +68,21 @@ class CustomInputField extends StatelessWidget {
             letterSpacing: 0.15,
             color: AppColors.primaryBlue,
           ),
-          isDense: true,
+
+
           contentPadding: EdgeInsets.symmetric(
-            horizontal: 14.w,
-            vertical: height != null ? height! / 3 : 14.h,
+            horizontal: 10.w,
+            vertical: 0,
           ),
-          errorStyle: GoogleFonts.openSans(
-            fontSize: 12.sp,
-            fontWeight: FontWeight.w400,
-            height: 1.0,
-            color: AppColors.errorColor,
-          ),
+
           border: _buildBorder(),
           enabledBorder: _buildBorder(),
           focusedBorder: _buildBorder(),
           errorBorder: _buildBorder(isError: true),
           focusedErrorBorder: _buildBorder(isError: true),
           disabledBorder: _buildBorder(isDisabled: true),
+
+          prefixIcon: _buildPrefixIcon(),
           suffixIcon: _buildSuffixIcon(),
         ),
         validator: validator,
@@ -89,26 +91,46 @@ class CustomInputField extends StatelessWidget {
     );
   }
 
-  
+  Widget? _buildPrefixIcon() {
+    if (prefixSvgPath != null) {
+      return Padding(
+        padding: EdgeInsets.symmetric(horizontal: 10.w),
+        child: SvgIcon(
+          assetPath: prefixSvgPath!,
+          isActive: true,
+          size: 22.sp,
+        ),
+      );
+    }
+    return null;
+  }
+
   Widget? _buildSuffixIcon() {
     if (suffixIcon != null) {
       return IconButton(
-        icon: Icon(suffixIcon, size: 24.sp, color: AppColors.primaryBlue),
+        icon: Icon(
+          suffixIcon,
+          size: 22.sp,
+          color: AppColors.primaryBlue,
+        ),
         onPressed: onSuffixIconPressed,
       );
     }
 
     if (svgIconPath != null) {
       return Padding(
-        padding: EdgeInsets.all(10.w),
-        child: SvgIcon(assetPath: svgIconPath!, isActive: true, size: 24.sp),
+        padding: EdgeInsets.symmetric(horizontal: 10.w),
+        child: SvgIcon(
+          assetPath: svgIconPath!,
+          isActive: true,
+          size: 22.sp,
+        ),
       );
     }
 
     return null;
   }
 
-  
   OutlineInputBorder _buildBorder({
     bool isError = false,
     bool isDisabled = false,
@@ -124,7 +146,10 @@ class CustomInputField extends StatelessWidget {
 
     return OutlineInputBorder(
       borderRadius: BorderRadius.circular(10.r),
-      borderSide: BorderSide(color: borderColor, width: 2.w),
+      borderSide: BorderSide(
+        color: borderColor,
+        width: 2.w,
+      ),
     );
   }
 }

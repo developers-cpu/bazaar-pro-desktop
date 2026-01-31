@@ -1,181 +1,86 @@
+import 'package:bazarpro/features/users/domain/entities/user_rejection_log/user_rejection_log.dart';
+import 'package:bazarpro/features/users/domain/usecases/user_rejection_log/get_user_rejection_log_usecase.dart';
+import 'package:bazarpro/features/users/domain/usecases/user_rejection_log/get_user_rejection_log_metadata_usecase.dart';
+import 'package:bazarpro/core/usecases/usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../domain/entities/user_rejection_log.dart';
 import 'user_rejection_log_event.dart';
 import 'user_rejection_log_state.dart';
 
 class UserRejectionLogBloc
     extends Bloc<UserRejectionLogEvent, UserRejectionLogState> {
-  UserRejectionLogBloc() : super(UserRejectionLogLoading()) {
-    on<LoadUserRejectionLogs>(_onLoadUserRejectionLogs);
-    on<FilterUserRejectionLogs>(_onFilterUserRejectionLogs);
+  final GetUserRejectionLog getUserRejectionLog;
+  final GetUserRejectionLogMetadata getUserRejectionLogMetadata;
+
+  UserRejectionLogBloc({
+    required this.getUserRejectionLog,
+    required this.getUserRejectionLogMetadata,
+  }) : super(UserRejectionLogInitial()) {
+    on<LoadUserRejectionLog>(_onLoadLogs);
+    on<FilterUserRejectionLogs>(_onFilterLogs);
   }
 
-  // Mock Data
-  final List<UserRejectionLog> _mockLogs = [
-    UserRejectionLog(
-      id: '1',
-      dateTime: DateTime.parse('2025-11-04 13:25:35'),
-      status: 'rejected',
-      userName: 'DEMO03',
-      exchange: 'NSE',
-      symbol: 'NIFTY25N0425550CE',
-      type: 'BUY',
-      qty: 95,
-      price: 15000,
-      comment: 'SCRIPT BLOCKED IF YOU HAVE POSITION ONLY CLOSED BY MARKET',
-    ),
-    UserRejectionLog(
-      id: '2',
-      dateTime: DateTime.parse('2025-11-04 13:25:35'),
-      status: 'rejected',
-      userName: 'DEMO03',
-      exchange: 'NSE',
-      symbol: 'NIFTY25N0425550CE',
-      type: 'BUY',
-      qty: 178,
-      price: 5000,
-      comment: 'SCRIPT BLOCKED IF YOU HAVE POSITION ONLY CLOSED BY MARKET',
-    ),
-    UserRejectionLog(
-      id: '3',
-      dateTime: DateTime.parse('2025-11-04 13:25:35'),
-      status: 'rejected',
-      userName: 'DEMO03',
-      exchange: 'MCX',
-      symbol: 'GOLD',
-      type: 'SELL',
-      qty: 125,
-      price: 50000,
-      comment: 'SCRIPT BLOCKED IF YOU HAVE POSITION ONLY CLOSED BY MARKET',
-    ),
-    UserRejectionLog(
-      id: '4',
-      dateTime: DateTime.parse('2025-11-04 13:25:35'),
-      status: 'rejected',
-      userName: 'DEMO03',
-      exchange: 'MCX',
-      symbol: 'GOLD',
-      type: 'SELL',
-      qty: 30003,
-      price: 30003,
-      comment: 'SCRIPT BLOCKED IF YOU HAVE POSITION ONLY CLOSED BY MARKET',
-    ),
-    UserRejectionLog(
-      id: '5',
-      dateTime: DateTime.parse('2025-11-04 13:25:35'),
-      status: 'rejected',
-      userName: 'DEMO03',
-      exchange: 'MCX',
-      symbol: 'GOLD05DEC',
-      type: 'SELL',
-      qty: 3000,
-      price: 3000,
-      comment: 'SCRIPT BLOCKED IF YOU HAVE POSITION ONLY CLOSED BY MARKET',
-    ),
-    UserRejectionLog(
-      id: '6',
-      dateTime: DateTime.parse('2025-11-04 13:25:35'),
-      status: 'rejected',
-      userName: 'DEMO03',
-      exchange: 'MCX',
-      symbol: 'GOLD05DEC',
-      type: 'BUY',
-      qty: 2000,
-      price: 2000,
-      comment: 'SCRIPT BLOCKED IF YOU HAVE POSITION ONLY CLOSED BY MARKET',
-    ),
-    UserRejectionLog(
-      id: '7',
-      dateTime: DateTime.parse('2025-11-04 13:25:35'),
-      status: 'rejected',
-      userName: 'DEMO03',
-      exchange: 'MCX',
-      symbol: 'SILVER',
-      type: 'SELL',
-      qty: 4000,
-      price: 4000,
-      comment: 'SCRIPT BLOCKED IF YOU HAVE POSITION ONLY CLOSED BY MARKET',
-    ),
-    UserRejectionLog(
-      id: '8',
-      dateTime: DateTime.parse('2025-11-04 13:25:35'),
-      status: 'rejected',
-      userName: 'DEMO03',
-      exchange: 'MCX',
-      symbol: 'CRUDEOIL20OCT',
-      type: 'BUY',
-      qty: 10000,
-      price: 10000,
-      comment: 'SCRIPT BLOCKED IF YOU HAVE POSITION ONLY CLOSED BY MARKET',
-    ),
-    UserRejectionLog(
-      id: '9',
-      dateTime: DateTime.parse('2025-11-04 13:25:35'),
-      status: 'rejected',
-      userName: 'DEMO03',
-      exchange: 'MCX',
-      symbol: 'SILVER05DEC',
-      type: 'BUY',
-      qty: 500,
-      price: 1025006,
-      comment: 'SCRIPT BLOCKED IF YOU HAVE POSITION ONLY CLOSED BY MARKET',
-    ),
-    UserRejectionLog(
-      id: '10',
-      dateTime: DateTime.parse('2025-11-04 13:25:35'),
-      status: 'rejected',
-      userName: 'DEMO03',
-      exchange: 'MCX',
-      symbol: 'SILVER',
-      type: 'BUY',
-      qty: 75,
-      price: 1025006,
-      comment: 'SCRIPT BLOCKED IF YOU HAVE POSITION ONLY CLOSED BY MARKET',
-    ),
-  ];
-
-  void _onLoadUserRejectionLogs(
-    LoadUserRejectionLogs event,
+  void _onLoadLogs(
+    LoadUserRejectionLog event,
     Emitter<UserRejectionLogState> emit,
   ) async {
     emit(UserRejectionLogLoading());
-    await Future.delayed(const Duration(seconds: 1)); // Simulate API
-    emit(UserRejectionLogLoaded(allLogs: _mockLogs, filteredLogs: _mockLogs));
+    final logsResult = await getUserRejectionLog(event.userId);
+    final metadataResult = await getUserRejectionLogMetadata(NoParams());
+
+    logsResult.fold((failure) => emit(UserRejectionLogError(failure.message)), (
+      logs,
+    ) {
+      metadataResult.fold(
+        (metaFailure) => emit(
+          UserRejectionLogLoaded(
+            logs: logs,
+            filteredLogs: logs,
+            metadata: null,
+          ),
+        ),
+        (metadata) => emit(
+          UserRejectionLogLoaded(
+            logs: logs,
+            filteredLogs: logs,
+            metadata: metadata,
+          ),
+        ),
+      );
+    });
   }
 
-  void _onFilterUserRejectionLogs(
+  void _onFilterLogs(
     FilterUserRejectionLogs event,
     Emitter<UserRejectionLogState> emit,
   ) {
     if (state is UserRejectionLogLoaded) {
       final currentState = state as UserRejectionLogLoaded;
+      List<UserRejectionLog> filtered = currentState.logs;
 
-      List<UserRejectionLog> filtered = currentState.allLogs.where((log) {
-        bool matchesDate = true;
-        if (event.dateRange != null) {
-          matchesDate =
-              log.dateTime.isAfter(
-                event.dateRange!.start.subtract(const Duration(days: 1)),
-              ) &&
+      if (event.dateRange != null) {
+        filtered = filtered.where((log) {
+          return log.dateTime.isAfter(event.dateRange!.start) &&
               log.dateTime.isBefore(
                 event.dateRange!.end.add(const Duration(days: 1)),
               );
-        }
+        }).toList();
+      }
 
-        bool matchesExchange = true;
-        if (event.exchange != null) {
-          matchesExchange = log.exchange == event.exchange;
-        }
+      if (event.exchange != null && event.exchange != 'All') {
+        filtered = filtered
+            .where((log) => log.exchange == event.exchange)
+            .toList();
+      }
 
-        bool matchesSymbol = true;
-        if (event.symbol != null && event.symbol!.isNotEmpty) {
-          matchesSymbol = log.symbol.toLowerCase().contains(
-            event.symbol!.toLowerCase(),
-          );
-        }
-
-        return matchesDate && matchesExchange && matchesSymbol;
-      }).toList();
+      if (event.symbol != null && event.symbol!.isNotEmpty) {
+        filtered = filtered
+            .where(
+              (log) => log.symbol.toLowerCase().contains(
+                event.symbol!.toLowerCase(),
+              ),
+            )
+            .toList();
+      }
 
       emit(
         currentState.copyWith(

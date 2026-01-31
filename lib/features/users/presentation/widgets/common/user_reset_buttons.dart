@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-
 class UserResetButtons extends StatelessWidget {
   final VoidCallback? onView;
   final VoidCallback? onReset;
   final bool isLoading;
   final String viewText;
   final String resetText;
+  final double? width;
+  final double? height;
 
   const UserResetButtons({
     super.key,
@@ -18,6 +19,8 @@ class UserResetButtons extends StatelessWidget {
     this.isLoading = false,
     this.viewText = 'View',
     this.resetText = 'Reset',
+    this.width,
+    this.height,
   });
 
   @override
@@ -34,8 +37,8 @@ class UserResetButtons extends StatelessWidget {
 
   Widget _buildResetButton() {
     return SizedBox(
-      width: 120.w,
-      height: 40.h,
+      width: width ?? 120.w,
+      height: height ?? 40.h,
       child: OutlinedButton(
         onPressed: isLoading ? null : onReset,
         style: OutlinedButton.styleFrom(
@@ -44,6 +47,7 @@ class UserResetButtons extends StatelessWidget {
             borderRadius: BorderRadius.circular(8.r),
           ),
           backgroundColor: AppColors.white,
+          padding: EdgeInsets.zero,
         ),
         child: Text(
           resetText,
@@ -59,8 +63,8 @@ class UserResetButtons extends StatelessWidget {
 
   Widget _buildViewButton() {
     return SizedBox(
-      width: 120.w,
-      height: 40.h,
+      width: width ?? 120.w,
+      height: height ?? 40.h,
       child: ElevatedButton(
         onPressed: isLoading ? null : onView,
         style: ElevatedButton.styleFrom(
@@ -92,7 +96,6 @@ class UserResetButtons extends StatelessWidget {
     );
   }
 }
-
 
 class UserRecordCountWidget extends StatelessWidget {
   final int count;

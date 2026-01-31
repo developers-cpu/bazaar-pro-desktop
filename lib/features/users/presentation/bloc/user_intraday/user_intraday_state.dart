@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import '../../../domain/entities/user_intraday_square_off/user_intraday_square_off.dart';
 
 abstract class UserIntradayState extends Equatable {
   const UserIntradayState();
@@ -10,11 +11,11 @@ abstract class UserIntradayState extends Equatable {
 class UserIntradayLoading extends UserIntradayState {}
 
 class UserIntradayLoaded extends UserIntradayState {
-  final Map<String, bool> settings;
+  final List<UserIntradaySquareOff> settings;
 
   const UserIntradayLoaded({required this.settings});
 
-  UserIntradayLoaded copyWith({Map<String, bool>? settings}) {
+  UserIntradayLoaded copyWith({List<UserIntradaySquareOff>? settings}) {
     return UserIntradayLoaded(settings: settings ?? this.settings);
   }
 

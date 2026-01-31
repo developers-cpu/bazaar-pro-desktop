@@ -1,3 +1,11 @@
+import 'package:bazarpro/features/users/data/datasources/user/user_remote_datasource.dart';
+import 'package:bazarpro/features/users/data/datasources/user_brokerage_setting/user_brokerage_setting_datasource.dart';
+import 'package:bazarpro/features/users/data/datasources/user_credit_transaction/user_credit_datasource.dart';
+import 'package:bazarpro/features/users/domain/usecases/user/export_users_to_excel.dart';
+import 'package:bazarpro/features/users/domain/usecases/user/export_users_to_pdf.dart';
+import 'package:bazarpro/features/users/domain/usecases/user/get_user_statuses.dart';
+import 'package:bazarpro/features/users/domain/usecases/user/get_user_types.dart';
+import 'package:bazarpro/features/users/domain/usecases/user/get_users.dart';
 import 'package:get_it/get_it.dart';
 import 'core/network/api_client.dart';
 import 'features/auth/data/datasources/auth_remote_data_source.dart';
@@ -23,6 +31,7 @@ import 'features/market_watch/presentation/bloc/order/order_dialog_bloc.dart';
 import 'features/market_watch/presentation/bloc/symbolfont/symbol_font_bloc.dart';
 import 'features/market_watch/presentation/bloc/theme/theme_bloc.dart';
 import 'features/market_watch/presentation/bloc/watchlist/watch_list_bloc.dart';
+import 'features/users/domain/usecases/user/get_users_with_filters.dart';
 import 'features/view/data/datasources/deals/deals_remote_datasource.dart';
 import 'features/view/data/datasources/intraday_history/intraday_history_remote_datasource.dart';
 import 'features/view/data/datasources/login_history/login_history_remote_datasource.dart';
@@ -70,49 +79,101 @@ import 'features/view/presentation/bloc/rejection_log/rejection_log_bloc.dart';
 import 'features/view/presentation/bloc/script_master/script_master_bloc.dart';
 import 'features/view/presentation/bloc/script_quantity/script_quantity_bloc.dart';
 import 'features/view/presentation/bloc/trade/trades_bloc.dart';
-import 'features/users/data/datasources/user_remote_datasource.dart';
-import 'features/users/data/repositories/user_repository_impl.dart';
-import 'features/users/domain/repositories/user_repository.dart';
-import 'features/users/domain/usecases/user_usecases.dart';
+import 'features/users/data/repositories/user/user_repository_impl.dart';
+import 'features/users/domain/repositories/user/user_repository.dart';
 import 'features/users/presentation/bloc/user_list/user_list_bloc.dart';
 import 'features/users/presentation/bloc/inactive_user_list/inactive_user_list_bloc.dart';
 import 'features/users/presentation/bloc/search_user/search_user_bloc.dart';
+import 'features/users/domain/usecases/user_trades/get_user_trades.dart';
+
+import 'features/users/domain/usecases/user_brokerage_setting/get_user_brokerage_settings.dart';
+import 'features/users/domain/usecases/user_brokerage_setting/update_brokerage_settings.dart';
+import 'features/users/domain/usecases/user/get_exchanges.dart'
+    as user_exchanges;
+import 'features/users/domain/usecases/user/get_symbols.dart' as user_symbols;
+
+import 'features/users/presentation/bloc/user_trades/user_trades_bloc.dart';
+import 'features/users/presentation/bloc/user_position/user_position_bloc.dart';
+import 'features/users/presentation/bloc/user_brokerage/user_brokerage_bloc.dart';
+import 'features/users/presentation/bloc/user_pending_order/user_pending_order_bloc.dart';
+import 'features/users/presentation/bloc/user_quantity_settings/user_quantity_settings_bloc.dart';
+import 'features/users/presentation/bloc/user_rejection_log/user_rejection_log_bloc.dart';
+import 'features/users/presentation/bloc/user_sharing/user_sharing_bloc.dart';
+import 'features/users/presentation/bloc/user_trade_margin/user_trade_margin_bloc.dart';
+import 'features/users/domain/usecases/user_pending_order/get_user_pending_orders_usecase.dart';
+import 'features/users/domain/usecases/user_pending_order/get_user_pending_order_metadata_usecase.dart';
+import 'features/users/domain/usecases/user_quantity_setting/get_user_quantity_settings_usecase.dart';
+import 'features/users/domain/usecases/user_quantity_setting/get_user_quantity_settings_metadata_usecase.dart';
+import 'features/users/domain/usecases/user_rejection_log/get_user_rejection_log_usecase.dart';
+import 'features/users/domain/usecases/user_rejection_log/get_user_rejection_log_metadata_usecase.dart';
+import 'features/users/domain/usecases/user_sharing_details/get_user_sharing_details_usecase.dart';
+import 'features/users/domain/usecases/user_trade_margin/get_user_trade_margin_usecase.dart';
+import 'features/users/domain/usecases/user_trade_margin/get_user_trade_margin_metadata_usecase.dart';
+import 'features/users/data/datasources/user_pending_order/user_pending_order_datasource.dart';
+import 'features/users/data/datasources/user_quantity_setting/user_quantity_settings_datasource.dart';
+import 'features/users/data/datasources/user_rejection_log/user_rejection_log_datasource.dart';
+import 'features/users/data/datasources/user_sharing_details/user_sharing_details_datasource.dart';
+import 'features/users/data/datasources/user_trade_margin/user_trade_margin_datasource.dart';
+import 'features/users/domain/repositories/user_pending_order/user_pending_order_repository.dart';
+import 'features/users/domain/repositories/user_quantity_setting/user_quantity_settings_repository.dart';
+import 'features/users/domain/repositories/user_rejection_log/user_rejection_log_repository.dart';
+import 'features/users/domain/repositories/user_sharing_details/user_sharing_details_repository.dart';
+import 'features/users/domain/repositories/user_trade_margin/user_trade_margin_repository.dart';
+import 'features/users/data/repositories/user_pending_order/user_pending_order_repository_impl.dart';
+import 'features/users/data/repositories/user_quantity_setting/user_quantity_settings_repository_impl.dart';
+import 'features/users/data/repositories/user_rejection_log/user_rejection_log_repository_impl.dart';
+import 'features/users/data/repositories/user_sharing_details/user_sharing_details_repository_impl.dart';
+import 'features/users/presentation/bloc/user_credit/user_credit_bloc.dart';
+import 'features/users/presentation/bloc/user_group_settings/user_group_settings_bloc.dart';
+import 'features/users/presentation/bloc/user_intraday/user_intraday_bloc.dart';
+import 'features/users/presentation/bloc/nested_users/nested_users_bloc.dart';
+import 'features/users/domain/usecases/user/get_nested_users_usecase.dart';
+import 'features/users/domain/usecases/user_credit_transaction/get_user_credit_usecase.dart';
+import 'features/users/domain/usecases/user_group_settings/get_user_group_settings_usecase.dart';
+import 'features/users/domain/usecases/user_intraday_square_off/get_user_intraday_square_off_usecase.dart';
+import 'features/users/data/datasources/user_group_settings/user_group_settings_datasource.dart';
+import 'features/users/data/datasources/user_intraday_square_off/user_intraday_square_off_datasource.dart';
+import 'features/users/data/repositories/user_credit_transaction/user_credit_repository_impl.dart';
+import 'features/users/data/repositories/user_group_settings/user_group_settings_repository_impl.dart';
+import 'features/users/data/repositories/user_intraday_square_off/user_intraday_square_off_repository_impl.dart';
+import 'features/users/domain/repositories/user_credit_transaction/user_credit_repository.dart';
+import 'features/users/domain/repositories/user_group_settings/user_group_settings_repository.dart';
+import 'features/users/domain/repositories/user_intraday_square_off/user_intraday_square_off_repository.dart';
+
+import 'features/users/data/repositories/user_trade_margin/user_trade_margin_repository_impl.dart';
+import 'features/users/presentation/bloc/user_form/user_form_bloc.dart';
+
+import 'features/users/domain/usecases/user_trades/get_user_trades_metadata_usecase.dart';
+import 'features/users/domain/repositories/user_trades/user_trades_repository.dart';
+import 'features/users/data/repositories/user_trades/user_trades_repository_impl.dart';
+import 'features/users/data/datasources/user_trades/user_trades_datasource.dart';
+
+import 'features/users/domain/usecases/user_position/get_user_positions.dart';
+import 'features/users/domain/repositories/user_position/user_position_repository.dart';
+import 'features/users/data/repositories/user_position/user_position_repository_impl.dart';
+import 'features/users/data/datasources/user_position/user_position_datasource.dart';
+
+import 'features/users/domain/repositories/user_brokerage_setting/user_brokerage_setting_repository.dart';
+import 'features/users/data/repositories/user_brokerage_setting/user_brokerage_setting_repository_impl.dart';
 
 final sl = GetIt.instance;
 
 Future<void> init() async {
-  
-  
-  
-
-  
   sl.registerLazySingleton(() => ApiClient());
 
-  
-  
-  
-
-  
   sl.registerFactory(() => AuthBloc(loginUser: sl()));
+  sl.registerFactory(() => UserFormBloc());
 
-  
   sl.registerLazySingleton(() => LoginUser(repository: sl()));
 
-  
   sl.registerLazySingleton<AuthRepository>(
     () => AuthRepositoryImpl(remoteDataSource: sl()),
   );
 
-  
   sl.registerLazySingleton<AuthRemoteDataSource>(
     () => AuthRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
   );
 
-  
-  
-  
-
-  
   sl.registerFactory(
     () => MarketWatchBloc(
       getMarketItems: sl(),
@@ -121,65 +182,43 @@ Future<void> init() async {
     ),
   );
 
-  
   sl.registerLazySingleton(() => ThemeBloc());
 
-  
   sl.registerFactory(() => WatchlistBloc());
 
-  
   sl.registerLazySingleton(() => ArrangeSymbolBloc());
 
-  
   sl.registerLazySingleton(() => SymbolFontBloc());
 
-  
   sl.registerLazySingleton(() => OrderDialogBloc());
 
-  
   sl.registerLazySingleton(() => MarketDepthBloc());
 
-  
   sl.registerLazySingleton(() => GetMarketItems(sl()));
   sl.registerLazySingleton(() => AddMarketItem(sl()));
   sl.registerLazySingleton(() => DeleteMarketItem(sl()));
 
-  
   sl.registerLazySingleton<MarketWatchRepository>(
     () => MarketWatchRepositoryImpl(localDataSource: sl()),
   );
 
-  
   sl.registerLazySingleton<MarketWatchLocalDataSource>(
     () => MarketWatchLocalDataSourceImpl(),
   );
 
-  
-  
-  
-
-  
   sl.registerFactory(() => DashboardBloc(repository: sl()));
 
-  
   sl.registerLazySingleton(() => GetDashboardDataUseCase(repository: sl()));
   sl.registerLazySingleton(() => GetTradeReportsUseCase(repository: sl()));
   sl.registerLazySingleton(() => GetSymbolReportsUseCase(repository: sl()));
   sl.registerLazySingleton(() => GetDashboardSummaryUseCase(repository: sl()));
 
-  
   sl.registerLazySingleton<DashboardRepository>(
     () => DashboardRepositoryImpl(dataSource: sl()),
   );
 
-  
   sl.registerLazySingleton<DashboardDataSource>(() => DashboardDataSource());
 
-  
-  
-  
-
-  
   sl.registerFactory(
     () => PendingOrdersBloc(
       getPendingOrders: sl(),
@@ -193,7 +232,6 @@ Future<void> init() async {
     ),
   );
 
-  
   sl.registerLazySingleton(() => GetPendingOrders(sl()));
   sl.registerLazySingleton(() => GetPendingOrdersWithFilters(sl()));
   sl.registerLazySingleton(() => GetClients(sl()));
@@ -203,21 +241,14 @@ Future<void> init() async {
   sl.registerLazySingleton(() => ExportToPdf(sl()));
   sl.registerLazySingleton(() => ExportToExcel(sl()));
 
-  
   sl.registerLazySingleton<PendingOrdersRepository>(
     () => PendingOrdersRepositoryImpl(remoteDataSource: sl()),
   );
 
-  
   sl.registerLazySingleton<PendingOrdersRemoteDataSource>(
     () => PendingOrdersRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
   );
 
-  
-  
-  
-
-  
   sl.registerFactory(
     () => TradesBloc(
       getTrades: sl(),
@@ -231,7 +262,6 @@ Future<void> init() async {
     ),
   );
 
-  
   sl.registerLazySingleton(() => GetTrades(sl()));
   sl.registerLazySingleton(() => GetTradesWithFilters(sl()));
   sl.registerLazySingleton(() => GetTradesClients(sl()));
@@ -241,21 +271,14 @@ Future<void> init() async {
   sl.registerLazySingleton(() => ExportTradesToPdf(sl()));
   sl.registerLazySingleton(() => ExportTradesToExcel(sl()));
 
-  
   sl.registerLazySingleton<TradesRepository>(
     () => TradesRepositoryImpl(remoteDataSource: sl()),
   );
 
-  
   sl.registerLazySingleton<TradesRemoteDataSource>(
     () => TradesRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
   );
 
-  
-  
-  
-
-  
   sl.registerFactory(
     () => DealsBloc(
       getDeals: sl(),
@@ -270,7 +293,6 @@ Future<void> init() async {
     ),
   );
 
-  
   sl.registerLazySingleton(() => GetDeals(sl()));
   sl.registerLazySingleton(() => GetDealsWithFilters(sl()));
   sl.registerLazySingleton(() => GetDealsClients(sl()));
@@ -281,21 +303,14 @@ Future<void> init() async {
   sl.registerLazySingleton(() => ExportDealsToPdf(sl()));
   sl.registerLazySingleton(() => ExportDealsToExcel(sl()));
 
-  
   sl.registerLazySingleton<DealsRepository>(
     () => DealsRepositoryImpl(remoteDataSource: sl()),
   );
 
-  
   sl.registerLazySingleton<DealsRemoteDataSource>(
     () => DealsRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
   );
 
-  
-  
-  
-
-  
   sl.registerFactory(
     () => NetPositionBloc(
       getNetPositions: sl(),
@@ -310,7 +325,6 @@ Future<void> init() async {
     ),
   );
 
-  
   sl.registerLazySingleton(() => GetNetPositions(sl()));
   sl.registerLazySingleton(() => GetNetPositionsWithFilters(sl()));
   sl.registerLazySingleton(() => GetNetPositionClients(sl()));
@@ -321,21 +335,14 @@ Future<void> init() async {
   sl.registerLazySingleton(() => ExportNetPositionsToExcel(sl()));
   sl.registerLazySingleton(() => GetPositionDetails(sl()));
 
-  
   sl.registerLazySingleton<NetPositionRepository>(
     () => NetPositionRepositoryImpl(remoteDataSource: sl()),
   );
 
-  
   sl.registerLazySingleton<NetPositionRemoteDataSource>(
     () => NetPositionRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
   );
 
-  
-  
-  
-
-  
   sl.registerFactory(
     () => RejectionLogBloc(
       getRejectionLogs: sl(),
@@ -348,7 +355,6 @@ Future<void> init() async {
     ),
   );
 
-  
   sl.registerLazySingleton(() => GetRejectionLogs(sl()));
   sl.registerLazySingleton(() => GetRejectionLogsWithFilters(sl()));
   sl.registerLazySingleton(() => GetRejectionLogClients(sl()));
@@ -357,21 +363,14 @@ Future<void> init() async {
   sl.registerLazySingleton(() => ExportRejectionLogsToPdf(sl()));
   sl.registerLazySingleton(() => ExportRejectionLogsToExcel(sl()));
 
-  
   sl.registerLazySingleton<RejectionLogRepository>(
     () => RejectionLogRepositoryImpl(remoteDataSource: sl()),
   );
 
-  
   sl.registerLazySingleton<RejectionLogRemoteDataSource>(
     () => RejectionLogRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
   );
 
-  
-  
-  
-
-  
   sl.registerFactory(
     () => LoginHistoryBloc(
       getLoginHistory: sl(),
@@ -381,27 +380,19 @@ Future<void> init() async {
     ),
   );
 
-  
   sl.registerLazySingleton(() => GetLoginHistory(sl()));
   sl.registerLazySingleton(() => GetLoginHistoryClients(sl()));
   sl.registerLazySingleton(() => ExportLoginHistoryToPdf(sl()));
   sl.registerLazySingleton(() => ExportLoginHistoryToExcel(sl()));
 
-  
   sl.registerLazySingleton<LoginHistoryRepository>(
     () => LoginHistoryRepositoryImpl(remoteDataSource: sl()),
   );
 
-  
   sl.registerLazySingleton<LoginHistoryRemoteDataSource>(
     () => LoginHistoryRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
   );
 
-  
-  
-  
-
-  
   sl.registerFactory(
     () => ScriptMasterBloc(
       getScriptMasters: sl(),
@@ -413,7 +404,6 @@ Future<void> init() async {
     ),
   );
 
-  
   sl.registerLazySingleton(() => GetScriptMasters(sl()));
   sl.registerLazySingleton(() => GetScriptMastersWithFilters(sl()));
   sl.registerLazySingleton(() => GetScriptMasterExchanges(sl()));
@@ -421,21 +411,14 @@ Future<void> init() async {
   sl.registerLazySingleton(() => ExportScriptMastersToPdf(sl()));
   sl.registerLazySingleton(() => ExportScriptMastersToExcel(sl()));
 
-  
   sl.registerLazySingleton<ScriptMasterRepository>(
     () => ScriptMasterRepositoryImpl(remoteDataSource: sl()),
   );
 
-  
   sl.registerLazySingleton<ScriptMasterRemoteDataSource>(
     () => ScriptMasterRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
   );
 
-  
-  
-  
-
-  
   sl.registerFactory(
     () => ScriptQuantityBloc(
       getExchanges: sl(),
@@ -444,26 +427,18 @@ Future<void> init() async {
     ),
   );
 
-  
   sl.registerLazySingleton(() => GetScriptQuantityExchanges(sl()));
   sl.registerLazySingleton(() => GetScriptQuantityGroups(sl()));
   sl.registerLazySingleton(() => GetScriptQuantities(sl()));
 
-  
   sl.registerLazySingleton<ScriptQuantityRepository>(
     () => ScriptQuantityRepositoryImpl(remoteDataSource: sl()),
   );
 
-  
   sl.registerLazySingleton<ScriptQuantityRemoteDataSource>(
     () => ScriptQuantityRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
   );
 
-  
-  
-  
-
-  
   sl.registerFactory(
     () => IntradayHistoryBloc(
       getIntradayHistory: sl(),
@@ -476,7 +451,6 @@ Future<void> init() async {
     ),
   );
 
-  
   sl.registerLazySingleton(() => GetIntradayHistory(sl()));
   sl.registerLazySingleton(() => GetIntradayHistoryInSeconds(sl()));
   sl.registerLazySingleton(() => GetIntradayExchanges(sl()));
@@ -486,21 +460,14 @@ Future<void> init() async {
   sl.registerLazySingleton(() => ExportIntradayToPdf(sl()));
   sl.registerLazySingleton(() => ExportIntradayToExcel(sl()));
 
-  
   sl.registerLazySingleton<IntradayHistoryRepository>(
     () => IntradayHistoryRepositoryImpl(remoteDataSource: sl()),
   );
 
-  
   sl.registerLazySingleton<IntradayHistoryRemoteDataSource>(
     () => IntradayHistoryRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
   );
 
-  
-  
-  
-
-  
   sl.registerFactory(
     () => UserListBloc(
       getUsers: sl(),
@@ -512,7 +479,6 @@ Future<void> init() async {
     ),
   );
 
-  
   sl.registerFactory(
     () => InactiveUserListBloc(
       getUsers: sl(),
@@ -524,10 +490,8 @@ Future<void> init() async {
     ),
   );
 
-  
   sl.registerFactory(() => SearchUserBloc(getUsers: sl()));
 
-  
   sl.registerLazySingleton(() => GetUsers(sl()));
   sl.registerLazySingleton(() => GetUsersWithFilters(sl()));
   sl.registerLazySingleton(() => GetUserTypes(sl()));
@@ -535,13 +499,159 @@ Future<void> init() async {
   sl.registerLazySingleton(() => ExportUsersToPdf(sl()));
   sl.registerLazySingleton(() => ExportUsersToExcel(sl()));
 
-  
+  sl.registerFactory(
+    () => UserTradesBloc(getUserTrades: sl(), getUserTradesMetadata: sl()),
+  );
+  sl.registerLazySingleton(() => GetUserTrades(sl()));
+  sl.registerLazySingleton(() => GetUserTradesMetadata(sl()));
+
+  sl.registerLazySingleton<UserTradesRepository>(
+    () => UserTradesRepositoryImpl(dataSource: sl()),
+  );
+  sl.registerLazySingleton<UserTradesDataSource>(
+    () => UserTradesDataSourceImpl(),
+  );
+
+  sl.registerFactory(
+    () => UserPositionBloc(
+      getUserPositions: sl(),
+      getExchanges: sl(),
+      getSymbols: sl(),
+    ),
+  );
+  sl.registerLazySingleton(() => GetUserPositions(sl()));
+  sl.registerLazySingleton<UserPositionRepository>(
+    () => UserPositionRepositoryImpl(dataSource: sl()),
+  );
+  sl.registerLazySingleton<UserPositionDataSource>(
+    () => UserPositionDataSourceImpl(),
+  );
+
+  sl.registerFactory(
+    () => UserBrokerageBloc(
+      getUserBrokerageSettings: sl(),
+      updateBrokerageSettings: sl(),
+      getExchanges: sl(),
+      getSymbols: sl(),
+    ),
+  );
+  sl.registerLazySingleton(() => GetUserBrokerageSettings(sl()));
+  sl.registerLazySingleton(() => UpdateBrokerageSettings(sl()));
+  sl.registerLazySingleton(() => user_exchanges.GetExchanges(sl()));
+  sl.registerLazySingleton(() => user_symbols.GetSymbols(sl()));
+
+  sl.registerLazySingleton<UserBrokerageSettingRepository>(
+    () => UserBrokerageSettingRepositoryImpl(dataSource: sl()),
+  );
+  sl.registerLazySingleton<UserBrokerageSettingDataSource>(
+    () => UserBrokerageSettingDataSourceImpl(),
+  );
+
   sl.registerLazySingleton<UserRepository>(
     () => UserRepositoryImpl(remoteDataSource: sl()),
   );
 
-  
   sl.registerLazySingleton<UserRemoteDataSource>(
     () => UserRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
+  );
+
+  sl.registerFactory(() => UserCreditBloc(getUserCredit: sl()));
+  sl.registerFactory(() => UserGroupSettingsBloc(getUserGroupSettings: sl()));
+  sl.registerFactory(() => UserIntradayBloc(getUserIntradaySquareOff: sl()));
+
+  sl.registerFactory(() => NestedUsersBloc(getNestedUsers: sl()));
+  sl.registerLazySingleton(() => GetNestedUsers(sl()));
+
+  sl.registerFactory(
+    () => UserPendingOrderBloc(
+      getUserPendingOrders: sl(),
+      getUserPendingOrderMetadata: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => UserQuantitySettingsBloc(
+      getUserQuantitySettings: sl(),
+      getUserQuantitySettingsMetadata: sl(),
+    ),
+  );
+
+  sl.registerFactory(
+    () => UserRejectionLogBloc(
+      getUserRejectionLog: sl(),
+      getUserRejectionLogMetadata: sl(),
+    ),
+  );
+  sl.registerFactory(() => UserSharingBloc(getUserSharingDetails: sl()));
+  sl.registerFactory(
+    () => UserTradeMarginBloc(
+      getUserTradeMargin: sl(),
+      getUserTradeMarginMetadata: sl(),
+    ),
+  );
+
+  sl.registerLazySingleton(() => GetUserCredit(sl()));
+  sl.registerLazySingleton(() => GetUserGroupSettings(sl()));
+  sl.registerLazySingleton(() => GetUserIntradaySquareOff(sl()));
+
+  sl.registerLazySingleton<UserCreditDataSource>(
+    () => UserCreditDataSourceImpl(),
+  );
+  sl.registerLazySingleton<UserGroupSettingsDataSource>(
+    () => UserGroupSettingsDataSourceImpl(),
+  );
+  sl.registerLazySingleton<UserIntradaySquareOffDataSource>(
+    () => UserIntradaySquareOffDataSourceImpl(),
+  );
+
+  sl.registerLazySingleton<UserCreditRepository>(
+    () => UserCreditRepositoryImpl(dataSource: sl()),
+  );
+  sl.registerLazySingleton<UserGroupSettingsRepository>(
+    () => UserGroupSettingsRepositoryImpl(dataSource: sl()),
+  );
+  sl.registerLazySingleton<UserIntradaySquareOffRepository>(
+    () => UserIntradaySquareOffRepositoryImpl(dataSource: sl()),
+  );
+
+  sl.registerLazySingleton(() => GetUserPendingOrders(sl()));
+  sl.registerLazySingleton(() => GetUserPendingOrderMetadata(sl()));
+  sl.registerLazySingleton(() => GetUserQuantitySettings(sl()));
+  sl.registerLazySingleton(() => GetUserQuantitySettingsMetadata(sl()));
+  sl.registerLazySingleton(() => GetUserRejectionLog(sl()));
+  sl.registerLazySingleton(() => GetUserRejectionLogMetadata(sl()));
+  sl.registerLazySingleton(() => GetUserSharingDetails(sl()));
+  sl.registerLazySingleton(() => GetUserTradeMargin(sl()));
+  sl.registerLazySingleton(() => GetUserTradeMarginMetadata(sl()));
+
+  sl.registerLazySingleton<UserPendingOrderDataSource>(
+    () => UserPendingOrderDataSourceImpl(),
+  );
+  sl.registerLazySingleton<UserQuantitySettingsDataSource>(
+    () => UserQuantitySettingsDataSourceImpl(),
+  );
+  sl.registerLazySingleton<UserRejectionLogDataSource>(
+    () => UserRejectionLogDataSourceImpl(),
+  );
+  sl.registerLazySingleton<UserSharingDetailsDataSource>(
+    () => UserSharingDetailsDataSourceImpl(),
+  );
+  sl.registerLazySingleton<UserTradeMarginDataSource>(
+    () => UserTradeMarginDataSourceImpl(),
+  );
+
+  sl.registerLazySingleton<UserPendingOrderRepository>(
+    () => UserPendingOrderRepositoryImpl(dataSource: sl()),
+  );
+  sl.registerLazySingleton<UserQuantitySettingsRepository>(
+    () => UserQuantitySettingsRepositoryImpl(dataSource: sl()),
+  );
+  sl.registerLazySingleton<UserRejectionLogRepository>(
+    () => UserRejectionLogRepositoryImpl(dataSource: sl()),
+  );
+  sl.registerLazySingleton<UserSharingDetailsRepository>(
+    () => UserSharingDetailsRepositoryImpl(dataSource: sl()),
+  );
+  sl.registerLazySingleton<UserTradeMarginRepository>(
+    () => UserTradeMarginRepositoryImpl(dataSource: sl()),
   );
 }

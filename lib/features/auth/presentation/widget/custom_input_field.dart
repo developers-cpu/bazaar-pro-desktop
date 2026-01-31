@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/widget/svg_icon.dart';
 
-
 class CustomInputField extends StatelessWidget {
   final String hintText;
   final String? svgIconPath;
@@ -16,6 +15,7 @@ class CustomInputField extends StatelessWidget {
   final TextInputType? keyboardType;
   final int? maxLines;
   final bool enabled;
+  final bool readOnly;
   final ValueChanged<String>? onChanged;
   final double? height;
 
@@ -31,6 +31,7 @@ class CustomInputField extends StatelessWidget {
     this.keyboardType,
     this.maxLines = 1,
     this.enabled = true,
+    this.readOnly = false,
     this.onChanged,
     this.height,
   }) : super(key: key);
@@ -39,61 +40,59 @@ class CustomInputField extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: height ?? 45.h,
-      child:  TextFormField(
-  controller: controller,
-  obscureText: obscureText,
-  keyboardType: keyboardType,
-  maxLines: maxLines,
-  enabled: enabled,
-  style: GoogleFonts.openSans(
-    fontSize: 14.sp,
-    fontWeight: FontWeight.w600,
-    height: 1.0,
-    letterSpacing: 0.15,
-    color: AppColors.primaryBlue,
-  ),
-  textAlignVertical: TextAlignVertical.center, 
-  decoration: InputDecoration(
-    filled: true,
-    fillColor: AppColors.white,
-    hintText: hintText,
-    hintStyle: GoogleFonts.openSans(
-      fontSize: 14.sp,
-      fontWeight: FontWeight.w600,
-      height: 1.0,
-      letterSpacing: 0.15,
-      color: AppColors.primaryBlue,
-    ),
-    isDense: true,
+      child: TextFormField(
+        controller: controller,
+        obscureText: obscureText,
+        keyboardType: keyboardType,
+        maxLines: maxLines,
+        enabled: enabled,
+        readOnly: readOnly,
+        style: GoogleFonts.openSans(
+          fontSize: 14.sp,
+          fontWeight: FontWeight.w600,
+          height: 1.0,
+          letterSpacing: 0.15,
+          color: AppColors.primaryBlue,
+        ),
+        textAlignVertical: TextAlignVertical.center,
+        decoration: InputDecoration(
+          filled: true,
+          fillColor: AppColors.white,
+          hintText: hintText,
+          hintStyle: GoogleFonts.openSans(
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w600,
+            height: 1.0,
+            letterSpacing: 0.15,
+            color: AppColors.primaryBlue,
+          ),
+          isDense: true,
 
+          contentPadding: EdgeInsets.symmetric(
+            horizontal: 14.w,
+            vertical: height != null ? height! / 3 : 14.h,
+          ),
 
-    contentPadding: EdgeInsets.symmetric(
-      horizontal: 14.w,
-      vertical: height != null ? height! / 3 : 14.h,
-    ),
-
-    errorStyle: GoogleFonts.openSans(
-      fontSize: 12.sp,
-      fontWeight: FontWeight.w400,
-      height: 1.0,
-      color: AppColors.errorColor,
-    ),
-    border: _buildBorder(),
-    enabledBorder: _buildBorder(),
-    focusedBorder: _buildBorder(),
-    errorBorder: _buildBorder(isError: true),
-    focusedErrorBorder: _buildBorder(isError: true),
-    disabledBorder: _buildBorder(isDisabled: true),
-    suffixIcon: _buildSuffixIcon(),
-  ),
-  validator: validator,
-  onChanged: onChanged,
-)
-
+          errorStyle: GoogleFonts.openSans(
+            fontSize: 12.sp,
+            fontWeight: FontWeight.w400,
+            height: 1.0,
+            color: AppColors.errorColor,
+          ),
+          border: _buildBorder(),
+          enabledBorder: _buildBorder(),
+          focusedBorder: _buildBorder(),
+          errorBorder: _buildBorder(isError: true),
+          focusedErrorBorder: _buildBorder(isError: true),
+          disabledBorder: _buildBorder(isDisabled: true),
+          suffixIcon: _buildSuffixIcon(),
+        ),
+        validator: validator,
+        onChanged: onChanged,
+      ),
     );
   }
 
-  
   Widget? _buildSuffixIcon() {
     if (suffixIcon != null) {
       return IconButton(
@@ -112,7 +111,6 @@ class CustomInputField extends StatelessWidget {
     return null;
   }
 
-  
   OutlineInputBorder _buildBorder({
     bool isError = false,
     bool isDisabled = false,

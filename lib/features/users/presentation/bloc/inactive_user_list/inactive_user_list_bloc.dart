@@ -1,10 +1,14 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../../core/usecases/usecase.dart';
+
 import '../../../domain/entities/user.dart';
-import '../../../domain/usecases/user_usecases.dart';
+import '../../../domain/usecases/user/get_users.dart';
+import '../../../domain/usecases/user/get_users_with_filters.dart';
+import '../../../domain/usecases/user/get_user_types.dart';
+import '../../../domain/usecases/user/get_user_statuses.dart';
+import '../../../domain/usecases/user/export_users_to_pdf.dart';
+import '../../../domain/usecases/user/export_users_to_excel.dart';
 import 'inactive_user_list_event.dart';
 import 'inactive_user_list_state.dart';
-
 
 class InactiveUserListBloc
     extends Bloc<InactiveUserListEvent, InactiveUserListState> {
@@ -41,7 +45,6 @@ class InactiveUserListBloc
     emit(const InactiveUserListLoading());
 
     try {
-      
       final result = await getUsersWithFilters(
         UserFilterParams(userStatus: 'Inactive'),
       );
@@ -56,7 +59,7 @@ class InactiveUserListBloc
             filteredUsers: users,
             userTypes: types,
             userStatuses: statuses,
-            
+
             selectedUserStatus: 'Inactive',
             totalRecords: users.length,
           ),
@@ -159,7 +162,6 @@ class InactiveUserListBloc
     if (state is InactiveUserListLoaded) {
       final currentState = state as InactiveUserListLoaded;
 
-      
       final result = await getUsersWithFilters(
         UserFilterParams(userStatus: 'Inactive'),
       );

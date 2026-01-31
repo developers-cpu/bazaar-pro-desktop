@@ -4,19 +4,20 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import '../../../../core/constants/app_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../data/models/user_filter_dropdown.dart';
+import '../../../../core/widget/app_dropdown.dart';
 import '../../domain/entities/user.dart';
 import '../bloc/user_list/user_list_bloc.dart';
 import '../bloc/user_list/user_list_event.dart';
 import '../bloc/user_list/user_list_state.dart';
 import '../widgets/common/user_data_table.dart';
-import '../widgets/common/user_filter_bar.dart';
-import '../widgets/dialogs/master_form_dialog.dart';
-import '../widgets/dialogs/client_form_dialog.dart';
-import '../widgets/dialogs/leverage_update_dialog.dart';
-import '../widgets/dialogs/change_password_dialog.dart';
-import '../widgets/dialogs/update_access_dialog.dart';
-import '../widgets/details/user_details_dialog.dart';
+import '../widgets/common/user_record_count.dart';
+import '../widgets/common/user_reset_buttons.dart';
+import '../widgets/create_user/master_form_dialog.dart';
+import '../widgets/create_user/client_form_dialog.dart';
+import '../widgets/create_user/leverage_update_dialog.dart';
+import '../widgets/create_user/change_password_dialog.dart';
+import '../widgets/create_user/update_access_dialog.dart';
+import '../widgets/user_details/user_details_dialog.dart';
 
 class UserListPage extends StatefulWidget {
   const UserListPage({super.key});
@@ -72,8 +73,6 @@ class _UserListPageState extends State<UserListPage> {
       userName: user.userName,
       currentLeverage: user.leverage,
       onUpdate: (newLeverage) {
-        
-
         context.read<UserListBloc>().add(const LoadUsersEvent());
       },
     );
@@ -143,55 +142,81 @@ class _UserListPageState extends State<UserListPage> {
   }
 
   Widget _buildFilterBar() {
-    return BlocBuilder<UserListBloc, UserListState>(
-      builder: (context, state) {
-        List<String> userTypes = [];
-        List<String> userStatuses = [];
-        int totalRecords = 0;
+    return Container(
+      padding: EdgeInsets.all(12.w),
+      color: AppColors.white,
+      child: BlocBuilder<UserListBloc, UserListState>(
+        builder: (context, state) {
+          List<String> userTypes = [];
+          List<String> userStatuses = [];
+          int totalRecords = 0;
 
-        if (state is UserListLoaded) {
-          userTypes = state.userTypes;
-          userStatuses = state.userStatuses;
-          totalRecords = state.totalRecords;
-        }
+          if (state is UserListLoaded) {
+            userTypes = state.userTypes;
+            userStatuses = state.userStatuses;
+            totalRecords = state.totalRecords;
+          }
 
-        return UserFilterBar(
-          filters: [
-            UserFilterDropdown(
-              hint: 'User Type',
-              value: _selectedUserType,
-              items: userTypes,
-              onChanged: (value) {
-                setState(() => _selectedUserType = value);
-              },
-            ),
-            UserFilterDropdown(
-              hint: 'User Status',
-              value: _selectedUserStatus,
-              items: userStatuses,
-              onChanged: (value) {
-                setState(() => _selectedUserStatus = value);
-              },
-            ),
-          ],
-          recordCount: totalRecords,
-          onReset: () {
-            setState(() {
-              _selectedUserType = null;
-              _selectedUserStatus = null;
-            });
-            context.read<UserListBloc>().add(const ResetFiltersEvent());
-          },
-          onView: () {
-            context.read<UserListBloc>().add(
-              ApplyFiltersEvent(
-                userType: _selectedUserType,
-                userStatus: _selectedUserStatus,
+          return Column(
+            children: [
+              Row(
+                children: [
+                  AppDropdown(
+                    hintText: 'User Type',
+                    items: userTypes,
+                    value: _selectedUserType,
+                    onChanged: (val) {
+                      setState(() => _selectedUserType = val);
+                    },
+                    width: 160.w,
+                    height: 35.h,
+                    type: AppDropdownType.simple,
+                  ),
+                  SizedBox(width: 8.w),
+                  AppDropdown(
+                    hintText: 'User Status',
+                    items: userStatuses,
+                    value: _selectedUserStatus,
+                    onChanged: (val) {
+                      setState(() => _selectedUserStatus = val);
+                    },
+                    width: 160.w,
+                    height: 35.h,
+                    type: AppDropdownType.simple,
+                  ),
+                  const Spacer(),
+                  UserResetButtons(
+                    height: 35.h,
+                    width: 100.w,
+                    onReset: () {
+                      setState(() {
+                        _selectedUserType = null;
+                        _selectedUserStatus = null;
+                      });
+                      context.read<UserListBloc>().add(
+                        const ResetFiltersEvent(),
+                      );
+                    },
+                    onView: () {
+                      context.read<UserListBloc>().add(
+                        ApplyFiltersEvent(
+                          userType: _selectedUserType,
+                          userStatus: _selectedUserStatus,
+                        ),
+                      );
+                    },
+                  ),
+                ],
               ),
-            );
-          },
-        );
-      },
+              SizedBox(height: 8.h),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: UserRecordCount(count: totalRecords),
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 

@@ -4,15 +4,16 @@ abstract class UserPendingOrderEvent extends Equatable {
   const UserPendingOrderEvent();
 
   @override
-  List<Object?> get props => [];
+  List<Object> get props => [];
 }
 
 class LoadUserPendingOrders extends UserPendingOrderEvent {
   final String userId;
+
   const LoadUserPendingOrders(this.userId);
 
   @override
-  List<Object?> get props => [userId];
+  List<Object> get props => [userId];
 }
 
 class FilterUserPendingOrders extends UserPendingOrderEvent {
@@ -23,5 +24,5 @@ class FilterUserPendingOrders extends UserPendingOrderEvent {
   const FilterUserPendingOrders({this.exchange, this.symbol, this.orderType});
 
   @override
-  List<Object?> get props => [exchange, symbol, orderType];
+  List<Object> get props => [exchange ?? '', symbol ?? '', orderType ?? ''];
 }

@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import '../../../domain/entities/user_hierarchy_node.dart';
+import '../../../domain/entities/user_hierarchy_node/user_hierarchy_node.dart';
 
 abstract class SearchUserState extends Equatable {
   const SearchUserState();

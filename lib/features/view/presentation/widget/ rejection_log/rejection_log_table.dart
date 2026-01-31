@@ -1,3 +1,4 @@
+import 'package:bazarpro/features/view/presentation/widget/common/view_data_table.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/constants/app_colors.dart';
@@ -5,7 +6,6 @@ import '../../../domain/entities/rejection_log/rejection_log.dart';
 import '../../bloc/rejection_log/rejection_log_bloc.dart';
 import '../../bloc/rejection_log/rejection_log_event.dart';
 import '../../bloc/rejection_log/rejection_log_state.dart';
-import '../common//view_data_table.dart';
 import '../common/view_record_count.dart';
 import '../common/view_table_cell_styles.dart';
 

@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../domain/entities/user_credit_transaction.dart';
-
+import '../../../domain/entities/user_credit_transaction/user_credit_transaction.dart';
 
 abstract class UserCreditState extends Equatable {
   const UserCreditState();

@@ -1,19 +1,20 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:equatable/equatable.dart';
 
 abstract class UserRejectionLogEvent extends Equatable {
   const UserRejectionLogEvent();
 
   @override
-  List<Object?> get props => [];
+  List<Object> get props => [];
 }
 
-class LoadUserRejectionLogs extends UserRejectionLogEvent {
+class LoadUserRejectionLog extends UserRejectionLogEvent {
   final String userId;
-  const LoadUserRejectionLogs(this.userId);
+
+  const LoadUserRejectionLog(this.userId);
 
   @override
-  List<Object?> get props => [userId];
+  List<Object> get props => [userId];
 }
 
 class FilterUserRejectionLogs extends UserRejectionLogEvent {
@@ -24,5 +25,5 @@ class FilterUserRejectionLogs extends UserRejectionLogEvent {
   const FilterUserRejectionLogs({this.dateRange, this.exchange, this.symbol});
 
   @override
-  List<Object?> get props => [dateRange, exchange, symbol];
+  List<Object> get props => [dateRange ?? '', exchange ?? '', symbol ?? ''];
 }

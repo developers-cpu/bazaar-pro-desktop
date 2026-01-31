@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../domain/entities/user_trade.dart';
+import '../../../domain/usecases/user_trades/get_user_trades.dart';
+import '../../../domain/usecases/user_trades/get_user_trades_metadata_usecase.dart';
+import '../../../domain/entities/user_trades/user_trade.dart';
+import '../../../../../core/usecases/usecase.dart';
 import 'user_trades_event.dart';
 import 'user_trades_state.dart';
 
 class UserTradesBloc extends Bloc<UserTradesEvent, UserTradesState> {
-  UserTradesBloc() : super(UserTradesInitial()) {
+  final GetUserTrades getUserTrades;
+  final GetUserTradesMetadata getUserTradesMetadata;
+
+  UserTradesBloc({
+    required this.getUserTrades,
+    required this.getUserTradesMetadata,
+  }) : super(UserTradesInitial()) {
     on<LoadUserTrades>(_onLoadUserTrades);
     on<FilterUserTrades>(_onFilterUserTrades);
   }
@@ -15,15 +24,30 @@ class UserTradesBloc extends Bloc<UserTradesEvent, UserTradesState> {
     Emitter<UserTradesState> emit,
   ) async {
     emit(UserTradesLoading());
-    try {
-      
-      await Future.delayed(const Duration(seconds: 1)); 
 
-      final trades = _generateMockTrades();
-      emit(UserTradesLoaded(allTrades: trades, filteredTrades: trades));
-    } catch (e) {
-      emit(UserTradesError(e.toString()));
-    }
+    final tradesResult = await getUserTrades(event.userId);
+    final metadataResult = await getUserTradesMetadata(NoParams());
+
+    tradesResult.fold((failure) => emit(UserTradesError(failure.message)), (
+      trades,
+    ) {
+      metadataResult.fold(
+        (failure) => emit(
+          UserTradesLoaded(
+            allTrades: trades,
+            filteredTrades: trades,
+            metadata: null,
+          ),
+        ),
+        (metadata) => emit(
+          UserTradesLoaded(
+            allTrades: trades,
+            filteredTrades: trades,
+            metadata: metadata,
+          ),
+        ),
+      );
+    });
   }
 
   void _onFilterUserTrades(
@@ -33,22 +57,15 @@ class UserTradesBloc extends Bloc<UserTradesEvent, UserTradesState> {
     if (state is UserTradesLoaded) {
       final currentState = state as UserTradesLoaded;
 
-
       DateTimeRange? dateRange =
           event.dateRange ?? currentState.selectedDateRange;
       String? exchange = event.exchange ?? currentState.selectedExchange;
       String? symbol = event.symbol ?? currentState.selectedSymbol;
       String? status = event.status ?? currentState.selectedStatus;
-      dateRange = event.dateRange; 
-      exchange = event.exchange; 
-      symbol = event.symbol; 
-      status = event.status;
-
 
       List<UserTrade> filtered = currentState.allTrades.where((trade) {
         bool matchesDate = true;
         if (dateRange != null) {
-
           matchesDate =
               trade.orderTime.isAfter(
                 dateRange.start.subtract(const Duration(seconds: 1)),
@@ -74,8 +91,6 @@ class UserTradesBloc extends Bloc<UserTradesEvent, UserTradesState> {
         if (status != null && status.isNotEmpty && status != 'All') {
           if (status == 'Market' || status == 'Intraday') {
             matchesStatus = trade.tradeType == status;
-          } else {
- 
           }
         }
 
@@ -83,8 +98,7 @@ class UserTradesBloc extends Bloc<UserTradesEvent, UserTradesState> {
       }).toList();
 
       emit(
-        UserTradesLoaded(
-          allTrades: currentState.allTrades,
+        currentState.copyWith(
           filteredTrades: filtered,
           selectedDateRange: dateRange,
           selectedExchange: exchange,
@@ -93,31 +107,5 @@ class UserTradesBloc extends Bloc<UserTradesEvent, UserTradesState> {
         ),
       );
     }
-  }
-
-  List<UserTrade> _generateMockTrades() {
-    return List.generate(
-      20,
-      (index) => UserTrade(
-        id: 'trade_$index',
-        userName: 'PATIL',
-        parentUser: 'DEMO',
-        exchange: index % 2 == 0 ? 'MCX' : 'NSE',
-        symbol: index % 2 == 0 ? 'GOLD05DEC' : 'NIFTY Oct 28',
-        buySell: index % 3 == 0 ? 'BUY' : 'SELL',
-        tradeType: 'Market',
-        quantity: index % 3 == 0 ? 100.0 : -500.0,
-        lot: 1.0,
-        profitLoss: index % 2 == 0 ? 36200.00 : -500.00,
-        validity: 'Market',
-        tradePrice: 124191.00,
-        brokerage: 0.00,
-        netPrice: 124191.00,
-        orderTime: DateTime.now().subtract(Duration(hours: index)),
-        executionTime: DateTime.now().subtract(Duration(hours: index)),
-        requestPrice: 0.00,
-        orderDuration: '11 hours 47 minutes',
-      ),
-    );
   }
 }

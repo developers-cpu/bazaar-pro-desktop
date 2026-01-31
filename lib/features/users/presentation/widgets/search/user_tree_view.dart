@@ -3,13 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../../core/constants/app_colors.dart';
-import '../../../domain/entities/user_hierarchy_node.dart';
+import '../../../domain/entities/user_hierarchy_node/user_hierarchy_node.dart';
 import '../../bloc/search_user/search_user_bloc.dart';
 import '../../bloc/search_user/search_user_event.dart';
-import '../details/user_details_dialog.dart';
-import '../dialogs/master_form_dialog.dart';
-import '../dialogs/client_form_dialog.dart';
-import '../dialogs/update_access_dialog.dart';
+import '../user_details/user_details_dialog.dart';
+import '../create_user/master_form_dialog.dart';
+import '../create_user/client_form_dialog.dart';
+import '../create_user/update_access_dialog.dart';
 
 class UserTreeView extends StatelessWidget {
   final List<UserHierarchyNode> nodes;
@@ -27,31 +27,24 @@ class UserTreeView extends StatelessWidget {
   }
 
   Widget _buildNode(BuildContext context, UserHierarchyNode node) {
-    
-    
     Color iconColor;
     Color textColor;
 
-    
-    
     if (node.user.type == 'Super Admin' || node.user.type == 'Master') {
-      iconColor = AppColors.errorColor; 
+      iconColor = AppColors.errorColor;
       textColor = AppColors.errorColor;
     } else {
-      
-      
       if (level % 3 == 0) {
         iconColor = AppColors.primaryBlue;
       } else if (level % 3 == 1) {
-        iconColor = AppColors.successColor;
+        iconColor = AppColors.primaryBlue;
       } else {
         iconColor = Colors.orange;
       }
 
-      textColor = iconColor; 
+      textColor = iconColor;
     }
 
-    
     final isClient = node.user.type == 'Client';
     final shouldShowChildren =
         node.isExpanded && node.children.isNotEmpty && !isClient;
@@ -62,7 +55,7 @@ class UserTreeView extends StatelessWidget {
         _buildNodeRow(context, node, iconColor, textColor),
         if (shouldShowChildren)
           Padding(
-            padding: EdgeInsets.only(left: 20.w), 
+            padding: EdgeInsets.only(left: 20.w),
             child: _buildDottedLineWrapper(
               context,
               UserTreeView(nodes: node.children, level: level + 1),
@@ -84,8 +77,6 @@ class UserTreeView extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 4.h),
       child: Row(
         children: [
-          
-          
           if (hasChildren && node.user.type != 'Client')
             InkWell(
               onTap: () {
@@ -94,7 +85,7 @@ class UserTreeView extends StatelessWidget {
                 );
               },
               child: Padding(
-                padding: EdgeInsets.all(4.w), 
+                padding: EdgeInsets.all(4.w),
                 child: Icon(
                   node.isExpanded
                       ? Icons.keyboard_arrow_down
@@ -105,12 +96,11 @@ class UserTreeView extends StatelessWidget {
               ),
             )
           else
-            SizedBox(width: 28.w), 
-          
+            SizedBox(width: 28.w),
+
           Expanded(
             child: InkWell(
               onTap: () {
-                
                 UserDetailsDialog.show(
                   context,
                   node.user,
@@ -151,14 +141,7 @@ class UserTreeView extends StatelessWidget {
   Widget _buildDottedLineWrapper(BuildContext context, Widget child) {
     return Container(
       decoration: BoxDecoration(
-        border: Border(
-          left: BorderSide(
-            color: AppColors.greyBorder,
-            width: 1,
-            
-            
-          ),
-        ),
+        border: Border(left: BorderSide(color: AppColors.greyBorder, width: 1)),
       ),
       child: child,
     );
@@ -169,8 +152,7 @@ class UserTreeView extends StatelessWidget {
     final userData = {
       'name': user.name,
       'username': user.userName,
-      'mobile':
-          '', 
+      'mobile': '',
       'credit': user.credit.toStringAsFixed(0),
       'leverage': user.leverage,
       'plSharing': user.plPercent.toStringAsFixed(0),
@@ -200,8 +182,7 @@ class UserTreeView extends StatelessWidget {
     final user = node.user;
     final currentSettings = {
       'bet': true,
-      'closeOnly':
-          false, 
+      'closeOnly': false,
       'viewOnly': false,
       'status': user.isActive,
       'allowChat': true,
@@ -216,9 +197,6 @@ class UserTreeView extends StatelessWidget {
       userName: user.userName,
       currentSettings: currentSettings,
       onUpdate: (updatedSettings) {
-        
-        
-        
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Access settings updated successfully')),
         );

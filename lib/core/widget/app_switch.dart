@@ -108,21 +108,34 @@ class AppSwitchRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        if (icon != null) ...[icon!, SizedBox(width: 8.w)],
-        Expanded(
-          child: Text(
-            label,
-            style: GoogleFonts.openSans(
-              fontSize: 13.sp,
-              fontWeight: FontWeight.w500,
-              color: AppColors.textColor(context),
+    return GestureDetector(
+      onTap: enabled && onChanged != null ? () => onChanged!(!value) : null,
+      behavior: HitTestBehavior
+          .translucent, 
+      child: Row(
+        children: [
+          if (icon != null) ...[icon!, SizedBox(width: 8.w)],
+          Expanded(
+            child: Text(
+              label,
+              style: GoogleFonts.openSans(
+                fontSize: 13.sp,
+                fontWeight: FontWeight.w500,
+                color: AppColors.textColor(context),
+              ),
             ),
           ),
-        ),
-        AppSwitch(value: value, onChanged: onChanged, enabled: enabled),
-      ],
+          IgnorePointer(
+            ignoring:
+                true, 
+            child: AppSwitch(
+              value: value,
+              onChanged: onChanged,
+              enabled: enabled,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

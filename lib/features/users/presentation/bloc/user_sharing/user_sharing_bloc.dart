@@ -1,38 +1,29 @@
+import 'package:bazarpro/features/users/domain/usecases/user_sharing_details/get_user_sharing_details_usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../domain/entities/user_sharing_info.dart';
 import 'user_sharing_event.dart';
 import 'user_sharing_state.dart';
 
-
 class UserSharingBloc extends Bloc<UserSharingEvent, UserSharingState> {
-  UserSharingBloc() : super(UserSharingLoading()) {
-    on<LoadUserSharingDetails>(_onLoadUserSharingDetails);
+  final GetUserSharingDetails getUserSharingDetails;
+
+  UserSharingBloc({required this.getUserSharingDetails})
+    : super(UserSharingInitial()) {
+    on<LoadUserSharingDetails>(_onLoadDetails);
   }
 
-  void _onLoadUserSharingDetails(
+  void _onLoadDetails(
     LoadUserSharingDetails event,
     Emitter<UserSharingState> emit,
   ) async {
     emit(UserSharingLoading());
-    await Future.delayed(const Duration(seconds: 1)); // Simulate API
-
-    // Mock Data based on screenshot
-    final plSharing = [
-      const UserSharingInfo(person: 'Admin', share: '5000%'),
-      const UserSharingInfo(person: 'Master ( RAJ701 )', share: '5000%'),
-      const UserSharingInfo(person: 'Client ( marko )', share: '000%'),
-    ];
-
-    final brokerageSharing = [
-      const UserSharingInfo(person: 'Admin', share: '5000%'),
-      const UserSharingInfo(person: 'Master ( RAJ701 )', share: '5000%'),
-      const UserSharingInfo(person: 'Client ( marko )', share: '000%'),
-    ];
-
-    emit(
-      UserSharingLoaded(
-        plSharing: plSharing,
-        brokerageSharing: brokerageSharing,
+    final result = await getUserSharingDetails(event.userId);
+    result.fold(
+      (failure) => emit(UserSharingError(failure.message)),
+      (details) => emit(
+        UserSharingLoaded(
+          plSharing: details.plSharing,
+          brokerageSharing: details.brokerageSharing,
+        ),
       ),
     );
   }

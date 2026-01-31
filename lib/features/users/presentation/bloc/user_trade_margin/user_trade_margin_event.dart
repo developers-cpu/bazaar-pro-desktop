@@ -4,15 +4,16 @@ abstract class UserTradeMarginEvent extends Equatable {
   const UserTradeMarginEvent();
 
   @override
-  List<Object?> get props => [];
+  List<Object> get props => [];
 }
 
-class LoadUserTradeMargins extends UserTradeMarginEvent {
+class LoadUserTradeMargin extends UserTradeMarginEvent {
   final String userId;
-  const LoadUserTradeMargins(this.userId);
+
+  const LoadUserTradeMargin(this.userId);
 
   @override
-  List<Object?> get props => [userId];
+  List<Object> get props => [userId];
 }
 
 class FilterUserTradeMargins extends UserTradeMarginEvent {
@@ -23,31 +24,43 @@ class FilterUserTradeMargins extends UserTradeMarginEvent {
   const FilterUserTradeMargins({this.exchange, this.symbol, this.searchQuery});
 
   @override
-  List<Object?> get props => [exchange, symbol, searchQuery];
+  List<Object> get props => [exchange ?? '', symbol ?? '', searchQuery ?? ''];
 }
 
 class ToggleUserTradeMarginSelection extends UserTradeMarginEvent {
   final String id;
-  const ToggleUserTradeMarginSelection(this.id);
+  final bool isSelected;
+
+  const ToggleUserTradeMarginSelection(this.id, this.isSelected);
 
   @override
-  List<Object?> get props => [id];
+  List<Object> get props => [id, isSelected];
 }
 
 class ToggleAllUserTradeMarginSelection extends UserTradeMarginEvent {
   final bool isSelected;
+
   const ToggleAllUserTradeMarginSelection(this.isSelected);
 
   @override
-  List<Object?> get props => [isSelected];
+  List<Object> get props => [isSelected];
 }
 
-class UpdateUserTradeMargin extends UserTradeMarginEvent {
-  final String marginType;
-  final double value;
+class UpdateUserTradeMargins extends UserTradeMarginEvent {
+  final List<String> selectedIds;
+  final double? marginPercentage;
+  final double? marginAmount;
 
-  const UpdateUserTradeMargin({required this.marginType, required this.value});
+  const UpdateUserTradeMargins({
+    required this.selectedIds,
+    this.marginPercentage,
+    this.marginAmount,
+  });
 
   @override
-  List<Object?> get props => [marginType, value];
+  List<Object> get props => [
+    selectedIds,
+    if (marginPercentage != null) marginPercentage!,
+    if (marginAmount != null) marginAmount!,
+  ];
 }

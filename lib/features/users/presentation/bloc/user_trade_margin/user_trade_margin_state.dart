@@ -1,6 +1,6 @@
+import 'package:bazarpro/features/users/domain/entities/user_trade_margin/user_trade_margin.dart';
+import 'package:bazarpro/features/users/domain/entities/user_trade_margin/user_trade_margin_metadata.dart';
 import 'package:equatable/equatable.dart';
-import '../../../domain/entities/user_trade_margin.dart';
-
 
 abstract class UserTradeMarginState extends Equatable {
   const UserTradeMarginState();
@@ -9,59 +9,61 @@ abstract class UserTradeMarginState extends Equatable {
   List<Object?> get props => [];
 }
 
+class UserTradeMarginInitial extends UserTradeMarginState {}
+
 class UserTradeMarginLoading extends UserTradeMarginState {}
 
 class UserTradeMarginLoaded extends UserTradeMarginState {
-  final List<UserTradeMargin> allMargins;
+  final List<UserTradeMargin> margins;
   final List<UserTradeMargin> filteredMargins;
-
+  final UserTradeMarginMetadata? metadata;
+  final bool isAllSelected;
   final String? selectedExchange;
   final String? selectedSymbol;
-  final String? searchQuery;
-  final bool isAllSelected;
 
   const UserTradeMarginLoaded({
-    required this.allMargins,
+    required this.margins,
     required this.filteredMargins,
+    this.metadata,
+    this.isAllSelected = false,
     this.selectedExchange,
     this.selectedSymbol,
-    this.searchQuery,
-    this.isAllSelected = false,
   });
 
   UserTradeMarginLoaded copyWith({
-    List<UserTradeMargin>? allMargins,
+    List<UserTradeMargin>? margins,
     List<UserTradeMargin>? filteredMargins,
+    UserTradeMarginMetadata? metadata,
+    bool? isAllSelected,
     String? selectedExchange,
     String? selectedSymbol,
-    String? searchQuery,
-    bool? isAllSelected,
   }) {
     return UserTradeMarginLoaded(
-      allMargins: allMargins ?? this.allMargins,
+      margins: margins ?? this.margins,
       filteredMargins: filteredMargins ?? this.filteredMargins,
+      metadata: metadata ?? this.metadata,
+      isAllSelected: isAllSelected ?? this.isAllSelected,
       selectedExchange: selectedExchange ?? this.selectedExchange,
       selectedSymbol: selectedSymbol ?? this.selectedSymbol,
-      searchQuery: searchQuery ?? this.searchQuery,
-      isAllSelected: isAllSelected ?? this.isAllSelected,
     );
   }
 
   @override
   List<Object?> get props => [
-    allMargins,
+    margins,
     filteredMargins,
+    metadata,
+    isAllSelected,
     selectedExchange,
     selectedSymbol,
-    searchQuery,
-    isAllSelected,
   ];
 }
 
 class UserTradeMarginError extends UserTradeMarginState {
   final String message;
+
   const UserTradeMarginError(this.message);
 
   @override
-  List<Object?> get props => [message];
+  List<Object> get props => [message];
 }

@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/routes/app_routes.dart';
 import '../../../../core/widget/app_bar_section.dart';
-import '../widgets/dialogs/user_type_selection_dialog.dart';
+import '../widgets/create_user/user_type_selection_dialog.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../injection_container.dart';
 import '../bloc/inactive_user_list/inactive_user_list_bloc.dart';

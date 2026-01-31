@@ -1,70 +1,29 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../domain/entities/user_brokerage_setting.dart';
+import '../../../domain/usecases/user_brokerage_setting/get_user_brokerage_settings.dart';
+import '../../../domain/usecases/user_brokerage_setting/update_brokerage_settings.dart'
+    as usecase;
+import '../../../domain/usecases/user/get_exchanges.dart' as user_exchanges;
+import '../../../domain/usecases/user/get_symbols.dart' as user_symbols;
+import '../../../domain/entities/user_brokerage_setting/user_brokerage_setting.dart';
 import 'user_brokerage_event.dart';
 import 'user_brokerage_state.dart';
 
-
 class UserBrokerageBloc extends Bloc<UserBrokerageEvent, UserBrokerageState> {
-  UserBrokerageBloc() : super(UserBrokerageLoading()) {
+  final GetUserBrokerageSettings getUserBrokerageSettings;
+  final usecase.UpdateBrokerageSettings updateBrokerageSettings;
+  final user_exchanges.GetExchanges getExchanges;
+  final user_symbols.GetSymbols getSymbols;
+
+  UserBrokerageBloc({
+    required this.getUserBrokerageSettings,
+    required this.updateBrokerageSettings,
+    required this.getExchanges,
+    required this.getSymbols,
+  }) : super(UserBrokerageLoading()) {
     on<LoadUserBrokerage>(_onLoadUserBrokerage);
     on<ToggleBrokerageType>(_onToggleBrokerageType);
     on<FilterBrokerage>(_onFilterBrokerage);
     on<UpdateBrokerageSettings>(_onUpdateBrokerageSettings);
-  }
-
-  // Mock data
-  List<UserBrokerageSetting> _generateMockData() {
-    return [
-      const UserBrokerageSetting(
-        id: '1',
-        exchange: 'NSE',
-        turnoverWiseBrk: 15000,
-        symbolWiseBrk: 15000,
-        symbol: '360NE',
-      ),
-      const UserBrokerageSetting(
-        id: '2',
-        exchange: 'MCX',
-        turnoverWiseBrk: 5000,
-        symbolWiseBrk: 5000,
-        symbol: 'AARTIND',
-      ),
-      const UserBrokerageSetting(
-        id: '3',
-        exchange: 'OTHERS',
-        turnoverWiseBrk: 0,
-        symbolWiseBrk: 0,
-        symbol: 'ABB',
-      ),
-      const UserBrokerageSetting(
-        id: '4',
-        exchange: 'FOREX',
-        turnoverWiseBrk: 0,
-        symbolWiseBrk: 0,
-        symbol: 'ABBOTINDIA',
-      ),
-      const UserBrokerageSetting(
-        id: '5',
-        exchange: 'USSTOCKS',
-        turnoverWiseBrk: 5000,
-        symbolWiseBrk: 5000,
-        symbol: 'ABCAPITAL',
-      ),
-      const UserBrokerageSetting(
-        id: '6',
-        exchange: 'CRYPTO',
-        turnoverWiseBrk: 30003,
-        symbolWiseBrk: 30003,
-        symbol: 'ACC',
-      ),
-      const UserBrokerageSetting(
-        id: '7',
-        exchange: 'MCX',
-        turnoverWiseBrk: 2000,
-        symbolWiseBrk: 2000,
-        symbol: 'CRUDEOIL',
-      ),
-    ];
   }
 
   void _onLoadUserBrokerage(
@@ -72,9 +31,39 @@ class UserBrokerageBloc extends Bloc<UserBrokerageEvent, UserBrokerageState> {
     Emitter<UserBrokerageState> emit,
   ) async {
     emit(UserBrokerageLoading());
-    await Future.delayed(const Duration(seconds: 1));
-    final data = _generateMockData();
-    emit(UserBrokerageLoaded(allSettings: data, filteredSettings: data));
+
+    final settingsFuture = getUserBrokerageSettings(event.userId);
+    final exchangesFuture = getExchanges();
+    final symbolsFuture = getSymbols();
+
+    List<UserBrokerageSetting> settings = [];
+    List<String> exchangeList = [];
+    List<String> symbolList = [];
+
+    final results = await Future.wait([
+      settingsFuture,
+      exchangesFuture,
+      symbolsFuture,
+    ]);
+
+    results[0].fold(
+      (l) => emit(UserBrokerageError(l.message)),
+      (r) => settings = r as List<UserBrokerageSetting>,
+    );
+
+    if (state is UserBrokerageError) return;
+
+    results[1].fold((l) {}, (r) => exchangeList = r as List<String>);
+    results[2].fold((l) {}, (r) => symbolList = r as List<String>);
+
+    emit(
+      UserBrokerageLoaded(
+        allSettings: settings,
+        filteredSettings: settings,
+        exchanges: exchangeList,
+        symbols: symbolList,
+      ),
+    );
   }
 
   void _onToggleBrokerageType(
@@ -122,31 +111,38 @@ class UserBrokerageBloc extends Bloc<UserBrokerageEvent, UserBrokerageState> {
     UpdateBrokerageSettings event,
     Emitter<UserBrokerageState> emit,
   ) async {
-    // Here we would call API to update. For now just update local state logic if needed,
-    // or just re-emit success/loading.
     if (state is UserBrokerageLoaded) {
       final currentState = state as UserBrokerageLoaded;
-      final updatedAll = currentState.allSettings.map((item) {
-        if (event.selectedIds.contains(item.id)) {
-          return item.copyWith(
-            turnoverWiseBrk: event.turnoverWiseBrk,
-            symbolWiseBrk: event.symbolWiseBrk,
-          );
-        }
-        return item;
-      }).toList();
 
-      emit(
-        currentState.copyWith(
-          allSettings: updatedAll,
-          filteredSettings: _applyFilters(
-            updatedAll,
-            currentState.viewType,
-            currentState.selectedExchange,
-            currentState.selectedSymbol,
-          ),
-        ),
+      final result = await updateBrokerageSettings(
+        selectedIds: event.selectedIds,
+        turnoverWiseBrk: event.turnoverWiseBrk,
+        symbolWiseBrk: event.symbolWiseBrk,
       );
+
+      result.fold((failure) => emit(UserBrokerageError(failure.message)), (_) {
+        final updatedAll = currentState.allSettings.map((item) {
+          if (event.selectedIds.contains(item.id)) {
+            return item.copyWith(
+              turnoverWiseBrk: event.turnoverWiseBrk,
+              symbolWiseBrk: event.symbolWiseBrk,
+            );
+          }
+          return item;
+        }).toList();
+
+        emit(
+          currentState.copyWith(
+            allSettings: updatedAll,
+            filteredSettings: _applyFilters(
+              updatedAll,
+              currentState.viewType,
+              currentState.selectedExchange,
+              currentState.selectedSymbol,
+            ),
+          ),
+        );
+      });
     }
   }
 

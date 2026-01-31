@@ -11,7 +11,6 @@ import '../../bloc/trade/trades_event.dart';
 import '../../bloc/trade/trades_state.dart';
 import '../common/view_reset_buttons.dart';
 
-
 class TradesFilterBar extends StatelessWidget {
   const TradesFilterBar({Key? key}) : super(key: key);
 
@@ -27,13 +26,12 @@ class TradesFilterBar extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Row(
             children: [
-              
+
               Expanded(
                 child: _buildDateRangePicker(context, state),
               ),
               SizedBox(width: 12.w),
 
-              
               Expanded(
                 child: AppDropdown(
                   type: AppDropdownType.search,
@@ -56,7 +54,6 @@ class TradesFilterBar extends StatelessWidget {
               ),
               SizedBox(width: 12.w),
 
-              
               Expanded(
                 child: AppDropdown(
                   type: AppDropdownType.simple,
@@ -80,7 +77,6 @@ class TradesFilterBar extends StatelessWidget {
               ),
               SizedBox(width: 12.w),
 
-              
               Expanded(
                 child: AppDropdown(
                   type: AppDropdownType.search,
@@ -103,7 +99,6 @@ class TradesFilterBar extends StatelessWidget {
               ),
               SizedBox(width: 12.w),
 
-              
               Expanded(
                 child: AppDropdown(
                   type: AppDropdownType.simple,
@@ -128,7 +123,6 @@ class TradesFilterBar extends StatelessWidget {
 
               const Spacer(),
 
-              
               ViewResetButtons(
                 onReset: () {
                   context.read<TradesBloc>().add(

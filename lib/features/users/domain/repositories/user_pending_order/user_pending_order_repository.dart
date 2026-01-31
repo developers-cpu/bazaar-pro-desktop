@@ -3,7 +3,6 @@ import 'package:bazarpro/features/users/domain/entities/user_pending_order/user_
 import 'package:bazarpro/features/users/domain/entities/user_pending_order/user_pending_order_metadata.dart';
 import 'package:dartz/dartz.dart';
 
-
 abstract class UserPendingOrderRepository {
   Future<Either<Failure, List<UserPendingOrder>>> getUserPendingOrders(
     String userId,

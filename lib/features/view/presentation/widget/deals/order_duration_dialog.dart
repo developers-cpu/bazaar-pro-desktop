@@ -4,9 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../domain/entities/deals/deals.dart';
 
-
-
-
 class OrderDurationDialog extends StatelessWidget {
   final List<Deal> relatedOrders;
   final bool isDarkMode;

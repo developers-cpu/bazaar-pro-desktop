@@ -12,8 +12,6 @@ import '../common/view_record_count.dart';
 import '../common/view_table_cell_styles.dart';
 import 'open_postion_dilog.dart';
 
-
-
 class NetPositionTable extends StatelessWidget {
   final bool showDeviceInfo;
   final bool isDarkMode;
@@ -24,7 +22,6 @@ class NetPositionTable extends StatelessWidget {
     this.isDarkMode = false,
   }) : super(key: key);
 
-  
   List<ViewTableColumn> _getColumns() {
     return const [
       ViewTableColumn(id: 'exchange', label: 'EXCH', width: 110),
@@ -92,11 +89,10 @@ class NetPositionTable extends StatelessWidget {
     }
   }
 
-  
   Widget _buildNetQtyCell(BuildContext context, NetPosition item, bool isDark) {
     return GestureDetector(
       onTap: () {
-        
+
         OpenPositionDialog.show(
           context: context,
           isDarkMode: isDark,
@@ -137,9 +133,9 @@ class NetPositionTable extends StatelessWidget {
 
         return Column(
           children: [
-            
+
             ViewRecordCount(count: state.totalRecords),
-            
+
             Expanded(
               child: ViewDataTable<NetPosition>(
                 columns: _getColumns(),
@@ -159,7 +155,7 @@ class NetPositionTable extends StatelessWidget {
                     SortPositionsByColumnEvent(columnId: columnId, ascending: ascending),
                   );
                 },
-                
+
                 footerBuilder: (columns) => _buildTotalsRow(columns, state.filteredPositions),
               ),
             ),
@@ -169,9 +165,8 @@ class NetPositionTable extends StatelessWidget {
     );
   }
 
-  
   Widget _buildTotalsRow(List<ViewTableColumn> columns, List<NetPosition> positions) {
-    
+
     double totalM2M = positions.fold(0.0, (sum, item) => sum + item.m2mAmount);
     double totalOurPercentage = positions.fold(0.0, (sum, item) => sum + item.ourPercentage);
 
@@ -191,7 +186,6 @@ class NetPositionTable extends StatelessWidget {
     );
   }
 
-  
   Widget _buildTotalCell(ViewTableColumn column, double totalM2M, double totalOurPercentage) {
     String text = '';
     Color textColor = const Color(0xFF2C5F7A);

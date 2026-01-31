@@ -4,7 +4,6 @@ import '../../../../../core/usecases/usecase.dart';
 import '../../entities/trades/trade.dart';
 import '../../repositories/trades/trades_repository.dart';
 
-
 class GetTrades implements UseCase<List<Trade>, NoParams> {
   final TradesRepository repository;
 
@@ -15,7 +14,6 @@ class GetTrades implements UseCase<List<Trade>, NoParams> {
     return repository.getTrades();
   }
 }
-
 
 class GetTradesWithFilters implements UseCase<List<Trade>, TradesFilterParams> {
   final TradesRepository repository;
@@ -35,7 +33,6 @@ class GetTradesWithFilters implements UseCase<List<Trade>, TradesFilterParams> {
   }
 }
 
-
 class TradesFilterParams {
   final DateTime? startDate;
   final DateTime? endDate;
@@ -54,7 +51,6 @@ class TradesFilterParams {
   });
 }
 
-
 class GetTradesClients implements UseCase<List<String>, NoParams> {
   final TradesRepository repository;
 
@@ -65,7 +61,6 @@ class GetTradesClients implements UseCase<List<String>, NoParams> {
     return repository.getClients();
   }
 }
-
 
 class GetTradesExchanges implements UseCase<List<String>, NoParams> {
   final TradesRepository repository;
@@ -78,7 +73,6 @@ class GetTradesExchanges implements UseCase<List<String>, NoParams> {
   }
 }
 
-
 class GetTradesSymbols implements UseCase<List<String>, NoParams> {
   final TradesRepository repository;
 
@@ -89,7 +83,6 @@ class GetTradesSymbols implements UseCase<List<String>, NoParams> {
     return repository.getSymbols();
   }
 }
-
 
 class GetTradesOrderTypes implements UseCase<List<String>, NoParams> {
   final TradesRepository repository;
@@ -102,7 +95,6 @@ class GetTradesOrderTypes implements UseCase<List<String>, NoParams> {
   }
 }
 
-
 class ExportTradesToPdf implements UseCase<String, List<Trade>> {
   final TradesRepository repository;
 
@@ -113,7 +105,6 @@ class ExportTradesToPdf implements UseCase<String, List<Trade>> {
     return repository.exportToPdf(trades);
   }
 }
-
 
 class ExportTradesToExcel implements UseCase<String, List<Trade>> {
   final TradesRepository repository;

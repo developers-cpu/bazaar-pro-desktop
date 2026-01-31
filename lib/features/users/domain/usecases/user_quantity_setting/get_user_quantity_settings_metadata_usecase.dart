@@ -4,7 +4,6 @@ import 'package:bazarpro/features/users/domain/entities/user_quantity_setting/us
 import 'package:bazarpro/features/users/domain/repositories/user_quantity_setting/user_quantity_settings_repository.dart';
 import 'package:dartz/dartz.dart';
 
-
 class GetUserQuantitySettingsMetadata
     implements UseCase<UserQuantitySettingMetadata, NoParams> {
   final UserQuantitySettingsRepository repository;

@@ -3,7 +3,6 @@ import 'package:bazarpro/features/users/domain/entities/user_pending_order/user_
 import 'package:bazarpro/features/users/domain/repositories/user_pending_order/user_pending_order_repository.dart';
 import 'package:dartz/dartz.dart';
 
-
 class GetUserPendingOrders {
   final UserPendingOrderRepository repository;
 

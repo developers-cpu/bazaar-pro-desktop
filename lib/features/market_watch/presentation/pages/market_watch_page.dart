@@ -42,7 +42,6 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
   int _selectedTabIndex = 0;
   int _selectedWatchlistIndex = -1;
 
-  
   final GlobalKey<AppBarSectionState> _appBarKey = GlobalKey();
 
   @override
@@ -59,7 +58,7 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
   }
 
   void _onTabSelected(int index) {
-    
+
     final hasDropdown = _appBarKey.currentState?.hasDropdown(index) ?? false;
     if (!hasDropdown) {
       setState(() {
@@ -75,17 +74,17 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
 
   void _onExportPdf() {
     _showMessage('Exporting to PDF...');
-    
+
   }
 
   void _onExportExcel() {
     _showMessage('Exporting to Excel...');
-    
+
   }
 
   void _handleViewAction(String action) {
     _showMessage('View: $action');
-    
+
   }
 
   void _handleUserAction(String action) {

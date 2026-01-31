@@ -3,7 +3,6 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_dimensions.dart';
 
-
 class CustomButton extends StatelessWidget {
   final String text;
   final VoidCallback? onPressed;

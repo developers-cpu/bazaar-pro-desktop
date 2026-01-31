@@ -4,7 +4,6 @@ import '../../../../../core/usecases/usecase.dart';
 import '../../entities/net_postion/net_position.dart';
 import '../../repositories/net_postion/net_position_repository.dart';
 
-
 class GetNetPositions implements UseCase<List<NetPosition>, NoParams> {
   final NetPositionRepository repository;
 
@@ -15,7 +14,6 @@ class GetNetPositions implements UseCase<List<NetPosition>, NoParams> {
     return repository.getNetPositions();
   }
 }
-
 
 class GetNetPositionsWithFilters implements UseCase<List<NetPosition>, NetPositionFilterParams> {
   final NetPositionRepository repository;
@@ -33,7 +31,6 @@ class GetNetPositionsWithFilters implements UseCase<List<NetPosition>, NetPositi
   }
 }
 
-
 class NetPositionFilterParams {
   final String? userType;
   final String? client;
@@ -48,7 +45,6 @@ class NetPositionFilterParams {
   });
 }
 
-
 class GetNetPositionClients implements UseCase<List<String>, NoParams> {
   final NetPositionRepository repository;
 
@@ -59,7 +55,6 @@ class GetNetPositionClients implements UseCase<List<String>, NoParams> {
     return repository.getClients();
   }
 }
-
 
 class GetNetPositionExchanges implements UseCase<List<String>, NoParams> {
   final NetPositionRepository repository;
@@ -72,7 +67,6 @@ class GetNetPositionExchanges implements UseCase<List<String>, NoParams> {
   }
 }
 
-
 class GetNetPositionSymbols implements UseCase<List<String>, NoParams> {
   final NetPositionRepository repository;
 
@@ -83,7 +77,6 @@ class GetNetPositionSymbols implements UseCase<List<String>, NoParams> {
     return repository.getSymbols();
   }
 }
-
 
 class GetNetPositionUserTypes implements UseCase<List<String>, NoParams> {
   final NetPositionRepository repository;
@@ -96,7 +89,6 @@ class GetNetPositionUserTypes implements UseCase<List<String>, NoParams> {
   }
 }
 
-
 class ExportNetPositionsToPdf implements UseCase<String, List<NetPosition>> {
   final NetPositionRepository repository;
 
@@ -108,7 +100,6 @@ class ExportNetPositionsToPdf implements UseCase<String, List<NetPosition>> {
   }
 }
 
-
 class ExportNetPositionsToExcel implements UseCase<String, List<NetPosition>> {
   final NetPositionRepository repository;
 
@@ -119,7 +110,6 @@ class ExportNetPositionsToExcel implements UseCase<String, List<NetPosition>> {
     return repository.exportToExcel(positions);
   }
 }
-
 
 class GetPositionDetails implements UseCase<List<NetPosition>, PositionDetailsParams> {
   final NetPositionRepository repository;
@@ -134,7 +124,6 @@ class GetPositionDetails implements UseCase<List<NetPosition>, PositionDetailsPa
     );
   }
 }
-
 
 class PositionDetailsParams {
   final String symbol;

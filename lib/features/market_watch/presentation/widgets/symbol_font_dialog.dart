@@ -56,7 +56,7 @@ class _SymbolFontContent extends StatelessWidget {
         return Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            
+
             Expanded(
               child: _buildSelectorColumn(
                 context: context,
@@ -71,7 +71,7 @@ class _SymbolFontContent extends StatelessWidget {
               ),
             ),
             SizedBox(width: 20.w),
-            
+
             Expanded(
               child: _buildSelectorColumn(
                 context: context,
@@ -86,7 +86,7 @@ class _SymbolFontContent extends StatelessWidget {
               ),
             ),
             SizedBox(width: 20.w),
-            
+
             Expanded(
               child: _buildSelectorColumn(
                 context: context,
@@ -116,7 +116,7 @@ class _SymbolFontContent extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        
+
         Container(
           width: double.infinity,
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
@@ -138,7 +138,7 @@ class _SymbolFontContent extends StatelessWidget {
           ),
         ),
         SizedBox(height: 12.h),
-        
+
         Container(
           height: 320.h,
           decoration: BoxDecoration(

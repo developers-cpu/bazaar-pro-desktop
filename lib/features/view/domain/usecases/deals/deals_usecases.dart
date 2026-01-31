@@ -4,7 +4,6 @@ import '../../../../../core/usecases/usecase.dart';
 import '../../entities/deals/deals.dart';
 import '../../repositories/deals/deals_repository.dart';
 
-
 class GetDeals implements UseCase<List<Deal>, NoParams> {
   final DealsRepository repository;
 
@@ -15,7 +14,6 @@ class GetDeals implements UseCase<List<Deal>, NoParams> {
     return repository.getDeals();
   }
 }
-
 
 class GetDealsWithFilters implements UseCase<List<Deal>, DealsFilterParams> {
   final DealsRepository repository;
@@ -35,7 +33,6 @@ class GetDealsWithFilters implements UseCase<List<Deal>, DealsFilterParams> {
     );
   }
 }
-
 
 class DealsFilterParams {
   final DateTime? startDate;
@@ -57,7 +54,6 @@ class DealsFilterParams {
   });
 }
 
-
 class GetDealsClients implements UseCase<List<String>, NoParams> {
   final DealsRepository repository;
 
@@ -68,7 +64,6 @@ class GetDealsClients implements UseCase<List<String>, NoParams> {
     return repository.getClients();
   }
 }
-
 
 class GetDealsExchanges implements UseCase<List<String>, NoParams> {
   final DealsRepository repository;
@@ -81,7 +76,6 @@ class GetDealsExchanges implements UseCase<List<String>, NoParams> {
   }
 }
 
-
 class GetDealsSymbols implements UseCase<List<String>, NoParams> {
   final DealsRepository repository;
 
@@ -92,7 +86,6 @@ class GetDealsSymbols implements UseCase<List<String>, NoParams> {
     return repository.getSymbols();
   }
 }
-
 
 class GetDealsOrderTypes implements UseCase<List<String>, NoParams> {
   final DealsRepository repository;
@@ -105,7 +98,6 @@ class GetDealsOrderTypes implements UseCase<List<String>, NoParams> {
   }
 }
 
-
 class GetDealsStatuses implements UseCase<List<String>, NoParams> {
   final DealsRepository repository;
 
@@ -117,7 +109,6 @@ class GetDealsStatuses implements UseCase<List<String>, NoParams> {
   }
 }
 
-
 class ExportDealsToPdf implements UseCase<String, List<Deal>> {
   final DealsRepository repository;
 
@@ -128,7 +119,6 @@ class ExportDealsToPdf implements UseCase<String, List<Deal>> {
     return repository.exportToPdf(deals);
   }
 }
-
 
 class ExportDealsToExcel implements UseCase<String, List<Deal>> {
   final DealsRepository repository;

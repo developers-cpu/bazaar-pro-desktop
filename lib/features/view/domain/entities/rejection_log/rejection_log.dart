@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 
-
 class RejectionLog extends Equatable {
   final String id;
   final DateTime orderDateTime;

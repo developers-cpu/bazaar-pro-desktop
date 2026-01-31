@@ -7,7 +7,6 @@ import '../constants/app_images.dart';
 import '../constants/app_strings.dart';
 import 'svg_icon.dart';
 
-
 class CommonAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String username;
   final String version;
@@ -271,7 +270,7 @@ class _CommonAppBarState extends State<CommonAppBar>
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        
+
         if (widget.showExportIcon) ...[
           AnimatedSize(
             duration: const Duration(milliseconds: 300),
@@ -282,18 +281,17 @@ class _CommonAppBarState extends State<CommonAppBar>
           ),
           SizedBox(width: 10.w),
         ],
-        
+
         if (widget.showReloadIcon) ...[
           _buildReloadButton(context),
           SizedBox(width: 10.w),
         ],
-        
+
         _buildUserInfoSection(context),
       ],
     );
   }
 
-  
   Widget _buildCollapsedExportButton() {
     return GestureDetector(
       onTap: _toggleExportButtons,
@@ -317,12 +315,11 @@ class _CommonAppBarState extends State<CommonAppBar>
     );
   }
 
-  
   Widget _buildExpandedExportButtons() {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        
+
         Container(
           height: 45.h,
           padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
@@ -359,7 +356,7 @@ class _CommonAppBarState extends State<CommonAppBar>
           ),
         ),
         SizedBox(width: 10.w),
-        
+
         GestureDetector(
           onTap: _closeExportButtons,
           child: Container(

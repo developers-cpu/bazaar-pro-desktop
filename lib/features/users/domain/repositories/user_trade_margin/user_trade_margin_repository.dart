@@ -3,7 +3,6 @@ import 'package:bazarpro/features/users/domain/entities/user_trade_margin/user_t
 import 'package:bazarpro/features/users/domain/entities/user_trade_margin/user_trade_margin_metadata.dart';
 import 'package:dartz/dartz.dart';
 
-
 abstract class UserTradeMarginRepository {
   Future<Either<Failure, List<UserTradeMargin>>> getUserTradeMargin(
     String userId,

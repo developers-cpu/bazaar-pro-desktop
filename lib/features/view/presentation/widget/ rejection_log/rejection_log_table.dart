@@ -9,7 +9,6 @@ import '../../bloc/rejection_log/rejection_log_state.dart';
 import '../common/view_record_count.dart';
 import '../common/view_table_cell_styles.dart';
 
-
 class RejectionLogTable extends StatelessWidget {
   const RejectionLogTable({Key? key}) : super(key: key);
 

@@ -1,7 +1,6 @@
 import 'package:bazarpro/features/users/data/models/user_pending_order/user_pending_order_metadata_model.dart';
 import 'package:bazarpro/features/users/data/models/user_pending_order/user_pending_order_model.dart';
 
-
 abstract class UserPendingOrderDataSource {
   Future<List<UserPendingOrderModel>> getUserPendingOrders(String userId);
   Future<UserPendingOrderMetadataModel> getPendingOrderMetadata();

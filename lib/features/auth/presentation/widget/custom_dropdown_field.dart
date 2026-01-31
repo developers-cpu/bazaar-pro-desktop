@@ -5,7 +5,6 @@ import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/widget/svg_icon.dart' show SvgIcon;
 import '../../data/models/dropdown_option_model.dart';
 
-
 class CustomDropdownField extends StatefulWidget {
   final String hintText;
   final String? value;
@@ -37,7 +36,6 @@ class _CustomDropdownFieldState extends State<CustomDropdownField>
   late AnimationController _controller;
   late Animation<double> _animation;
 
-  
   static const double _fieldHeight = 45;
   static const double _defaultDropdownHeight = 125;
   static const double _defaultWidth = 450;
@@ -116,8 +114,6 @@ class _CustomDropdownFieldState extends State<CustomDropdownField>
     );
   }
 
-
-  
   Widget _buildTrailingIcon(String? iconPath) {
     if (iconPath == null || iconPath.isEmpty) return const SizedBox.shrink();
 
@@ -141,7 +137,6 @@ class _CustomDropdownFieldState extends State<CustomDropdownField>
     );
   }
 
-
   bool get _hasSelection => widget.value != null && widget.value!.isNotEmpty;
 
   DropdownOption? get _selectedItem {
@@ -163,7 +158,7 @@ class _CustomDropdownFieldState extends State<CustomDropdownField>
     return OverlayEntry(
       builder: (context) => Stack(
         children: [
-          
+
           Positioned.fill(
             child: GestureDetector(
               onTap: _close,
@@ -171,7 +166,7 @@ class _CustomDropdownFieldState extends State<CustomDropdownField>
               child: Container(color: AppColors.transparent),
             ),
           ),
-          
+
           Positioned(
             left: offset.dx,
             top: offset.dy + size.height + _gap,

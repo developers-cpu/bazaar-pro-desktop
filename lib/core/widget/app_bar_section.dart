@@ -5,7 +5,6 @@ import '../../../../core/widget/common_app_bar.dart';
 import '../../features/market_watch/data/models/menu_Item_data.dart';
 import '../../features/users/presentation/widgets/create_user/user_search_dialog.dart';
 
-
 class AppBarSection extends StatefulWidget implements PreferredSizeWidget {
   final int selectedTabIndex;
   final String? currentPageTitle;
@@ -48,7 +47,6 @@ class AppBarSectionState extends State<AppBarSection> {
     super.initState();
     _initializeTabs();
 
-    
     if (widget.currentPageTitle != null) {
       _selectedDropdownItems[widget.selectedTabIndex] =
           widget.currentPageTitle!;
@@ -67,13 +65,10 @@ class AppBarSectionState extends State<AppBarSection> {
 
   void _initializeTabs() {
     _tabs = [
-      
       const AppBarTab(title: AppStrings.marketWatch),
 
-      
       const AppBarTab(title: AppStrings.dashboard),
 
-      
       AppBarTab(
         title: AppStrings.view,
         dropdownItems: [
@@ -116,26 +111,9 @@ class AppBarSectionState extends State<AppBarSection> {
             onTap: () =>
                 _navigateToPage(2, 'Script Quantity', '/script-quantity'),
           ),
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
         ],
       ),
 
-      
       AppBarTab(
         title: 'User',
         dropdownItems: [
@@ -156,43 +134,80 @@ class AppBarSectionState extends State<AppBarSection> {
         ],
       ),
 
-      
       AppBarTab(
         title: AppStrings.report,
         dropdownItems: [
           MenuItemData(
-            title: 'Daily Report',
-            onTap: () => _navigateToPage(4, 'Daily Report', '/daily-report'),
+            title: 'Trade Logs',
+            onTap: () => _navigateToPage(4, 'Trade Logs', '/trade-logs'),
           ),
           MenuItemData(
-            title: 'Weekly Report',
-            onTap: () => _navigateToPage(4, 'Weekly Report', '/weekly-report'),
+            title: 'Trade Margin',
+            onTap: () => _navigateToPage(4, 'Trade Margin', '/trade-margin'),
           ),
           MenuItemData(
-            title: 'Monthly Report',
+            title: 'Settlement',
+            onTap: () => _navigateToPage(4, 'Settlement', '/settlement'),
+          ),
+          MenuItemData(
+            title: 'Credit History',
             onTap: () =>
-                _navigateToPage(4, 'Monthly Report', '/monthly-report'),
+                _navigateToPage(4, 'Credit History', '/credit-history'),
           ),
           MenuItemData(
-            title: 'Custom Report',
-            onTap: () => _navigateToPage(4, 'Custom Report', '/custom-report'),
+            title: 'Bill Generate',
+            onTap: () => _navigateToPage(4, 'Bill Generate', '/bill-generate'),
           ),
           MenuItemData(
-            title: 'Export Report',
-            onTap: () {
-              _selectDropdownItem(4, 'Export Report');
-              
-            },
+            title: 'Activity Report',
+            onTap: () =>
+                _navigateToPage(4, 'Activity Report', '/activity-report'),
+          ),
+          MenuItemData(
+            title: 'Profit & Loss',
+            onTap: () => _navigateToPage(4, 'Profit & Loss', '/profit-loss'),
+          ),
+          MenuItemData(
+            title: 'User Wise Profit & Loss',
+            onTap: () =>
+                _navigateToPage(4, 'User Wise Profit & Loss', '/user-wise-pl'),
+          ),
+          MenuItemData(
+            title: 'User Script Position Tracking',
+            onTap: () => _navigateToPage(
+              4,
+              'User Script Position Tracking',
+              '/user-script-position',
+            ),
+          ),
+          MenuItemData(
+            title: 'Symbol Wise Position Report',
+            onTap: () => _navigateToPage(
+              4,
+              'Symbol Wise Position Report',
+              '/symbol-wise-position',
+            ),
+          ),
+          MenuItemData(
+            title: 'Symbol Wise PL',
+            onTap: () =>
+                _navigateToPage(4, 'Symbol Wise PL', '/symbol-wise-pl'),
+          ),
+          MenuItemData(
+            title: 'Exchange Wise Report',
+            onTap: () => _navigateToPage(
+              4,
+              'Exchange Wise Report',
+              '/exchange-wise-report',
+            ),
           ),
         ],
       ),
 
-      
       const AppBarTab(title: AppStrings.tools),
     ];
   }
 
-  
   void _navigateToPage(int tabIndex, String itemTitle, String routeName) {
     setState(() {
       _selectedDropdownItems[tabIndex] = itemTitle;
@@ -200,43 +215,26 @@ class AppBarSectionState extends State<AppBarSection> {
 
     widget.onViewAction?.call(routeName);
 
-    
     Navigator.of(context).pushReplacementNamed(routeName);
   }
 
-  
-  void _selectDropdownItem(int tabIndex, String itemTitle) {
-    setState(() {
-      _selectedDropdownItems[tabIndex] = itemTitle;
-    });
-
-    
-    if (widget.selectedTabIndex != tabIndex) {
-      widget.onTabSelected(tabIndex);
-    }
-  }
-
   void _onTabSelected(int index) {
-    
     if (index == 0) {
       Navigator.of(context).pushReplacementNamed('/market-watch');
     } else if (index == 1) {
       Navigator.of(context).pushReplacementNamed('/dashboard');
     } else if (index == 5) {
-      
       Navigator.of(context).pushReplacementNamed('/tools');
     }
 
     widget.onTabSelected(index);
   }
 
-  
   bool hasDropdown(int index) {
     if (index < 0 || index >= _tabs.length) return false;
     return _tabs[index].hasDropdown;
   }
 
-  
   bool get _shouldShowReloadIcon {
     return widget.selectedTabIndex == 0;
   }

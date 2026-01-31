@@ -11,7 +11,6 @@ import '../../bloc/pending_orders/pending_orders_bloc.dart';
 import '../../bloc/pending_orders/pending_orders_event.dart';
 import '../../bloc/pending_orders/pending_orders_state.dart';
 
-
 class PendingOrdersTable extends StatelessWidget {
   final bool showDeviceInfo;
   final bool isDarkMode;
@@ -22,7 +21,6 @@ class PendingOrdersTable extends StatelessWidget {
     this.isDarkMode = false,
   }) : super(key: key);
 
-  
   List<ViewTableColumn> _getColumns() {
     final columns = <ViewTableColumn>[
       const ViewTableColumn(id: 'userId', label: 'USER ID', width: 120),
@@ -42,12 +40,9 @@ class PendingOrdersTable extends StatelessWidget {
       const ViewTableColumn(id: 'ipAddress', label: 'IP ADDRESS', width: 160),
     ];
 
-
-
     return columns;
   }
 
-  
   Widget _buildCell(PendingOrder item, ViewTableColumn column, bool isDark) {
     switch (column.id) {
       case 'userId':
@@ -122,9 +117,9 @@ class PendingOrdersTable extends StatelessWidget {
 
         return Column(
           children: [
-            
+
             ViewRecordCount(count: state.totalRecords),
-            
+
             Expanded(
               child: ViewDataTable<PendingOrder>(
                 columns: _getColumns(),

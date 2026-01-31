@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 
-
 abstract class DealsEvent extends Equatable {
   const DealsEvent();
 

@@ -62,11 +62,10 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
       filtered = filtered.where((item) => item.exchange == event.exchange).toList();
     }
 
-    
     if (currentState.selectedSymbols != null && currentState.selectedSymbols!.isNotEmpty) {
       filtered = filtered.where((item) => currentState.selectedSymbols!.contains(item.symbol)).toList();
     } else if (currentState.selectedSymbol != null) {
-      
+
       filtered = filtered.where((item) => item.symbol == currentState.selectedSymbol).toList();
     }
 
@@ -108,12 +107,10 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
 
     var filtered = currentState.items.toList();
 
-    
     if (event.symbols.isNotEmpty) {
       filtered = filtered.where((item) => event.symbols.contains(item.symbol)).toList();
     }
 
-    
     if (currentState.selectedExchange != null) {
       filtered = filtered.where((item) => item.exchange == currentState.selectedExchange).toList();
     }
@@ -132,8 +129,6 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
     final currentState = _getLoadedState();
     if (currentState == null) return;
 
-    
-    
     emit(currentState.copyWith(
       selectedUser: event.user,
     ));

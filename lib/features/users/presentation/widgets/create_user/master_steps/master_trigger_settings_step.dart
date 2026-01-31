@@ -10,7 +10,6 @@ import '../../../bloc/user_form/user_form_bloc.dart';
 import '../../../bloc/user_form/user_form_event.dart';
 import '../../../bloc/user_form/user_form_state.dart';
 
-
 class MasterTriggerSettingsStep extends StatelessWidget {
   const MasterTriggerSettingsStep({super.key});
 
@@ -36,7 +35,7 @@ class MasterTriggerSettingsStep extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              
+
               Expanded(
                 child: Column(
                   children: leftSettings.map((setting) {
@@ -48,7 +47,7 @@ class MasterTriggerSettingsStep extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 24.w),
-              
+
               Expanded(
                 child: Column(
                   children: rightSettings.map((setting) {
@@ -75,7 +74,7 @@ class MasterTriggerSettingsStep extends StatelessWidget {
 
     return Row(
       children: [
-        
+
         Container(
           width: 24.w,
           height: 24.h,

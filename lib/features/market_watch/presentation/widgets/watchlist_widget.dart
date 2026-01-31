@@ -79,7 +79,6 @@ class WatchlistWidget extends StatelessWidget {
           _buildAddButton(context),
           SizedBox(width: 10.w),
 
-
           _buildWatchlistButton(
             context: context,
             label: AppStrings.all,
@@ -88,7 +87,6 @@ class WatchlistWidget extends StatelessWidget {
             showCloseIcon: false,
           ),
           SizedBox(width: 10.w),
-
 
           ...List.generate(state.watchlists.length, (index) {
             return Padding(
@@ -107,7 +105,6 @@ class WatchlistWidget extends StatelessWidget {
     );
   }
 
-  
   Widget _buildAddButton(BuildContext context) {
     return InkWell(
       onTap: () {

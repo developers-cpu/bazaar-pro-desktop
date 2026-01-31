@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import '../../models/script_quantity/script_quantity_model.dart';
 
-
 abstract class ScriptQuantityRemoteDataSource {
   Future<List<ScriptQuantityModel>> getScriptQuantities({
     required String exchange,
@@ -10,7 +9,6 @@ abstract class ScriptQuantityRemoteDataSource {
   Future<List<String>> getExchanges();
   Future<List<String>> getGroups(String exchange);
 }
-
 
 class ScriptQuantityRemoteDataSourceImpl implements ScriptQuantityRemoteDataSource {
   final Dio dio;
@@ -23,19 +21,7 @@ class ScriptQuantityRemoteDataSourceImpl implements ScriptQuantityRemoteDataSour
     required String group,
   }) async {
     try {
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
 
-      
       await Future.delayed(const Duration(milliseconds: 500));
       return _generateMockData(exchange, group);
     } catch (e) {
@@ -46,7 +32,7 @@ class ScriptQuantityRemoteDataSourceImpl implements ScriptQuantityRemoteDataSour
   @override
   Future<List<String>> getExchanges() async {
     try {
-      
+
       await Future.delayed(const Duration(milliseconds: 200));
       return ['NSE', 'MCX', 'CE/PE', 'OTHERS', 'COMEX', 'CRYPTO', 'GIFT', 'FOREX'];
     } catch (e) {
@@ -57,10 +43,9 @@ class ScriptQuantityRemoteDataSourceImpl implements ScriptQuantityRemoteDataSour
   @override
   Future<List<String>> getGroups(String exchange) async {
     try {
-      
+
       await Future.delayed(const Duration(milliseconds: 200));
 
-      
       if (exchange == 'NSE') {
         return ['NSE_X', 'NSE_2X', 'NSE_3X', 'NSE_4X'];
       } else if (exchange == 'MCX') {
@@ -75,7 +60,6 @@ class ScriptQuantityRemoteDataSourceImpl implements ScriptQuantityRemoteDataSour
     }
   }
 
-  
   List<ScriptQuantityModel> _generateMockData(String exchange, String group) {
     final List<ScriptQuantityModel> quantities = [];
     final symbols = [

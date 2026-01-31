@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../domain/entities/dashboard_entity.dart';
 
-
 class TradeReportsChart extends StatefulWidget {
   final List<TradeReportData> data;
 
@@ -22,12 +21,10 @@ class _TradeReportsChartState extends State<TradeReportsChart> {
   int? _touchedGroupIndex;
   int? _touchedRodIndex;
 
-  
   static const Color _deletedColor = Color(0xFF4993F4); 
   static const Color _cancelledColor = Color(0xFFFF1201); 
   static const Color _successColor = Color(0xFF1F4A66); 
 
-  
   static const Color _deletedBgColor = Color(0xFFE8F2FE); 
   static const Color _cancelledBgColor = Color(0xFFFFE8E6); 
   static const Color _successBgColor = Color(0xFFE6EEF2); 
@@ -48,7 +45,7 @@ class _TradeReportsChartState extends State<TradeReportsChart> {
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        
+
         final isCompact = constraints.maxWidth < 600;
         final barWidth = isCompact ? 24.w : (constraints.maxWidth < 650 ? 32.w : 42.w);
         final groupSpacing = isCompact ? 12.w : (constraints.maxWidth < 650 ? 20.w : 30.w);

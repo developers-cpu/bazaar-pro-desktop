@@ -3,9 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-
-
-
 class ViewResetButtons extends StatelessWidget {
   final VoidCallback? onView;
   final VoidCallback? onReset;
@@ -27,10 +24,10 @@ class ViewResetButtons extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        
+
         _buildResetButton(),
         SizedBox(width: 12.w),
-        
+
         _buildViewButton(),
       ],
     );
@@ -99,8 +96,6 @@ class ViewResetButtons extends StatelessWidget {
     );
   }
 }
-
-
 
 class RecordCountWidget extends StatelessWidget {
   final int count;

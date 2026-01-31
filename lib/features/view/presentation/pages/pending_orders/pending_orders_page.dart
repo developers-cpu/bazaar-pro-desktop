@@ -8,7 +8,6 @@ import '../../bloc/pending_orders/pending_orders_state.dart';
 import '../../widget/pending_orders/pending_orders_filter_bar.dart';
 import '../../widget/pending_orders/pending_orders_table.dart';
 
-
 class PendingOrdersPage extends StatefulWidget {
   const PendingOrdersPage({Key? key}) : super(key: key);
 

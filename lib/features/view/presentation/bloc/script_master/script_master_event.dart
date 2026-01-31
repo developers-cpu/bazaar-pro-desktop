@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 
-
 abstract class ScriptMasterEvent extends Equatable {
   const ScriptMasterEvent();
 

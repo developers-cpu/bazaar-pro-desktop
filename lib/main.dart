@@ -29,12 +29,10 @@ void main() async {
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
     await windowManager.ensureInitialized();
 
-    
     final screenSize = await windowManager.getSize();
     final screenWidth = screenSize.width;
     final screenHeight = screenSize.height;
 
-    
     final initialWidth = (screenWidth * 0.7).clamp(1280.0, 1920.0);
     final initialHeight = (screenHeight * 0.7).clamp(720.0, 1080.0);
 
@@ -65,7 +63,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        
+
         final windowWidth = constraints.maxWidth > 0
             ? constraints.maxWidth
             : 1920.0;
@@ -74,7 +72,7 @@ class MyApp extends StatelessWidget {
             : 1080.0;
 
         return ScreenUtilInit(
-          
+
           designSize: Size(windowWidth, windowHeight),
           minTextAdapt: true,
           splitScreenMode: true,
@@ -82,49 +80,38 @@ class MyApp extends StatelessWidget {
           builder: (context, child) {
             return MultiBlocProvider(
               providers: [
-                
+
                 BlocProvider(create: (_) => di.sl<AuthBloc>()),
 
-                
                 BlocProvider(create: (_) => di.sl<MarketWatchBloc>()),
 
-                
                 BlocProvider(create: (_) => di.sl<ThemeBloc>()),
 
-                
                 BlocProvider(create: (_) => di.sl<WatchlistBloc>()),
 
-                
                 BlocProvider(create: (_) => di.sl<ArrangeSymbolBloc>()),
 
-                
                 BlocProvider(create: (_) => di.sl<SymbolFontBloc>()),
 
-                
                 BlocProvider(create: (_) => di.sl<OrderDialogBloc>()),
 
-                
                 BlocProvider(create: (_) => di.sl<MarketDepthBloc>()),
 
-                
                 BlocProvider(create: (_) => di.sl<DashboardBloc>()),
 
-                
                 BlocProvider(create: (_) => di.sl<PendingOrdersBloc>()),
 
-                
                 BlocProvider(create: (_) => di.sl<NetPositionBloc>()),
 
-                
                 BlocProvider(create: (_) => di.sl<RejectionLogBloc>()),
 
                 BlocProvider(create: (_) => di.sl<LoginHistoryBloc>()),
-                
+
                 BlocProvider(create: (_) => di.sl<ScriptMasterBloc>()),
-                
+
                 BlocProvider(create: (_) => di.sl<ScriptQuantityBloc>()),
                 BlocProvider(create: (_) => di.sl<IntradayHistoryBloc>()),
-                
+
                 BlocProvider(create: (_) => di.sl<UserListBloc>()),
               ],
               child: MaterialApp(
@@ -132,7 +119,6 @@ class MyApp extends StatelessWidget {
                 debugShowCheckedModeBanner: false,
                 themeMode: ThemeMode.system,
 
-                
                 initialRoute: AppRoutes.login,
                 routes: AppRoutes.getRoutes(),
               ),

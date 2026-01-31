@@ -1,8 +1,5 @@
 import 'package:equatable/equatable.dart';
 
-
-
-
 class MarketItem extends Equatable {
   final String id;
   final String exchange;
@@ -40,7 +37,6 @@ class MarketItem extends Equatable {
     required this.lut,
   });
 
-  
   MarketItem copyWith({
     String? id,
     String? exchange,

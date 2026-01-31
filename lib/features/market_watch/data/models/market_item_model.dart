@@ -1,8 +1,5 @@
 import '../../domain/entities/market_item.dart';
 
-
-
-
 class MarketItemModel extends MarketItem {
   const MarketItemModel({
     required super.id,
@@ -23,8 +20,6 @@ class MarketItemModel extends MarketItem {
     required super.lut,
   });
 
-  
-  
   factory MarketItemModel.fromJson(Map<String, dynamic> json) {
     return MarketItemModel(
       id: json['id'] as String,
@@ -48,7 +43,6 @@ class MarketItemModel extends MarketItem {
     );
   }
 
-  
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -70,7 +64,6 @@ class MarketItemModel extends MarketItem {
     };
   }
 
-  
   factory MarketItemModel.fromEntity(MarketItem entity) {
     return MarketItemModel(
       id: entity.id,
@@ -92,7 +85,6 @@ class MarketItemModel extends MarketItem {
     );
   }
 
-  
   MarketItem toEntity() {
     return MarketItem(
       id: id,

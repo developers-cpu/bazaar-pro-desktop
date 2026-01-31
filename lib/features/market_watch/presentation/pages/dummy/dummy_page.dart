@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-
 class DummyPage extends StatelessWidget {
   final String title;
   final String description;
@@ -50,7 +49,7 @@ class DummyPage extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                
+
                 Container(
                   width: 120.w,
                   height: 120.h,
@@ -66,7 +65,6 @@ class DummyPage extends StatelessWidget {
                 ),
                 SizedBox(height: 32.h),
 
-                
                 Text(
                   title,
                   textAlign: TextAlign.center,
@@ -78,7 +76,6 @@ class DummyPage extends StatelessWidget {
                 ),
                 SizedBox(height: 16.h),
 
-                
                 Text(
                   description,
                   textAlign: TextAlign.center,
@@ -91,7 +88,6 @@ class DummyPage extends StatelessWidget {
                 ),
                 SizedBox(height: 32.h),
 
-                
                 Container(
                   width: double.infinity,
                   padding: EdgeInsets.all(20.w),
@@ -132,7 +128,6 @@ class DummyPage extends StatelessWidget {
                 ),
                 SizedBox(height: 24.h),
 
-                
                 ElevatedButton.icon(
                   onPressed: () => Navigator.of(context).pop(),
                   icon: Icon(Icons.arrow_back, size: 20.sp),
@@ -188,8 +183,6 @@ class DummyPage extends StatelessWidget {
     );
   }
 }
-
-
 
 class PendingOrdersPage extends StatelessWidget {
   const PendingOrdersPage({Key? key}) : super(key: key);
@@ -373,8 +366,6 @@ class ManualTradePage extends StatelessWidget {
   }
 }
 
-
-
 class CreateUserPage extends StatelessWidget {
   const CreateUserPage({Key? key}) : super(key: key);
 
@@ -416,8 +407,6 @@ class SearchUserPage extends StatelessWidget {
     );
   }
 }
-
-
 
 class DailyReportPage extends StatelessWidget {
   const DailyReportPage({Key? key}) : super(key: key);

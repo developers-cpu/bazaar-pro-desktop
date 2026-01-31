@@ -4,21 +4,18 @@ import '../../domain/usecases/login_user.dart';
 import 'auth_event.dart';
 import 'auth_state.dart';
 
-
-
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final LoginUser loginUser;
 
   AuthBloc({
     required this.loginUser,
   }) : super(const AuthInitial()) {
-    
+
     on<LoginEvent>(_onLogin);
     on<DemoLoginEvent>(_onDemoLogin);
     on<LogoutEvent>(_onLogout);
   }
 
-  
   Future<void> _onLogin(
       LoginEvent event,
       Emitter<AuthState> emit,
@@ -39,7 +36,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
   }
 
-  
   Future<void> _onDemoLogin(
       DemoLoginEvent event,
       Emitter<AuthState> emit,
@@ -60,7 +56,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
   }
 
-  
   Future<void> _onLogout(
       LogoutEvent event,
       Emitter<AuthState> emit,

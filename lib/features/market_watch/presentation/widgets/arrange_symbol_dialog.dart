@@ -14,7 +14,7 @@ class ArrangeSymbolDialog extends StatelessWidget {
   const ArrangeSymbolDialog({Key? key}) : super(key: key);
 
   static void show(BuildContext context) {
-    
+
     context.read<ArrangeSymbolBloc>().add(const LoadColumnsEvent());
 
     CommonDialog.show(
@@ -123,14 +123,13 @@ class _ArrangeSymbolContent extends StatelessWidget {
       ),
       child: Row(
         children: [
-          
+
           ReorderableDragStartListener(
             index: index,
             child: _buildDragHandle(),
           ),
           SizedBox(width: 16.w),
 
-          
           Expanded(
             child: Text(
               column.name,
@@ -143,7 +142,6 @@ class _ArrangeSymbolContent extends StatelessWidget {
             ),
           ),
 
-          
           _buildToggleCheckbox(context, column),
         ],
       ),

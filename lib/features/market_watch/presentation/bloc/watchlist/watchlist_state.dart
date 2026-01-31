@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 
-
 abstract class WatchlistState extends Equatable {
   const WatchlistState();
 
@@ -8,11 +7,9 @@ abstract class WatchlistState extends Equatable {
   List<Object?> get props => [];
 }
 
-
 class WatchlistInitial extends WatchlistState {
   const WatchlistInitial();
 }
-
 
 class WatchlistLoaded extends WatchlistState {
   final List<String> watchlists;
@@ -23,7 +20,6 @@ class WatchlistLoaded extends WatchlistState {
     this.selectedIndex = -1,
   });
 
-  
   WatchlistLoaded copyWith({
     List<String>? watchlists,
     int? selectedIndex,
@@ -38,7 +34,6 @@ class WatchlistLoaded extends WatchlistState {
   List<Object?> get props => [watchlists, selectedIndex];
 }
 
-
 class WatchlistError extends WatchlistState {
   final String message;
 
@@ -47,7 +42,6 @@ class WatchlistError extends WatchlistState {
   @override
   List<Object> get props => [message];
 }
-
 
 class WatchlistSuccess extends WatchlistState {
   final String message;

@@ -4,7 +4,6 @@ import '../../../data/models/order_dialog_type.dart';
 import 'order_dialog_event.dart';
 import 'order_dialog_state.dart';
 
-
 class OrderDialogBloc extends Bloc<OrderDialogEvent, OrderDialogState> {
   OrderDialogBloc() : super(const OrderDialogState()) {
     on<OpenBuyOrderEvent>(_onOpenBuyOrder);
@@ -128,7 +127,6 @@ class OrderDialogBloc extends Bloc<OrderDialogEvent, OrderDialogState> {
   void _onSubmitOrder(
       SubmitOrderEvent event, Emitter<OrderDialogState> emit) async {
     emit(state.copyWith(isLoading: true));
-
 
     await Future.delayed(const Duration(milliseconds: 800));
 

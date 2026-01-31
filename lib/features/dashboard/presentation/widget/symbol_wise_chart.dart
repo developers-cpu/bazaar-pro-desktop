@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../domain/entities/dashboard_entity.dart';
 
-
 class SymbolWiseChart extends StatefulWidget {
   final List<SymbolReportData> data;
 
@@ -55,17 +54,15 @@ class _SymbolWiseChartState extends State<SymbolWiseChart> {
         final availableHeight = constraints.maxHeight;
         final availableWidth = constraints.maxWidth;
 
-        
         final minChartSize = 200.0;
         final maxChartSize = math.min(availableWidth * 0.6, availableHeight * 0.9);
         final chartSize = math.max(minChartSize, maxChartSize);
 
-        
         final legendMinWidth = 180.0;
         final canFitSideBySide = availableWidth > (chartSize + legendMinWidth);
 
         if (!canFitSideBySide) {
-          
+
           return SingleChildScrollView(
             child: Column(
               children: [
@@ -202,7 +199,6 @@ class _PieChartWithLabelsPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final center = Offset(size.width / 2, size.height / 2);
 
-    
     final pieRadius = math.min(size.width, size.height) * 0.25;
     final totalPercentage = data.fold<double>(0, (sum, item) => sum + item.percentage);
 

@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import '../constants/app_colors.dart';
 
-
 class DateRangePickerDialog extends StatefulWidget {
   final DateTime? initialStartDate;
   final DateTime? initialEndDate;
@@ -178,13 +177,11 @@ class _DateRangePickerDialogState extends State<DateRangePickerDialog> {
     final List<Widget> rows = [];
     List<Widget> currentRow = [];
 
-    
     for (int i = 0; i < firstWeekday; i++) {
       final prevMonthDay = firstDayOfMonth.subtract(Duration(days: firstWeekday - i));
       currentRow.add(_buildDayCell(prevMonthDay, isCurrentMonth: false));
     }
 
-    
     for (int day = 1; day <= lastDayOfMonth.day; day++) {
       final date = DateTime(_currentMonth.year, _currentMonth.month, day);
       currentRow.add(_buildDayCell(date, isCurrentMonth: true));
@@ -201,7 +198,6 @@ class _DateRangePickerDialogState extends State<DateRangePickerDialog> {
       }
     }
 
-    
     if (currentRow.isNotEmpty) {
       int nextMonthDay = 1;
       while (currentRow.length < 7) {

@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import '../../models/rejection_log/rejection_log_model.dart';
 
-
 abstract class RejectionLogRemoteDataSource {
   Future<List<RejectionLogModel>> getRejectionLogs();
 
@@ -21,7 +20,6 @@ abstract class RejectionLogRemoteDataSource {
   Future<String> exportToExcel(List<RejectionLogModel> logs);
 }
 
-
 class RejectionLogRemoteDataSourceImpl
     implements RejectionLogRemoteDataSource {
   final Dio dio;
@@ -31,7 +29,7 @@ class RejectionLogRemoteDataSourceImpl
   @override
   Future<List<RejectionLogModel>> getRejectionLogs() async {
     try {
-      
+
       await Future.delayed(const Duration(milliseconds: 500));
       return _generateMockRejectionLogs();
     } catch (e) {
@@ -66,8 +64,7 @@ class RejectionLogRemoteDataSourceImpl
           matches = matches && log.userName == client;
         }
         if (exchange != null && exchange.isNotEmpty) {
-          
-          
+
         }
         if (symbol != null && symbol.isNotEmpty) {
           matches = matches && log.symbol == symbol;
@@ -137,7 +134,6 @@ class RejectionLogRemoteDataSourceImpl
     }
   }
 
-  
   List<RejectionLogModel> _generateMockRejectionLogs() {
     final List<RejectionLogModel> logs = [];
     final symbols = [

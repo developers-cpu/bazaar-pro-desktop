@@ -92,7 +92,7 @@ class ContextMenuWidget extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  
+
                   _buildMenuItem(
                     icon: Icons.shopping_cart,
                     text: 'Buy Order',
@@ -102,7 +102,7 @@ class ContextMenuWidget extends StatelessWidget {
                     iconColor: const Color(0xFF0066FF),
                   ),
                   SizedBox(height: 5.h),
-                  
+
                   _buildMenuItem(
                     icon: Icons.sell,
                     text: 'Sell Order',
@@ -112,7 +112,7 @@ class ContextMenuWidget extends StatelessWidget {
                     iconColor: const Color(0xFFFF0000),
                   ),
                   SizedBox(height: 5.h),
-                  
+
                   _buildMenuItem(
                     icon: Icons.analytics,
                     text: 'Market Depth',

@@ -56,7 +56,7 @@ class UserSearchView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        
+
         Container(
           height: 48.h,
           decoration: BoxDecoration(
@@ -95,7 +95,6 @@ class UserSearchView extends StatelessWidget {
         ),
         SizedBox(height: 16.h),
 
-        
         Expanded(
           child: BlocBuilder<SearchUserBloc, SearchUserState>(
             builder: (context, state) {

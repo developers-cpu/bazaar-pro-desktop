@@ -1,6 +1,5 @@
 import 'package:bazarpro/features/users/data/models/user_position/user_position_model.dart';
 
-
 abstract class UserPositionDataSource {
   Future<List<UserPositionModel>> getUserPositions(String userId);
 }

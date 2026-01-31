@@ -1,10 +1,8 @@
 class AppStrings {
   AppStrings._();
 
-  
   static const String appTitle = 'Market Watch';
 
-  
   static const String marketWatch = 'Market Watch';
   static const String dashboard = 'Dashboard';
   static const String file = 'File';
@@ -12,7 +10,6 @@ class AppStrings {
   static const String report = 'Report';
   static const String tools = 'Tools';
 
-  
   static const String exchange = 'EXCHANGE';
   static const String symbol = 'SYMBOL';
   static const String buyQty = 'BUY QTY';
@@ -29,7 +26,6 @@ class AppStrings {
   static const String expiry = 'EXPIRY';
   static const String lut = 'LUT';
 
-  
   static const String viewChart = 'View Chart';
   static const String arrangeSymbol = 'Arrange Symbol';
   static const String setSymbolFont = 'Set Symbol Font';
@@ -43,13 +39,11 @@ class AppStrings {
   static const String redo = 'Redo ( Ctrl + Y )';
   static const String delete = 'Delete';
 
-  
   static const String exchangeFilter = 'Exchange';
   static const String symbolFilter = 'Symbol';
   static const String searchAndAdd = 'Search & Add';
   static const String selectAll = 'Select All';
 
-  
   static const String nse = 'NSE';
   static const String mcx = 'MCX';
   static const String cePe = 'CE/PE';
@@ -59,7 +53,6 @@ class AppStrings {
   static const String gift = 'GIFT';
   static const String forex = 'FOREX';
 
-  
   static const String noDataAvailable = 'No data available';
   static const String itemCopied = 'Item copied';
   static const String itemCut = 'Item cut';
@@ -75,7 +68,6 @@ class AppStrings {
   static const String themeToggleClicked = 'Theme toggle clicked';
   static const String atLeastOneWatchlistRequired = 'At least one watchlist is required';
 
-  
   static const String add = 'Add';
   static const String all = 'All';
   static const String watchlist = 'Watchlist';
@@ -83,15 +75,12 @@ class AppStrings {
   static const String watchlist2 = 'Watchlist 2';
   static const String watchlist3 = 'Watchlist 3';
 
-  
   static const String defaultUsername = 'DEMO02';
   static const String defaultVersion = 'v1.1.0.0';
   static const String userInitialFallback = 'U';
   static const String logoFallback = 'B';
 
-  
   static const String banForTradeMessage = 'ies in Ban For Trade Date 27-OCT-25: 1 SAIL 2 SAMN';
 
-  
   static const String dashPlaceholder = '-';
 }

@@ -12,7 +12,6 @@ import '../common/view_data_table.dart';
 import '../common/view_record_count.dart';
 import '../common/view_table_cell_styles.dart';
 
-
 class ScriptMasterTable extends StatelessWidget {
   final bool isDarkMode;
 
@@ -21,7 +20,6 @@ class ScriptMasterTable extends StatelessWidget {
     this.isDarkMode = false,
   }) : super(key: key);
 
-  
   List<ViewTableColumn> _getColumns() {
     return const [
       ViewTableColumn(id: 'exchange', label: 'EXCH', width: 200),
@@ -52,7 +50,6 @@ class ScriptMasterTable extends StatelessWidget {
     }
   }
 
-  
   Widget _buildExpiryDateCell(ScriptMaster item, bool isDark) {
     final dateFormat = DateFormat('dd/MM/yy');
     final timeFormat = DateFormat('h:mm:ss a');
@@ -72,7 +69,6 @@ class ScriptMasterTable extends StatelessWidget {
     );
   }
 
-  
   Widget _buildTradeAttributeCell(ScriptMaster item, bool isDark) {
     final color = item.tradeAttribute.toLowerCase() == 'close'
         ? AppColors.red
@@ -109,9 +105,9 @@ class ScriptMasterTable extends StatelessWidget {
 
         return Column(
           children: [
-            
+
             ViewRecordCount(count: state.totalRecords),
-            
+
             Expanded(
               child: ViewDataTable<ScriptMaster>(
                 columns: _getColumns(),

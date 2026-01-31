@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 import '../../../domain/entities/rejection_log/rejection_log.dart';
 
-
 abstract class RejectionLogState extends Equatable {
   const RejectionLogState();
 
@@ -24,14 +23,12 @@ class RejectionLogLoaded extends RejectionLogState {
   final String? sortColumn;
   final bool sortAscending;
 
-  
   final DateTime? startDate;
   final DateTime? endDate;
   final String? selectedClient;
   final String? selectedExchange;
   final String? selectedSymbol;
 
-  
   final List<String> clients;
   final List<String> exchanges;
   final List<String> symbols;

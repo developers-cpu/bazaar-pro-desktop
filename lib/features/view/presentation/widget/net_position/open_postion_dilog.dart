@@ -10,8 +10,6 @@ import '../../bloc/net_position/net_position_event.dart';
 import '../../bloc/net_position/net_position_state.dart';
 import '../common/view_reset_buttons.dart';
 
-
-
 class OpenPositionDialog extends StatelessWidget {
   final bool isDarkMode;
 
@@ -144,7 +142,7 @@ class OpenPositionDialog extends StatelessWidget {
 
           return Row(
             children: [
-              
+
               SizedBox(
                 width: 250.w, 
                 child: AppDropdown(
@@ -167,7 +165,6 @@ class OpenPositionDialog extends StatelessWidget {
 
               const Spacer(),
 
-              
               ViewResetButtons(
                 onReset: () {
                   context.read<NetPositionBloc>().add(
@@ -198,7 +195,7 @@ class OpenPositionDialog extends StatelessWidget {
 
       child: Column(
         children: [
-          
+
           Container(
             padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 12.w),
             alignment: Alignment.centerRight,
@@ -211,9 +208,9 @@ class OpenPositionDialog extends StatelessWidget {
               ),
             ),
           ),
-          
+
           _buildTableHeader(),
-          
+
           Expanded(
             child: SingleChildScrollView(
               scrollDirection: Axis.vertical,
@@ -274,7 +271,6 @@ class OpenPositionDialog extends StatelessWidget {
     );
   }
 
-
   Widget _buildHeaderCell(String label, double width) {
     return SizedBox(
       width: width.w,
@@ -300,7 +296,6 @@ class OpenPositionDialog extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        
 
       },
       child: Container(

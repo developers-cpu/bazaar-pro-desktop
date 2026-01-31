@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 
-
 abstract class RejectionLogEvent extends Equatable {
   const RejectionLogEvent();
 

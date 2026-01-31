@@ -2,7 +2,6 @@ import 'package:equatable/equatable.dart';
 
 import '../../../domain/entities/script_master/script_master.dart';
 
-
 abstract class ScriptMasterState extends Equatable {
   const ScriptMasterState();
 
@@ -10,16 +9,13 @@ abstract class ScriptMasterState extends Equatable {
   List<Object?> get props => [];
 }
 
-
 class ScriptMasterInitial extends ScriptMasterState {
   const ScriptMasterInitial();
 }
 
-
 class ScriptMasterLoading extends ScriptMasterState {
   const ScriptMasterLoading();
 }
-
 
 class ScriptMasterLoaded extends ScriptMasterState {
   final List<ScriptMaster> scripts;
@@ -29,11 +25,9 @@ class ScriptMasterLoaded extends ScriptMasterState {
   final String? sortColumn;
   final bool sortAscending;
 
-  
   final String? selectedExchange;
   final String? selectedSymbol;
 
-  
   final List<String> exchanges;
   final List<String> symbols;
 
@@ -91,7 +85,6 @@ class ScriptMasterLoaded extends ScriptMasterState {
   }
 }
 
-
 class ScriptMasterError extends ScriptMasterState {
   final String message;
 
@@ -100,7 +93,6 @@ class ScriptMasterError extends ScriptMasterState {
   @override
   List<Object?> get props => [message];
 }
-
 
 class ScriptMasterExportSuccess extends ScriptMasterState {
   final String message;

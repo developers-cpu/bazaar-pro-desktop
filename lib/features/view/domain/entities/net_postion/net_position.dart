@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 
-
 class NetPosition extends Equatable {
   final String id;
   final String userName;

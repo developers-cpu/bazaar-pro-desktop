@@ -111,7 +111,6 @@ class AppTextField extends StatelessWidget {
   }
 }
 
-
 class AppPasswordField extends StatefulWidget {
 
   final TextEditingController? controller;

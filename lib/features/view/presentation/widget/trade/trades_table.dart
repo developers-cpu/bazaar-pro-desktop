@@ -11,7 +11,6 @@ import '../common/view_data_table.dart';
 import '../common/view_record_count.dart';
 import '../common/view_table_cell_styles.dart';
 
-
 class TradesTable extends StatelessWidget {
   final bool showDeviceInfo;
   final bool isDarkMode;
@@ -22,7 +21,6 @@ class TradesTable extends StatelessWidget {
     this.isDarkMode = false,
   }) : super(key: key);
 
-  
   List<ViewTableColumn> _getColumns() {
     final columns = <ViewTableColumn>[
       const ViewTableColumn(id: 'userName', label: 'U. NAME', width: 120),
@@ -133,9 +131,9 @@ class TradesTable extends StatelessWidget {
 
         return Column(
           children: [
-            
+
             ViewRecordCount(count: state.totalRecords),
-            
+
             Expanded(
               child: ViewDataTable<Trade>(
                 columns: _getColumns(),

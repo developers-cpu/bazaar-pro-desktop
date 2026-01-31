@@ -20,7 +20,6 @@ import 'table_column_helper.dart';
 import 'table_header_cell.dart';
 import 'table_text_style_helper.dart';
 
-
 class MarketDataTable extends StatefulWidget {
   final MarketWatchLoaded state;
   final Function(Offset) onRightClick;
@@ -49,7 +48,6 @@ class _MarketDataTableState extends State<MarketDataTable> {
               builder: (context, fontState) {
                 final isDark = themeState.isDarkMode;
                 final showGrid = widget.state.showGrid;
-
 
                 var visibleColumns = arrangeState.columns.isEmpty
                     ? TableColumnHelper.getDefaultColumns()
@@ -90,7 +88,6 @@ class _MarketDataTableState extends State<MarketDataTable> {
     );
   }
 
-
   Widget _buildEmptyState(bool isDark) {
     return Container(
       color: isDark
@@ -109,7 +106,6 @@ class _MarketDataTableState extends State<MarketDataTable> {
       ),
     );
   }
-
 
   Widget _buildTableContainer({
     required bool isDark,
@@ -151,7 +147,6 @@ class _MarketDataTableState extends State<MarketDataTable> {
       ),
     );
   }
-
 
   Widget _buildDataTable({
     required bool isDark,
@@ -202,7 +197,6 @@ class _MarketDataTableState extends State<MarketDataTable> {
     );
   }
 
-
   List<DataColumn2> _buildColumns({
     required List<ColumnItem> visibleColumns,
     required bool isDark,
@@ -222,7 +216,7 @@ class _MarketDataTableState extends State<MarketDataTable> {
           fontSize: fontSize,
           fontWeight: fontWeight,
         ),
-        
+
         size: _getColumnSize(column.id, visibleColumns.length),
         numeric: config?.isNumeric ?? false,
         onSort: _onSort,
@@ -239,14 +233,12 @@ class _MarketDataTableState extends State<MarketDataTable> {
     return ColumnSize.S;
   }
 
-
   void _onSort(int columnIndex, bool ascending) {
     setState(() {
       _sortColumnIndex = columnIndex;
       _sortAscending = ascending;
     });
   }
-
 
   List<DataRow2> _buildRows({
     required List<ColumnItem> visibleColumns,
@@ -285,17 +277,14 @@ class _MarketDataTableState extends State<MarketDataTable> {
     }).toList();
   }
 
-
   void _onRowTap(String itemId) {
     context.read<MarketWatchBloc>().add(SelectMarketItemEvent(itemId: itemId));
   }
-
 
   void _onRowRightClick(TapDownDetails details, String itemId) {
     widget.onRightClick(details.globalPosition);
     context.read<MarketWatchBloc>().add(SelectMarketItemEvent(itemId: itemId));
   }
-
 
   List<DataCell> _buildCells({
     required List<ColumnItem> visibleColumns,

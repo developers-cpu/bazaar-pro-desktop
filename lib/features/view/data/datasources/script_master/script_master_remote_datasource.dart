@@ -1,8 +1,6 @@
 import 'package:dio/dio.dart';
 import '../../models/script_master/script_master.dart';
 
-
-
 abstract class ScriptMasterRemoteDataSource {
   Future<List<ScriptMasterModel>> getScriptMasters();
   Future<List<ScriptMasterModel>> getScriptMastersWithFilters({
@@ -15,7 +13,6 @@ abstract class ScriptMasterRemoteDataSource {
   Future<String> exportToExcel(List<ScriptMasterModel> scripts);
 }
 
-
 class ScriptMasterRemoteDataSourceImpl implements ScriptMasterRemoteDataSource {
   final Dio dio;
 
@@ -24,11 +21,7 @@ class ScriptMasterRemoteDataSourceImpl implements ScriptMasterRemoteDataSource {
   @override
   Future<List<ScriptMasterModel>> getScriptMasters() async {
     try {
-      
-      
-      
 
-      
       await Future.delayed(const Duration(milliseconds: 500));
       return _generateMockScriptMasters();
     } catch (e) {
@@ -42,7 +35,7 @@ class ScriptMasterRemoteDataSourceImpl implements ScriptMasterRemoteDataSource {
     String? symbol,
   }) async {
     try {
-      
+
       await Future.delayed(const Duration(milliseconds: 300));
 
       final allScripts = await getScriptMasters();
@@ -100,7 +93,7 @@ class ScriptMasterRemoteDataSourceImpl implements ScriptMasterRemoteDataSource {
   @override
   Future<String> exportToPdf(List<ScriptMasterModel> scripts) async {
     try {
-      
+
       await Future.delayed(const Duration(seconds: 1));
       return 'script_masters_export_${DateTime.now().millisecondsSinceEpoch}.pdf';
     } catch (e) {
@@ -111,7 +104,7 @@ class ScriptMasterRemoteDataSourceImpl implements ScriptMasterRemoteDataSource {
   @override
   Future<String> exportToExcel(List<ScriptMasterModel> scripts) async {
     try {
-      
+
       await Future.delayed(const Duration(seconds: 1));
       return 'script_masters_export_${DateTime.now().millisecondsSinceEpoch}.xlsx';
     } catch (e) {
@@ -119,7 +112,6 @@ class ScriptMasterRemoteDataSourceImpl implements ScriptMasterRemoteDataSource {
     }
   }
 
-  
   List<ScriptMasterModel> _generateMockScriptMasters() {
     final List<ScriptMasterModel> scripts = [];
     final exchanges = ['NSE', 'MCX', 'CE/PE', 'COMEX', 'GIFT'];
@@ -139,7 +131,6 @@ class ScriptMasterRemoteDataSourceImpl implements ScriptMasterRemoteDataSource {
     ];
     final tradeAttributes = ['full', 'close'];
 
-    
     final expiryDate = DateTime(2025, 12, 30, 0, 0, 0);
 
     for (int i = 0; i < 100; i++) {

@@ -69,7 +69,6 @@ class CustomInputField extends StatelessWidget {
             color: AppColors.primaryBlue,
           ),
 
-
           contentPadding: EdgeInsets.symmetric(
             horizontal: 10.w,
             vertical: 0,

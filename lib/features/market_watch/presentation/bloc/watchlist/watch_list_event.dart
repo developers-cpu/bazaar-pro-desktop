@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 
-
 abstract class WatchlistEvent extends Equatable {
   const WatchlistEvent();
 
@@ -8,16 +7,13 @@ abstract class WatchlistEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-
 class LoadWatchlistsEvent extends WatchlistEvent {
   const LoadWatchlistsEvent();
 }
 
-
 class AddWatchlistEvent extends WatchlistEvent {
   const AddWatchlistEvent();
 }
-
 
 class RemoveWatchlistEvent extends WatchlistEvent {
   final int index;
@@ -28,7 +24,6 @@ class RemoveWatchlistEvent extends WatchlistEvent {
   List<Object> get props => [index];
 }
 
-
 class SelectWatchlistEvent extends WatchlistEvent {
   final int index;
 
@@ -37,7 +32,6 @@ class SelectWatchlistEvent extends WatchlistEvent {
   @override
   List<Object> get props => [index];
 }
-
 
 class RenameWatchlistEvent extends WatchlistEvent {
   final int index;

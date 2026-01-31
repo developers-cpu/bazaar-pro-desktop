@@ -5,8 +5,6 @@ import '../../../../../core/usecases/usecase.dart';
 import '../../entities/pending_orders/pending_order.dart';
 import '../../repositories/pending_orders/pending_orders_repository.dart';
 
-
-
 class ExportToPdf implements UseCase<String, ExportParams> {
   final PendingOrdersRepository repository;
 
@@ -18,7 +16,6 @@ class ExportToPdf implements UseCase<String, ExportParams> {
   }
 }
 
-
 class ExportToExcel implements UseCase<String, ExportParams> {
   final PendingOrdersRepository repository;
 
@@ -29,7 +26,6 @@ class ExportToExcel implements UseCase<String, ExportParams> {
     return await repository.exportToExcel(params.orders);
   }
 }
-
 
 class ExportParams {
   final List<PendingOrder> orders;

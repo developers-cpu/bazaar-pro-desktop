@@ -4,11 +4,9 @@ import '../../domain/usecases/dashboard_usecases.dart';
 import 'dashboard_event.dart';
 import 'dashboard_state.dart';
 
-
 class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
   final DashboardRepository _repository;
 
-  
   late final GetDashboardDataUseCase _getDashboardData;
   late final GetTradeReportsUseCase _getTradeReports;
   late final GetSymbolReportsUseCase _getSymbolReports;

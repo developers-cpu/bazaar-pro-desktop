@@ -5,7 +5,6 @@ import '../../../domain/usecases/script_master/script_master_usecases.dart';
 import 'script_master_event.dart';
 import 'script_master_state.dart';
 
-
 class ScriptMasterBloc extends Bloc<ScriptMasterEvent, ScriptMasterState> {
   final GetScriptMasters getScriptMasters;
   final GetScriptMastersWithFilters getScriptMastersWithFilters;
@@ -38,7 +37,7 @@ class ScriptMasterBloc extends Bloc<ScriptMasterEvent, ScriptMasterState> {
     emit(const ScriptMasterLoading());
 
     try {
-      
+
       final results = await Future.wait([
         getScriptMasters(NoParams()),
         getExchanges(NoParams()),
@@ -49,7 +48,6 @@ class ScriptMasterBloc extends Bloc<ScriptMasterEvent, ScriptMasterState> {
       final exchangesResult = results[1];
       final symbolsResult = results[2];
 
-      
       if (scriptsResult.isLeft()) {
         final failure = scriptsResult.fold((l) => l, (r) => null);
         emit(ScriptMasterError(failure?.message ?? 'Failed to load script masters'));
@@ -181,7 +179,7 @@ class ScriptMasterBloc extends Bloc<ScriptMasterEvent, ScriptMasterState> {
           message: 'PDF exported successfully',
           filePath: path,
         ));
-        
+
         emit(currentState);
       },
     );

@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
 
-
 class OrderDropdownField extends StatefulWidget {
   final String label;
   final String? value;
@@ -107,7 +106,7 @@ class _OrderDropdownFieldState extends State<OrderDropdownField>
     return OverlayEntry(
       builder: (context) => Stack(
         children: [
-          
+
           Positioned.fill(
             child: GestureDetector(
               onTap: _close,
@@ -115,7 +114,7 @@ class _OrderDropdownFieldState extends State<OrderDropdownField>
               child: Container(color: AppColors.transparent),
             ),
           ),
-          
+
           Positioned(
             left: offset.dx,
             top: offset.dy + size.height + 5.h,

@@ -4,10 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../data/models/order_dialog_type.dart';
 
-
-
-
-
 class OrderSuccessDialog extends StatelessWidget {
   final OrderType orderType;
   final String? symbol;
@@ -26,7 +22,6 @@ class OrderSuccessDialog extends StatelessWidget {
     this.isDarkMode = false,
   }) : super(key: key);
 
-  
   static Future<void> show(
       BuildContext context, {
         required OrderType orderType,
@@ -90,7 +85,7 @@ class OrderSuccessDialog extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            
+
             Container(
               width: 80.w,
               height: 80.h,
@@ -106,7 +101,6 @@ class OrderSuccessDialog extends StatelessWidget {
             ),
             SizedBox(height: 20.h),
 
-            
             Text(
               'Order Placed Successfully!',
               style: GoogleFonts.openSans(
@@ -118,7 +112,6 @@ class OrderSuccessDialog extends StatelessWidget {
             ),
             SizedBox(height: 12.h),
 
-            
             Text(
               'Your $_orderTypeText order has been placed.',
               style: GoogleFonts.openSans(
@@ -130,7 +123,6 @@ class OrderSuccessDialog extends StatelessWidget {
             ),
             SizedBox(height: 20.h),
 
-            
             if (symbol != null || exchange != null || quantity != null || price != null)
               Container(
                 padding: EdgeInsets.all(16.w),
@@ -156,7 +148,6 @@ class OrderSuccessDialog extends StatelessWidget {
 
             SizedBox(height: 24.h),
 
-            
             SizedBox(
               width: double.infinity,
               height: 45.h,

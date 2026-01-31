@@ -26,13 +26,12 @@ class IntradayHistoryFilterBar extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Row(
             children: [
-              
+
               Expanded(
                 child: _buildDatePicker(context, state),
               ),
               SizedBox(width: 12.w),
 
-              
               Expanded(
                 child: AppDropdown(
                   type: AppDropdownType.simple,
@@ -53,7 +52,6 @@ class IntradayHistoryFilterBar extends StatelessWidget {
               ),
               SizedBox(width: 12.w),
 
-              
               Expanded(
                 child: AppDropdown(
                   type: AppDropdownType.search,
@@ -74,7 +72,6 @@ class IntradayHistoryFilterBar extends StatelessWidget {
               ),
               SizedBox(width: 12.w),
 
-              
               Expanded(
                 child: AppDropdown(
                   type: AppDropdownType.simple,
@@ -96,7 +93,6 @@ class IntradayHistoryFilterBar extends StatelessWidget {
 
               const Spacer(),
 
-              
               ViewResetButtons(
                 onReset: () {
                   context.read<IntradayHistoryBloc>().add(

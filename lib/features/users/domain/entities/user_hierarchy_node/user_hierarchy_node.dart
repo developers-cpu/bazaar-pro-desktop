@@ -1,7 +1,6 @@
 import 'package:bazarpro/features/users/domain/entities/user.dart';
 import 'package:equatable/equatable.dart';
 
-
 class UserHierarchyNode extends Equatable {
   final User user;
   final List<UserHierarchyNode> children;

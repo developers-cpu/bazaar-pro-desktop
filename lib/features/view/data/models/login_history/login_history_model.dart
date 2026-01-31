@@ -1,6 +1,5 @@
 import '../../../domain/entities/login_history/login_history.dart';
 
-
 class LoginHistoryModel extends LoginHistory {
   const LoginHistoryModel({
     required super.id,

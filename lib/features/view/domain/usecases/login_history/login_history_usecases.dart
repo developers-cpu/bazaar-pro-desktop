@@ -4,7 +4,6 @@ import '../../../../../core/usecases/usecase.dart';
 import '../../entities/login_history/login_history.dart';
 import '../../repositories/login_history/login_history_repository.dart';
 
-
 class GetLoginHistory implements UseCase<List<LoginHistory>, String> {
   final LoginHistoryRepository repository;
 
@@ -15,7 +14,6 @@ class GetLoginHistory implements UseCase<List<LoginHistory>, String> {
     return repository.getLoginHistory(client);
   }
 }
-
 
 class GetLoginHistoryClients implements UseCase<List<String>, NoParams> {
   final LoginHistoryRepository repository;
@@ -28,7 +26,6 @@ class GetLoginHistoryClients implements UseCase<List<String>, NoParams> {
   }
 }
 
-
 class ExportLoginHistoryToPdf implements UseCase<String, List<LoginHistory>> {
   final LoginHistoryRepository repository;
 
@@ -39,7 +36,6 @@ class ExportLoginHistoryToPdf implements UseCase<String, List<LoginHistory>> {
     return repository.exportToPdf(history);
   }
 }
-
 
 class ExportLoginHistoryToExcel implements UseCase<String, List<LoginHistory>> {
   final LoginHistoryRepository repository;

@@ -3,7 +3,6 @@ import 'package:bazarpro/features/users/domain/entities/user_quantity_setting/us
 import 'package:bazarpro/features/users/domain/entities/user_quantity_setting/user_quantity_setting_metadata.dart';
 import 'package:dartz/dartz.dart';
 
-
 abstract class UserQuantitySettingsRepository {
   Future<Either<Failure, List<UserQuantitySetting>>> getUserQuantitySettings(
     String userId,

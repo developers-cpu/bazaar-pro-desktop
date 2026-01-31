@@ -8,7 +8,6 @@ import '../../bloc/script_master/script_master_state.dart';
 import '../../widget/script_master/script_master_filter_bar.dart';
 import '../../widget/script_master/script_master_table.dart';
 
-
 class ScriptMasterPage extends StatefulWidget {
   const ScriptMasterPage({Key? key}) : super(key: key);
 
@@ -33,16 +32,14 @@ class _ScriptMasterPageState extends State<ScriptMasterPage> {
         color: AppColors.white,
         child: Column(
           children: [
-            
+
             const ScriptMasterFilterBar(),
 
-            
             Container(
               height: 1.h,
               color: AppColors.greyBorder,
             ),
 
-            
             const Expanded(
               child: ScriptMasterTable(),
             ),

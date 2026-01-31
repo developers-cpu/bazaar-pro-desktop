@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import '../../models/net_postion/net_position_model.dart';
 
-
 abstract class NetPositionRemoteDataSource {
   Future<List<NetPositionModel>> getNetPositions();
   Future<List<NetPositionModel>> getNetPositionsWithFilters({
@@ -22,7 +21,6 @@ abstract class NetPositionRemoteDataSource {
   });
 }
 
-
 class NetPositionRemoteDataSourceImpl implements NetPositionRemoteDataSource {
   final Dio dio;
 
@@ -31,11 +29,7 @@ class NetPositionRemoteDataSourceImpl implements NetPositionRemoteDataSource {
   @override
   Future<List<NetPositionModel>> getNetPositions() async {
     try {
-      
-      
-      
 
-      
       await Future.delayed(const Duration(milliseconds: 500));
       return _generateMockNetPositions();
     } catch (e) {
@@ -51,7 +45,7 @@ class NetPositionRemoteDataSourceImpl implements NetPositionRemoteDataSource {
     String? symbol,
   }) async {
     try {
-      
+
       await Future.delayed(const Duration(milliseconds: 300));
 
       final allPositions = await getNetPositions();
@@ -127,7 +121,7 @@ class NetPositionRemoteDataSourceImpl implements NetPositionRemoteDataSource {
   @override
   Future<String> exportToPdf(List<NetPositionModel> positions) async {
     try {
-      
+
       await Future.delayed(const Duration(seconds: 1));
       return 'net_positions_export_${DateTime.now().millisecondsSinceEpoch}.pdf';
     } catch (e) {
@@ -138,7 +132,7 @@ class NetPositionRemoteDataSourceImpl implements NetPositionRemoteDataSource {
   @override
   Future<String> exportToExcel(List<NetPositionModel> positions) async {
     try {
-      
+
       await Future.delayed(const Duration(seconds: 1));
       return 'net_positions_export_${DateTime.now().millisecondsSinceEpoch}.xlsx';
     } catch (e) {
@@ -154,7 +148,6 @@ class NetPositionRemoteDataSourceImpl implements NetPositionRemoteDataSource {
     try {
       await Future.delayed(const Duration(milliseconds: 300));
 
-      
       final allPositions = await getNetPositions();
       return allPositions
           .where((position) =>
@@ -165,7 +158,6 @@ class NetPositionRemoteDataSourceImpl implements NetPositionRemoteDataSource {
     }
   }
 
-  
   List<NetPositionModel> _generateMockNetPositions() {
     final List<NetPositionModel> positions = [];
     final symbols = ['GOLD05DEC', 'SILVER05DEC', 'CRUDE05DEC', 'MCX SILVER Dec 05'];

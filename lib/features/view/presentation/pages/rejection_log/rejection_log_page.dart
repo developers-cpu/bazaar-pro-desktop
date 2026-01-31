@@ -8,7 +8,6 @@ import '../../bloc/rejection_log/rejection_log_state.dart';
 import '../../widget/ rejection_log/rejection_log_filter_bar.dart';
 import '../../widget/ rejection_log/rejection_log_table.dart';
 
-
 class RejectionLogPage extends StatefulWidget {
   const RejectionLogPage({Key? key}) : super(key: key);
 
@@ -33,16 +32,14 @@ class _RejectionLogPageState extends State<RejectionLogPage> {
         color: AppColors.white,
         child: Column(
           children: [
-            
+
             const RejectionLogFilterBar(),
 
-            
             Container(
               height: 1.h,
               color: AppColors.greyBorder,
             ),
 
-            
             const Expanded(
               child: RejectionLogTable(),
             ),

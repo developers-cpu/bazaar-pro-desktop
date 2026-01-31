@@ -184,7 +184,7 @@ class CommonDialog extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          
+
           SizedBox(
             width: btnWidth,
             height: btnHeight,
@@ -216,7 +216,6 @@ class CommonDialog extends StatelessWidget {
 
           SizedBox(width: 16.w),
 
-          
           SizedBox(
             width: btnWidth,
             height: btnHeight,

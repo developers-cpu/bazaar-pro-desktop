@@ -4,7 +4,6 @@ import '../../../domain/entities/pending_orders/pending_order.dart';
 import '../../../domain/repositories/pending_orders/pending_orders_repository.dart';
 import '../../datasources/pending_order/pending_orders_remote_datasource.dart';
 
-
 class PendingOrdersRepositoryImpl implements PendingOrdersRepository {
   final PendingOrdersRemoteDataSource remoteDataSource;
 
@@ -78,7 +77,7 @@ class PendingOrdersRepositoryImpl implements PendingOrdersRepository {
   @override
   Future<Either<Failure, String>> exportToPdf(List<PendingOrder> orders) async {
     try {
-      
+
       await Future.delayed(const Duration(seconds: 1));
       final filePath = '/downloads/pending_orders_${DateTime.now().millisecondsSinceEpoch}.pdf';
       return Right(filePath);
@@ -90,7 +89,7 @@ class PendingOrdersRepositoryImpl implements PendingOrdersRepository {
   @override
   Future<Either<Failure, String>> exportToExcel(List<PendingOrder> orders) async {
     try {
-      
+
       await Future.delayed(const Duration(seconds: 1));
       final filePath = '/downloads/pending_orders_${DateTime.now().millisecondsSinceEpoch}.xlsx';
       return Right(filePath);

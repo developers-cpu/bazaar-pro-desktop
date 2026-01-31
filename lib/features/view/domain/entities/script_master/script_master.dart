@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 
-
 class ScriptMaster extends Equatable {
   final String id;
   final String exchange;

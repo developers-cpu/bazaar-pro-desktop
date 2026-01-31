@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
 
-
 class CustomFilterDropdown extends StatefulWidget {
   final String hintText;
   final String? value;
@@ -63,7 +62,6 @@ class _CustomFilterDropdownState extends State<CustomFilterDropdown>
     setState(() => _isOpen = true);
   }
 
-
   void _close() {
     if (!_isOpen) return;
 
@@ -72,7 +70,6 @@ class _CustomFilterDropdownState extends State<CustomFilterDropdown>
       if (mounted) setState(() => _isOpen = false);
     });
   }
-
 
   void _removeOverlay() {
     _overlayEntry?.remove();
@@ -107,7 +104,7 @@ class _CustomFilterDropdownState extends State<CustomFilterDropdown>
         onTap: _close,
         child: Stack(
           children: [
-            
+
             Positioned(
               width: widget.width ?? size.width,
               child: CompositedTransformFollower(
@@ -168,7 +165,6 @@ class _CustomFilterDropdownState extends State<CustomFilterDropdown>
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -190,14 +186,14 @@ class _CustomFilterDropdownState extends State<CustomFilterDropdown>
             ),
             child: Row(
               children: [
-                
+
                 Expanded(
                   child: Text(
                     widget.value ?? widget.hintText,
                     style: _textStyle,
                   ),
                 ),
-                
+
                 Icon(
                   _isOpen
                       ? Icons.keyboard_arrow_up

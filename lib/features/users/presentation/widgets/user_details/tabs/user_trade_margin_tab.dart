@@ -53,9 +53,7 @@ class _UserTradeMarginTabViewState extends State<UserTradeMarginTabView> {
   }
 
   void _onUpdate(BuildContext context) {
-    
-    
-    
+
   }
 
   @override
@@ -136,7 +134,7 @@ class _UserTradeMarginTabViewState extends State<UserTradeMarginTabView> {
                     width: 200.w,
                     prefixSvgPath: AppImages.searchIcon,
                     onChanged: (val) {
-                      
+
                     },
                   ),
                   const Spacer(),

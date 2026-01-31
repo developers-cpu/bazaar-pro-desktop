@@ -86,15 +86,7 @@ class _LoginPageState extends State<LoginPage> {
 
   void _handleAuthStateChange(BuildContext context, AuthState state) {
     Navigator.of(context).pushReplacementNamed('/market-watch');
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
   }
 
   Widget _buildForm(BuildContext context, bool isLoading) {
@@ -129,10 +121,6 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  
-  
-  
-
   BoxDecoration _buildBackgroundWithImage() {
     return BoxDecoration(
       image: DecorationImage(
@@ -165,10 +153,6 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-
-  
-  
-  
 
   Widget _buildLogo(BuildContext context) {
     return Center(
@@ -244,10 +228,6 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  
-  
-  
-
   Widget _buildServerDropdown(BuildContext context) {
     return CustomDropdownField(
       hintText: AuthConstants.selectServerLabel,
@@ -311,10 +291,6 @@ class _LoginPageState extends State<LoginPage> {
       borderColor: AppColors.primaryColor(context),
     );
   }
-
-  
-  
-  
 
   Widget _buildFooterLinks(BuildContext context) {
     return Row(

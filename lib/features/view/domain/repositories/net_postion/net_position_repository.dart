@@ -2,7 +2,6 @@ import 'package:dartz/dartz.dart';
 import '../../../../../core/errors/failures.dart';
 import '../../entities/net_postion/net_position.dart';
 
-
 abstract class NetPositionRepository {
   Future<Either<Failure, List<NetPosition>>> getNetPositions();
 
@@ -25,7 +24,6 @@ abstract class NetPositionRepository {
 
   Future<Either<Failure, String>> exportToExcel(List<NetPosition> positions);
 
-  
   Future<Either<Failure, List<NetPosition>>> getPositionDetails({
     required String symbol,
     required String userName,

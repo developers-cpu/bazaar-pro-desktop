@@ -10,7 +10,6 @@ class LoginRequestModel {
     this.expiresInMins = 30,
   });
 
-  
   Map<String, dynamic> toJson() {
     return {
       'username': username,

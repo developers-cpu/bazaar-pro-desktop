@@ -3,8 +3,6 @@ import 'package:flutter/services.dart';
 import 'market_depth_dialog.dart';
 import 'order/common_order_dialog.dart';
 
-
-
 class KeyboardShortcutHandler extends StatelessWidget {
   final Widget child;
 
@@ -36,8 +34,6 @@ class KeyboardShortcutHandler extends StatelessWidget {
   }
 }
 
-
-
 class BuyOrderIntent extends Intent {
   const BuyOrderIntent();
 }
@@ -49,8 +45,6 @@ class SellOrderIntent extends Intent {
 class MarketDepthIntent extends Intent {
   const MarketDepthIntent();
 }
-
-
 
 class BuyOrderAction extends Action<BuyOrderIntent> {
   final BuildContext context;
@@ -87,8 +81,6 @@ class MarketDepthAction extends Action<MarketDepthIntent> {
     return null;
   }
 }
-
-
 
 class KeyboardShortcutListener extends StatefulWidget {
   final Widget child;

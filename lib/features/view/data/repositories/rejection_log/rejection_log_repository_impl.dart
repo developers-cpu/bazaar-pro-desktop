@@ -5,7 +5,6 @@ import '../../../domain/repositories/rejection_log/rejection_log_repository.dart
 import '../../datasources/rejection_log/rejection_log_remote_datasource.dart';
 import '../../models/rejection_log/rejection_log_model.dart';
 
-
 class RejectionLogRepositoryImpl implements RejectionLogRepository {
   final RejectionLogRemoteDataSource remoteDataSource;
 

@@ -1,6 +1,5 @@
 import '../../bloc/arrangesymbol/arrange_symbol_state.dart';
 
-
 class TableColumnConfig {
   final double baseWidth;
   final bool isNumeric;
@@ -12,17 +11,14 @@ class TableColumnConfig {
     required this.label,
   });
 
-
   double getWidth(double fontSize) {
     final scaleFactor = fontSize / 13.0;
     return baseWidth * scaleFactor;
   }
 }
 
-
 class TableColumnHelper {
   TableColumnHelper._();
-
 
   static const Map<String, TableColumnConfig> columnConfigs = {
     'exchange': TableColumnConfig(
@@ -102,7 +98,6 @@ class TableColumnHelper {
     ),
   };
 
-
   static List<ColumnItem> getDefaultColumns() {
     return const [
       ColumnItem(id: 'exchange', name: 'EXCHANGE', isVisible: true),
@@ -133,7 +128,6 @@ class TableColumnHelper {
     }
     return totalWidth;
   }
-
 
   static TableColumnConfig? getConfig(String columnId) {
     return columnConfigs[columnId];

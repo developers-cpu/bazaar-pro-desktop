@@ -12,7 +12,6 @@ import '../widget/report_card.dart';
 import '../widget/symbol_wise_chart.dart';
 import '../widget/trade_reports_chart.dart';
 
-
 class DashboardPage extends StatefulWidget {
   const DashboardPage({Key? key}) : super(key: key);
 
@@ -32,7 +31,6 @@ class _DashboardPageState extends State<DashboardPage> {
     return const _DashboardView();
   }
 }
-
 
 class DashboardPageWithAppBar extends StatelessWidget {
   const DashboardPageWithAppBar({Key? key}) : super(key: key);
@@ -136,7 +134,7 @@ class _DashboardView extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        
+
         Padding(
           padding: EdgeInsets.fromLTRB(20.w, 16.h, 20.w, 12.h),
           child: Text(
@@ -161,7 +159,7 @@ class _DashboardView extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    
+
                     Expanded(
                       child: ConstrainedBox(
                         constraints: BoxConstraints(
@@ -198,7 +196,7 @@ class _DashboardView extends StatelessWidget {
                       ),
                     ),
                     SizedBox(width: 16.w),
-                    
+
                     Expanded(
                       child: ConstrainedBox(
                         constraints: BoxConstraints(
@@ -251,7 +249,7 @@ class _DashboardView extends StatelessWidget {
             ),
           ),
         ),
-        
+
         SizedBox(height: 16.h),
         DashboardFooter(summary: state.summary),
         SizedBox(height: 8.h),

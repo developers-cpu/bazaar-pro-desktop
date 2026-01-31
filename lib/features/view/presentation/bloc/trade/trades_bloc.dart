@@ -5,7 +5,6 @@ import '../../../domain/usecases/trade/trades_usecases.dart';
 import 'trades_event.dart';
 import 'trades_state.dart';
 
-
 class TradesBloc extends Bloc<TradesEvent, TradesState> {
   final GetTrades getTrades;
   final GetTradesWithFilters getTradesWithFilters;
@@ -42,7 +41,7 @@ class TradesBloc extends Bloc<TradesEvent, TradesState> {
     emit(const TradesLoading());
 
     try {
-      
+
       final results = await Future.wait([
         getTrades(NoParams()),
         getClients(NoParams()),
@@ -57,7 +56,6 @@ class TradesBloc extends Bloc<TradesEvent, TradesState> {
       final symbolsResult = results[3];
       final orderTypesResult = results[4];
 
-      
       if (tradesResult.isLeft()) {
         final failure = tradesResult.fold((l) => l, (r) => null);
         emit(TradesError(failure?.message ?? 'Failed to load trades'));
@@ -227,7 +225,7 @@ class TradesBloc extends Bloc<TradesEvent, TradesState> {
           message: 'PDF exported successfully',
           filePath: path,
         ));
-        
+
         emit(currentState);
       },
     );
@@ -250,7 +248,7 @@ class TradesBloc extends Bloc<TradesEvent, TradesState> {
           message: 'Excel exported successfully',
           filePath: path,
         ));
-        
+
         emit(currentState);
       },
     );

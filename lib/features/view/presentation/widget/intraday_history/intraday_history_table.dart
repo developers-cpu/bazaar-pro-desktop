@@ -130,14 +130,12 @@ class IntradayHistoryTable extends StatelessWidget {
       IntradayHistory history,
       IntradayHistoryLoaded state,
       ) {
-    
+
     final selectedDate = state.selectedDate ?? DateTime.now();
 
-    
     final startTime = DateTime(selectedDate.year, selectedDate.month, selectedDate.day, 0, 0);
     final endTime = DateTime(selectedDate.year, selectedDate.month, selectedDate.day, 23, 59);
 
-    
     context.read<IntradayHistoryBloc>().add(
       LoadSecondsDataEvent(
         date: selectedDate,

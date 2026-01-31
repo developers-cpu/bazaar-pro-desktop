@@ -22,13 +22,11 @@ class IntradayHistoryLoaded extends IntradayHistoryState {
   final String? sortColumn;
   final bool sortAscending;
 
-  
   final DateTime? selectedDate;
   final String? selectedExchange;
   final String? selectedSymbol;
   final String? selectedTiming;
 
-  
   final List<String> exchanges;
   final List<String> symbols;
   final List<String> timings;

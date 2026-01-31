@@ -1,7 +1,6 @@
 import '../entities/dashboard_entity.dart';
 import '../repositories/dashboard_repository.dart';
 
-
 class GetDashboardDataUseCase {
   final DashboardRepository repository;
 
@@ -22,7 +21,6 @@ class GetDashboardDataUseCase {
   }
 }
 
-
 class GetTradeReportsUseCase {
   final DashboardRepository repository;
 
@@ -40,7 +38,6 @@ class GetTradeReportsUseCase {
     );
   }
 }
-
 
 class GetSymbolReportsUseCase {
   final DashboardRepository repository;
@@ -61,7 +58,6 @@ class GetSymbolReportsUseCase {
     );
   }
 }
-
 
 class GetDashboardSummaryUseCase {
   final DashboardRepository repository;

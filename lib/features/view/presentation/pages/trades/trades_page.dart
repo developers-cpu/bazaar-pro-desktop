@@ -8,7 +8,6 @@ import '../../bloc/trade/trades_state.dart';
 import '../../widget/trade/trades_filter_bar.dart';
 import '../../widget/trade/trades_table.dart';
 
-
 class TradesPage extends StatefulWidget {
   const TradesPage({Key? key}) : super(key: key);
 
@@ -33,16 +32,14 @@ class _TradesPageState extends State<TradesPage> {
         color: AppColors.white,
         child: Column(
           children: [
-            
+
             const TradesFilterBar(),
 
-            
             Container(
               height: 1.h,
               color: AppColors.greyBorder,
             ),
 
-            
             const Expanded(
               child: TradesTable(
                 showDeviceInfo: true,

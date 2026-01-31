@@ -83,7 +83,7 @@ class _UpdateAccessDialogState extends State<UpdateAccessDialog> {
 
     return Row(
       children: [
-        
+
         if (iconPath != null)
           Container(
             width: 32.w,
@@ -95,7 +95,7 @@ class _UpdateAccessDialogState extends State<UpdateAccessDialog> {
             padding: EdgeInsets.all(6.w), 
             child: SvgPicture.asset(
               iconPath,
-              
+
             ),
           ),
         if (iconPath == null)

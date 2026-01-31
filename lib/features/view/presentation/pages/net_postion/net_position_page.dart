@@ -8,7 +8,6 @@ import '../../bloc/net_position/net_position_state.dart';
 import '../../widget/net_position/net_position_filter_bar.dart';
 import '../../widget/net_position/net_position_table.dart';
 
-
 class NetPositionPage extends StatefulWidget {
   const NetPositionPage({Key? key}) : super(key: key);
 
@@ -33,16 +32,14 @@ class _NetPositionPageState extends State<NetPositionPage> {
         color: AppColors.white,
         child: Column(
           children: [
-            
+
             const NetPositionFilterBar(),
 
-            
             Container(
               height: 1.h,
               color: AppColors.greyBorder,
             ),
 
-            
             const Expanded(
               child: NetPositionTable(
                 showDeviceInfo: false,

@@ -3,13 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-
-
-
 class ViewTableCellStyles {
   ViewTableCellStyles._();
 
-  
   static TextStyle getTextStyle({
     bool isDark = false,
     Color? color,
@@ -23,7 +19,6 @@ class ViewTableCellStyles {
     );
   }
 
-  
   static Color getValueColor(double value, {bool isDark = false}) {
     if (value > 0) {
       return isDark ? DarkThemeColors.positiveTextColor : LightThemeColors.positiveTextColor;
@@ -33,7 +28,6 @@ class ViewTableCellStyles {
     return isDark ? DarkThemeColors.textColor : LightThemeColors.textColor;
   }
 
-  
   static Color getBuySellColor(String text, {bool isDark = false}) {
     final isBuy = text.toUpperCase().startsWith('BUY');
     if (isBuy) {
@@ -42,7 +36,6 @@ class ViewTableCellStyles {
     return isDark ? DarkThemeColors.negativeTextColor : LightThemeColors.negativeTextColor;
   }
 }
-
 
 class ViewTextCell extends StatelessWidget {
   final String text;
@@ -74,7 +67,6 @@ class ViewTextCell extends StatelessWidget {
   }
 }
 
-
 class ViewBuySellCell extends StatelessWidget {
   final String text;
   final bool isDark;
@@ -99,7 +91,6 @@ class ViewBuySellCell extends StatelessWidget {
     );
   }
 }
-
 
 class ViewNumberCell extends StatelessWidget {
   final double value;
@@ -143,7 +134,6 @@ class ViewNumberCell extends StatelessWidget {
   }
 }
 
-
 class ViewLinkCell extends StatelessWidget {
   final String text;
   final VoidCallback? onTap;
@@ -174,7 +164,6 @@ class ViewLinkCell extends StatelessWidget {
     );
   }
 }
-
 
 class ViewDateTimeCell extends StatelessWidget {
   final DateTime dateTime;

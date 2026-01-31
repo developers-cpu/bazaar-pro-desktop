@@ -5,10 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-
-
-
-
 class ViewTableColumn {
   final String id;
   final String label;
@@ -78,7 +74,6 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
     return widget.columns.fold<double>(0, (sum, col) => sum + col.width);
   }
 
-  
   Color get _headerBgColor => widget.isDarkMode
       ? DarkThemeColors.tableColumnHeadColor
       : LightThemeColors.tableColumnHeadColor;
@@ -122,7 +117,7 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
         borderRadius: BorderRadius.circular(10.r),
         child: Column(
           children: [
-            
+
             Expanded(
               child: Scrollbar(
                 controller: _horizontalScrollController,
@@ -134,15 +129,15 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
                     width: _totalWidth,
                     child: Column(
                       children: [
-                        
+
                         _buildHeaderRow(headerHeight),
-                        
+
                         Expanded(
                           child: widget.data.isEmpty
                               ? _buildEmptyState()
                               : _buildDataRows(rowHeight),
                         ),
-                        
+
                         if (widget.footerBuilder != null)
                           _buildFooterRow(rowHeight),
                       ],

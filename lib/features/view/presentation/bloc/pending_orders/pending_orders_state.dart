@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 import '../../../domain/entities/pending_orders/pending_order.dart';
 
-
 abstract class PendingOrdersState extends Equatable {
   const PendingOrdersState();
 

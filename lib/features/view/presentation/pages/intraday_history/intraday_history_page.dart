@@ -36,19 +36,17 @@ class _IntradayHistoryPageState extends State<IntradayHistoryPage> {
             color: AppColors.white,
             child: Column(
               children: [
-                
+
                 if (state is IntradayHistoryLoaded)
                   const IntradayHistoryFilterBar()
                 else if (state is IntradayHistorySecondsView)
                   const IntradaySecondsFilterBar(),
 
-                
                 Container(
                   height: 1.h,
                   color: AppColors.greyBorder,
                 ),
 
-                
                 Expanded(
                   child: state is IntradayHistorySecondsView
                       ? const IntradaySecondsTable()

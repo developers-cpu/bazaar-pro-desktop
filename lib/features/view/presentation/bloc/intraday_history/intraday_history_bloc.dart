@@ -136,8 +136,7 @@ class IntradayHistoryBloc
       NavigateToSecondsViewEvent event,
       Emitter<IntradayHistoryState> emit,
       ) async {
-    
-    
+
     emit(IntradayHistorySecondsView(
       history: const [],
       totalRecords: 0,

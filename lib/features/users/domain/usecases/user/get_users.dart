@@ -4,7 +4,6 @@ import 'package:bazarpro/features/users/domain/entities/user.dart';
 import 'package:bazarpro/features/users/domain/repositories/user/user_repository.dart';
 import 'package:dartz/dartz.dart';
 
-
 class GetUsers implements UseCase<List<User>, NoParams> {
   final UserRepository repository;
 

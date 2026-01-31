@@ -5,7 +5,6 @@ import '../../../domain/usecases/deals/deals_usecases.dart';
 import 'deals_event.dart';
 import 'deals_state.dart';
 
-
 class DealsBloc extends Bloc<DealsEvent, DealsState> {
   final GetDeals getDeals;
   final GetDealsWithFilters getDealsWithFilters;
@@ -44,7 +43,7 @@ class DealsBloc extends Bloc<DealsEvent, DealsState> {
     emit(const DealsLoading());
 
     try {
-      
+
       final results = await Future.wait([
         getDeals(NoParams()),
         getClients(NoParams()),
@@ -61,7 +60,6 @@ class DealsBloc extends Bloc<DealsEvent, DealsState> {
       final orderTypesResult = results[4];
       final statusesResult = results[5];
 
-      
       if (dealsResult.isLeft()) {
         final failure = dealsResult.fold((l) => l, (r) => null);
         emit(DealsError(failure?.message ?? 'Failed to load deals'));
@@ -242,7 +240,7 @@ class DealsBloc extends Bloc<DealsEvent, DealsState> {
           message: 'PDF exported successfully',
           filePath: path,
         ));
-        
+
         emit(currentState);
       },
     );
@@ -265,7 +263,7 @@ class DealsBloc extends Bloc<DealsEvent, DealsState> {
           message: 'Excel exported successfully',
           filePath: path,
         ));
-        
+
         emit(currentState);
       },
     );

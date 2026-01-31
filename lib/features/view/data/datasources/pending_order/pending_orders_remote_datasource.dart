@@ -1,12 +1,10 @@
 import 'package:dio/dio.dart';
 import '../../models/pending_orders/pending_order_model.dart';
 
-
 abstract class PendingOrdersRemoteDataSource {
-  
+
   Future<List<PendingOrderModel>> getPendingOrders();
 
-  
   Future<List<PendingOrderModel>> getPendingOrdersWithFilters({
     String? client,
     String? exchange,
@@ -14,16 +12,12 @@ abstract class PendingOrdersRemoteDataSource {
     String? type,
   });
 
-  
   Future<List<String>> getClients();
 
-  
   Future<List<String>> getExchanges();
 
-  
   Future<List<String>> getSymbols();
 }
-
 
 class PendingOrdersRemoteDataSourceImpl implements PendingOrdersRemoteDataSource {
   final Dio dio;
@@ -33,13 +27,7 @@ class PendingOrdersRemoteDataSourceImpl implements PendingOrdersRemoteDataSource
   @override
   Future<List<PendingOrderModel>> getPendingOrders() async {
     try {
-      
-      
-      
-      
-      
 
-      
       await Future.delayed(const Duration(milliseconds: 500));
       return _generateDummyOrders();
     } catch (e) {
@@ -55,13 +43,6 @@ class PendingOrdersRemoteDataSourceImpl implements PendingOrdersRemoteDataSource
     String? type,
   }) async {
     try {
-      
-      
-      
-      
-      
-      
-      
 
       await Future.delayed(const Duration(milliseconds: 300));
       final allOrders = _generateDummyOrders();
@@ -91,7 +72,7 @@ class PendingOrdersRemoteDataSourceImpl implements PendingOrdersRemoteDataSource
   @override
   Future<List<String>> getClients() async {
     try {
-      
+
       await Future.delayed(const Duration(milliseconds: 200));
       return ['PATIL', 'DEMO', 'DEMO4', 'DEMO12', 'DEMO49'];
     } catch (e) {
@@ -102,7 +83,7 @@ class PendingOrdersRemoteDataSourceImpl implements PendingOrdersRemoteDataSource
   @override
   Future<List<String>> getExchanges() async {
     try {
-      
+
       await Future.delayed(const Duration(milliseconds: 200));
       return ['NSE', 'MCX', 'CE/PE', 'OTHERS', 'COMEX', 'CRYPTO', 'GIFT', 'FOREX'];
     } catch (e) {
@@ -113,7 +94,7 @@ class PendingOrdersRemoteDataSourceImpl implements PendingOrdersRemoteDataSource
   @override
   Future<List<String>> getSymbols() async {
     try {
-      
+
       await Future.delayed(const Duration(milliseconds: 200));
       return [
         'GOLD05DEC',
@@ -133,7 +114,6 @@ class PendingOrdersRemoteDataSourceImpl implements PendingOrdersRemoteDataSource
     }
   }
 
-  
   List<PendingOrderModel> _generateDummyOrders() {
     final List<String> users = ['PATIL', 'DEMO4', 'DEMO49', 'DEMO12', 'DEMO'];
     final List<String> uplines = ['DEMO', 'DEMO49', 'DEMO12'];

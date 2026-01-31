@@ -7,7 +7,6 @@ import '../../bloc/script_master/script_master_event.dart';
 import '../../bloc/script_master/script_master_state.dart';
 import '../common/view_reset_buttons.dart';
 
-
 class ScriptMasterFilterBar extends StatelessWidget {
   const ScriptMasterFilterBar({Key? key}) : super(key: key);
 
@@ -23,7 +22,7 @@ class ScriptMasterFilterBar extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Row(
             children: [
-              
+
               SizedBox(
                 width: 200.w,
                 child: AppDropdown(
@@ -44,7 +43,6 @@ class ScriptMasterFilterBar extends StatelessWidget {
               ),
               SizedBox(width: 12.w),
 
-              
               SizedBox(
                 width: 200.w,
                 child: AppDropdown(
@@ -65,7 +63,6 @@ class ScriptMasterFilterBar extends StatelessWidget {
 
               const Spacer(),
 
-              
               ViewResetButtons(
                 onReset: () {
                   context.read<ScriptMasterBloc>().add(

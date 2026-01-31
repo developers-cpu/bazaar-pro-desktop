@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import '../../models/deals/deals_model.dart';
 
-
 abstract class DealsRemoteDataSource {
   Future<List<DealModel>> getDeals();
   Future<List<DealModel>> getDealsWithFilters({
@@ -22,7 +21,6 @@ abstract class DealsRemoteDataSource {
   Future<String> exportToExcel(List<DealModel> deals);
 }
 
-
 class DealsRemoteDataSourceImpl implements DealsRemoteDataSource {
   final Dio dio;
 
@@ -31,11 +29,7 @@ class DealsRemoteDataSourceImpl implements DealsRemoteDataSource {
   @override
   Future<List<DealModel>> getDeals() async {
     try {
-      
-      
-      
 
-      
       await Future.delayed(const Duration(milliseconds: 500));
       return _generateMockDeals();
     } catch (e) {
@@ -54,7 +48,7 @@ class DealsRemoteDataSourceImpl implements DealsRemoteDataSource {
     String? status,
   }) async {
     try {
-      
+
       await Future.delayed(const Duration(milliseconds: 300));
 
       final allDeals = await getDeals();
@@ -152,7 +146,7 @@ class DealsRemoteDataSourceImpl implements DealsRemoteDataSource {
   @override
   Future<String> exportToPdf(List<DealModel> deals) async {
     try {
-      
+
       await Future.delayed(const Duration(seconds: 1));
       return 'deals_export_${DateTime.now().millisecondsSinceEpoch}.pdf';
     } catch (e) {
@@ -163,7 +157,7 @@ class DealsRemoteDataSourceImpl implements DealsRemoteDataSource {
   @override
   Future<String> exportToExcel(List<DealModel> deals) async {
     try {
-      
+
       await Future.delayed(const Duration(seconds: 1));
       return 'deals_export_${DateTime.now().millisecondsSinceEpoch}.xlsx';
     } catch (e) {
@@ -171,7 +165,6 @@ class DealsRemoteDataSourceImpl implements DealsRemoteDataSource {
     }
   }
 
-  
   List<DealModel> _generateMockDeals() {
     final List<DealModel> deals = [];
     final symbols = ['GOLD05DEC', 'SILVER05DEC', 'CRUDE05DEC', 'MCX SILVER Dec 05'];
@@ -203,7 +196,6 @@ class DealsRemoteDataSourceImpl implements DealsRemoteDataSource {
       final orderDate = DateTime(2025, 11, 22, 3, 6, 34);
       final executionDate = DateTime(2025, 11, 22, 3, 6, 34);
 
-      
       final duration = DateTime.now().difference(orderDate);
       final hours = duration.inHours;
       final minutes = duration.inMinutes % 60;

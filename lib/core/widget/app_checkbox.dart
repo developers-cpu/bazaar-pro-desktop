@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../constants/app_colors.dart';
 
-
 class AppCheckbox extends StatelessWidget {
   final String? label;
   final bool value;
@@ -80,7 +79,6 @@ class AppCheckbox extends StatelessWidget {
     );
   }
 }
-
 
 class AppCheckboxGroup extends StatelessWidget {
   final List<String> items;

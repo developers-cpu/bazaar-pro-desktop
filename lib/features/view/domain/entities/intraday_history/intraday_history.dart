@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 
-
 class IntradayHistory extends Equatable {
   final String id;
   final DateTime timestamp;
@@ -31,7 +30,6 @@ class IntradayHistory extends Equatable {
     volume,
   ];
 }
-
 
 class TimeSlot extends Equatable {
   final DateTime startTime;

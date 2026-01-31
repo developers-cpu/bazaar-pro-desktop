@@ -1,6 +1,5 @@
 import '../../../domain/entities/pending_orders/pending_order.dart';
 
-
 class PendingOrderModel extends PendingOrder {
   const PendingOrderModel({
     required super.id,
@@ -21,7 +20,6 @@ class PendingOrderModel extends PendingOrder {
     super.ipAddress,
   });
 
-  
   factory PendingOrderModel.fromJson(Map<String, dynamic> json) {
     return PendingOrderModel(
       id: json['id'] ?? '',
@@ -43,7 +41,6 @@ class PendingOrderModel extends PendingOrder {
     );
   }
 
-  
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -65,7 +62,6 @@ class PendingOrderModel extends PendingOrder {
     };
   }
 
-  
   factory PendingOrderModel.fromEntity(PendingOrder entity) {
     return PendingOrderModel(
       id: entity.id,

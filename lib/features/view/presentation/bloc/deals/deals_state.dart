@@ -2,8 +2,6 @@ import 'package:equatable/equatable.dart';
 
 import '../../../domain/entities/deals/deals.dart';
 
-
-
 abstract class DealsState extends Equatable {
   const DealsState();
 
@@ -11,16 +9,13 @@ abstract class DealsState extends Equatable {
   List<Object?> get props => [];
 }
 
-
 class DealsInitial extends DealsState {
   const DealsInitial();
 }
 
-
 class DealsLoading extends DealsState {
   const DealsLoading();
 }
-
 
 class DealsLoaded extends DealsState {
   final List<Deal> deals;
@@ -30,7 +25,6 @@ class DealsLoaded extends DealsState {
   final String? sortColumn;
   final bool sortAscending;
 
-  
   final DateTime? startDate;
   final DateTime? endDate;
   final String? selectedClient;
@@ -39,7 +33,6 @@ class DealsLoaded extends DealsState {
   final String? selectedOrderType;
   final String? selectedStatus;
 
-  
   final List<String> clients;
   final List<String> exchanges;
   final List<String> symbols;
@@ -132,7 +125,6 @@ class DealsLoaded extends DealsState {
   }
 }
 
-
 class DealsError extends DealsState {
   final String message;
 
@@ -141,7 +133,6 @@ class DealsError extends DealsState {
   @override
   List<Object?> get props => [message];
 }
-
 
 class DealsExportSuccess extends DealsState {
   final String message;

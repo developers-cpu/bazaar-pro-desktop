@@ -4,15 +4,13 @@ import '../../features/dashboard/presentation/pages/dashboard_page.dart';
 import '../../features/market_watch/presentation/pages/market_watch_page.dart';
 import '../../features/view/presentation/pages/view_page_wrapper.dart';
 import '../../features/users/presentation/pages/user_page_wrapper.dart';
-
+import '../../features/report/presentation/pages/report_page_wrapper.dart';
 
 class AppRoutes {
-  
   static const String login = '/';
   static const String marketWatch = '/market-watch';
   static const String dashboard = '/dashboard';
 
-  
   static const String pendingOrders = '/pending_order-orders';
   static const String trades = '/trades';
   static const String deals = '/deals';
@@ -27,30 +25,32 @@ class AppRoutes {
   static const String deletedTrade = '/deleted-trade';
   static const String manualTrade = '/manual-trade';
 
-  
   static const String createUser = '/create-user';
   static const String inactiveUser = '/inactive-user';
   static const String searchUser = '/search-user';
   static const String userList = '/user-list';
 
-  
-  static const String dailyReport = '/daily-report';
-  static const String weeklyReport = '/weekly-report';
-  static const String monthlyReport = '/monthly-report';
-  static const String customReport = '/custom-report';
+  static const String tradeLogs = '/trade-logs';
+  static const String tradeMargin = '/trade-margin';
+  static const String settlement = '/settlement';
+  static const String creditHistory = '/credit-history';
+  static const String billGenerate = '/bill-generate';
+  static const String activityReport = '/activity-report';
+  static const String profitLoss = '/profit-loss';
+  static const String userWisePL = '/user-wise-pl';
+  static const String userScriptPosition = '/user-script-position';
+  static const String symbolWisePosition = '/symbol-wise-position';
+  static const String symbolWisePL = '/symbol-wise-pl';
+  static const String exchangeWiseReport = '/exchange-wise-report';
 
-  
   static const String tools = '/tools';
 
-  
   static Map<String, WidgetBuilder> getRoutes() {
     return {
-      
       login: (context) => const LoginPage(),
       marketWatch: (context) => const MarketWatchPage(),
       dashboard: (context) => const DashboardPageWithAppBar(),
 
-      
       pendingOrders: (context) => const PendingOrdersPageWithAppBar(),
       trades: (context) => const TradesPageWithAppBar(),
       deals: (context) => const DealsPageWithAppBar(),
@@ -65,24 +65,29 @@ class AppRoutes {
       deletedTrade: (context) => const DeletedTradePageWithAppBar(),
       manualTrade: (context) => const ManualTradePageWithAppBar(),
 
-      
       createUser: (context) => const CreateUserPageWithAppBar(),
       inactiveUser: (context) => const InactiveUserPageWithAppBar(),
       userList: (context) => const UserListPageWithAppBar(),
 
-      
-      dailyReport: (context) => const _PlaceholderPage(title: 'Daily Report'),
-      weeklyReport: (context) => const _PlaceholderPage(title: 'Weekly Report'),
-      monthlyReport: (context) =>
-          const _PlaceholderPage(title: 'Monthly Report'),
-      customReport: (context) => const _PlaceholderPage(title: 'Custom Report'),
+      tradeLogs: (context) => const TradeLogsPageWithAppBar(),
+      tradeMargin: (context) => const TradeMarginPageWithAppBar(),
+      settlement: (context) => const SettlementPageWithAppBar(),
+      creditHistory: (context) => const CreditHistoryPageWithAppBar(),
+      billGenerate: (context) => const BillGeneratePageWithAppBar(),
+      activityReport: (context) => const ActivityReportPageWithAppBar(),
+      profitLoss: (context) => const ProfitAndLossPageWithAppBar(),
+      userWisePL: (context) => const UserWisePLPageWithAppBar(),
+      userScriptPosition: (context) =>
+          const UserScriptPositionTrackingPageWithAppBar(),
+      symbolWisePosition: (context) =>
+          const SymbolWisePositionReportPageWithAppBar(),
+      symbolWisePL: (context) => const SymbolWisePLPageWithAppBar(),
+      exchangeWiseReport: (context) => const ExchangeWiseReportPageWithAppBar(),
 
-      
       tools: (context) => const _PlaceholderPage(title: 'Tools'),
     };
   }
 }
-
 
 class _PlaceholderPage extends StatelessWidget {
   final String title;

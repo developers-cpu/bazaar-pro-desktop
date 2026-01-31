@@ -1,7 +1,6 @@
 import 'package:bazarpro/features/users/data/models/user_trade_margin/user_trade_margin_metadata_model.dart';
 import 'package:bazarpro/features/users/data/models/user_trade_margin/user_trade_margin_model.dart';
 
-
 abstract class UserTradeMarginDataSource {
   Future<List<UserTradeMarginModel>> getUserTradeMargin(String userId);
   Future<UserTradeMarginMetadataModel> getTradeMarginMetadata();

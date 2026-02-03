@@ -178,6 +178,11 @@ import 'features/report/data/models/symbol_wise_position_report_model.dart';
 import 'features/report/data/datasources/symbol_wise_position_report_remote_datasource.dart';
 import 'features/report/data/repositories/symbol_wise_position_report_repository_impl.dart';
 import 'features/report/presentation/bloc/symbol_wise_position_report/symbol_wise_position_report_bloc.dart';
+import 'features/report/presentation/bloc/profit_and_loss_report/profit_and_loss_report_bloc.dart';
+import 'features/report/domain/usecases/get_profit_and_loss_report.dart';
+import 'features/report/domain/repositories/profit_and_loss_report_repository.dart';
+import 'features/report/data/repositories/profit_and_loss_report_repository_impl.dart';
+import 'features/report/data/datasources/profit_and_loss_report_remote_datasource.dart';
 
 final sl = GetIt.instance;
 
@@ -737,5 +742,18 @@ Future<void> init() async {
 
   sl.registerLazySingleton<UserTradeMarginRepository>(
     () => UserTradeMarginRepositoryImpl(dataSource: sl()),
+  );
+
+  sl.registerFactory(
+    () => ProfitAndLossReportBloc(getProfitAndLossReport: sl()),
+  );
+  sl.registerLazySingleton(
+    () => GetProfitAndLossReportUseCase(repository: sl()),
+  );
+  sl.registerLazySingleton<ProfitAndLossReportRepository>(
+    () => ProfitAndLossReportRepositoryImpl(dataSource: sl()),
+  );
+  sl.registerLazySingleton<ProfitAndLossReportRemoteDataSource>(
+    () => ProfitAndLossReportRemoteDataSourceImpl(),
   );
 }

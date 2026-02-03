@@ -8,6 +8,9 @@ import '../../../../view/presentation/widget/common/view_table_cell_styles.dart'
 import '../../../../view/presentation/widget/common/view_data_table_footer.dart';
 import '../../../../users/domain/entities/user.dart';
 import '../../../../users/presentation/widgets/user_details/user_details_dialog.dart';
+import '../../../../users/presentation/widgets/create_user/master_form_dialog.dart';
+import '../../../../users/presentation/widgets/create_user/client_form_dialog.dart';
+import '../../../../users/presentation/widgets/create_user/update_access_dialog.dart';
 import '../../../domain/entities/profit_and_loss_report.dart';
 import '../../bloc/profit_and_loss_report/profit_and_loss_report_bloc.dart';
 import '../../bloc/profit_and_loss_report/profit_and_loss_report_state.dart';
@@ -20,15 +23,15 @@ class ProfitAndLossReportTable extends StatelessWidget {
 
   List<ViewTableColumn> _getColumns() {
     return const [
-      ViewTableColumn(id: 'view', label: 'VIEW', width: 60),
-      ViewTableColumn(id: 'userName', label: 'U. NAME', width: 120),
-      ViewTableColumn(id: 'percentage', label: '%', width: 80),
-      ViewTableColumn(id: 'releasePL', label: 'RELEASE P/L', width: 120),
-      ViewTableColumn(id: 'brokerage', label: 'BRK', width: 100),
-      ViewTableColumn(id: 'm2m', label: 'M2M', width: 100),
-      ViewTableColumn(id: 'netPL', label: 'NET P/L', width: 120),
-      ViewTableColumn(id: 'ourBrokerage', label: 'OUR BRK', width: 120),
-      ViewTableColumn(id: 'ourPercentage', label: 'OUR', width: 120),
+      ViewTableColumn(id: 'view', label: 'VIEW', width: 100),
+      ViewTableColumn(id: 'userName', label: 'U. NAME', width: 150),
+      ViewTableColumn(id: 'percentage', label: '%', width: 100),
+      ViewTableColumn(id: 'releasePL', label: 'RELEASE P/L', width: 150),
+      ViewTableColumn(id: 'brokerage', label: 'BRK', width: 150),
+      ViewTableColumn(id: 'm2m', label: 'M2M', width: 150),
+      ViewTableColumn(id: 'netPL', label: 'NET P/L', width: 150),
+      ViewTableColumn(id: 'ourBrokerage', label: 'OUR BRK', width: 150),
+      ViewTableColumn(id: 'ourPercentage', label: 'OUR', width: 150),
     ];
   }
 
@@ -47,7 +50,6 @@ class ProfitAndLossReportTable extends StatelessWidget {
             color: const Color(0xFF1F4A66),
           ),
           onPressed: () {
-            // Show details dialog (using same list for demo, ideally fetch details)
             ProfitAndLossDetailsDialog.show(context, [
               item,
               item,
@@ -61,8 +63,6 @@ class ProfitAndLossReportTable extends StatelessWidget {
           text: item.userName,
           isDark: isDark,
           onTap: () {
-            // Open User Details
-            // Constructing a dummy user. In production, we'd fetch full user details.
             final dummyUser = User(
               id: item.id,
               userName: item.userName,
@@ -81,7 +81,51 @@ class ProfitAndLossReportTable extends StatelessWidget {
               createdDate: DateTime.now(),
               status: 'Active',
             );
-            UserDetailsDialog.show(context, dummyUser);
+            UserDetailsDialog.show(
+              context,
+              dummyUser,
+              onEdit: (ctx) {
+                if (dummyUser.type == 'Master') {
+                  MasterFormDialog.showEdit(
+                    context: ctx,
+                    userData: {
+                      'name': dummyUser.name,
+                      'username': dummyUser.userName,
+                    },
+                    onComplete: () {},
+                  );
+                } else {
+                  ClientFormDialog.showEdit(
+                    context: ctx,
+                    userData: {
+                      'name': dummyUser.name,
+                      'username': dummyUser.userName,
+                    },
+                    onComplete: () {},
+                  );
+                }
+              },
+              onAction: (ctx) {
+                UpdateAccessDialog.show(
+                  context: ctx,
+                  userId: dummyUser.id,
+                  userName: dummyUser.userName,
+                  currentSettings: {
+                    'bet': true,
+                    'closeOnly': false,
+                    'viewOnly': false,
+                    'status': true,
+                    'allowChat': true,
+                    'positionCut15Days': false,
+                    'freshLimitSL': true,
+                    'lockUser': false,
+                  },
+                  onUpdate: (settings) {
+                    Navigator.pop(ctx);
+                  },
+                );
+              },
+            );
           },
         );
       case 'percentage':

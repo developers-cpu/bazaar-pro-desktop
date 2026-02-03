@@ -43,12 +43,6 @@ class ProfitAndLossReportBloc
     if (currentState is ProfitAndLossReportLoaded) {
       emit(ProfitAndLossReportLoading());
 
-      // Filter locally or fetch from API
-      // Since mock data handles filtering if we were to pass it, but for consistent dropdowns
-      // let's just filter locally for now if we want to keep all users in dropdown,
-      // OR better, re-fetch with filter if API supported it.
-      // The UseCase supports userId filter.
-
       final result = await getProfitAndLossReport(userId: event.userId);
 
       result.fold(

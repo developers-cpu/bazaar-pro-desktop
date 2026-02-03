@@ -15,15 +15,21 @@ class ViewTableCellStyles {
     return GoogleFonts.openSans(
       fontSize: fontSize ?? 12.sp,
       fontWeight: fontWeight ?? FontWeight.w500,
-      color: color ?? (isDark ? DarkThemeColors.textColor : LightThemeColors.textColor),
+      color:
+          color ??
+          (isDark ? DarkThemeColors.textColor : LightThemeColors.textColor),
     );
   }
 
   static Color getValueColor(double value, {bool isDark = false}) {
     if (value > 0) {
-      return isDark ? DarkThemeColors.positiveTextColor : LightThemeColors.positiveTextColor;
+      return isDark
+          ? DarkThemeColors.positiveTextColor
+          : LightThemeColors.positiveTextColor;
     } else if (value < 0) {
-      return isDark ? DarkThemeColors.negativeTextColor : LightThemeColors.negativeTextColor;
+      return isDark
+          ? DarkThemeColors.negativeTextColor
+          : LightThemeColors.negativeTextColor;
     }
     return isDark ? DarkThemeColors.textColor : LightThemeColors.textColor;
   }
@@ -31,9 +37,13 @@ class ViewTableCellStyles {
   static Color getBuySellColor(String text, {bool isDark = false}) {
     final isBuy = text.toUpperCase().startsWith('BUY');
     if (isBuy) {
-      return isDark ? DarkThemeColors.positiveTextColor : LightThemeColors.positiveTextColor;
+      return isDark
+          ? DarkThemeColors.positiveTextColor
+          : LightThemeColors.positiveTextColor;
     }
-    return isDark ? DarkThemeColors.negativeTextColor : LightThemeColors.negativeTextColor;
+    return isDark
+        ? DarkThemeColors.negativeTextColor
+        : LightThemeColors.negativeTextColor;
   }
 }
 
@@ -71,11 +81,8 @@ class ViewBuySellCell extends StatelessWidget {
   final String text;
   final bool isDark;
 
-  const ViewBuySellCell({
-    Key? key,
-    required this.text,
-    this.isDark = false,
-  }) : super(key: key);
+  const ViewBuySellCell({Key? key, required this.text, this.isDark = false})
+    : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -111,15 +118,15 @@ class ViewNumberCell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final text = displayText ?? _formatNumber(value);
-    final color = fixedColor ??
-        (colorByValue ? ViewTableCellStyles.getValueColor(value, isDark: isDark) : null);
+    final color =
+        fixedColor ??
+        (colorByValue
+            ? ViewTableCellStyles.getValueColor(value, isDark: isDark)
+            : null);
 
     return Text(
       text,
-      style: ViewTableCellStyles.getTextStyle(
-        isDark: isDark,
-        color: color,
-      ),
+      style: ViewTableCellStyles.getTextStyle(isDark: isDark, color: color),
       textAlign: TextAlign.center,
       maxLines: 1,
       softWrap: false,
@@ -152,11 +159,15 @@ class ViewLinkCell extends StatelessWidget {
       onTap: onTap,
       child: Text(
         text,
-        style: ViewTableCellStyles.getTextStyle(
-          isDark: isDark,
-          color: AppColors.primaryBlue,
-          fontWeight: FontWeight.w600,
-        ),
+        style:
+            ViewTableCellStyles.getTextStyle(
+              isDark: isDark,
+              color: AppColors.primaryBlue,
+              fontWeight: FontWeight.w600,
+            ).copyWith(
+              decoration: TextDecoration.underline,
+              decorationColor: AppColors.primaryBlue,
+            ),
         textAlign: TextAlign.center,
         maxLines: 1,
         softWrap: false,
@@ -192,7 +203,9 @@ class ViewDateTimeCell extends StatelessWidget {
     final day = dateTime.day.toString().padLeft(2, '0');
     final month = dateTime.month.toString().padLeft(2, '0');
     final year = (dateTime.year % 100).toString().padLeft(2, '0');
-    final hour = dateTime.hour > 12 ? dateTime.hour - 12 : (dateTime.hour == 0 ? 12 : dateTime.hour);
+    final hour = dateTime.hour > 12
+        ? dateTime.hour - 12
+        : (dateTime.hour == 0 ? 12 : dateTime.hour);
     final minute = dateTime.minute.toString().padLeft(2, '0');
     final second = dateTime.second.toString().padLeft(2, '0');
     final amPm = dateTime.hour >= 12 ? 'PM' : 'AM';

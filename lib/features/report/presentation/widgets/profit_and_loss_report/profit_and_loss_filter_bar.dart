@@ -31,11 +31,13 @@ class ProfitAndLossFilterBar extends StatelessWidget {
                 hintText: 'User',
                 items: users,
                 width: 200.w,
+                type: AppDropdownType.search,
+                searchHint: 'Search & Add',
                 onChanged: (value) {
                   context.read<ProfitAndLossReportBloc>().add(
                     FilterProfitAndLossReport(userId: value),
                   );
-                }, 
+                },
               ),
               const Spacer(),
               ViewResetButtons(
@@ -45,7 +47,6 @@ class ProfitAndLossFilterBar extends StatelessWidget {
                   );
                 },
                 onView: () {
-                  // View logic handled by bloc state update which refreshes table
                   if (selectedUser != null) {
                     context.read<ProfitAndLossReportBloc>().add(
                       FilterProfitAndLossReport(userId: selectedUser),

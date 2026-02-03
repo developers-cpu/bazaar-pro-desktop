@@ -8,27 +8,39 @@ import '../../../domain/entities/profit_and_loss_report.dart';
 import '../../../../view/presentation/widget/common/view_data_table.dart';
 import '../../../../view/presentation/widget/common/view_table_cell_styles.dart';
 import '../../../../view/presentation/widget/common/view_data_table_footer.dart';
+import '../../../../view/presentation/widget/common/view_record_count.dart';
+import '../../../../users/domain/entities/user.dart';
+import '../../../../users/presentation/widgets/user_details/user_details_dialog.dart';
+import '../../../../users/presentation/widgets/create_user/master_form_dialog.dart';
+import '../../../../users/presentation/widgets/create_user/client_form_dialog.dart';
+import '../../../../users/presentation/widgets/create_user/update_access_dialog.dart';
 
 class ProfitAndLossDetailsDialog extends StatelessWidget {
   final List<ProfitAndLossReport> reports;
   final String userName;
+  final int level;
 
   const ProfitAndLossDetailsDialog({
     super.key,
     required this.reports,
     required this.userName,
+    this.level = 1,
   });
 
   static void show(
     BuildContext context,
     List<ProfitAndLossReport> reports,
-    String userName,
-  ) {
+    String userName, {
+    int level = 1,
+  }) {
     showDialog(
       context: context,
       barrierColor: AppColors.black.withValues(alpha: 0.54),
-      builder: (_) =>
-          ProfitAndLossDetailsDialog(reports: reports, userName: userName),
+      builder: (_) => ProfitAndLossDetailsDialog(
+        reports: reports,
+        userName: userName,
+        level: level,
+      ),
     );
   }
 
@@ -51,12 +63,14 @@ class ProfitAndLossDetailsDialog extends StatelessWidget {
     ProfitAndLossReport item,
     ViewTableColumn column,
     bool isDark,
+    int index,
   ) {
     switch (column.id) {
       case 'view':
-        // Recursive view? Or just icon as per screenshot (maybe disabled for nested?)
-        // In the screenshot, the nested dialog also has View icons.
-        // For now, let's keep it but maybe do nothing or show a toast.
+        final showViewIcon = index % 2 == 0;
+        if (!showViewIcon) {
+          return const SizedBox.shrink();
+        }
         return IconButton(
           icon: Icon(
             Icons.picture_in_picture_alt,
@@ -64,15 +78,84 @@ class ProfitAndLossDetailsDialog extends StatelessWidget {
             color: const Color(0xFF1F4A66),
           ),
           onPressed: () {
-            // Maybe open another dialog or similar
+            ProfitAndLossDetailsDialog.show(
+              context,
+              [item, item],
+              '${item.userName} ${level + 1}',
+              level: level + 1,
+            );
           },
+          padding: EdgeInsets.zero,
+          constraints: const BoxConstraints(),
         );
       case 'userName':
         return ViewLinkCell(
           text: item.userName,
           isDark: isDark,
           onTap: () {
-            // Can open User Details here too
+            final dummyUser = User(
+              id: item.id,
+              userName: item.userName,
+              name: item.userName,
+              parentUser: '',
+              type: 'Client',
+              plPercent: 0,
+              brkPercent: 0,
+              leverage: '',
+              credit: 0,
+              pl: 0,
+              equity: 0,
+              totalMargin: 0,
+              usedMargin: 0,
+              freeMargin: 0,
+              createdDate: DateTime.now(),
+              status: 'Active',
+            );
+            UserDetailsDialog.show(
+              context,
+              dummyUser,
+              onEdit: (ctx) {
+                if (dummyUser.type == 'Master') {
+                  MasterFormDialog.showEdit(
+                    context: ctx,
+                    userData: {
+                      'name': dummyUser.name,
+                      'username': dummyUser.userName,
+                    },
+                    onComplete: () {},
+                  );
+                } else {
+                  ClientFormDialog.showEdit(
+                    context: ctx,
+                    userData: {
+                      'name': dummyUser.name,
+                      'username': dummyUser.userName,
+                    },
+                    onComplete: () {},
+                  );
+                }
+              },
+              onAction: (ctx) {
+                UpdateAccessDialog.show(
+                  context: ctx,
+                  userId: dummyUser.id,
+                  userName: dummyUser.userName,
+                  currentSettings: {
+                    'bet': true,
+                    'closeOnly': false,
+                    'viewOnly': false,
+                    'status': true,
+                    'allowChat': true,
+                    'positionCut15Days': false,
+                    'freshLimitSL': true,
+                    'lockUser': false,
+                  },
+                  onUpdate: (settings) {
+                    Navigator.pop(ctx);
+                  },
+                );
+              },
+            );
           },
         );
       case 'percentage':
@@ -123,10 +206,13 @@ class ProfitAndLossDetailsDialog extends StatelessWidget {
       totalOurPercentage += item.ourPercentage;
     }
 
+    final double dialogWidth = (1000 - ((level - 1) * 40)).w;
+    final double dialogHeight = (600 - ((level - 1) * 30)).h;
+
     return CommonDialog(
       title: 'Profit & Loss',
-      width: 1000.w,
-      height: 600.h,
+      width: dialogWidth,
+      height: dialogHeight,
       showButtons: false,
       scrollable: false,
       contentPadding: EdgeInsets.zero,
@@ -137,10 +223,19 @@ class ProfitAndLossDetailsDialog extends StatelessWidget {
             Container(
               width: double.infinity,
               padding: EdgeInsets.symmetric(vertical: 8.h),
+              margin: EdgeInsets.symmetric(horizontal: 5.w, vertical: 5.h),
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 color: Colors.white,
-                border: Border(bottom: BorderSide(color: AppColors.greyBorder)),
+                borderRadius: BorderRadius.circular(4.r),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 4,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+                border: Border.all(color: AppColors.greyBorder),
               ),
               child: Text(
                 userName,
@@ -151,14 +246,17 @@ class ProfitAndLossDetailsDialog extends StatelessWidget {
                 ),
               ),
             ),
+            ViewRecordCount(count: reports.length),
             Expanded(
               child: ViewDataTable<ProfitAndLossReport>(
                 columns: _getColumns(),
                 data: reports,
                 idExtractor: (item) => item.id,
                 emptyMessage: 'No records found',
-                cellBuilder: (item, column) =>
-                    _buildCell(context, item, column, false),
+                cellBuilder: (item, column) {
+                  final index = reports.indexOf(item);
+                  return _buildCell(context, item, column, false, index);
+                },
                 footerBuilder: (columns) {
                   return ViewDataTableFooter(
                     columns: columns,

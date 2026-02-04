@@ -136,6 +136,22 @@ class AppColors {
 
   static const Color blue = Color(0xFF0066FF);
 
+
+
+
+  static const Color billHeaderBg = Color(0xFF455A64);
+  static const Color billTableHeaderBg = Color(0xFFE0E0E0);
+  static const Color billTableHeaderText = Color(0xFF616161);
+  static const Color billDataText = Color(0xFF424242);
+  static const Color billRowAltBg = Color(0xFFF5F5F5);
+  static const Color billTotalRowBg = Color(0xFFE0E0E0);
+  static const Color billBorderColor = Color(0xFFE0E0E0);
+  static const Color billBuyColor = Color(0xFF1E88E5);
+  static const Color billSellColor = Color(0xFFEF6C00);
+  static const Color billProfitColor = Color(0xFF43A047);
+  static const Color billLossColor = Color(0xFFE53935);
+  static const Color billBrokerageColor = Color(0xFFE53935);
+
   static bool isDarkMode(BuildContext context) {
     return Theme.of(context).brightness == Brightness.dark;
   }

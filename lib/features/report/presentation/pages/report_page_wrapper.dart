@@ -1,3 +1,4 @@
+import 'package:bazarpro/features/report/presentation/pages/bill_generate_page.dart';
 import 'package:bazarpro/features/report/presentation/pages/symbol_wise_pl_report_page.dart';
 import 'package:bazarpro/features/report/presentation/pages/profit_and_loss_report_page.dart';
 import 'package:flutter/material.dart';
@@ -107,7 +108,7 @@ class BillGeneratePageWithAppBar extends StatelessWidget {
       pageTitle: 'Bill Generate',
       onExportPdf: () {},
       onExportExcel: () {},
-      child: const Center(child: Text('Bill Generate - Coming Soon')),
+      child: BillGeneratePage(),
     );
   }
 }

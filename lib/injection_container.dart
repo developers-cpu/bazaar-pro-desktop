@@ -205,6 +205,11 @@ import 'features/report/domain/usecases/exchange_wise_pl/get_exchange_wise_pl_re
 import 'features/report/domain/repositories/exchange_wise_pl/exchange_wise_pl_repository.dart';
 import 'features/report/data/repositories/exchange_wise_pl/exchange_wise_pl_repository_impl.dart';
 import 'features/report/data/datasources/exchange_wise_pl/exchange_wise_pl_remote_datasource.dart';
+import 'features/report/presentation/bloc/bill_generate/bill_generate_bloc.dart';
+import 'features/report/domain/usecases/get_bill_generate_report.dart';
+import 'features/report/domain/repositories/bill_generate_repository.dart';
+import 'features/report/data/repositories/bill_generate_repository_impl.dart';
+import 'features/report/data/datasources/bill_generate_remote_datasource.dart';
 
 final sl = GetIt.instance;
 
@@ -828,5 +833,14 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<ExchangeWisePLRemoteDataSource>(
     () => ExchangeWisePLRemoteDataSourceImpl(),
+  );
+
+  sl.registerFactory(() => BillGenerateBloc(getBillGenerateReport: sl()));
+  sl.registerLazySingleton(() => GetBillGenerateReport(sl()));
+  sl.registerLazySingleton<BillGenerateRepository>(
+    () => BillGenerateRepositoryImpl(remoteDataSource: sl()),
+  );
+  sl.registerLazySingleton<BillGenerateRemoteDataSource>(
+    () => BillGenerateRemoteDataSourceImpl(),
   );
 }

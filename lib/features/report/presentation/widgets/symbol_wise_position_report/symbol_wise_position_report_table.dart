@@ -137,6 +137,7 @@ class SymbolWisePositionReportTable extends StatelessWidget {
                 idExtractor: (item) => item.id,
                 sortColumn: null,
                 sortAscending: true,
+                autoFit: true,
                 isDarkMode: isDarkMode,
                 emptyMessage: 'No reports found',
                 cellBuilder: (item, column) =>

@@ -200,6 +200,7 @@ class ProfitAndLossReportTable extends StatelessWidget {
                 idExtractor: (item) => item.id,
                 sortColumn: null,
                 sortAscending: true,
+                autoFit: true,
                 isDarkMode: isDarkMode,
                 emptyMessage: 'No records found',
                 cellBuilder: (item, column) =>

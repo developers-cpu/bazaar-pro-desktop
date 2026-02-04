@@ -171,10 +171,8 @@ import 'features/report/domain/usecases/get_activity_report.dart';
 import 'features/report/presentation/bloc/trade_margin/trade_margin_bloc.dart';
 import 'features/report/presentation/bloc/credit_history/credit_history_bloc.dart';
 import 'features/report/presentation/bloc/activity_report/activity_report_bloc.dart';
-import 'features/report/domain/entities/symbol_wise_position_report.dart';
 import 'features/report/domain/repositories/symbol_wise_position_report_repository.dart';
 import 'features/report/domain/usecases/get_symbol_wise_position_report.dart';
-import 'features/report/data/models/symbol_wise_position_report_model.dart';
 import 'features/report/data/datasources/symbol_wise_position_report_remote_datasource.dart';
 import 'features/report/data/repositories/symbol_wise_position_report_repository_impl.dart';
 import 'features/report/presentation/bloc/symbol_wise_position_report/symbol_wise_position_report_bloc.dart';
@@ -183,6 +181,12 @@ import 'features/report/domain/usecases/get_profit_and_loss_report.dart';
 import 'features/report/domain/repositories/profit_and_loss_report_repository.dart';
 import 'features/report/data/repositories/profit_and_loss_report_repository_impl.dart';
 import 'features/report/data/datasources/profit_and_loss_report_remote_datasource.dart';
+
+import 'features/report/presentation/bloc/user_script_position_tracking/user_script_position_tracking_bloc.dart';
+import 'features/report/domain/usecases/get_user_script_position_tracking.dart';
+import 'features/report/domain/repositories/user_script_position_tracking_repository.dart';
+import 'features/report/data/repositories/user_script_position_tracking_repository_impl.dart';
+import 'features/report/data/datasources/user_script_position_tracking_remote_datasource.dart';
 
 final sl = GetIt.instance;
 
@@ -755,5 +759,22 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<ProfitAndLossReportRemoteDataSource>(
     () => ProfitAndLossReportRemoteDataSourceImpl(),
+  );
+
+  sl.registerFactory(
+    () => UserScriptPositionTrackingBloc(
+      getUserScriptPositionTracking: sl(),
+      getExchanges: sl<user_exchanges.GetExchanges>(),
+      getSymbols: sl<user_symbols.GetSymbols>(),
+    ),
+  );
+  sl.registerLazySingleton(
+    () => GetUserScriptPositionTrackingUseCase(repository: sl()),
+  );
+  sl.registerLazySingleton<UserScriptPositionTrackingRepository>(
+    () => UserScriptPositionTrackingRepositoryImpl(dataSource: sl()),
+  );
+  sl.registerLazySingleton<UserScriptPositionTrackingRemoteDataSource>(
+    () => UserScriptPositionTrackingRemoteDataSourceImpl(),
   );
 }

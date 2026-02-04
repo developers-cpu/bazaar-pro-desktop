@@ -36,6 +36,7 @@ class ViewDataTable<T> extends StatefulWidget {
   final double? rowHeight;
   final double? headerHeight;
   final Widget Function(List<ViewTableColumn> columns)? footerBuilder;
+  final bool autoFit;
 
   const ViewDataTable({
     Key? key,
@@ -53,6 +54,7 @@ class ViewDataTable<T> extends StatefulWidget {
     this.rowHeight,
     this.headerHeight,
     this.footerBuilder,
+    this.autoFit = false,
   }) : super(key: key);
 
   @override
@@ -70,7 +72,7 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
     super.dispose();
   }
 
-  double get _totalWidth {
+  double get _totalFixedScaleWidth {
     return widget.columns.fold<double>(0, (sum, col) => sum + col.width);
   }
 
@@ -86,9 +88,8 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
       ? DarkThemeColors.selectedRowBackground
       : LightThemeColors.selectedRowBackground;
 
-  Color get _dividerColor => widget.isDarkMode
-      ? DarkThemeColors.dividerColor
-      : AppColors.greyBorder;
+  Color get _dividerColor =>
+      widget.isDarkMode ? DarkThemeColors.dividerColor : AppColors.greyBorder;
 
   Color get _headerDividerColor => widget.isDarkMode
       ? DarkThemeColors.dividerColor.withOpacity(0.5)
@@ -108,46 +109,51 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
       decoration: BoxDecoration(
         color: _rowBgColor,
         borderRadius: BorderRadius.circular(10.r),
-        border: Border.all(
-          color: _dividerColor.withOpacity(0.5),
-          width: 1,
-        ),
+        border: Border.all(color: _dividerColor.withOpacity(0.5), width: 1),
       ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(10.r),
-        child: Column(
-          children: [
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          double scale = 1.0;
+          double totalWidth = _totalFixedScaleWidth;
 
-            Expanded(
-              child: Scrollbar(
-                controller: _horizontalScrollController,
-                thumbVisibility: true,
-                child: SingleChildScrollView(
-                  controller: _horizontalScrollController,
-                  scrollDirection: Axis.horizontal,
-                  child: SizedBox(
-                    width: _totalWidth,
-                    child: Column(
-                      children: [
+          if (widget.autoFit && constraints.maxWidth > totalWidth) {
+            scale = constraints.maxWidth / totalWidth;
+            totalWidth = constraints.maxWidth;
+          }
 
-                        _buildHeaderRow(headerHeight),
-
-                        Expanded(
-                          child: widget.data.isEmpty
-                              ? _buildEmptyState()
-                              : _buildDataRows(rowHeight),
+          return ClipRRect(
+            borderRadius: BorderRadius.circular(10.r),
+            child: Column(
+              children: [
+                Expanded(
+                  child: Scrollbar(
+                    controller: _horizontalScrollController,
+                    thumbVisibility: true,
+                    child: SingleChildScrollView(
+                      controller: _horizontalScrollController,
+                      scrollDirection: Axis.horizontal,
+                      child: SizedBox(
+                        width: totalWidth,
+                        child: Column(
+                          children: [
+                            _buildHeaderRow(headerHeight, scale),
+                            Expanded(
+                              child: widget.data.isEmpty
+                                  ? _buildEmptyState()
+                                  : _buildDataRows(rowHeight, scale),
+                            ),
+                            if (widget.footerBuilder != null)
+                              _buildFooterRow(rowHeight, scale),
+                          ],
                         ),
-
-                        if (widget.footerBuilder != null)
-                          _buildFooterRow(rowHeight),
-                      ],
+                      ),
                     ),
                   ),
                 ),
-              ),
+              ],
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
@@ -166,17 +172,12 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
     );
   }
 
-  Widget _buildHeaderRow(double headerHeight) {
+  Widget _buildHeaderRow(double headerHeight, double scale) {
     return Container(
       height: headerHeight,
       decoration: BoxDecoration(
         color: _headerBgColor,
-        border: Border(
-          bottom: BorderSide(
-            color: _dividerColor,
-            width: 1,
-          ),
-        ),
+        border: Border(bottom: BorderSide(color: _dividerColor, width: 1)),
       ),
       child: Row(
         children: widget.columns.asMap().entries.map((entry) {
@@ -184,30 +185,26 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
           final column = entry.value;
           final isLast = index == widget.columns.length - 1;
 
-          return _buildHeaderCell(column, isLast);
+          return _buildHeaderCell(column, isLast, scale);
         }).toList(),
       ),
     );
   }
 
-  Widget _buildHeaderCell(ViewTableColumn column, bool isLast) {
+  Widget _buildHeaderCell(ViewTableColumn column, bool isLast, double scale) {
     final isSorted = widget.sortColumn == column.id;
+    final cellWidth = column.width * scale;
 
     return GestureDetector(
       onTap: column.sortable && widget.onSort != null
           ? () => widget.onSort!(column.id, !widget.sortAscending)
           : null,
       child: Container(
-        width: column.width,
+        width: cellWidth,
         decoration: BoxDecoration(
           border: isLast
               ? null
-              : Border(
-            right: BorderSide(
-              color: _headerDividerColor,
-              width: 1,
-            ),
-          ),
+              : Border(right: BorderSide(color: _headerDividerColor, width: 1)),
         ),
         child: Center(
           child: Row(
@@ -243,7 +240,7 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
     );
   }
 
-  Widget _buildDataRows(double rowHeight) {
+  Widget _buildDataRows(double rowHeight, double scale) {
     return Scrollbar(
       controller: _verticalScrollController,
       thumbVisibility: true,
@@ -257,13 +254,27 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
           final isSelected = itemId == widget.selectedId;
           final isLast = index == widget.data.length - 1;
 
-          return _buildDataRow(item, index, isSelected, isLast, rowHeight);
+          return _buildDataRow(
+            item,
+            index,
+            isSelected,
+            isLast,
+            rowHeight,
+            scale,
+          );
         },
       ),
     );
   }
 
-  Widget _buildDataRow(T item, int index, bool isSelected, bool isLast, double rowHeight) {
+  Widget _buildDataRow(
+    T item,
+    int index,
+    bool isSelected,
+    bool isLast,
+    double rowHeight,
+    double scale,
+  ) {
     return GestureDetector(
       onTap: widget.onRowTap != null ? () => widget.onRowTap!(item) : null,
       child: Container(
@@ -273,16 +284,16 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
           border: isLast
               ? null
               : Border(
-            bottom: BorderSide(
-              color: _dividerColor.withOpacity(0.5),
-              width: 1,
-            ),
-          ),
+                  bottom: BorderSide(
+                    color: _dividerColor.withOpacity(0.5),
+                    width: 1,
+                  ),
+                ),
         ),
         child: Row(
           children: widget.columns.map((column) {
             return Container(
-              width: column.width,
+              width: column.width * scale,
               alignment: Alignment.center,
               child: widget.cellBuilder(item, column),
             );
@@ -292,19 +303,26 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
     );
   }
 
-  Widget _buildFooterRow(double rowHeight) {
+  Widget _buildFooterRow(double rowHeight, double scale) {
+    final scaledColumns = widget.columns
+        .map(
+          (c) => ViewTableColumn(
+            id: c.id,
+            label: c.label,
+            width: c.width * scale,
+            isNumeric: c.isNumeric,
+            sortable: c.sortable,
+          ),
+        )
+        .toList();
+
     return Container(
       height: rowHeight,
       decoration: BoxDecoration(
         color: _headerBgColor,
-        border: Border(
-          top: BorderSide(
-            color: _dividerColor,
-            width: 1,
-          ),
-        ),
+        border: Border(top: BorderSide(color: _dividerColor, width: 1)),
       ),
-      child: widget.footerBuilder!(widget.columns),
+      child: widget.footerBuilder!(scaledColumns),
     );
   }
 }

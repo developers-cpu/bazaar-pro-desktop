@@ -106,6 +106,7 @@ class CreditHistoryTable extends StatelessWidget {
                 idExtractor: (item) => item.id,
                 sortColumn: null,
                 sortAscending: true,
+                autoFit: true,
                 isDarkMode: isDarkMode,
                 emptyMessage: 'No credit history found',
                 cellBuilder: (item, column) =>

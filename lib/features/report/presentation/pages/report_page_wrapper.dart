@@ -6,6 +6,7 @@ import 'trade_logs_page.dart';
 import 'credit_history_page.dart';
 import 'activity_report_page.dart';
 import 'symbol_wise_position_report_page.dart';
+import 'user_script_position_tracking_page.dart';
 
 class ReportPageWrapper extends StatelessWidget {
   final String pageTitle;
@@ -131,7 +132,7 @@ class ProfitAndLossPageWithAppBar extends StatelessWidget {
       pageTitle: 'Profit & Loss',
       onExportPdf: () {},
       onExportExcel: () {},
-      child: const ProfitAndLossReportPage()
+      child: const ProfitAndLossReportPage(),
     );
   }
 }
@@ -159,9 +160,7 @@ class UserScriptPositionTrackingPageWithAppBar extends StatelessWidget {
       pageTitle: 'User Script Position Tracking',
       onExportPdf: () {},
       onExportExcel: () {},
-      child: const Center(
-        child: Text('User Script Position Tracking - Coming Soon'),
-      ),
+      child: const UserScriptPositionTrackingPage(),
     );
   }
 }

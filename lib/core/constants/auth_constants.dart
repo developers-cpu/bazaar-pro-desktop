@@ -1,4 +1,3 @@
-
 class AuthConstants {
   AuthConstants._();
 
@@ -29,7 +28,8 @@ class AuthConstants {
   static const String emptyPasswordError = 'Please enter password';
   static const String loginSuccessMessage = 'Login successful!';
   static const String loginFailedMessage = 'Login failed. Please try again.';
-  static const String invalidCredentialsMessage = 'Invalid username or password';
+  static const String invalidCredentialsMessage =
+      'Invalid username or password';
 
   static const String forgotPasswordComingSoon =
       'Forgot password feature coming soon!';

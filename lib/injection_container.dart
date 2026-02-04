@@ -211,6 +211,12 @@ import 'features/report/domain/usecases/get_settlement_report.dart';
 import 'features/report/domain/repositories/settlement_report_repository.dart';
 import 'features/report/data/repositories/settlement_report_repository_impl.dart';
 import 'features/report/data/datasources/settlement_report_remote_datasource.dart';
+import 'features/tools/data/datasources/message_remote_datasource.dart';
+import 'features/tools/data/repositories/message_repository_impl.dart';
+import 'features/tools/domain/repositories/message_repository.dart';
+import 'features/tools/domain/usecases/get_messages_usecase.dart';
+import 'features/tools/presentation/bloc/message/message_bloc.dart';
+
 final sl = GetIt.instance;
 Future<void> init() async {
   sl.registerLazySingleton(() => ApiClient());
@@ -750,5 +756,15 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<SettlementReportRemoteDataSource>(
     () => SettlementReportRemoteDataSourceImpl(),
+  );
+
+  
+  sl.registerFactory(() => MessageBloc(getMessages: sl()));
+  sl.registerLazySingleton(() => GetMessagesUseCase(repository: sl()));
+  sl.registerLazySingleton<MessageRepository>(
+    () => MessageRepositoryImpl(remoteDataSource: sl()),
+  );
+  sl.registerLazySingleton<MessageRemoteDataSource>(
+    () => MessageRemoteDataSourceImpl(),
   );
 }

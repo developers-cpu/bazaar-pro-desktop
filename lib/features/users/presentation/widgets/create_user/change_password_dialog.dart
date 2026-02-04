@@ -1,17 +1,23 @@
+import 'package:bazarpro/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 import '../../../../../core/widget/common_dilog_box.dart';
 import '../../../../../core/widget/custom_input_field.dart';
+
 class ChangePasswordDialog extends StatefulWidget {
   final String userId;
   final String userName;
   final Function(String oldPassword, String newPassword) onChangePassword;
+
   const ChangePasswordDialog({
     super.key,
     required this.userId,
     required this.userName,
     required this.onChangePassword,
   });
+
   static void show({
     required BuildContext context,
     required String userId,
@@ -28,17 +34,21 @@ class ChangePasswordDialog extends StatefulWidget {
       ),
     );
   }
+
   @override
   State<ChangePasswordDialog> createState() => _ChangePasswordDialogState();
 }
+
 class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
   final _formKey = GlobalKey<FormState>();
   final _currentPasswordController = TextEditingController();
   final _newPasswordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
+
   bool _obscureCurrent = true;
   bool _obscureNew = true;
   bool _obscureConfirm = true;
+
   @override
   void dispose() {
     _currentPasswordController.dispose();
@@ -46,26 +56,28 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
     _confirmPasswordController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return CommonDialog(
-      title: 'Change Password (${widget.userName})',
-      width: 400.w,
-      saveText: 'Update',
-      cancelText: 'Cancel',
-      onSave: _handleSubmit,
+      title: 'Change Password',
+      width: 500.w, 
+      showButtons: false, 
       content: Form(
         key: _formKey,
         child: Column(
           mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             CustomInputField(
               controller: _currentPasswordController,
               hintText: 'Current Password',
               obscureText: _obscureCurrent,
+              width: double.infinity,
+              showErrorBorder: false,
               suffixIcon: _obscureCurrent
-                  ? Icons.visibility_off
-                  : Icons.visibility,
+                  ? Icons.visibility_off_outlined
+                  : Icons.visibility_outlined,
               onSuffixIconPressed: () {
                 setState(() {
                   _obscureCurrent = !_obscureCurrent;
@@ -83,7 +95,11 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
               controller: _newPasswordController,
               hintText: 'New Password',
               obscureText: _obscureNew,
-              suffixIcon: _obscureNew ? Icons.visibility_off : Icons.visibility,
+              width: double.infinity,
+              showErrorBorder: false,
+              suffixIcon: _obscureNew
+                  ? Icons.visibility_off_outlined
+                  : Icons.visibility_outlined,
               onSuffixIconPressed: () {
                 setState(() {
                   _obscureNew = !_obscureNew;
@@ -104,9 +120,11 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
               controller: _confirmPasswordController,
               hintText: 'Confirm Password',
               obscureText: _obscureConfirm,
+              width: double.infinity,
+              showErrorBorder: false,
               suffixIcon: _obscureConfirm
-                  ? Icons.visibility_off
-                  : Icons.visibility,
+                  ? Icons.visibility_off_outlined
+                  : Icons.visibility_outlined,
               onSuffixIconPressed: () {
                 setState(() {
                   _obscureConfirm = !_obscureConfirm;
@@ -122,20 +140,40 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
                 return null;
               },
             ),
+            SizedBox(height: 24.h),
+            SizedBox(
+              height: 45.h,
+              child: ElevatedButton(
+                onPressed: _handleSubmit,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primaryBlue,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.r),
+                  ),
+                ),
+                child: Text(
+                  'Update',
+                  style: GoogleFonts.openSans(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),
     );
   }
+
   void _handleSubmit() {
     if (_formKey.currentState?.validate() ?? false) {
       widget.onChangePassword(
         _currentPasswordController.text,
         _newPasswordController.text,
       );
-      Navigator.pop(
-        context,
-      ); 
+      Navigator.pop(context);
     }
   }
 }

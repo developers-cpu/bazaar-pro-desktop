@@ -6,6 +6,9 @@ import '../../features/market_watch/data/models/menu_Item_data.dart';
 import '../../features/report/presentation/widgets/trade_margin/trade_margin_dialog.dart';
 import '../../features/users/presentation/widgets/create_user/user_search_dialog.dart';
 import '../../features/tools/presentation/widgets/about_dialog.dart';
+import '../../features/users/presentation/widgets/create_user/change_password_dialog.dart';
+import '../../features/tools/presentation/widgets/messages/messages_dialog.dart';
+
 class AppBarSection extends StatefulWidget implements PreferredSizeWidget {
   final int selectedTabIndex;
   final String? currentPageTitle;
@@ -35,6 +38,7 @@ class AppBarSection extends StatefulWidget implements PreferredSizeWidget {
   @override
   State<AppBarSection> createState() => AppBarSectionState();
 }
+
 class AppBarSectionState extends State<AppBarSection> {
   late List<AppBarTab> _tabs;
   final Map<int, String> _selectedDropdownItems = {};
@@ -47,6 +51,7 @@ class AppBarSectionState extends State<AppBarSection> {
           widget.currentPageTitle!;
     }
   }
+
   @override
   void didUpdateWidget(AppBarSection oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -56,6 +61,7 @@ class AppBarSectionState extends State<AppBarSection> {
           widget.currentPageTitle!;
     }
   }
+
   void _initializeTabs() {
     _tabs = [
       const AppBarTab(title: AppStrings.marketWatch),
@@ -208,8 +214,20 @@ class AppBarSectionState extends State<AppBarSection> {
           ),
           MenuItemData(
             title: 'Change Password',
-            onTap: () =>
-                _navigateToPage(5, 'Change Password', '/tools/change-password'),
+            onTap: () {
+              ChangePasswordDialog.show(
+                context: context,
+                userId: 'current_user_id', 
+                userName: 'Current User', 
+                onChangePassword: (oldNum, newNum) {
+                  
+                  print('Change password: $oldNum -> $newNum');
+                },
+              );
+              setState(() {
+                _selectedDropdownItems[5] = 'Change Password';
+              });
+            },
           ),
           MenuItemData(
             title: 'Market Timing',
@@ -218,7 +236,12 @@ class AppBarSectionState extends State<AppBarSection> {
           ),
           MenuItemData(
             title: 'Message',
-            onTap: () => _navigateToPage(5, 'Message', '/tools/message'),
+            onTap: () {
+              MessagesDialog.show(context);
+              setState(() {
+                _selectedDropdownItems[5] = 'Message';
+              });
+            },
           ),
           MenuItemData(
             title: 'Announcement',
@@ -250,6 +273,7 @@ class AppBarSectionState extends State<AppBarSection> {
       ),
     ];
   }
+
   void _navigateToPage(int tabIndex, String itemTitle, String routeName) {
     setState(() {
       _selectedDropdownItems[tabIndex] = itemTitle;
@@ -257,6 +281,7 @@ class AppBarSectionState extends State<AppBarSection> {
     widget.onViewAction?.call(routeName);
     Navigator.of(context).pushReplacementNamed(routeName);
   }
+
   void _onTabSelected(int index) {
     if (index == 0) {
       Navigator.of(context).pushReplacementNamed('/market-watch');
@@ -267,13 +292,16 @@ class AppBarSectionState extends State<AppBarSection> {
     }
     widget.onTabSelected(index);
   }
+
   bool hasDropdown(int index) {
     if (index < 0 || index >= _tabs.length) return false;
     return _tabs[index].hasDropdown;
   }
+
   bool get _shouldShowReloadIcon {
     return widget.selectedTabIndex == 0;
   }
+
   @override
   Widget build(BuildContext context) {
     return CommonAppBar(

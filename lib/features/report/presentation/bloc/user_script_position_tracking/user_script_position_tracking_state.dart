@@ -1,19 +1,14 @@
 import 'package:equatable/equatable.dart';
 import '../../../domain/entities/user_script_position_tracking.dart';
-
 abstract class UserScriptPositionTrackingState extends Equatable {
   const UserScriptPositionTrackingState();
-
   @override
   List<Object?> get props => [];
 }
-
 class UserScriptPositionTrackingInitial
     extends UserScriptPositionTrackingState {}
-
 class UserScriptPositionTrackingLoading
     extends UserScriptPositionTrackingState {}
-
 class UserScriptPositionTrackingLoaded extends UserScriptPositionTrackingState {
   final List<UserScriptPositionTracking> reports;
   final List<String> userNames;
@@ -24,7 +19,6 @@ class UserScriptPositionTrackingLoaded extends UserScriptPositionTrackingState {
   final String? selectedSymbol;
   final String? startDate;
   final String? endDate;
-
   const UserScriptPositionTrackingLoaded({
     required this.reports,
     required this.userNames,
@@ -36,7 +30,6 @@ class UserScriptPositionTrackingLoaded extends UserScriptPositionTrackingState {
     this.startDate,
     this.endDate,
   });
-
   @override
   List<Object?> get props => [
     reports,
@@ -50,12 +43,9 @@ class UserScriptPositionTrackingLoaded extends UserScriptPositionTrackingState {
     endDate,
   ];
 }
-
 class UserScriptPositionTrackingError extends UserScriptPositionTrackingState {
   final String message;
-
   const UserScriptPositionTrackingError({required this.message});
-
   @override
   List<Object?> get props => [message];
 }

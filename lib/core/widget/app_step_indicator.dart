@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../constants/app_colors.dart';
-
 class AppStepIndicator extends StatelessWidget {
-
   final int currentStep;
   final int totalSteps;
   final List<String> stepTitles;
@@ -13,7 +11,6 @@ class AppStepIndicator extends StatelessWidget {
   final Color? inactiveColor;
   final Color? completedLineColor;
   final Color? incompleteLineColor;
-
   const AppStepIndicator({
     super.key,
     required this.currentStep,
@@ -25,7 +22,6 @@ class AppStepIndicator extends StatelessWidget {
     this.completedLineColor,
     this.incompleteLineColor,
   });
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -44,15 +40,12 @@ class AppStepIndicator extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildStepItem(int stepIndex) {
     final isActive = stepIndex == currentStep;
     final isCompleted = stepIndex < currentStep;
-
     final effectiveActiveColor = activeColor ?? AppColors.primaryBlue;
     final effectiveCompletedColor = completedColor ?? AppColors.primaryBlue;
     final effectiveInactiveColor = inactiveColor ?? AppColors.primaryBlue;
-
     if (isActive) {
       return Container(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
@@ -80,13 +73,11 @@ class AppStepIndicator extends StatelessWidget {
       );
     }
   }
-
   Widget _buildConnectorLine(int beforeStepIndex) {
     final isCompleted = beforeStepIndex < currentStep;
     final effectiveCompletedColor = completedLineColor ?? AppColors.primaryBlue;
     final effectiveIncompleteColor =
         incompleteLineColor ?? AppColors.grey.withValues(alpha: 0.3);
-
     return Container(
       width: 30.w,
       height: 2.h,

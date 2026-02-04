@@ -1,7 +1,6 @@
 import 'package:dartz/dartz.dart';
 import '../../../../../core/errors/failures.dart';
 import '../../models/trade_log_model.dart';
-
 abstract class TradeLogRemoteDataSource {
   Future<Either<Failure, List<TradeLogModel>>> getTradeLogs({
     String? dateRange,
@@ -10,7 +9,6 @@ abstract class TradeLogRemoteDataSource {
     String? symbol,
   });
 }
-
 class TradeLogRemoteDataSourceImpl implements TradeLogRemoteDataSource {
   @override
   Future<Either<Failure, List<TradeLogModel>>> getTradeLogs({
@@ -20,7 +18,6 @@ class TradeLogRemoteDataSourceImpl implements TradeLogRemoteDataSource {
     String? symbol,
   }) async {
     await Future.delayed(const Duration(milliseconds: 500));
-
     final List<TradeLogModel> mockData = [
       TradeLogModel(
         id: '1',
@@ -70,8 +67,6 @@ class TradeLogRemoteDataSourceImpl implements TradeLogRemoteDataSource {
         modifyBy: 'System',
       ),
     ];
-
-    
     var filtered = mockData;
     if (user != null && user.isNotEmpty) {
       filtered = filtered.where((e) => e.userName == user).toList();
@@ -82,7 +77,6 @@ class TradeLogRemoteDataSourceImpl implements TradeLogRemoteDataSource {
     if (symbol != null && symbol.isNotEmpty) {
       filtered = filtered.where((e) => e.symbol == symbol).toList();
     }
-
     return Right(filtered);
   }
 }

@@ -6,14 +6,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../injection_container.dart';
-
 import '../bloc/settlement_report/settlement_report_state.dart';
 import '../widgets/settlement_report/settlement_filter_bar.dart';
 import '../widgets/settlement_report/settlement_report_view.dart';
 import '../../../../../../core/constants/app_colors.dart';
 class SettlementReportPage extends StatelessWidget {
   const SettlementReportPage({super.key});
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -22,7 +20,6 @@ class SettlementReportPage extends StatelessWidget {
         builder: (context, state) {
           final isDrilledDown =
               state is SettlementReportLoaded && state.selectedUserId != null;
-
           return PopScope(
             canPop: !isDrilledDown,
             onPopInvoked: (didPop) {
@@ -36,7 +33,6 @@ class SettlementReportPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-
                   if (state is SettlementReportLoaded &&
                       state.selectedUserId != null)
                     Padding(
@@ -68,7 +64,6 @@ class SettlementReportPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    
                   if (state is SettlementReportLoaded)
                     SettlementFilterBar(
                       selectedDateRange: state.selectedDateRange,
@@ -96,9 +91,6 @@ class SettlementReportPage extends StatelessWidget {
                         );
                       },
                     ),
-
-                 
-
                   if (state is SettlementReportLoaded &&
                       state.selectedUserId != null &&
                       state.selectedUserName != null)
@@ -131,7 +123,6 @@ class SettlementReportPage extends StatelessWidget {
                         ),
                       ),
                     ),
-
                   Expanded(
                     child: Builder(
                       builder: (context) {

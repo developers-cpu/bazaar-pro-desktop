@@ -1,38 +1,30 @@
 import 'package:equatable/equatable.dart';
 import '../../../domain/entities/rejection_log/rejection_log.dart';
-
 abstract class RejectionLogState extends Equatable {
   const RejectionLogState();
-
   @override
   List<Object?> get props => [];
 }
-
 class RejectionLogInitial extends RejectionLogState {
   const RejectionLogInitial();
 }
-
 class RejectionLogLoading extends RejectionLogState {
   const RejectionLogLoading();
 }
-
 class RejectionLogLoaded extends RejectionLogState {
   final List<RejectionLog> logs;
   final List<RejectionLog> filteredLogs;
   final int totalRecords;
   final String? sortColumn;
   final bool sortAscending;
-
   final DateTime? startDate;
   final DateTime? endDate;
   final String? selectedClient;
   final String? selectedExchange;
   final String? selectedSymbol;
-
   final List<String> clients;
   final List<String> exchanges;
   final List<String> symbols;
-
   const RejectionLogLoaded({
     required this.logs,
     required this.filteredLogs,
@@ -48,7 +40,6 @@ class RejectionLogLoaded extends RejectionLogState {
     this.exchanges = const [],
     this.symbols = const [],
   });
-
   @override
   List<Object?> get props => [
     logs,
@@ -65,7 +56,6 @@ class RejectionLogLoaded extends RejectionLogState {
     exchanges,
     symbols,
   ];
-
   RejectionLogLoaded copyWith({
     List<RejectionLog>? logs,
     List<RejectionLog>? filteredLogs,
@@ -98,25 +88,19 @@ class RejectionLogLoaded extends RejectionLogState {
     );
   }
 }
-
 class RejectionLogError extends RejectionLogState {
   final String message;
-
   const RejectionLogError(this.message);
-
   @override
   List<Object?> get props => [message];
 }
-
 class RejectionLogExportSuccess extends RejectionLogState {
   final String message;
   final String filePath;
-
   const RejectionLogExportSuccess({
     required this.message,
     required this.filePath,
   });
-
   @override
   List<Object?> get props => [message, filePath];
 }

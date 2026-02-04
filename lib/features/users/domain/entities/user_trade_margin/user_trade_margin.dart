@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 class UserTradeMargin extends Equatable {
   final String id;
   final String exchange;
@@ -8,7 +7,6 @@ class UserTradeMargin extends Equatable {
   final double marginPercentage;
   final double marginAmount;
   final bool isSelected;
-
   const UserTradeMargin({
     required this.id,
     required this.exchange,
@@ -18,7 +16,6 @@ class UserTradeMargin extends Equatable {
     required this.marginAmount,
     this.isSelected = false,
   });
-
   UserTradeMargin copyWith({
     String? id,
     String? exchange,
@@ -38,7 +35,6 @@ class UserTradeMargin extends Equatable {
       isSelected: isSelected ?? this.isSelected,
     );
   }
-
   @override
   List<Object?> get props => [
     id,

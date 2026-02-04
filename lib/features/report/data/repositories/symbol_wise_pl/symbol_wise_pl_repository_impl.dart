@@ -6,12 +6,9 @@ import 'package:flutter/material.dart';
 import '../../../domain/entities/symbol_wise_pl/symbol_wise_pl_report.dart';
 import '../../../domain/repositories/symbol_wise_pl/symbol_wise_pl_repository.dart';
 import '../../datasources/symbol_wise_pl/symbol_wise_pl_remote_datasource.dart';
-
 class SymbolWisePLRepositoryImpl implements SymbolWisePLRepository {
   final SymbolWisePLRemoteDataSource dataSource;
-
   SymbolWisePLRepositoryImpl({required this.dataSource});
-
   @override
   Future<Either<Failure, List<SymbolWisePLReport>>> getSymbolWisePLReport({
     String? exchange,
@@ -22,13 +19,11 @@ class SymbolWisePLRepositoryImpl implements SymbolWisePLRepository {
         exchange: exchange,
         symbol: symbol,
       );
-
       return result.map((models) => models);
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }
   }
-
   @override
   Future<Either<Failure, List<SymbolTradeLog>>> getSymbolTradeLog({
     String? symbol,
@@ -50,7 +45,6 @@ class SymbolWisePLRepositoryImpl implements SymbolWisePLRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
-
   @override
   Future<Either<Failure, List<SymbolOpenPosition>>> getSymbolOpenPosition({
     String? symbol,

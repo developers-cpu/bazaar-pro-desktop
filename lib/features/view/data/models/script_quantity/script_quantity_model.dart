@@ -1,5 +1,4 @@
 import '../../../domain/entities/script_quantity/script_quantity.dart';
-
 class ScriptQuantityModel extends ScriptQuantity {
   const ScriptQuantityModel({
     required super.id,
@@ -7,7 +6,6 @@ class ScriptQuantityModel extends ScriptQuantity {
     required super.breakupQty,
     required super.maxQty,
   });
-
   factory ScriptQuantityModel.fromJson(Map<String, dynamic> json) {
     return ScriptQuantityModel(
       id: json['id']?.toString() ?? '',
@@ -16,7 +14,6 @@ class ScriptQuantityModel extends ScriptQuantity {
       maxQty: (json['maxQty'] ?? json['max_qty'] ?? 0).toDouble(),
     );
   }
-
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -25,7 +22,6 @@ class ScriptQuantityModel extends ScriptQuantity {
       'maxQty': maxQty,
     };
   }
-
   factory ScriptQuantityModel.fromEntity(ScriptQuantity scriptQuantity) {
     return ScriptQuantityModel(
       id: scriptQuantity.id,

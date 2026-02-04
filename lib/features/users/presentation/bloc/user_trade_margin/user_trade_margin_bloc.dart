@@ -5,12 +5,10 @@ import 'package:bazarpro/core/usecases/usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'user_trade_margin_event.dart';
 import 'user_trade_margin_state.dart';
-
 class UserTradeMarginBloc
     extends Bloc<UserTradeMarginEvent, UserTradeMarginState> {
   final GetUserTradeMargin getUserTradeMargin;
   final GetUserTradeMarginMetadata getUserTradeMarginMetadata;
-
   UserTradeMarginBloc({
     required this.getUserTradeMargin,
     required this.getUserTradeMarginMetadata,
@@ -21,7 +19,6 @@ class UserTradeMarginBloc
     on<ToggleUserTradeMarginSelection>(_onToggleSelectRow);
     on<UpdateUserTradeMargins>(_onUpdateMargins);
   }
-
   void _onLoadMargins(
     LoadUserTradeMargin event,
     Emitter<UserTradeMarginState> emit,
@@ -29,7 +26,6 @@ class UserTradeMarginBloc
     emit(UserTradeMarginLoading());
     final marginsResult = await getUserTradeMargin(event.userId);
     final metadataResult = await getUserTradeMarginMetadata(NoParams());
-
     marginsResult.fold(
       (failure) => emit(UserTradeMarginError(failure.message)),
       (margins) {
@@ -52,7 +48,6 @@ class UserTradeMarginBloc
       },
     );
   }
-
   void _onFilterMargins(
     FilterUserTradeMargins event,
     Emitter<UserTradeMarginState> emit,
@@ -60,11 +55,9 @@ class UserTradeMarginBloc
     if (state is UserTradeMarginLoaded) {
       final currentState = state as UserTradeMarginLoaded;
       List<UserTradeMargin> filtered = currentState.margins;
-
       if (event.exchange != null && event.exchange != 'All') {
         filtered = filtered.where((m) => m.exchange == event.exchange).toList();
       }
-
       if (event.symbol != null && event.symbol!.isNotEmpty) {
         filtered = filtered
             .where(
@@ -73,7 +66,6 @@ class UserTradeMarginBloc
             )
             .toList();
       }
-
       emit(
         currentState.copyWith(
           filteredMargins: filtered,
@@ -83,7 +75,6 @@ class UserTradeMarginBloc
       );
     }
   }
-
   void _onToggleSelectAll(
     ToggleAllUserTradeMarginSelection event,
     Emitter<UserTradeMarginState> emit,
@@ -93,7 +84,6 @@ class UserTradeMarginBloc
       final updatedMargins = currentState.filteredMargins.map((m) {
         return m.copyWith(isSelected: event.isSelected);
       }).toList();
-
       emit(
         currentState.copyWith(
           filteredMargins: updatedMargins,
@@ -102,7 +92,6 @@ class UserTradeMarginBloc
       );
     }
   }
-
   void _onToggleSelectRow(
     ToggleUserTradeMarginSelection event,
     Emitter<UserTradeMarginState> emit,
@@ -115,7 +104,6 @@ class UserTradeMarginBloc
         }
         return m;
       }).toList();
-
       bool allSelected = updatedMargins.every((m) => m.isSelected);
       emit(
         currentState.copyWith(
@@ -125,7 +113,6 @@ class UserTradeMarginBloc
       );
     }
   }
-
   void _onUpdateMargins(
     UpdateUserTradeMargins event,
     Emitter<UserTradeMarginState> emit,

@@ -6,10 +6,8 @@ import '../../../../view/presentation/widget/common/view_reset_buttons.dart';
 import '../../bloc/credit_history/credit_history_bloc.dart';
 import '../../bloc/credit_history/credit_history_event.dart';
 import '../../bloc/credit_history/credit_history_state.dart';
-
 class CreditHistoryFilterBar extends StatelessWidget {
   const CreditHistoryFilterBar({super.key});
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CreditHistoryBloc, CreditHistoryState>(
@@ -17,7 +15,6 @@ class CreditHistoryFilterBar extends StatelessWidget {
         if (state is! CreditHistoryLoaded) {
           return const SizedBox.shrink();
         }
-
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Row(

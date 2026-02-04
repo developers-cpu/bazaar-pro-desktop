@@ -2,15 +2,12 @@ import 'package:bazarpro/features/users/domain/usecases/user_sharing_details/get
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'user_sharing_event.dart';
 import 'user_sharing_state.dart';
-
 class UserSharingBloc extends Bloc<UserSharingEvent, UserSharingState> {
   final GetUserSharingDetails getUserSharingDetails;
-
   UserSharingBloc({required this.getUserSharingDetails})
     : super(UserSharingInitial()) {
     on<LoadUserSharingDetails>(_onLoadDetails);
   }
-
   void _onLoadDetails(
     LoadUserSharingDetails event,
     Emitter<UserSharingState> emit,

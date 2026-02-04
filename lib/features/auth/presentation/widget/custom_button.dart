@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_dimensions.dart';
-
 class CustomButton extends StatelessWidget {
   final String text;
   final VoidCallback? onPressed;
@@ -16,7 +15,6 @@ class CustomButton extends StatelessWidget {
   final double? borderRadius;
   final double? fontSize;
   final FontWeight? fontWeight;
-
   const CustomButton({
     Key? key,
     required this.text,
@@ -32,14 +30,12 @@ class CustomButton extends StatelessWidget {
     this.fontSize,
     this.fontWeight,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     final effectiveBackgroundColor = backgroundColor ?? AppColors.primaryBlue;
     final effectiveTextColor = textColor ?? AppColors.white;
     final effectiveBorderColor = borderColor ?? AppColors.primaryBlue;
     final effectiveDisabledColor = disabledBackgroundColor ?? AppColors.greyBorder;
-
     return SizedBox(
       width: width ?? 500,
       height: height ?? 45,

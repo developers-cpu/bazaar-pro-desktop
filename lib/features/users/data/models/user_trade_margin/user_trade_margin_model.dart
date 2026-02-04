@@ -1,5 +1,4 @@
 import '../../../domain/entities/user_trade_margin/user_trade_margin.dart';
-
 class UserTradeMarginModel extends UserTradeMargin {
   const UserTradeMarginModel({
     required super.id,
@@ -10,7 +9,6 @@ class UserTradeMarginModel extends UserTradeMargin {
     required super.marginAmount,
     super.isSelected,
   });
-
   factory UserTradeMarginModel.fromJson(Map<String, dynamic> json) {
     return UserTradeMarginModel(
       id: json['id'],
@@ -22,7 +20,6 @@ class UserTradeMarginModel extends UserTradeMargin {
       isSelected: json['isSelected'] ?? false,
     );
   }
-
   Map<String, dynamic> toJson() {
     return {
       'id': id,

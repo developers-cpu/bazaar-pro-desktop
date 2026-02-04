@@ -6,10 +6,8 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../../../core/constants/app_colors.dart';
 import '../../bloc/bill_generate/bill_generate_bloc.dart';
 import '../../bloc/bill_generate/bill_generate_event.dart';
-
 class BillGenerateFilterBar extends StatelessWidget {
   const BillGenerateFilterBar({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -35,7 +33,6 @@ class BillGenerateFilterBar extends StatelessWidget {
             ),
           ),
           SizedBox(width: 16.w),
-
           Expanded(
             child: AppDropdown(
               hintText: 'User Type',
@@ -45,7 +42,6 @@ class BillGenerateFilterBar extends StatelessWidget {
             ),
           ),
           SizedBox(width: 16.w),
-
           Expanded(
             child: AppDropdown(
               hintText: 'User',
@@ -61,7 +57,6 @@ class BillGenerateFilterBar extends StatelessWidget {
             ),
           ),
           SizedBox(width: 16.w),
-
           Expanded(
             child: AppDropdown(
               hintText: 'Bill Format',
@@ -75,7 +70,6 @@ class BillGenerateFilterBar extends StatelessWidget {
             ),
           ),
           SizedBox(width: 16.w),
-
           Expanded(
             child: AppDropdown(
               hintText: 'Bill Type',
@@ -88,9 +82,7 @@ class BillGenerateFilterBar extends StatelessWidget {
               height: 40.h,
             ),
           ),
-
           SizedBox(width: 16.w),
-
           SizedBox(
             height: 40.h,
             width: 100.w,
@@ -118,7 +110,6 @@ class BillGenerateFilterBar extends StatelessWidget {
             ),
           ),
           SizedBox(width: 16.w),
-
           SizedBox(
             height: 40.h,
             width: 120.w,

@@ -1,11 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/usecases/usecase.dart';
 import '../../../domain/entities/rejection_log/rejection_log.dart';
-
 import '../../../domain/usecases/ rejection_log/rejection_log_usecases.dart';
 import 'rejection_log_event.dart';
 import 'rejection_log_state.dart';
-
 class RejectionLogBloc extends Bloc<RejectionLogEvent, RejectionLogState> {
   final GetRejectionLogs getRejectionLogs;
   final GetRejectionLogsWithFilters getRejectionLogsWithFilters;
@@ -14,7 +12,6 @@ class RejectionLogBloc extends Bloc<RejectionLogEvent, RejectionLogState> {
   final GetRejectionLogSymbols getSymbols;
   final ExportRejectionLogsToPdf exportToPdf;
   final ExportRejectionLogsToExcel exportToExcel;
-
   RejectionLogBloc({
     required this.getRejectionLogs,
     required this.getRejectionLogsWithFilters,
@@ -31,13 +28,11 @@ class RejectionLogBloc extends Bloc<RejectionLogEvent, RejectionLogState> {
     on<ExportRejectionLogsToPdfEvent>(_onExportToPdf);
     on<ExportRejectionLogsToExcelEvent>(_onExportToExcel);
   }
-
   Future<void> _onLoadRejectionLogs(
       LoadRejectionLogsEvent event,
       Emitter<RejectionLogState> emit,
       ) async {
     emit(const RejectionLogLoading());
-
     try {
       final results = await Future.wait([
         getRejectionLogs(NoParams()),
@@ -45,23 +40,19 @@ class RejectionLogBloc extends Bloc<RejectionLogEvent, RejectionLogState> {
         getExchanges(NoParams()),
         getSymbols(NoParams()),
       ]);
-
       final logsResult = results[0];
       final clientsResult = results[1];
       final exchangesResult = results[2];
       final symbolsResult = results[3];
-
       if (logsResult.isLeft()) {
         final failure = logsResult.fold((l) => l, (r) => null);
         emit(RejectionLogError(failure?.message ?? 'Failed to load logs'));
         return;
       }
-
       final logs = logsResult.fold((l) => <RejectionLog>[], (r) => r as List<RejectionLog>);
       final clients = clientsResult.fold((l) => <String>[], (r) => r as List<String>);
       final exchanges = exchangesResult.fold((l) => <String>[], (r) => r as List<String>);
       final symbols = symbolsResult.fold((l) => <String>[], (r) => r as List<String>);
-
       emit(RejectionLogLoaded(
         logs: logs,
         filteredLogs: logs,
@@ -74,16 +65,13 @@ class RejectionLogBloc extends Bloc<RejectionLogEvent, RejectionLogState> {
       emit(RejectionLogError(e.toString()));
     }
   }
-
   Future<void> _onApplyFilters(
       ApplyRejectionLogFiltersEvent event,
       Emitter<RejectionLogState> emit,
       ) async {
     if (state is! RejectionLogLoaded) return;
-
     final currentState = state as RejectionLogLoaded;
     emit(const RejectionLogLoading());
-
     final result = await getRejectionLogsWithFilters(RejectionLogFilterParams(
       startDate: event.startDate,
       endDate: event.endDate,
@@ -91,7 +79,6 @@ class RejectionLogBloc extends Bloc<RejectionLogEvent, RejectionLogState> {
       exchange: event.exchange,
       symbol: event.symbol,
     ));
-
     result.fold(
           (failure) => emit(RejectionLogError(failure.message)),
           (logs) => emit(currentState.copyWith(
@@ -105,15 +92,12 @@ class RejectionLogBloc extends Bloc<RejectionLogEvent, RejectionLogState> {
       )),
     );
   }
-
   Future<void> _onResetFilters(
       ResetRejectionLogFiltersEvent event,
       Emitter<RejectionLogState> emit,
       ) async {
     if (state is! RejectionLogLoaded) return;
-
     final currentState = state as RejectionLogLoaded;
-
     emit(RejectionLogLoaded(
       logs: currentState.logs,
       filteredLogs: currentState.logs,
@@ -123,19 +107,15 @@ class RejectionLogBloc extends Bloc<RejectionLogEvent, RejectionLogState> {
       symbols: currentState.symbols,
     ));
   }
-
   void _onSortByColumn(
       SortRejectionLogsByColumnEvent event,
       Emitter<RejectionLogState> emit,
       ) {
     if (state is! RejectionLogLoaded) return;
-
     final currentState = state as RejectionLogLoaded;
     final sortedLogs = List<RejectionLog>.from(currentState.filteredLogs);
-
     sortedLogs.sort((a, b) {
       int comparison = 0;
-
       switch (event.columnId) {
         case 'orderDateTime':
           comparison = a.orderDateTime.compareTo(b.orderDateTime);
@@ -164,26 +144,21 @@ class RejectionLogBloc extends Bloc<RejectionLogEvent, RejectionLogState> {
         default:
           comparison = 0;
       }
-
       return event.ascending ? comparison : -comparison;
     });
-
     emit(currentState.copyWith(
       filteredLogs: sortedLogs,
       sortColumn: event.columnId,
       sortAscending: event.ascending,
     ));
   }
-
   Future<void> _onExportToPdf(
       ExportRejectionLogsToPdfEvent event,
       Emitter<RejectionLogState> emit,
       ) async {
     if (state is! RejectionLogLoaded) return;
-
     final currentState = state as RejectionLogLoaded;
     final result = await exportToPdf(currentState.filteredLogs);
-
     result.fold(
           (failure) => emit(RejectionLogError(failure.message)),
           (path) {
@@ -195,16 +170,13 @@ class RejectionLogBloc extends Bloc<RejectionLogEvent, RejectionLogState> {
       },
     );
   }
-
   Future<void> _onExportToExcel(
       ExportRejectionLogsToExcelEvent event,
       Emitter<RejectionLogState> emit,
       ) async {
     if (state is! RejectionLogLoaded) return;
-
     final currentState = state as RejectionLogLoaded;
     final result = await exportToExcel(currentState.filteredLogs);
-
     result.fold(
           (failure) => emit(RejectionLogError(failure.message)),
           (path) {

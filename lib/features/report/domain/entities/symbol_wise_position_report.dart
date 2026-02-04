@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 class SymbolWisePositionReport extends Equatable {
   final String id;
   final String exchange;
@@ -23,7 +22,6 @@ class SymbolWisePositionReport extends Equatable {
   final double netPL;
   final double brokerage;
   final double netPLWithBrokerage;
-
   const SymbolWisePositionReport({
     required this.id,
     required this.exchange,
@@ -48,7 +46,6 @@ class SymbolWisePositionReport extends Equatable {
     required this.brokerage,
     required this.netPLWithBrokerage,
   });
-
   @override
   List<Object?> get props => [
     id,

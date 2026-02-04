@@ -1,18 +1,13 @@
 import 'package:bazarpro/features/users/domain/entities/user_trade_margin/user_trade_margin.dart';
 import 'package:bazarpro/features/users/domain/entities/user_trade_margin/user_trade_margin_metadata.dart';
 import 'package:equatable/equatable.dart';
-
 abstract class UserTradeMarginState extends Equatable {
   const UserTradeMarginState();
-
   @override
   List<Object?> get props => [];
 }
-
 class UserTradeMarginInitial extends UserTradeMarginState {}
-
 class UserTradeMarginLoading extends UserTradeMarginState {}
-
 class UserTradeMarginLoaded extends UserTradeMarginState {
   final List<UserTradeMargin> margins;
   final List<UserTradeMargin> filteredMargins;
@@ -20,7 +15,6 @@ class UserTradeMarginLoaded extends UserTradeMarginState {
   final bool isAllSelected;
   final String? selectedExchange;
   final String? selectedSymbol;
-
   const UserTradeMarginLoaded({
     required this.margins,
     required this.filteredMargins,
@@ -29,7 +23,6 @@ class UserTradeMarginLoaded extends UserTradeMarginState {
     this.selectedExchange,
     this.selectedSymbol,
   });
-
   UserTradeMarginLoaded copyWith({
     List<UserTradeMargin>? margins,
     List<UserTradeMargin>? filteredMargins,
@@ -47,7 +40,6 @@ class UserTradeMarginLoaded extends UserTradeMarginState {
       selectedSymbol: selectedSymbol ?? this.selectedSymbol,
     );
   }
-
   @override
   List<Object?> get props => [
     margins,
@@ -58,12 +50,9 @@ class UserTradeMarginLoaded extends UserTradeMarginState {
     selectedSymbol,
   ];
 }
-
 class UserTradeMarginError extends UserTradeMarginState {
   final String message;
-
   const UserTradeMarginError(this.message);
-
   @override
   List<Object> get props => [message];
 }

@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../data/models/user/user_filter_dropdown.dart';
-
 class UserFilterBar extends StatelessWidget {
   final List<UserFilterDropdown> filters;
   final Widget? trailing;
@@ -13,7 +12,6 @@ class UserFilterBar extends StatelessWidget {
   final VoidCallback? onReset;
   final VoidCallback? onView;
   final bool isLoading;
-
   const UserFilterBar({
     super.key,
     required this.filters,
@@ -23,7 +21,6 @@ class UserFilterBar extends StatelessWidget {
     this.onView,
     this.isLoading = false,
   });
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -50,10 +47,8 @@ class UserFilterBar extends StatelessWidget {
               ),
             ),
           ),
-
           const Spacer(),
           UserRecordCount(count: recordCount, compact: true),
-
           SizedBox(width: 16.w),
           _buildActionButton(
             label: 'Reset',
@@ -61,19 +56,16 @@ class UserFilterBar extends StatelessWidget {
             isPrimary: false,
           ),
           SizedBox(width: 8.w),
-
           _buildActionButton(
             label: 'View',
             onPressed: isLoading ? null : onView,
             isPrimary: true,
           ),
-
           if (trailing != null) ...[SizedBox(width: 16.w), trailing!],
         ],
       ),
     );
   }
-
   Widget _buildActionButton({
     required String label,
     required VoidCallback? onPressed,

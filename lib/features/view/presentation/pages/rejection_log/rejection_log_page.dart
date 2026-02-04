@@ -7,14 +7,11 @@ import '../../bloc/rejection_log/rejection_log_event.dart';
 import '../../bloc/rejection_log/rejection_log_state.dart';
 import '../../widget/ rejection_log/rejection_log_filter_bar.dart';
 import '../../widget/ rejection_log/rejection_log_table.dart';
-
 class RejectionLogPage extends StatefulWidget {
   const RejectionLogPage({Key? key}) : super(key: key);
-
   @override
   State<RejectionLogPage> createState() => _RejectionLogPageState();
 }
-
 class _RejectionLogPageState extends State<RejectionLogPage> {
   @override
   void initState() {
@@ -23,7 +20,6 @@ class _RejectionLogPageState extends State<RejectionLogPage> {
       context.read<RejectionLogBloc>().add(const LoadRejectionLogsEvent());
     });
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocListener<RejectionLogBloc, RejectionLogState>(
@@ -32,14 +28,11 @@ class _RejectionLogPageState extends State<RejectionLogPage> {
         color: AppColors.white,
         child: Column(
           children: [
-
             const RejectionLogFilterBar(),
-
             Container(
               height: 1.h,
               color: AppColors.greyBorder,
             ),
-
             const Expanded(
               child: RejectionLogTable(),
             ),
@@ -48,7 +41,6 @@ class _RejectionLogPageState extends State<RejectionLogPage> {
       ),
     );
   }
-
   void _handleStateChange(BuildContext context, RejectionLogState state) {
     if (state is RejectionLogExportSuccess) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -59,7 +51,6 @@ class _RejectionLogPageState extends State<RejectionLogPage> {
         ),
       );
     }
-
     if (state is RejectionLogError) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

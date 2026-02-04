@@ -7,10 +7,8 @@ import '../../../../../../core/widget/app_dropdown.dart';
 import '../../../bloc/user_form/user_form_bloc.dart';
 import '../../../bloc/user_form/user_form_event.dart';
 import '../../../bloc/user_form/user_form_state.dart';
-
 class MasterExchangeAllowStep extends StatelessWidget {
   const MasterExchangeAllowStep({super.key});
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserFormBloc, UserFormState>(
@@ -18,7 +16,6 @@ class MasterExchangeAllowStep extends StatelessWidget {
         final exchanges = UserFormState.availableExchanges;
         final isAllSelected =
             state.selectedExchanges.length == exchanges.length;
-
         return Container(
           padding: EdgeInsets.all(16.w),
           decoration: BoxDecoration(
@@ -38,7 +35,6 @@ class MasterExchangeAllowStep extends StatelessWidget {
                 },
               ),
               SizedBox(height: 16.h),
-
               GridView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
@@ -60,14 +56,12 @@ class MasterExchangeAllowStep extends StatelessWidget {
       },
     );
   }
-
   Widget _buildExchangeCard(
     BuildContext context,
     UserFormState state,
     String exchange,
   ) {
     final isSelected = state.selectedExchanges.contains(exchange);
-
     List<String> selectedGroups = [];
     final groupData = state.exchangeGroups[exchange];
     if (groupData != null) {
@@ -77,7 +71,6 @@ class MasterExchangeAllowStep extends StatelessWidget {
         selectedGroups = [groupData];
       }
     }
-
     return Container(
       padding: EdgeInsets.all(12.w),
       decoration: BoxDecoration(
@@ -106,7 +99,6 @@ class MasterExchangeAllowStep extends StatelessWidget {
             },
           ),
           SizedBox(height: 8.h),
-
           AppDropdown(
             type: AppDropdownType.multiSelect,
             height: 35.h,

@@ -1,36 +1,25 @@
 import '../../../../core/errors/exceptions.dart';
 import '../models/market_item_model.dart';
-
 abstract class MarketWatchLocalDataSource {
-
   Future<List<MarketItemModel>> getMarketItems();
-
   Future<MarketItemModel> addMarketItem(MarketItemModel item);
-
   Future<bool> deleteMarketItem(String id);
-
   Future<MarketItemModel> updateMarketItem(MarketItemModel item);
 }
-
 class MarketWatchLocalDataSourceImpl implements MarketWatchLocalDataSource {
-
   final List<MarketItemModel> _marketItems = _getDummyData();
-
   @override
   Future<List<MarketItemModel>> getMarketItems() async {
     try {
-
       await Future.delayed(const Duration(milliseconds: 300));
       return List.from(_marketItems);
     } catch (e) {
       throw CacheException('Failed to get market items from cache');
     }
   }
-
   @override
   Future<MarketItemModel> addMarketItem(MarketItemModel item) async {
     try {
-
       await Future.delayed(const Duration(milliseconds: 200));
       _marketItems.add(item);
       return item;
@@ -38,11 +27,9 @@ class MarketWatchLocalDataSourceImpl implements MarketWatchLocalDataSource {
       throw CacheException('Failed to add market item to cache');
     }
   }
-
   @override
   Future<bool> deleteMarketItem(String id) async {
     try {
-
       await Future.delayed(const Duration(milliseconds: 200));
       final index = _marketItems.indexWhere((item) => item.id == id);
       if (index != -1) {
@@ -54,11 +41,9 @@ class MarketWatchLocalDataSourceImpl implements MarketWatchLocalDataSource {
       throw CacheException('Failed to delete market item from cache');
     }
   }
-
   @override
   Future<MarketItemModel> updateMarketItem(MarketItemModel item) async {
     try {
-
       await Future.delayed(const Duration(milliseconds: 200));
       final index = _marketItems.indexWhere((i) => i.id == item.id);
       if (index != -1) {
@@ -71,10 +56,8 @@ class MarketWatchLocalDataSourceImpl implements MarketWatchLocalDataSource {
       throw CacheException('Failed to update market item in cache');
     }
   }
-
   static List<MarketItemModel> _getDummyData() {
     final now = DateTime.now();
-
     return [
       MarketItemModel(
         id: '1',

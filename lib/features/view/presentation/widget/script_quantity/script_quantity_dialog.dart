@@ -3,13 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../domain/entities/script_quantity/script_quantity.dart';
-
 class ScriptQuantityDialog extends StatefulWidget {
   final List<ScriptQuantity> quantities;
   final String exchange;
   final String group;
   final int totalRecords;
-
   const ScriptQuantityDialog({
     Key? key,
     required this.quantities,
@@ -17,7 +15,6 @@ class ScriptQuantityDialog extends StatefulWidget {
     required this.group,
     required this.totalRecords,
   }) : super(key: key);
-
   static void show({
     required BuildContext context,
     required List<ScriptQuantity> quantities,
@@ -36,25 +33,20 @@ class ScriptQuantityDialog extends StatefulWidget {
       ),
     );
   }
-
   @override
   State<ScriptQuantityDialog> createState() => _ScriptQuantityDialogState();
 }
-
 class _ScriptQuantityDialogState extends State<ScriptQuantityDialog> {
   final ScrollController _scrollController = ScrollController();
-
   @override
   void dispose() {
     _scrollController.dispose();
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     final bgColor = AppColors.cardBackground(context);
     final headerBgColor = AppColors.primaryColor(context);
-
     return Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12.r),
@@ -96,7 +88,6 @@ class _ScriptQuantityDialogState extends State<ScriptQuantityDialog> {
       ),
     );
   }
-
   Widget _buildHeader(BuildContext context, Color headerBgColor) {
     return Container(
       width: double.infinity,
@@ -133,7 +124,6 @@ class _ScriptQuantityDialogState extends State<ScriptQuantityDialog> {
       ),
     );
   }
-
   Widget _buildFilterInfo(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -150,7 +140,6 @@ class _ScriptQuantityDialogState extends State<ScriptQuantityDialog> {
       ),
     );
   }
-
   Widget _buildInfoBox(BuildContext context, String label, String value) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
@@ -183,7 +172,6 @@ class _ScriptQuantityDialogState extends State<ScriptQuantityDialog> {
       ),
     );
   }
-
   Widget _buildTable(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 16.w),
@@ -215,7 +203,6 @@ class _ScriptQuantityDialogState extends State<ScriptQuantityDialog> {
       ),
     );
   }
-
   Widget _buildTableHeader(BuildContext context) {
     return Container(
       height: 44.h,
@@ -235,7 +222,6 @@ class _ScriptQuantityDialogState extends State<ScriptQuantityDialog> {
       ),
     );
   }
-
   Widget _buildHeaderCell(
       BuildContext context,
       String label, {
@@ -276,12 +262,10 @@ class _ScriptQuantityDialogState extends State<ScriptQuantityDialog> {
       ),
     );
   }
-
   Widget _buildTableRow(BuildContext context, ScriptQuantity quantity, int index) {
     final rowColor = index % 2 == 0
         ? AppColors.getTableRowBackground(context)
         : AppColors.getTableAlternateRowBackground(context);
-
     return Container(
       height: 40.h,
       decoration: BoxDecoration(
@@ -312,7 +296,6 @@ class _ScriptQuantityDialogState extends State<ScriptQuantityDialog> {
       ),
     );
   }
-
   Widget _buildDataCell(
       BuildContext context,
       String text, {

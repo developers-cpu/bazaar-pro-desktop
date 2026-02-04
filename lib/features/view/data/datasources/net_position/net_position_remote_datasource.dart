@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import '../../models/net_postion/net_position_model.dart';
-
 abstract class NetPositionRemoteDataSource {
   Future<List<NetPositionModel>> getNetPositions();
   Future<List<NetPositionModel>> getNetPositionsWithFilters({
@@ -20,23 +19,18 @@ abstract class NetPositionRemoteDataSource {
     required String userName,
   });
 }
-
 class NetPositionRemoteDataSourceImpl implements NetPositionRemoteDataSource {
   final Dio dio;
-
   NetPositionRemoteDataSourceImpl({required this.dio});
-
   @override
   Future<List<NetPositionModel>> getNetPositions() async {
     try {
-
       await Future.delayed(const Duration(milliseconds: 500));
       return _generateMockNetPositions();
     } catch (e) {
       throw Exception('Failed to fetch net positions: $e');
     }
   }
-
   @override
   Future<List<NetPositionModel>> getNetPositionsWithFilters({
     String? userType,
@@ -45,14 +39,10 @@ class NetPositionRemoteDataSourceImpl implements NetPositionRemoteDataSource {
     String? symbol,
   }) async {
     try {
-
       await Future.delayed(const Duration(milliseconds: 300));
-
       final allPositions = await getNetPositions();
-
       return allPositions.where((position) {
         bool matches = true;
-
         if (client != null && client.isNotEmpty) {
           matches = matches && position.userName == client;
         }
@@ -62,14 +52,12 @@ class NetPositionRemoteDataSourceImpl implements NetPositionRemoteDataSource {
         if (symbol != null && symbol.isNotEmpty) {
           matches = matches && position.symbol.contains(symbol);
         }
-
         return matches;
       }).toList();
     } catch (e) {
       throw Exception('Failed to fetch filtered net positions: $e');
     }
   }
-
   @override
   Future<List<String>> getClients() async {
     try {
@@ -79,7 +67,6 @@ class NetPositionRemoteDataSourceImpl implements NetPositionRemoteDataSource {
       throw Exception('Failed to fetch clients: $e');
     }
   }
-
   @override
   Future<List<String>> getExchanges() async {
     try {
@@ -89,7 +76,6 @@ class NetPositionRemoteDataSourceImpl implements NetPositionRemoteDataSource {
       throw Exception('Failed to fetch exchanges: $e');
     }
   }
-
   @override
   Future<List<String>> getSymbols() async {
     try {
@@ -107,7 +93,6 @@ class NetPositionRemoteDataSourceImpl implements NetPositionRemoteDataSource {
       throw Exception('Failed to fetch symbols: $e');
     }
   }
-
   @override
   Future<List<String>> getUserTypes() async {
     try {
@@ -117,29 +102,24 @@ class NetPositionRemoteDataSourceImpl implements NetPositionRemoteDataSource {
       throw Exception('Failed to fetch user types: $e');
     }
   }
-
   @override
   Future<String> exportToPdf(List<NetPositionModel> positions) async {
     try {
-
       await Future.delayed(const Duration(seconds: 1));
       return 'net_positions_export_${DateTime.now().millisecondsSinceEpoch}.pdf';
     } catch (e) {
       throw Exception('Failed to export PDF: $e');
     }
   }
-
   @override
   Future<String> exportToExcel(List<NetPositionModel> positions) async {
     try {
-
       await Future.delayed(const Duration(seconds: 1));
       return 'net_positions_export_${DateTime.now().millisecondsSinceEpoch}.xlsx';
     } catch (e) {
       throw Exception('Failed to export Excel: $e');
     }
   }
-
   @override
   Future<List<NetPositionModel>> getPositionDetails({
     required String symbol,
@@ -147,7 +127,6 @@ class NetPositionRemoteDataSourceImpl implements NetPositionRemoteDataSource {
   }) async {
     try {
       await Future.delayed(const Duration(milliseconds: 300));
-
       final allPositions = await getNetPositions();
       return allPositions
           .where((position) =>
@@ -157,14 +136,12 @@ class NetPositionRemoteDataSourceImpl implements NetPositionRemoteDataSource {
       throw Exception('Failed to fetch position details: $e');
     }
   }
-
   List<NetPositionModel> _generateMockNetPositions() {
     final List<NetPositionModel> positions = [];
     final symbols = ['GOLD05DEC', 'SILVER05DEC', 'CRUDE05DEC', 'MCX SILVER Dec 05'];
     final exchanges = ['MCX', 'NSE', 'CE/PE'];
     final users = ['DEMO11', 'DEMO012', 'DEMO02', 'PATIL'];
     final pUsers = ['DEMO', 'DEMO49', 'DEMO12'];
-
     for (int i = 0; i < 50; i++) {
       final buyQty = [10000.0, 0.0, 1.0][i % 3];
       final sellQty = buyQty == 0.0 ? 1.0 : 0.0;
@@ -172,7 +149,6 @@ class NetPositionRemoteDataSourceImpl implements NetPositionRemoteDataSource {
       final netAvgPrice = [90792.00, 130319.73, 36200.00, 9000.00][i % 4];
       final cmp = [124536.00, 124191.00][i % 2];
       final m2mAmount = cmp;
-
       positions.add(NetPositionModel(
         id: 'position_$i',
         userName: users[i % users.length],
@@ -192,7 +168,6 @@ class NetPositionRemoteDataSourceImpl implements NetPositionRemoteDataSource {
         status: 'Active',
       ));
     }
-
     return positions;
   }
 }

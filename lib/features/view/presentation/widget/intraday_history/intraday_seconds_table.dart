@@ -8,10 +8,8 @@ import '../../bloc/intraday_history/intraday_history_state.dart';
 import '../common/view_data_table.dart';
 import '../common/view_record_count.dart';
 import '../common/view_table_cell_styles.dart';
-
 class IntradaySecondsTable extends StatelessWidget {
   const IntradaySecondsTable({Key? key}) : super(key: key);
-
   static final List<ViewTableColumn> _columns = [
     const ViewTableColumn(id: 'timestamp', label: 'TIME STAMP', width: 300),
     const ViewTableColumn(id: 'open', label: 'OPEN', width: 250, isNumeric: true),
@@ -20,7 +18,6 @@ class IntradaySecondsTable extends StatelessWidget {
     const ViewTableColumn(id: 'close', label: 'CLOSE', width: 250, isNumeric: true),
     const ViewTableColumn(id: 'volume', label: 'VOLUME', width: 250, isNumeric: true),
   ];
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<IntradayHistoryBloc, IntradayHistoryState>(
@@ -32,7 +29,6 @@ class IntradaySecondsTable extends StatelessWidget {
             ),
           );
         }
-
         if (state is IntradayHistoryError) {
           return Center(
             child: Text(
@@ -41,7 +37,6 @@ class IntradaySecondsTable extends StatelessWidget {
             ),
           );
         }
-
         if (state is IntradayHistorySecondsView) {
           return Column(
             children: [
@@ -65,36 +60,27 @@ class IntradaySecondsTable extends StatelessWidget {
                   emptyMessage: 'No seconds data found',
                 ),
               ),
-
             ],
           );
         }
-
         return const SizedBox.shrink();
       },
     );
   }
-
   Widget _buildCell(IntradayHistory history, ViewTableColumn column) {
     switch (column.id) {
       case 'timestamp':
         return ViewDateTimeCell(dateTime: history.timestamp);
-
       case 'open':
         return ViewNumberCell(value: history.open, colorByValue: false);
-
       case 'high':
         return ViewNumberCell(value: history.high, colorByValue: false);
-
       case 'low':
         return ViewNumberCell(value: history.low, colorByValue: false);
-
       case 'close':
         return ViewNumberCell(value: history.close, colorByValue: false);
-
       case 'volume':
         return ViewNumberCell(value: history.volume, colorByValue: false);
-
       default:
         return const ViewTextCell(text: '-');
     }

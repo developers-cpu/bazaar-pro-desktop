@@ -1,12 +1,10 @@
 import 'package:bazarpro/features/report/data/models/credit_history_model.dart';
-
 abstract class CreditHistoryRemoteDataSource {
   Future<List<CreditHistoryModel>> getCreditHistory({
     String? type,
     String? search,
   });
 }
-
 class CreditHistoryRemoteDataSourceImpl
     implements CreditHistoryRemoteDataSource {
   @override
@@ -15,7 +13,6 @@ class CreditHistoryRemoteDataSourceImpl
     String? search,
   }) async {
     await Future.delayed(const Duration(milliseconds: 500));
-
     final List<CreditHistoryModel> mockData = [
       CreditHistoryModel(
         id: '1',
@@ -78,7 +75,6 @@ class CreditHistoryRemoteDataSourceImpl
         parentUserName: 'ADMIN',
       ),
     ];
-
     return mockData.where((item) {
       if (type != null &&
           type.isNotEmpty &&

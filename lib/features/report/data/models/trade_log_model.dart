@@ -1,5 +1,4 @@
 import '../../domain/entities/trade_log.dart';
-
 class TradeLogModel extends TradeLog {
   const TradeLogModel({
     required String id,
@@ -30,7 +29,6 @@ class TradeLogModel extends TradeLog {
          orderDateTime: orderDateTime,
          modifyBy: modifyBy,
        );
-
   factory TradeLogModel.fromJson(Map<String, dynamic> json) {
     return TradeLogModel(
       id:

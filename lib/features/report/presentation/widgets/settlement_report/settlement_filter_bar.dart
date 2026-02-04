@@ -4,13 +4,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import '../../../../../../core/constants/app_colors.dart';
 import '../../../../../../core/widget/date_range_picker_dialog.dart';
-
 class SettlementFilterBar extends StatefulWidget {
   final String selectedDateRange;
   final ValueChanged<String?> onDateRangeChanged;
   final VoidCallback onReset;
   final VoidCallback onView;
-
   const SettlementFilterBar({
     super.key,
     required this.selectedDateRange,
@@ -18,47 +16,38 @@ class SettlementFilterBar extends StatefulWidget {
     required this.onReset,
     required this.onView,
   });
-
   @override
   State<SettlementFilterBar> createState() => _SettlementFilterBarState();
 }
-
 class _SettlementFilterBarState extends State<SettlementFilterBar> {
   final LayerLink _layerLink = LayerLink();
   OverlayEntry? _overlayEntry;
   bool _isOpen = false;
-
   late String _thisWeekSubtitle;
   late String _prevWeekSubtitle;
   String _customPeriodSubtitle = 'Select Date Range';
-
   @override
   void initState() {
     super.initState();
     _calculateDateRanges();
   }
-
   void _calculateDateRanges() {
     final now = DateTime.now();
     final dateFormat = DateFormat('dd-MM-yy');
-
     final monday = now.subtract(Duration(days: now.weekday - 1));
     final sunday = monday.add(const Duration(days: 6));
     _thisWeekSubtitle =
         '${dateFormat.format(monday)} to ${dateFormat.format(sunday)}';
-
     final prevMonday = monday.subtract(const Duration(days: 7));
     final prevSunday = prevMonday.add(const Duration(days: 6));
     _prevWeekSubtitle =
         '${dateFormat.format(prevMonday)} to ${dateFormat.format(prevSunday)}';
   }
-
   @override
   void dispose() {
     _removeOverlay();
     super.dispose();
   }
-
   void _toggleDropdown() {
     if (_isOpen) {
       _closeDropdown();
@@ -66,7 +55,6 @@ class _SettlementFilterBarState extends State<SettlementFilterBar> {
       _openDropdown();
     }
   }
-
   void _openDropdown() {
     _overlayEntry = _createOverlayEntry();
     Overlay.of(context).insert(_overlayEntry!);
@@ -74,7 +62,6 @@ class _SettlementFilterBarState extends State<SettlementFilterBar> {
       _isOpen = true;
     });
   }
-
   void _closeDropdown() {
     _overlayEntry?.remove();
     _overlayEntry = null;
@@ -82,19 +69,16 @@ class _SettlementFilterBarState extends State<SettlementFilterBar> {
       _isOpen = false;
     });
   }
-
   void _removeOverlay() {
     _overlayEntry?.remove();
     _overlayEntry = null;
   }
-
   Future<void> _handleCustomDateSelection() async {
     _closeDropdown(); 
     final result = await CustomDateRangePickerDialog.show(
       context,
       initialStartDate: DateTime.now(), 
     );
-
     if (result != null) {
       final dateFormat = DateFormat('dd-MM-yy');
       final formattedRange =
@@ -105,7 +89,6 @@ class _SettlementFilterBarState extends State<SettlementFilterBar> {
       widget.onDateRangeChanged('Custom Period');
     }
   }
-
   OverlayEntry _createOverlayEntry() {
     return OverlayEntry(
       builder: (context) => Stack(
@@ -164,7 +147,6 @@ class _SettlementFilterBarState extends State<SettlementFilterBar> {
       ),
     );
   }
-
   Widget _buildDropdownItem({
     required String title,
     required String subtitle,
@@ -206,10 +188,8 @@ class _SettlementFilterBarState extends State<SettlementFilterBar> {
       ),
     );
   }
-
   Widget _buildCustomPeriodItem() {
     final isSelected = widget.selectedDateRange == 'Custom Period';
-
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
       decoration: BoxDecoration(
@@ -246,7 +226,6 @@ class _SettlementFilterBarState extends State<SettlementFilterBar> {
       ),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -289,9 +268,7 @@ class _SettlementFilterBarState extends State<SettlementFilterBar> {
               ),
             ),
           ),
-
           const Spacer(),
-
           SizedBox(
             height: 40.h,
             width: 100.w,

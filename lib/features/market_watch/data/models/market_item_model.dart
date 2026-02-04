@@ -1,5 +1,4 @@
 import '../../domain/entities/market_item.dart';
-
 class MarketItemModel extends MarketItem {
   const MarketItemModel({
     required super.id,
@@ -19,7 +18,6 @@ class MarketItemModel extends MarketItem {
     super.expiry,
     required super.lut,
   });
-
   factory MarketItemModel.fromJson(Map<String, dynamic> json) {
     return MarketItemModel(
       id: json['id'] as String,
@@ -42,7 +40,6 @@ class MarketItemModel extends MarketItem {
       lut: DateTime.parse(json['lut'] as String),
     );
   }
-
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -63,7 +60,6 @@ class MarketItemModel extends MarketItem {
       'lut': lut.toIso8601String(),
     };
   }
-
   factory MarketItemModel.fromEntity(MarketItem entity) {
     return MarketItemModel(
       id: entity.id,
@@ -84,7 +80,6 @@ class MarketItemModel extends MarketItem {
       lut: entity.lut,
     );
   }
-
   MarketItem toEntity() {
     return MarketItem(
       id: id,

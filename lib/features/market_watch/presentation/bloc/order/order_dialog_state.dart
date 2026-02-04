@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import '../../../data/models/order_dialog_type.dart';
-
 class OrderDialogState extends Equatable {
   final OrderDialogTypeEnum dialogType;
   final String clientName;
@@ -13,7 +12,6 @@ class OrderDialogState extends Equatable {
   final bool isLoading;
   final bool isSubmitted;
   final String? errorMessage;
-
   const OrderDialogState({
     this.dialogType = OrderDialogTypeEnum.none,
     this.clientName = '',
@@ -27,11 +25,9 @@ class OrderDialogState extends Equatable {
     this.isSubmitted = false,
     this.errorMessage,
   });
-
   bool get isDialogOpen => dialogType != OrderDialogTypeEnum.none;
   bool get isBuyOrder => dialogType == OrderDialogTypeEnum.buy;
   bool get isSellOrder => dialogType == OrderDialogTypeEnum.sell;
-
   OrderDialogState copyWith({
     OrderDialogTypeEnum? dialogType,
     String? clientName,
@@ -59,7 +55,6 @@ class OrderDialogState extends Equatable {
       errorMessage: errorMessage,
     );
   }
-
   @override
   List<Object?> get props => [
     dialogType,

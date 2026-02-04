@@ -9,17 +9,14 @@ import '../../../../injection_container.dart';
 import '../bloc/inactive_user_list/inactive_user_list_bloc.dart';
 import 'inactive_user_list_page.dart';
 import 'user_list_page.dart';
-
 class UserPageWrapper extends StatelessWidget {
   final String pageTitle;
   final Widget child;
-
   const UserPageWrapper({
     super.key,
     required this.pageTitle,
     required this.child,
   });
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,10 +30,8 @@ class UserPageWrapper extends StatelessWidget {
     );
   }
 }
-
 class CreateUserPageWithAppBar extends StatelessWidget {
   const CreateUserPageWithAppBar({super.key});
-
   @override
   Widget build(BuildContext context) {
     return const UserPageWrapper(
@@ -45,10 +40,8 @@ class CreateUserPageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class InactiveUserPageWithAppBar extends StatelessWidget {
   const InactiveUserPageWithAppBar({super.key});
-
   @override
   Widget build(BuildContext context) {
     return const UserPageWrapper(
@@ -57,23 +50,18 @@ class InactiveUserPageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class UserListPageWithAppBar extends StatelessWidget {
   const UserListPageWithAppBar({super.key});
-
   @override
   Widget build(BuildContext context) {
     return const UserPageWrapper(pageTitle: 'User List', child: UserListPage());
   }
 }
-
 class CreateUserPage extends StatefulWidget {
   const CreateUserPage({super.key});
-
   @override
   State<CreateUserPage> createState() => _CreateUserPageState();
 }
-
 class _CreateUserPageState extends State<CreateUserPage> {
   @override
   void initState() {
@@ -82,7 +70,6 @@ class _CreateUserPageState extends State<CreateUserPage> {
       _showUserTypeDialog();
     });
   }
-
   void _showUserTypeDialog() {
     showDialog(
       context: context,
@@ -90,13 +77,11 @@ class _CreateUserPageState extends State<CreateUserPage> {
       barrierColor: AppColors.black.withValues(alpha: 0.54),
       builder: (dialogContext) => UserTypeSelectionDialog(
         onUserCreated: () {
-
           Navigator.of(context).pushReplacementNamed(AppRoutes.userList);
         },
       ),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -139,10 +124,8 @@ class _CreateUserPageState extends State<CreateUserPage> {
     );
   }
 }
-
 class InactiveUserPage extends StatelessWidget {
   const InactiveUserPage({super.key});
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

@@ -8,10 +8,8 @@ import '../../../../view/presentation/widget/common/view_reset_buttons.dart';
 import '../../bloc/activity_report/activity_report_bloc.dart';
 import '../../bloc/activity_report/activity_report_event.dart';
 import '../../bloc/activity_report/activity_report_state.dart';
-
 class ActivityReportFilterBar extends StatelessWidget {
   const ActivityReportFilterBar({super.key});
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ActivityReportBloc, ActivityReportState>(
@@ -19,7 +17,6 @@ class ActivityReportFilterBar extends StatelessWidget {
         if (state is! ActivityReportLoaded) {
           return const SizedBox.shrink();
         }
-
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Row(
@@ -39,7 +36,6 @@ class ActivityReportFilterBar extends StatelessWidget {
                 },
               ),
               SizedBox(width: 12.w),
-
               DateRangePickerButton(
                 width: 200.w,
                 height: 35.h,
@@ -58,7 +54,6 @@ class ActivityReportFilterBar extends StatelessWidget {
                 },
               ),
               SizedBox(width: 12.w),
-
               AppDropdown(
                 width: 200.w,
                 height: 35.h,
@@ -85,7 +80,6 @@ class ActivityReportFilterBar extends StatelessWidget {
                 },
               ),
               const Spacer(),
-
               ViewResetButtons(
                 onReset: () {
                   context.read<ActivityReportBloc>().add(

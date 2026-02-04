@@ -10,14 +10,10 @@ import '../../../../domain/entities/user_sharing_info.dart';
 import '../../../bloc/user_sharing/user_sharing_bloc.dart';
 import '../../../bloc/user_sharing/user_sharing_event.dart';
 import '../../../bloc/user_sharing/user_sharing_state.dart';
-
 import '../../../../../../injection_container.dart';
-
 class UserSharingDetailsTab extends StatelessWidget {
   final User user;
-
   const UserSharingDetailsTab({super.key, required this.user});
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -27,10 +23,8 @@ class UserSharingDetailsTab extends StatelessWidget {
     );
   }
 }
-
 class UserSharingDetailsTabView extends StatelessWidget {
   const UserSharingDetailsTabView({super.key});
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserSharingBloc, UserSharingState>(
@@ -70,7 +64,6 @@ class UserSharingDetailsTabView extends StatelessWidget {
       },
     );
   }
-
   Widget _buildSharingCard(
     BuildContext context, {
     required String title,
@@ -172,7 +165,6 @@ class UserSharingDetailsTabView extends StatelessWidget {
       ),
     );
   }
-
   String _getIconForPerson(String person) {
     print("Getting icon for person: $person"); 
     final p = person.toLowerCase();

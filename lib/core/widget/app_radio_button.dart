@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../constants/app_colors.dart';
-
 class AppRadioButton<T> extends StatelessWidget {
   final T value;
   final T? groupValue;
@@ -11,7 +10,6 @@ class AppRadioButton<T> extends StatelessWidget {
   final Color? activeColor;
   final Color? labelColor;
   final bool enabled;
-
   const AppRadioButton({
     super.key,
     required this.value,
@@ -22,13 +20,11 @@ class AppRadioButton<T> extends StatelessWidget {
     this.labelColor,
     this.enabled = true,
   });
-
   @override
   Widget build(BuildContext context) {
     final isSelected = value == groupValue;
     final effectiveActiveColor = activeColor ?? AppColors.primaryBlue;
     final effectiveLabelColor = labelColor ?? AppColors.grey;
-
     return GestureDetector(
       onTap: enabled && onChanged != null ? () => onChanged!(value) : null,
       child: Row(

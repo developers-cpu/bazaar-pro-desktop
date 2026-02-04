@@ -1,5 +1,4 @@
 import '../../../domain/entities/script_master/script_master.dart';
-
 class ScriptMasterModel extends ScriptMaster {
   const ScriptMasterModel({
     required super.id,
@@ -10,7 +9,6 @@ class ScriptMasterModel extends ScriptMaster {
     required super.allowTrade,
     required super.lastUpdated,
   });
-
   factory ScriptMasterModel.fromJson(Map<String, dynamic> json) {
     return ScriptMasterModel(
       id: json['id']?.toString() ?? '',
@@ -26,7 +24,6 @@ class ScriptMasterModel extends ScriptMaster {
           : DateTime.now(),
     );
   }
-
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -38,7 +35,6 @@ class ScriptMasterModel extends ScriptMaster {
       'lastUpdated': lastUpdated.toIso8601String(),
     };
   }
-
   factory ScriptMasterModel.fromEntity(ScriptMaster script) {
     return ScriptMasterModel(
       id: script.id,

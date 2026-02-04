@@ -1,26 +1,19 @@
 import 'package:equatable/equatable.dart';
 import '../../../domain/entities/login_history/login_history.dart';
-
 abstract class LoginHistoryState extends Equatable {
   const LoginHistoryState();
-
   @override
   List<Object?> get props => [];
 }
-
 class LoginHistoryInitial extends LoginHistoryState {
   final List<String> clients;
-
   const LoginHistoryInitial({this.clients = const []});
-
   @override
   List<Object?> get props => [clients];
 }
-
 class LoginHistoryLoading extends LoginHistoryState {
   const LoginHistoryLoading();
 }
-
 class LoginHistoryLoaded extends LoginHistoryState {
   final List<LoginHistory> history;
   final String selectedClient;
@@ -28,7 +21,6 @@ class LoginHistoryLoaded extends LoginHistoryState {
   final String? sortColumn;
   final bool sortAscending;
   final List<String> clients;
-
   const LoginHistoryLoaded({
     required this.history,
     required this.selectedClient,
@@ -37,7 +29,6 @@ class LoginHistoryLoaded extends LoginHistoryState {
     this.sortAscending = true,
     this.clients = const [],
   });
-
   @override
   List<Object?> get props => [
     history,
@@ -47,7 +38,6 @@ class LoginHistoryLoaded extends LoginHistoryState {
     sortAscending,
     clients,
   ];
-
   LoginHistoryLoaded copyWith({
     List<LoginHistory>? history,
     String? selectedClient,
@@ -66,25 +56,19 @@ class LoginHistoryLoaded extends LoginHistoryState {
     );
   }
 }
-
 class LoginHistoryError extends LoginHistoryState {
   final String message;
-
   const LoginHistoryError(this.message);
-
   @override
   List<Object?> get props => [message];
 }
-
 class LoginHistoryExportSuccess extends LoginHistoryState {
   final String message;
   final String filePath;
-
   const LoginHistoryExportSuccess({
     required this.message,
     required this.filePath,
   });
-
   @override
   List<Object?> get props => [message, filePath];
 }

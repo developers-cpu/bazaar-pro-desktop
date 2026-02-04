@@ -1,5 +1,4 @@
 import '../../../domain/entities/user_quantity_setting/user_quantity_setting.dart';
-
 class UserQuantitySettingModel extends UserQuantitySetting {
   const UserQuantitySettingModel({
     required super.id,
@@ -9,7 +8,6 @@ class UserQuantitySettingModel extends UserQuantitySetting {
     required super.maxLot,
     required super.breakupLot,
   });
-
   factory UserQuantitySettingModel.fromJson(Map<String, dynamic> json) {
     return UserQuantitySettingModel(
       id: json['id'] ?? '',
@@ -20,7 +18,6 @@ class UserQuantitySettingModel extends UserQuantitySetting {
       breakupLot: json['breakupLot'] ?? 0,
     );
   }
-
   Map<String, dynamic> toJson() {
     return {
       'id': id,

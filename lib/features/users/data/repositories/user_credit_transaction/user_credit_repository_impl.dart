@@ -3,12 +3,9 @@ import 'package:dartz/dartz.dart';
 import '../../../../../core/errors/failures.dart';
 import '../../../domain/entities/user_credit_transaction/user_credit_transaction.dart';
 import '../../../domain/repositories/user_credit_transaction/user_credit_repository.dart';
-
 class UserCreditRepositoryImpl implements UserCreditRepository {
   final UserCreditDataSource dataSource;
-
   UserCreditRepositoryImpl({required this.dataSource});
-
   @override
   Future<Either<Failure, List<UserCreditTransaction>>> getUserCreditHistory(
     String userId,

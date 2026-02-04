@@ -1,24 +1,18 @@
 import 'package:equatable/equatable.dart';
 import '../../../domain/entities/symbol_wise_position_report.dart';
-
 abstract class SymbolWisePositionReportState extends Equatable {
   const SymbolWisePositionReportState();
-
   @override
   List<Object?> get props => [];
 }
-
 class SymbolWisePositionReportInitial extends SymbolWisePositionReportState {}
-
 class SymbolWisePositionReportLoading extends SymbolWisePositionReportState {}
-
 class SymbolWisePositionReportLoaded extends SymbolWisePositionReportState {
   final List<SymbolWisePositionReport> reports;
   final List<String> exchanges;
   final List<String> symbols;
   final String? selectedExchange;
   final String? selectedSymbol;
-
   const SymbolWisePositionReportLoaded({
     required this.reports,
     required this.exchanges,
@@ -26,7 +20,6 @@ class SymbolWisePositionReportLoaded extends SymbolWisePositionReportState {
     this.selectedExchange,
     this.selectedSymbol,
   });
-
   SymbolWisePositionReportLoaded copyWith({
     List<SymbolWisePositionReport>? reports,
     List<String>? exchanges,
@@ -42,7 +35,6 @@ class SymbolWisePositionReportLoaded extends SymbolWisePositionReportState {
       selectedSymbol: selectedSymbol ?? this.selectedSymbol,
     );
   }
-
   @override
   List<Object?> get props => [
     reports,
@@ -52,12 +44,9 @@ class SymbolWisePositionReportLoaded extends SymbolWisePositionReportState {
     selectedSymbol,
   ];
 }
-
 class SymbolWisePositionReportError extends SymbolWisePositionReportState {
   final String message;
-
   const SymbolWisePositionReportError(this.message);
-
   @override
   List<Object?> get props => [message];
 }

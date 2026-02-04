@@ -10,17 +10,14 @@ import '../../bloc/trade/trades_state.dart';
 import '../common/view_data_table.dart';
 import '../common/view_record_count.dart';
 import '../common/view_table_cell_styles.dart';
-
 class TradesTable extends StatelessWidget {
   final bool showDeviceInfo;
   final bool isDarkMode;
-
   const TradesTable({
     Key? key,
     this.showDeviceInfo = true,
     this.isDarkMode = false,
   }) : super(key: key);
-
   List<ViewTableColumn> _getColumns() {
     final columns = <ViewTableColumn>[
       const ViewTableColumn(id: 'userName', label: 'U. NAME', width: 120),
@@ -37,7 +34,6 @@ class TradesTable extends StatelessWidget {
       const ViewTableColumn(id: 'brokerage', label: 'BRK', width: 100, isNumeric: true),
       const ViewTableColumn(id: 'rPrice', label: 'R. PRICE', width: 120, isNumeric: true),
     ];
-
     if (showDeviceInfo) {
       columns.addAll(const [
         ViewTableColumn(id: 'executionDateTime', label: 'EXECUTION D/T', width: 220),
@@ -45,10 +41,8 @@ class TradesTable extends StatelessWidget {
         ViewTableColumn(id: 'ipAddress', label: 'IP ADDRESS', width: 160),
       ]);
     }
-
     return columns;
   }
-
   Widget _buildCell(Trade item, ViewTableColumn column, bool isDark) {
     switch (column.id) {
       case 'userName':
@@ -112,7 +106,6 @@ class TradesTable extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TradesBloc, TradesState>(
@@ -120,20 +113,15 @@ class TradesTable extends StatelessWidget {
         if (state is TradesLoading) {
           return const Center(child: CircularProgressIndicator());
         }
-
         if (state is TradesError) {
           return _buildErrorState(context, state.message);
         }
-
         if (state is! TradesLoaded) {
           return const SizedBox.shrink();
         }
-
         return Column(
           children: [
-
             ViewRecordCount(count: state.totalRecords),
-
             Expanded(
               child: ViewDataTable<Trade>(
                 columns: _getColumns(),
@@ -160,7 +148,6 @@ class TradesTable extends StatelessWidget {
       },
     );
   }
-
   Widget _buildErrorState(BuildContext context, String message) {
     return Center(
       child: Column(

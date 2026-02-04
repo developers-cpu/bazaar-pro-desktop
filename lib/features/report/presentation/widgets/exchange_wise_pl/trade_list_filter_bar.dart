@@ -8,10 +8,8 @@ import '../../bloc/symbol_wise_pl/trade_list/symbol_trade_list_bloc.dart';
 import '../../bloc/symbol_wise_pl/trade_list/symbol_trade_list_event.dart';
 import '../../bloc/symbol_wise_pl/trade_list/symbol_trade_list_state.dart';
 import 'package:bazarpro/features/view/presentation/widget/common/view_reset_buttons.dart';
-
 class TradeListFilterBar extends StatelessWidget {
   const TradeListFilterBar({super.key});
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SymbolTradeListBloc, SymbolTradeListState>(
@@ -19,7 +17,6 @@ class TradeListFilterBar extends StatelessWidget {
         if (state is! SymbolTradeListLoaded) {
           return const SizedBox.shrink();
         }
-
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Column(

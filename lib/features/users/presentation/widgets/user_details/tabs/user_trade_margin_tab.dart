@@ -16,14 +16,10 @@ import '../../../bloc/user_trade_margin/user_trade_margin_state.dart';
 import '../../common/user_data_table.dart';
 import '../../common/user_record_count.dart';
 import '../../common/user_reset_buttons.dart';
-
 import '../../../../../../injection_container.dart';
-
 class UserTradeMarginTab extends StatelessWidget {
   final User user;
-
   const UserTradeMarginTab({super.key, required this.user});
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -33,29 +29,22 @@ class UserTradeMarginTab extends StatelessWidget {
     );
   }
 }
-
 class UserTradeMarginTabView extends StatefulWidget {
   const UserTradeMarginTabView({super.key});
-
   @override
   State<UserTradeMarginTabView> createState() => _UserTradeMarginTabViewState();
 }
-
 class _UserTradeMarginTabViewState extends State<UserTradeMarginTabView> {
   final TextEditingController _marginController = TextEditingController();
   final TextEditingController _searchController = TextEditingController();
-
   @override
   void dispose() {
     _marginController.dispose();
     _searchController.dispose();
     super.dispose();
   }
-
   void _onUpdate(BuildContext context) {
-
   }
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -66,7 +55,6 @@ class _UserTradeMarginTabViewState extends State<UserTradeMarginTabView> {
       ],
     );
   }
-
   Widget _buildFilterBar(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(12.w),
@@ -77,17 +65,14 @@ class _UserTradeMarginTabViewState extends State<UserTradeMarginTabView> {
           List<String> symbolItems = [];
           String? selectedExchange;
           String? selectedSymbol;
-
           if (state is UserTradeMarginLoaded) {
             selectedExchange = state.selectedExchange;
             selectedSymbol = state.selectedSymbol;
-
             if (state.metadata != null) {
               exchangeItems = state.metadata!.exchanges;
               symbolItems = state.metadata!.symbols;
             }
           }
-
           return Column(
             children: [
               Row(
@@ -134,7 +119,6 @@ class _UserTradeMarginTabViewState extends State<UserTradeMarginTabView> {
                     width: 200.w,
                     prefixSvgPath: AppImages.searchIcon,
                     onChanged: (val) {
-
                     },
                   ),
                   const Spacer(),
@@ -190,7 +174,6 @@ class _UserTradeMarginTabViewState extends State<UserTradeMarginTabView> {
       ),
     );
   }
-
   Widget _buildRecordCount(BuildContext context) {
     return Container(
       color: AppColors.white,
@@ -206,7 +189,6 @@ class _UserTradeMarginTabViewState extends State<UserTradeMarginTabView> {
       ),
     );
   }
-
   Widget _buildTable(BuildContext context) {
     return BlocBuilder<UserTradeMarginBloc, UserTradeMarginState>(
       builder: (context, state) {
@@ -216,15 +198,12 @@ class _UserTradeMarginTabViewState extends State<UserTradeMarginTabView> {
         if (state is UserTradeMarginError) {
           return Center(child: Text('Error: ${state.message}'));
         }
-
         List<UserTradeMargin> data = [];
         bool isAllSelected = false;
-
         if (state is UserTradeMarginLoaded) {
           data = state.filteredMargins;
           isAllSelected = state.isAllSelected;
         }
-
         return UserDataTable<UserTradeMargin>(
           columns: [
             UserTableColumn(
@@ -274,7 +253,6 @@ class _UserTradeMarginTabViewState extends State<UserTradeMarginTabView> {
               fontWeight: FontWeight.w600,
               color: AppColors.primaryBlue,
             );
-
             switch (column.id) {
               case 'checkbox':
                 return Checkbox(

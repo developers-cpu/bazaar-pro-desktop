@@ -7,14 +7,11 @@ import '../../../../../../core/widget/custom_input_field.dart';
 import '../../../bloc/user_form/user_form_bloc.dart';
 import '../../../bloc/user_form/user_form_event.dart';
 import '../../../bloc/user_form/user_form_state.dart';
-
 class PersonalDetailsStep extends StatefulWidget {
   const PersonalDetailsStep({super.key});
-
   @override
   State<PersonalDetailsStep> createState() => _PersonalDetailsStepState();
 }
-
 class _PersonalDetailsStepState extends State<PersonalDetailsStep> {
   late TextEditingController _nameController;
   late TextEditingController _usernameController;
@@ -26,10 +23,8 @@ class _PersonalDetailsStepState extends State<PersonalDetailsStep> {
   late TextEditingController _remarkController;
   late TextEditingController _allowedDeviceController;
   late TextEditingController _cutOffController;
-
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
-
   @override
   void initState() {
     super.initState();
@@ -47,7 +42,6 @@ class _PersonalDetailsStepState extends State<PersonalDetailsStep> {
     _allowedDeviceController = TextEditingController(text: state.allowedDevice);
     _cutOffController = TextEditingController(text: state.cutOff);
   }
-
   @override
   void dispose() {
     _nameController.dispose();
@@ -62,20 +56,17 @@ class _PersonalDetailsStepState extends State<PersonalDetailsStep> {
     _cutOffController.dispose();
     super.dispose();
   }
-
   void _updateField(String field, String value) {
     context.read<UserFormBloc>().add(
       UpdateFormFieldEvent(fieldName: field, value: value),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserFormBloc, UserFormState>(
       builder: (context, state) {
         final isClient = state.userType == 'Client';
         final isMastersClient = state.userType == "Master's Client";
-
         return Container(
           padding: EdgeInsets.all(16.w),
           decoration: BoxDecoration(
@@ -88,7 +79,6 @@ class _PersonalDetailsStepState extends State<PersonalDetailsStep> {
                 _buildMasterSelector(state),
                 SizedBox(height: 8.h),
               ],
-
               Row(
                 children: [
                   Expanded(
@@ -112,7 +102,6 @@ class _PersonalDetailsStepState extends State<PersonalDetailsStep> {
                 ],
               ),
               SizedBox(height: 8.h),
-
               Row(
                 children: [
                   Expanded(
@@ -152,7 +141,6 @@ class _PersonalDetailsStepState extends State<PersonalDetailsStep> {
                 ],
               ),
               SizedBox(height: 8.h),
-
               Row(
                 children: [
                   Expanded(
@@ -177,7 +165,6 @@ class _PersonalDetailsStepState extends State<PersonalDetailsStep> {
                 ],
               ),
               SizedBox(height: 8.h),
-
               if (isClient) ...[
                 Row(
                   children: [
@@ -206,7 +193,6 @@ class _PersonalDetailsStepState extends State<PersonalDetailsStep> {
                   ],
                 ),
                 SizedBox(height: 8.h),
-
                 Row(
                   children: [
                     Expanded(
@@ -256,7 +242,6 @@ class _PersonalDetailsStepState extends State<PersonalDetailsStep> {
                   ],
                 ),
                 SizedBox(height: 8.h),
-
                 Row(
                   children: [
                     Expanded(
@@ -286,7 +271,6 @@ class _PersonalDetailsStepState extends State<PersonalDetailsStep> {
       },
     );
   }
-
   Widget _buildMasterSelector(UserFormState state) {
     return Row(
       children: [

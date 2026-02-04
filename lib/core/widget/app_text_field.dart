@@ -2,36 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../constants/app_colors.dart';
-
 class AppTextField extends StatelessWidget {
   final TextEditingController? controller;
-
   final String? hintText;
-
   final String? helperText;
-
   final String? initialValue;
-
   final ValueChanged<String>? onChanged;
-
   final bool obscureText;
-
   final Widget? suffixIcon;
-
   final bool enabled;
-
   final Color? borderColor;
-
   final Color? textColor;
-
   final Color? hintColor;
-
   final double? height;
-
   final TextInputType? keyboardType;
-
   final int maxLines;
-
   const AppTextField({
     super.key,
     this.controller,
@@ -49,13 +34,11 @@ class AppTextField extends StatelessWidget {
     this.keyboardType,
     this.maxLines = 1,
   });
-
   @override
   Widget build(BuildContext context) {
     final effectiveBorderColor = borderColor ?? AppColors.primaryBlue;
     final effectiveHintColor = hintColor ?? AppColors.primaryBlue;
     final effectiveHeight = height ?? 48.h;
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -110,17 +93,11 @@ class AppTextField extends StatelessWidget {
     );
   }
 }
-
 class AppPasswordField extends StatefulWidget {
-
   final TextEditingController? controller;
-
   final String? hintText;
-
   final ValueChanged<String>? onChanged;
-
   final bool enabled;
-
   const AppPasswordField({
     super.key,
     this.controller,
@@ -128,14 +105,11 @@ class AppPasswordField extends StatefulWidget {
     this.onChanged,
     this.enabled = true,
   });
-
   @override
   State<AppPasswordField> createState() => _AppPasswordFieldState();
 }
-
 class _AppPasswordFieldState extends State<AppPasswordField> {
   bool _isVisible = false;
-
   @override
   Widget build(BuildContext context) {
     return AppTextField(
@@ -155,22 +129,14 @@ class _AppPasswordFieldState extends State<AppPasswordField> {
     );
   }
 }
-
 class AppLabeledTextField extends StatelessWidget {
   final String label;
-
   final TextEditingController? controller;
-
   final String? hintText;
-
   final String? helperText;
-
   final ValueChanged<String>? onChanged;
-
   final bool enabled;
-
   final Color? labelColor;
-
   const AppLabeledTextField({
     super.key,
     required this.label,
@@ -181,7 +147,6 @@ class AppLabeledTextField extends StatelessWidget {
     this.enabled = true,
     this.labelColor,
   });
-
   @override
   Widget build(BuildContext context) {
     return Column(

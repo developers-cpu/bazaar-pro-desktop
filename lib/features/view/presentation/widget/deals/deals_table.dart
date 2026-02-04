@@ -11,17 +11,14 @@ import '../common/view_data_table.dart';
 import '../common/view_record_count.dart';
 import '../common/view_table_cell_styles.dart';
 import 'order_duration_dialog.dart';
-
 class DealsTable extends StatelessWidget {
   final bool showDeviceInfo;
   final bool isDarkMode;
-
   const DealsTable({
     Key? key,
     this.showDeviceInfo = true,
     this.isDarkMode = false,
   }) : super(key: key);
-
   List<ViewTableColumn> _getColumns() {
     final columns = <ViewTableColumn>[
       const ViewTableColumn(id: 'userName', label: 'U. NAME', width: 120),
@@ -82,17 +79,14 @@ class DealsTable extends StatelessWidget {
         width: 180,
       ),
     ];
-
     if (showDeviceInfo) {
       columns.addAll(const [
         ViewTableColumn(id: 'deviceId', label: 'DEVICE ID', width: 400),
         ViewTableColumn(id: 'ipAddress', label: 'IP ADDRESS', width: 160),
       ]);
     }
-
     return columns;
   }
-
   Widget _buildCell(
     BuildContext context,
     Deal item,
@@ -163,7 +157,6 @@ class DealsTable extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
-
   Widget _buildOrderDurationCell(BuildContext context, Deal item, bool isDark) {
     return GestureDetector(
       onTap: () {
@@ -176,7 +169,6 @@ class DealsTable extends StatelessWidget {
                     deal.userName == item.userName,
               )
               .toList();
-
           OrderDurationDialog.show(
             context: context,
             relatedOrders: relatedOrders,
@@ -200,7 +192,6 @@ class DealsTable extends StatelessWidget {
       ),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<DealsBloc, DealsState>(
@@ -208,19 +199,15 @@ class DealsTable extends StatelessWidget {
         if (state is DealsLoading) {
           return const Center(child: CircularProgressIndicator());
         }
-
         if (state is DealsError) {
           return _buildErrorState(context, state.message);
         }
-
         if (state is! DealsLoaded) {
           return const SizedBox.shrink();
         }
-
         return Column(
           children: [
             ViewRecordCount(count: state.totalRecords),
-
             Expanded(
               child: ViewDataTable<Deal>(
                 columns: _getColumns(),
@@ -251,7 +238,6 @@ class DealsTable extends StatelessWidget {
       },
     );
   }
-
   Widget _buildErrorState(BuildContext context, String message) {
     return Center(
       child: Column(

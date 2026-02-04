@@ -3,12 +3,9 @@ import '../../../../../core/errors/failures.dart';
 import '../../../domain/entities/script_quantity/script_quantity.dart';
 import '../../../domain/repositories/script_quantity/script_quantity_repository.dart';
 import '../../datasources/script_quantity/script_quantity_remote_datasource.dart';
-
 class ScriptQuantityRepositoryImpl implements ScriptQuantityRepository {
   final ScriptQuantityRemoteDataSource remoteDataSource;
-
   ScriptQuantityRepositoryImpl({required this.remoteDataSource});
-
   @override
   Future<Either<Failure, List<ScriptQuantity>>> getScriptQuantities({
     required String exchange,
@@ -24,7 +21,6 @@ class ScriptQuantityRepositoryImpl implements ScriptQuantityRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
-
   @override
   Future<Either<Failure, List<String>>> getExchanges() async {
     try {
@@ -34,7 +30,6 @@ class ScriptQuantityRepositoryImpl implements ScriptQuantityRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
-
   @override
   Future<Either<Failure, List<String>>> getGroups(String exchange) async {
     try {

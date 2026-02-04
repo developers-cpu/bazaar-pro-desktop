@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 class UserTrade extends Equatable {
   final String id;
   final String userName;
@@ -19,7 +18,6 @@ class UserTrade extends Equatable {
   final DateTime executionTime;
   final double requestPrice;
   final String orderDuration;
-
   const UserTrade({
     required this.id,
     required this.userName,
@@ -40,7 +38,6 @@ class UserTrade extends Equatable {
     required this.requestPrice,
     required this.orderDuration,
   });
-
   @override
   List<Object?> get props => [
     id,

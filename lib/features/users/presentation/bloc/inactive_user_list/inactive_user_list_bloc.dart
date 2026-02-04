@@ -1,5 +1,4 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../../domain/entities/user.dart';
 import '../../../domain/usecases/user/get_users.dart';
 import '../../../domain/usecases/user/get_users_with_filters.dart';
@@ -9,7 +8,6 @@ import '../../../domain/usecases/user/export_users_to_pdf.dart';
 import '../../../domain/usecases/user/export_users_to_excel.dart';
 import 'inactive_user_list_event.dart';
 import 'inactive_user_list_state.dart';
-
 class InactiveUserListBloc
     extends Bloc<InactiveUserListEvent, InactiveUserListState> {
   final GetUsers getUsers;
@@ -18,7 +16,6 @@ class InactiveUserListBloc
   final GetUserStatuses getUserStatuses;
   final ExportUsersToPdf exportUsersToPdf;
   final ExportUsersToExcel exportUsersToExcel;
-
   InactiveUserListBloc({
     required this.getUsers,
     required this.getUsersWithFilters,
@@ -37,20 +34,17 @@ class InactiveUserListBloc
     on<ExportInactiveToExcelEvent>(_onExportToExcel);
     on<SelectInactiveUserEvent>(_onSelectUser);
   }
-
   Future<void> _onLoadUsers(
     LoadInactiveUsersEvent event,
     Emitter<InactiveUserListState> emit,
   ) async {
     emit(const InactiveUserListLoading());
-
     try {
       final result = await getUsersWithFilters(
         UserFilterParams(userStatus: 'Inactive'),
       );
       final types = getUserTypes();
       final statuses = getUserStatuses();
-
       result.fold(
         (failure) => emit(InactiveUserListError(failure.message)),
         (users) => emit(
@@ -59,7 +53,6 @@ class InactiveUserListBloc
             filteredUsers: users,
             userTypes: types,
             userStatuses: statuses,
-
             selectedUserStatus: 'Inactive',
             totalRecords: users.length,
           ),
@@ -69,21 +62,18 @@ class InactiveUserListBloc
       emit(InactiveUserListError(e.toString()));
     }
   }
-
   Future<void> _onFilterByUserType(
     FilterInactiveByUserTypeEvent event,
     Emitter<InactiveUserListState> emit,
   ) async {
     if (state is InactiveUserListLoaded) {
       final currentState = state as InactiveUserListLoaded;
-
       final result = await getUsersWithFilters(
         UserFilterParams(
           userType: event.userType,
           userStatus: currentState.selectedUserStatus ?? 'Inactive',
         ),
       );
-
       result.fold(
         (failure) => emit(InactiveUserListError(failure.message)),
         (filtered) => emit(
@@ -97,21 +87,18 @@ class InactiveUserListBloc
       );
     }
   }
-
   Future<void> _onFilterByUserStatus(
     FilterInactiveByUserStatusEvent event,
     Emitter<InactiveUserListState> emit,
   ) async {
     if (state is InactiveUserListLoaded) {
       final currentState = state as InactiveUserListLoaded;
-
       final result = await getUsersWithFilters(
         UserFilterParams(
           userType: currentState.selectedUserType,
           userStatus: event.userStatus,
         ),
       );
-
       result.fold(
         (failure) => emit(InactiveUserListError(failure.message)),
         (filtered) => emit(
@@ -126,21 +113,18 @@ class InactiveUserListBloc
       );
     }
   }
-
   Future<void> _onApplyFilters(
     ApplyInactiveFiltersEvent event,
     Emitter<InactiveUserListState> emit,
   ) async {
     if (state is InactiveUserListLoaded) {
       final currentState = state as InactiveUserListLoaded;
-
       final result = await getUsersWithFilters(
         UserFilterParams(
           userType: event.userType,
           userStatus: event.userStatus,
         ),
       );
-
       result.fold(
         (failure) => emit(InactiveUserListError(failure.message)),
         (filtered) => emit(
@@ -154,18 +138,15 @@ class InactiveUserListBloc
       );
     }
   }
-
   Future<void> _onResetFilters(
     ResetInactiveFiltersEvent event,
     Emitter<InactiveUserListState> emit,
   ) async {
     if (state is InactiveUserListLoaded) {
       final currentState = state as InactiveUserListLoaded;
-
       final result = await getUsersWithFilters(
         UserFilterParams(userStatus: 'Inactive'),
       );
-
       result.fold(
         (failure) => emit(InactiveUserListError(failure.message)),
         (users) => emit(
@@ -181,7 +162,6 @@ class InactiveUserListBloc
       );
     }
   }
-
   void _onSortByColumn(
     SortInactiveByColumnEvent event,
     Emitter<InactiveUserListState> emit,
@@ -189,7 +169,6 @@ class InactiveUserListBloc
     if (state is InactiveUserListLoaded) {
       final currentState = state as InactiveUserListLoaded;
       final sorted = List<User>.from(currentState.filteredUsers);
-
       sorted.sort((a, b) {
         int comparison = 0;
         switch (event.columnId) {
@@ -249,7 +228,6 @@ class InactiveUserListBloc
         }
         return event.ascending ? comparison : -comparison;
       });
-
       emit(
         currentState.copyWith(
           filteredUsers: sorted,
@@ -259,20 +237,16 @@ class InactiveUserListBloc
       );
     }
   }
-
   Future<void> _onExportToPdf(
     ExportInactiveToPdfEvent event,
     Emitter<InactiveUserListState> emit,
   ) async {
     if (state is InactiveUserListLoaded) {
       final currentState = state as InactiveUserListLoaded;
-
       emit(const InactiveUserListExporting('pdf'));
-
       final result = await exportUsersToPdf(
         ExportUsersParams(users: currentState.filteredUsers),
       );
-
       result.fold(
         (failure) {
           emit(InactiveUserListError(failure.message));
@@ -290,20 +264,16 @@ class InactiveUserListBloc
       );
     }
   }
-
   Future<void> _onExportToExcel(
     ExportInactiveToExcelEvent event,
     Emitter<InactiveUserListState> emit,
   ) async {
     if (state is InactiveUserListLoaded) {
       final currentState = state as InactiveUserListLoaded;
-
       emit(const InactiveUserListExporting('excel'));
-
       final result = await exportUsersToExcel(
         ExportUsersParams(users: currentState.filteredUsers),
       );
-
       result.fold(
         (failure) {
           emit(InactiveUserListError(failure.message));
@@ -321,7 +291,6 @@ class InactiveUserListBloc
       );
     }
   }
-
   void _onSelectUser(
     SelectInactiveUserEvent event,
     Emitter<InactiveUserListState> emit,

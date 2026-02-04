@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 class UserWiseProfitAndLossReport extends Equatable {
   final String id;
   final String userName;
@@ -17,7 +16,6 @@ class UserWiseProfitAndLossReport extends Equatable {
   final double marginLevelPercentage;
   final String createdBy;
   final DateTime createdDate;
-
   const UserWiseProfitAndLossReport({
     required this.id,
     required this.userName,
@@ -36,7 +34,6 @@ class UserWiseProfitAndLossReport extends Equatable {
     required this.createdBy,
     required this.createdDate,
   });
-
   @override
   List<Object?> get props => [
     id,

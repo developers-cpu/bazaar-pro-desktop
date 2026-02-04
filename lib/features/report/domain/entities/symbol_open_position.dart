@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 class SymbolOpenPosition extends Equatable {
   final String name;
   final String type;
@@ -14,7 +13,6 @@ class SymbolOpenPosition extends Equatable {
   final double ourPercent;
   final String user;
   final int days;
-
   const SymbolOpenPosition({
     required this.name,
     required this.type,
@@ -30,7 +28,6 @@ class SymbolOpenPosition extends Equatable {
     required this.user,
     required this.days,
   });
-
   @override
   List<Object?> get props => [
     name,

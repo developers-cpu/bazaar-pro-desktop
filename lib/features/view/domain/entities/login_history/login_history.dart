@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 class LoginHistory extends Equatable {
   final String id;
   final int index;
@@ -8,7 +7,6 @@ class LoginHistory extends Equatable {
   final String userType;
   final String ipAddress;
   final String deviceId;
-
   const LoginHistory({
     required this.id,
     required this.index,
@@ -18,7 +16,6 @@ class LoginHistory extends Equatable {
     required this.ipAddress,
     required this.deviceId,
   });
-
   @override
   List<Object?> get props => [
     id,
@@ -29,7 +26,6 @@ class LoginHistory extends Equatable {
     ipAddress,
     deviceId,
   ];
-
   LoginHistory copyWith({
     String? id,
     int? index,

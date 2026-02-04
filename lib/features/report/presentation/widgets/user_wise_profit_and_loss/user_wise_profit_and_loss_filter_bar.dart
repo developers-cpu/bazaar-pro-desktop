@@ -8,10 +8,8 @@ import '../../../../view/presentation/widget/common/view_reset_buttons.dart';
 import '../../bloc/user_wise_profit_and_loss/user_wise_profit_and_loss_bloc.dart';
 import '../../bloc/user_wise_profit_and_loss/user_wise_profit_and_loss_event.dart';
 import '../../bloc/user_wise_profit_and_loss/user_wise_profit_and_loss_state.dart';
-
 class UserWiseProfitAndLossFilterBar extends StatelessWidget {
   const UserWiseProfitAndLossFilterBar({super.key});
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserWiseProfitAndLossBloc, UserWiseProfitAndLossState>(
@@ -19,7 +17,6 @@ class UserWiseProfitAndLossFilterBar extends StatelessWidget {
         String? selectedUser;
         DateTimeRange? selectedDateRange;
         List<String> users = [];
-
         if (state is UserWiseProfitAndLossLoaded) {
           selectedUser = state.selectedUser;
           users = state.userNames;
@@ -30,7 +27,6 @@ class UserWiseProfitAndLossFilterBar extends StatelessWidget {
             );
           }
         }
-
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
           child: Row(

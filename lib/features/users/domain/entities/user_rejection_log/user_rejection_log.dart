@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 class UserRejectionLog extends Equatable {
   final String id;
   final DateTime dateTime;
@@ -11,7 +10,6 @@ class UserRejectionLog extends Equatable {
   final int qty;
   final double price;
   final String comment;
-
   const UserRejectionLog({
     required this.id,
     required this.dateTime,
@@ -24,7 +22,6 @@ class UserRejectionLog extends Equatable {
     required this.price,
     required this.comment,
   });
-
   @override
   List<Object?> get props => [
     id,

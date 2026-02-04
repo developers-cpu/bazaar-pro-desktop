@@ -11,12 +11,9 @@ import '../../../../../../core/widget/app_dropdown.dart';
 import '../../../../domain/entities/user.dart';
 import '../../../../domain/entities/user_position/user_position.dart';
 import '../../../bloc/user_position/user_position_bloc.dart';
-
 class UserPositionTab extends StatelessWidget {
   final User user;
-
   const UserPositionTab({super.key, required this.user});
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -26,10 +23,8 @@ class UserPositionTab extends StatelessWidget {
     );
   }
 }
-
 class UserPositionTabView extends StatelessWidget {
   const UserPositionTabView({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -41,7 +36,6 @@ class UserPositionTabView extends StatelessWidget {
       ],
     );
   }
-
   Widget _buildFilterBar(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(12.w),
@@ -52,14 +46,12 @@ class UserPositionTabView extends StatelessWidget {
           String? selectedSymbol;
           List<String> exchanges = [];
           List<String> symbols = [];
-
           if (state is UserPositionLoaded) {
             selectedExchange = state.selectedExchange;
             selectedSymbol = state.selectedSymbol;
             exchanges = state.exchanges;
             symbols = state.symbols;
           }
-
           return Row(
             children: [
               Row(
@@ -116,7 +108,6 @@ class UserPositionTabView extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildRecordCount(BuildContext context) {
     return Container(
       color: AppColors.white,
@@ -132,23 +123,19 @@ class UserPositionTabView extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildTable(BuildContext context) {
     return BlocBuilder<UserPositionBloc, UserPositionState>(
       builder: (context, state) {
         if (state is UserPositionLoading) {
           return const Center(child: CircularProgressIndicator());
         }
-
         if (state is UserPositionError) {
           return Center(child: Text('Error: ${state.message}'));
         }
-
         List<UserPosition> positions = [];
         if (state is UserPositionLoaded) {
           positions = state.filteredPositions;
         }
-
         return UserDataTable<UserPosition>(
           columns: [
             UserTableColumn(id: 'exch', label: 'EXCH', width: 80.w),
@@ -248,7 +235,6 @@ class UserPositionTabView extends StatelessWidget {
       },
     );
   }
-
   TextStyle _cellStyle({Color? color, bool isSymbol = false}) {
     return GoogleFonts.openSans(
       fontSize: 11.sp,
@@ -256,7 +242,6 @@ class UserPositionTabView extends StatelessWidget {
       color: color ?? AppColors.primaryBlue,
     );
   }
-
   Widget _buildFooter(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(12.w),
@@ -280,7 +265,6 @@ class UserPositionTabView extends StatelessWidget {
               ],
             ),
           ),
-
           const Spacer(),
           Container(
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
@@ -314,7 +298,6 @@ class UserPositionTabView extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildVerticalDivider() {
     return Container(
       height: 20.h,
@@ -323,7 +306,6 @@ class UserPositionTabView extends StatelessWidget {
       margin: EdgeInsets.symmetric(horizontal: 12.w),
     );
   }
-
   Widget _buildFooterItem(String label, String value) {
     return Row(
       children: [
@@ -346,7 +328,6 @@ class UserPositionTabView extends StatelessWidget {
       ],
     );
   }
-
   Widget _buildSummaryItem(String label, String value) {
     return Row(
       children: [

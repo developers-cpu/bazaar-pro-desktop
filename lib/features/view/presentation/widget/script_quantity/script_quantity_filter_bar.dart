@@ -7,17 +7,13 @@ import '../../bloc/script_quantity/script_quantity_bloc.dart';
 import '../../bloc/script_quantity/script_quantity_event.dart';
 import '../../bloc/script_quantity/script_quantity_state.dart';
 import '../common/view_reset_buttons.dart';
-
 class ScriptQuantityFilterBar extends StatefulWidget {
   const ScriptQuantityFilterBar({Key? key}) : super(key: key);
-
   @override
   State<ScriptQuantityFilterBar> createState() => _ScriptQuantityFilterBarState();
 }
-
 class _ScriptQuantityFilterBarState extends State<ScriptQuantityFilterBar> {
   String? _tempSelectedGroup;
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ScriptQuantityBloc, ScriptQuantityState>(
@@ -28,18 +24,14 @@ class _ScriptQuantityFilterBarState extends State<ScriptQuantityFilterBar> {
             child: const Center(child: CircularProgressIndicator()),
           );
         }
-
         if (state is! ScriptQuantityFiltersLoaded) {
           return const SizedBox.shrink();
         }
-
         final bool isExchangeSelected = state.selectedExchange != null;
-
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Row(
             children: [
-
               SizedBox(
                 width: 230.w,
                 child: AppDropdown(
@@ -61,7 +53,6 @@ class _ScriptQuantityFilterBarState extends State<ScriptQuantityFilterBar> {
                 ),
               ),
               SizedBox(width: 12.w),
-
               SizedBox(
                 width: 230.w,
                 child: IgnorePointer(
@@ -78,7 +69,6 @@ class _ScriptQuantityFilterBarState extends State<ScriptQuantityFilterBar> {
                           setState(() {
                             _tempSelectedGroup = value;
                           });
-
                           context.read<ScriptQuantityBloc>().add(
                             LoadScriptQuantitiesEvent(
                               exchange: state.selectedExchange!,
@@ -91,9 +81,7 @@ class _ScriptQuantityFilterBarState extends State<ScriptQuantityFilterBar> {
                   ),
                 ),
               ),
-
               const Spacer(),
-
               ViewResetButtons(
                 onReset: () {
                   setState(() {
@@ -104,7 +92,6 @@ class _ScriptQuantityFilterBarState extends State<ScriptQuantityFilterBar> {
                   );
                 },
                 onView: () {
-
                   if (state.selectedExchange != null && _tempSelectedGroup != null) {
                     context.read<ScriptQuantityBloc>().add(
                       LoadScriptQuantitiesEvent(

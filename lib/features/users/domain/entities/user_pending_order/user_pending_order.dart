@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 class UserPendingOrder extends Equatable {
   final String id;
   final DateTime time;
@@ -9,7 +8,6 @@ class UserPendingOrder extends Equatable {
   final String lot;
   final double price;
   final String status;
-
   const UserPendingOrder({
     required this.id,
     required this.time,
@@ -20,7 +18,6 @@ class UserPendingOrder extends Equatable {
     required this.price,
     required this.status,
   });
-
   @override
   List<Object?> get props => [
     id,

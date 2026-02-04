@@ -1,5 +1,4 @@
 import '../../models/user_script_position_tracking_model.dart';
-
 abstract class UserScriptPositionTrackingRemoteDataSource {
   Future<List<UserScriptPositionTrackingModel>> getUserScriptPositionTracking({
     String? startDate,
@@ -9,7 +8,6 @@ abstract class UserScriptPositionTrackingRemoteDataSource {
     String? symbol,
   });
 }
-
 class UserScriptPositionTrackingRemoteDataSourceImpl
     implements UserScriptPositionTrackingRemoteDataSource {
   @override
@@ -21,7 +19,6 @@ class UserScriptPositionTrackingRemoteDataSourceImpl
     String? symbol,
   }) async {
     await Future.delayed(const Duration(milliseconds: 500));
-
     final List<UserScriptPositionTrackingModel> mockData = [
       const UserScriptPositionTrackingModel(
         id: '1',
@@ -141,15 +138,12 @@ class UserScriptPositionTrackingRemoteDataSourceImpl
         days: 103,
       ),
     ];
-
     List<UserScriptPositionTrackingModel> filteredData = mockData;
-
     if (userId != null && userId.isNotEmpty) {
       filteredData = filteredData
           .where((item) => item.userName.toLowerCase() == userId.toLowerCase())
           .toList();
     }
-
     if (symbol != null && symbol.isNotEmpty) {
       filteredData = filteredData
           .where(
@@ -157,7 +151,6 @@ class UserScriptPositionTrackingRemoteDataSourceImpl
           )
           .toList();
     }
-
     return filteredData;
   }
 }

@@ -1,12 +1,9 @@
 import 'package:dio/dio.dart';
 import '../constants/auth_constants.dart';
-
 class ApiClient {
   static final ApiClient _instance = ApiClient._internal();
   late final Dio dio;
-
   factory ApiClient() => _instance;
-
   ApiClient._internal() {
     dio = Dio(
       BaseOptions(
@@ -19,7 +16,6 @@ class ApiClient {
         },
       ),
     );
-
     dio.interceptors.add(
       LogInterceptor(
         requestBody: true,
@@ -28,6 +24,5 @@ class ApiClient {
       ),
     );
   }
-
   Dio get client => dio;
 }

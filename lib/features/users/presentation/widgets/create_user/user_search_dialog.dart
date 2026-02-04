@@ -11,17 +11,14 @@ import '../../bloc/search_user/search_user_state.dart';
 import '../../../../../../core/constants/app_images.dart';
 import '../../../../../../core/widget/svg_icon.dart';
 import '../search/user_tree_view.dart';
-
 class UserSearchDialog extends StatelessWidget {
   const UserSearchDialog({super.key});
-
   static void show(BuildContext context) {
     showDialog(
       context: context,
       builder: (context) => const UserSearchDialog(),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -31,10 +28,8 @@ class UserSearchDialog extends StatelessWidget {
     );
   }
 }
-
 class UserSearchDialogContent extends StatelessWidget {
   const UserSearchDialogContent({super.key});
-
   @override
   Widget build(BuildContext context) {
     return CommonDialog(
@@ -48,15 +43,12 @@ class UserSearchDialogContent extends StatelessWidget {
     );
   }
 }
-
 class UserSearchView extends StatelessWidget {
   const UserSearchView({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-
         Container(
           height: 48.h,
           decoration: BoxDecoration(
@@ -94,7 +86,6 @@ class UserSearchView extends StatelessWidget {
           ),
         ),
         SizedBox(height: 16.h),
-
         Expanded(
           child: BlocBuilder<SearchUserBloc, SearchUserState>(
             builder: (context, state) {

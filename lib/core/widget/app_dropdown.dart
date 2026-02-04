@@ -4,9 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_images.dart';
-
 enum AppDropdownType { simple, search, multiSelect }
-
 class AppDropdown extends StatefulWidget {
   final AppDropdownType type;
   final String hintText;
@@ -15,7 +13,6 @@ class AppDropdown extends StatefulWidget {
   final List<String> items;
   final ValueChanged<String?>? onChanged;
   final ValueChanged<List<String>>? onMultiChanged;
-
   final double? width;
   final double? height;
   final double? dropdownHeight;
@@ -27,7 +24,6 @@ class AppDropdown extends StatefulWidget {
   final bool isDarkMode;
   final String? label;
   final Color? labelColor;
-
   const AppDropdown({
     Key? key,
     this.type = AppDropdownType.simple,
@@ -49,11 +45,9 @@ class AppDropdown extends StatefulWidget {
     this.label,
     this.labelColor,
   }) : super(key: key);
-
   @override
   State<AppDropdown> createState() => _AppDropdownState();
 }
-
 class _AppDropdownState extends State<AppDropdown>
     with SingleTickerProviderStateMixin {
   final LayerLink _layerLink = LayerLink();
@@ -63,15 +57,12 @@ class _AppDropdownState extends State<AppDropdown>
   final ScrollController _scrollController = ScrollController();
   List<String> _filteredItems = [];
   Set<String> _selectedSet = {};
-
   late AnimationController _controller;
   late Animation<double> _animation;
-
   static const int _maxVisibleItems = 6;
   static double get _itemHeight => 40.h;
   static double get _searchFieldHeight => 50.h;
   static double get _selectAllHeight => 40.h;
-
   @override
   void initState() {
     super.initState();
@@ -85,7 +76,6 @@ class _AppDropdownState extends State<AppDropdown>
       _selectedSet = Set.from(widget.selectedValues!);
     }
   }
-
   @override
   void didUpdateWidget(AppDropdown oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -96,7 +86,6 @@ class _AppDropdownState extends State<AppDropdown>
       _selectedSet = Set.from(widget.selectedValues!);
     }
   }
-
   @override
   void dispose() {
     _removeOverlay();
@@ -105,9 +94,7 @@ class _AppDropdownState extends State<AppDropdown>
     _scrollController.dispose();
     super.dispose();
   }
-
   void _toggle() => _isOpen ? _close() : _open();
-
   void _open() {
     _searchController.clear();
     _filteredItems = List.from(widget.items);
@@ -116,20 +103,17 @@ class _AppDropdownState extends State<AppDropdown>
     setState(() => _isOpen = true);
     _controller.forward();
   }
-
   void _close() {
     _controller.reverse().then((_) {
       _removeOverlay();
       if (mounted) setState(() => _isOpen = false);
     });
   }
-
   void _removeOverlay() {
     _overlayEntry?.remove();
     _overlayEntry?.dispose();
     _overlayEntry = null;
   }
-
   void _onSearch(String query) {
     setState(() {
       if (query.isEmpty) {
@@ -142,7 +126,6 @@ class _AppDropdownState extends State<AppDropdown>
     });
     _overlayEntry?.markNeedsBuild();
   }
-
   void _onItemSelected(String item) {
     if (widget.type == AppDropdownType.multiSelect) {
       setState(() {
@@ -159,7 +142,6 @@ class _AppDropdownState extends State<AppDropdown>
       _close();
     }
   }
-
   void _onSelectAll(bool selectAll) {
     setState(() {
       if (selectAll) {
@@ -171,7 +153,6 @@ class _AppDropdownState extends State<AppDropdown>
     widget.onMultiChanged?.call(_selectedSet.toList());
     _overlayEntry?.markNeedsBuild();
   }
-
   Color get _borderColor => widget.borderColor ?? AppColors.primaryBlue;
   Color get _textColor =>
       widget.textColor ??
@@ -184,7 +165,6 @@ class _AppDropdownState extends State<AppDropdown>
       : LightThemeColors.cardBackground;
   Color get _dropdownBgColor =>
       widget.isDarkMode ? DarkThemeColors.cardBackground : AppColors.white;
-
   TextStyle get _textStyle => GoogleFonts.openSans(
     fontSize: 14.sp,
     fontWeight: FontWeight.w600,
@@ -192,7 +172,6 @@ class _AppDropdownState extends State<AppDropdown>
     letterSpacing: 0.15,
     color: AppColors.primaryBlue,
   );
-
   String get _displayText {
     if (widget.type == AppDropdownType.multiSelect) {
       if (_selectedSet.isEmpty) return widget.hintText;
@@ -202,42 +181,34 @@ class _AppDropdownState extends State<AppDropdown>
     }
     return widget.value ?? widget.hintText;
   }
-
   double _calculateDropdownHeight(int filteredCount) {
     int totalItems = filteredCount;
     if (widget.showAllOption && widget.type == AppDropdownType.simple) {
       totalItems += 1;
     }
-
     final visibleItems = totalItems > _maxVisibleItems
         ? _maxVisibleItems
         : totalItems;
     double listHeight = visibleItems * _itemHeight;
-
     double searchHeight = 0;
     if (widget.type != AppDropdownType.simple) {
       searchHeight = _searchFieldHeight;
     }
-
     double selectAllHeight = 0;
     if (widget.type == AppDropdownType.multiSelect) {
       selectAllHeight = _selectAllHeight;
     }
-
     return listHeight + searchHeight + selectAllHeight;
   }
-
   OverlayEntry _createOverlay() {
     final renderBox = context.findRenderObject() as RenderBox;
     final size = renderBox.size;
     final offset = renderBox.localToGlobal(Offset.zero);
-
     return OverlayEntry(
       builder: (context) {
         final dropdownHeight =
             widget.dropdownHeight ??
             _calculateDropdownHeight(_filteredItems.length);
-
         return Stack(
           children: [
             Positioned.fill(
@@ -247,7 +218,6 @@ class _AppDropdownState extends State<AppDropdown>
                 child: Container(color: AppColors.transparent),
               ),
             ),
-
             Positioned(
               left: offset.dx,
               top: offset.dy + size.height + 5.h,
@@ -277,10 +247,8 @@ class _AppDropdownState extends State<AppDropdown>
                       children: [
                         if (widget.type != AppDropdownType.simple)
                           _buildSearchField(),
-
                         if (widget.type == AppDropdownType.multiSelect)
                           _buildSelectAllOption(),
-
                         Expanded(
                           child: RawScrollbar(
                             controller: _scrollController,
@@ -310,38 +278,31 @@ class _AppDropdownState extends State<AppDropdown>
       },
     );
   }
-
   int _getItemCount() {
     if (widget.showAllOption && widget.type == AppDropdownType.simple) {
       return _filteredItems.length + 1;
     }
     return _filteredItems.length;
   }
-
   Widget _buildListItem(int index) {
     if (widget.showAllOption &&
         widget.type == AppDropdownType.simple &&
         index == 0) {
       return _buildSimpleItem(widget.allOptionText, isAllOption: true);
     }
-
     final itemIndex =
         (widget.showAllOption && widget.type == AppDropdownType.simple)
         ? index - 1
         : index;
-
     if (itemIndex < 0 || itemIndex >= _filteredItems.length) {
       return const SizedBox.shrink();
     }
-
     final item = _filteredItems[itemIndex];
-
     if (widget.type == AppDropdownType.multiSelect) {
       return _buildCheckboxItem(item);
     }
     return _buildSimpleItem(item);
   }
-
   Widget _buildSearchField() {
     return Container(
       margin: EdgeInsets.all(10.w),
@@ -381,11 +342,9 @@ class _AppDropdownState extends State<AppDropdown>
       ),
     );
   }
-
   Widget _buildSelectAllOption() {
     final isAllSelected =
         _selectedSet.length == widget.items.length && widget.items.isNotEmpty;
-
     return InkWell(
       onTap: () => _onSelectAll(!isAllSelected),
       child: Container(
@@ -408,10 +367,8 @@ class _AppDropdownState extends State<AppDropdown>
       ),
     );
   }
-
   Widget _buildCheckboxItem(String item) {
     final isSelected = _selectedSet.contains(item);
-
     return InkWell(
       onTap: () => _onItemSelected(item),
       child: Container(
@@ -437,7 +394,6 @@ class _AppDropdownState extends State<AppDropdown>
       ),
     );
   }
-
   Widget _buildCheckbox(bool isChecked) {
     return Container(
       width: 22.w,
@@ -455,11 +411,9 @@ class _AppDropdownState extends State<AppDropdown>
           : null,
     );
   }
-
   Widget _buildSimpleItem(String item, {bool isAllOption = false}) {
     final isSelected =
         widget.value == item || (isAllOption && widget.value == null);
-
     return InkWell(
       onTap: () => _onItemSelected(isAllOption ? '' : item),
       child: Container(
@@ -483,11 +437,9 @@ class _AppDropdownState extends State<AppDropdown>
       ),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     final bool hasValue = widget.value != null || _selectedSet.isNotEmpty;
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -503,7 +455,6 @@ class _AppDropdownState extends State<AppDropdown>
           ),
           SizedBox(height: 5.h),
         ],
-
         SizedBox(
           width: (widget.width == null || widget.width == double.infinity)
               ? null
@@ -537,7 +488,6 @@ class _AppDropdownState extends State<AppDropdown>
                       ),
                     ),
                     SizedBox(width: 8.w),
-
                     Icon(
                       _isOpen
                           ? Icons.keyboard_arrow_up

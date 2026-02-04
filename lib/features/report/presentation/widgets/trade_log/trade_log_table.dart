@@ -10,12 +10,9 @@ import '../../../presentation/bloc/trade_log/trade_log_state.dart';
 import '../../../../view/presentation/widget/common/view_data_table.dart';
 import '../../../../view/presentation/widget/common/view_record_count.dart';
 import '../../../../view/presentation/widget/common/view_table_cell_styles.dart';
-
 class TradeLogTable extends StatelessWidget {
   final bool isDarkMode;
-
   const TradeLogTable({Key? key, this.isDarkMode = false}) : super(key: key);
-
   List<ViewTableColumn> _getColumns() {
     return const [
       ViewTableColumn(id: 'userName', label: 'U. NAME', width: 120),
@@ -42,7 +39,6 @@ class TradeLogTable extends StatelessWidget {
       ViewTableColumn(id: 'modifyBy', label: 'MODIFY BY', width: 120),
     ];
   }
-
   Widget _buildCell(TradeLog item, ViewTableColumn column, bool isDark) {
     switch (column.id) {
       case 'userName':
@@ -81,7 +77,6 @@ class TradeLogTable extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TradeLogBloc, TradeLogState>(
@@ -89,15 +84,12 @@ class TradeLogTable extends StatelessWidget {
         if (state is TradeLogLoading) {
           return const Center(child: CircularProgressIndicator());
         }
-
         if (state is TradeLogError) {
           return _buildErrorState(context, state.message);
         }
-
         if (state is! TradeLogLoaded) {
           return const SizedBox.shrink();
         }
-
         return Column(
           children: [
             ViewRecordCount(count: state.filteredTradeLogs.length),
@@ -127,7 +119,6 @@ class TradeLogTable extends StatelessWidget {
       },
     );
   }
-
   Widget _buildErrorState(BuildContext context, String message) {
     return Center(
       child: Column(

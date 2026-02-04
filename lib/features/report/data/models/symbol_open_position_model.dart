@@ -1,5 +1,4 @@
 import '../../domain/entities/symbol_open_position.dart';
-
 class SymbolOpenPositionModel extends SymbolOpenPosition {
   const SymbolOpenPositionModel({
     required String name,
@@ -30,7 +29,6 @@ class SymbolOpenPositionModel extends SymbolOpenPosition {
          user: user,
          days: days,
        );
-
   factory SymbolOpenPositionModel.fromJson(Map<String, dynamic> json) {
     return SymbolOpenPositionModel(
       name: json['name'] as String? ?? '',

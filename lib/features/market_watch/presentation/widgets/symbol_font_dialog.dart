@@ -7,13 +7,10 @@ import '../../../../core/widget/common_dilog_box.dart';
 import '../bloc/symbolfont/symbol_font_bloc.dart';
 import '../bloc/symbolfont/symbol_font_event.dart';
 import '../bloc/symbolfont/symbol_state.dart';
-
 class SymbolFontDialog extends StatelessWidget {
   const SymbolFontDialog({Key? key}) : super(key: key);
-
   static void show(BuildContext context) {
     context.read<SymbolFontBloc>().add(const LoadFontSettingsEvent());
-
     CommonDialog.show(
       context: context,
       title: 'Symbol Font',
@@ -30,7 +27,6 @@ class SymbolFontDialog extends StatelessWidget {
       contentPadding: EdgeInsets.all(24.w),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return CommonDialog(
@@ -45,10 +41,8 @@ class SymbolFontDialog extends StatelessWidget {
     );
   }
 }
-
 class _SymbolFontContent extends StatelessWidget {
   const _SymbolFontContent({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SymbolFontBloc, SymbolFontState>(
@@ -56,7 +50,6 @@ class _SymbolFontContent extends StatelessWidget {
         return Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
             Expanded(
               child: _buildSelectorColumn(
                 context: context,
@@ -71,7 +64,6 @@ class _SymbolFontContent extends StatelessWidget {
               ),
             ),
             SizedBox(width: 20.w),
-
             Expanded(
               child: _buildSelectorColumn(
                 context: context,
@@ -86,7 +78,6 @@ class _SymbolFontContent extends StatelessWidget {
               ),
             ),
             SizedBox(width: 20.w),
-
             Expanded(
               child: _buildSelectorColumn(
                 context: context,
@@ -105,7 +96,6 @@ class _SymbolFontContent extends StatelessWidget {
       },
     );
   }
-
   Widget _buildSelectorColumn({
     required BuildContext context,
     required String title,
@@ -116,7 +106,6 @@ class _SymbolFontContent extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-
         Container(
           width: double.infinity,
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
@@ -138,7 +127,6 @@ class _SymbolFontContent extends StatelessWidget {
           ),
         ),
         SizedBox(height: 12.h),
-
         Container(
           height: 320.h,
           decoration: BoxDecoration(
@@ -155,7 +143,6 @@ class _SymbolFontContent extends StatelessWidget {
             itemBuilder: (context, index) {
               final item = items[index];
               final isSelected = item == selectedItem;
-
               return GestureDetector(
                 onTap: () => onSelect(item),
                 child: Container(

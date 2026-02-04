@@ -4,7 +4,6 @@ import '../../../domain/entities/deals/deals.dart';
 import '../../../domain/usecases/deals/deals_usecases.dart';
 import 'deals_event.dart';
 import 'deals_state.dart';
-
 class DealsBloc extends Bloc<DealsEvent, DealsState> {
   final GetDeals getDeals;
   final GetDealsWithFilters getDealsWithFilters;
@@ -15,7 +14,6 @@ class DealsBloc extends Bloc<DealsEvent, DealsState> {
   final GetDealsStatuses getStatuses;
   final ExportDealsToPdf exportToPdf;
   final ExportDealsToExcel exportToExcel;
-
   DealsBloc({
     required this.getDeals,
     required this.getDealsWithFilters,
@@ -35,15 +33,12 @@ class DealsBloc extends Bloc<DealsEvent, DealsState> {
     on<ExportDealsToPdfEvent>(_onExportToPdf);
     on<ExportDealsToExcelEvent>(_onExportToExcel);
   }
-
   Future<void> _onLoadDeals(
       LoadDealsEvent event,
       Emitter<DealsState> emit,
       ) async {
     emit(const DealsLoading());
-
     try {
-
       final results = await Future.wait([
         getDeals(NoParams()),
         getClients(NoParams()),
@@ -52,27 +47,23 @@ class DealsBloc extends Bloc<DealsEvent, DealsState> {
         getOrderTypes(NoParams()),
         getStatuses(NoParams()),
       ]);
-
       final dealsResult = results[0];
       final clientsResult = results[1];
       final exchangesResult = results[2];
       final symbolsResult = results[3];
       final orderTypesResult = results[4];
       final statusesResult = results[5];
-
       if (dealsResult.isLeft()) {
         final failure = dealsResult.fold((l) => l, (r) => null);
         emit(DealsError(failure?.message ?? 'Failed to load deals'));
         return;
       }
-
       final deals = dealsResult.fold((l) => <Deal>[], (r) => r as List<Deal>);
       final clients = clientsResult.fold((l) => <String>[], (r) => r as List<String>);
       final exchanges = exchangesResult.fold((l) => <String>[], (r) => r as List<String>);
       final symbols = symbolsResult.fold((l) => <String>[], (r) => r as List<String>);
       final orderTypes = orderTypesResult.fold((l) => <String>[], (r) => r as List<String>);
       final statuses = statusesResult.fold((l) => <String>[], (r) => r as List<String>);
-
       emit(DealsLoaded(
         deals: deals,
         filteredDeals: deals,
@@ -87,16 +78,13 @@ class DealsBloc extends Bloc<DealsEvent, DealsState> {
       emit(DealsError(e.toString()));
     }
   }
-
   Future<void> _onApplyFilters(
       ApplyFiltersEvent event,
       Emitter<DealsState> emit,
       ) async {
     if (state is! DealsLoaded) return;
-
     final currentState = state as DealsLoaded;
     emit(const DealsLoading());
-
     final result = await getDealsWithFilters(DealsFilterParams(
       startDate: event.startDate,
       endDate: event.endDate,
@@ -106,7 +94,6 @@ class DealsBloc extends Bloc<DealsEvent, DealsState> {
       orderType: event.orderType,
       status: event.status,
     ));
-
     result.fold(
           (failure) => emit(DealsError(failure.message)),
           (deals) => emit(currentState.copyWith(
@@ -122,15 +109,12 @@ class DealsBloc extends Bloc<DealsEvent, DealsState> {
       )),
     );
   }
-
   Future<void> _onResetFilters(
       ResetFiltersEvent event,
       Emitter<DealsState> emit,
       ) async {
     if (state is! DealsLoaded) return;
-
     final currentState = state as DealsLoaded;
-
     emit(DealsLoaded(
       deals: currentState.deals,
       filteredDeals: currentState.deals,
@@ -142,26 +126,21 @@ class DealsBloc extends Bloc<DealsEvent, DealsState> {
       statuses: currentState.statuses,
     ));
   }
-
   void _onSelectDeal(
       SelectDealEvent event,
       Emitter<DealsState> emit,
       ) {
     if (state is! DealsLoaded) return;
-
     final currentState = state as DealsLoaded;
     emit(currentState.copyWith(selectedDealId: event.dealId));
   }
-
   void _onSortByColumn(
       SortDealsByColumnEvent event,
       Emitter<DealsState> emit,
       ) {
     if (state is! DealsLoaded) return;
-
     final currentState = state as DealsLoaded;
     final sortedDeals = List<Deal>.from(currentState.filteredDeals);
-
     sortedDeals.sort((a, b) {
       int comparison = 0;
       switch (event.columnId) {
@@ -215,24 +194,19 @@ class DealsBloc extends Bloc<DealsEvent, DealsState> {
       }
       return event.ascending ? comparison : -comparison;
     });
-
     emit(currentState.copyWith(
       filteredDeals: sortedDeals,
       sortColumn: event.columnId,
       sortAscending: event.ascending,
     ));
   }
-
   Future<void> _onExportToPdf(
       ExportDealsToPdfEvent event,
       Emitter<DealsState> emit,
       ) async {
     if (state is! DealsLoaded) return;
-
     final currentState = state as DealsLoaded;
-
     final result = await exportToPdf(currentState.filteredDeals);
-
     result.fold(
           (failure) => emit(DealsError(failure.message)),
           (path) {
@@ -240,22 +214,17 @@ class DealsBloc extends Bloc<DealsEvent, DealsState> {
           message: 'PDF exported successfully',
           filePath: path,
         ));
-
         emit(currentState);
       },
     );
   }
-
   Future<void> _onExportToExcel(
       ExportDealsToExcelEvent event,
       Emitter<DealsState> emit,
       ) async {
     if (state is! DealsLoaded) return;
-
     final currentState = state as DealsLoaded;
-
     final result = await exportToExcel(currentState.filteredDeals);
-
     result.fold(
           (failure) => emit(DealsError(failure.message)),
           (path) {
@@ -263,7 +232,6 @@ class DealsBloc extends Bloc<DealsEvent, DealsState> {
           message: 'Excel exported successfully',
           filePath: path,
         ));
-
         emit(currentState);
       },
     );

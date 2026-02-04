@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 class ProfitAndLossReport extends Equatable {
   final String id;
   final String userName;
@@ -10,7 +9,6 @@ class ProfitAndLossReport extends Equatable {
   final double netPL;
   final double ourBrokerage;
   final double ourPercentage;
-
   const ProfitAndLossReport({
     required this.id,
     required this.userName,
@@ -22,7 +20,6 @@ class ProfitAndLossReport extends Equatable {
     required this.ourBrokerage,
     required this.ourPercentage,
   });
-
   @override
   List<Object?> get props => [
     id,

@@ -2,18 +2,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../domain/repositories/symbol_wise_pl/symbol_wise_pl_repository.dart';
 import 'symbol_trade_list_event.dart';
 import 'symbol_trade_list_state.dart';
-
 class SymbolTradeListBloc
     extends Bloc<SymbolTradeListEvent, SymbolTradeListState> {
   final SymbolWisePLRepository repository;
-
   SymbolTradeListBloc({required this.repository})
     : super(SymbolTradeListInitial()) {
     on<LoadSymbolTradeList>(_onLoadSymbolTradeList);
     on<FilterSymbolTradeList>(_onFilterSymbolTradeList);
     on<ResetSymbolTradeListFilters>(_onResetSymbolTradeListFilters);
   }
-
   Future<void> _onLoadSymbolTradeList(
     LoadSymbolTradeList event,
     Emitter<SymbolTradeListState> emit,
@@ -33,7 +30,6 @@ class SymbolTradeListBloc
       final exchanges = tradeLogs.map((e) => e.exchange).toSet().toList();
       final symbols = tradeLogs.map((e) => e.symbol).toSet().toList();
       final types = tradeLogs.map((e) => e.tradeType).toSet().toList();
-
       emit(
         SymbolTradeListLoaded(
           tradeLogs: tradeLogs,
@@ -50,7 +46,6 @@ class SymbolTradeListBloc
       );
     });
   }
-
   Future<void> _onFilterSymbolTradeList(
     FilterSymbolTradeList event,
     Emitter<SymbolTradeListState> emit,
@@ -65,7 +60,6 @@ class SymbolTradeListBloc
         type: event.type ?? currentState.selectedType,
         dateRange: event.dateRange ?? currentState.selectedDateRange,
       );
-
       result.fold((failure) => emit(SymbolTradeListError(failure.message)), (
         tradeLogs,
       ) {
@@ -93,7 +87,6 @@ class SymbolTradeListBloc
       );
     }
   }
-
   Future<void> _onResetSymbolTradeListFilters(
     ResetSymbolTradeListFilters event,
     Emitter<SymbolTradeListState> emit,

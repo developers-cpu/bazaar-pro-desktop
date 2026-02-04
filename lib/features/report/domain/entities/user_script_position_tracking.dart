@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 class UserScriptPositionTracking extends Equatable {
   final String id;
   final String positionDate;
@@ -8,7 +7,6 @@ class UserScriptPositionTracking extends Equatable {
   final String position;
   final double openAPrice;
   final int days;
-
   const UserScriptPositionTracking({
     required this.id,
     required this.positionDate,
@@ -18,7 +16,6 @@ class UserScriptPositionTracking extends Equatable {
     required this.openAPrice,
     required this.days,
   });
-
   @override
   List<Object?> get props => [
     id,

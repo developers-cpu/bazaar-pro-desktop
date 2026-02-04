@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'svg_icon.dart';
-
 class CustomInputField extends StatelessWidget {
   final String hintText;
   final String? svgIconPath;
@@ -19,7 +18,6 @@ class CustomInputField extends StatelessWidget {
   final double? height;
   final double? width;
   final String? prefixSvgPath;
-
   const CustomInputField({
     Key? key,
     required this.hintText,
@@ -37,7 +35,6 @@ class CustomInputField extends StatelessWidget {
     this.width,
     this.prefixSvgPath,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -68,19 +65,16 @@ class CustomInputField extends StatelessWidget {
             letterSpacing: 0.15,
             color: AppColors.primaryBlue,
           ),
-
           contentPadding: EdgeInsets.symmetric(
             horizontal: 10.w,
             vertical: 0,
           ),
-
           border: _buildBorder(),
           enabledBorder: _buildBorder(),
           focusedBorder: _buildBorder(),
           errorBorder: _buildBorder(isError: true),
           focusedErrorBorder: _buildBorder(isError: true),
           disabledBorder: _buildBorder(isDisabled: true),
-
           prefixIcon: _buildPrefixIcon(),
           suffixIcon: _buildSuffixIcon(),
         ),
@@ -89,7 +83,6 @@ class CustomInputField extends StatelessWidget {
       ),
     );
   }
-
   Widget? _buildPrefixIcon() {
     if (prefixSvgPath != null) {
       return Padding(
@@ -103,7 +96,6 @@ class CustomInputField extends StatelessWidget {
     }
     return null;
   }
-
   Widget? _buildSuffixIcon() {
     if (suffixIcon != null) {
       return IconButton(
@@ -115,7 +107,6 @@ class CustomInputField extends StatelessWidget {
         onPressed: onSuffixIconPressed,
       );
     }
-
     if (svgIconPath != null) {
       return Padding(
         padding: EdgeInsets.symmetric(horizontal: 10.w),
@@ -126,10 +117,8 @@ class CustomInputField extends StatelessWidget {
         ),
       );
     }
-
     return null;
   }
-
   OutlineInputBorder _buildBorder({
     bool isError = false,
     bool isDisabled = false,
@@ -142,7 +131,6 @@ class CustomInputField extends StatelessWidget {
     } else {
       borderColor = AppColors.primaryBlue;
     }
-
     return OutlineInputBorder(
       borderRadius: BorderRadius.circular(10.r),
       borderSide: BorderSide(

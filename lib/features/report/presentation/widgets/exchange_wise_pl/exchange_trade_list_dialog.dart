@@ -11,14 +11,11 @@ import '../../../domain/entities/symbol_trade_log.dart';
 import '../../bloc/symbol_wise_pl/trade_list/symbol_trade_list_bloc.dart';
 import '../../bloc/symbol_wise_pl/trade_list/symbol_trade_list_event.dart';
 import '../../bloc/symbol_wise_pl/trade_list/symbol_trade_list_state.dart';
-
 class ExchangeTradeListDialog extends StatelessWidget {
   final String? symbol;
   final String? exchange;
-
   const ExchangeTradeListDialog({Key? key, this.symbol, this.exchange})
     : super(key: key);
-
   static void show(BuildContext context, {String? symbol, String? exchange}) {
     CommonDialog.show(
       context: context,
@@ -29,7 +26,6 @@ class ExchangeTradeListDialog extends StatelessWidget {
       showButtons: false,
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

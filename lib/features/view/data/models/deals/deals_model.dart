@@ -1,5 +1,4 @@
 import '../../../domain/entities/deals/deals.dart';
-
 class DealModel extends Deal {
   const DealModel({
     required super.id,
@@ -22,7 +21,6 @@ class DealModel extends Deal {
     required super.orderDuration,
     required super.status,
   });
-
   factory DealModel.fromJson(Map<String, dynamic> json) {
     return DealModel(
       id: json['id']?.toString() ?? '',
@@ -50,7 +48,6 @@ class DealModel extends Deal {
       status: json['status'] ?? 'Market',
     );
   }
-
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -74,7 +71,6 @@ class DealModel extends Deal {
       'status': status,
     };
   }
-
   factory DealModel.fromEntity(Deal deal) {
     return DealModel(
       id: deal.id,

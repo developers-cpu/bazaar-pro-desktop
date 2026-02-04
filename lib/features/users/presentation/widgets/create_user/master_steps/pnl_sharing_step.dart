@@ -6,18 +6,14 @@ import '../../../../../../core/widget/app_text_field.dart';
 import '../../../bloc/user_form/user_form_bloc.dart';
 import '../../../bloc/user_form/user_form_event.dart';
 import '../../../bloc/user_form/user_form_state.dart';
-
 class PnlSharingStep extends StatefulWidget {
   const PnlSharingStep({super.key});
-
   @override
   State<PnlSharingStep> createState() => _PnlSharingStepState();
 }
-
 class _PnlSharingStepState extends State<PnlSharingStep> {
   late TextEditingController _plSharingController;
   late TextEditingController _brokerageSharingController;
-
   @override
   void initState() {
     super.initState();
@@ -27,20 +23,17 @@ class _PnlSharingStepState extends State<PnlSharingStep> {
       text: state.brokerageSharing,
     );
   }
-
   @override
   void dispose() {
     _plSharingController.dispose();
     _brokerageSharingController.dispose();
     super.dispose();
   }
-
   void _updateField(String field, String value) {
     context.read<UserFormBloc>().add(
       UpdateFormFieldEvent(fieldName: field, value: value),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return Container(

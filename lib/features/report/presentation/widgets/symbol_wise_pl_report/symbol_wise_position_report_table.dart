@@ -9,12 +9,9 @@ import '../../../../view/presentation/widget/common/view_table_cell_styles.dart'
 import '../../../../view/presentation/widget/common/view_data_table_footer.dart';
 import '../../bloc/symbol_wise_position_report/symbol_wise_position_report_bloc.dart';
 import '../../bloc/symbol_wise_position_report/symbol_wise_position_report_state.dart';
-
 class SymbolWisePositionReportTable extends StatelessWidget {
   final bool isDarkMode;
-
   const SymbolWisePositionReportTable({super.key, this.isDarkMode = false});
-
   List<ViewTableColumn> _getColumns() {
     return const [
       ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 220),
@@ -24,7 +21,6 @@ class SymbolWisePositionReportTable extends StatelessWidget {
       ViewTableColumn(id: 'netPL', label: 'NET PL', width: 140),
     ];
   }
-
   Widget _buildClickableNumberCell(
     BuildContext context,
     double value,
@@ -45,7 +41,6 @@ class SymbolWisePositionReportTable extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildCell(
     BuildContext context,
     SymbolWisePositionReport item,
@@ -79,7 +74,6 @@ class SymbolWisePositionReportTable extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<
@@ -90,27 +84,22 @@ class SymbolWisePositionReportTable extends StatelessWidget {
         if (state is SymbolWisePositionReportLoading) {
           return const Center(child: CircularProgressIndicator());
         }
-
         if (state is SymbolWisePositionReportError) {
           return Center(child: Text('Error: ${state.message}'));
         }
-
         if (state is! SymbolWisePositionReportLoaded) {
           return const SizedBox.shrink();
         }
-
         double totalReleasePL = 0;
         double totalM2M = 0;
         double totalBrokerage = 0;
         double totalNetPL = 0;
-
         for (var item in state.reports) {
           totalReleasePL += item.releasePL;
           totalM2M += item.m2m;
           totalBrokerage += item.brokerage;
           totalNetPL += item.netPL;
         }
-
         return Column(
           children: [
             ViewRecordCount(count: state.reports.length),

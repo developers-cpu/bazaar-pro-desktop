@@ -5,10 +5,8 @@ import '../../../../../core/widget/app_dropdown.dart';
 import '../../bloc/login_history/login_history_bloc.dart';
 import '../../bloc/login_history/login_history_event.dart';
 import '../../bloc/login_history/login_history_state.dart';
-
 class LoginHistoryFilterBar extends StatelessWidget {
   const LoginHistoryFilterBar({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LoginHistoryBloc, LoginHistoryState>(
@@ -18,9 +16,7 @@ class LoginHistoryFilterBar extends StatelessWidget {
             : state is LoginHistoryLoaded
             ? state.clients
             : <String>[];
-
         final selectedClient = state is LoginHistoryLoaded ? state.selectedClient : null;
-
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Row(

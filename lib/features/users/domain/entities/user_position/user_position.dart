@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 class UserPosition extends Equatable {
   final String exchange;
   final String symbol;
@@ -10,7 +9,6 @@ class UserPosition extends Equatable {
   final double cmp;
   final double m2m;
   final double lot;
-
   const UserPosition({
     required this.exchange,
     required this.symbol,
@@ -22,7 +20,6 @@ class UserPosition extends Equatable {
     required this.m2m,
     required this.lot,
   });
-
   @override
   List<Object?> get props => [
     exchange,

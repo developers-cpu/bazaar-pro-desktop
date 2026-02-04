@@ -8,10 +8,8 @@ import '../../../../view/presentation/widget/common/view_reset_buttons.dart';
 import '../../bloc/user_script_position_tracking/user_script_position_tracking_bloc.dart';
 import '../../bloc/user_script_position_tracking/user_script_position_tracking_event.dart';
 import '../../bloc/user_script_position_tracking/user_script_position_tracking_state.dart';
-
 class UserScriptPositionTrackingFilterBar extends StatelessWidget {
   const UserScriptPositionTrackingFilterBar({super.key});
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<
@@ -24,10 +22,8 @@ class UserScriptPositionTrackingFilterBar extends StatelessWidget {
         String? selectedSymbol;
         DateTimeRange? selectedDateRange;
         List<String> userNames = [];
-
         List<String> exchanges = [];
         List<String> symbols = [];
-
         if (state is UserScriptPositionTrackingLoaded) {
           selectedUser = state.selectedUser;
           selectedExchange = state.selectedExchange;
@@ -36,7 +32,6 @@ class UserScriptPositionTrackingFilterBar extends StatelessWidget {
           exchanges = state.exchanges;
           symbols = state.symbols;
         }
-
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
           child: Row(
@@ -65,7 +60,6 @@ class UserScriptPositionTrackingFilterBar extends StatelessWidget {
                 },
               ),
               SizedBox(width: 10.w),
-
               AppDropdown(
                 value: selectedUser,
                 hintText: 'User',
@@ -91,7 +85,6 @@ class UserScriptPositionTrackingFilterBar extends StatelessWidget {
                 },
               ),
               SizedBox(width: 10.w),
-
               AppDropdown(
                 value: selectedExchange,
                 hintText: 'Exchange',
@@ -115,7 +108,6 @@ class UserScriptPositionTrackingFilterBar extends StatelessWidget {
                 },
               ),
               SizedBox(width: 10.w),
-
               AppDropdown(
                 value: selectedSymbol,
                 hintText: 'Symbol',
@@ -139,9 +131,7 @@ class UserScriptPositionTrackingFilterBar extends StatelessWidget {
                   );
                 },
               ),
-
               const Spacer(),
-
               ViewResetButtons(
                 onReset: () {
                   context.read<UserScriptPositionTrackingBloc>().add(

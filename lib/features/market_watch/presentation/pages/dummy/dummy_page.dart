@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 class DummyPage extends StatelessWidget {
   final String title;
   final String description;
   final Color accentColor;
   final IconData icon;
-
   const DummyPage({
     Key? key,
     required this.title,
@@ -15,7 +13,6 @@ class DummyPage extends StatelessWidget {
     this.accentColor = const Color(0xFF2563EB),
     this.icon = Icons.dashboard,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,7 +46,6 @@ class DummyPage extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-
                 Container(
                   width: 120.w,
                   height: 120.h,
@@ -64,7 +60,6 @@ class DummyPage extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 32.h),
-
                 Text(
                   title,
                   textAlign: TextAlign.center,
@@ -75,7 +70,6 @@ class DummyPage extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 16.h),
-
                 Text(
                   description,
                   textAlign: TextAlign.center,
@@ -87,7 +81,6 @@ class DummyPage extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 32.h),
-
                 Container(
                   width: double.infinity,
                   padding: EdgeInsets.all(20.w),
@@ -127,7 +120,6 @@ class DummyPage extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 24.h),
-
                 ElevatedButton.icon(
                   onPressed: () => Navigator.of(context).pop(),
                   icon: Icon(Icons.arrow_back, size: 20.sp),
@@ -155,7 +147,6 @@ class DummyPage extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildInfoRow(String label, String value, Color color) {
     return Padding(
       padding: EdgeInsets.only(bottom: 12.h),
@@ -183,10 +174,8 @@ class DummyPage extends StatelessWidget {
     );
   }
 }
-
 class PendingOrdersPage extends StatelessWidget {
   const PendingOrdersPage({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return const DummyPage(
@@ -197,10 +186,8 @@ class PendingOrdersPage extends StatelessWidget {
     );
   }
 }
-
 class TradesPage extends StatelessWidget {
   const TradesPage({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return const DummyPage(
@@ -211,10 +198,8 @@ class TradesPage extends StatelessWidget {
     );
   }
 }
-
 class DealsPage extends StatelessWidget {
   const DealsPage({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return const DummyPage(
@@ -225,10 +210,8 @@ class DealsPage extends StatelessWidget {
     );
   }
 }
-
 class NetPositionPage extends StatelessWidget {
   const NetPositionPage({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return const DummyPage(
@@ -239,10 +222,8 @@ class NetPositionPage extends StatelessWidget {
     );
   }
 }
-
 class RejectionLogPage extends StatelessWidget {
   const RejectionLogPage({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return const DummyPage(
@@ -253,10 +234,8 @@ class RejectionLogPage extends StatelessWidget {
     );
   }
 }
-
 class LoginHistoryPage extends StatelessWidget {
   const LoginHistoryPage({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return const DummyPage(
@@ -267,10 +246,8 @@ class LoginHistoryPage extends StatelessWidget {
     );
   }
 }
-
 class IntradayHistoryPage extends StatelessWidget {
   const IntradayHistoryPage({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return const DummyPage(
@@ -281,10 +258,8 @@ class IntradayHistoryPage extends StatelessWidget {
     );
   }
 }
-
 class ScriptMasterPage extends StatelessWidget {
   const ScriptMasterPage({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return const DummyPage(
@@ -295,10 +270,8 @@ class ScriptMasterPage extends StatelessWidget {
     );
   }
 }
-
 class ScriptQuantityPage extends StatelessWidget {
   const ScriptQuantityPage({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return const DummyPage(
@@ -309,10 +282,8 @@ class ScriptQuantityPage extends StatelessWidget {
     );
   }
 }
-
 class BulkTradePage extends StatelessWidget {
   const BulkTradePage({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return const DummyPage(
@@ -323,10 +294,8 @@ class BulkTradePage extends StatelessWidget {
     );
   }
 }
-
 class TotalVolumePage extends StatelessWidget {
   const TotalVolumePage({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return const DummyPage(
@@ -337,10 +306,8 @@ class TotalVolumePage extends StatelessWidget {
     );
   }
 }
-
 class DeletedTradePage extends StatelessWidget {
   const DeletedTradePage({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return const DummyPage(
@@ -351,10 +318,8 @@ class DeletedTradePage extends StatelessWidget {
     );
   }
 }
-
 class ManualTradePage extends StatelessWidget {
   const ManualTradePage({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return const DummyPage(
@@ -365,10 +330,8 @@ class ManualTradePage extends StatelessWidget {
     );
   }
 }
-
 class CreateUserPage extends StatelessWidget {
   const CreateUserPage({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return const DummyPage(
@@ -379,10 +342,8 @@ class CreateUserPage extends StatelessWidget {
     );
   }
 }
-
 class InactiveUserPage extends StatelessWidget {
   const InactiveUserPage({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return const DummyPage(
@@ -393,10 +354,8 @@ class InactiveUserPage extends StatelessWidget {
     );
   }
 }
-
 class SearchUserPage extends StatelessWidget {
   const SearchUserPage({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return const DummyPage(
@@ -407,10 +366,8 @@ class SearchUserPage extends StatelessWidget {
     );
   }
 }
-
 class DailyReportPage extends StatelessWidget {
   const DailyReportPage({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return const DummyPage(
@@ -421,10 +378,8 @@ class DailyReportPage extends StatelessWidget {
     );
   }
 }
-
 class WeeklyReportPage extends StatelessWidget {
   const WeeklyReportPage({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return const DummyPage(
@@ -435,10 +390,8 @@ class WeeklyReportPage extends StatelessWidget {
     );
   }
 }
-
 class MonthlyReportPage extends StatelessWidget {
   const MonthlyReportPage({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return const DummyPage(
@@ -449,10 +402,8 @@ class MonthlyReportPage extends StatelessWidget {
     );
   }
 }
-
 class CustomReportPage extends StatelessWidget {
   const CustomReportPage({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return const DummyPage(

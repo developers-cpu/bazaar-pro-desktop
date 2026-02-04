@@ -6,10 +6,8 @@ import '../../bloc/pending_orders/pending_orders_bloc.dart';
 import '../../bloc/pending_orders/pending_orders_event.dart';
 import '../../bloc/pending_orders/pending_orders_state.dart';
 import '../common/view_reset_buttons.dart';
-
 class PendingOrdersFilterBar extends StatelessWidget {
   const PendingOrdersFilterBar({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<PendingOrdersBloc, PendingOrdersState>(
@@ -17,7 +15,6 @@ class PendingOrdersFilterBar extends StatelessWidget {
         if (state is! PendingOrdersLoaded) {
           return const SizedBox.shrink();
         }
-
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Row(
@@ -36,7 +33,6 @@ class PendingOrdersFilterBar extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 12.w),
-
               Expanded(
                 child: AppDropdown(
                   type: AppDropdownType.simple,
@@ -52,7 +48,6 @@ class PendingOrdersFilterBar extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 12.w),
-
               Expanded(
                 child: AppDropdown(
                   type: AppDropdownType.search,
@@ -67,7 +62,6 @@ class PendingOrdersFilterBar extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 12.w),
-
               Expanded(
                 child: AppDropdown(
                   type: AppDropdownType.simple,
@@ -82,9 +76,7 @@ class PendingOrdersFilterBar extends StatelessWidget {
                   },
                 ),
               ),
-
               const Spacer(),
-
               ViewResetButtons(
                 onReset: () {
                   context.read<PendingOrdersBloc>().add(

@@ -10,13 +10,10 @@ import '../user_details/user_details_dialog.dart';
 import '../create_user/master_form_dialog.dart';
 import '../create_user/client_form_dialog.dart';
 import '../create_user/update_access_dialog.dart';
-
 class UserTreeView extends StatelessWidget {
   final List<UserHierarchyNode> nodes;
   final int level;
-
   const UserTreeView({super.key, required this.nodes, this.level = 0});
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -25,11 +22,9 @@ class UserTreeView extends StatelessWidget {
       }).toList(),
     );
   }
-
   Widget _buildNode(BuildContext context, UserHierarchyNode node) {
     Color iconColor;
     Color textColor;
-
     if (node.user.type == 'Super Admin' || node.user.type == 'Master') {
       iconColor = AppColors.errorColor;
       textColor = AppColors.errorColor;
@@ -41,14 +36,11 @@ class UserTreeView extends StatelessWidget {
       } else {
         iconColor = Colors.orange;
       }
-
       textColor = iconColor;
     }
-
     final isClient = node.user.type == 'Client';
     final shouldShowChildren =
         node.isExpanded && node.children.isNotEmpty && !isClient;
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -64,7 +56,6 @@ class UserTreeView extends StatelessWidget {
       ],
     );
   }
-
   Widget _buildNodeRow(
     BuildContext context,
     UserHierarchyNode node,
@@ -72,7 +63,6 @@ class UserTreeView extends StatelessWidget {
     Color textColor,
   ) {
     final hasChildren = node.children.isNotEmpty;
-
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 4.h),
       child: Row(
@@ -97,7 +87,6 @@ class UserTreeView extends StatelessWidget {
             )
           else
             SizedBox(width: 28.w),
-
           Expanded(
             child: InkWell(
               onTap: () {
@@ -137,7 +126,6 @@ class UserTreeView extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildDottedLineWrapper(BuildContext context, Widget child) {
     return Container(
       decoration: BoxDecoration(
@@ -146,7 +134,6 @@ class UserTreeView extends StatelessWidget {
       child: child,
     );
   }
-
   void _showEditUserDialog(BuildContext context, UserHierarchyNode node) {
     final user = node.user;
     final userData = {
@@ -158,7 +145,6 @@ class UserTreeView extends StatelessWidget {
       'plSharing': user.plPercent.toStringAsFixed(0),
       'brokerageSharing': user.brkPercent.toStringAsFixed(0),
     };
-
     if (user.type == 'Master') {
       MasterFormDialog.showEdit(
         context: context,
@@ -177,7 +163,6 @@ class UserTreeView extends StatelessWidget {
       );
     }
   }
-
   void _showActionDialog(BuildContext context, UserHierarchyNode node) {
     final user = node.user;
     final currentSettings = {
@@ -190,7 +175,6 @@ class UserTreeView extends StatelessWidget {
       'freshLimitSL': true,
       'lockUser': false,
     };
-
     UpdateAccessDialog.show(
       context: context,
       userId: user.id,

@@ -5,10 +5,8 @@ import '../bloc/symbol_wise_pl/symbol_wise_pl_bloc.dart';
 import '../bloc/symbol_wise_pl/symbol_wise_pl_event.dart';
 import '../widgets/symbol_wise_pl_report/symbol_wise_pl_filter_bar.dart';
 import '../widgets/symbol_wise_pl_report/symbol_wise_pl_table.dart';
-
 class SymbolWisePLReportPage extends StatelessWidget {
   const SymbolWisePLReportPage({super.key});
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

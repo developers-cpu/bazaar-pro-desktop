@@ -15,17 +15,14 @@ import '../../common/user_data_table.dart';
 import '../../common/user_record_count.dart';
 import '../../common/user_reset_buttons.dart';
 import '../../../../../../injection_container.dart';
-
 class UserQuantitySettingsTab extends StatelessWidget {
   final User user;
   final String? groupName;
-
   const UserQuantitySettingsTab({
     super.key,
     required this.user,
     this.groupName,
   });
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -36,26 +33,21 @@ class UserQuantitySettingsTab extends StatelessWidget {
     );
   }
 }
-
 class UserQuantitySettingsTabView extends StatefulWidget {
   final String? groupName;
   const UserQuantitySettingsTabView({super.key, this.groupName});
-
   @override
   State<UserQuantitySettingsTabView> createState() =>
       _UserQuantitySettingsTabViewState();
 }
-
 class _UserQuantitySettingsTabViewState
     extends State<UserQuantitySettingsTabView> {
   final TextEditingController _maxQtyController = TextEditingController();
   final TextEditingController _breakupQtyController = TextEditingController();
   final TextEditingController _maxLotController = TextEditingController();
   final TextEditingController _breakupLotController = TextEditingController();
-
   final Set<String> _selectedIds = {};
   bool _isAllSelected = false;
-
   @override
   void dispose() {
     _maxQtyController.dispose();
@@ -64,7 +56,6 @@ class _UserQuantitySettingsTabViewState
     _breakupLotController.dispose();
     super.dispose();
   }
-
   void _onSelectAll(bool? value, List<UserQuantitySetting> allSettings) {
     setState(() {
       _isAllSelected = value ?? false;
@@ -75,7 +66,6 @@ class _UserQuantitySettingsTabViewState
       }
     });
   }
-
   void _onRowSelect(bool? value, String id) {
     setState(() {
       if (value == true) {
@@ -86,7 +76,6 @@ class _UserQuantitySettingsTabViewState
       }
     });
   }
-
   void _onUpdate() {
     if (_selectedIds.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -96,12 +85,10 @@ class _UserQuantitySettingsTabViewState
       );
       return;
     }
-
     final int? maxQty = int.tryParse(_maxQtyController.text);
     final int? breakupQty = int.tryParse(_breakupQtyController.text);
     final int? maxLot = int.tryParse(_maxLotController.text);
     final int? breakupLot = int.tryParse(_breakupLotController.text);
-
     context.read<UserQuantitySettingsBloc>().add(
       UpdateSelectedUserQuantitySetting(
         selectedIds: _selectedIds.toList(),
@@ -112,7 +99,6 @@ class _UserQuantitySettingsTabViewState
       ),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -124,7 +110,6 @@ class _UserQuantitySettingsTabViewState
       ],
     );
   }
-
   Widget _buildFilterBar(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(12.w),
@@ -133,12 +118,10 @@ class _UserQuantitySettingsTabViewState
         builder: (context, state) {
           List<String> symbols = [];
           String? selectedSymbol;
-
           if (state is UserQuantitySettingsLoaded) {
             symbols = state.metadata?.symbols ?? [];
             selectedSymbol = state.selectedSymbol;
           }
-
           return Column(
             children: [
               Row(
@@ -179,7 +162,6 @@ class _UserQuantitySettingsTabViewState
                 ],
               ),
               SizedBox(height: 8.h),
-
               Row(
                 children: [
                   CustomInputField(
@@ -226,7 +208,6 @@ class _UserQuantitySettingsTabViewState
       ),
     );
   }
-
   Widget _buildGroupHeader(BuildContext context) {
     return Container(
       width: double.infinity,
@@ -257,7 +238,6 @@ class _UserQuantitySettingsTabViewState
       ),
     );
   }
-
   Widget _buildRecordCount(BuildContext context) {
     return Container(
       color: AppColors.white,
@@ -273,23 +253,19 @@ class _UserQuantitySettingsTabViewState
       ),
     );
   }
-
   Widget _buildTable(BuildContext context) {
     return BlocBuilder<UserQuantitySettingsBloc, UserQuantitySettingsState>(
       builder: (context, state) {
         if (state is UserQuantitySettingsLoading) {
           return const Center(child: CircularProgressIndicator());
         }
-
         if (state is UserQuantitySettingsError) {
           return Center(child: Text('Error: ${state.message}'));
         }
-
         List<UserQuantitySetting> settings = [];
         if (state is UserQuantitySettingsLoaded) {
           settings = state.filteredSettings;
         }
-
         return UserDataTable<UserQuantitySetting>(
           columns: [
             UserTableColumn(
@@ -337,7 +313,6 @@ class _UserQuantitySettingsTabViewState
           idExtractor: (item) => item.id,
           cellBuilder: (item, column) {
             final isSelected = _selectedIds.contains(item.id);
-
             switch (column.id) {
               case 'checkbox':
                 return Checkbox(
@@ -367,7 +342,6 @@ class _UserQuantitySettingsTabViewState
       },
     );
   }
-
   TextStyle _cellStyle({bool isBold = false}) {
     return GoogleFonts.openSans(
       fontSize: 12.sp,

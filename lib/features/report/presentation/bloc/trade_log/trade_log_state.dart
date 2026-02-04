@@ -1,18 +1,13 @@
 import 'package:bazarpro/features/report/domain/entities/trade_log.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-
 abstract class TradeLogState extends Equatable {
   const TradeLogState();
-
   @override
   List<Object?> get props => [];
 }
-
 class TradeLogInitial extends TradeLogState {}
-
 class TradeLogLoading extends TradeLogState {}
-
 class TradeLogLoaded extends TradeLogState {
   final List<TradeLog> tradeLogs;
   final List<TradeLog> filteredTradeLogs;
@@ -22,11 +17,9 @@ class TradeLogLoaded extends TradeLogState {
   final String? selectedSymbol;
   final String sortColumn;
   final bool sortAscending;
-
   final List<String> users;
   final List<String> exchanges;
   final List<String> symbols;
-
   const TradeLogLoaded({
     required this.tradeLogs,
     required this.filteredTradeLogs,
@@ -40,7 +33,6 @@ class TradeLogLoaded extends TradeLogState {
     this.exchanges = const [],
     this.symbols = const [],
   });
-
   TradeLogLoaded copyWith({
     List<TradeLog>? tradeLogs,
     List<TradeLog>? filteredTradeLogs,
@@ -68,7 +60,6 @@ class TradeLogLoaded extends TradeLogState {
       symbols: symbols ?? this.symbols,
     );
   }
-
   @override
   List<Object?> get props => [
     tradeLogs,
@@ -84,12 +75,9 @@ class TradeLogLoaded extends TradeLogState {
     symbols,
   ];
 }
-
 class TradeLogError extends TradeLogState {
   final String message;
-
   const TradeLogError({required this.message});
-
   @override
   List<Object?> get props => [message];
 }

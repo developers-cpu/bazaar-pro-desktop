@@ -4,12 +4,9 @@ import '../../../domain/entities/rejection_log/rejection_log.dart';
 import '../../../domain/repositories/rejection_log/rejection_log_repository.dart';
 import '../../datasources/rejection_log/rejection_log_remote_datasource.dart';
 import '../../models/rejection_log/rejection_log_model.dart';
-
 class RejectionLogRepositoryImpl implements RejectionLogRepository {
   final RejectionLogRemoteDataSource remoteDataSource;
-
   RejectionLogRepositoryImpl({required this.remoteDataSource});
-
   @override
   Future<Either<Failure, List<RejectionLog>>> getRejectionLogs() async {
     try {
@@ -19,7 +16,6 @@ class RejectionLogRepositoryImpl implements RejectionLogRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
-
   @override
   Future<Either<Failure, List<RejectionLog>>> getRejectionLogsWithFilters({
     DateTime? startDate,
@@ -41,7 +37,6 @@ class RejectionLogRepositoryImpl implements RejectionLogRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
-
   @override
   Future<Either<Failure, List<String>>> getClients() async {
     try {
@@ -51,7 +46,6 @@ class RejectionLogRepositoryImpl implements RejectionLogRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
-
   @override
   Future<Either<Failure, List<String>>> getExchanges() async {
     try {
@@ -61,7 +55,6 @@ class RejectionLogRepositoryImpl implements RejectionLogRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
-
   @override
   Future<Either<Failure, List<String>>> getSymbols() async {
     try {
@@ -71,7 +64,6 @@ class RejectionLogRepositoryImpl implements RejectionLogRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
-
   @override
   Future<Either<Failure, String>> exportToPdf(
       List<RejectionLog> logs) async {
@@ -83,7 +75,6 @@ class RejectionLogRepositoryImpl implements RejectionLogRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
-
   @override
   Future<Either<Failure, String>> exportToExcel(
       List<RejectionLog> logs) async {

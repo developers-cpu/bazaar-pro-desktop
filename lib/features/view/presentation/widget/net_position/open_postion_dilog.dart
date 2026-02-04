@@ -9,15 +9,12 @@ import '../../bloc/net_position/net_position_bloc.dart';
 import '../../bloc/net_position/net_position_event.dart';
 import '../../bloc/net_position/net_position_state.dart';
 import '../common/view_reset_buttons.dart';
-
 class OpenPositionDialog extends StatelessWidget {
   final bool isDarkMode;
-
   const OpenPositionDialog({
     Key? key,
     this.isDarkMode = false,
   }) : super(key: key);
-
   static void show({
     required BuildContext context,
     bool isDarkMode = false,
@@ -33,15 +30,12 @@ class OpenPositionDialog extends StatelessWidget {
       ),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     final bgColor = isDarkMode
         ? const Color(0xFF1A1A1A)
         : AppColors.white;
-
     final headerBgColor = const Color(0xFF2C5F7A);
-
     return Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20.r),
@@ -65,7 +59,6 @@ class OpenPositionDialog extends StatelessWidget {
                   if (state is NetPositionLoading) {
                     return const Center(child: CircularProgressIndicator());
                   }
-
                   if (state is NetPositionError) {
                     return Center(
                       child: Text(
@@ -77,11 +70,9 @@ class OpenPositionDialog extends StatelessWidget {
                       ),
                     );
                   }
-
                   if (state is NetPositionLoaded) {
                     return _buildTable(state.filteredPositions);
                   }
-
                   return const Center(
                     child: Text('No positions available'),
                   );
@@ -93,7 +84,6 @@ class OpenPositionDialog extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildHeader(BuildContext context, Color headerBgColor) {
     return ClipRRect(
       borderRadius: BorderRadius.only(
@@ -130,7 +120,6 @@ class OpenPositionDialog extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildFilterRow(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(20.w),
@@ -139,10 +128,8 @@ class OpenPositionDialog extends StatelessWidget {
           if (state is! NetPositionLoaded) {
             return const SizedBox.shrink();
           }
-
           return Row(
             children: [
-
               SizedBox(
                 width: 250.w, 
                 child: AppDropdown(
@@ -162,9 +149,7 @@ class OpenPositionDialog extends StatelessWidget {
                   },
                 ),
               ),
-
               const Spacer(),
-
               ViewResetButtons(
                 onReset: () {
                   context.read<NetPositionBloc>().add(
@@ -188,14 +173,11 @@ class OpenPositionDialog extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildTable(List<NetPosition> positions) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20.w),
-
       child: Column(
         children: [
-
           Container(
             padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 12.w),
             alignment: Alignment.centerRight,
@@ -208,9 +190,7 @@ class OpenPositionDialog extends StatelessWidget {
               ),
             ),
           ),
-
           _buildTableHeader(),
-
           Expanded(
             child: SingleChildScrollView(
               scrollDirection: Axis.vertical,
@@ -230,7 +210,6 @@ class OpenPositionDialog extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildTableHeader() {
     return ClipRRect(
       borderRadius: BorderRadius.only(
@@ -270,7 +249,6 @@ class OpenPositionDialog extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildHeaderCell(String label, double width) {
     return SizedBox(
       width: width.w,
@@ -288,15 +266,12 @@ class OpenPositionDialog extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildTableRow(NetPosition position, int index) {
     final rowColor = index % 2 == 0
         ? AppColors.white
         : const Color(0xFFF8F9FA);
-
     return InkWell(
       onTap: () {
-
       },
       child: Container(
         height: 45.h,
@@ -376,7 +351,6 @@ class OpenPositionDialog extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildDataCell(
       String text,
       double width, {

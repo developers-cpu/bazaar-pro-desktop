@@ -1,25 +1,20 @@
 import '../../bloc/arrangesymbol/arrange_symbol_state.dart';
-
 class TableColumnConfig {
   final double baseWidth;
   final bool isNumeric;
   final String label;
-
   const TableColumnConfig({
     required this.baseWidth,
     required this.isNumeric,
     required this.label,
   });
-
   double getWidth(double fontSize) {
     final scaleFactor = fontSize / 13.0;
     return baseWidth * scaleFactor;
   }
 }
-
 class TableColumnHelper {
   TableColumnHelper._();
-
   static const Map<String, TableColumnConfig> columnConfigs = {
     'exchange': TableColumnConfig(
       baseWidth: 130,
@@ -97,7 +92,6 @@ class TableColumnHelper {
       label: 'LUT',
     ),
   };
-
   static List<ColumnItem> getDefaultColumns() {
     return const [
       ColumnItem(id: 'exchange', name: 'EXCHANGE', isVisible: true),
@@ -117,7 +111,6 @@ class TableColumnHelper {
       ColumnItem(id: 'lut', name: 'LUT', isVisible: true),
     ];
   }
-
   static double calculateMinWidth(List<ColumnItem> visibleColumns, double fontSize) {
     double totalWidth = 0;
     for (final column in visibleColumns) {
@@ -128,15 +121,12 @@ class TableColumnHelper {
     }
     return totalWidth;
   }
-
   static TableColumnConfig? getConfig(String columnId) {
     return columnConfigs[columnId];
   }
-
   static String getLabel(String columnId) {
     return columnConfigs[columnId]?.label ?? '';
   }
-
   static bool isNumeric(String columnId) {
     return columnConfigs[columnId]?.isNumeric ?? false;
   }

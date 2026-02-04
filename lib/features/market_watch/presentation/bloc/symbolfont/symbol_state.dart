@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 class SymbolFontState extends Equatable {
   final List<String> fontFamilies;
   final List<String> fontStyles;
@@ -8,7 +7,6 @@ class SymbolFontState extends Equatable {
   final String selectedFontStyle;
   final int selectedFontSize;
   final bool isSaved;
-
   const SymbolFontState({
     this.fontFamilies = const [],
     this.fontStyles = const [],
@@ -18,7 +16,6 @@ class SymbolFontState extends Equatable {
     this.selectedFontSize = 14,
     this.isSaved = false,
   });
-
   SymbolFontState copyWith({
     List<String>? fontFamilies,
     List<String>? fontStyles,
@@ -38,7 +35,6 @@ class SymbolFontState extends Equatable {
       isSaved: isSaved ?? this.isSaved,
     );
   }
-
   @override
   List<Object?> get props => [
     fontFamilies,

@@ -86,13 +86,11 @@ import 'features/users/presentation/bloc/user_list/user_list_bloc.dart';
 import 'features/users/presentation/bloc/inactive_user_list/inactive_user_list_bloc.dart';
 import 'features/users/presentation/bloc/search_user/search_user_bloc.dart';
 import 'features/users/domain/usecases/user_trades/get_user_trades.dart';
-
 import 'features/users/domain/usecases/user_brokerage_setting/get_user_brokerage_settings.dart';
 import 'features/users/domain/usecases/user_brokerage_setting/update_brokerage_settings.dart';
 import 'features/users/domain/usecases/user/get_exchanges.dart'
     as user_exchanges;
 import 'features/users/domain/usecases/user/get_symbols.dart' as user_symbols;
-
 import 'features/users/presentation/bloc/user_trades/user_trades_bloc.dart';
 import 'features/users/presentation/bloc/user_position/user_position_bloc.dart';
 import 'features/users/presentation/bloc/user_brokerage/user_brokerage_bloc.dart';
@@ -181,13 +179,11 @@ import 'features/report/domain/usecases/get_profit_and_loss_report.dart';
 import 'features/report/domain/repositories/profit_and_loss_report_repository.dart';
 import 'features/report/data/repositories/profit_and_loss_report_repository_impl.dart';
 import 'features/report/data/datasources/profit_and_loss_report/profit_and_loss_report_remote_datasource.dart';
-
 import 'features/report/presentation/bloc/user_script_position_tracking/user_script_position_tracking_bloc.dart';
 import 'features/report/domain/usecases/get_user_script_position_tracking.dart';
 import 'features/report/domain/repositories/user_script_position_tracking_repository.dart';
 import 'features/report/data/repositories/user_script_position_tracking_repository_impl.dart';
 import 'features/report/data/datasources/user_script_position_tracking/user_script_position_tracking_remote_datasource.dart';
-
 import 'features/report/presentation/bloc/user_wise_profit_and_loss/user_wise_profit_and_loss_bloc.dart';
 import 'features/report/domain/usecases/get_user_wise_profit_and_loss_report.dart';
 import 'features/report/domain/repositories/user_wise_profit_and_loss_repository.dart';
@@ -215,25 +211,18 @@ import 'features/report/domain/usecases/get_settlement_report.dart';
 import 'features/report/domain/repositories/settlement_report_repository.dart';
 import 'features/report/data/repositories/settlement_report_repository_impl.dart';
 import 'features/report/data/datasources/settlement_report_remote_datasource.dart';
-
 final sl = GetIt.instance;
-
 Future<void> init() async {
   sl.registerLazySingleton(() => ApiClient());
-
   sl.registerFactory(() => AuthBloc(loginUser: sl()));
   sl.registerFactory(() => UserFormBloc());
-
   sl.registerLazySingleton(() => LoginUser(repository: sl()));
-
   sl.registerLazySingleton<AuthRepository>(
     () => AuthRepositoryImpl(remoteDataSource: sl()),
   );
-
   sl.registerLazySingleton<AuthRemoteDataSource>(
     () => AuthRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
   );
-
   sl.registerFactory(
     () => MarketWatchBloc(
       getMarketItems: sl(),
@@ -241,44 +230,30 @@ Future<void> init() async {
       deleteMarketItem: sl(),
     ),
   );
-
   sl.registerLazySingleton(() => ThemeBloc());
-
   sl.registerFactory(() => WatchlistBloc());
-
   sl.registerLazySingleton(() => ArrangeSymbolBloc());
-
   sl.registerLazySingleton(() => SymbolFontBloc());
-
   sl.registerLazySingleton(() => OrderDialogBloc());
-
   sl.registerLazySingleton(() => MarketDepthBloc());
-
   sl.registerLazySingleton(() => GetMarketItems(sl()));
   sl.registerLazySingleton(() => AddMarketItem(sl()));
   sl.registerLazySingleton(() => DeleteMarketItem(sl()));
-
   sl.registerLazySingleton<MarketWatchRepository>(
     () => MarketWatchRepositoryImpl(localDataSource: sl()),
   );
-
   sl.registerLazySingleton<MarketWatchLocalDataSource>(
     () => MarketWatchLocalDataSourceImpl(),
   );
-
   sl.registerFactory(() => DashboardBloc(repository: sl()));
-
   sl.registerLazySingleton(() => GetDashboardDataUseCase(repository: sl()));
   sl.registerLazySingleton(() => GetTradeReportsUseCase(repository: sl()));
   sl.registerLazySingleton(() => GetSymbolReportsUseCase(repository: sl()));
   sl.registerLazySingleton(() => GetDashboardSummaryUseCase(repository: sl()));
-
   sl.registerLazySingleton<DashboardRepository>(
     () => DashboardRepositoryImpl(dataSource: sl()),
   );
-
   sl.registerLazySingleton<DashboardDataSource>(() => DashboardDataSource());
-
   sl.registerFactory(
     () => PendingOrdersBloc(
       getPendingOrders: sl(),
@@ -291,7 +266,6 @@ Future<void> init() async {
       exportToExcel: sl(),
     ),
   );
-
   sl.registerLazySingleton(() => GetPendingOrders(sl()));
   sl.registerLazySingleton(() => GetPendingOrdersWithFilters(sl()));
   sl.registerLazySingleton(() => GetClients(sl()));
@@ -300,15 +274,12 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetOrderTypes(sl()));
   sl.registerLazySingleton(() => ExportToPdf(sl()));
   sl.registerLazySingleton(() => ExportToExcel(sl()));
-
   sl.registerLazySingleton<PendingOrdersRepository>(
     () => PendingOrdersRepositoryImpl(remoteDataSource: sl()),
   );
-
   sl.registerLazySingleton<PendingOrdersRemoteDataSource>(
     () => PendingOrdersRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
   );
-
   sl.registerFactory(
     () => TradesBloc(
       getTrades: sl(),
@@ -321,7 +292,6 @@ Future<void> init() async {
       exportToExcel: sl(),
     ),
   );
-
   sl.registerLazySingleton(() => GetTrades(sl()));
   sl.registerLazySingleton(() => GetTradesWithFilters(sl()));
   sl.registerLazySingleton(() => GetTradesClients(sl()));
@@ -330,15 +300,12 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetTradesOrderTypes(sl()));
   sl.registerLazySingleton(() => ExportTradesToPdf(sl()));
   sl.registerLazySingleton(() => ExportTradesToExcel(sl()));
-
   sl.registerLazySingleton<TradesRepository>(
     () => TradesRepositoryImpl(remoteDataSource: sl()),
   );
-
   sl.registerLazySingleton<TradesRemoteDataSource>(
     () => TradesRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
   );
-
   sl.registerFactory(
     () => DealsBloc(
       getDeals: sl(),
@@ -352,7 +319,6 @@ Future<void> init() async {
       exportToExcel: sl(),
     ),
   );
-
   sl.registerLazySingleton(() => GetDeals(sl()));
   sl.registerLazySingleton(() => GetDealsWithFilters(sl()));
   sl.registerLazySingleton(() => GetDealsClients(sl()));
@@ -362,15 +328,12 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetDealsStatuses(sl()));
   sl.registerLazySingleton(() => ExportDealsToPdf(sl()));
   sl.registerLazySingleton(() => ExportDealsToExcel(sl()));
-
   sl.registerLazySingleton<DealsRepository>(
     () => DealsRepositoryImpl(remoteDataSource: sl()),
   );
-
   sl.registerLazySingleton<DealsRemoteDataSource>(
     () => DealsRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
   );
-
   sl.registerFactory(
     () => NetPositionBloc(
       getNetPositions: sl(),
@@ -384,7 +347,6 @@ Future<void> init() async {
       getPositionDetails: sl(),
     ),
   );
-
   sl.registerLazySingleton(() => GetNetPositions(sl()));
   sl.registerLazySingleton(() => GetNetPositionsWithFilters(sl()));
   sl.registerLazySingleton(() => GetNetPositionClients(sl()));
@@ -394,15 +356,12 @@ Future<void> init() async {
   sl.registerLazySingleton(() => ExportNetPositionsToPdf(sl()));
   sl.registerLazySingleton(() => ExportNetPositionsToExcel(sl()));
   sl.registerLazySingleton(() => GetPositionDetails(sl()));
-
   sl.registerLazySingleton<NetPositionRepository>(
     () => NetPositionRepositoryImpl(remoteDataSource: sl()),
   );
-
   sl.registerLazySingleton<NetPositionRemoteDataSource>(
     () => NetPositionRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
   );
-
   sl.registerFactory(
     () => RejectionLogBloc(
       getRejectionLogs: sl(),
@@ -414,7 +373,6 @@ Future<void> init() async {
       exportToExcel: sl(),
     ),
   );
-
   sl.registerLazySingleton(() => GetRejectionLogs(sl()));
   sl.registerLazySingleton(() => GetRejectionLogsWithFilters(sl()));
   sl.registerLazySingleton(() => GetRejectionLogClients(sl()));
@@ -422,15 +380,12 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetRejectionLogSymbols(sl()));
   sl.registerLazySingleton(() => ExportRejectionLogsToPdf(sl()));
   sl.registerLazySingleton(() => ExportRejectionLogsToExcel(sl()));
-
   sl.registerLazySingleton<RejectionLogRepository>(
     () => RejectionLogRepositoryImpl(remoteDataSource: sl()),
   );
-
   sl.registerLazySingleton<RejectionLogRemoteDataSource>(
     () => RejectionLogRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
   );
-
   sl.registerFactory(
     () => LoginHistoryBloc(
       getLoginHistory: sl(),
@@ -439,20 +394,16 @@ Future<void> init() async {
       exportToExcel: sl(),
     ),
   );
-
   sl.registerLazySingleton(() => GetLoginHistory(sl()));
   sl.registerLazySingleton(() => GetLoginHistoryClients(sl()));
   sl.registerLazySingleton(() => ExportLoginHistoryToPdf(sl()));
   sl.registerLazySingleton(() => ExportLoginHistoryToExcel(sl()));
-
   sl.registerLazySingleton<LoginHistoryRepository>(
     () => LoginHistoryRepositoryImpl(remoteDataSource: sl()),
   );
-
   sl.registerLazySingleton<LoginHistoryRemoteDataSource>(
     () => LoginHistoryRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
   );
-
   sl.registerFactory(
     () => ScriptMasterBloc(
       getScriptMasters: sl(),
@@ -463,22 +414,18 @@ Future<void> init() async {
       exportToExcel: sl(),
     ),
   );
-
   sl.registerLazySingleton(() => GetScriptMasters(sl()));
   sl.registerLazySingleton(() => GetScriptMastersWithFilters(sl()));
   sl.registerLazySingleton(() => GetScriptMasterExchanges(sl()));
   sl.registerLazySingleton(() => GetScriptMasterSymbols(sl()));
   sl.registerLazySingleton(() => ExportScriptMastersToPdf(sl()));
   sl.registerLazySingleton(() => ExportScriptMastersToExcel(sl()));
-
   sl.registerLazySingleton<ScriptMasterRepository>(
     () => ScriptMasterRepositoryImpl(remoteDataSource: sl()),
   );
-
   sl.registerLazySingleton<ScriptMasterRemoteDataSource>(
     () => ScriptMasterRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
   );
-
   sl.registerFactory(
     () => ScriptQuantityBloc(
       getExchanges: sl(),
@@ -486,19 +433,15 @@ Future<void> init() async {
       getScriptQuantities: sl(),
     ),
   );
-
   sl.registerLazySingleton(() => GetScriptQuantityExchanges(sl()));
   sl.registerLazySingleton(() => GetScriptQuantityGroups(sl()));
   sl.registerLazySingleton(() => GetScriptQuantities(sl()));
-
   sl.registerLazySingleton<ScriptQuantityRepository>(
     () => ScriptQuantityRepositoryImpl(remoteDataSource: sl()),
   );
-
   sl.registerLazySingleton<ScriptQuantityRemoteDataSource>(
     () => ScriptQuantityRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
   );
-
   sl.registerFactory(
     () => IntradayHistoryBloc(
       getIntradayHistory: sl(),
@@ -510,7 +453,6 @@ Future<void> init() async {
       exportToExcel: sl(),
     ),
   );
-
   sl.registerLazySingleton(() => GetIntradayHistory(sl()));
   sl.registerLazySingleton(() => GetIntradayHistoryInSeconds(sl()));
   sl.registerLazySingleton(() => GetIntradayExchanges(sl()));
@@ -519,15 +461,12 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetAvailableTimeSlots(sl()));
   sl.registerLazySingleton(() => ExportIntradayToPdf(sl()));
   sl.registerLazySingleton(() => ExportIntradayToExcel(sl()));
-
   sl.registerLazySingleton<IntradayHistoryRepository>(
     () => IntradayHistoryRepositoryImpl(remoteDataSource: sl()),
   );
-
   sl.registerLazySingleton<IntradayHistoryRemoteDataSource>(
     () => IntradayHistoryRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
   );
-
   sl.registerFactory(
     () => UserListBloc(
       getUsers: sl(),
@@ -538,7 +477,6 @@ Future<void> init() async {
       exportUsersToExcel: sl(),
     ),
   );
-
   sl.registerFactory(
     () => InactiveUserListBloc(
       getUsers: sl(),
@@ -549,29 +487,24 @@ Future<void> init() async {
       exportUsersToExcel: sl(),
     ),
   );
-
   sl.registerFactory(() => SearchUserBloc(getUsers: sl()));
-
   sl.registerLazySingleton(() => GetUsers(sl()));
   sl.registerLazySingleton(() => GetUsersWithFilters(sl()));
   sl.registerLazySingleton(() => GetUserTypes(sl()));
   sl.registerLazySingleton(() => GetUserStatuses(sl()));
   sl.registerLazySingleton(() => ExportUsersToPdf(sl()));
   sl.registerLazySingleton(() => ExportUsersToExcel(sl()));
-
   sl.registerFactory(
     () => UserTradesBloc(getUserTrades: sl(), getUserTradesMetadata: sl()),
   );
   sl.registerLazySingleton(() => GetUserTrades(sl()));
   sl.registerLazySingleton(() => GetUserTradesMetadata(sl()));
-
   sl.registerLazySingleton<UserTradesRepository>(
     () => UserTradesRepositoryImpl(dataSource: sl()),
   );
   sl.registerLazySingleton<UserTradesDataSource>(
     () => UserTradesDataSourceImpl(),
   );
-
   sl.registerFactory(
     () => UserPositionBloc(
       getUserPositions: sl(),
@@ -586,7 +519,6 @@ Future<void> init() async {
   sl.registerLazySingleton<UserPositionDataSource>(
     () => UserPositionDataSourceImpl(),
   );
-
   sl.registerFactory(
     () => UserBrokerageBloc(
       getUserBrokerageSettings: sl(),
@@ -599,29 +531,23 @@ Future<void> init() async {
   sl.registerLazySingleton(() => UpdateBrokerageSettings(sl()));
   sl.registerLazySingleton(() => user_exchanges.GetExchanges(sl()));
   sl.registerLazySingleton(() => user_symbols.GetSymbols(sl()));
-
   sl.registerLazySingleton<UserBrokerageSettingRepository>(
     () => UserBrokerageSettingRepositoryImpl(dataSource: sl()),
   );
   sl.registerLazySingleton<UserBrokerageSettingDataSource>(
     () => UserBrokerageSettingDataSourceImpl(),
   );
-
   sl.registerLazySingleton<UserRepository>(
     () => UserRepositoryImpl(remoteDataSource: sl()),
   );
-
   sl.registerLazySingleton<UserRemoteDataSource>(
     () => UserRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
   );
-
   sl.registerFactory(() => UserCreditBloc(getUserCredit: sl()));
   sl.registerFactory(() => UserGroupSettingsBloc(getUserGroupSettings: sl()));
   sl.registerFactory(() => UserIntradayBloc(getUserIntradaySquareOff: sl()));
-
   sl.registerFactory(() => NestedUsersBloc(getNestedUsers: sl()));
   sl.registerLazySingleton(() => GetNestedUsers(sl()));
-
   sl.registerFactory(
     () => UserPendingOrderBloc(
       getUserPendingOrders: sl(),
@@ -634,21 +560,16 @@ Future<void> init() async {
       getUserQuantitySettingsMetadata: sl(),
     ),
   );
-
   sl.registerFactory(
     () => UserRejectionLogBloc(
       getUserRejectionLog: sl(),
       getUserRejectionLogMetadata: sl(),
     ),
   );
-
   sl.registerFactory(() => TradeLogBloc(getTradeLogs: sl()));
-
   sl.registerFactory(() => TradeMarginBloc(getTradeMargins: sl()));
-
   sl.registerLazySingleton(() => GetTradeLogsUseCase(repository: sl()));
   sl.registerLazySingleton(() => GetTradeMarginsUseCase(repository: sl()));
-
   sl.registerFactory(() => UserSharingBloc(getUserSharingDetails: sl()));
   sl.registerFactory(
     () => UserTradeMarginBloc(
@@ -656,11 +577,9 @@ Future<void> init() async {
       getUserTradeMarginMetadata: sl(),
     ),
   );
-
   sl.registerLazySingleton(() => GetUserCredit(sl()));
   sl.registerLazySingleton(() => GetUserGroupSettings(sl()));
   sl.registerLazySingleton(() => GetUserIntradaySquareOff(sl()));
-
   sl.registerLazySingleton<UserCreditDataSource>(
     () => UserCreditDataSourceImpl(),
   );
@@ -670,7 +589,6 @@ Future<void> init() async {
   sl.registerLazySingleton<UserIntradaySquareOffDataSource>(
     () => UserIntradaySquareOffDataSourceImpl(),
   );
-
   sl.registerLazySingleton<UserCreditRepository>(
     () => UserCreditRepositoryImpl(dataSource: sl()),
   );
@@ -680,7 +598,6 @@ Future<void> init() async {
   sl.registerLazySingleton<UserIntradaySquareOffRepository>(
     () => UserIntradaySquareOffRepositoryImpl(dataSource: sl()),
   );
-
   sl.registerLazySingleton(() => GetUserPendingOrders(sl()));
   sl.registerLazySingleton(() => GetUserPendingOrderMetadata(sl()));
   sl.registerLazySingleton(() => GetUserQuantitySettings(sl()));
@@ -690,57 +607,45 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetUserSharingDetails(sl()));
   sl.registerLazySingleton(() => GetUserTradeMargin(sl()));
   sl.registerLazySingleton(() => GetUserTradeMarginMetadata(sl()));
-
   sl.registerLazySingleton<UserPendingOrderDataSource>(
     () => UserPendingOrderDataSourceImpl(),
   );
   sl.registerLazySingleton<UserQuantitySettingsDataSource>(
     () => UserQuantitySettingsDataSourceImpl(),
   );
-
   sl.registerLazySingleton<UserRejectionLogDataSource>(
     () => UserRejectionLogDataSourceImpl(),
   );
-
   sl.registerLazySingleton<TradeLogRemoteDataSource>(
     () => TradeLogRemoteDataSourceImpl(),
   );
-
   sl.registerLazySingleton<TradeMarginRemoteDataSource>(
     () => TradeMarginRemoteDataSourceImpl(),
   );
-
   sl.registerLazySingleton<UserSharingDetailsDataSource>(
     () => UserSharingDetailsDataSourceImpl(),
   );
   sl.registerLazySingleton<UserTradeMarginDataSource>(
     () => UserTradeMarginDataSourceImpl(),
   );
-
   sl.registerLazySingleton<UserPendingOrderRepository>(
     () => UserPendingOrderRepositoryImpl(dataSource: sl()),
   );
-
   sl.registerLazySingleton<UserQuantitySettingsRepository>(
     () => UserQuantitySettingsRepositoryImpl(dataSource: sl()),
   );
-
   sl.registerLazySingleton<UserRejectionLogRepository>(
     () => UserRejectionLogRepositoryImpl(dataSource: sl()),
   );
-
   sl.registerLazySingleton<TradeLogRepository>(
     () => TradeLogRepositoryImpl(remoteDataSource: sl()),
   );
-
   sl.registerLazySingleton<TradeMarginRepository>(
     () => TradeMarginRepositoryImpl(remoteDataSource: sl()),
   );
-
   sl.registerLazySingleton<UserSharingDetailsRepository>(
     () => UserSharingDetailsRepositoryImpl(dataSource: sl()),
   );
-
   sl.registerFactory(() => CreditHistoryBloc(getCreditHistory: sl()));
   sl.registerLazySingleton(() => GetCreditHistoryUseCase(repository: sl()));
   sl.registerLazySingleton<CreditHistoryRepository>(
@@ -749,7 +654,6 @@ Future<void> init() async {
   sl.registerLazySingleton<CreditHistoryRemoteDataSource>(
     () => CreditHistoryRemoteDataSourceImpl(),
   );
-
   sl.registerFactory(() => ActivityReportBloc(getActivityReport: sl()));
   sl.registerLazySingleton(() => GetActivityReportUseCase(repository: sl()));
   sl.registerLazySingleton<ActivityReportRepository>(
@@ -758,7 +662,6 @@ Future<void> init() async {
   sl.registerLazySingleton<ActivityReportRemoteDataSource>(
     () => ActivityReportRemoteDataSourceImpl(),
   );
-
   sl.registerFactory(
     () => SymbolWisePositionReportBloc(getSymbolWisePositionReport: sl()),
   );
@@ -771,11 +674,9 @@ Future<void> init() async {
   sl.registerLazySingleton<SymbolWisePositionReportRemoteDataSource>(
     () => SymbolWisePositionReportRemoteDataSourceImpl(),
   );
-
   sl.registerLazySingleton<UserTradeMarginRepository>(
     () => UserTradeMarginRepositoryImpl(dataSource: sl()),
   );
-
   sl.registerFactory(
     () => ProfitAndLossReportBloc(getProfitAndLossReport: sl()),
   );
@@ -788,7 +689,6 @@ Future<void> init() async {
   sl.registerLazySingleton<ProfitAndLossReportRemoteDataSource>(
     () => ProfitAndLossReportRemoteDataSourceImpl(),
   );
-
   sl.registerFactory(
     () => UserScriptPositionTrackingBloc(
       getUserScriptPositionTracking: sl(),
@@ -805,7 +705,6 @@ Future<void> init() async {
   sl.registerLazySingleton<UserScriptPositionTrackingRemoteDataSource>(
     () => UserScriptPositionTrackingRemoteDataSourceImpl(),
   );
-
   sl.registerFactory(
     () => UserWiseProfitAndLossBloc(getUserWiseProfitAndLossReport: sl()),
   );
@@ -818,7 +717,6 @@ Future<void> init() async {
   sl.registerLazySingleton<UserWiseProfitAndLossRemoteDataSource>(
     () => UserWiseProfitAndLossRemoteDataSourceImpl(),
   );
-
   sl.registerFactory(() => SymbolWisePLBloc(getSymbolWisePLReport: sl()));
   sl.registerLazySingleton(() => GetSymbolWisePLReport(sl()));
   sl.registerLazySingleton<SymbolWisePLRepository>(
@@ -827,10 +725,8 @@ Future<void> init() async {
   sl.registerLazySingleton<SymbolWisePLRemoteDataSource>(
     () => SymbolWisePLRemoteDataSourceImpl(),
   );
-
   sl.registerFactory(() => SymbolTradeListBloc(repository: sl()));
   sl.registerFactory(() => SymbolOpenPositionBloc(repository: sl()));
-
   sl.registerFactory(() => ExchangeWisePLBloc(getExchangeWisePLReport: sl()));
   sl.registerLazySingleton(() => GetExchangeWisePLReport(sl()));
   sl.registerLazySingleton<ExchangeWisePLRepository>(
@@ -839,7 +735,6 @@ Future<void> init() async {
   sl.registerLazySingleton<ExchangeWisePLRemoteDataSource>(
     () => ExchangeWisePLRemoteDataSourceImpl(),
   );
-
   sl.registerFactory(() => BillGenerateBloc(getBillGenerateReport: sl()));
   sl.registerLazySingleton(() => GetBillGenerateReport(sl()));
   sl.registerLazySingleton<BillGenerateRepository>(
@@ -848,7 +743,6 @@ Future<void> init() async {
   sl.registerLazySingleton<BillGenerateRemoteDataSource>(
     () => BillGenerateRemoteDataSourceImpl(),
   );
-
   sl.registerFactory(() => SettlementReportBloc(getSettlementReport: sl()));
   sl.registerLazySingleton(() => GetSettlementReport(sl()));
   sl.registerLazySingleton<SettlementReportRepository>(

@@ -1,5 +1,4 @@
 import '../../../domain/entities/user_pending_order/user_pending_order.dart';
-
 class UserPendingOrderModel extends UserPendingOrder {
   const UserPendingOrderModel({
     required super.id,
@@ -11,7 +10,6 @@ class UserPendingOrderModel extends UserPendingOrder {
     required super.price,
     required super.status,
   });
-
   factory UserPendingOrderModel.fromJson(Map<String, dynamic> json) {
     return UserPendingOrderModel(
       id: json['id'],
@@ -24,7 +22,6 @@ class UserPendingOrderModel extends UserPendingOrder {
       status: json['status'],
     );
   }
-
   Map<String, dynamic> toJson() {
     return {
       'id': id,

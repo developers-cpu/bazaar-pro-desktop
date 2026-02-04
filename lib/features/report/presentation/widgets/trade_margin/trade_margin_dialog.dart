@@ -8,10 +8,8 @@ import '../../bloc/trade_margin/trade_margin_event.dart';
 import '../../bloc/trade_margin/trade_margin_state.dart';
 import 'trade_margin_filter_bar.dart';
 import 'trade_margin_table.dart';
-
 class TradeMarginDialog extends StatelessWidget {
   const TradeMarginDialog({super.key});
-
   static void show(BuildContext context) {
     CommonDialog.show(
       context: context,
@@ -24,7 +22,6 @@ class TradeMarginDialog extends StatelessWidget {
       content: const TradeMarginDialog(),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

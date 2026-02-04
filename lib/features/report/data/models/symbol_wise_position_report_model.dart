@@ -1,5 +1,4 @@
 import '../../domain/entities/symbol_wise_position_report.dart';
-
 class SymbolWisePositionReportModel extends SymbolWisePositionReport {
   const SymbolWisePositionReportModel({
     required String id,
@@ -48,7 +47,6 @@ class SymbolWisePositionReportModel extends SymbolWisePositionReport {
          brokerage: brokerage,
          netPLWithBrokerage: netPLWithBrokerage,
        );
-
   factory SymbolWisePositionReportModel.fromJson(Map<String, dynamic> json) {
     return SymbolWisePositionReportModel(
       id: (json['id'] ?? '').toString(),

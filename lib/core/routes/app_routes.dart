@@ -5,12 +5,11 @@ import '../../features/market_watch/presentation/pages/market_watch_page.dart';
 import '../../features/view/presentation/pages/view_page_wrapper.dart';
 import '../../features/users/presentation/pages/user_page_wrapper.dart';
 import '../../features/report/presentation/pages/report_page_wrapper.dart';
-
+import '../../features/tools/presentation/pages/tools_page_wrapper.dart';
 class AppRoutes {
   static const String login = '/';
   static const String marketWatch = '/market-watch';
   static const String dashboard = '/dashboard';
-
   static const String pendingOrders = '/pending_order-orders';
   static const String trades = '/trades';
   static const String deals = '/deals';
@@ -24,12 +23,10 @@ class AppRoutes {
   static const String totalVolume = '/total-volume';
   static const String deletedTrade = '/deleted-trade';
   static const String manualTrade = '/manual-trade';
-
   static const String createUser = '/create-user';
   static const String inactiveUser = '/inactive-user';
   static const String searchUser = '/search-user';
   static const String userList = '/user-list';
-
   static const String tradeLogs = '/trade-logs';
   static const String tradeMargin = '/trade-margin';
   static const String settlement = '/settlement';
@@ -42,15 +39,21 @@ class AppRoutes {
   static const String symbolWisePosition = '/symbol-wise-position';
   static const String symbolWisePL = '/symbol-wise-pl';
   static const String exchangeWiseReport = '/exchange-wise-report';
-
   static const String tools = '/tools';
-
+  static const String toolsAbout = '/tools/about';
+  static const String toolsChangePassword = '/tools/change-password';
+  static const String toolsMarketTiming = '/tools/market-timing';
+  static const String toolsMessage = '/tools/message';
+  static const String toolsAnnouncement = '/tools/announcement';
+  static const String toolsRulesRegulations = '/tools/rules-regulations';
+  static const String toolsShortcuts = '/tools/shortcuts';
+  static const String toolsMyProfile = '/tools/my-profile';
+  static const String toolsTotalVolume = '/tools/total-volume';
   static Map<String, WidgetBuilder> getRoutes() {
     return {
       login: (context) => const LoginPage(),
       marketWatch: (context) => const MarketWatchPage(),
       dashboard: (context) => const DashboardPageWithAppBar(),
-
       pendingOrders: (context) => const PendingOrdersPageWithAppBar(),
       trades: (context) => const TradesPageWithAppBar(),
       deals: (context) => const DealsPageWithAppBar(),
@@ -64,11 +67,9 @@ class AppRoutes {
       totalVolume: (context) => const TotalVolumePageWithAppBar(),
       deletedTrade: (context) => const DeletedTradePageWithAppBar(),
       manualTrade: (context) => const ManualTradePageWithAppBar(),
-
       createUser: (context) => const CreateUserPageWithAppBar(),
       inactiveUser: (context) => const InactiveUserPageWithAppBar(),
       userList: (context) => const UserListPageWithAppBar(),
-
       tradeLogs: (context) => const TradeLogsPageWithAppBar(),
       tradeMargin: (context) => const TradeMarginPageWithAppBar(),
       settlement: (context) => const SettlementPageWithAppBar(),
@@ -83,22 +84,17 @@ class AppRoutes {
           const SymbolWisePositionReportPageWithAppBar(),
       symbolWisePL: (context) => const SymbolWisePLPageWithAppBar(),
       exchangeWiseReport: (context) => const ExchangeWiseReportPageWithAppBar(),
-
-      tools: (context) => const _PlaceholderPage(title: 'Tools'),
+      tools: (context) => const AboutPageWithAppBar(),
+      toolsAbout: (context) => const AboutPageWithAppBar(),
+      toolsChangePassword: (context) => const ChangePasswordPageWithAppBar(),
+      toolsMarketTiming: (context) => const MarketTimingPageWithAppBar(),
+      toolsMessage: (context) => const MessagePageWithAppBar(),
+      toolsAnnouncement: (context) => const AnnouncementPageWithAppBar(),
+      toolsRulesRegulations: (context) =>
+          const RulesRegulationsPageWithAppBar(),
+      toolsShortcuts: (context) => const ShortcutsPageWithAppBar(),
+      toolsMyProfile: (context) => const MyProfilePageWithAppBar(),
+      toolsTotalVolume: (context) => const ToolsTotalVolumePageWithAppBar(),
     };
-  }
-}
-
-class _PlaceholderPage extends StatelessWidget {
-  final String title;
-
-  const _PlaceholderPage({required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(title)),
-      body: Center(child: Text('$title - Coming Soon')),
-    );
   }
 }

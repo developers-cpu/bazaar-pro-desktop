@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import '../../models/trades/trade_model.dart';
-
 abstract class TradesRemoteDataSource {
   Future<List<TradeModel>> getTrades();
   Future<List<TradeModel>> getTradesWithFilters({
@@ -18,23 +17,18 @@ abstract class TradesRemoteDataSource {
   Future<String> exportToPdf(List<TradeModel> trades);
   Future<String> exportToExcel(List<TradeModel> trades);
 }
-
 class TradesRemoteDataSourceImpl implements TradesRemoteDataSource {
   final Dio dio;
-
   TradesRemoteDataSourceImpl({required this.dio});
-
   @override
   Future<List<TradeModel>> getTrades() async {
     try {
-
       await Future.delayed(const Duration(milliseconds: 500));
       return _generateMockTrades();
     } catch (e) {
       throw Exception('Failed to fetch trades: $e');
     }
   }
-
   @override
   Future<List<TradeModel>> getTradesWithFilters({
     DateTime? startDate,
@@ -45,14 +39,10 @@ class TradesRemoteDataSourceImpl implements TradesRemoteDataSource {
     String? orderType,
   }) async {
     try {
-
       await Future.delayed(const Duration(milliseconds: 300));
-
       final allTrades = await getTrades();
-
       return allTrades.where((trade) {
         bool matches = true;
-
         if (startDate != null) {
           matches = matches && trade.orderDateTime.isAfter(startDate);
         }
@@ -71,14 +61,12 @@ class TradesRemoteDataSourceImpl implements TradesRemoteDataSource {
         if (orderType != null && orderType.isNotEmpty && orderType != 'All') {
           matches = matches && trade.buySell.toLowerCase().startsWith(orderType.toLowerCase());
         }
-
         return matches;
       }).toList();
     } catch (e) {
       throw Exception('Failed to fetch filtered trades: $e');
     }
   }
-
   @override
   Future<List<String>> getClients() async {
     try {
@@ -88,7 +76,6 @@ class TradesRemoteDataSourceImpl implements TradesRemoteDataSource {
       throw Exception('Failed to fetch clients: $e');
     }
   }
-
   @override
   Future<List<String>> getExchanges() async {
     try {
@@ -98,7 +85,6 @@ class TradesRemoteDataSourceImpl implements TradesRemoteDataSource {
       throw Exception('Failed to fetch exchanges: $e');
     }
   }
-
   @override
   Future<List<String>> getSymbols() async {
     try {
@@ -115,7 +101,6 @@ class TradesRemoteDataSourceImpl implements TradesRemoteDataSource {
       throw Exception('Failed to fetch symbols: $e');
     }
   }
-
   @override
   Future<List<String>> getOrderTypes() async {
     try {
@@ -125,29 +110,24 @@ class TradesRemoteDataSourceImpl implements TradesRemoteDataSource {
       throw Exception('Failed to fetch order types: $e');
     }
   }
-
   @override
   Future<String> exportToPdf(List<TradeModel> trades) async {
     try {
-
       await Future.delayed(const Duration(seconds: 1));
       return 'trades_export_${DateTime.now().millisecondsSinceEpoch}.pdf';
     } catch (e) {
       throw Exception('Failed to export PDF: $e');
     }
   }
-
   @override
   Future<String> exportToExcel(List<TradeModel> trades) async {
     try {
-
       await Future.delayed(const Duration(seconds: 1));
       return 'trades_export_${DateTime.now().millisecondsSinceEpoch}.xlsx';
     } catch (e) {
       throw Exception('Failed to export Excel: $e');
     }
   }
-
   List<TradeModel> _generateMockTrades() {
     final List<TradeModel> trades = [];
     final symbols = ['GOLD05DEC', 'SILVER05DEC', 'CRUDE05DEC'];
@@ -170,7 +150,6 @@ class TradesRemoteDataSourceImpl implements TradesRemoteDataSource {
       'SELL - L Exit Market',
       'BUY - L Exit Market',
     ];
-
     for (int i = 0; i < 150; i++) {
       final isBuy = buySellOptions[i % buySellOptions.length].startsWith('BUY');
       trades.add(TradeModel(
@@ -193,7 +172,6 @@ class TradesRemoteDataSourceImpl implements TradesRemoteDataSource {
         ipAddress: '192.0.2.1',
       ));
     }
-
     return trades;
   }
 }

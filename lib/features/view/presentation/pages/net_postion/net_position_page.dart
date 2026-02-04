@@ -7,14 +7,11 @@ import '../../bloc/net_position/net_position_event.dart';
 import '../../bloc/net_position/net_position_state.dart';
 import '../../widget/net_position/net_position_filter_bar.dart';
 import '../../widget/net_position/net_position_table.dart';
-
 class NetPositionPage extends StatefulWidget {
   const NetPositionPage({Key? key}) : super(key: key);
-
   @override
   State<NetPositionPage> createState() => _NetPositionPageState();
 }
-
 class _NetPositionPageState extends State<NetPositionPage> {
   @override
   void initState() {
@@ -23,7 +20,6 @@ class _NetPositionPageState extends State<NetPositionPage> {
       context.read<NetPositionBloc>().add(const LoadNetPositionsEvent());
     });
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocListener<NetPositionBloc, NetPositionState>(
@@ -32,14 +28,11 @@ class _NetPositionPageState extends State<NetPositionPage> {
         color: AppColors.white,
         child: Column(
           children: [
-
             const NetPositionFilterBar(),
-
             Container(
               height: 1.h,
               color: AppColors.greyBorder,
             ),
-
             const Expanded(
               child: NetPositionTable(
                 showDeviceInfo: false,
@@ -50,7 +43,6 @@ class _NetPositionPageState extends State<NetPositionPage> {
       ),
     );
   }
-
   void _handleStateChange(BuildContext context, NetPositionState state) {
     if (state is NetPositionExportSuccess) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -61,7 +53,6 @@ class _NetPositionPageState extends State<NetPositionPage> {
         ),
       );
     }
-
     if (state is NetPositionError) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

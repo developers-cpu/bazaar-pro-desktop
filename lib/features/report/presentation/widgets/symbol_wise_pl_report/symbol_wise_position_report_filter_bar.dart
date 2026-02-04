@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../../../../core/widget/app_dropdown.dart';
 import '../../../../view/presentation/widget/common/view_reset_buttons.dart';
 import '../../bloc/symbol_wise_position_report/symbol_wise_position_report_bloc.dart';
 import '../../bloc/symbol_wise_position_report/symbol_wise_position_report_event.dart';
 import '../../bloc/symbol_wise_position_report/symbol_wise_position_report_state.dart';
-
 class SymbolWisePositionReportFilterBar extends StatelessWidget {
   const SymbolWisePositionReportFilterBar({super.key});
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<
@@ -21,7 +18,6 @@ class SymbolWisePositionReportFilterBar extends StatelessWidget {
         if (state is! SymbolWisePositionReportLoaded) {
           return const SizedBox.shrink();
         }
-
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Row(

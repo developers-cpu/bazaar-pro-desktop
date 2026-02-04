@@ -1,5 +1,4 @@
 import '../../../domain/entities/login_history/login_history.dart';
-
 class LoginHistoryModel extends LoginHistory {
   const LoginHistoryModel({
     required super.id,
@@ -10,7 +9,6 @@ class LoginHistoryModel extends LoginHistory {
     required super.ipAddress,
     required super.deviceId,
   });
-
   factory LoginHistoryModel.fromJson(Map<String, dynamic> json) {
     return LoginHistoryModel(
       id: json['id']?.toString() ?? '',
@@ -24,7 +22,6 @@ class LoginHistoryModel extends LoginHistory {
       deviceId: json['deviceId'] ?? json['device_id'] ?? '',
     );
   }
-
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -36,7 +33,6 @@ class LoginHistoryModel extends LoginHistory {
       'deviceId': deviceId,
     };
   }
-
   factory LoginHistoryModel.fromEntity(LoginHistory history) {
     return LoginHistoryModel(
       id: history.id,

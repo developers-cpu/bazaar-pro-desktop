@@ -4,13 +4,11 @@ import '../../../domain/entities/login_history/login_history.dart';
 import '../../../domain/usecases/login_history/login_history_usecases.dart';
 import 'login_history_event.dart';
 import 'login_history_state.dart';
-
 class LoginHistoryBloc extends Bloc<LoginHistoryEvent, LoginHistoryState> {
   final GetLoginHistory getLoginHistory;
   final GetLoginHistoryClients getClients;
   final ExportLoginHistoryToPdf exportToPdf;
   final ExportLoginHistoryToExcel exportToExcel;
-
   LoginHistoryBloc({
     required this.getLoginHistory,
     required this.getClients,
@@ -23,14 +21,12 @@ class LoginHistoryBloc extends Bloc<LoginHistoryEvent, LoginHistoryState> {
     on<ExportLoginHistoryToPdfEvent>(_onExportToPdf);
     on<ExportLoginHistoryToExcelEvent>(_onExportToExcel);
   }
-
   Future<void> _onLoadClients(
       LoadClientsEvent event,
       Emitter<LoginHistoryState> emit,
       ) async {
     try {
       final result = await getClients(NoParams());
-
       result.fold(
             (failure) => emit(LoginHistoryError(failure.message)),
             (clients) => emit(LoginHistoryInitial(clients: clients)),
@@ -39,19 +35,15 @@ class LoginHistoryBloc extends Bloc<LoginHistoryEvent, LoginHistoryState> {
       emit(LoginHistoryError(e.toString()));
     }
   }
-
   Future<void> _onSelectClient(
       SelectClientEvent event,
       Emitter<LoginHistoryState> emit,
       ) async {
     emit(const LoginHistoryLoading());
-
     try {
       final clientsResult = await getClients(NoParams());
       final historyResult = await getLoginHistory(event.client);
-
       final clients = clientsResult.fold((l) => <String>[], (r) => r);
-
       historyResult.fold(
             (failure) => emit(LoginHistoryError(failure.message)),
             (history) => emit(LoginHistoryLoaded(
@@ -65,19 +57,15 @@ class LoginHistoryBloc extends Bloc<LoginHistoryEvent, LoginHistoryState> {
       emit(LoginHistoryError(e.toString()));
     }
   }
-
   void _onSortByColumn(
       SortLoginHistoryByColumnEvent event,
       Emitter<LoginHistoryState> emit,
       ) {
     if (state is! LoginHistoryLoaded) return;
-
     final currentState = state as LoginHistoryLoaded;
     final sortedHistory = List<LoginHistory>.from(currentState.history);
-
     sortedHistory.sort((a, b) {
       int comparison = 0;
-
       switch (event.columnId) {
         case 'index':
           comparison = a.index.compareTo(b.index);
@@ -100,26 +88,21 @@ class LoginHistoryBloc extends Bloc<LoginHistoryEvent, LoginHistoryState> {
         default:
           comparison = 0;
       }
-
       return event.ascending ? comparison : -comparison;
     });
-
     emit(currentState.copyWith(
       history: sortedHistory,
       sortColumn: event.columnId,
       sortAscending: event.ascending,
     ));
   }
-
   Future<void> _onExportToPdf(
       ExportLoginHistoryToPdfEvent event,
       Emitter<LoginHistoryState> emit,
       ) async {
     if (state is! LoginHistoryLoaded) return;
-
     final currentState = state as LoginHistoryLoaded;
     final result = await exportToPdf(currentState.history);
-
     result.fold(
           (failure) => emit(LoginHistoryError(failure.message)),
           (path) {
@@ -131,16 +114,13 @@ class LoginHistoryBloc extends Bloc<LoginHistoryEvent, LoginHistoryState> {
       },
     );
   }
-
   Future<void> _onExportToExcel(
       ExportLoginHistoryToExcelEvent event,
       Emitter<LoginHistoryState> emit,
       ) async {
     if (state is! LoginHistoryLoaded) return;
-
     final currentState = state as LoginHistoryLoaded;
     final result = await exportToExcel(currentState.history);
-
     result.fold(
           (failure) => emit(LoginHistoryError(failure.message)),
           (path) {

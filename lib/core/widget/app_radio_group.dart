@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../constants/app_colors.dart';
-
 class AppRadioGroup<T> extends StatelessWidget {
   final List<RadioOption<T>> options;
   final T? value;
@@ -11,7 +10,6 @@ class AppRadioGroup<T> extends StatelessWidget {
   final Color? labelColor;
   final bool enabled;
   final double? spacing;
-
   const AppRadioGroup({
     super.key,
     required this.options,
@@ -22,7 +20,6 @@ class AppRadioGroup<T> extends StatelessWidget {
     this.enabled = true,
     this.spacing,
   });
-
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -31,7 +28,6 @@ class AppRadioGroup<T> extends StatelessWidget {
         final index = entry.key;
         final option = entry.value;
         final isSelected = value == option.value;
-
         return Padding(
           padding: EdgeInsets.only(
             right: index < options.length - 1 ? (spacing ?? 24.w) : 0,
@@ -41,7 +37,6 @@ class AppRadioGroup<T> extends StatelessWidget {
       }).toList(),
     );
   }
-
   Widget _buildRadioOption(
     BuildContext context,
     RadioOption<T> option,
@@ -49,7 +44,6 @@ class AppRadioGroup<T> extends StatelessWidget {
   ) {
     final effectiveActiveColor = activeColor ?? AppColors.primaryBlue;
     final effectiveLabelColor = labelColor ?? AppColors.grey;
-
     return GestureDetector(
       onTap: enabled && onChanged != null
           ? () => onChanged!(option.value)
@@ -96,10 +90,8 @@ class AppRadioGroup<T> extends StatelessWidget {
     );
   }
 }
-
 class RadioOption<T> {
   final T value;
   final String label;
-
   const RadioOption({required this.value, required this.label});
 }

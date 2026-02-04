@@ -2,7 +2,6 @@ import 'package:bazarpro/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 class CustomActionButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
@@ -12,7 +11,6 @@ class CustomActionButton extends StatelessWidget {
   final Color? textColor;
   final double? borderRadius;
   final bool isLoading;
-
   const CustomActionButton({
     super.key,
     required this.text,
@@ -24,7 +22,6 @@ class CustomActionButton extends StatelessWidget {
     this.borderRadius,
     this.isLoading = false,
   });
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(

@@ -1,5 +1,4 @@
 import '../../domain/entities/credit_history.dart';
-
 class CreditHistoryModel extends CreditHistory {
   const CreditHistoryModel({
     required super.id,
@@ -11,7 +10,6 @@ class CreditHistoryModel extends CreditHistory {
     required super.balance,
     required super.comment,
   });
-
   factory CreditHistoryModel.fromJson(Map<String, dynamic> json) {
     return CreditHistoryModel(
       id: json['id'] ?? '',

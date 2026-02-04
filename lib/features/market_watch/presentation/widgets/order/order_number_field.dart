@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
-
 class OrderNumberField extends StatefulWidget {
   final String label;
   final int value;
@@ -14,7 +13,6 @@ class OrderNumberField extends StatefulWidget {
   final Color? labelColor;
   final Color? borderColor;
   final bool isDarkMode;
-
   const OrderNumberField({
     Key? key,
     required this.label,
@@ -27,16 +25,13 @@ class OrderNumberField extends StatefulWidget {
     this.borderColor,
     this.isDarkMode = false,
   }) : super(key: key);
-
   @override
   State<OrderNumberField> createState() => _OrderNumberFieldState();
 }
-
 class _OrderNumberFieldState extends State<OrderNumberField> {
   late TextEditingController _controller;
   late FocusNode _focusNode;
   bool _isEditing = false;
-
   @override
   void initState() {
     super.initState();
@@ -44,7 +39,6 @@ class _OrderNumberFieldState extends State<OrderNumberField> {
     _focusNode = FocusNode();
     _focusNode.addListener(_onFocusChange);
   }
-
   @override
   void didUpdateWidget(OrderNumberField oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -52,7 +46,6 @@ class _OrderNumberFieldState extends State<OrderNumberField> {
       _controller.text = widget.value.toString();
     }
   }
-
   @override
   void dispose() {
     _controller.dispose();
@@ -60,7 +53,6 @@ class _OrderNumberFieldState extends State<OrderNumberField> {
     _focusNode.dispose();
     super.dispose();
   }
-
   void _onFocusChange() {
     if (!_focusNode.hasFocus) {
       _isEditing = false;
@@ -73,7 +65,6 @@ class _OrderNumberFieldState extends State<OrderNumberField> {
       );
     }
   }
-
   void _validateAndUpdate() {
     final text = _controller.text.trim();
     if (text.isEmpty) {
@@ -81,36 +72,29 @@ class _OrderNumberFieldState extends State<OrderNumberField> {
       widget.onChanged(widget.minValue);
       return;
     }
-
     final parsed = int.tryParse(text);
     if (parsed == null) {
       _controller.text = widget.value.toString();
       return;
     }
-
     final clamped = parsed.clamp(widget.minValue, widget.maxValue);
     if (clamped != parsed) {
       _controller.text = clamped.toString();
     }
     widget.onChanged(clamped);
   }
-
   void _increment() {
     final newValue = (widget.value + widget.step).clamp(widget.minValue, widget.maxValue);
     _controller.text = newValue.toString();
     widget.onChanged(newValue);
   }
-
   void _decrement() {
     final newValue = (widget.value - widget.step).clamp(widget.minValue, widget.maxValue);
     _controller.text = newValue.toString();
     widget.onChanged(newValue);
   }
-
   Color get _borderColor => widget.borderColor ?? LightThemeColors.primaryColor;
-
   Color get _textColor => LightThemeColors.textColor;
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -134,13 +118,11 @@ class _OrderNumberFieldState extends State<OrderNumberField> {
           ),
           child: Row(
             children: [
-
               _buildButton(
                 icon: '−',
                 onTap: _decrement,
                 isLeft: true,
               ),
-
               Expanded(
                 child: TextField(
                   controller: _controller,
@@ -163,7 +145,6 @@ class _OrderNumberFieldState extends State<OrderNumberField> {
                   onSubmitted: (_) => _validateAndUpdate(),
                 ),
               ),
-
               _buildButton(
                 icon: '+',
                 onTap: _increment,
@@ -175,7 +156,6 @@ class _OrderNumberFieldState extends State<OrderNumberField> {
       ],
     );
   }
-
   Widget _buildButton({
     required String icon,
     required VoidCallback onTap,

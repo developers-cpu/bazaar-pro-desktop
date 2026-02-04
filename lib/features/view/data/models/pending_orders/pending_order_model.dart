@@ -1,5 +1,4 @@
 import '../../../domain/entities/pending_orders/pending_order.dart';
-
 class PendingOrderModel extends PendingOrder {
   const PendingOrderModel({
     required super.id,
@@ -19,7 +18,6 @@ class PendingOrderModel extends PendingOrder {
     super.deviceId,
     super.ipAddress,
   });
-
   factory PendingOrderModel.fromJson(Map<String, dynamic> json) {
     return PendingOrderModel(
       id: json['id'] ?? '',
@@ -40,7 +38,6 @@ class PendingOrderModel extends PendingOrder {
       ipAddress: json['ip_address'] ?? json['ipAddress'],
     );
   }
-
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -61,7 +58,6 @@ class PendingOrderModel extends PendingOrder {
       'ip_address': ipAddress,
     };
   }
-
   factory PendingOrderModel.fromEntity(PendingOrder entity) {
     return PendingOrderModel(
       id: entity.id,
@@ -82,7 +78,6 @@ class PendingOrderModel extends PendingOrder {
       ipAddress: entity.ipAddress,
     );
   }
-
   static double _parseDouble(dynamic value) {
     if (value == null) return 0.0;
     if (value is double) return value;
@@ -90,7 +85,6 @@ class PendingOrderModel extends PendingOrder {
     if (value is String) return double.tryParse(value) ?? 0.0;
     return 0.0;
   }
-
   static DateTime _parseDateTime(dynamic value) {
     if (value == null) return DateTime.now();
     if (value is DateTime) return value;

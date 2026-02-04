@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../../../view/presentation/widget/common/view_data_table.dart';
 import '../../../../view/presentation/widget/common/view_record_count.dart';
 import '../../../../view/presentation/widget/common/view_table_cell_styles.dart';
@@ -15,12 +14,9 @@ import '../../../domain/entities/profit_and_loss_report.dart';
 import '../../bloc/profit_and_loss_report/profit_and_loss_report_bloc.dart';
 import '../../bloc/profit_and_loss_report/profit_and_loss_report_state.dart';
 import 'profit_and_loss_details_dialog.dart';
-
 class ProfitAndLossReportTable extends StatelessWidget {
   final bool isDarkMode;
-
   const ProfitAndLossReportTable({super.key, this.isDarkMode = false});
-
   List<ViewTableColumn> _getColumns() {
     return const [
       ViewTableColumn(id: 'view', label: 'VIEW', width: 100),
@@ -34,7 +30,6 @@ class ProfitAndLossReportTable extends StatelessWidget {
       ViewTableColumn(id: 'ourPercentage', label: 'OUR', width: 150),
     ];
   }
-
   Widget _buildCell(
     BuildContext context,
     ProfitAndLossReport item,
@@ -157,7 +152,6 @@ class ProfitAndLossReportTable extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ProfitAndLossReportBloc, ProfitAndLossReportState>(
@@ -165,22 +159,18 @@ class ProfitAndLossReportTable extends StatelessWidget {
         if (state is ProfitAndLossReportLoading) {
           return const Center(child: CircularProgressIndicator());
         }
-
         if (state is ProfitAndLossReportError) {
           return Center(child: Text('Error: ${state.message}'));
         }
-
         if (state is! ProfitAndLossReportLoaded) {
           return const SizedBox.shrink();
         }
-
         double totalReleasePL = 0;
         double totalBrokerage = 0;
         double totalM2M = 0;
         double totalNetPL = 0;
         double totalOurBrokerage = 0;
         double totalOurPercentage = 0;
-
         for (var item in state.reports) {
           totalReleasePL += item.releasePL;
           totalBrokerage += item.brokerage;
@@ -189,7 +179,6 @@ class ProfitAndLossReportTable extends StatelessWidget {
           totalOurBrokerage += item.ourBrokerage;
           totalOurPercentage += item.ourPercentage;
         }
-
         return Column(
           children: [
             ViewRecordCount(count: state.reports.length),

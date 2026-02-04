@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 class Trade extends Equatable {
   final String id;
   final String userName;
@@ -18,7 +17,6 @@ class Trade extends Equatable {
   final DateTime? executionDateTime;
   final String? deviceId;
   final String? ipAddress;
-
   const Trade({
     required this.id,
     required this.userName,
@@ -38,7 +36,6 @@ class Trade extends Equatable {
     this.deviceId,
     this.ipAddress,
   });
-
   @override
   List<Object?> get props => [
     id,
@@ -59,7 +56,6 @@ class Trade extends Equatable {
     deviceId,
     ipAddress,
   ];
-
   Trade copyWith({
     String? id,
     String? userName,

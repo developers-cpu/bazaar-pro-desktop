@@ -1,5 +1,4 @@
 import '../../../domain/entities/user_rejection_log/user_rejection_log.dart';
-
 class UserRejectionLogModel extends UserRejectionLog {
   const UserRejectionLogModel({
     required super.id,
@@ -13,7 +12,6 @@ class UserRejectionLogModel extends UserRejectionLog {
     required super.price,
     required super.comment,
   });
-
   factory UserRejectionLogModel.fromJson(Map<String, dynamic> json) {
     return UserRejectionLogModel(
       id: json['id'],
@@ -28,7 +26,6 @@ class UserRejectionLogModel extends UserRejectionLog {
       comment: json['comment'],
     );
   }
-
   Map<String, dynamic> toJson() {
     return {
       'id': id,

@@ -1,26 +1,19 @@
 import 'package:bazarpro/features/report/domain/entities/activity_report.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-
-
 abstract class ActivityReportState extends Equatable {
   const ActivityReportState();
-
   @override
   List<Object?> get props => [];
 }
-
 class ActivityReportInitial extends ActivityReportState {}
-
 class ActivityReportLoading extends ActivityReportState {}
-
 class ActivityReportLoaded extends ActivityReportState {
   final List<ActivityReport> reports;
   final List<String> users;
   final String? selectedUser;
   final DateTimeRange? selectedDateRange;
   final String? selectedEditUserType;
-
   const ActivityReportLoaded({
     required this.reports,
     this.users = const [],
@@ -28,7 +21,6 @@ class ActivityReportLoaded extends ActivityReportState {
     this.selectedDateRange,
     this.selectedEditUserType,
   });
-
   ActivityReportLoaded copyWith({
     List<ActivityReport>? reports,
     List<String>? users,
@@ -44,7 +36,6 @@ class ActivityReportLoaded extends ActivityReportState {
       selectedEditUserType: selectedEditUserType ?? this.selectedEditUserType,
     );
   }
-
   @override
   List<Object?> get props => [
     reports,
@@ -54,12 +45,9 @@ class ActivityReportLoaded extends ActivityReportState {
     selectedEditUserType,
   ];
 }
-
 class ActivityReportError extends ActivityReportState {
   final String message;
-
   const ActivityReportError({required this.message});
-
   @override
   List<Object> get props => [message];
 }

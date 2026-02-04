@@ -7,10 +7,8 @@ import '../../bloc/net_position/net_position_bloc.dart';
 import '../../bloc/net_position/net_position_event.dart';
 import '../../bloc/net_position/net_position_state.dart';
 import '../common/view_reset_buttons.dart';
-
 class NetPositionFilterBar extends StatelessWidget {
   const NetPositionFilterBar({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<NetPositionBloc, NetPositionState>(
@@ -18,12 +16,10 @@ class NetPositionFilterBar extends StatelessWidget {
         if (state is! NetPositionLoaded) {
           return const SizedBox.shrink();
         }
-
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Row(
             children: [
-
               Expanded(
                 child: AppDropdown(
                   type: AppDropdownType.simple,
@@ -44,7 +40,6 @@ class NetPositionFilterBar extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 12.w),
-
               Expanded(
                 child: AppDropdown(
                   type: AppDropdownType.search,
@@ -64,7 +59,6 @@ class NetPositionFilterBar extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 12.w),
-
               Expanded(
                 child: AppDropdown(
                   type: AppDropdownType.simple,
@@ -85,7 +79,6 @@ class NetPositionFilterBar extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 12.w),
-
               Expanded(
                 child: AppDropdown(
                   type: AppDropdownType.search,
@@ -104,9 +97,7 @@ class NetPositionFilterBar extends StatelessWidget {
                   },
                 ),
               ),
-
               const Spacer(),
-
               ViewResetButtons(
                 onReset: () {
                   context.read<NetPositionBloc>().add(

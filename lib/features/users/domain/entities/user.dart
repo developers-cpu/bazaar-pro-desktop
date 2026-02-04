@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 class User extends Equatable {
   final String id;
   final String userName;
@@ -20,7 +19,6 @@ class User extends Equatable {
   final String? deviceType;
   final String? ipAddress;
   final String status;
-
   const User({
     required this.id,
     required this.userName,
@@ -42,11 +40,9 @@ class User extends Equatable {
     this.ipAddress,
     required this.status,
   });
-
   bool get isMaster => type.toLowerCase() == 'master';
   bool get isClient => type.toLowerCase() == 'client';
   bool get isActive => status.toLowerCase() == 'active';
-
   @override
   List<Object?> get props => [
     id,

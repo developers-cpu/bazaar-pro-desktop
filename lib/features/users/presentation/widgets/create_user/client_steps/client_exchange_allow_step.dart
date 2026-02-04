@@ -8,10 +8,8 @@ import '../../../../../../core/widget/app_dropdown.dart';
 import '../../../bloc/user_form/user_form_bloc.dart';
 import '../../../bloc/user_form/user_form_event.dart';
 import '../../../bloc/user_form/user_form_state.dart';
-
 class ClientExchangeAllowStep extends StatelessWidget {
   const ClientExchangeAllowStep({super.key});
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserFormBloc, UserFormState>(
@@ -19,7 +17,6 @@ class ClientExchangeAllowStep extends StatelessWidget {
         final exchanges = UserFormState.availableExchanges;
         final isAllSelected =
             state.selectedExchanges.length == exchanges.length;
-
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 20.h),
           decoration: BoxDecoration(
@@ -29,7 +26,6 @@ class ClientExchangeAllowStep extends StatelessWidget {
           child: Column(
             children: [
               _buildTableHeader(context, state, isAllSelected),
-
               ...exchanges.asMap().entries.map((entry) {
                 final index = entry.key;
                 final exchange = entry.value;
@@ -42,7 +38,6 @@ class ClientExchangeAllowStep extends StatelessWidget {
       },
     );
   }
-
   Widget _buildTableHeader(
     BuildContext context,
     UserFormState state,
@@ -158,7 +153,6 @@ class ClientExchangeAllowStep extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildTableRow(
     BuildContext context,
     UserFormState state,
@@ -166,7 +160,6 @@ class ClientExchangeAllowStep extends StatelessWidget {
     bool isLast,
   ) {
     final isSelected = state.selectedExchanges.contains(exchange);
-
     List<String> selectedGroups = [];
     final groupData = state.exchangeGroups[exchange];
     if (groupData != null) {
@@ -176,11 +169,9 @@ class ClientExchangeAllowStep extends StatelessWidget {
         selectedGroups = [groupData];
       }
     }
-
     final brokerageData = state.brokerageData[exchange];
     final turnoverWise = brokerageData?.turnoverWise == 'true';
     final symbolWise = brokerageData?.symbolWiseBrk == 'true';
-
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
       decoration: BoxDecoration(

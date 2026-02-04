@@ -4,15 +4,12 @@ import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_images.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/widget/svg_icon.dart' show SvgIcon;
-
 class BanForTradeNotice extends StatelessWidget {
   final String message;
-
   const BanForTradeNotice({
     Key? key,
     this.message = AppStrings.banForTradeMessage,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Container(

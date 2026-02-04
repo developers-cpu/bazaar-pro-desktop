@@ -1,5 +1,4 @@
 import '../../domain/entities/profit_and_loss_report.dart';
-
 class ProfitAndLossReportModel extends ProfitAndLossReport {
   const ProfitAndLossReportModel({
     required String id,
@@ -22,7 +21,6 @@ class ProfitAndLossReportModel extends ProfitAndLossReport {
          ourBrokerage: ourBrokerage,
          ourPercentage: ourPercentage,
        );
-
   factory ProfitAndLossReportModel.fromJson(Map<String, dynamic> json) {
     return ProfitAndLossReportModel(
       id: json['id'] ?? '',

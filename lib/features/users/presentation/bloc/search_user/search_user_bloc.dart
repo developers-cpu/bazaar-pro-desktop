@@ -5,29 +5,24 @@ import '../../../domain/entities/user_hierarchy_node/user_hierarchy_node.dart';
 import '../../../domain/usecases/user/get_users.dart';
 import 'search_user_event.dart';
 import 'search_user_state.dart';
-
 class SearchUserBloc extends Bloc<SearchUserEvent, SearchUserState> {
   final GetUsers getUsers;
-
   SearchUserBloc({required this.getUsers}) : super(const SearchUserInitial()) {
     on<LoadUserHierarchyEvent>(_onLoadHierarchy);
     on<ToggleNodeExpansionEvent>(_onToggleExpansion);
     on<SearchUserQueryEvent>(_onSearchQuery);
   }
-
   Future<void> _onLoadHierarchy(
     LoadUserHierarchyEvent event,
     Emitter<SearchUserState> emit,
   ) async {
     emit(const SearchUserLoading());
     final result = await getUsers(NoParams());
-
     result.fold((failure) => emit(SearchUserError(failure.message)), (users) {
       final nodes = _buildHierarchy(users);
       emit(SearchUserLoaded(nodes: nodes));
     });
   }
-
   List<UserHierarchyNode> _buildHierarchy(List<User> users) {
     final childrenMap = <String, List<User>>{};
     for (var user in users) {
@@ -40,10 +35,8 @@ class SearchUserBloc extends Bloc<SearchUserEvent, SearchUserState> {
     final rootUsers = users
         .where((u) => !allUserNames.contains(u.parentUser))
         .toList();
-
     return rootUsers.map((user) => _mapUserToNode(user, childrenMap)).toList();
   }
-
   UserHierarchyNode _mapUserToNode(
     User user,
     Map<String, List<User>> childrenMap, {
@@ -58,7 +51,6 @@ class SearchUserBloc extends Bloc<SearchUserEvent, SearchUserState> {
       );
     }
     currentAncestors.add(user.id);
-
     final children = childrenMap[user.userName] ?? [];
     return UserHierarchyNode(
       user: user,
@@ -70,7 +62,6 @@ class SearchUserBloc extends Bloc<SearchUserEvent, SearchUserState> {
           .toList(),
     );
   }
-
   void _onToggleExpansion(
     ToggleNodeExpansionEvent event,
     Emitter<SearchUserState> emit,
@@ -81,7 +72,6 @@ class SearchUserBloc extends Bloc<SearchUserEvent, SearchUserState> {
       emit(currentState.copyWith(nodes: newNodes));
     }
   }
-
   List<UserHierarchyNode> _toggleNodeRecursive(
     List<UserHierarchyNode> nodes,
     String userId,
@@ -95,14 +85,12 @@ class SearchUserBloc extends Bloc<SearchUserEvent, SearchUserState> {
       );
     }).toList();
   }
-
   void _onSearchQuery(
     SearchUserQueryEvent event,
     Emitter<SearchUserState> emit,
   ) {
     if (state is SearchUserLoaded) {
       final currentState = state as SearchUserLoaded;
-
       final newNodes = _filterNodes(
         currentState.nodes,
         event.query.toLowerCase(),
@@ -110,7 +98,6 @@ class SearchUserBloc extends Bloc<SearchUserEvent, SearchUserState> {
       emit(currentState.copyWith(nodes: newNodes, searchQuery: event.query));
     }
   }
-
   List<UserHierarchyNode> _filterNodes(
     List<UserHierarchyNode> nodes,
     String query,
@@ -118,7 +105,6 @@ class SearchUserBloc extends Bloc<SearchUserEvent, SearchUserState> {
     if (query.isEmpty) {
       return _resetVisibility(nodes);
     }
-
     List<UserHierarchyNode> processedNodes = [];
     for (var node in nodes) {
       final children = _filterNodes(node.children, query);
@@ -126,7 +112,6 @@ class SearchUserBloc extends Bloc<SearchUserEvent, SearchUserState> {
           node.user.userName.toLowerCase().contains(query) ||
           node.user.name.toLowerCase().contains(query);
       final bool hasVisibleChildren = children.any((c) => c.isVisible);
-
       if (matches || hasVisibleChildren) {
         processedNodes.add(
           node.copyWith(
@@ -147,7 +132,6 @@ class SearchUserBloc extends Bloc<SearchUserEvent, SearchUserState> {
     }
     return processedNodes;
   }
-
   List<UserHierarchyNode> _resetVisibility(List<UserHierarchyNode> nodes) {
     return nodes.map((n) {
       return n.copyWith(

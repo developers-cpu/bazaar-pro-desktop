@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/common_dilog_box.dart';
 import '../../../domain/entities/profit_and_loss_report.dart';
@@ -14,19 +13,16 @@ import '../../../../users/presentation/widgets/user_details/user_details_dialog.
 import '../../../../users/presentation/widgets/create_user/master_form_dialog.dart';
 import '../../../../users/presentation/widgets/create_user/client_form_dialog.dart';
 import '../../../../users/presentation/widgets/create_user/update_access_dialog.dart';
-
 class ProfitAndLossDetailsDialog extends StatelessWidget {
   final List<ProfitAndLossReport> reports;
   final String userName;
   final int level;
-
   const ProfitAndLossDetailsDialog({
     super.key,
     required this.reports,
     required this.userName,
     this.level = 1,
   });
-
   static void show(
     BuildContext context,
     List<ProfitAndLossReport> reports,
@@ -43,7 +39,6 @@ class ProfitAndLossDetailsDialog extends StatelessWidget {
       ),
     );
   }
-
   List<ViewTableColumn> _getColumns() {
     return const [
       ViewTableColumn(id: 'view', label: 'VIEW', width: 60),
@@ -57,7 +52,6 @@ class ProfitAndLossDetailsDialog extends StatelessWidget {
       ViewTableColumn(id: 'ourPercentage', label: 'OUR', width: 120),
     ];
   }
-
   Widget _buildCell(
     BuildContext context,
     ProfitAndLossReport item,
@@ -187,7 +181,6 @@ class ProfitAndLossDetailsDialog extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
-
   @override
   Widget build(BuildContext context) {
     double totalReleasePL = 0;
@@ -196,7 +189,6 @@ class ProfitAndLossDetailsDialog extends StatelessWidget {
     double totalNetPL = 0;
     double totalOurBrokerage = 0;
     double totalOurPercentage = 0;
-
     for (var item in reports) {
       totalReleasePL += item.releasePL;
       totalBrokerage += item.brokerage;
@@ -205,10 +197,8 @@ class ProfitAndLossDetailsDialog extends StatelessWidget {
       totalOurBrokerage += item.ourBrokerage;
       totalOurPercentage += item.ourPercentage;
     }
-
     final double dialogWidth = (1000 - ((level - 1) * 40)).w;
     final double dialogHeight = (600 - ((level - 1) * 30)).h;
-
     return CommonDialog(
       title: 'Profit & Loss',
       width: dialogWidth,

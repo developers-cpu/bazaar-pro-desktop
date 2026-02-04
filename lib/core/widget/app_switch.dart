@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../constants/app_colors.dart';
-
 class AppSwitch extends StatelessWidget {
   final String? label;
   final Widget? icon;
@@ -12,7 +11,6 @@ class AppSwitch extends StatelessWidget {
   final Color? inactiveColor;
   final Color? labelColor;
   final bool enabled;
-
   const AppSwitch({
     super.key,
     this.label,
@@ -24,14 +22,12 @@ class AppSwitch extends StatelessWidget {
     this.labelColor,
     this.enabled = true,
   });
-
   @override
   Widget build(BuildContext context) {
     final effectiveActiveColor = activeColor ?? AppColors.primaryBlue;
     final effectiveInactiveColor =
         inactiveColor ?? AppColors.grey.withValues(alpha: 0.3);
     final effectiveLabelColor = labelColor ?? AppColors.textColor(context);
-
     return GestureDetector(
       onTap: enabled && onChanged != null ? () => onChanged!(!value) : null,
       child: Row(
@@ -58,7 +54,6 @@ class AppSwitch extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildSwitch(Color activeColor, Color inactiveColor) {
     return Container(
       width: 44.w,
@@ -90,7 +85,6 @@ class AppSwitch extends StatelessWidget {
     );
   }
 }
-
 class AppSwitchRow extends StatelessWidget {
   final String label;
   final Widget? icon;
@@ -105,7 +99,6 @@ class AppSwitchRow extends StatelessWidget {
     this.onChanged,
     this.enabled = true,
   });
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(

@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 class ActivityReport extends Equatable {
   final String id;
   final String userName;
@@ -11,7 +10,6 @@ class ActivityReport extends Equatable {
   final String? oldGroupName;
   final DateTime updatedOn;
   final String updatedBy;
-
   const ActivityReport({
     required this.id,
     required this.userName,
@@ -24,7 +22,6 @@ class ActivityReport extends Equatable {
     required this.updatedOn,
     required this.updatedBy,
   });
-
   @override
   List<Object?> get props => [
     id,

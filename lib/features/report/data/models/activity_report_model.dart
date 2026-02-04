@@ -1,5 +1,4 @@
 import '../../domain/entities/activity_report.dart';
-
 class ActivityReportModel extends ActivityReport {
   const ActivityReportModel({
     required super.id,
@@ -13,7 +12,6 @@ class ActivityReportModel extends ActivityReport {
     required super.updatedOn,
     required super.updatedBy,
   });
-
   factory ActivityReportModel.fromJson(Map<String, dynamic> json) {
     return ActivityReportModel(
       id: json['id'] ?? '',

@@ -3,12 +3,10 @@ import '../../../../../core/usecases/usecase.dart';
 import '../../../domain/usecases/script_quantity/script_quantity_usecases.dart';
 import 'script_quantity_event.dart';
 import 'script_quantity_state.dart';
-
 class ScriptQuantityBloc extends Bloc<ScriptQuantityEvent, ScriptQuantityState> {
   final GetScriptQuantityExchanges getExchanges;
   final GetScriptQuantityGroups getGroups;
   final GetScriptQuantities getScriptQuantities;
-
   ScriptQuantityBloc({
     required this.getExchanges,
     required this.getGroups,
@@ -19,32 +17,25 @@ class ScriptQuantityBloc extends Bloc<ScriptQuantityEvent, ScriptQuantityState> 
     on<LoadScriptQuantitiesEvent>(_onLoadScriptQuantities);
     on<ResetFiltersEvent>(_onResetFilters);
   }
-
   Future<void> _onLoadFilters(
       LoadFiltersEvent event,
       Emitter<ScriptQuantityState> emit,
       ) async {
     emit(const ScriptQuantityLoading());
-
     final result = await getExchanges(NoParams());
-
     result.fold(
           (failure) => emit(ScriptQuantityError(failure.message)),
           (exchanges) => emit(ScriptQuantityFiltersLoaded(exchanges: exchanges)),
     );
   }
-
   Future<void> _onLoadGroups(
       LoadGroupsEvent event,
       Emitter<ScriptQuantityState> emit,
       ) async {
     if (state is! ScriptQuantityFiltersLoaded) return;
-
     final currentState = state as ScriptQuantityFiltersLoaded;
     emit(const ScriptQuantityLoading());
-
     final result = await getGroups(event.exchange);
-
     result.fold(
           (failure) => emit(ScriptQuantityError(failure.message)),
           (groups) => emit(currentState.copyWith(
@@ -54,18 +45,15 @@ class ScriptQuantityBloc extends Bloc<ScriptQuantityEvent, ScriptQuantityState> 
       )),
     );
   }
-
   Future<void> _onLoadScriptQuantities(
       LoadScriptQuantitiesEvent event,
       Emitter<ScriptQuantityState> emit,
       ) async {
     emit(const ScriptQuantityLoading());
-
     final result = await getScriptQuantities(ScriptQuantityParams(
       exchange: event.exchange,
       group: event.group,
     ));
-
     result.fold(
           (failure) => emit(ScriptQuantityError(failure.message)),
           (quantities) => emit(ScriptQuantityDataLoaded(
@@ -76,7 +64,6 @@ class ScriptQuantityBloc extends Bloc<ScriptQuantityEvent, ScriptQuantityState> 
       )),
     );
   }
-
   Future<void> _onResetFilters(
       ResetFiltersEvent event,
       Emitter<ScriptQuantityState> emit,

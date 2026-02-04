@@ -7,14 +7,11 @@ import '../../bloc/pending_orders/pending_orders_event.dart';
 import '../../bloc/pending_orders/pending_orders_state.dart';
 import '../../widget/pending_orders/pending_orders_filter_bar.dart';
 import '../../widget/pending_orders/pending_orders_table.dart';
-
 class PendingOrdersPage extends StatefulWidget {
   const PendingOrdersPage({Key? key}) : super(key: key);
-
   @override
   State<PendingOrdersPage> createState() => _PendingOrdersPageState();
 }
-
 class _PendingOrdersPageState extends State<PendingOrdersPage> {
   @override
   void initState() {
@@ -23,7 +20,6 @@ class _PendingOrdersPageState extends State<PendingOrdersPage> {
       context.read<PendingOrdersBloc>().add(const LoadPendingOrdersEvent());
     });
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocListener<PendingOrdersBloc, PendingOrdersState>(
@@ -33,12 +29,10 @@ class _PendingOrdersPageState extends State<PendingOrdersPage> {
         child: Column(
           children: [
             const PendingOrdersFilterBar(),
-
             Container(
               height: 1.h,
               color: AppColors.greyBorder,
             ),
-
             const Expanded(
               child: PendingOrdersTable(
                 showDeviceInfo: false, 
@@ -49,7 +43,6 @@ class _PendingOrdersPageState extends State<PendingOrdersPage> {
       ),
     );
   }
-
   void _handleStateChange(BuildContext context, PendingOrdersState state) {
     if (state is PendingOrdersExportSuccess) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -60,7 +53,6 @@ class _PendingOrdersPageState extends State<PendingOrdersPage> {
         ),
       );
     }
-
     if (state is PendingOrdersError) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

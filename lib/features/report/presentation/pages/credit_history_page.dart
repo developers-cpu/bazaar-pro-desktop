@@ -5,11 +5,8 @@ import 'package:bazarpro/features/report/presentation/widgets/credit_history/cre
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../../injection_container.dart';
-
-
 class CreditHistoryPage extends StatelessWidget {
   const CreditHistoryPage({super.key});
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

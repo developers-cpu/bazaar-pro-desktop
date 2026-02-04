@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
-
 class CommonDialog extends StatelessWidget {
   final String title;
   final Widget content;
@@ -20,7 +19,6 @@ class CommonDialog extends StatelessWidget {
   final double? buttonWidth;
   final double? buttonHeight;
   final bool scrollable;
-
   const CommonDialog({
     Key? key,
     required this.title,
@@ -40,7 +38,6 @@ class CommonDialog extends StatelessWidget {
     this.buttonHeight,
     this.scrollable = true,
   }) : super(key: key);
-
   static void show({
     required BuildContext context,
     required String title,
@@ -83,7 +80,6 @@ class CommonDialog extends StatelessWidget {
       ),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     final bgColor =
@@ -91,11 +87,9 @@ class CommonDialog extends StatelessWidget {
         (isDarkMode
             ? DarkThemeColors.cardBackground
             : LightThemeColors.cardBackground);
-
     final headerBgColor =
         headerColor ??
         (isDarkMode ? LightThemeColors.primaryColor : AppColors.primaryBlue);
-
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
       backgroundColor: Colors.transparent,
@@ -133,7 +127,6 @@ class CommonDialog extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildHeader(BuildContext context, Color headerBgColor) {
     return ClipRRect(
       borderRadius: BorderRadius.only(
@@ -170,21 +163,17 @@ class CommonDialog extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildButtons(BuildContext context) {
     final primaryColor = isDarkMode
         ? const Color(0xFF1F4A66)
         : (headerColor ?? AppColors.primaryBlue);
-
     final btnWidth = buttonWidth ?? 150.w;
     final btnHeight = buttonHeight ?? 45.h;
-
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.w),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-
           SizedBox(
             width: btnWidth,
             height: btnHeight,
@@ -213,9 +202,7 @@ class CommonDialog extends StatelessWidget {
               ),
             ),
           ),
-
           SizedBox(width: 16.w),
-
           SizedBox(
             width: btnWidth,
             height: btnHeight,

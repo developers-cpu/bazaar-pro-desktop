@@ -1,11 +1,8 @@
 import '../entities/dashboard_entity.dart';
 import '../repositories/dashboard_repository.dart';
-
 class GetDashboardDataUseCase {
   final DashboardRepository repository;
-
   GetDashboardDataUseCase({required this.repository});
-
   Future<DashboardData> call({
     String? clientId,
     String? showPeriod,
@@ -20,12 +17,9 @@ class GetDashboardDataUseCase {
     );
   }
 }
-
 class GetTradeReportsUseCase {
   final DashboardRepository repository;
-
   GetTradeReportsUseCase({required this.repository});
-
   Future<List<TradeReportData>> call({
     String? clientId,
     String? showPeriod,
@@ -38,12 +32,9 @@ class GetTradeReportsUseCase {
     );
   }
 }
-
 class GetSymbolReportsUseCase {
   final DashboardRepository repository;
-
   GetSymbolReportsUseCase({required this.repository});
-
   Future<List<SymbolReportData>> call({
     String? clientId,
     String? showPeriod,
@@ -58,12 +49,9 @@ class GetSymbolReportsUseCase {
     );
   }
 }
-
 class GetDashboardSummaryUseCase {
   final DashboardRepository repository;
-
   GetDashboardSummaryUseCase({required this.repository});
-
   Future<DashboardSummary> call() async {
     return await repository.getDashboardSummary();
   }

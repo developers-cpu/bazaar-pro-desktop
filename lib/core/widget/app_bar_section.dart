@@ -5,7 +5,7 @@ import '../../../../core/widget/common_app_bar.dart';
 import '../../features/market_watch/data/models/menu_Item_data.dart';
 import '../../features/report/presentation/widgets/trade_margin/trade_margin_dialog.dart';
 import '../../features/users/presentation/widgets/create_user/user_search_dialog.dart';
-
+import '../../features/tools/presentation/widgets/about_dialog.dart';
 class AppBarSection extends StatefulWidget implements PreferredSizeWidget {
   final int selectedTabIndex;
   final String? currentPageTitle;
@@ -17,7 +17,6 @@ class AppBarSection extends StatefulWidget implements PreferredSizeWidget {
   final Function(String)? onUserAction;
   final Function(String)? onReportAction;
   final bool showExportByDefault;
-
   const AppBarSection({
     Key? key,
     required this.selectedTabIndex,
@@ -31,29 +30,23 @@ class AppBarSection extends StatefulWidget implements PreferredSizeWidget {
     this.onReportAction,
     this.showExportByDefault = false,
   }) : super(key: key);
-
   @override
   Size get preferredSize => Size.fromHeight(64.h);
-
   @override
   State<AppBarSection> createState() => AppBarSectionState();
 }
-
 class AppBarSectionState extends State<AppBarSection> {
   late List<AppBarTab> _tabs;
   final Map<int, String> _selectedDropdownItems = {};
-
   @override
   void initState() {
     super.initState();
     _initializeTabs();
-
     if (widget.currentPageTitle != null) {
       _selectedDropdownItems[widget.selectedTabIndex] =
           widget.currentPageTitle!;
     }
   }
-
   @override
   void didUpdateWidget(AppBarSection oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -63,13 +56,10 @@ class AppBarSectionState extends State<AppBarSection> {
           widget.currentPageTitle!;
     }
   }
-
   void _initializeTabs() {
     _tabs = [
       const AppBarTab(title: AppStrings.marketWatch),
-
       const AppBarTab(title: AppStrings.dashboard),
-
       AppBarTab(
         title: AppStrings.view,
         dropdownItems: [
@@ -114,7 +104,6 @@ class AppBarSectionState extends State<AppBarSection> {
           ),
         ],
       ),
-
       AppBarTab(
         title: 'User',
         dropdownItems: [
@@ -134,7 +123,6 @@ class AppBarSectionState extends State<AppBarSection> {
           ),
         ],
       ),
-
       AppBarTab(
         title: AppStrings.report,
         dropdownItems: [
@@ -206,21 +194,69 @@ class AppBarSectionState extends State<AppBarSection> {
           ),
         ],
       ),
-
-      const AppBarTab(title: AppStrings.tools),
+      AppBarTab(
+        title: AppStrings.tools,
+        dropdownItems: [
+          MenuItemData(
+            title: 'About',
+            onTap: () {
+              AboutDialogBox.show(context);
+              setState(() {
+                _selectedDropdownItems[5] = 'About';
+              });
+            },
+          ),
+          MenuItemData(
+            title: 'Change Password',
+            onTap: () =>
+                _navigateToPage(5, 'Change Password', '/tools/change-password'),
+          ),
+          MenuItemData(
+            title: 'Market Timing',
+            onTap: () =>
+                _navigateToPage(5, 'Market Timing', '/tools/market-timing'),
+          ),
+          MenuItemData(
+            title: 'Message',
+            onTap: () => _navigateToPage(5, 'Message', '/tools/message'),
+          ),
+          MenuItemData(
+            title: 'Announcement',
+            onTap: () =>
+                _navigateToPage(5, 'Announcement', '/tools/announcement'),
+          ),
+          MenuItemData(
+            title: 'Rules & Regulations',
+            onTap: () => _navigateToPage(
+              5,
+              'Rules & Regulations',
+              '/tools/rules-regulations',
+            ),
+          ),
+          MenuItemData(
+            title: 'ShortCuts',
+            onTap: () => _navigateToPage(5, 'ShortCuts', '/tools/shortcuts'),
+          ),
+          MenuItemData(
+            title: 'My Profile',
+            onTap: () => _navigateToPage(5, 'My Profile', '/tools/my-profile'),
+          ),
+          MenuItemData(
+            title: 'Total Volume',
+            onTap: () =>
+                _navigateToPage(5, 'Total Volume', '/tools/total-volume'),
+          ),
+        ],
+      ),
     ];
   }
-
   void _navigateToPage(int tabIndex, String itemTitle, String routeName) {
     setState(() {
       _selectedDropdownItems[tabIndex] = itemTitle;
     });
-
     widget.onViewAction?.call(routeName);
-
     Navigator.of(context).pushReplacementNamed(routeName);
   }
-
   void _onTabSelected(int index) {
     if (index == 0) {
       Navigator.of(context).pushReplacementNamed('/market-watch');
@@ -229,19 +265,15 @@ class AppBarSectionState extends State<AppBarSection> {
     } else if (index == 5) {
       Navigator.of(context).pushReplacementNamed('/tools');
     }
-
     widget.onTabSelected(index);
   }
-
   bool hasDropdown(int index) {
     if (index < 0 || index >= _tabs.length) return false;
     return _tabs[index].hasDropdown;
   }
-
   bool get _shouldShowReloadIcon {
     return widget.selectedTabIndex == 0;
   }
-
   @override
   Widget build(BuildContext context) {
     return CommonAppBar(

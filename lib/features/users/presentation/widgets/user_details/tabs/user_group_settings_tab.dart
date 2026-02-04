@@ -9,17 +9,14 @@ import '../../../../domain/entities/user_group_settings/user_group_settings.dart
 import '../../../bloc/user_group_settings/user_group_settings_bloc.dart';
 import '../../common/user_record_count.dart';
 import '../../common/user_data_table.dart';
-
 class UserGroupSettingsTab extends StatelessWidget {
   final User user;
   final Function(String groupName) onViewSettings;
-
   const UserGroupSettingsTab({
     super.key,
     required this.user,
     required this.onViewSettings,
   });
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -29,12 +26,9 @@ class UserGroupSettingsTab extends StatelessWidget {
     );
   }
 }
-
 class UserGroupSettingsTabView extends StatelessWidget {
   final Function(String groupName) onViewSettings;
-
   const UserGroupSettingsTabView({super.key, required this.onViewSettings});
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserGroupSettingsBloc, UserGroupSettingsState>(

@@ -5,12 +5,10 @@ import 'package:bazarpro/core/usecases/usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'user_quantity_settings_event.dart';
 import 'user_quantity_settings_state.dart';
-
 class UserQuantitySettingsBloc
     extends Bloc<UserQuantitySettingsEvent, UserQuantitySettingsState> {
   final GetUserQuantitySettings getUserQuantitySettings;
   final GetUserQuantitySettingsMetadata getUserQuantitySettingsMetadata;
-
   UserQuantitySettingsBloc({
     required this.getUserQuantitySettings,
     required this.getUserQuantitySettingsMetadata,
@@ -18,7 +16,6 @@ class UserQuantitySettingsBloc
     on<LoadUserQuantitySettings>(_onLoadSettings);
     on<FilterUserQuantitySettings>(_onFilterSettings);
   }
-
   void _onLoadSettings(
     LoadUserQuantitySettings event,
     Emitter<UserQuantitySettingsState> emit,
@@ -26,7 +23,6 @@ class UserQuantitySettingsBloc
     emit(UserQuantitySettingsLoading());
     final settingsResult = await getUserQuantitySettings(event.userId);
     final metadataResult = await getUserQuantitySettingsMetadata(NoParams());
-
     settingsResult.fold(
       (failure) => emit(UserQuantitySettingsError(failure.message)),
       (settings) {
@@ -49,7 +45,6 @@ class UserQuantitySettingsBloc
       },
     );
   }
-
   void _onFilterSettings(
     FilterUserQuantitySettings event,
     Emitter<UserQuantitySettingsState> emit,
@@ -57,7 +52,6 @@ class UserQuantitySettingsBloc
     if (state is UserQuantitySettingsLoaded) {
       final currentState = state as UserQuantitySettingsLoaded;
       List<UserQuantitySetting> filtered = currentState.settings;
-
       if (event.symbol != null && event.symbol!.isNotEmpty) {
         filtered = filtered
             .where(
@@ -66,7 +60,6 @@ class UserQuantitySettingsBloc
             )
             .toList();
       }
-
       emit(
         currentState.copyWith(
           filteredSettings: filtered,

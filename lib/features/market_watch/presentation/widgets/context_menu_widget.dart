@@ -8,7 +8,6 @@ import '../../../../core/constants/app_strings.dart';
 import '../../../../core/widget/svg_icon.dart';
 import '../bloc/theme/theme_bloc.dart';
 import '../bloc/theme/theme_state.dart';
-
 class ContextMenuWidget extends StatelessWidget {
   final Offset position;
   final VoidCallback onViewChart;
@@ -29,7 +28,6 @@ class ContextMenuWidget extends StatelessWidget {
   final bool canPaste;
   final bool canUndo;
   final bool canRedo;
-
   const ContextMenuWidget({
     Key? key,
     required this.position,
@@ -52,13 +50,11 @@ class ContextMenuWidget extends StatelessWidget {
     this.canUndo = true,
     this.canRedo = true,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (context, themeState) {
         final isDark = themeState.isDarkMode;
-
         return Material(
           elevation: 8,
           borderRadius: BorderRadius.circular(10.r),
@@ -92,7 +88,6 @@ class ContextMenuWidget extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-
                   _buildMenuItem(
                     icon: Icons.shopping_cart,
                     text: 'Buy Order',
@@ -102,7 +97,6 @@ class ContextMenuWidget extends StatelessWidget {
                     iconColor: const Color(0xFF0066FF),
                   ),
                   SizedBox(height: 5.h),
-
                   _buildMenuItem(
                     icon: Icons.sell,
                     text: 'Sell Order',
@@ -112,7 +106,6 @@ class ContextMenuWidget extends StatelessWidget {
                     iconColor: const Color(0xFFFF0000),
                   ),
                   SizedBox(height: 5.h),
-
                   _buildMenuItem(
                     icon: Icons.analytics,
                     text: 'Market Depth',
@@ -216,7 +209,6 @@ class ContextMenuWidget extends StatelessWidget {
       },
     );
   }
-
   Widget _buildDivider(bool isDark) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8.h),
@@ -228,7 +220,6 @@ class ContextMenuWidget extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildMenuItem({
     required IconData icon,
     required String text,
@@ -244,7 +235,6 @@ class ContextMenuWidget extends StatelessWidget {
     final hoverColor = isDark
         ? DarkThemeColors.contextMenuHover
         : LightThemeColors.contextMenuHover;
-
     return InkWell(
       onTap: enabled ? onTap : null,
       borderRadius: BorderRadius.circular(5.r),
@@ -300,7 +290,6 @@ class ContextMenuWidget extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildMenuItemSvg({
     required String icon,
     required String text,
@@ -314,7 +303,6 @@ class ContextMenuWidget extends StatelessWidget {
     final hoverColor = isDark
         ? DarkThemeColors.contextMenuHover
         : LightThemeColors.contextMenuHover;
-
     return InkWell(
       onTap: enabled ? onTap : null,
       borderRadius: BorderRadius.circular(5.r),

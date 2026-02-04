@@ -1,7 +1,6 @@
 import 'package:dartz/dartz.dart';
 import '../../../../../core/errors/failures.dart';
 import '../../models/user_wise_profit_and_loss_report_model.dart';
-
 abstract class UserWiseProfitAndLossRemoteDataSource {
   Future<Either<Failure, List<UserWiseProfitAndLossReportModel>>>
   getUserWiseProfitAndLossReport({
@@ -10,7 +9,6 @@ abstract class UserWiseProfitAndLossRemoteDataSource {
     String? endDate,
   });
 }
-
 class UserWiseProfitAndLossRemoteDataSourceImpl
     implements UserWiseProfitAndLossRemoteDataSource {
   @override
@@ -20,9 +18,7 @@ class UserWiseProfitAndLossRemoteDataSourceImpl
     String? startDate,
     String? endDate,
   }) async {
-    
     await Future.delayed(const Duration(milliseconds: 500));
-
     final List<UserWiseProfitAndLossReportModel> mockData = [
       UserWiseProfitAndLossReportModel(
         id: '1',
@@ -97,7 +93,6 @@ class UserWiseProfitAndLossRemoteDataSourceImpl
         createdDate: DateTime.now(),
       ),
     ];
-
     if (userId != null && userId.isNotEmpty) {
       return Right(
         mockData
@@ -108,7 +103,6 @@ class UserWiseProfitAndLossRemoteDataSourceImpl
             .toList(),
       );
     }
-
     return Right(mockData);
   }
 }

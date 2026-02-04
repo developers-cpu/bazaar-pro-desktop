@@ -1,12 +1,10 @@
 import '../../models/trade_margin_model.dart';
-
 abstract class TradeMarginRemoteDataSource {
   Future<List<TradeMarginModel>> getTradeMargins({
     String? exchange,
     String? search,
   });
 }
-
 class TradeMarginRemoteDataSourceImpl implements TradeMarginRemoteDataSource {
   @override
   Future<List<TradeMarginModel>> getTradeMargins({
@@ -14,7 +12,6 @@ class TradeMarginRemoteDataSourceImpl implements TradeMarginRemoteDataSource {
     String? search,
   }) async {
     await Future.delayed(const Duration(milliseconds: 500));
-
     final List<TradeMarginModel> mockData = [
       TradeMarginModel(
         exchange: 'MCX',
@@ -80,15 +77,12 @@ class TradeMarginRemoteDataSourceImpl implements TradeMarginRemoteDataSource {
         marginAmount: 1000,
       ),
     ];
-
     var filteredList = mockData;
-
     if (exchange != null && exchange != 'All') {
       filteredList = filteredList
           .where((item) => item.exchange == exchange)
           .toList();
     }
-
     if (search != null && search.isNotEmpty) {
       filteredList = filteredList
           .where(
@@ -96,7 +90,6 @@ class TradeMarginRemoteDataSourceImpl implements TradeMarginRemoteDataSource {
           )
           .toList();
     }
-
     return filteredList;
   }
 }

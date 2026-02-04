@@ -5,12 +5,10 @@ import '../../../../../../core/usecases/usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'user_pending_order_event.dart';
 import 'user_pending_order_state.dart';
-
 class UserPendingOrderBloc
     extends Bloc<UserPendingOrderEvent, UserPendingOrderState> {
   final GetUserPendingOrders getUserPendingOrders;
   final GetUserPendingOrderMetadata getUserPendingOrderMetadata;
-
   UserPendingOrderBloc({
     required this.getUserPendingOrders,
     required this.getUserPendingOrderMetadata,
@@ -18,16 +16,13 @@ class UserPendingOrderBloc
     on<LoadUserPendingOrders>(_onLoadOrders);
     on<FilterUserPendingOrders>(_onFilterOrders);
   }
-
   void _onLoadOrders(
     LoadUserPendingOrders event,
     Emitter<UserPendingOrderState> emit,
   ) async {
     emit(UserPendingOrderLoading());
-
     final orderResult = await getUserPendingOrders(event.userId);
     final metadataResult = await getUserPendingOrderMetadata(NoParams());
-
     orderResult.fold(
       (failure) => emit(UserPendingOrderError(failure.message)),
       (orders) {
@@ -50,7 +45,6 @@ class UserPendingOrderBloc
       },
     );
   }
-
   void _onFilterOrders(
     FilterUserPendingOrders event,
     Emitter<UserPendingOrderState> emit,
@@ -58,7 +52,6 @@ class UserPendingOrderBloc
     if (state is UserPendingOrderLoaded) {
       final currentState = state as UserPendingOrderLoaded;
       List<UserPendingOrder> filtered = currentState.orders;
-
       if (event.exchange != null &&
           event.exchange != 'All' &&
           event.exchange!.isNotEmpty) {
@@ -74,7 +67,6 @@ class UserPendingOrderBloc
           event.orderType!.isNotEmpty) {
         filtered = filtered.where((o) => o.type == event.orderType).toList();
       }
-
       emit(
         currentState.copyWith(
           filteredOrders: filtered,

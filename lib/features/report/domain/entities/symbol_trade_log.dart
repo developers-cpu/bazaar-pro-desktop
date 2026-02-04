@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 class SymbolTradeLog extends Equatable {
   final String sequence;
   final String userName;
@@ -18,7 +17,6 @@ class SymbolTradeLog extends Equatable {
   final String orderDateTime;
   final String executionDateTime;
   final double referencePrice;
-
   const SymbolTradeLog({
     required this.sequence,
     required this.userName,
@@ -38,7 +36,6 @@ class SymbolTradeLog extends Equatable {
     required this.executionDateTime,
     required this.referencePrice,
   });
-
   @override
   List<Object?> get props => [
     sequence,

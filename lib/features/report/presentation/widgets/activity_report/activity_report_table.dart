@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../../../view/presentation/widget/common/view_data_table.dart';
 import '../../../../view/presentation/widget/common/view_record_count.dart';
 import '../../../../view/presentation/widget/common/view_table_cell_styles.dart';
 import '../../../domain/entities/activity_report.dart';
 import '../../bloc/activity_report/activity_report_bloc.dart';
 import '../../bloc/activity_report/activity_report_state.dart';
-
 class ActivityReportTable extends StatelessWidget {
   final bool isDarkMode;
-
   const ActivityReportTable({super.key, this.isDarkMode = false});
-
   List<ViewTableColumn> _getColumns() {
     return const [
       ViewTableColumn(id: 'userName', label: 'USER NAME', width: 150),
@@ -26,7 +22,6 @@ class ActivityReportTable extends StatelessWidget {
       ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 150),
     ];
   }
-
   Widget _buildCell(ActivityReport item, ViewTableColumn column, bool isDark) {
     switch (column.id) {
       case 'userName':
@@ -51,7 +46,6 @@ class ActivityReportTable extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ActivityReportBloc, ActivityReportState>(
@@ -59,15 +53,12 @@ class ActivityReportTable extends StatelessWidget {
         if (state is ActivityReportLoading) {
           return const Center(child: CircularProgressIndicator());
         }
-
         if (state is ActivityReportError) {
           return Center(child: Text('Error: ${state.message}'));
         }
-
         if (state is! ActivityReportLoaded) {
           return const SizedBox.shrink();
         }
-
         return Column(
           children: [
             ViewRecordCount(count: state.reports.length),

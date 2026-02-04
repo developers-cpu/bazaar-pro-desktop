@@ -9,7 +9,6 @@ import '../../../domain/usecases/user/export_users_to_pdf.dart';
 import '../../../domain/usecases/user/export_users_to_excel.dart';
 import 'user_list_event.dart';
 import 'user_list_state.dart';
-
 class UserListBloc extends Bloc<UserListEvent, UserListState> {
   final GetUsers getUsers;
   final GetUsersWithFilters getUsersWithFilters;
@@ -17,7 +16,6 @@ class UserListBloc extends Bloc<UserListEvent, UserListState> {
   final GetUserStatuses getUserStatuses;
   final ExportUsersToPdf exportUsersToPdf;
   final ExportUsersToExcel exportUsersToExcel;
-
   UserListBloc({
     required this.getUsers,
     required this.getUsersWithFilters,
@@ -36,18 +34,15 @@ class UserListBloc extends Bloc<UserListEvent, UserListState> {
     on<ExportToExcelEvent>(_onExportToExcel);
     on<SelectUserEvent>(_onSelectUser);
   }
-
   Future<void> _onLoadUsers(
     LoadUsersEvent event,
     Emitter<UserListState> emit,
   ) async {
     emit(const UserListLoading());
-
     try {
       final result = await getUsers(NoParams());
       final types = getUserTypes();
       final statuses = getUserStatuses();
-
       result.fold(
         (failure) => emit(UserListError(failure.message)),
         (users) => emit(
@@ -64,21 +59,18 @@ class UserListBloc extends Bloc<UserListEvent, UserListState> {
       emit(UserListError(e.toString()));
     }
   }
-
   Future<void> _onFilterByUserType(
     FilterByUserTypeEvent event,
     Emitter<UserListState> emit,
   ) async {
     if (state is UserListLoaded) {
       final currentState = state as UserListLoaded;
-
       final result = await getUsersWithFilters(
         UserFilterParams(
           userType: event.userType,
           userStatus: currentState.selectedUserStatus,
         ),
       );
-
       result.fold(
         (failure) => emit(UserListError(failure.message)),
         (filtered) => emit(
@@ -92,21 +84,18 @@ class UserListBloc extends Bloc<UserListEvent, UserListState> {
       );
     }
   }
-
   Future<void> _onFilterByUserStatus(
     FilterByUserStatusEvent event,
     Emitter<UserListState> emit,
   ) async {
     if (state is UserListLoaded) {
       final currentState = state as UserListLoaded;
-
       final result = await getUsersWithFilters(
         UserFilterParams(
           userType: currentState.selectedUserType,
           userStatus: event.userStatus,
         ),
       );
-
       result.fold(
         (failure) => emit(UserListError(failure.message)),
         (filtered) => emit(
@@ -121,21 +110,18 @@ class UserListBloc extends Bloc<UserListEvent, UserListState> {
       );
     }
   }
-
   Future<void> _onApplyFilters(
     ApplyFiltersEvent event,
     Emitter<UserListState> emit,
   ) async {
     if (state is UserListLoaded) {
       final currentState = state as UserListLoaded;
-
       final result = await getUsersWithFilters(
         UserFilterParams(
           userType: event.userType,
           userStatus: event.userStatus,
         ),
       );
-
       result.fold(
         (failure) => emit(UserListError(failure.message)),
         (filtered) => emit(
@@ -149,16 +135,13 @@ class UserListBloc extends Bloc<UserListEvent, UserListState> {
       );
     }
   }
-
   Future<void> _onResetFilters(
     ResetFiltersEvent event,
     Emitter<UserListState> emit,
   ) async {
     if (state is UserListLoaded) {
       final currentState = state as UserListLoaded;
-
       final result = await getUsers(NoParams());
-
       result.fold(
         (failure) => emit(UserListError(failure.message)),
         (users) => emit(
@@ -173,12 +156,10 @@ class UserListBloc extends Bloc<UserListEvent, UserListState> {
       );
     }
   }
-
   void _onSortByColumn(SortByColumnEvent event, Emitter<UserListState> emit) {
     if (state is UserListLoaded) {
       final currentState = state as UserListLoaded;
       final sorted = List<User>.from(currentState.filteredUsers);
-
       sorted.sort((a, b) {
         int comparison = 0;
         switch (event.columnId) {
@@ -238,7 +219,6 @@ class UserListBloc extends Bloc<UserListEvent, UserListState> {
         }
         return event.ascending ? comparison : -comparison;
       });
-
       emit(
         currentState.copyWith(
           filteredUsers: sorted,
@@ -248,20 +228,16 @@ class UserListBloc extends Bloc<UserListEvent, UserListState> {
       );
     }
   }
-
   Future<void> _onExportToPdf(
     ExportToPdfEvent event,
     Emitter<UserListState> emit,
   ) async {
     if (state is UserListLoaded) {
       final currentState = state as UserListLoaded;
-
       emit(const UserListExporting('pdf'));
-
       final result = await exportUsersToPdf(
         ExportUsersParams(users: currentState.filteredUsers),
       );
-
       result.fold(
         (failure) {
           emit(UserListError(failure.message));
@@ -279,20 +255,16 @@ class UserListBloc extends Bloc<UserListEvent, UserListState> {
       );
     }
   }
-
   Future<void> _onExportToExcel(
     ExportToExcelEvent event,
     Emitter<UserListState> emit,
   ) async {
     if (state is UserListLoaded) {
       final currentState = state as UserListLoaded;
-
       emit(const UserListExporting('excel'));
-
       final result = await exportUsersToExcel(
         ExportUsersParams(users: currentState.filteredUsers),
       );
-
       result.fold(
         (failure) {
           emit(UserListError(failure.message));
@@ -310,7 +282,6 @@ class UserListBloc extends Bloc<UserListEvent, UserListState> {
       );
     }
   }
-
   void _onSelectUser(SelectUserEvent event, Emitter<UserListState> emit) {
     if (state is UserListLoaded) {
       final currentState = state as UserListLoaded;

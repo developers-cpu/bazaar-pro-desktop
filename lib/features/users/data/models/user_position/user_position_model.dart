@@ -1,5 +1,4 @@
 import '../../../domain/entities/user_position/user_position.dart';
-
 class UserPositionModel extends UserPosition {
   const UserPositionModel({
     required super.exchange,
@@ -12,7 +11,6 @@ class UserPositionModel extends UserPosition {
     required super.m2m,
     required super.lot,
   });
-
   factory UserPositionModel.fromMap(Map<String, dynamic> map) {
     return UserPositionModel(
       exchange: map['exch'] as String,

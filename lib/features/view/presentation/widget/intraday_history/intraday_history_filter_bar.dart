@@ -10,10 +10,8 @@ import '../../bloc/intraday_history/intraday_history_bloc.dart';
 import '../../bloc/intraday_history/intraday_history_event.dart';
 import '../../bloc/intraday_history/intraday_history_state.dart';
 import '../common/view_reset_buttons.dart';
-
 class IntradayHistoryFilterBar extends StatelessWidget {
   const IntradayHistoryFilterBar({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<IntradayHistoryBloc, IntradayHistoryState>(
@@ -21,17 +19,14 @@ class IntradayHistoryFilterBar extends StatelessWidget {
         if (state is! IntradayHistoryLoaded) {
           return const SizedBox.shrink();
         }
-
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Row(
             children: [
-
               Expanded(
                 child: _buildDatePicker(context, state),
               ),
               SizedBox(width: 12.w),
-
               Expanded(
                 child: AppDropdown(
                   type: AppDropdownType.simple,
@@ -51,7 +46,6 @@ class IntradayHistoryFilterBar extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 12.w),
-
               Expanded(
                 child: AppDropdown(
                   type: AppDropdownType.search,
@@ -71,7 +65,6 @@ class IntradayHistoryFilterBar extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 12.w),
-
               Expanded(
                 child: AppDropdown(
                   type: AppDropdownType.simple,
@@ -90,9 +83,7 @@ class IntradayHistoryFilterBar extends StatelessWidget {
                   },
                 ),
               ),
-
               const Spacer(),
-
               ViewResetButtons(
                 onReset: () {
                   context.read<IntradayHistoryBloc>().add(
@@ -116,22 +107,18 @@ class IntradayHistoryFilterBar extends StatelessWidget {
       },
     );
   }
-
   Widget _buildDatePicker(BuildContext context, IntradayHistoryLoaded state) {
     final dateFormat = DateFormat('dd/MM/yyyy');
     String displayText = 'Select Date';
-
     if (state.selectedDate != null) {
       displayText = dateFormat.format(state.selectedDate!);
     }
-
     return GestureDetector(
       onTap: () async {
         final result = await SingleDatePickerDialog.show(
           context,
           initialDate: state.selectedDate,
         );
-
         if (result != null) {
           context.read<IntradayHistoryBloc>().add(
             ApplyIntradayFiltersEvent(

@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 class ScriptMaster extends Equatable {
   final String id;
   final String exchange;
@@ -8,7 +7,6 @@ class ScriptMaster extends Equatable {
   final String tradeAttribute; 
   final bool allowTrade;
   final DateTime lastUpdated;
-
   const ScriptMaster({
     required this.id,
     required this.exchange,
@@ -18,7 +16,6 @@ class ScriptMaster extends Equatable {
     required this.allowTrade,
     required this.lastUpdated,
   });
-
   @override
   List<Object?> get props => [
     id,
@@ -29,7 +26,6 @@ class ScriptMaster extends Equatable {
     allowTrade,
     lastUpdated,
   ];
-
   ScriptMaster copyWith({
     String? id,
     String? exchange,

@@ -7,10 +7,8 @@ import '../../../../../../core/constants/app_colors.dart';
 import '../../bloc/symbol_wise_pl/symbol_wise_pl_bloc.dart';
 import '../../bloc/symbol_wise_pl/symbol_wise_pl_event.dart';
 import '../../bloc/symbol_wise_pl/symbol_wise_pl_state.dart';
-
 class SymbolWisePLFilterBar extends StatelessWidget {
   const SymbolWisePLFilterBar({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -23,10 +21,8 @@ class SymbolWisePLFilterBar extends StatelessWidget {
             exchangeItems = state.exchanges;
             symbolItems = state.symbols;
           }
-
           return Row(
             children: [
-              
               AppDropdown(
                 hintText: 'Exchange',
                 items: exchangeItems,
@@ -39,7 +35,6 @@ class SymbolWisePLFilterBar extends StatelessWidget {
                 height: 40.h,
               ),
               SizedBox(width: 16.w),
-              
               Expanded(
                 child: AppDropdown(
                   hintText: 'Symbol',
@@ -56,14 +51,11 @@ class SymbolWisePLFilterBar extends StatelessWidget {
                 ),
               ),
               const Spacer(),
-              
               SizedBox(
                 height: 40.h,
                 width: 100.w,
                 child: OutlinedButton(
                   onPressed: () {
-                    
-          
                     context.read<SymbolWisePLBloc>().add(
                       const LoadSymbolWisePL(),
                     );
@@ -86,14 +78,11 @@ class SymbolWisePLFilterBar extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 16.w),
-              
               SizedBox(
                 height: 40.h,
                 width: 100.w,
                 child: ElevatedButton(
                   onPressed: () {
-                    
-                    
                     context.read<SymbolWisePLBloc>().add(
                       const LoadSymbolWisePL(),
                     );

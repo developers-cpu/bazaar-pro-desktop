@@ -1,7 +1,5 @@
 import '../models/dashboard_model.dart';
-
 class DashboardDataSource {
-
   Future<List<TradeReportModel>> getTradeReports({
     String? clientId,
     String? showPeriod,
@@ -41,7 +39,6 @@ class DashboardDataSource {
       ),
     ];
   }
-
   Future<List<SymbolReportModel>> getSymbolReports({
     String? clientId,
     String? showPeriod,
@@ -49,7 +46,6 @@ class DashboardDataSource {
     int topCount = 10,
   }) async {
     await Future.delayed(const Duration(milliseconds: 500));
-
     final allSymbols = [
       const SymbolReportModel(symbol: 'GIFTNIFTY', value: 238.68, percentage: 13.97, colorIndex: 0),
       const SymbolReportModel(symbol: 'DOWJONES', value: 141.06, percentage: 8.26, colorIndex: 1),
@@ -64,10 +60,8 @@ class DashboardDataSource {
       const SymbolReportModel(symbol: 'COPPER', value: 151.9, percentage: 8.89, colorIndex: 10),
       const SymbolReportModel(symbol: 'GOLD', value: 99.51, percentage: 5.82, colorIndex: 11),
     ];
-
     return allSymbols.take(topCount).toList();
   }
-
   Future<DashboardSummaryModel> getDashboardSummary() async {
     await Future.delayed(const Duration(milliseconds: 300));
     return const DashboardSummaryModel(

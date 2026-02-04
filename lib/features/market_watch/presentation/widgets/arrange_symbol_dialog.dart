@@ -9,14 +9,10 @@ import '../../../../core/widget/svg_icon.dart';
 import '../bloc/arrangesymbol/arrange_symbol_bloc.dart';
 import '../bloc/arrangesymbol/arrange_symbol_event.dart';
 import '../bloc/arrangesymbol/arrange_symbol_state.dart';
-
 class ArrangeSymbolDialog extends StatelessWidget {
   const ArrangeSymbolDialog({Key? key}) : super(key: key);
-
   static void show(BuildContext context) {
-
     context.read<ArrangeSymbolBloc>().add(const LoadColumnsEvent());
-
     CommonDialog.show(
       context: context,
       title: 'Market',
@@ -35,7 +31,6 @@ class ArrangeSymbolDialog extends StatelessWidget {
       contentPadding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return CommonDialog(
@@ -53,10 +48,8 @@ class ArrangeSymbolDialog extends StatelessWidget {
     );
   }
 }
-
 class _ArrangeSymbolContent extends StatelessWidget {
   const _ArrangeSymbolContent({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -66,7 +59,6 @@ class _ArrangeSymbolContent extends StatelessWidget {
       ],
     );
   }
-
   Widget _buildColumnList() {
     return BlocBuilder<ArrangeSymbolBloc, ArrangeSymbolState>(
       builder: (context, state) {
@@ -95,7 +87,6 @@ class _ArrangeSymbolContent extends StatelessWidget {
       },
     );
   }
-
   Widget _buildColumnItem({
     required Key key,
     required BuildContext context,
@@ -123,13 +114,11 @@ class _ArrangeSymbolContent extends StatelessWidget {
       ),
       child: Row(
         children: [
-
           ReorderableDragStartListener(
             index: index,
             child: _buildDragHandle(),
           ),
           SizedBox(width: 16.w),
-
           Expanded(
             child: Text(
               column.name,
@@ -141,13 +130,11 @@ class _ArrangeSymbolContent extends StatelessWidget {
               ),
             ),
           ),
-
           _buildToggleCheckbox(context, column),
         ],
       ),
     );
   }
-
   Widget _buildDragHandle() {
     return Container(
       width: 32.w,
@@ -160,7 +147,6 @@ class _ArrangeSymbolContent extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildToggleCheckbox(BuildContext context, ColumnItem column) {
     return GestureDetector(
       behavior: HitTestBehavior.opaque, 

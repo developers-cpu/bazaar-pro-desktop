@@ -10,22 +10,17 @@ import '../../bloc/intraday_history/intraday_history_bloc.dart';
 import '../../bloc/intraday_history/intraday_history_event.dart';
 import '../../bloc/intraday_history/intraday_history_state.dart';
 import '../common/view_reset_buttons.dart';
-
 class IntradaySecondsFilterBar extends StatefulWidget {
   const IntradaySecondsFilterBar({Key? key}) : super(key: key);
-
   @override
   State<IntradaySecondsFilterBar> createState() =>
       _IntradaySecondsFilterBarState();
 }
-
 class _IntradaySecondsFilterBarState extends State<IntradaySecondsFilterBar> {
-
   String? _selectedExchange;
   String? _selectedSymbol;
   DateTime? _startTime;
   DateTime? _endTime;
-
   final List<String> _exchanges = [
     'NSE',
     'MCX',
@@ -36,7 +31,6 @@ class _IntradaySecondsFilterBarState extends State<IntradaySecondsFilterBar> {
     'GIFT',
     'FOREX'
   ];
-
   final List<String> _symbols = [
     'SGX GIFTNIFTY Oct 28',
     'NSE NIFTY Oct 28',
@@ -47,7 +41,6 @@ class _IntradaySecondsFilterBarState extends State<IntradaySecondsFilterBar> {
     'OTHER NASDAQ Dec 19',
     'OTHER S & P Dec 19',
   ];
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<IntradayHistoryBloc, IntradayHistoryState>(
@@ -55,32 +48,26 @@ class _IntradaySecondsFilterBarState extends State<IntradaySecondsFilterBar> {
         if (state is! IntradayHistorySecondsView) {
           return const SizedBox.shrink();
         }
-
         _selectedExchange ??= state.exchange.isNotEmpty ? state.exchange : null;
         _selectedSymbol ??= state.symbol.isNotEmpty ? state.symbol : null;
         _startTime ??= state.startTime;
         _endTime ??= state.endTime;
-
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Column(
             children: [
-
               Row(
                 children: [
                   _buildBackButton(context),
                 ],
               ),
               SizedBox(height: 12.h),
-
               Row(
                 children: [
-
                   Expanded(
                     child: _buildDatePicker(context, state),
                   ),
                   SizedBox(width: 12.w),
-
                   Expanded(
                     child: AppDropdown(
                       type: AppDropdownType.simple,
@@ -95,7 +82,6 @@ class _IntradaySecondsFilterBarState extends State<IntradaySecondsFilterBar> {
                     ),
                   ),
                   SizedBox(width: 12.w),
-
                   Expanded(
                     child: AppDropdown(
                       type: AppDropdownType.search,
@@ -110,7 +96,6 @@ class _IntradaySecondsFilterBarState extends State<IntradaySecondsFilterBar> {
                     ),
                   ),
                   SizedBox(width: 12.w),
-
                   Expanded(
                     child: _buildTimePicker(
                       context,
@@ -124,7 +109,6 @@ class _IntradaySecondsFilterBarState extends State<IntradaySecondsFilterBar> {
                     ),
                   ),
                   SizedBox(width: 12.w),
-
                   Expanded(
                     child: _buildTimePicker(
                       context,
@@ -137,9 +121,7 @@ class _IntradaySecondsFilterBarState extends State<IntradaySecondsFilterBar> {
                       },
                     ),
                   ),
-
                   const Spacer(),
-
                   ViewResetButtons(
                     onReset: () {
                       context.read<IntradayHistoryBloc>().add(
@@ -147,7 +129,6 @@ class _IntradaySecondsFilterBarState extends State<IntradaySecondsFilterBar> {
                       );
                     },
                     onView: () {
-
                       if (_selectedExchange == null ||
                           _selectedExchange!.isEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -158,7 +139,6 @@ class _IntradaySecondsFilterBarState extends State<IntradaySecondsFilterBar> {
                         );
                         return;
                       }
-
                       if (_selectedSymbol == null || _selectedSymbol!.isEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
@@ -168,7 +148,6 @@ class _IntradaySecondsFilterBarState extends State<IntradaySecondsFilterBar> {
                         );
                         return;
                       }
-
                       context.read<IntradayHistoryBloc>().add(
                         LoadSecondsDataEvent(
                           date: state.date,
@@ -188,7 +167,6 @@ class _IntradaySecondsFilterBarState extends State<IntradaySecondsFilterBar> {
       },
     );
   }
-
   Widget _buildBackButton(BuildContext context) {
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -219,11 +197,9 @@ class _IntradaySecondsFilterBarState extends State<IntradaySecondsFilterBar> {
       ],
     );
   }
-
   Widget _buildDatePicker(
       BuildContext context, IntradayHistorySecondsView state) {
     final dateFormat = DateFormat('dd/MM/yyyy');
-
     return Container(
       height: 45.h,
       padding: EdgeInsets.symmetric(horizontal: 12.w),
@@ -254,7 +230,6 @@ class _IntradaySecondsFilterBarState extends State<IntradaySecondsFilterBar> {
       ),
     );
   }
-
   Widget _buildTimePicker(
       BuildContext context,
       String label,
@@ -266,7 +241,6 @@ class _IntradaySecondsFilterBarState extends State<IntradaySecondsFilterBar> {
     final minute = time.minute.toString().padLeft(2, '0');
     final period = time.hour >= 12 ? 'PM' : 'AM';
     final timeText = '${hour.toString().padLeft(2, '0')}:$minute $period';
-
     return GestureDetector(
       onTap: () async {
         final TimeOfDay? picked = await showTimePicker(
@@ -286,7 +260,6 @@ class _IntradaySecondsFilterBarState extends State<IntradaySecondsFilterBar> {
             );
           },
         );
-
         if (picked != null) {
           final newTime = DateTime(
             time.year,

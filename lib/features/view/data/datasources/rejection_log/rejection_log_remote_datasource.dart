@@ -1,9 +1,7 @@
 import 'package:dio/dio.dart';
 import '../../models/rejection_log/rejection_log_model.dart';
-
 abstract class RejectionLogRemoteDataSource {
   Future<List<RejectionLogModel>> getRejectionLogs();
-
   Future<List<RejectionLogModel>> getRejectionLogsWithFilters({
     DateTime? startDate,
     DateTime? endDate,
@@ -11,32 +9,25 @@ abstract class RejectionLogRemoteDataSource {
     String? exchange,
     String? symbol,
   });
-
   Future<List<String>> getClients();
   Future<List<String>> getExchanges();
   Future<List<String>> getSymbols();
-
   Future<String> exportToPdf(List<RejectionLogModel> logs);
   Future<String> exportToExcel(List<RejectionLogModel> logs);
 }
-
 class RejectionLogRemoteDataSourceImpl
     implements RejectionLogRemoteDataSource {
   final Dio dio;
-
   RejectionLogRemoteDataSourceImpl({required this.dio});
-
   @override
   Future<List<RejectionLogModel>> getRejectionLogs() async {
     try {
-
       await Future.delayed(const Duration(milliseconds: 500));
       return _generateMockRejectionLogs();
     } catch (e) {
       throw Exception('Failed to fetch rejection logs: $e');
     }
   }
-
   @override
   Future<List<RejectionLogModel>> getRejectionLogsWithFilters({
     DateTime? startDate,
@@ -48,10 +39,8 @@ class RejectionLogRemoteDataSourceImpl
     try {
       await Future.delayed(const Duration(milliseconds: 300));
       final allLogs = await getRejectionLogs();
-
       return allLogs.where((log) {
         bool matches = true;
-
         if (startDate != null) {
           matches = matches && log.orderDateTime.isAfter(startDate);
         }
@@ -64,19 +53,16 @@ class RejectionLogRemoteDataSourceImpl
           matches = matches && log.userName == client;
         }
         if (exchange != null && exchange.isNotEmpty) {
-
         }
         if (symbol != null && symbol.isNotEmpty) {
           matches = matches && log.symbol == symbol;
         }
-
         return matches;
       }).toList();
     } catch (e) {
       throw Exception('Failed to fetch filtered rejection logs: $e');
     }
   }
-
   @override
   Future<List<String>> getClients() async {
     try {
@@ -86,7 +72,6 @@ class RejectionLogRemoteDataSourceImpl
       throw Exception('Failed to fetch clients: $e');
     }
   }
-
   @override
   Future<List<String>> getExchanges() async {
     try {
@@ -96,7 +81,6 @@ class RejectionLogRemoteDataSourceImpl
       throw Exception('Failed to fetch exchanges: $e');
     }
   }
-
   @override
   Future<List<String>> getSymbols() async {
     try {
@@ -113,7 +97,6 @@ class RejectionLogRemoteDataSourceImpl
       throw Exception('Failed to fetch symbols: $e');
     }
   }
-
   @override
   Future<String> exportToPdf(List<RejectionLogModel> logs) async {
     try {
@@ -123,7 +106,6 @@ class RejectionLogRemoteDataSourceImpl
       throw Exception('Failed to export PDF: $e');
     }
   }
-
   @override
   Future<String> exportToExcel(List<RejectionLogModel> logs) async {
     try {
@@ -133,7 +115,6 @@ class RejectionLogRemoteDataSourceImpl
       throw Exception('Failed to export Excel: $e');
     }
   }
-
   List<RejectionLogModel> _generateMockRejectionLogs() {
     final List<RejectionLogModel> logs = [];
     final symbols = [
@@ -150,9 +131,7 @@ class RejectionLogRemoteDataSourceImpl
       'SYMBOL BLOCKED IF YOU HAVE POSITION ',
       'SCRIPT BLOCKED IF YOU HAVE POSITION ',
     ];
-
     final baseDate = DateTime(2025, 4, 11, 1, 25, 35);
-
     for (int i = 0; i < 50; i++) {
       logs.add(RejectionLogModel(
         id: 'rejection_log_$i',
@@ -170,7 +149,6 @@ class RejectionLogRemoteDataSourceImpl
         date: baseDate,
       ));
     }
-
     return logs;
   }
 }

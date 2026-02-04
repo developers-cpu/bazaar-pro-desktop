@@ -3,17 +3,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../domain/entities/settlement_report.dart';
-
 class SettlementReportView extends StatelessWidget {
   final SettlementReport report;
   final Function(String userId, String username) onUserSelected;
-
   const SettlementReportView({
     super.key,
     required this.report,
     required this.onUserSelected,
   });
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -44,7 +41,6 @@ class SettlementReportView extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildTable({
     required String title,
     required Color headerColor,
@@ -74,7 +70,6 @@ class SettlementReportView extends StatelessWidget {
             ),
           ),
         ),
-
         Container(
           color: Colors.white,
           padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
@@ -93,8 +88,6 @@ class SettlementReportView extends StatelessWidget {
             ],
           ),
         ),
-
-
         Container(
           decoration: BoxDecoration(
             color: Colors.white,
@@ -102,9 +95,7 @@ class SettlementReportView extends StatelessWidget {
           child: Column(
             children: [
               ...entries.map((entry) => _buildRow(entry, isProfitSection)),
-
               const Divider(height: 1),
-
               Container(
                 padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
                 child: Row(
@@ -164,7 +155,6 @@ class SettlementReportView extends StatelessWidget {
       ],
     );
   }
-
   Widget _buildHeaderText(
     String text, {
     bool alignLeft = false,
@@ -182,7 +172,6 @@ class SettlementReportView extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildRow(SettlementEntry entry, bool isProfitSection) {
     return InkWell(
       onTap: () => onUserSelected(entry.userId, entry.username),

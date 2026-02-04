@@ -1,5 +1,4 @@
 import '../../domain/entities/symbol_trade_log.dart';
-
 class SymbolTradeLogModel extends SymbolTradeLog {
   const SymbolTradeLogModel({
     required String sequence,
@@ -38,7 +37,6 @@ class SymbolTradeLogModel extends SymbolTradeLog {
          executionDateTime: executionDateTime,
          referencePrice: referencePrice,
        );
-
   factory SymbolTradeLogModel.fromJson(Map<String, dynamic> json) {
     return SymbolTradeLogModel(
       sequence: json['sequence'] as String? ?? '',

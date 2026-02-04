@@ -9,7 +9,6 @@ import 'tabs/user_position_tab.dart';
 import 'tabs/user_quantity_settings_tab.dart';
 import 'tabs/user_trades_tab.dart';
 import 'tabs/user_group_settings_tab.dart';
-
 import 'tabs/user_brokerage_tab.dart';
 import 'tabs/user_credit_tab.dart';
 import 'tabs/user_list_tab.dart';
@@ -19,13 +18,11 @@ import 'tabs/user_intraday_square_off_tab.dart';
 import 'tabs/user_trade_margin_tab.dart';
 import 'tabs/user_pending_orders_tab.dart';
 import '../create_user/change_password_dialog.dart';
-
 class UserDetailsDialog extends StatefulWidget {
   final User user;
   final String? initialTab;
   final void Function(BuildContext)? onEdit;
   final void Function(BuildContext)? onAction;
-
   const UserDetailsDialog({
     super.key,
     required this.user,
@@ -33,7 +30,6 @@ class UserDetailsDialog extends StatefulWidget {
     this.onEdit,
     this.onAction,
   });
-
   static void show(
     BuildContext context,
     User user, {
@@ -52,15 +48,12 @@ class UserDetailsDialog extends StatefulWidget {
       ),
     );
   }
-
   @override
   State<UserDetailsDialog> createState() => _UserDetailsDialogState();
 }
-
 class _UserDetailsDialogState extends State<UserDetailsDialog>
     with TickerProviderStateMixin {
   late TabController _tabController;
-
   final List<String> _baseTabs = [
     'Position',
     'Trades',
@@ -75,20 +68,15 @@ class _UserDetailsDialogState extends State<UserDetailsDialog>
     'Change Password',
     'Intraday Square off',
   ];
-
   late List<String> _currentTabs;
-
   String? _selectedQuantityGroup;
-
   @override
   void initState() {
     super.initState();
     _currentTabs = List.from(_baseTabs);
-
     if (widget.user.type != 'Master') {
       _currentTabs.remove('User List');
     }
-
     int initialIndex = 0;
     if (widget.initialTab != null) {
       initialIndex = _currentTabs.indexOf(widget.initialTab!);
@@ -96,10 +84,8 @@ class _UserDetailsDialogState extends State<UserDetailsDialog>
         initialIndex = 0;
       }
     }
-
     _initTabController(initialIndex: initialIndex);
   }
-
   void _initTabController({int initialIndex = 0}) {
     _tabController = TabController(
       length: _currentTabs.length,
@@ -108,12 +94,10 @@ class _UserDetailsDialogState extends State<UserDetailsDialog>
     );
     _tabController.addListener(_handleTabSelection);
   }
-
   void _handleTabSelection() {
     if (_tabController.indexIsChanging) {
       return;
     }
-
     final currentTabName = _currentTabs[_tabController.index];
     if (currentTabName != 'Quantity Settings' &&
         _currentTabs.contains('Quantity Settings')) {
@@ -122,10 +106,8 @@ class _UserDetailsDialogState extends State<UserDetailsDialog>
         setState(() {
           _currentTabs.remove('Quantity Settings');
           _selectedQuantityGroup = null;
-
           int newIndex = _currentTabs.indexOf(currentTabName);
           if (newIndex == -1) newIndex = 0;
-
           _tabController.removeListener(_handleTabSelection);
           _tabController.dispose();
           _initTabController(initialIndex: newIndex);
@@ -133,13 +115,11 @@ class _UserDetailsDialogState extends State<UserDetailsDialog>
       });
     }
   }
-
   @override
   void dispose() {
     _tabController.dispose();
     super.dispose();
   }
-
   void _onViewSettings(String groupName) {
     setState(() {
       _selectedQuantityGroup = groupName;
@@ -151,14 +131,12 @@ class _UserDetailsDialogState extends State<UserDetailsDialog>
           _currentTabs.add('Quantity Settings');
         }
       }
-
       int qtyIndex = _currentTabs.indexOf('Quantity Settings');
       _tabController.removeListener(_handleTabSelection);
       _tabController.dispose();
       _initTabController(initialIndex: qtyIndex);
     });
   }
-
   @override
   Widget build(BuildContext context) {
     return CommonDialog(
@@ -219,7 +197,6 @@ class _UserDetailsDialogState extends State<UserDetailsDialog>
       ),
     );
   }
-
   Widget _buildHeader() {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
@@ -270,7 +247,6 @@ class _UserDetailsDialogState extends State<UserDetailsDialog>
       ),
     );
   }
-
   Widget _buildActionButton(
     IconData icon,
     String label,
@@ -314,7 +290,6 @@ class _UserDetailsDialogState extends State<UserDetailsDialog>
       ),
     );
   }
-
   Widget _buildTabBar() {
     return Container(
       color: AppColors.white,

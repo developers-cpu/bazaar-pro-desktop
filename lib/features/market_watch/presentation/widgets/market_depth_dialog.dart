@@ -6,13 +6,10 @@ import '../../../../core/constants/app_colors.dart';
 import '../bloc/market_depth/market_depth_bloc.dart';
 import '../bloc/market_depth/market_depth_event.dart';
 import '../bloc/market_depth/market_depth_state.dart';
-
 class MarketDepthDialog extends StatelessWidget {
   const MarketDepthDialog({Key? key}) : super(key: key);
-
   static Future<void> show(BuildContext context) async {
     context.read<MarketDepthBloc>().add(const OpenMarketDepthEvent());
-
     return showDialog(
       context: context,
       barrierDismissible: true,
@@ -33,9 +30,7 @@ class MarketDepthDialog extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-
               _buildHeader(context),
-
               Flexible(
                 child: SingleChildScrollView(
                   child: Padding(
@@ -49,17 +44,14 @@ class MarketDepthDialog extends StatelessWidget {
         ),
       ),
     ).then((_) {
-
       context.read<MarketDepthBloc>().add(const CloseMarketDepthEvent());
     });
   }
-
   static Widget _buildHeader(BuildContext context) {
     final isDarkMode = AppColors.isDarkMode(context);
     final headerBgColor = isDarkMode
         ? LightThemeColors.primaryColor
         : AppColors.primaryBlue;
-
     return ClipRRect(
       borderRadius: BorderRadius.only(
         topLeft: Radius.circular(16.r),
@@ -97,7 +89,6 @@ class MarketDepthDialog extends StatelessWidget {
       ),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<MarketDepthBloc, MarketDepthState>(
@@ -105,27 +96,21 @@ class MarketDepthDialog extends StatelessWidget {
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-
             _buildDropdowns(context, state),
             SizedBox(height: 16.h),
-
             _buildSymbolInfo(context, state),
             SizedBox(height: 16.h),
-
             _buildMarketDataCards(context, state),
             SizedBox(height: 16.h),
-
             _buildBidAskTable(context, state),
           ],
         );
       },
     );
   }
-
   Widget _buildDropdowns(BuildContext context, MarketDepthState state) {
     return Row(
       children: [
-
         Expanded(
           child: _buildThemedDropdown(
             context: context,
@@ -140,7 +125,6 @@ class MarketDepthDialog extends StatelessWidget {
           ),
         ),
         SizedBox(width: 16.w),
-
         Expanded(
           child: _buildThemedDropdown(
             context: context,
@@ -157,7 +141,6 @@ class MarketDepthDialog extends StatelessWidget {
       ],
     );
   }
-
   Widget _buildThemedDropdown({
     required BuildContext context,
     required String hintText,
@@ -170,7 +153,6 @@ class MarketDepthDialog extends StatelessWidget {
     final textColor = AppColors.textColor(context);
     final bgColor = AppColors.inputFieldBackground(context);
     final dropdownBgColor = AppColors.cardBackground(context);
-
     return Container(
       height: 45.h,
       decoration: BoxDecoration(
@@ -181,7 +163,6 @@ class MarketDepthDialog extends StatelessWidget {
       child: Theme(
         data: Theme.of(context).copyWith(
           canvasColor: dropdownBgColor,
-
           shadowColor: Colors.transparent,
         ),
         child: DropdownButtonHideUnderline(
@@ -253,11 +234,9 @@ class MarketDepthDialog extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildSymbolInfo(BuildContext context, MarketDepthState state) {
     final textColor = AppColors.textColor(context);
     final positiveColor = AppColors.chipTextBlueColor(context);
-
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -291,15 +270,12 @@ class MarketDepthDialog extends StatelessWidget {
       ],
     );
   }
-
   Widget _buildMarketDataCards(BuildContext context, MarketDepthState state) {
     final data = state.marketDepthData;
     final cardBgColor = AppColors.chipBgBlue(context).withOpacity(0.3);
-
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-
         Expanded(
           child: Container(
             padding: EdgeInsets.all(12.w),
@@ -323,7 +299,6 @@ class MarketDepthDialog extends StatelessWidget {
           ),
         ),
         SizedBox(width: 16.w),
-
         Expanded(
           child: Container(
             padding: EdgeInsets.all(12.w),
@@ -349,11 +324,9 @@ class MarketDepthDialog extends StatelessWidget {
       ],
     );
   }
-
   Widget _buildDataRow(BuildContext context, String label, String value) {
     final textColor = AppColors.textColor(context);
     final supportiveColor = AppColors.supportiveTextColor(context);
-
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 4.h),
       child: Row(
@@ -378,14 +351,11 @@ class MarketDepthDialog extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildBidAskTable(BuildContext context, MarketDepthState state) {
     final data = state.marketDepthData;
-
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-
         Expanded(
           child: Container(
             decoration: BoxDecoration(
@@ -398,7 +368,6 @@ class MarketDepthDialog extends StatelessWidget {
             ),
             child: Column(
               children: [
-
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
                   decoration: BoxDecoration(
@@ -445,9 +414,7 @@ class MarketDepthDialog extends StatelessWidget {
                     ],
                   ),
                 ),
-
                 ...?data?.bidRows.map((row) => _buildBidRow(context, row)),
-
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
                   decoration: BoxDecoration(
@@ -490,7 +457,6 @@ class MarketDepthDialog extends StatelessWidget {
           ),
         ),
         SizedBox(width: 16.w),
-
         Expanded(
           child: Container(
             decoration: BoxDecoration(
@@ -503,7 +469,6 @@ class MarketDepthDialog extends StatelessWidget {
             ),
             child: Column(
               children: [
-
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
                   decoration: BoxDecoration(
@@ -550,9 +515,7 @@ class MarketDepthDialog extends StatelessWidget {
                     ],
                   ),
                 ),
-
                 ...?data?.askRows.map((row) => _buildAskRow(context, row)),
-
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
                   decoration: BoxDecoration(
@@ -597,7 +560,6 @@ class MarketDepthDialog extends StatelessWidget {
       ],
     );
   }
-
   Widget _buildBidRow(BuildContext context, MarketDepthRow row) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
@@ -638,7 +600,6 @@ class MarketDepthDialog extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildAskRow(BuildContext context, MarketDepthRow row) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),

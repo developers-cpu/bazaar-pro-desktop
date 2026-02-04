@@ -11,30 +11,24 @@ import '../widget/dashboard_footer.dart';
 import '../widget/report_card.dart';
 import '../widget/symbol_wise_chart.dart';
 import '../widget/trade_reports_chart.dart';
-
 class DashboardPage extends StatefulWidget {
   const DashboardPage({Key? key}) : super(key: key);
-
   @override
   State<DashboardPage> createState() => _DashboardPageState();
 }
-
 class _DashboardPageState extends State<DashboardPage> {
   @override
   void initState() {
     super.initState();
     context.read<DashboardBloc>().add(const LoadDashboardEvent());
   }
-
   @override
   Widget build(BuildContext context) {
     return const _DashboardView();
   }
 }
-
 class DashboardPageWithAppBar extends StatelessWidget {
   const DashboardPageWithAppBar({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,10 +42,8 @@ class DashboardPageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class _DashboardView extends StatelessWidget {
   const _DashboardView();
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -61,21 +53,17 @@ class _DashboardView extends StatelessWidget {
           if (state is DashboardLoading) {
             return _buildLoading();
           }
-
           if (state is DashboardError) {
             return _buildError(state.message);
           }
-
           if (state is DashboardLoaded) {
             return _buildContent(context, state);
           }
-
           return _buildLoading();
         },
       ),
     );
   }
-
   Widget _buildLoading() {
     return Center(
       child: Column(
@@ -97,7 +85,6 @@ class _DashboardView extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildError(String message) {
     return Center(
       child: Column(
@@ -129,12 +116,10 @@ class _DashboardView extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildContent(BuildContext context, DashboardLoaded state) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-
         Padding(
           padding: EdgeInsets.fromLTRB(20.w, 16.h, 20.w, 12.h),
           child: Text(
@@ -145,7 +130,6 @@ class _DashboardView extends StatelessWidget {
             ),
           ),
         ),
-
         Expanded(
           child: Align(
             alignment: Alignment.topCenter,
@@ -159,7 +143,6 @@ class _DashboardView extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-
                     Expanded(
                       child: ConstrainedBox(
                         constraints: BoxConstraints(
@@ -196,7 +179,6 @@ class _DashboardView extends StatelessWidget {
                       ),
                     ),
                     SizedBox(width: 16.w),
-
                     Expanded(
                       child: ConstrainedBox(
                         constraints: BoxConstraints(
@@ -249,7 +231,6 @@ class _DashboardView extends StatelessWidget {
             ),
           ),
         ),
-
         SizedBox(height: 16.h),
         DashboardFooter(summary: state.summary),
         SizedBox(height: 8.h),

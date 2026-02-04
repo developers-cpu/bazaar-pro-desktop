@@ -7,13 +7,11 @@ import '../../../domain/usecases/user/get_symbols.dart' as user_symbols;
 import '../../../domain/entities/user_brokerage_setting/user_brokerage_setting.dart';
 import 'user_brokerage_event.dart';
 import 'user_brokerage_state.dart';
-
 class UserBrokerageBloc extends Bloc<UserBrokerageEvent, UserBrokerageState> {
   final GetUserBrokerageSettings getUserBrokerageSettings;
   final usecase.UpdateBrokerageSettings updateBrokerageSettings;
   final user_exchanges.GetExchanges getExchanges;
   final user_symbols.GetSymbols getSymbols;
-
   UserBrokerageBloc({
     required this.getUserBrokerageSettings,
     required this.updateBrokerageSettings,
@@ -25,37 +23,29 @@ class UserBrokerageBloc extends Bloc<UserBrokerageEvent, UserBrokerageState> {
     on<FilterBrokerage>(_onFilterBrokerage);
     on<UpdateBrokerageSettings>(_onUpdateBrokerageSettings);
   }
-
   void _onLoadUserBrokerage(
     LoadUserBrokerage event,
     Emitter<UserBrokerageState> emit,
   ) async {
     emit(UserBrokerageLoading());
-
     final settingsFuture = getUserBrokerageSettings(event.userId);
     final exchangesFuture = getExchanges();
     final symbolsFuture = getSymbols();
-
     List<UserBrokerageSetting> settings = [];
     List<String> exchangeList = [];
     List<String> symbolList = [];
-
     final results = await Future.wait([
       settingsFuture,
       exchangesFuture,
       symbolsFuture,
     ]);
-
     results[0].fold(
       (l) => emit(UserBrokerageError(l.message)),
       (r) => settings = r as List<UserBrokerageSetting>,
     );
-
     if (state is UserBrokerageError) return;
-
     results[1].fold((l) {}, (r) => exchangeList = r as List<String>);
     results[2].fold((l) {}, (r) => symbolList = r as List<String>);
-
     emit(
       UserBrokerageLoaded(
         allSettings: settings,
@@ -65,7 +55,6 @@ class UserBrokerageBloc extends Bloc<UserBrokerageEvent, UserBrokerageState> {
       ),
     );
   }
-
   void _onToggleBrokerageType(
     ToggleBrokerageType event,
     Emitter<UserBrokerageState> emit,
@@ -85,7 +74,6 @@ class UserBrokerageBloc extends Bloc<UserBrokerageEvent, UserBrokerageState> {
       );
     }
   }
-
   void _onFilterBrokerage(
     FilterBrokerage event,
     Emitter<UserBrokerageState> emit,
@@ -106,20 +94,17 @@ class UserBrokerageBloc extends Bloc<UserBrokerageEvent, UserBrokerageState> {
       );
     }
   }
-
   void _onUpdateBrokerageSettings(
     UpdateBrokerageSettings event,
     Emitter<UserBrokerageState> emit,
   ) async {
     if (state is UserBrokerageLoaded) {
       final currentState = state as UserBrokerageLoaded;
-
       final result = await updateBrokerageSettings(
         selectedIds: event.selectedIds,
         turnoverWiseBrk: event.turnoverWiseBrk,
         symbolWiseBrk: event.symbolWiseBrk,
       );
-
       result.fold((failure) => emit(UserBrokerageError(failure.message)), (_) {
         final updatedAll = currentState.allSettings.map((item) {
           if (event.selectedIds.contains(item.id)) {
@@ -130,7 +115,6 @@ class UserBrokerageBloc extends Bloc<UserBrokerageEvent, UserBrokerageState> {
           }
           return item;
         }).toList();
-
         emit(
           currentState.copyWith(
             allSettings: updatedAll,
@@ -145,7 +129,6 @@ class UserBrokerageBloc extends Bloc<UserBrokerageEvent, UserBrokerageState> {
       });
     }
   }
-
   List<UserBrokerageSetting> _applyFilters(
     List<UserBrokerageSetting> all,
     String viewType,

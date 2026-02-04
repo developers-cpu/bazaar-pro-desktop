@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import '../../models/script_quantity/script_quantity_model.dart';
-
 abstract class ScriptQuantityRemoteDataSource {
   Future<List<ScriptQuantityModel>> getScriptQuantities({
     required String exchange,
@@ -9,43 +8,34 @@ abstract class ScriptQuantityRemoteDataSource {
   Future<List<String>> getExchanges();
   Future<List<String>> getGroups(String exchange);
 }
-
 class ScriptQuantityRemoteDataSourceImpl implements ScriptQuantityRemoteDataSource {
   final Dio dio;
-
   ScriptQuantityRemoteDataSourceImpl({required this.dio});
-
   @override
   Future<List<ScriptQuantityModel>> getScriptQuantities({
     required String exchange,
     required String group,
   }) async {
     try {
-
       await Future.delayed(const Duration(milliseconds: 500));
       return _generateMockData(exchange, group);
     } catch (e) {
       throw Exception('Failed to fetch script quantities: $e');
     }
   }
-
   @override
   Future<List<String>> getExchanges() async {
     try {
-
       await Future.delayed(const Duration(milliseconds: 200));
       return ['NSE', 'MCX', 'CE/PE', 'OTHERS', 'COMEX', 'CRYPTO', 'GIFT', 'FOREX'];
     } catch (e) {
       throw Exception('Failed to fetch exchanges: $e');
     }
   }
-
   @override
   Future<List<String>> getGroups(String exchange) async {
     try {
-
       await Future.delayed(const Duration(milliseconds: 200));
-
       if (exchange == 'NSE') {
         return ['NSE_X', 'NSE_2X', 'NSE_3X', 'NSE_4X'];
       } else if (exchange == 'MCX') {
@@ -53,13 +43,11 @@ class ScriptQuantityRemoteDataSourceImpl implements ScriptQuantityRemoteDataSour
       } else if (exchange == 'CE/PE') {
         return ['CE/PE_X', 'CE/PE_2X'];
       }
-
       return ['${exchange}_X', '${exchange}_2X', '${exchange}_3X'];
     } catch (e) {
       throw Exception('Failed to fetch groups: $e');
     }
   }
-
   List<ScriptQuantityModel> _generateMockData(String exchange, String group) {
     final List<ScriptQuantityModel> quantities = [];
     final symbols = [
@@ -80,10 +68,8 @@ class ScriptQuantityRemoteDataSourceImpl implements ScriptQuantityRemoteDataSour
       'SILVER05DEC',
       'SILVER',
     ];
-
     final breakupQtys = [95.0, 178.0, 50.0, 29.0, 125.0, 30003.0, 3000.0, 2000.0, 4000.0, 10000.0, 500.0, 75.0, 52.0, 645.0, 500.0, 75.0];
     final maxQtys = [95.0, 178.0, 50.0, 29.0, 125.0, 30003.0, 3000.0, 2000.0, 4000.0, 10000.0, 500.0, 75.0, 52.0, 645.0, 500.0, 75.0];
-
     for (int i = 0; i < symbols.length; i++) {
       quantities.add(ScriptQuantityModel(
         id: 'sq_$i',
@@ -92,7 +78,6 @@ class ScriptQuantityRemoteDataSourceImpl implements ScriptQuantityRemoteDataSour
         maxQty: maxQtys[i],
       ));
     }
-
     return quantities;
   }
 }

@@ -6,12 +6,9 @@ import '../../../../view/presentation/widget/common/view_record_count.dart';
 import '../../../../view/presentation/widget/common/view_table_cell_styles.dart';
 import '../../bloc/trade_margin/trade_margin_bloc.dart';
 import '../../bloc/trade_margin/trade_margin_state.dart';
-
 class TradeMarginTable extends StatelessWidget {
   final bool isDarkMode;
-
   const TradeMarginTable({super.key, this.isDarkMode = false});
-
   List<ViewTableColumn> _getColumns() {
     return const [
       ViewTableColumn(id: 'exchange', label: 'EXCH', width: 150),
@@ -31,7 +28,6 @@ class TradeMarginTable extends StatelessWidget {
       ),
     ];
   }
-
   Widget _buildCell(TradeMargin item, ViewTableColumn column, bool isDark) {
     switch (column.id) {
       case 'exchange':
@@ -56,7 +52,6 @@ class TradeMarginTable extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TradeMarginBloc, TradeMarginState>(
@@ -64,15 +59,12 @@ class TradeMarginTable extends StatelessWidget {
         if (state is TradeMarginLoading) {
           return const Center(child: CircularProgressIndicator());
         }
-
         if (state is TradeMarginError) {
           return Center(child: Text('Error: ${state.message}'));
         }
-
         if (state is! TradeMarginLoaded) {
           return const SizedBox.shrink();
         }
-
         return Column(
           children: [
             ViewRecordCount(count: state.tradeMargins.length),

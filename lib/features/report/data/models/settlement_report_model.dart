@@ -1,5 +1,4 @@
 import '../../domain/entities/settlement_report.dart';
-
 class SettlementReportModel extends SettlementReport {
   const SettlementReportModel({
     required List<SettlementEntryModel> profitList,
@@ -12,7 +11,6 @@ class SettlementReportModel extends SettlementReport {
          profitTotal: profitTotal,
          lossTotal: lossTotal,
        );
-
   factory SettlementReportModel.fromJson(Map<String, dynamic> json) {
     return SettlementReportModel(
       profitList: (json['profitList'] as List)
@@ -26,7 +24,6 @@ class SettlementReportModel extends SettlementReport {
     );
   }
 }
-
 class SettlementEntryModel extends SettlementEntry {
   const SettlementEntryModel({
     required String userId,
@@ -43,7 +40,6 @@ class SettlementEntryModel extends SettlementEntry {
          brokerage: brokerage,
          total: total,
        );
-
   factory SettlementEntryModel.fromJson(Map<String, dynamic> json) {
     return SettlementEntryModel(
       userId: json['userId'],
@@ -55,7 +51,6 @@ class SettlementEntryModel extends SettlementEntry {
     );
   }
 }
-
 class SettlementTotalModel extends SettlementTotal {
   const SettlementTotalModel({
     required double totalPnl,
@@ -66,7 +61,6 @@ class SettlementTotalModel extends SettlementTotal {
          totalBrokerage: totalBrokerage,
          totalAmount: totalAmount,
        );
-
   factory SettlementTotalModel.fromJson(Map<String, dynamic> json) {
     return SettlementTotalModel(
       totalPnl: (json['totalPnl'] as num).toDouble(),

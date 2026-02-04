@@ -3,17 +3,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../constants/app_colors.dart';
 import '../../features/view/domain/entities/intraday_history/intraday_history.dart';
-
 class TimeSlotSelectionDialog extends StatefulWidget {
   final List<TimeSlot> timeSlots;
   final DateTime selectedDate;
-
   const TimeSlotSelectionDialog({
     Key? key,
     required this.timeSlots,
     required this.selectedDate,
   }) : super(key: key);
-
   static Future<TimeSlot?> show(
       BuildContext context, {
         required List<TimeSlot> timeSlots,
@@ -28,15 +25,12 @@ class TimeSlotSelectionDialog extends StatefulWidget {
       ),
     );
   }
-
   @override
   State<TimeSlotSelectionDialog> createState() =>
       _TimeSlotSelectionDialogState();
 }
-
 class _TimeSlotSelectionDialogState extends State<TimeSlotSelectionDialog> {
   TimeSlot? _selectedSlot;
-
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -60,7 +54,6 @@ class _TimeSlotSelectionDialogState extends State<TimeSlotSelectionDialog> {
       ),
     );
   }
-
   Widget _buildHeader() {
     return Container(
       padding: EdgeInsets.all(16.w),
@@ -92,7 +85,6 @@ class _TimeSlotSelectionDialogState extends State<TimeSlotSelectionDialog> {
       ),
     );
   }
-
   Widget _buildDateDisplay() {
     final day = widget.selectedDate.day.toString().padLeft(2, '0');
     final monthNames = [
@@ -100,7 +92,6 @@ class _TimeSlotSelectionDialogState extends State<TimeSlotSelectionDialog> {
       'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'
     ];
     final month = monthNames[widget.selectedDate.month - 1];
-
     return Container(
       margin: EdgeInsets.all(16.w),
       padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
@@ -125,7 +116,6 @@ class _TimeSlotSelectionDialogState extends State<TimeSlotSelectionDialog> {
       ),
     );
   }
-
   Widget _buildTimeSlotsList() {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -135,7 +125,6 @@ class _TimeSlotSelectionDialogState extends State<TimeSlotSelectionDialog> {
         itemBuilder: (context, index) {
           final slot = widget.timeSlots[index];
           final isSelected = _selectedSlot == slot;
-
           return GestureDetector(
             onTap: () {
               setState(() {
@@ -189,7 +178,6 @@ class _TimeSlotSelectionDialogState extends State<TimeSlotSelectionDialog> {
       ),
     );
   }
-
   Widget _buildButtons() {
     return Padding(
       padding: EdgeInsets.all(16.w),

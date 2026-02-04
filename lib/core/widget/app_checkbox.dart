@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../constants/app_colors.dart';
-
 class AppCheckbox extends StatelessWidget {
   final String? label;
   final bool value;
@@ -13,7 +12,6 @@ class AppCheckbox extends StatelessWidget {
   final Color? labelColor;
   final double? labelFontSize;
   final bool enabled;
-
   const AppCheckbox({
     super.key,
     this.label,
@@ -26,7 +24,6 @@ class AppCheckbox extends StatelessWidget {
     this.labelFontSize,
     this.enabled = true,
   });
-
   @override
   Widget build(BuildContext context) {
     final checkboxSize = size ?? 22.w;
@@ -34,7 +31,6 @@ class AppCheckbox extends StatelessWidget {
     final effectiveBorderColor = borderColor ?? AppColors.primaryBlue;
     final effectiveLabelColor = labelColor ?? AppColors.primaryBlue;
     final effectiveLabelFontSize = labelFontSize ?? 13.sp;
-
     return GestureDetector(
       onTap: enabled && onChanged != null ? () => onChanged!(!value) : null,
       child: Row(
@@ -79,7 +75,6 @@ class AppCheckbox extends StatelessWidget {
     );
   }
 }
-
 class AppCheckboxGroup extends StatelessWidget {
   final List<String> items;
   final Set<String> selectedItems;
@@ -88,7 +83,6 @@ class AppCheckboxGroup extends StatelessWidget {
   final String selectAllLabel;
   final int crossAxisCount;
   final bool enabled;
-
   const AppCheckboxGroup({
     super.key,
     required this.items,
@@ -99,10 +93,8 @@ class AppCheckboxGroup extends StatelessWidget {
     this.crossAxisCount = 3,
     this.enabled = true,
   });
-
   bool get _isAllSelected =>
       items.isNotEmpty && selectedItems.length == items.length;
-
   void _onSelectAll(bool? value) {
     if (onChanged == null) return;
     if (value == true) {
@@ -111,7 +103,6 @@ class AppCheckboxGroup extends StatelessWidget {
       onChanged!({});
     }
   }
-
   void _onItemChanged(String item, bool? value) {
     if (onChanged == null) return;
     final newSelection = Set<String>.from(selectedItems);
@@ -122,7 +113,6 @@ class AppCheckboxGroup extends StatelessWidget {
     }
     onChanged!(newSelection);
   }
-
   @override
   Widget build(BuildContext context) {
     return Container(

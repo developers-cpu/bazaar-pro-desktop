@@ -2,10 +2,8 @@ import 'package:bazarpro/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 class ViewTableCellStyles {
   ViewTableCellStyles._();
-
   static TextStyle getTextStyle({
     bool isDark = false,
     Color? color,
@@ -20,7 +18,6 @@ class ViewTableCellStyles {
           (isDark ? DarkThemeColors.textColor : LightThemeColors.textColor),
     );
   }
-
   static Color getValueColor(double value, {bool isDark = false}) {
     if (value > 0) {
       return isDark
@@ -33,7 +30,6 @@ class ViewTableCellStyles {
     }
     return isDark ? DarkThemeColors.textColor : LightThemeColors.textColor;
   }
-
   static Color getBuySellColor(String text, {bool isDark = false}) {
     final isBuy = text.toUpperCase().startsWith('BUY');
     if (isBuy) {
@@ -46,13 +42,11 @@ class ViewTableCellStyles {
         : LightThemeColors.negativeTextColor;
   }
 }
-
 class ViewTextCell extends StatelessWidget {
   final String text;
   final Color? color;
   final FontWeight? fontWeight;
   final bool isDark;
-
   const ViewTextCell({
     Key? key,
     required this.text,
@@ -60,7 +54,6 @@ class ViewTextCell extends StatelessWidget {
     this.fontWeight,
     this.isDark = false,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Text(
@@ -76,14 +69,11 @@ class ViewTextCell extends StatelessWidget {
     );
   }
 }
-
 class ViewBuySellCell extends StatelessWidget {
   final String text;
   final bool isDark;
-
   const ViewBuySellCell({Key? key, required this.text, this.isDark = false})
     : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Text(
@@ -98,14 +88,12 @@ class ViewBuySellCell extends StatelessWidget {
     );
   }
 }
-
 class ViewNumberCell extends StatelessWidget {
   final double value;
   final String? displayText;
   final bool colorByValue;
   final Color? fixedColor;
   final bool isDark;
-
   const ViewNumberCell({
     Key? key,
     required this.value,
@@ -114,7 +102,6 @@ class ViewNumberCell extends StatelessWidget {
     this.fixedColor,
     this.isDark = false,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     final text = displayText ?? _formatNumber(value);
@@ -123,7 +110,6 @@ class ViewNumberCell extends StatelessWidget {
         (colorByValue
             ? ViewTableCellStyles.getValueColor(value, isDark: isDark)
             : null);
-
     return Text(
       text,
       style: ViewTableCellStyles.getTextStyle(isDark: isDark, color: color),
@@ -132,7 +118,6 @@ class ViewNumberCell extends StatelessWidget {
       softWrap: false,
     );
   }
-
   String _formatNumber(double value) {
     if (value == value.toInt()) {
       return value.toInt().toString();
@@ -140,19 +125,16 @@ class ViewNumberCell extends StatelessWidget {
     return value.toStringAsFixed(2);
   }
 }
-
 class ViewLinkCell extends StatelessWidget {
   final String text;
   final VoidCallback? onTap;
   final bool isDark;
-
   const ViewLinkCell({
     Key? key,
     required this.text,
     this.onTap,
     this.isDark = false,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -175,19 +157,16 @@ class ViewLinkCell extends StatelessWidget {
     );
   }
 }
-
 class ViewDateTimeCell extends StatelessWidget {
   final DateTime dateTime;
   final String format;
   final bool isDark;
-
   const ViewDateTimeCell({
     Key? key,
     required this.dateTime,
     this.format = 'dd/MM/yy hh:mm:ss a',
     this.isDark = false,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Text(
@@ -198,7 +177,6 @@ class ViewDateTimeCell extends StatelessWidget {
       softWrap: false,
     );
   }
-
   String _formatDateTime() {
     final day = dateTime.day.toString().padLeft(2, '0');
     final month = dateTime.month.toString().padLeft(2, '0');
@@ -209,7 +187,6 @@ class ViewDateTimeCell extends StatelessWidget {
     final minute = dateTime.minute.toString().padLeft(2, '0');
     final second = dateTime.second.toString().padLeft(2, '0');
     final amPm = dateTime.hour >= 12 ? 'PM' : 'AM';
-
     return '$day/$month/$year ${hour.toString().padLeft(2, '0')}:$minute:$second $amPm';
   }
 }

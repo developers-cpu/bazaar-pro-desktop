@@ -9,10 +9,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../common/view_data_table.dart';
 import '../common/view_record_count.dart';
 import '../common/view_table_cell_styles.dart';
-
 class IntradayHistoryTable extends StatelessWidget {
   const IntradayHistoryTable({Key? key}) : super(key: key);
-
   static final List<ViewTableColumn> _columns = [
     const ViewTableColumn(id: 'view', label: 'VIEW', width: 80, sortable: false),
     const ViewTableColumn(id: 'timestamp', label: 'TIME STAMP', width: 280),
@@ -22,7 +20,6 @@ class IntradayHistoryTable extends StatelessWidget {
     const ViewTableColumn(id: 'close', label: 'CLOSE', width: 220, isNumeric: true),
     const ViewTableColumn(id: 'volume', label: 'VOLUME', width: 220, isNumeric: true),
   ];
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<IntradayHistoryBloc, IntradayHistoryState>(
@@ -34,7 +31,6 @@ class IntradayHistoryTable extends StatelessWidget {
             ),
           );
         }
-
         if (state is IntradayHistoryError) {
           return Center(
             child: Text(
@@ -43,7 +39,6 @@ class IntradayHistoryTable extends StatelessWidget {
             ),
           );
         }
-
         if (state is IntradayHistoryLoaded) {
           return Column(
             children: [
@@ -71,12 +66,10 @@ class IntradayHistoryTable extends StatelessWidget {
             ],
           );
         }
-
         return const SizedBox.shrink();
       },
     );
   }
-
   Widget _buildCell(
       BuildContext context,
       IntradayHistory history,
@@ -101,41 +94,30 @@ class IntradayHistoryTable extends StatelessWidget {
             ),
           ),
         );
-
       case 'timestamp':
         return ViewDateTimeCell(dateTime: history.timestamp);
-
       case 'open':
         return ViewNumberCell(value: history.open, colorByValue: false);
-
       case 'high':
         return ViewNumberCell(value: history.high, colorByValue: false);
-
       case 'low':
         return ViewNumberCell(value: history.low, colorByValue: false);
-
       case 'close':
         return ViewNumberCell(value: history.close, colorByValue: false);
-
       case 'volume':
         return ViewNumberCell(value: history.volume, colorByValue: false);
-
       default:
         return const ViewTextCell(text: '-');
     }
   }
-
   void _onViewTap(
       BuildContext context,
       IntradayHistory history,
       IntradayHistoryLoaded state,
       ) {
-
     final selectedDate = state.selectedDate ?? DateTime.now();
-
     final startTime = DateTime(selectedDate.year, selectedDate.month, selectedDate.day, 0, 0);
     final endTime = DateTime(selectedDate.year, selectedDate.month, selectedDate.day, 23, 59);
-
     context.read<IntradayHistoryBloc>().add(
       LoadSecondsDataEvent(
         date: selectedDate,

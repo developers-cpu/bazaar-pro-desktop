@@ -1,12 +1,10 @@
 import '../../models/profit_and_loss_report_model.dart';
 import '../../../../../core/errors/exceptions.dart';
-
 abstract class ProfitAndLossReportRemoteDataSource {
   Future<List<ProfitAndLossReportModel>> getProfitAndLossReport({
     String? userId,
   });
 }
-
 class ProfitAndLossReportRemoteDataSourceImpl
     implements ProfitAndLossReportRemoteDataSource {
   @override
@@ -14,7 +12,6 @@ class ProfitAndLossReportRemoteDataSourceImpl
     String? userId,
   }) async {
     await Future.delayed(const Duration(milliseconds: 500));
-
     final List<ProfitAndLossReportModel> mockData = [
       const ProfitAndLossReportModel(
         id: '1',
@@ -61,13 +58,11 @@ class ProfitAndLossReportRemoteDataSourceImpl
         ourPercentage: 12269.81,
       ),
     ];
-
     if (userId != null && userId.isNotEmpty) {
       return mockData
           .where((item) => item.userName.toLowerCase() == userId.toLowerCase())
           .toList();
     }
-
     return mockData;
   }
 }

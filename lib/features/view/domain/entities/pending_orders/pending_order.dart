@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 class PendingOrder extends Equatable {
   final String id;
   final String userId;
@@ -17,7 +16,6 @@ class PendingOrder extends Equatable {
   final double rPrice;
   final String? deviceId;
   final String? ipAddress;
-
   const PendingOrder({
     required this.id,
     required this.userId,
@@ -36,11 +34,8 @@ class PendingOrder extends Equatable {
     this.deviceId,
     this.ipAddress,
   });
-
   bool get isBuy => buySell.toUpperCase().startsWith('BUY');
-
   bool get isSell => buySell.toUpperCase().startsWith('SELL');
-
   @override
   List<Object?> get props => [
     id,

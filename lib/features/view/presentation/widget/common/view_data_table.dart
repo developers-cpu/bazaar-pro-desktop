@@ -4,14 +4,12 @@ import 'package:bazarpro/core/widget/svg_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 class ViewTableColumn {
   final String id;
   final String label;
   final double width;
   final bool isNumeric;
   final bool sortable;
-
   const ViewTableColumn({
     required this.id,
     required this.label,
@@ -20,7 +18,6 @@ class ViewTableColumn {
     this.sortable = true,
   });
 }
-
 class ViewDataTable<T> extends StatefulWidget {
   final List<ViewTableColumn> columns;
   final List<T> data;
@@ -37,7 +34,6 @@ class ViewDataTable<T> extends StatefulWidget {
   final double? headerHeight;
   final Widget Function(List<ViewTableColumn> columns)? footerBuilder;
   final bool autoFit;
-
   const ViewDataTable({
     Key? key,
     required this.columns,
@@ -56,54 +52,42 @@ class ViewDataTable<T> extends StatefulWidget {
     this.footerBuilder,
     this.autoFit = false,
   }) : super(key: key);
-
   @override
   State<ViewDataTable<T>> createState() => _ViewDataTableState<T>();
 }
-
 class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
   final ScrollController _horizontalScrollController = ScrollController();
   final ScrollController _verticalScrollController = ScrollController();
-
   @override
   void dispose() {
     _horizontalScrollController.dispose();
     _verticalScrollController.dispose();
     super.dispose();
   }
-
   double get _totalFixedScaleWidth {
     return widget.columns.fold<double>(0, (sum, col) => sum + col.width);
   }
-
   Color get _headerBgColor => widget.isDarkMode
       ? DarkThemeColors.tableColumnHeadColor
       : LightThemeColors.tableColumnHeadColor;
-
   Color get _rowBgColor => widget.isDarkMode
       ? DarkThemeColors.tableRowBackground
       : LightThemeColors.tableRowBackground;
-
   Color get _selectedRowBgColor => widget.isDarkMode
       ? DarkThemeColors.selectedRowBackground
       : LightThemeColors.selectedRowBackground;
-
   Color get _dividerColor =>
       widget.isDarkMode ? DarkThemeColors.dividerColor : AppColors.greyBorder;
-
   Color get _headerDividerColor => widget.isDarkMode
       ? DarkThemeColors.dividerColor.withOpacity(0.5)
       : AppColors.white.withOpacity(0.8);
-
   Color get _textColor => widget.isDarkMode
       ? DarkThemeColors.textColor
       : LightThemeColors.textColor;
-
   @override
   Widget build(BuildContext context) {
     final rowHeight = widget.rowHeight ?? 45.h;
     final headerHeight = widget.headerHeight ?? 50.h;
-
     return Container(
       margin: EdgeInsets.all(10.w),
       decoration: BoxDecoration(
@@ -115,12 +99,10 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
         builder: (context, constraints) {
           double scale = 1.0;
           double totalWidth = _totalFixedScaleWidth;
-
           if (widget.autoFit && constraints.maxWidth > totalWidth) {
             scale = constraints.maxWidth / totalWidth;
             totalWidth = constraints.maxWidth;
           }
-
           return ClipRRect(
             borderRadius: BorderRadius.circular(10.r),
             child: Column(
@@ -157,7 +139,6 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
       ),
     );
   }
-
   Widget _buildEmptyState() {
     return Center(
       child: Text(
@@ -171,7 +152,6 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
       ),
     );
   }
-
   Widget _buildHeaderRow(double headerHeight, double scale) {
     return Container(
       height: headerHeight,
@@ -184,17 +164,14 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
           final index = entry.key;
           final column = entry.value;
           final isLast = index == widget.columns.length - 1;
-
           return _buildHeaderCell(column, isLast, scale);
         }).toList(),
       ),
     );
   }
-
   Widget _buildHeaderCell(ViewTableColumn column, bool isLast, double scale) {
     final isSorted = widget.sortColumn == column.id;
     final cellWidth = column.width * scale;
-
     return GestureDetector(
       onTap: column.sortable && widget.onSort != null
           ? () => widget.onSort!(column.id, !widget.sortAscending)
@@ -239,7 +216,6 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
       ),
     );
   }
-
   Widget _buildDataRows(double rowHeight, double scale) {
     return Scrollbar(
       controller: _verticalScrollController,
@@ -253,7 +229,6 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
           final itemId = widget.idExtractor(item);
           final isSelected = itemId == widget.selectedId;
           final isLast = index == widget.data.length - 1;
-
           return _buildDataRow(
             item,
             index,
@@ -266,7 +241,6 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
       ),
     );
   }
-
   Widget _buildDataRow(
     T item,
     int index,
@@ -302,7 +276,6 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
       ),
     );
   }
-
   Widget _buildFooterRow(double rowHeight, double scale) {
     final scaledColumns = widget.columns
         .map(
@@ -315,7 +288,6 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
           ),
         )
         .toList();
-
     return Container(
       height: rowHeight,
       decoration: BoxDecoration(

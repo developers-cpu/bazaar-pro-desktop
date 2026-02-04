@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import '../../models/script_master/script_master.dart';
-
 abstract class ScriptMasterRemoteDataSource {
   Future<List<ScriptMasterModel>> getScriptMasters();
   Future<List<ScriptMasterModel>> getScriptMastersWithFilters({
@@ -12,51 +11,40 @@ abstract class ScriptMasterRemoteDataSource {
   Future<String> exportToPdf(List<ScriptMasterModel> scripts);
   Future<String> exportToExcel(List<ScriptMasterModel> scripts);
 }
-
 class ScriptMasterRemoteDataSourceImpl implements ScriptMasterRemoteDataSource {
   final Dio dio;
-
   ScriptMasterRemoteDataSourceImpl({required this.dio});
-
   @override
   Future<List<ScriptMasterModel>> getScriptMasters() async {
     try {
-
       await Future.delayed(const Duration(milliseconds: 500));
       return _generateMockScriptMasters();
     } catch (e) {
       throw Exception('Failed to fetch script masters: $e');
     }
   }
-
   @override
   Future<List<ScriptMasterModel>> getScriptMastersWithFilters({
     String? exchange,
     String? symbol,
   }) async {
     try {
-
       await Future.delayed(const Duration(milliseconds: 300));
-
       final allScripts = await getScriptMasters();
-
       return allScripts.where((script) {
         bool matches = true;
-
         if (exchange != null && exchange.isNotEmpty && exchange != 'All') {
           matches = matches && script.exchange == exchange;
         }
         if (symbol != null && symbol.isNotEmpty) {
           matches = matches && script.symbol.contains(symbol.toUpperCase());
         }
-
         return matches;
       }).toList();
     } catch (e) {
       throw Exception('Failed to fetch filtered script masters: $e');
     }
   }
-
   @override
   Future<List<String>> getExchanges() async {
     try {
@@ -66,7 +54,6 @@ class ScriptMasterRemoteDataSourceImpl implements ScriptMasterRemoteDataSource {
       throw Exception('Failed to fetch exchanges: $e');
     }
   }
-
   @override
   Future<List<String>> getSymbols() async {
     try {
@@ -89,29 +76,24 @@ class ScriptMasterRemoteDataSourceImpl implements ScriptMasterRemoteDataSource {
       throw Exception('Failed to fetch symbols: $e');
     }
   }
-
   @override
   Future<String> exportToPdf(List<ScriptMasterModel> scripts) async {
     try {
-
       await Future.delayed(const Duration(seconds: 1));
       return 'script_masters_export_${DateTime.now().millisecondsSinceEpoch}.pdf';
     } catch (e) {
       throw Exception('Failed to export PDF: $e');
     }
   }
-
   @override
   Future<String> exportToExcel(List<ScriptMasterModel> scripts) async {
     try {
-
       await Future.delayed(const Duration(seconds: 1));
       return 'script_masters_export_${DateTime.now().millisecondsSinceEpoch}.xlsx';
     } catch (e) {
       throw Exception('Failed to export Excel: $e');
     }
   }
-
   List<ScriptMasterModel> _generateMockScriptMasters() {
     final List<ScriptMasterModel> scripts = [];
     final exchanges = ['NSE', 'MCX', 'CE/PE', 'COMEX', 'GIFT'];
@@ -130,9 +112,7 @@ class ScriptMasterRemoteDataSourceImpl implements ScriptMasterRemoteDataSource {
       'S & P Dec 19',
     ];
     final tradeAttributes = ['full', 'close'];
-
     final expiryDate = DateTime(2025, 12, 30, 0, 0, 0);
-
     for (int i = 0; i < 100; i++) {
       scripts.add(ScriptMasterModel(
         id: 'script_$i',
@@ -144,7 +124,6 @@ class ScriptMasterRemoteDataSourceImpl implements ScriptMasterRemoteDataSource {
         lastUpdated: DateTime.now().subtract(Duration(hours: i)),
       ));
     }
-
     return scripts;
   }
 }

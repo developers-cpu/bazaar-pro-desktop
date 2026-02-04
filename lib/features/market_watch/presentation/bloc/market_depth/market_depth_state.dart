@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 class MarketDepthState extends Equatable {
   final bool isOpen;
   final String exchange;
@@ -7,7 +6,6 @@ class MarketDepthState extends Equatable {
   final bool isLoading;
   final MarketDepthData? marketDepthData;
   final String? errorMessage;
-
   const MarketDepthState({
     this.isOpen = false,
     this.exchange = '',
@@ -16,7 +14,6 @@ class MarketDepthState extends Equatable {
     this.marketDepthData,
     this.errorMessage,
   });
-
   MarketDepthState copyWith({
     bool? isOpen,
     String? exchange,
@@ -34,7 +31,6 @@ class MarketDepthState extends Equatable {
       errorMessage: errorMessage,
     );
   }
-
   @override
   List<Object?> get props => [
     isOpen,
@@ -45,7 +41,6 @@ class MarketDepthState extends Equatable {
     errorMessage,
   ];
 }
-
 class MarketDepthData extends Equatable {
   final int lotSize;
   final double ltp;
@@ -59,7 +54,6 @@ class MarketDepthData extends Equatable {
   final double uCrkt;
   final List<MarketDepthRow> bidRows;
   final List<MarketDepthRow> askRows;
-
   const MarketDepthData({
     this.lotSize = 35,
     this.ltp = 60013,
@@ -74,10 +68,8 @@ class MarketDepthData extends Equatable {
     this.bidRows = const [],
     this.askRows = const [],
   });
-
   int get totalBidQty => bidRows.fold(0, (sum, row) => sum + row.qty);
   int get totalAskQty => askRows.fold(0, (sum, row) => sum + row.qty);
-
   @override
   List<Object?> get props => [
     lotSize,
@@ -94,18 +86,15 @@ class MarketDepthData extends Equatable {
     askRows,
   ];
 }
-
 class MarketDepthRow extends Equatable {
   final double price;
   final int orders;
   final int qty;
-
   const MarketDepthRow({
     required this.price,
     required this.orders,
     required this.qty,
   });
-
   @override
   List<Object?> get props => [price, orders, qty];
 }

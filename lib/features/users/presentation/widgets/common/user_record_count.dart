@@ -2,19 +2,16 @@ import 'package:bazarpro/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 class UserRecordCount extends StatelessWidget {
   final int count;
   final String label;
   final bool compact;
-
   const UserRecordCount({
     super.key,
     required this.count,
     this.label = 'RECORD',
     this.compact = false,
   });
-
   @override
   Widget build(BuildContext context) {
     if (compact) {

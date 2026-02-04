@@ -1,18 +1,13 @@
 import 'package:bazarpro/features/users/domain/entities/user_pending_order/user_pending_order.dart';
 import 'package:bazarpro/features/users/domain/entities/user_pending_order/user_pending_order_metadata.dart';
 import 'package:equatable/equatable.dart';
-
 abstract class UserPendingOrderState extends Equatable {
   const UserPendingOrderState();
-
   @override
   List<Object?> get props => [];
 }
-
 class UserPendingOrderInitial extends UserPendingOrderState {}
-
 class UserPendingOrderLoading extends UserPendingOrderState {}
-
 class UserPendingOrderLoaded extends UserPendingOrderState {
   final List<UserPendingOrder> orders;
   final List<UserPendingOrder> filteredOrders;
@@ -20,7 +15,6 @@ class UserPendingOrderLoaded extends UserPendingOrderState {
   final String? selectedExchange;
   final String? selectedSymbol;
   final String? selectedOrderType;
-
   const UserPendingOrderLoaded({
     required this.orders,
     required this.filteredOrders,
@@ -29,7 +23,6 @@ class UserPendingOrderLoaded extends UserPendingOrderState {
     this.selectedSymbol,
     this.selectedOrderType,
   });
-
   UserPendingOrderLoaded copyWith({
     List<UserPendingOrder>? orders,
     List<UserPendingOrder>? filteredOrders,
@@ -47,7 +40,6 @@ class UserPendingOrderLoaded extends UserPendingOrderState {
       selectedOrderType: selectedOrderType ?? this.selectedOrderType,
     );
   }
-
   @override
   List<Object?> get props => [
     orders,
@@ -58,12 +50,9 @@ class UserPendingOrderLoaded extends UserPendingOrderState {
     selectedOrderType,
   ];
 }
-
 class UserPendingOrderError extends UserPendingOrderState {
   final String message;
-
   const UserPendingOrderError(this.message);
-
   @override
   List<Object> get props => [message];
 }

@@ -6,10 +6,8 @@ import '../../bloc/rejection_log/rejection_log_bloc.dart';
 import '../../bloc/rejection_log/rejection_log_event.dart';
 import '../../bloc/rejection_log/rejection_log_state.dart';
 import '../common/view_reset_buttons.dart';
-
 class RejectionLogFilterBar extends StatelessWidget {
   const RejectionLogFilterBar({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<RejectionLogBloc, RejectionLogState>(
@@ -17,12 +15,10 @@ class RejectionLogFilterBar extends StatelessWidget {
         if (state is! RejectionLogLoaded) {
           return const SizedBox.shrink();
         }
-
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Row(
             children: [
-
               SizedBox(
                 width: 230.w,
                 child: AppDropdown(
@@ -44,7 +40,6 @@ class RejectionLogFilterBar extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 12.w),
-
               SizedBox(
                 width: 230.w,
                 child: AppDropdown(
@@ -66,7 +61,6 @@ class RejectionLogFilterBar extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 12.w),
-
               SizedBox(
                 width: 230.w,
                 child: AppDropdown(
@@ -87,9 +81,7 @@ class RejectionLogFilterBar extends StatelessWidget {
                   },
                 ),
               ),
-
               const Spacer(),
-
               ViewResetButtons(
                 onReset: () {
                   context.read<RejectionLogBloc>().add(
@@ -114,5 +106,4 @@ class RejectionLogFilterBar extends StatelessWidget {
       },
     );
   }
-
 }

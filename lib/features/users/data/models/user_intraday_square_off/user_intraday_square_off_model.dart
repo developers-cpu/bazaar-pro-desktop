@@ -1,5 +1,4 @@
 import '../../../domain/entities/user_intraday_square_off/user_intraday_square_off.dart';
-
 class UserIntradaySquareOffModel extends UserIntradaySquareOff {
   const UserIntradaySquareOffModel({
     required super.id,
@@ -7,7 +6,6 @@ class UserIntradaySquareOffModel extends UserIntradaySquareOff {
     required super.time,
     required super.isEnabled,
   });
-
   factory UserIntradaySquareOffModel.fromJson(Map<String, dynamic> json) {
     return UserIntradaySquareOffModel(
       id: json['id'],
@@ -16,7 +14,6 @@ class UserIntradaySquareOffModel extends UserIntradaySquareOff {
       isEnabled: json['isEnabled'],
     );
   }
-
   Map<String, dynamic> toJson() {
     return {
       'id': id,

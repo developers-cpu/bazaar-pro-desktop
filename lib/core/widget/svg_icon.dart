@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
 class SvgIcon extends StatelessWidget {
   final String assetPath;
   final bool isActive;
   final double size;
   final Color? activeColor;
   final Color? inactiveColor;
-
   const SvgIcon({
     super.key,
     required this.assetPath,
@@ -16,11 +14,9 @@ class SvgIcon extends StatelessWidget {
     this.activeColor,
     this.inactiveColor,
   });
-
   @override
   Widget build(BuildContext context) {
     final Color? iconColor = isActive ? activeColor : inactiveColor;
-
     return SvgPicture.asset(
       assetPath,
       width: size,

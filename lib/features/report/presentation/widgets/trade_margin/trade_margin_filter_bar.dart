@@ -8,10 +8,8 @@ import '../../../../view/presentation/widget/common/view_reset_buttons.dart';
 import '../../bloc/trade_margin/trade_margin_bloc.dart';
 import '../../bloc/trade_margin/trade_margin_event.dart';
 import '../../bloc/trade_margin/trade_margin_state.dart';
-
 class TradeMarginFilterBar extends StatelessWidget {
   const TradeMarginFilterBar({super.key});
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TradeMarginBloc, TradeMarginState>(
@@ -19,7 +17,6 @@ class TradeMarginFilterBar extends StatelessWidget {
         if (state is! TradeMarginLoaded) {
           return const SizedBox.shrink();
         }
-
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Row(

@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 class UserBrokerageSetting extends Equatable {
   final String id;
   final String exchange;
@@ -7,7 +6,6 @@ class UserBrokerageSetting extends Equatable {
   final double turnoverWiseBrk;
   final double symbolWiseBrk;
   final String brokerageType;
-
   const UserBrokerageSetting({
     required this.id,
     required this.exchange,
@@ -16,7 +14,6 @@ class UserBrokerageSetting extends Equatable {
     required this.symbolWiseBrk,
     this.brokerageType = 'Combined',
   });
-
   @override
   List<Object?> get props => [
     id,
@@ -26,7 +23,6 @@ class UserBrokerageSetting extends Equatable {
     symbolWiseBrk,
     brokerageType,
   ];
-
   UserBrokerageSetting copyWith({
     String? id,
     String? exchange,

@@ -1,5 +1,4 @@
 import '../../../domain/entities/user_credit_transaction/user_credit_transaction.dart';
-
 class UserCreditTransactionModel extends UserCreditTransaction {
   const UserCreditTransactionModel({
     required super.id,
@@ -9,7 +8,6 @@ class UserCreditTransactionModel extends UserCreditTransaction {
     required super.balance,
     required super.comment,
   });
-
   factory UserCreditTransactionModel.fromJson(Map<String, dynamic> json) {
     return UserCreditTransactionModel(
       id: json['id'],
@@ -20,7 +18,6 @@ class UserCreditTransactionModel extends UserCreditTransaction {
       comment: json['comment'],
     );
   }
-
   Map<String, dynamic> toJson() {
     return {
       'id': id,

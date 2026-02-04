@@ -12,12 +12,9 @@ import '../../../../view/presentation/widget/common/view_data_table_footer.dart'
 import '../../../../report/domain/entities/user_wise_profit_and_loss_report.dart';
 import '../../bloc/user_wise_profit_and_loss/user_wise_profit_and_loss_bloc.dart';
 import '../../bloc/user_wise_profit_and_loss/user_wise_profit_and_loss_state.dart';
-
 class UserWiseProfitAndLossReportTable extends StatelessWidget {
   final bool isDarkMode;
-
   const UserWiseProfitAndLossReportTable({super.key, this.isDarkMode = false});
-
   List<ViewTableColumn> _getColumns() {
     return const [
       ViewTableColumn(id: 'userName', label: 'U. NAME', width: 150),
@@ -41,7 +38,6 @@ class UserWiseProfitAndLossReportTable extends StatelessWidget {
       ViewTableColumn(id: 'createdDate', label: 'CREATE DATE', width: 150),
     ];
   }
-
   User _createDummyUser(UserWiseProfitAndLossReport item) {
     return User(
       id: item.id,
@@ -62,7 +58,6 @@ class UserWiseProfitAndLossReportTable extends StatelessWidget {
       status: 'Active',
     );
   }
-
   Widget _buildClickableNumberCell(
     BuildContext context,
     double value,
@@ -83,7 +78,6 @@ class UserWiseProfitAndLossReportTable extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildCell(
     BuildContext context,
     UserWiseProfitAndLossReport item,
@@ -101,8 +95,6 @@ class UserWiseProfitAndLossReportTable extends StatelessWidget {
               _createDummyUser(item),
               onEdit: (ctx) {
                 if (item.parentUser.isEmpty) {
-                  
-                  
                   MasterFormDialog.showEdit(
                     context: ctx,
                     userData: {
@@ -274,7 +266,6 @@ class UserWiseProfitAndLossReportTable extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserWiseProfitAndLossBloc, UserWiseProfitAndLossState>(
@@ -282,15 +273,12 @@ class UserWiseProfitAndLossReportTable extends StatelessWidget {
         if (state is UserWiseProfitAndLossLoading) {
           return const Center(child: CircularProgressIndicator());
         }
-
         if (state is UserWiseProfitAndLossError) {
           return Center(child: Text('Error: ${state.message}'));
         }
-
         if (state is! UserWiseProfitAndLossLoaded) {
           return const SizedBox.shrink();
         }
-
         double totalMtm = 0;
         double totalReleasedPL = 0;
         double totalBrokerage = 0;
@@ -302,7 +290,6 @@ class UserWiseProfitAndLossReportTable extends StatelessWidget {
         double totalFreeMargin = 0;
         double totalStandingVolume = 0;
         double totalMarginLevelPercentage = 0;
-
         for (var item in state.reports) {
           totalMtm += item.mtm;
           totalReleasedPL += item.releasedPL;
@@ -316,7 +303,6 @@ class UserWiseProfitAndLossReportTable extends StatelessWidget {
           totalStandingVolume += item.standingVolume;
           totalMarginLevelPercentage += item.marginLevelPercentage;
         }
-
         return Column(
           children: [
             ViewRecordCount(count: state.reports.length),

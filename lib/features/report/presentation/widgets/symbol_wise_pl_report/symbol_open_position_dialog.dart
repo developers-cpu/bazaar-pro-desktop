@@ -11,14 +11,11 @@ import '../../../domain/entities/symbol_open_position.dart';
 import '../../bloc/symbol_wise_pl/open_postion/symbol_open_position_bloc.dart';
 import '../../bloc/symbol_wise_pl/open_postion/symbol_open_position_event.dart';
 import '../../bloc/symbol_wise_pl/open_postion/symbol_open_position_state.dart';
-
 class SymbolOpenPositionDialog extends StatelessWidget {
   final String? symbol;
   final String? exchange;
-
   const SymbolOpenPositionDialog({Key? key, this.symbol, this.exchange})
     : super(key: key);
-
   static void show(BuildContext context, {String? symbol, String? exchange}) {
     CommonDialog.show(
       context: context,
@@ -29,7 +26,6 @@ class SymbolOpenPositionDialog extends StatelessWidget {
       showButtons: false,
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

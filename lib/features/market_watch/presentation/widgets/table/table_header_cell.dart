@@ -4,7 +4,6 @@ import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/constants/app_images.dart';
 import '../../../../../core/widget/svg_icon.dart';
 import 'table_text_style_helper.dart';
-
 class TableHeaderCell extends StatelessWidget {
   final String title;
   final bool isDark;
@@ -12,7 +11,6 @@ class TableHeaderCell extends StatelessWidget {
   final double fontSize;
   final FontWeight fontWeight;
   final bool showSortIcon;
-
   const TableHeaderCell({
     Key? key,
     required this.title,
@@ -22,13 +20,11 @@ class TableHeaderCell extends StatelessWidget {
     required this.fontWeight,
     this.showSortIcon = true,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     if (title.isEmpty) {
       return const SizedBox.shrink();
     }
-
     final iconSize = (fontSize * 1.0).sp;
     final textStyle = TableTextStyleHelper.getTextStyle(
       fontFamily: fontFamily,
@@ -36,9 +32,7 @@ class TableHeaderCell extends StatelessWidget {
       fontWeight: FontWeight.w600,
       color: LightThemeColors.textColor,
     );
-
     if (!showSortIcon) {
-
       return Center(
         child: Text(
           title,
@@ -49,7 +43,6 @@ class TableHeaderCell extends StatelessWidget {
         ),
       );
     }
-
     return Center(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 2.w),

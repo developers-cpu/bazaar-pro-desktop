@@ -3,13 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import '../constants/app_colors.dart';
-
 class DateRangePickerButton extends StatelessWidget {
   final DateTimeRange? selectedDateRange;
   final VoidCallback onTap;
   final double? width;
   final double? height;
-
   const DateRangePickerButton({
     super.key,
     required this.selectedDateRange,
@@ -17,7 +15,6 @@ class DateRangePickerButton extends StatelessWidget {
     this.width,
     this.height,
   });
-
   @override
   Widget build(BuildContext context) {
     return InkWell(

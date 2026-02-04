@@ -11,28 +11,20 @@ import '../../bloc/order/order_dialog_state.dart';
 import 'order_number_field.dart';
 import 'order_action_button.dart';
 import 'order_success_dialog.dart';
-
 class CommonOrderDialog extends StatelessWidget {
   final OrderDialogType type;
-
   const CommonOrderDialog({
     Key? key,
     required this.type,
   }) : super(key: key);
-
   Color get _primaryColor => type == OrderDialogType.buy
       ? AppColors.buyColor
       : AppColors.sellColor;
-
   Color get _backgroundColor => _primaryColor;
-
   String get _title => type == OrderDialogType.buy ? 'Buy Order' : 'Sell Order';
-
   String get _actionButtonText => type == OrderDialogType.buy ? 'Buy' : 'Sell';
-
   OrderType get _orderType =>
       type == OrderDialogType.buy ? OrderType.buy : OrderType.sell;
-
   static Future<void> showBuyOrder(BuildContext context) {
     context.read<OrderDialogBloc>().add(const OpenBuyOrderEvent());
     return showDialog(
@@ -41,7 +33,6 @@ class CommonOrderDialog extends StatelessWidget {
       builder: (context) => const CommonOrderDialog(type: OrderDialogType.buy),
     );
   }
-
   static Future<void> showSellOrder(BuildContext context) {
     context.read<OrderDialogBloc>().add(const OpenSellOrderEvent());
     return showDialog(
@@ -50,7 +41,6 @@ class CommonOrderDialog extends StatelessWidget {
       builder: (context) => const CommonOrderDialog(type: OrderDialogType.sell),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<OrderDialogBloc, OrderDialogState>(
@@ -92,7 +82,6 @@ class CommonOrderDialog extends StatelessWidget {
       },
     );
   }
-
   Widget _buildHeader(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(10.w),
@@ -122,7 +111,6 @@ class CommonOrderDialog extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildContent(BuildContext context, OrderDialogState state) {
     return Container(
       margin: EdgeInsets.fromLTRB(10.w, 0, 10.w, 10.w),
@@ -140,11 +128,9 @@ class CommonOrderDialog extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildFirstRow(BuildContext context, OrderDialogState state) {
     return Row(
       children: [
-
         Expanded(
           flex: 2,
           child: AppDropdown(
@@ -163,7 +149,6 @@ class CommonOrderDialog extends StatelessWidget {
           ),
         ),
         SizedBox(width: 10.w),
-
         Expanded(
           flex: 2,
           child: AppDropdown(
@@ -182,7 +167,6 @@ class CommonOrderDialog extends StatelessWidget {
           ),
         ),
         SizedBox(width: 10.w),
-
         Expanded(
           flex: 2,
           child: OrderNumberField(
@@ -196,7 +180,6 @@ class CommonOrderDialog extends StatelessWidget {
           ),
         ),
         SizedBox(width: 10.w),
-
         Expanded(
           flex: 2,
           child: OrderNumberField(
@@ -210,7 +193,6 @@ class CommonOrderDialog extends StatelessWidget {
           ),
         ),
         SizedBox(width: 10.w),
-
         Expanded(
           flex: 2,
           child: OrderNumberField(
@@ -226,11 +208,9 @@ class CommonOrderDialog extends StatelessWidget {
       ],
     );
   }
-
   Widget _buildSecondRow(BuildContext context, OrderDialogState state) {
     return Row(
       children: [
-
         Expanded(
           flex: 2,
           child: AppDropdown(
@@ -249,7 +229,6 @@ class CommonOrderDialog extends StatelessWidget {
           ),
         ),
         SizedBox(width: 10.w),
-
         Expanded(
           flex: 2,
           child: AppDropdown(
@@ -268,7 +247,6 @@ class CommonOrderDialog extends StatelessWidget {
           ),
         ),
         SizedBox(width: 10.w),
-
         Expanded(
           flex: 3,
           child: OrderActionButton(
@@ -281,7 +259,6 @@ class CommonOrderDialog extends StatelessWidget {
           ),
         ),
         SizedBox(width: 10.w),
-
         Expanded(
           flex: 3,
           child: OrderActionButton(

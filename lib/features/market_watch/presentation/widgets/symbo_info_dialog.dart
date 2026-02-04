@@ -8,16 +8,12 @@ import '../../../../core/widget/common_dilog_box.dart';
 import '../../domain/entities/market_item.dart';
 import '../bloc/theme/theme_bloc.dart';
 import '../bloc/theme/theme_state.dart' show ThemeState;
-
 class SymbolInfoDialog extends StatelessWidget {
   final MarketItem item;
-
   const SymbolInfoDialog({Key? key, required this.item}) : super(key: key);
-
   static void show(BuildContext context, MarketItem item) {
     final themeBloc = context.read<ThemeBloc>();
     final isDark = themeBloc.state.isDarkMode;
-
     CommonDialog.show(
       context: context,
       title: 'Symbol Info',
@@ -32,13 +28,11 @@ class SymbolInfoDialog extends StatelessWidget {
       contentPadding: EdgeInsets.zero,
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (context, themeState) {
         final isDark = themeState.isDarkMode;
-
         return CommonDialog(
           title: 'Symbol Info',
           content: _SymbolInfoContent(item: item, isDark: isDark),
@@ -55,17 +49,14 @@ class SymbolInfoDialog extends StatelessWidget {
     );
   }
 }
-
 class _SymbolInfoContent extends StatelessWidget {
   final MarketItem item;
   final bool isDark;
-
   const _SymbolInfoContent({
     Key? key,
     required this.item,
     required this.isDark,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -76,7 +67,6 @@ class _SymbolInfoContent extends StatelessWidget {
       ],
     );
   }
-
   Widget _buildDivider() {
     return Container(
       height: 1.h,
@@ -85,7 +75,6 @@ class _SymbolInfoContent extends StatelessWidget {
           : LightThemeColors.dividerColor,
     );
   }
-
   Widget _buildInfoList() {
     final infoItems = [
       {'label': 'Exchange Name', 'value': item.exchange},
@@ -105,7 +94,6 @@ class _SymbolInfoContent extends StatelessWidget {
       {'label': 'Max Lot', 'value': '0'},
       {'label': 'Breakup Lot', 'value': '0'},
     ];
-
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8.h),
       child: Column(
@@ -118,7 +106,6 @@ class _SymbolInfoContent extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildInfoRow(String label, String value) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
@@ -159,7 +146,6 @@ class _SymbolInfoContent extends StatelessWidget {
       ),
     );
   }
-
   String _formatQuantity(int value) {
     return NumberFormat('#,###').format(value);
   }

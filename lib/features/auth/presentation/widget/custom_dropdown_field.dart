@@ -4,7 +4,6 @@ import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/widget/svg_icon.dart' show SvgIcon;
 import '../../data/models/dropdown_option_model.dart';
-
 class CustomDropdownField extends StatefulWidget {
   final String hintText;
   final String? value;
@@ -12,7 +11,6 @@ class CustomDropdownField extends StatefulWidget {
   final ValueChanged<String?> onChanged;
   final double? width;
   final double? dropdownHeight;
-
   const CustomDropdownField({
     Key? key,
     required this.hintText,
@@ -22,25 +20,20 @@ class CustomDropdownField extends StatefulWidget {
     this.width,
     this.dropdownHeight,
   }) : super(key: key);
-
   @override
   State<CustomDropdownField> createState() => _CustomDropdownFieldState();
 }
-
 class _CustomDropdownFieldState extends State<CustomDropdownField>
     with SingleTickerProviderStateMixin {
   final LayerLink _layerLink = LayerLink();
   OverlayEntry? _overlayEntry;
   bool _isOpen = false;
-
   late AnimationController _controller;
   late Animation<double> _animation;
-
   static const double _fieldHeight = 45;
   static const double _defaultDropdownHeight = 125;
   static const double _defaultWidth = 450;
   static const double _gap = 5;
-
   TextStyle get _textStyle => GoogleFonts.openSans(
     fontSize: AppDimensions.fontSizeL,
     fontWeight: FontWeight.w600,
@@ -48,7 +41,6 @@ class _CustomDropdownFieldState extends State<CustomDropdownField>
     letterSpacing: 0.15,
     color: AppColors.primaryBlue,
   );
-
   @override
   void initState() {
     super.initState();
@@ -58,40 +50,33 @@ class _CustomDropdownFieldState extends State<CustomDropdownField>
     );
     _animation = CurvedAnimation(parent: _controller, curve: Curves.easeOut);
   }
-
   @override
   void dispose() {
     _removeOverlay();
     _controller.dispose();
     super.dispose();
   }
-
   void _toggle() => _isOpen ? _close() : _open();
-
   void _open() {
     _overlayEntry = _createOverlay();
     Overlay.of(context).insert(_overlayEntry!);
     setState(() => _isOpen = true);
     _controller.forward();
   }
-
   void _close() {
     _controller.reverse().then((_) {
       _removeOverlay();
       if (mounted) setState(() => _isOpen = false);
     });
   }
-
   void _removeOverlay() {
     _overlayEntry?.remove();
     _overlayEntry?.dispose();
     _overlayEntry = null;
   }
-
   bool _isSvg(String path) => path.toLowerCase().endsWith('.svg');
   Widget _buildLeftIcon(String? iconPath) {
     if (iconPath == null || iconPath.isEmpty) return const SizedBox.shrink();
-
     return Padding(
       padding: EdgeInsets.only(right: AppDimensions.paddingM),
       child: SizedBox(
@@ -113,10 +98,8 @@ class _CustomDropdownFieldState extends State<CustomDropdownField>
       ),
     );
   }
-
   Widget _buildTrailingIcon(String? iconPath) {
     if (iconPath == null || iconPath.isEmpty) return const SizedBox.shrink();
-
     return SizedBox(
       width: AppDimensions.iconSizeM,
       height: AppDimensions.iconSizeM,
@@ -125,7 +108,6 @@ class _CustomDropdownFieldState extends State<CustomDropdownField>
         assetPath: iconPath,
         isActive: true,
         size: AppDimensions.iconSizeM,
-
       ) : Image.asset(
         iconPath,
         width: AppDimensions.iconSizeM,
@@ -136,9 +118,7 @@ class _CustomDropdownFieldState extends State<CustomDropdownField>
       ),
     );
   }
-
   bool get _hasSelection => widget.value != null && widget.value!.isNotEmpty;
-
   DropdownOption? get _selectedItem {
     if (!_hasSelection) return null;
     try {
@@ -147,18 +127,15 @@ class _CustomDropdownFieldState extends State<CustomDropdownField>
       return null;
     }
   }
-
   OverlayEntry _createOverlay() {
     final renderBox = context.findRenderObject() as RenderBox;
     final size = renderBox.size;
     final offset = renderBox.localToGlobal(Offset.zero);
     final dropdownWidth = widget.width ?? _defaultWidth;
     final dropdownHeight = widget.dropdownHeight ?? _defaultDropdownHeight;
-
     return OverlayEntry(
       builder: (context) => Stack(
         children: [
-
           Positioned.fill(
             child: GestureDetector(
               onTap: _close,
@@ -166,7 +143,6 @@ class _CustomDropdownFieldState extends State<CustomDropdownField>
               child: Container(color: AppColors.transparent),
             ),
           ),
-
           Positioned(
             left: offset.dx,
             top: offset.dy + size.height + _gap,
@@ -210,17 +186,14 @@ class _CustomDropdownFieldState extends State<CustomDropdownField>
       ),
     );
   }
-
   List<Widget> _buildDropdownItems(double dropdownHeight) {
     final List<Widget> children = [];
     final itemCount = widget.items.length;
     final availableHeight = dropdownHeight - 4;
     final itemHeight = availableHeight / itemCount;
-
     for (int i = 0; i < itemCount; i++) {
       final item = widget.items[i];
       final selected = item.value == widget.value;
-
       children.add(
         SizedBox(
           height: itemHeight,
@@ -258,15 +231,12 @@ class _CustomDropdownFieldState extends State<CustomDropdownField>
         ),
       );
     }
-
     return children;
   }
-
   @override
   Widget build(BuildContext context) {
     final selected = _selectedItem;
     final fieldWidth = widget.width ?? _defaultWidth;
-
     return SizedBox(
       width: fieldWidth,
       child: CompositedTransformTarget(

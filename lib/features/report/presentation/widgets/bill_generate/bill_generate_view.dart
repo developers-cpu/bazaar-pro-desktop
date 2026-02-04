@@ -3,12 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../domain/entities/bill_generate_report.dart';
-
 class BillGenerateView extends StatelessWidget {
   final BillGenerateReport report;
-
   const BillGenerateView({super.key, required this.report});
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -18,9 +15,7 @@ class BillGenerateView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             _buildHeader(report.headerInfo),
-
             SizedBox(height: 16.h),
-
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w),
               child: Column(
@@ -28,9 +23,7 @@ class BillGenerateView extends StatelessWidget {
                   ...report.exchangeReports.map(
                     (exchangeReport) => _buildExchangeSection(exchangeReport),
                   ),
-
                   SizedBox(height: 8.h),
-
                   Container(
                     padding: EdgeInsets.symmetric(vertical: 10.h),
                     alignment: Alignment.center,
@@ -44,7 +37,6 @@ class BillGenerateView extends StatelessWidget {
                       ),
                     ),
                   ),
-
                   _buildScriptWiseSummaryTable(
                     report.scriptWiseSummary,
                     report.overallTotal,
@@ -52,14 +44,12 @@ class BillGenerateView extends StatelessWidget {
                 ],
               ),
             ),
-
             SizedBox(height: 20.h),
           ],
         ),
       ),
     );
   }
-
   Widget _buildHeader(BillHeaderInfo info) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
@@ -87,7 +77,6 @@ class BillGenerateView extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildExchangeSection(ExchangeBillReport report) {
     return Container(
       margin: EdgeInsets.only(bottom: 12.h),
@@ -98,17 +87,14 @@ class BillGenerateView extends StatelessWidget {
       child: Column(
         children: [
           _buildTableHeader(),
-
           ...report.trades.asMap().entries.map(
             (entry) => _buildTradeRow(entry.value, entry.key.isEven),
           ),
-
           _buildExchangeTotalRow(report.total),
         ],
       ),
     );
   }
-
   Widget _buildTableHeader() {
     return Container(
       color: AppColors.billTableHeaderBg,
@@ -127,7 +113,6 @@ class BillGenerateView extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildHeaderCell(
     String text, {
     int flex = 1,
@@ -146,7 +131,6 @@ class BillGenerateView extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildTradeRow(BillTradeDetail trade, bool isEven) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
@@ -201,7 +185,6 @@ class BillGenerateView extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildDataCell(
     String text, {
     int flex = 1,
@@ -221,7 +204,6 @@ class BillGenerateView extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildExchangeTotalRow(BillExchangeTotal total) {
     return Container(
       color: AppColors.billTotalRowBg,
@@ -255,7 +237,6 @@ class BillGenerateView extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildTotalCell(String text, {int flex = 1, Color? color}) {
     return Expanded(
       flex: flex,
@@ -270,7 +251,6 @@ class BillGenerateView extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildScriptWiseSummaryTable(
     List<ScriptBillSummary> summaries,
     BillTotal overallTotal,
@@ -296,17 +276,14 @@ class BillGenerateView extends StatelessWidget {
               ],
             ),
           ),
-
           ...summaries.asMap().entries.map(
             (entry) => _buildSummaryRow(entry.value, entry.key.isEven),
           ),
-
           _buildOverallTotalRow(overallTotal),
         ],
       ),
     );
   }
-
   Widget _buildSummaryRow(ScriptBillSummary summary, bool isEven) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
@@ -347,7 +324,6 @@ class BillGenerateView extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildOverallTotalRow(BillTotal total) {
     return Container(
       color: AppColors.billTotalRowBg,
@@ -390,4 +366,3 @@ class BillGenerateView extends StatelessWidget {
     );
   }
 }
-

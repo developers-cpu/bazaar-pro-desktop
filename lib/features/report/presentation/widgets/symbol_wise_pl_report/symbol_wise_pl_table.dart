@@ -9,12 +9,9 @@ import '../../bloc/symbol_wise_pl/symbol_wise_pl_state.dart';
 import '../../../domain/entities/symbol_wise_pl/symbol_wise_pl_report.dart';
 import 'symbol_open_position_dialog.dart';
 import 'symbol_trade_list_dialog.dart';
-
 class SymbolWisePLTable extends StatelessWidget {
   final bool isDarkMode;
-
   const SymbolWisePLTable({super.key, this.isDarkMode = false});
-
   List<ViewTableColumn> _getColumns() {
     return const [
       ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 220),
@@ -24,7 +21,6 @@ class SymbolWisePLTable extends StatelessWidget {
       ViewTableColumn(id: 'netPL', label: 'NET PL', width: 140),
     ];
   }
-
   Widget _buildClickableNumberCell(
     BuildContext context,
     double value,
@@ -52,7 +48,6 @@ class SymbolWisePLTable extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildCell(
     BuildContext context,
     SymbolWisePLReport item,
@@ -86,7 +81,6 @@ class SymbolWisePLTable extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SymbolWisePLBloc, SymbolWisePLState>(
@@ -94,27 +88,22 @@ class SymbolWisePLTable extends StatelessWidget {
         if (state is SymbolWisePLLoading) {
           return const Center(child: CircularProgressIndicator());
         }
-
         if (state is SymbolWisePLError) {
           return Center(child: Text('Error: ${state.message}'));
         }
-
         if (state is! SymbolWisePLLoaded) {
           return const SizedBox.shrink();
         }
-
         double totalReleasePL = 0;
         double totalM2M = 0;
         double totalBrokerage = 0;
         double totalNetPL = 0;
-
         for (var item in state.reports) {
           totalReleasePL += item.releasePL;
           totalM2M += item.m2m;
           totalBrokerage += item.brokerage;
           totalNetPL += item.netPL;
         }
-
         return Column(
           children: [
             ViewRecordCount(count: state.reports.length),

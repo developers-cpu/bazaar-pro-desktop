@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/widget/app_dropdown.dart';
 import 'exchange_chips.dart';
-
 class ReportCard extends StatelessWidget {
   final String title;
   final Widget chart;
@@ -20,7 +19,6 @@ class ReportCard extends StatelessWidget {
   final List<int>? topCounts;
   final int? selectedTopCount;
   final ValueChanged<String?>? onTopCountChanged;
-
   const ReportCard({
     Key? key,
     required this.title,
@@ -38,7 +36,6 @@ class ReportCard extends StatelessWidget {
     this.selectedTopCount,
     this.onTopCountChanged,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -76,17 +73,14 @@ class ReportCard extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildHeader() {
     return LayoutBuilder(
       builder: (context, constraints) {
-
         final dropdownWidth = 140.w;
         final spacing = 12.w;
         final numDropdowns = topCounts != null ? 3 : 2;
         final requiredWidth = (dropdownWidth * numDropdowns) + (spacing * (numDropdowns - 1));
         final canFitInRow = constraints.maxWidth > requiredWidth + 100.w;
-
         if (canFitInRow) {
           return Row(
             children: [
@@ -126,7 +120,6 @@ class ReportCard extends StatelessWidget {
       },
     );
   }
-
   Widget _buildDropdowns(double dropdownWidth) {
     return Row(
       mainAxisSize: MainAxisSize.min,

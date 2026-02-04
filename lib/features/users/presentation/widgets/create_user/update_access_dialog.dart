@@ -6,13 +6,11 @@ import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/constants/app_images.dart';
 import '../../../../../core/widget/app_switch.dart';
 import '../../../../../core/widget/common_dilog_box.dart';
-
 class UpdateAccessDialog extends StatefulWidget {
   final String userId;
   final String userName;
   final Map<String, bool> currentSettings;
   final Function(Map<String, bool> updatedSettings) onUpdate;
-
   const UpdateAccessDialog({
     super.key,
     required this.userId,
@@ -20,7 +18,6 @@ class UpdateAccessDialog extends StatefulWidget {
     required this.currentSettings,
     required this.onUpdate,
   });
-
   static void show({
     required BuildContext context,
     required String userId,
@@ -39,20 +36,16 @@ class UpdateAccessDialog extends StatefulWidget {
       ),
     );
   }
-
   @override
   State<UpdateAccessDialog> createState() => _UpdateAccessDialogState();
 }
-
 class _UpdateAccessDialogState extends State<UpdateAccessDialog> {
   late Map<String, bool> _settings;
-
   @override
   void initState() {
     super.initState();
     _settings = Map.from(widget.currentSettings);
   }
-
   @override
   Widget build(BuildContext context) {
     return CommonDialog(
@@ -75,15 +68,12 @@ class _UpdateAccessDialogState extends State<UpdateAccessDialog> {
       ),
     );
   }
-
   Widget _buildSettingRow(String key) {
     final label = _getLabel(key);
     final iconPath = _getIconPath(key);
     final isEnabled = _settings[key] ?? false;
-
     return Row(
       children: [
-
         if (iconPath != null)
           Container(
             width: 32.w,
@@ -95,12 +85,10 @@ class _UpdateAccessDialogState extends State<UpdateAccessDialog> {
             padding: EdgeInsets.all(6.w), 
             child: SvgPicture.asset(
               iconPath,
-
             ),
           ),
         if (iconPath == null)
           Container(width: 32.w, height: 32.h), 
-
         SizedBox(width: 12.w),
         Expanded(
           child: Text(
@@ -123,7 +111,6 @@ class _UpdateAccessDialogState extends State<UpdateAccessDialog> {
       ],
     );
   }
-
   String _getLabel(String key) {
     switch (key) {
       case 'bet':
@@ -146,7 +133,6 @@ class _UpdateAccessDialogState extends State<UpdateAccessDialog> {
         return key;
     }
   }
-
   String? _getIconPath(String key) {
     switch (key) {
       case 'bet':

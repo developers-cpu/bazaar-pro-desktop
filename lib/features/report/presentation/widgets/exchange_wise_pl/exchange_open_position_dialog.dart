@@ -13,14 +13,11 @@ import '../../../domain/entities/symbol_open_position.dart';
 import '../../bloc/symbol_wise_pl/open_postion/symbol_open_position_bloc.dart';
 import '../../bloc/symbol_wise_pl/open_postion/symbol_open_position_event.dart';
 import '../../bloc/symbol_wise_pl/open_postion/symbol_open_position_state.dart';
-
 class ExchangeOpenPositionDialog extends StatelessWidget {
   final String? symbol;
   final String? exchange;
-
   const ExchangeOpenPositionDialog({Key? key, this.symbol, this.exchange})
     : super(key: key);
-
   static void show(BuildContext context, {String? symbol, String? exchange}) {
     CommonDialog.show(
       context: context,
@@ -31,7 +28,6 @@ class ExchangeOpenPositionDialog extends StatelessWidget {
       showButtons: false,
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -42,21 +38,16 @@ class ExchangeOpenPositionDialog extends StatelessWidget {
     );
   }
 }
-
 class _DialogContent extends StatefulWidget {
   final String? symbol;
   final String? exchange;
-
   const _DialogContent({Key? key, this.symbol, this.exchange})
     : super(key: key);
-
   @override
   State<_DialogContent> createState() => _DialogContentState();
 }
-
 class _DialogContentState extends State<_DialogContent> {
   String? selectedUser;
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SymbolOpenPositionBloc, SymbolOpenPositionState>(
@@ -65,7 +56,6 @@ class _DialogContentState extends State<_DialogContent> {
         if (state is SymbolOpenPositionLoaded) {
           positions = state.positions;
         }
-
         return SizedBox(
           height: 600.h,
           child: Column(
@@ -112,7 +102,6 @@ class _DialogContentState extends State<_DialogContent> {
                         );
                       },
                       onView: () {
-                        
                       },
                     ),
                   ],
@@ -130,7 +119,6 @@ class _DialogContentState extends State<_DialogContent> {
                   child: ViewDataTable<SymbolOpenPosition>(
                     columns: const [
                       ViewTableColumn(id: 'name', label: 'U.NAME', width: 120),
-                      
                       ViewTableColumn(id: 'exchange', label: 'EXCH', width: 80),
                       ViewTableColumn(
                         id: 'symbol',
@@ -164,7 +152,6 @@ class _DialogContentState extends State<_DialogContent> {
                         label: 'OUR %',
                         width: 80,
                       ),
-                      
                     ],
                     data: positions,
                     idExtractor: (item) => item.hashCode.toString(),

@@ -1,12 +1,10 @@
 import '../../../domain/entities/user_sharing_details/user_sharing_details.dart';
 import '../../../domain/entities/user_sharing_info.dart';
-
 class UserSharingDetailsModel extends UserSharingDetails {
   const UserSharingDetailsModel({
     required super.plSharing,
     required super.brokerageSharing,
   });
-
   factory UserSharingDetailsModel.fromJson(Map<String, dynamic> json) {
     return UserSharingDetailsModel(
       plSharing:
@@ -21,7 +19,6 @@ class UserSharingDetailsModel extends UserSharingDetails {
           [],
     );
   }
-
   Map<String, dynamic> toJson() {
     return {
       'plSharing': plSharing
@@ -33,17 +30,14 @@ class UserSharingDetailsModel extends UserSharingDetails {
     };
   }
 }
-
 class UserSharingInfoModel extends UserSharingInfo {
   const UserSharingInfoModel({required super.person, required super.share});
-
   factory UserSharingInfoModel.fromJson(Map<String, dynamic> json) {
     return UserSharingInfoModel(
       person: json['person'] ?? '',
       share: json['share'] ?? '',
     );
   }
-
   Map<String, dynamic> toJson() {
     return {'person': person, 'share': share};
   }

@@ -8,10 +8,8 @@ import '../../bloc/rejection_log/rejection_log_event.dart';
 import '../../bloc/rejection_log/rejection_log_state.dart';
 import '../common/view_record_count.dart';
 import '../common/view_table_cell_styles.dart';
-
 class RejectionLogTable extends StatelessWidget {
   const RejectionLogTable({Key? key}) : super(key: key);
-
   static final List<ViewTableColumn> _columns = [
     const ViewTableColumn(id: 'orderDateTime', label: 'ORDER D/T', width: 140),
     const ViewTableColumn(id: 'userName', label: 'U.NAME', width: 100),
@@ -22,7 +20,6 @@ class RejectionLogTable extends StatelessWidget {
     const ViewTableColumn(id: 'comment', label: 'COMMENT', width: 1300),
     const ViewTableColumn(id: 'date', label: 'DATE', width: 120),
   ];
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<RejectionLogBloc, RejectionLogState>(
@@ -34,7 +31,6 @@ class RejectionLogTable extends StatelessWidget {
             ),
           );
         }
-
         if (state is RejectionLogError) {
           return Center(
             child: Text(
@@ -43,7 +39,6 @@ class RejectionLogTable extends StatelessWidget {
             ),
           );
         }
-
         if (state is RejectionLogLoaded) {
           return Column(
             children: [
@@ -67,51 +62,40 @@ class RejectionLogTable extends StatelessWidget {
                   emptyMessage: 'No rejection logs found',
                 ),
               ),
-
             ],
           );
         }
-
         return const SizedBox.shrink();
       },
     );
   }
-
   Widget _buildCell(RejectionLog log, ViewTableColumn column) {
     switch (column.id) {
       case 'orderDateTime':
         return ViewDateTimeCell(dateTime: log.orderDateTime);
-
       case 'userName':
         return ViewTextCell(text: log.userName);
-
       case 'symbol':
         return ViewTextCell(text: log.symbol);
-
       case 'type':
         return ViewBuySellCell(text: log.type);
-
       case 'qty':
         return ViewNumberCell(
           value: log.qty,
           colorByValue: false,
         );
-
       case 'price':
         return ViewNumberCell(
           value: log.price,
           colorByValue: false,
         );
-
       case 'comment':
         return ViewTextCell(text: log.comment);
-
       case 'date':
         return ViewDateTimeCell(
           dateTime: log.date,
           format: 'dd/MM/yy',
         );
-
       default:
         return const ViewTextCell(text: '-');
     }

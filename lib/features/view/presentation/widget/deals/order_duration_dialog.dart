@@ -3,17 +3,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../domain/entities/deals/deals.dart';
-
 class OrderDurationDialog extends StatelessWidget {
   final List<Deal> relatedOrders;
   final bool isDarkMode;
-
   const OrderDurationDialog({
     Key? key,
     required this.relatedOrders,
     this.isDarkMode = false,
   }) : super(key: key);
-
   static void show({
     required BuildContext context,
     required List<Deal> relatedOrders,
@@ -28,17 +25,14 @@ class OrderDurationDialog extends StatelessWidget {
       ),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     final bgColor = isDarkMode
         ? const Color(0xFF1A1A1A)
         : AppColors.white;
-
     final headerBgColor = isDarkMode
         ? const Color(0xFF2C5F7A)
         : const Color(0xFF2C5F7A);
-
     return Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20.r),
@@ -62,7 +56,6 @@ class OrderDurationDialog extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildHeader(BuildContext context, Color headerBgColor) {
     return ClipRRect(
       borderRadius: BorderRadius.only(
@@ -99,7 +92,6 @@ class OrderDurationDialog extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildTable() {
     return Container(
       width: 1060.w,
@@ -124,7 +116,6 @@ class OrderDurationDialog extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildTableHeader() {
     return Container(
       height: 55.h,
@@ -155,7 +146,6 @@ class OrderDurationDialog extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildHeaderCell(String label, double width) {
     return SizedBox(
       width: width.w,
@@ -173,12 +163,10 @@ class OrderDurationDialog extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildTableRow(Deal deal, int index) {
     final rowColor = index % 2 == 0
         ? AppColors.white
         : const Color(0xFFF8F9FA);
-
     return Container(
       height: 45.h,
       decoration: BoxDecoration(
@@ -230,7 +218,6 @@ class OrderDurationDialog extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildDataCell(
       String text,
       double width, {
@@ -252,11 +239,9 @@ class OrderDurationDialog extends StatelessWidget {
       ),
     );
   }
-
   String _formatDateTime(DateTime dateTime) {
     return '${dateTime.day.toString().padLeft(2, '0')}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.year.toString().substring(2)} ${_formatTime(dateTime)}';
   }
-
   String _formatTime(DateTime dateTime) {
     final hour = dateTime.hour > 12 ? dateTime.hour - 12 : (dateTime.hour == 0 ? 12 : dateTime.hour);
     final period = dateTime.hour >= 12 ? 'PM' : 'AM';

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
-
 class OrderActionButton extends StatelessWidget {
   final String label;
   final VoidCallback? onPressed;
@@ -10,7 +9,6 @@ class OrderActionButton extends StatelessWidget {
   final bool isLoading;
   final bool hasTopMargin;
   final bool isDarkMode;
-
   const OrderActionButton({
     Key? key,
     required this.label,
@@ -20,11 +18,8 @@ class OrderActionButton extends StatelessWidget {
     this.hasTopMargin = true,
     this.isDarkMode = false,
   }) : super(key: key);
-
   Color get _borderColor => borderColor ?? LightThemeColors.primaryColor;
-
   Color get _textColor => LightThemeColors.textColor;
-
   @override
   Widget build(BuildContext context) {
     return Column(

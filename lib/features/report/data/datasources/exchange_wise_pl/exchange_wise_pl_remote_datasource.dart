@@ -1,19 +1,16 @@
 import 'package:bazarpro/core/errors/failures.dart';
 import 'package:dartz/dartz.dart';
 import '../../models/exchange_wise_pl/exchange_wise_pl_report_model.dart';
-
 abstract class ExchangeWisePLRemoteDataSource {
   Future<Either<Failure, List<ExchangeWisePLReportModel>>>
   getExchangeWisePLReport();
 }
-
 class ExchangeWisePLRemoteDataSourceImpl
     implements ExchangeWisePLRemoteDataSource {
   @override
   Future<Either<Failure, List<ExchangeWisePLReportModel>>>
   getExchangeWisePLReport() async {
     await Future.delayed(const Duration(milliseconds: 500));
-
     final List<ExchangeWisePLReportModel> mockData = [
       const ExchangeWisePLReportModel(
         exchange: 'NSE',
@@ -79,7 +76,6 @@ class ExchangeWisePLRemoteDataSourceImpl
         totalPL: 124191.00,
       ),
     ];
-
     return Right(mockData);
   }
 }

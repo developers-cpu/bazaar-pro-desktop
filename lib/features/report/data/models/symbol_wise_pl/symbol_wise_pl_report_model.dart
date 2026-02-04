@@ -1,5 +1,4 @@
 import '../../../domain/entities/symbol_wise_pl/symbol_wise_pl_report.dart';
-
 class SymbolWisePLReportModel extends SymbolWisePLReport {
   const SymbolWisePLReportModel({
     required String id,
@@ -32,7 +31,6 @@ class SymbolWisePLReportModel extends SymbolWisePLReport {
          plPercent: plPercent,
          brokeragePercent: brokeragePercent,
        );
-
   factory SymbolWisePLReportModel.fromJson(Map<String, dynamic> json) {
     return SymbolWisePLReportModel(
       id: json['id'] as String? ?? '',

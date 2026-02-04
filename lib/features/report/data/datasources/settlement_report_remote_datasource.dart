@@ -1,13 +1,11 @@
 import '../models/settlement_report_model.dart';
 import '../../../../../core/errors/exceptions.dart';
-
 abstract class SettlementReportRemoteDataSource {
   Future<SettlementReportModel> getSettlementReport({
     required String dateRange,
     String? userId,
   });
 }
-
 class SettlementReportRemoteDataSourceImpl
     implements SettlementReportRemoteDataSource {
   @override
@@ -16,8 +14,6 @@ class SettlementReportRemoteDataSourceImpl
     String? userId,
   }) async {
     await Future.delayed(const Duration(milliseconds: 500));
-
-
     final mockResponse = {
       "profitList": [
         {
@@ -82,7 +78,6 @@ class SettlementReportRemoteDataSourceImpl
         "totalAmount": -74963.0,
       },
     };
-
     try {
       return SettlementReportModel.fromJson(mockResponse);
     } catch (e) {

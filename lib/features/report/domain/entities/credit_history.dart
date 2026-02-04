@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 class CreditHistory extends Equatable {
   final String id;
   final String userName;
@@ -9,7 +8,6 @@ class CreditHistory extends Equatable {
   final double amount;
   final double balance;
   final String comment;
-
   const CreditHistory({
     required this.id,
     required this.userName,
@@ -20,7 +18,6 @@ class CreditHistory extends Equatable {
     required this.balance,
     required this.comment,
   });
-
   @override
   List<Object?> get props => [
     id,

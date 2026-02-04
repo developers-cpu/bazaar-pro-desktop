@@ -1,22 +1,16 @@
 import 'package:equatable/equatable.dart';
-
 import '../../../domain/entities/deals/deals.dart';
-
 abstract class DealsState extends Equatable {
   const DealsState();
-
   @override
   List<Object?> get props => [];
 }
-
 class DealsInitial extends DealsState {
   const DealsInitial();
 }
-
 class DealsLoading extends DealsState {
   const DealsLoading();
 }
-
 class DealsLoaded extends DealsState {
   final List<Deal> deals;
   final List<Deal> filteredDeals;
@@ -24,7 +18,6 @@ class DealsLoaded extends DealsState {
   final String? selectedDealId;
   final String? sortColumn;
   final bool sortAscending;
-
   final DateTime? startDate;
   final DateTime? endDate;
   final String? selectedClient;
@@ -32,13 +25,11 @@ class DealsLoaded extends DealsState {
   final String? selectedSymbol;
   final String? selectedOrderType;
   final String? selectedStatus;
-
   final List<String> clients;
   final List<String> exchanges;
   final List<String> symbols;
   final List<String> orderTypes;
   final List<String> statuses;
-
   const DealsLoaded({
     required this.deals,
     required this.filteredDeals,
@@ -59,7 +50,6 @@ class DealsLoaded extends DealsState {
     this.orderTypes = const [],
     this.statuses = const [],
   });
-
   @override
   List<Object?> get props => [
     deals,
@@ -81,7 +71,6 @@ class DealsLoaded extends DealsState {
     orderTypes,
     statuses,
   ];
-
   DealsLoaded copyWith({
     List<Deal>? deals,
     List<Deal>? filteredDeals,
@@ -124,25 +113,19 @@ class DealsLoaded extends DealsState {
     );
   }
 }
-
 class DealsError extends DealsState {
   final String message;
-
   const DealsError(this.message);
-
   @override
   List<Object?> get props => [message];
 }
-
 class DealsExportSuccess extends DealsState {
   final String message;
   final String filePath;
-
   const DealsExportSuccess({
     required this.message,
     required this.filePath,
   });
-
   @override
   List<Object?> get props => [message, filePath];
 }

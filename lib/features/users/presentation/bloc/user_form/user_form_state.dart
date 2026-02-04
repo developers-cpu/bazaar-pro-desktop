@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 class UserFormState extends Equatable {
   final bool isEditMode;
   final String userType;
@@ -7,7 +6,6 @@ class UserFormState extends Equatable {
   final int currentStep;
   final int totalSteps;
   final List<String> stepTitles;
-
   final String name;
   final String username;
   final String password;
@@ -43,7 +41,6 @@ class UserFormState extends Equatable {
   final List<String> exchangeGroupOptions;
   final String? selectedMaster;
   final List<String> masterOptions;
-
   const UserFormState({
     this.isEditMode = false,
     this.userType = 'Master',
@@ -101,7 +98,6 @@ class UserFormState extends Equatable {
       'Master 5',
     ],
   });
-
   static const List<String> availableExchanges = [
     'MCX',
     'NSE',
@@ -113,7 +109,6 @@ class UserFormState extends Equatable {
     'USSTOCK',
     'FOREX',
   ];
-
   static const List<String> masterStepTitles = [
     'Personal Details',
     'Profit & Loss Sharing Details',
@@ -123,7 +118,6 @@ class UserFormState extends Equatable {
     'Triggers Setting',
     'Brokerage Setting',
   ];
-
   static const List<String> clientStepTitles = [
     'Personal Details',
     'Exchange Allow',
@@ -131,7 +125,6 @@ class UserFormState extends Equatable {
     'Trigger Settings',
     'Brokerage Settings',
   ];
-
   static const List<String> mastersClientStepTitles = [
     'Personal Details',
     'Exchange Allow',
@@ -139,7 +132,6 @@ class UserFormState extends Equatable {
     'Trigger Settings',
     'Brokerage Settings',
   ];
-
   static const List<TriggerSetting> masterTriggerSettings = [
     TriggerSetting(key: 'addMaster', label: 'Add Master', icon: 'add_master'),
     TriggerSetting(key: 'addClient', label: 'Add Client', icon: 'add_client'),
@@ -183,7 +175,6 @@ class UserFormState extends Equatable {
     TriggerSetting(key: 'lockUser', label: 'Lock User', icon: 'lock_user'),
     TriggerSetting(key: 'status', label: 'Status', icon: 'status'),
   ];
-
   static const List<TriggerSetting> clientTriggerSettings = [
     TriggerSetting(
       key: 'fifteenDays',
@@ -211,29 +202,23 @@ class UserFormState extends Equatable {
       icon: 'change_password',
     ),
   ];
-
   static List<TriggerSetting> getTriggerSettings(String userType) {
     return userType == 'Master' ? masterTriggerSettings : clientTriggerSettings;
   }
-
   static List<String> getStepTitles(String userType) {
     if (userType == 'Master') return masterStepTitles;
     if (userType == "Master's Client") return mastersClientStepTitles;
     return clientStepTitles;
   }
-
   static int getTotalSteps(String userType) {
     if (userType == 'Master') return 7;
     return 5;
   }
-
   static const List<TriggerSetting> availableTriggerSettings =
       masterTriggerSettings;
-
   static Map<String, bool> get defaultTriggerSettings => {
     for (var setting in masterTriggerSettings) setting.key: false,
   };
-
   static Map<String, BrokerageData> get defaultBrokerageData => {
     for (var exchange in availableExchanges)
       exchange: BrokerageData(
@@ -242,11 +227,9 @@ class UserFormState extends Equatable {
         symbolWiseBrk: '0',
       ),
   };
-
   bool get isFirstStep => currentStep == 0;
   bool get isLastStep => currentStep == totalSteps - 1;
   String get currentStepTitle => stepTitles[currentStep];
-
   UserFormState copyWith({
     bool? isEditMode,
     String? userType,
@@ -254,7 +237,6 @@ class UserFormState extends Equatable {
     int? currentStep,
     int? totalSteps,
     List<String>? stepTitles,
-
     String? name,
     String? username,
     String? password,
@@ -266,7 +248,6 @@ class UserFormState extends Equatable {
     String? remark,
     String? allowedDevice,
     String? cutOff,
-
     Set<String>? selectedExchanges,
     Map<String, String?>? exchangeGroups,
     String? plSharing,
@@ -299,7 +280,6 @@ class UserFormState extends Equatable {
       currentStep: currentStep ?? this.currentStep,
       totalSteps: totalSteps ?? this.totalSteps,
       stepTitles: stepTitles ?? this.stepTitles,
-
       name: name ?? this.name,
       username: username ?? this.username,
       password: password ?? this.password,
@@ -341,7 +321,6 @@ class UserFormState extends Equatable {
       masterOptions: masterOptions ?? this.masterOptions,
     );
   }
-
   @override
   List<Object?> get props => [
     isEditMode,
@@ -385,30 +364,25 @@ class UserFormState extends Equatable {
     masterOptions,
   ];
 }
-
 class TriggerSetting {
   final String key;
   final String label;
   final String icon;
-
   const TriggerSetting({
     required this.key,
     required this.label,
     required this.icon,
   });
 }
-
 class BrokerageData extends Equatable {
   final String exchange;
   final String turnoverWise;
   final String symbolWiseBrk;
-
   const BrokerageData({
     required this.exchange,
     required this.turnoverWise,
     required this.symbolWiseBrk,
   });
-
   BrokerageData copyWith({
     String? exchange,
     String? turnoverWise,
@@ -420,7 +394,6 @@ class BrokerageData extends Equatable {
       symbolWiseBrk: symbolWiseBrk ?? this.symbolWiseBrk,
     );
   }
-
   @override
   List<Object?> get props => [exchange, turnoverWise, symbolWiseBrk];
 }

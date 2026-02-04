@@ -10,16 +10,12 @@ import '../bloc/theme/theme_bloc.dart';
 import '../bloc/theme/theme_event.dart';
 import '../bloc/theme/theme_state.dart';
 import '../../../../core/widget/app_dropdown.dart';
-
 class MarketFilters extends StatelessWidget {
   final MarketWatchLoaded state;
-
   const MarketFilters({Key? key, required this.state}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     final availableSymbols = state.items.map((item) => item.symbol).toSet().toList()..sort();
-
     final exchanges = [
       AppStrings.nse,
       AppStrings.mcx,
@@ -30,7 +26,6 @@ class MarketFilters extends StatelessWidget {
       AppStrings.gift,
       AppStrings.forex,
     ];
-
     final users = [
       'Client 1',
       'Client 2',
@@ -38,10 +33,8 @@ class MarketFilters extends StatelessWidget {
       'Client 4',
       'Client 5',
     ];
-
     return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (context, themeState) {
-
         return Container(
           width: double.infinity,
           height: 60.h,
@@ -90,7 +83,6 @@ class MarketFilters extends StatelessWidget {
               ),
               Row(
                 children: [
-
                   AppDropdown(
                     type: AppDropdownType.search,
                     hintText: 'Search User',
@@ -115,12 +107,10 @@ class MarketFilters extends StatelessWidget {
       },
     );
   }
-
   Widget _buildThemeToggle(BuildContext context) {
     return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (context, themeState) {
         final isDarkMode = themeState.isDarkMode;
-
         return GestureDetector(
           onTap: () {
             context.read<ThemeBloc>().add(const ToggleThemeEvent());

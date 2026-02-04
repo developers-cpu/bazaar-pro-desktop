@@ -1,21 +1,16 @@
 import 'package:equatable/equatable.dart';
 import '../../domain/entities/dashboard_entity.dart';
-
 abstract class DashboardState extends Equatable {
   const DashboardState();
-
   @override
   List<Object?> get props => [];
 }
-
 class DashboardInitial extends DashboardState {
   const DashboardInitial();
 }
-
 class DashboardLoading extends DashboardState {
   const DashboardLoading();
 }
-
 class DashboardLoaded extends DashboardState {
   final List<TradeReportData> tradeReports;
   final String? tradeReportClientId;
@@ -31,7 +26,6 @@ class DashboardLoaded extends DashboardState {
   final List<String> periods;
   final List<String> exchanges;
   final List<int> topCounts;
-
   const DashboardLoaded({
     required this.tradeReports,
     this.tradeReportClientId,
@@ -48,7 +42,6 @@ class DashboardLoaded extends DashboardState {
     this.exchanges = const ['NSE', 'MCX', 'GIFTNIFTY', 'CE/PE', 'OTHERS', 'COMEX', 'CRYPTO', 'FOREX', 'USSTOCK'],
     this.topCounts = const [5, 10, 15],
   });
-
   DashboardLoaded copyWith({
     List<TradeReportData>? tradeReports,
     String? tradeReportClientId,
@@ -84,7 +77,6 @@ class DashboardLoaded extends DashboardState {
       topCounts: topCounts ?? this.topCounts,
     );
   }
-
   @override
   List<Object?> get props => [
     tradeReports,
@@ -103,12 +95,9 @@ class DashboardLoaded extends DashboardState {
     topCounts,
   ];
 }
-
 class DashboardError extends DashboardState {
   final String message;
-
   const DashboardError({required this.message});
-
   @override
   List<Object?> get props => [message];
 }

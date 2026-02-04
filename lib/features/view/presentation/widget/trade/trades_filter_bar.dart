@@ -10,10 +10,8 @@ import '../../bloc/trade/trades_bloc.dart';
 import '../../bloc/trade/trades_event.dart';
 import '../../bloc/trade/trades_state.dart';
 import '../common/view_reset_buttons.dart';
-
 class TradesFilterBar extends StatelessWidget {
   const TradesFilterBar({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TradesBloc, TradesState>(
@@ -21,17 +19,14 @@ class TradesFilterBar extends StatelessWidget {
         if (state is! TradesLoaded) {
           return const SizedBox.shrink();
         }
-
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Row(
             children: [
-
               Expanded(
                 child: _buildDateRangePicker(context, state),
               ),
               SizedBox(width: 12.w),
-
               Expanded(
                 child: AppDropdown(
                   type: AppDropdownType.search,
@@ -53,7 +48,6 @@ class TradesFilterBar extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 12.w),
-
               Expanded(
                 child: AppDropdown(
                   type: AppDropdownType.simple,
@@ -76,7 +70,6 @@ class TradesFilterBar extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 12.w),
-
               Expanded(
                 child: AppDropdown(
                   type: AppDropdownType.search,
@@ -98,7 +91,6 @@ class TradesFilterBar extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 12.w),
-
               Expanded(
                 child: AppDropdown(
                   type: AppDropdownType.simple,
@@ -120,9 +112,7 @@ class TradesFilterBar extends StatelessWidget {
                   },
                 ),
               ),
-
               const Spacer(),
-
               ViewResetButtons(
                 onReset: () {
                   context.read<TradesBloc>().add(
@@ -148,15 +138,12 @@ class TradesFilterBar extends StatelessWidget {
       },
     );
   }
-
   Widget _buildDateRangePicker(BuildContext context, TradesLoaded state) {
     final dateFormat = DateFormat('dd/MM/yyyy');
     String displayText = 'Select Date Range';
-
     if (state.startDate != null && state.endDate != null) {
       displayText = '${dateFormat.format(state.startDate!)} - ${dateFormat.format(state.endDate!)}';
     }
-
     return GestureDetector(
       onTap: () async {
         final result = await CustomDateRangePickerDialog.show(
@@ -164,7 +151,6 @@ class TradesFilterBar extends StatelessWidget {
           initialStartDate: state.startDate,
           initialEndDate: state.endDate,
         );
-
         if (result != null) {
           context.read<TradesBloc>().add(
             ApplyFiltersEvent(

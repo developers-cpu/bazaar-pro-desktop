@@ -1,5 +1,4 @@
 import '../../../domain/entities/user.dart';
-
 class UserModel extends User {
   const UserModel({
     required super.id,
@@ -22,7 +21,6 @@ class UserModel extends User {
     super.ipAddress,
     required super.status,
   });
-
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
       id: json['id'] ?? '',
@@ -57,7 +55,6 @@ class UserModel extends User {
       status: json['status'] ?? 'Active',
     );
   }
-
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -81,7 +78,6 @@ class UserModel extends User {
       'status': status,
     };
   }
-
   factory UserModel.fromEntity(User entity) {
     return UserModel(
       id: entity.id,
@@ -105,7 +101,6 @@ class UserModel extends User {
       status: entity.status,
     );
   }
-
   static double _parseDouble(dynamic value) {
     if (value == null) return 0.0;
     if (value is double) return value;
@@ -113,7 +108,6 @@ class UserModel extends User {
     if (value is String) return double.tryParse(value) ?? 0.0;
     return 0.0;
   }
-
   static DateTime _parseDateTime(dynamic value) {
     if (value == null) return DateTime.now();
     if (value is DateTime) return value;

@@ -7,17 +7,14 @@ import '../../../../view/presentation/widget/common/view_table_cell_styles.dart'
 import 'deals_dialog.dart';
 import 'exchange_trade_list_dialog.dart';
 import 'exchange_open_position_dialog.dart';
-
 class ExchangeWisePLTable extends StatelessWidget {
   final List<ExchangeWisePLReport> reports;
   final bool isDarkMode;
-
   const ExchangeWisePLTable({
     super.key,
     required this.reports,
     this.isDarkMode = false,
   });
-
   List<ViewTableColumn> _getColumns() {
     return const [
       ViewTableColumn(id: 'exchange', label: 'EXCH', width: 120),
@@ -27,7 +24,6 @@ class ExchangeWisePLTable extends StatelessWidget {
       ViewTableColumn(id: 'total', label: 'TOTAL', width: 140),
     ];
   }
-
   Widget _buildClickableNumberCell(
     BuildContext context,
     double value,
@@ -56,7 +52,6 @@ class ExchangeWisePLTable extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildClickableTextCell(
     BuildContext context,
     String text,
@@ -77,7 +72,6 @@ class ExchangeWisePLTable extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildCell(
     BuildContext context,
     ExchangeWisePLReport item,
@@ -109,21 +103,18 @@ class ExchangeWisePLTable extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
-
   @override
   Widget build(BuildContext context) {
     double totalM2M = 0;
     double totalRealisedPL = 0;
     double totalBrokerage = 0;
     double totalPL = 0;
-
     for (var report in reports) {
       totalM2M += report.m2m;
       totalRealisedPL += report.realisedPL;
       totalBrokerage += report.brokerage;
       totalPL += report.totalPL;
     }
-
     return Column(
       children: [
         ViewRecordCount(count: reports.length),

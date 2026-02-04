@@ -2,17 +2,14 @@ import 'package:bazarpro/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 class ViewRecordCount extends StatelessWidget {
   final int count;
   final String label;
-
   const ViewRecordCount({
     Key? key,
     required this.count,
     this.label = 'RECORD',
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Container(

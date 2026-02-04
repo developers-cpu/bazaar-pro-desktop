@@ -6,10 +6,8 @@ import '../bloc/trade_margin/trade_margin_event.dart';
 import '../bloc/trade_margin/trade_margin_state.dart';
 import '../widgets/trade_margin/trade_margin_filter_bar.dart';
 import '../widgets/trade_margin/trade_margin_table.dart';
-
 class TradeMarginPage extends StatelessWidget {
   const TradeMarginPage({super.key});
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

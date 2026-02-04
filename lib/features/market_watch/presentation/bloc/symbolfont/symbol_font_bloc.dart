@@ -1,12 +1,10 @@
 import 'package:bazarpro/features/market_watch/presentation/bloc/symbolfont/symbol_font_event.dart';
 import 'package:bazarpro/features/market_watch/presentation/bloc/symbolfont/symbol_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 class SymbolFontBloc extends Bloc<SymbolFontEvent, SymbolFontState> {
   static const String _defaultFontFamily = 'Inter';
   static const String _defaultFontStyle = 'Regular';
   static const int _defaultFontSize = 14;
-
   static const List<String> _availableFontFamilies = [
     'Airal',
     'Gilroy',
@@ -19,7 +17,6 @@ class SymbolFontBloc extends Bloc<SymbolFontEvent, SymbolFontState> {
     'Poppins',
     'Roboto',
   ];
-
   static const List<String> _availableFontStyles = [
     'Thin',
     'Thin Italic',
@@ -30,7 +27,6 @@ class SymbolFontBloc extends Bloc<SymbolFontEvent, SymbolFontState> {
     'Bold',
     'Bold Italic',
   ];
-
   static const List<int> _availableFontSizes = [
     11,
     12,
@@ -43,11 +39,9 @@ class SymbolFontBloc extends Bloc<SymbolFontEvent, SymbolFontState> {
     28,
     32,
   ];
-
   String _savedFontFamily = _defaultFontFamily;
   String _savedFontStyle = _defaultFontStyle;
   int _savedFontSize = _defaultFontSize;
-
   SymbolFontBloc() : super(const SymbolFontState()) {
     on<LoadFontSettingsEvent>(_onLoadFontSettings);
     on<SelectFontFamilyEvent>(_onSelectFontFamily);
@@ -56,7 +50,6 @@ class SymbolFontBloc extends Bloc<SymbolFontEvent, SymbolFontState> {
     on<SaveFontSettingsEvent>(_onSaveFontSettings);
     on<ResetFontSettingsEvent>(_onResetFontSettings);
   }
-
   void _onLoadFontSettings(
       LoadFontSettingsEvent event, Emitter<SymbolFontState> emit) {
     emit(state.copyWith(
@@ -69,7 +62,6 @@ class SymbolFontBloc extends Bloc<SymbolFontEvent, SymbolFontState> {
       isSaved: false,
     ));
   }
-
   void _onSelectFontFamily(
       SelectFontFamilyEvent event, Emitter<SymbolFontState> emit) {
     emit(state.copyWith(
@@ -77,7 +69,6 @@ class SymbolFontBloc extends Bloc<SymbolFontEvent, SymbolFontState> {
       isSaved: false,
     ));
   }
-
   void _onSelectFontStyle(
       SelectFontStyleEvent event, Emitter<SymbolFontState> emit) {
     emit(state.copyWith(
@@ -85,7 +76,6 @@ class SymbolFontBloc extends Bloc<SymbolFontEvent, SymbolFontState> {
       isSaved: false,
     ));
   }
-
   void _onSelectFontSize(
       SelectFontSizeEvent event, Emitter<SymbolFontState> emit) {
     emit(state.copyWith(
@@ -93,7 +83,6 @@ class SymbolFontBloc extends Bloc<SymbolFontEvent, SymbolFontState> {
       isSaved: false,
     ));
   }
-
   void _onSaveFontSettings(
       SaveFontSettingsEvent event, Emitter<SymbolFontState> emit) {
     _savedFontFamily = state.selectedFontFamily;
@@ -101,13 +90,11 @@ class SymbolFontBloc extends Bloc<SymbolFontEvent, SymbolFontState> {
     _savedFontSize = state.selectedFontSize;
     emit(state.copyWith(isSaved: true));
   }
-
   void _onResetFontSettings(
       ResetFontSettingsEvent event, Emitter<SymbolFontState> emit) {
     _savedFontFamily = _defaultFontFamily;
     _savedFontStyle = _defaultFontStyle;
     _savedFontSize = _defaultFontSize;
-
     emit(state.copyWith(
       selectedFontFamily: _defaultFontFamily,
       selectedFontStyle: _defaultFontStyle,
@@ -115,7 +102,6 @@ class SymbolFontBloc extends Bloc<SymbolFontEvent, SymbolFontState> {
       isSaved: true,
     ));
   }
-
   String get savedFontFamily => _savedFontFamily;
   String get savedFontStyle => _savedFontStyle;
   int get savedFontSize => _savedFontSize;

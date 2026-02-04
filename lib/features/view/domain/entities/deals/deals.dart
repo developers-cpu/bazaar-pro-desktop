@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 class Deal extends Equatable {
   final String id;
   final String userName;
@@ -20,7 +19,6 @@ class Deal extends Equatable {
   final String? ipAddress;
   final String orderDuration;
   final String status;
-
   const Deal({
     required this.id,
     required this.userName,
@@ -42,7 +40,6 @@ class Deal extends Equatable {
     required this.orderDuration,
     required this.status,
   });
-
   @override
   List<Object?> get props => [
     id,
@@ -65,7 +62,6 @@ class Deal extends Equatable {
     orderDuration,
     status,
   ];
-
   Deal copyWith({
     String? id,
     String? userName,

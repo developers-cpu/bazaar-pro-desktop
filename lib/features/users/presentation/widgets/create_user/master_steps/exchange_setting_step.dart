@@ -10,18 +10,14 @@ import '../../../../../../core/widget/app_text_field.dart';
 import '../../../bloc/user_form/user_form_bloc.dart';
 import '../../../bloc/user_form/user_form_event.dart';
 import '../../../bloc/user_form/user_form_state.dart';
-
 class ExchangeSettingStep extends StatefulWidget {
   const ExchangeSettingStep({super.key});
-
   @override
   State<ExchangeSettingStep> createState() => _ExchangeSettingStepState();
 }
-
 class _ExchangeSettingStepState extends State<ExchangeSettingStep> {
   late TextEditingController _squareOffTimingController;
   late TextEditingController _specificTimeController;
-
   @override
   void initState() {
     super.initState();
@@ -33,18 +29,15 @@ class _ExchangeSettingStepState extends State<ExchangeSettingStep> {
       text: state.specificTime ?? '',
     );
   }
-
   @override
   void dispose() {
     _squareOffTimingController.dispose();
     _specificTimeController.dispose();
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-
     return BlocBuilder<UserFormBloc, UserFormState>(
       builder: (context, state) {
         return Container(
@@ -109,7 +102,6 @@ class _ExchangeSettingStepState extends State<ExchangeSettingStep> {
                             ),
                           ),
                         ),
-
                         AppSwitch(
                           value: state.allowSquareOff,
                           onChanged: (value) {
@@ -157,7 +149,6 @@ class _ExchangeSettingStepState extends State<ExchangeSettingStep> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-
                     Text(
                       'Market Open Time Restriction for SL / Limit',
                       style: GoogleFonts.openSans(
@@ -190,7 +181,6 @@ class _ExchangeSettingStepState extends State<ExchangeSettingStep> {
                             );
                           },
                         ),
-
                         if (state.marketOpenTimeRestriction == 'Specific Time') ...[
                           SizedBox(width: 16.w),
                           SizedBox(

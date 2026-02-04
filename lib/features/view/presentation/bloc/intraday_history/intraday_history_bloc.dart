@@ -4,7 +4,6 @@ import '../../../domain/entities/intraday_history/intraday_history.dart';
 import '../../../domain/usecases/intraday_history/intraday_history_usecases.dart';
 import 'intraday_history_event.dart';
 import 'intraday_history_state.dart';
-
 class IntradayHistoryBloc
     extends Bloc<IntradayHistoryEvent, IntradayHistoryState> {
   final GetIntradayHistory getIntradayHistory;
@@ -14,7 +13,6 @@ class IntradayHistoryBloc
   final GetIntradayTimings getTimings;
   final ExportIntradayToPdf exportToPdf;
   final ExportIntradayToExcel exportToExcel;
-
   IntradayHistoryBloc({
     required this.getIntradayHistory,
     required this.getIntradayHistoryInSeconds,
@@ -34,13 +32,11 @@ class IntradayHistoryBloc
     on<ExportIntradayToPdfEvent>(_onExportToPdf);
     on<ExportIntradayToExcelEvent>(_onExportToExcel);
   }
-
   Future<void> _onLoadIntradayHistory(
       LoadIntradayHistoryEvent event,
       Emitter<IntradayHistoryState> emit,
       ) async {
     emit(const IntradayHistoryLoading());
-
     try {
       final results = await Future.wait([
         getIntradayHistory(const IntradayHistoryParams()),
@@ -48,19 +44,16 @@ class IntradayHistoryBloc
         getSymbols(NoParams()),
         getTimings(NoParams()),
       ]);
-
       final historyResult = results[0];
       final exchangesResult = results[1];
       final symbolsResult = results[2];
       final timingsResult = results[3];
-
       if (historyResult.isLeft()) {
         final failure = historyResult.fold((l) => l, (r) => null);
         emit(IntradayHistoryError(
             failure?.message ?? 'Failed to load intraday history'));
         return;
       }
-
       final history = historyResult.fold(
               (l) => <IntradayHistory>[], (r) => r as List<IntradayHistory>);
       final exchanges =
@@ -69,7 +62,6 @@ class IntradayHistoryBloc
       symbolsResult.fold((l) => <String>[], (r) => r as List<String>);
       final timings =
       timingsResult.fold((l) => <String>[], (r) => r as List<String>);
-
       emit(IntradayHistoryLoaded(
         history: history,
         totalRecords: history.length,
@@ -81,23 +73,19 @@ class IntradayHistoryBloc
       emit(IntradayHistoryError(e.toString()));
     }
   }
-
   Future<void> _onApplyFilters(
       ApplyIntradayFiltersEvent event,
       Emitter<IntradayHistoryState> emit,
       ) async {
     if (state is! IntradayHistoryLoaded) return;
-
     final currentState = state as IntradayHistoryLoaded;
     emit(const IntradayHistoryLoading());
-
     final result = await getIntradayHistory(IntradayHistoryParams(
       date: event.date,
       exchange: event.exchange,
       symbol: event.symbol,
       timing: event.timing,
     ));
-
     result.fold(
           (failure) => emit(IntradayHistoryError(failure.message)),
           (history) => emit(currentState.copyWith(
@@ -110,16 +98,13 @@ class IntradayHistoryBloc
       )),
     );
   }
-
   Future<void> _onResetFilters(
       ResetIntradayFiltersEvent event,
       Emitter<IntradayHistoryState> emit,
       ) async {
     if (state is! IntradayHistoryLoaded) return;
-
     final currentState = state as IntradayHistoryLoaded;
     final result = await getIntradayHistory(const IntradayHistoryParams());
-
     result.fold(
           (failure) => emit(IntradayHistoryError(failure.message)),
           (history) => emit(IntradayHistoryLoaded(
@@ -131,12 +116,10 @@ class IntradayHistoryBloc
       )),
     );
   }
-
   Future<void> _onNavigateToSecondsView(
       NavigateToSecondsViewEvent event,
       Emitter<IntradayHistoryState> emit,
       ) async {
-
     emit(IntradayHistorySecondsView(
       history: const [],
       totalRecords: 0,
@@ -147,13 +130,11 @@ class IntradayHistoryBloc
       endTime: event.endTime,
     ));
   }
-
   Future<void> _onLoadSecondsData(
       LoadSecondsDataEvent event,
       Emitter<IntradayHistoryState> emit,
       ) async {
     emit(const IntradayHistoryLoading());
-
     final result = await getIntradayHistoryInSeconds(
       IntradayHistorySecondsParams(
         date: event.date,
@@ -163,7 +144,6 @@ class IntradayHistoryBloc
         endTime: event.endTime,
       ),
     );
-
     result.fold(
           (failure) => emit(IntradayHistoryError(failure.message)),
           (history) => emit(IntradayHistorySecondsView(
@@ -177,14 +157,12 @@ class IntradayHistoryBloc
       )),
     );
   }
-
   Future<void> _onBackToListView(
       BackToListViewEvent event,
       Emitter<IntradayHistoryState> emit,
       ) async {
     add(const LoadIntradayHistoryEvent());
   }
-
   void _onSortByColumn(
       SortIntradayByColumnEvent event,
       Emitter<IntradayHistoryState> emit,
@@ -192,10 +170,8 @@ class IntradayHistoryBloc
     if (state is IntradayHistoryLoaded) {
       final currentState = state as IntradayHistoryLoaded;
       final sortedHistory = List<IntradayHistory>.from(currentState.history);
-
       sortedHistory.sort((a, b) {
         int comparison = 0;
-
         switch (event.columnId) {
           case 'timestamp':
             comparison = a.timestamp.compareTo(b.timestamp);
@@ -218,10 +194,8 @@ class IntradayHistoryBloc
           default:
             comparison = 0;
         }
-
         return event.ascending ? comparison : -comparison;
       });
-
       emit(currentState.copyWith(
         history: sortedHistory,
         sortColumn: event.columnId,
@@ -230,10 +204,8 @@ class IntradayHistoryBloc
     } else if (state is IntradayHistorySecondsView) {
       final currentState = state as IntradayHistorySecondsView;
       final sortedHistory = List<IntradayHistory>.from(currentState.history);
-
       sortedHistory.sort((a, b) {
         int comparison = 0;
-
         switch (event.columnId) {
           case 'timestamp':
             comparison = a.timestamp.compareTo(b.timestamp);
@@ -256,10 +228,8 @@ class IntradayHistoryBloc
           default:
             comparison = 0;
         }
-
         return event.ascending ? comparison : -comparison;
       });
-
       emit(currentState.copyWith(
         history: sortedHistory,
         sortColumn: event.columnId,
@@ -267,13 +237,11 @@ class IntradayHistoryBloc
       ));
     }
   }
-
   Future<void> _onExportToPdf(
       ExportIntradayToPdfEvent event,
       Emitter<IntradayHistoryState> emit,
       ) async {
     List<IntradayHistory> historyToExport = [];
-
     if (state is IntradayHistoryLoaded) {
       historyToExport = (state as IntradayHistoryLoaded).history;
     } else if (state is IntradayHistorySecondsView) {
@@ -281,10 +249,8 @@ class IntradayHistoryBloc
     } else {
       return;
     }
-
     final currentState = state;
     final result = await exportToPdf(historyToExport);
-
     result.fold(
           (failure) => emit(IntradayHistoryError(failure.message)),
           (path) {
@@ -296,13 +262,11 @@ class IntradayHistoryBloc
       },
     );
   }
-
   Future<void> _onExportToExcel(
       ExportIntradayToExcelEvent event,
       Emitter<IntradayHistoryState> emit,
       ) async {
     List<IntradayHistory> historyToExport = [];
-
     if (state is IntradayHistoryLoaded) {
       historyToExport = (state as IntradayHistoryLoaded).history;
     } else if (state is IntradayHistorySecondsView) {
@@ -310,10 +274,8 @@ class IntradayHistoryBloc
     } else {
       return;
     }
-
     final currentState = state;
     final result = await exportToExcel(historyToExport);
-
     result.fold(
           (failure) => emit(IntradayHistoryError(failure.message)),
           (path) {

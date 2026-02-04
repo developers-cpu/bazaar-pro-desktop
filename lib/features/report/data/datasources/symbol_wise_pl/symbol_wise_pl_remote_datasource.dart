@@ -4,13 +4,11 @@ import 'package:bazarpro/features/report/data/models/symbol_trade_log_model.dart
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import '../../models/symbol_wise_pl/symbol_wise_pl_report_model.dart';
-
 abstract class SymbolWisePLRemoteDataSource {
   Future<Either<Failure, List<SymbolWisePLReportModel>>> getSymbolWisePLReport({
     String? exchange,
     String? symbol,
   });
-
   Future<Either<Failure, List<SymbolTradeLogModel>>> getSymbolTradeLog({
     String? symbol,
     String? exchange,
@@ -18,14 +16,12 @@ abstract class SymbolWisePLRemoteDataSource {
     String? type,
     DateTimeRange? dateRange,
   });
-
   Future<Either<Failure, List<SymbolOpenPositionModel>>> getSymbolOpenPosition({
     String? symbol,
     String? exchange,
     String? user,
   });
 }
-
 class SymbolWisePLRemoteDataSourceImpl implements SymbolWisePLRemoteDataSource {
   @override
   Future<Either<Failure, List<SymbolWisePLReportModel>>> getSymbolWisePLReport({
@@ -33,7 +29,6 @@ class SymbolWisePLRemoteDataSourceImpl implements SymbolWisePLRemoteDataSource {
     String? symbol,
   }) async {
     await Future.delayed(const Duration(milliseconds: 500));
-
     final List<SymbolWisePLReportModel> mockData = [
       const SymbolWisePLReportModel(
         id: '1',
@@ -84,7 +79,6 @@ class SymbolWisePLRemoteDataSourceImpl implements SymbolWisePLRemoteDataSource {
         brokeragePercent: 10.00,
       ),
     ];
-
     final filtered = mockData.where((item) {
       if (exchange != null &&
           exchange.isNotEmpty &&
@@ -96,10 +90,8 @@ class SymbolWisePLRemoteDataSourceImpl implements SymbolWisePLRemoteDataSource {
       }
       return true;
     }).toList();
-
     return Right(filtered);
   }
-
   @override
   Future<Either<Failure, List<SymbolTradeLogModel>>> getSymbolTradeLog({
     String? symbol,
@@ -109,7 +101,6 @@ class SymbolWisePLRemoteDataSourceImpl implements SymbolWisePLRemoteDataSource {
     DateTimeRange? dateRange,
   }) async {
     await Future.delayed(const Duration(milliseconds: 500));
-
     final List<SymbolTradeLogModel> mockData = [
       const SymbolTradeLogModel(
         sequence: '309405',
@@ -149,7 +140,6 @@ class SymbolWisePLRemoteDataSourceImpl implements SymbolWisePLRemoteDataSource {
         executionDateTime: '22/11/25 03:06:34 PM',
         referencePrice: 0.00,
       ),
-
       const SymbolTradeLogModel(
         sequence: '333444',
         userName: 'CRYPTO_USER',
@@ -169,7 +159,6 @@ class SymbolWisePLRemoteDataSourceImpl implements SymbolWisePLRemoteDataSource {
         executionDateTime: '25/12/25 10:00:05 AM',
         referencePrice: 0.00,
       ),
-
       const SymbolTradeLogModel(
         sequence: '555666',
         userName: 'GOLD_USER',
@@ -190,7 +179,6 @@ class SymbolWisePLRemoteDataSourceImpl implements SymbolWisePLRemoteDataSource {
         referencePrice: 0.00,
       ),
     ];
-
     final filtered = mockData.where((item) {
       if (symbol != null && symbol.isNotEmpty && item.symbol != symbol) {
         return false;
@@ -202,10 +190,8 @@ class SymbolWisePLRemoteDataSourceImpl implements SymbolWisePLRemoteDataSource {
       }
       return true;
     }).toList();
-
     return Right(filtered);
   }
-
   @override
   Future<Either<Failure, List<SymbolOpenPositionModel>>> getSymbolOpenPosition({
     String? symbol,
@@ -213,7 +199,6 @@ class SymbolWisePLRemoteDataSourceImpl implements SymbolWisePLRemoteDataSource {
     String? user,
   }) async {
     await Future.delayed(const Duration(milliseconds: 500));
-
     final List<SymbolOpenPositionModel> mockData = [
       const SymbolOpenPositionModel(
         name: 'DEMO11',
@@ -245,7 +230,6 @@ class SymbolWisePLRemoteDataSourceImpl implements SymbolWisePLRemoteDataSource {
         user: '-',
         days: 2,
       ),
-
       const SymbolOpenPositionModel(
         name: 'CRYPTO_HOLDER',
         type: 'Client',
@@ -261,7 +245,6 @@ class SymbolWisePLRemoteDataSourceImpl implements SymbolWisePLRemoteDataSource {
         user: '2',
         days: 5,
       ),
-
       const SymbolOpenPositionModel(
         name: 'GOLD_HOLDER',
         type: 'Master',
@@ -278,7 +261,6 @@ class SymbolWisePLRemoteDataSourceImpl implements SymbolWisePLRemoteDataSource {
         days: 3,
       ),
     ];
-
     final filtered = mockData.where((item) {
       if (symbol != null && symbol.isNotEmpty && item.symbol != symbol) {
         return false;
@@ -293,7 +275,6 @@ class SymbolWisePLRemoteDataSourceImpl implements SymbolWisePLRemoteDataSource {
       }
       return true;
     }).toList();
-
     return Right(filtered);
   }
 }

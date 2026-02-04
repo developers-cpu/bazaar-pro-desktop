@@ -16,12 +16,9 @@ import '../../common/user_data_table.dart';
 import '../../common/user_record_count.dart';
 import '../../common/user_reset_buttons.dart';
 import '../../../../../../injection_container.dart';
-
 class UserPendingOrdersTab extends StatelessWidget {
   final User user;
-
   const UserPendingOrdersTab({super.key, required this.user});
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -31,10 +28,8 @@ class UserPendingOrdersTab extends StatelessWidget {
     );
   }
 }
-
 class UserPendingOrdersTabView extends StatelessWidget {
   const UserPendingOrdersTabView({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -45,7 +40,6 @@ class UserPendingOrdersTabView extends StatelessWidget {
       ],
     );
   }
-
   Widget _buildFilterBar(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(12.w),
@@ -58,7 +52,6 @@ class UserPendingOrdersTabView extends StatelessWidget {
           String? selectedExchange;
           String? selectedSymbol;
           String? selectedOrderType;
-
           if (state is UserPendingOrderLoaded) {
             selectedExchange = state.selectedExchange;
             selectedSymbol = state.selectedSymbol;
@@ -69,7 +62,6 @@ class UserPendingOrdersTabView extends StatelessWidget {
               orderTypeItems = state.metadata!.orderTypes;
             }
           }
-
           return Row(
             children: [
               AppDropdown(
@@ -147,7 +139,6 @@ class UserPendingOrdersTabView extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildRecordCount(BuildContext context) {
     return Container(
       color: AppColors.white,
@@ -163,19 +154,16 @@ class UserPendingOrdersTabView extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildContent(BuildContext context) {
     return BlocBuilder<UserPendingOrderBloc, UserPendingOrderState>(
       builder: (context, state) {
         if (state is UserPendingOrderLoading) {
           return const Center(child: CircularProgressIndicator());
         }
-
         List<UserPendingOrder> data = [];
         if (state is UserPendingOrderLoaded) {
           data = state.filteredOrders;
         }
-
         if (data.isEmpty && state is! UserPendingOrderLoading) {
           return Center(
             child: SvgPicture.asset(
@@ -185,7 +173,6 @@ class UserPendingOrdersTabView extends StatelessWidget {
             ),
           );
         }
-
         return UserDataTable<UserPendingOrder>(
           columns: [
             UserTableColumn(id: 'time', label: 'TIME', width: 200.w),
@@ -214,7 +201,6 @@ class UserPendingOrdersTabView extends StatelessWidget {
               fontWeight: FontWeight.w600,
               color: AppColors.primaryBlue,
             );
-
             switch (column.id) {
               case 'time':
                 return Text(

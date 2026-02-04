@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 class NetPosition extends Equatable {
   final String id;
   final String userName;
@@ -17,7 +16,6 @@ class NetPosition extends Equatable {
   final int days;
   final DateTime lastUpdated;
   final String status;
-
   const NetPosition({
     required this.id,
     required this.userName,
@@ -36,7 +34,6 @@ class NetPosition extends Equatable {
     required this.lastUpdated,
     required this.status,
   });
-
   @override
   List<Object?> get props => [
     id,
@@ -56,7 +53,6 @@ class NetPosition extends Equatable {
     lastUpdated,
     status,
   ];
-
   NetPosition copyWith({
     String? id,
     String? userName,

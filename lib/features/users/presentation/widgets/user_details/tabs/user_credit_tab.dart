@@ -14,14 +14,10 @@ import '../../../bloc/user_credit/user_credit_event.dart';
 import '../../../bloc/user_credit/user_credit_state.dart';
 import '../../common/user_data_table.dart';
 import '../../common/user_record_count.dart';
-
 import '../../../../../../injection_container.dart';
-
 class UserCreditTab extends StatelessWidget {
   final User user;
-
   const UserCreditTab({super.key, required this.user});
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -30,27 +26,22 @@ class UserCreditTab extends StatelessWidget {
     );
   }
 }
-
 class UserCreditTabView extends StatefulWidget {
   const UserCreditTabView({super.key});
-
   @override
   State<UserCreditTabView> createState() => _UserCreditTabViewState();
 }
-
 class _UserCreditTabViewState extends State<UserCreditTabView> {
   String _transactionType = 'Credit';
   final TextEditingController _amountController = TextEditingController();
   final TextEditingController _commentController = TextEditingController();
   final DateFormat _dateFormat = DateFormat('dd/MM/yy hh:mm:ss a');
-
   @override
   void dispose() {
     _amountController.dispose();
     _commentController.dispose();
     super.dispose();
   }
-
   void _onSubmit() {
     final amount = double.tryParse(_amountController.text);
     if (amount == null) {
@@ -59,7 +50,6 @@ class _UserCreditTabViewState extends State<UserCreditTabView> {
       );
       return;
     }
-
     context.read<UserCreditBloc>().add(
       AddCreditTransaction(
         type: _transactionType,
@@ -67,11 +57,9 @@ class _UserCreditTabViewState extends State<UserCreditTabView> {
         comment: _commentController.text,
       ),
     );
-
     _amountController.clear();
     _commentController.clear();
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserCreditBloc, UserCreditState>(
@@ -79,11 +67,9 @@ class _UserCreditTabViewState extends State<UserCreditTabView> {
         if (state is UserCreditLoading) {
           return const Center(child: CircularProgressIndicator());
         }
-
         if (state is UserCreditError) {
           return Center(child: Text(state.message));
         }
-
         if (state is UserCreditLoaded) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -95,12 +81,10 @@ class _UserCreditTabViewState extends State<UserCreditTabView> {
             ],
           );
         }
-
         return const SizedBox();
       },
     );
   }
-
   Widget _buildHeader(BuildContext context) {
     return Container(
       width: double.infinity,
@@ -139,7 +123,6 @@ class _UserCreditTabViewState extends State<UserCreditTabView> {
       ),
     );
   }
-
   Widget _buildFilterBar(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(12.w),
@@ -172,7 +155,6 @@ class _UserCreditTabViewState extends State<UserCreditTabView> {
       ),
     );
   }
-
   Widget _buildRecordCount(BuildContext context, UserCreditLoaded state) {
     return Container(
       color: AppColors.white,
@@ -180,7 +162,6 @@ class _UserCreditTabViewState extends State<UserCreditTabView> {
       child: UserRecordCount(count: state.transactions.length),
     );
   }
-
   Widget _buildTable(BuildContext context, UserCreditLoaded state) {
     return UserDataTable<UserCreditTransaction>(
       columns: [
@@ -210,7 +191,6 @@ class _UserCreditTabViewState extends State<UserCreditTabView> {
           fontWeight: FontWeight.w600,
           color: AppColors.primaryBlue,
         );
-
         switch (column.id) {
           case 'date':
             return Text(_dateFormat.format(item.dateTime), style: commonStyle);
@@ -244,7 +224,6 @@ class _UserCreditTabViewState extends State<UserCreditTabView> {
       footerBuilder: (columns) => _buildFooter(columns, state.totalBalance),
     );
   }
-
   Widget _buildFooter(List<UserTableColumn> columns, double totalBalance) {
     return Row(
       children: columns.map((column) {
@@ -262,7 +241,6 @@ class _UserCreditTabViewState extends State<UserCreditTabView> {
             ),
           );
         }
-
         if (column.id == 'amount') {
           return Container(
             width: column.width,
@@ -277,7 +255,6 @@ class _UserCreditTabViewState extends State<UserCreditTabView> {
             ),
           );
         }
-
         return SizedBox(width: column.width);
       }).toList(),
     );

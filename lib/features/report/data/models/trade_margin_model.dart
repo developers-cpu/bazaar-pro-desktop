@@ -1,5 +1,4 @@
 import '../../domain/entities/trade_margin.dart';
-
 class TradeMarginModel extends TradeMargin {
   const TradeMarginModel({
     required super.exchange,
@@ -8,7 +7,6 @@ class TradeMarginModel extends TradeMargin {
     required super.marginPercentage,
     required super.marginAmount,
   });
-
   factory TradeMarginModel.fromJson(Map<String, dynamic> json) {
     return TradeMarginModel(
       exchange: json['exchange'] ?? '',
@@ -18,7 +16,6 @@ class TradeMarginModel extends TradeMargin {
       marginAmount: (json['marginAmount'] as num).toDouble(),
     );
   }
-
   Map<String, dynamic> toJson() {
     return {
       'exchange': exchange,

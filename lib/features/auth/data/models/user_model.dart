@@ -1,5 +1,4 @@
 import '../../domain/entities/user.dart';
-
 class LoginUserModel extends User {
   const LoginUserModel({
     required super.id,
@@ -12,7 +11,6 @@ class LoginUserModel extends User {
     required super.accessToken,
     required super.refreshToken,
   });
-
   factory LoginUserModel.fromJson(Map<String, dynamic> json) {
     return LoginUserModel(
       id: json['id'] as int,
@@ -26,7 +24,6 @@ class LoginUserModel extends User {
       refreshToken: json['refreshToken'] as String,
     );
   }
-
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -40,7 +37,6 @@ class LoginUserModel extends User {
       'refreshToken': refreshToken,
     };
   }
-
   factory LoginUserModel.fromEntity(User user) {
     return LoginUserModel(
       id: user.id,

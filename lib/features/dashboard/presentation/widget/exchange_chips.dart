@@ -2,19 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
-
 class ExchangeChips extends StatelessWidget {
   final List<String> exchanges;
   final Set<String> selectedExchanges;
   final ValueChanged<String> onToggle;
-
   const ExchangeChips({
     Key? key,
     required this.exchanges,
     required this.selectedExchanges,
     required this.onToggle,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -35,18 +32,15 @@ class ExchangeChips extends StatelessWidget {
     );
   }
 }
-
 class _ExchangeChip extends StatelessWidget {
   final String label;
   final bool isSelected;
   final VoidCallback onTap;
-
   const _ExchangeChip({
     required this.label,
     required this.isSelected,
     required this.onTap,
   });
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -57,7 +51,6 @@ class _ExchangeChip extends StatelessWidget {
         decoration: BoxDecoration(
           color: isSelected ? LightThemeColors.primaryColor : AppColors.transparent,
           borderRadius: BorderRadius.circular(8.r),
-
         ),
         child: Text(
           label,

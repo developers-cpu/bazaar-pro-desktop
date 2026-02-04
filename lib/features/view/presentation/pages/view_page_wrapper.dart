@@ -30,13 +30,11 @@ import 'net_postion/net_position_page.dart';
 import 'pending_orders/pending_orders_page.dart';
 import 'trades/trades_page.dart';
 import '../../../../../injection_container.dart' as di;
-
 class ViewPageWrapper extends StatelessWidget {
   final String pageTitle;
   final Widget child;
   final VoidCallback? onExportPdf;
   final VoidCallback? onExportExcel;
-
   const ViewPageWrapper({
     Key? key,
     required this.pageTitle,
@@ -44,7 +42,6 @@ class ViewPageWrapper extends StatelessWidget {
     this.onExportPdf,
     this.onExportExcel,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,10 +58,8 @@ class ViewPageWrapper extends StatelessWidget {
     );
   }
 }
-
 class PendingOrdersPageWithAppBar extends StatelessWidget {
   const PendingOrdersPageWithAppBar({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -86,10 +81,8 @@ class PendingOrdersPageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class TradesPageWithAppBar extends StatelessWidget {
   const TradesPageWithAppBar({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -111,10 +104,8 @@ class TradesPageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class DealsPageWithAppBar extends StatelessWidget {
   const DealsPageWithAppBar({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -136,10 +127,8 @@ class DealsPageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class NetPositionPageWithAppBar extends StatelessWidget {
   const NetPositionPageWithAppBar({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -161,10 +150,8 @@ class NetPositionPageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class RejectionLogPageWithAppBar extends StatelessWidget {
   const RejectionLogPageWithAppBar({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -191,10 +178,8 @@ class RejectionLogPageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class LoginHistoryPageWithAppBar extends StatelessWidget {
   const LoginHistoryPageWithAppBar({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -221,10 +206,8 @@ class LoginHistoryPageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class IntradayHistoryPageWithAppBar extends StatelessWidget {
   const IntradayHistoryPageWithAppBar({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -251,10 +234,8 @@ class IntradayHistoryPageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class ScriptMasterPageWithAppBar extends StatelessWidget {
   const ScriptMasterPageWithAppBar({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -264,19 +245,16 @@ class ScriptMasterPageWithAppBar extends StatelessWidget {
         builder: (context) {
           return ViewPageWrapper(
             pageTitle: 'Script Master',
-
             onExportPdf: () {
               context
                   .read<ScriptMasterBloc>()
                   .add(const ExportScriptMastersToPdfEvent());
             },
-
             onExportExcel: () {
               context
                   .read<ScriptMasterBloc>()
                   .add(const ExportScriptMastersToExcelEvent());
             },
-
             child: const ScriptMasterPage(),
           );
         },
@@ -284,10 +262,8 @@ class ScriptMasterPageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class ScriptQuantityPageWithAppBar extends StatelessWidget {
   const ScriptQuantityPageWithAppBar({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -297,7 +273,6 @@ class ScriptQuantityPageWithAppBar extends StatelessWidget {
         builder: (context) {
           return ViewPageWrapper(
             pageTitle: 'Script Quantity',
-
             child: const ScriptQuantityPage(),
           );
         },
@@ -305,10 +280,8 @@ class ScriptQuantityPageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class BulkTradePageWithAppBar extends StatelessWidget {
   const BulkTradePageWithAppBar({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return ViewPageWrapper(
@@ -319,10 +292,8 @@ class BulkTradePageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class TotalVolumePageWithAppBar extends StatelessWidget {
   const TotalVolumePageWithAppBar({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return ViewPageWrapper(
@@ -333,10 +304,8 @@ class TotalVolumePageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class DeletedTradePageWithAppBar extends StatelessWidget {
   const DeletedTradePageWithAppBar({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return ViewPageWrapper(
@@ -347,10 +316,8 @@ class DeletedTradePageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class ManualTradePageWithAppBar extends StatelessWidget {
   const ManualTradePageWithAppBar({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return ViewPageWrapper(

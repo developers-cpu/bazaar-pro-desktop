@@ -2,14 +2,12 @@ import 'package:bazarpro/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 class ViewResetButtons extends StatelessWidget {
   final VoidCallback? onView;
   final VoidCallback? onReset;
   final bool isLoading;
   final String viewText;
   final String resetText;
-
   const ViewResetButtons({
     Key? key,
     this.onView,
@@ -18,21 +16,17 @@ class ViewResetButtons extends StatelessWidget {
     this.viewText = 'View',
     this.resetText = 'Reset',
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-
         _buildResetButton(),
         SizedBox(width: 12.w),
-
         _buildViewButton(),
       ],
     );
   }
-
   Widget _buildResetButton() {
     return SizedBox(
       width: 120.w,
@@ -60,7 +54,6 @@ class ViewResetButtons extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildViewButton() {
     return SizedBox(
       width: 120.w,
@@ -96,17 +89,14 @@ class ViewResetButtons extends StatelessWidget {
     );
   }
 }
-
 class RecordCountWidget extends StatelessWidget {
   final int count;
   final String label;
-
   const RecordCountWidget({
     Key? key,
     required this.count,
     this.label = 'RECORD',
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Text(

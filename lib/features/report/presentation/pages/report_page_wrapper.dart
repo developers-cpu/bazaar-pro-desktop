@@ -12,13 +12,11 @@ import 'symbol_wise_position_report_page.dart';
 import 'user_script_position_tracking_page.dart';
 import 'user_wise_profit_and_loss_page.dart';
 import 'exchange_wise_pl_report_page.dart';
-
 class ReportPageWrapper extends StatelessWidget {
   final String pageTitle;
   final Widget child;
   final VoidCallback? onExportPdf;
   final VoidCallback? onExportExcel;
-
   const ReportPageWrapper({
     Key? key,
     required this.pageTitle,
@@ -26,7 +24,6 @@ class ReportPageWrapper extends StatelessWidget {
     this.onExportPdf,
     this.onExportExcel,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,10 +40,8 @@ class ReportPageWrapper extends StatelessWidget {
     );
   }
 }
-
 class TradeLogsPageWithAppBar extends StatelessWidget {
   const TradeLogsPageWithAppBar({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return ReportPageWrapper(
@@ -57,10 +52,8 @@ class TradeLogsPageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class TradeMarginPageWithAppBar extends StatelessWidget {
   const TradeMarginPageWithAppBar({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return ReportPageWrapper(
@@ -71,10 +64,8 @@ class TradeMarginPageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class SettlementPageWithAppBar extends StatelessWidget {
   const SettlementPageWithAppBar({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return ReportPageWrapper(
@@ -85,10 +76,8 @@ class SettlementPageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class CreditHistoryPageWithAppBar extends StatelessWidget {
   const CreditHistoryPageWithAppBar({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return ReportPageWrapper(
@@ -99,10 +88,8 @@ class CreditHistoryPageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class BillGeneratePageWithAppBar extends StatelessWidget {
   const BillGeneratePageWithAppBar({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return ReportPageWrapper(
@@ -113,10 +100,8 @@ class BillGeneratePageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class ActivityReportPageWithAppBar extends StatelessWidget {
   const ActivityReportPageWithAppBar({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return ReportPageWrapper(
@@ -127,10 +112,8 @@ class ActivityReportPageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class ProfitAndLossPageWithAppBar extends StatelessWidget {
   const ProfitAndLossPageWithAppBar({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return ReportPageWrapper(
@@ -141,10 +124,8 @@ class ProfitAndLossPageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class UserWisePLPageWithAppBar extends StatelessWidget {
   const UserWisePLPageWithAppBar({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return ReportPageWrapper(
@@ -155,10 +136,8 @@ class UserWisePLPageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class UserScriptPositionTrackingPageWithAppBar extends StatelessWidget {
   const UserScriptPositionTrackingPageWithAppBar({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return ReportPageWrapper(
@@ -169,10 +148,8 @@ class UserScriptPositionTrackingPageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class SymbolWisePositionReportPageWithAppBar extends StatelessWidget {
   const SymbolWisePositionReportPageWithAppBar({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return ReportPageWrapper(
@@ -183,10 +160,8 @@ class SymbolWisePositionReportPageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class SymbolWisePLPageWithAppBar extends StatelessWidget {
   const SymbolWisePLPageWithAppBar({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return ReportPageWrapper(
@@ -197,10 +172,8 @@ class SymbolWisePLPageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class ExchangeWiseReportPageWithAppBar extends StatelessWidget {
   const ExchangeWiseReportPageWithAppBar({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return ReportPageWrapper(

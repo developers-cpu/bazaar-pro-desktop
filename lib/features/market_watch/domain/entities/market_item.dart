@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 class MarketItem extends Equatable {
   final String id;
   final String exchange;
@@ -17,7 +16,6 @@ class MarketItem extends Equatable {
   final double netChangePercent;
   final DateTime? expiry;
   final DateTime lut;
-
   const MarketItem({
     required this.id,
     required this.exchange,
@@ -36,7 +34,6 @@ class MarketItem extends Equatable {
     this.expiry,
     required this.lut,
   });
-
   MarketItem copyWith({
     String? id,
     String? exchange,
@@ -74,7 +71,6 @@ class MarketItem extends Equatable {
       lut: lut ?? this.lut,
     );
   }
-
   @override
   List<Object?> get props => [
         id,

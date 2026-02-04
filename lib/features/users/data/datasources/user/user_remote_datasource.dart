@@ -1,23 +1,18 @@
 import 'package:bazarpro/features/users/data/models/user/user_model.dart';
 import 'package:dio/dio.dart';
-
 abstract class UserRemoteDataSource {
   Future<List<UserModel>> getUsers();
   Future<List<UserModel>> getUsersWithFilters({
     String? userType,
     String? userStatus,
   });
-
   Future<List<String>> getExchanges();
   Future<List<String>> getSymbols(String? exchange);
   Future<List<UserModel>> getNestedUsers(String parentUserId);
 }
-
 class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   final Dio dio;
-
   UserRemoteDataSourceImpl({required this.dio});
-
   @override
   Future<List<UserModel>> getUsers() async {
     try {
@@ -27,7 +22,6 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       throw Exception('Failed to fetch users: $e');
     }
   }
-
   @override
   Future<List<UserModel>> getUsersWithFilters({
     String? userType,
@@ -36,7 +30,6 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
     try {
       await Future.delayed(const Duration(milliseconds: 300));
       final allUsers = _generateDummyUsers();
-
       return allUsers.where((user) {
         if (userType != null && userType.isNotEmpty && user.type != userType) {
           return false;
@@ -53,7 +46,6 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       throw Exception('Failed to fetch filtered users: $e');
     }
   }
-
   List<UserModel> _generateDummyUsers() {
     final List<String> userNames = [
       'RAJ03',
@@ -82,15 +74,12 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       '49.36.125.45',
       '0.00.000.00.000',
     ];
-
     final List<UserModel> users = [];
-
     for (int i = 0; i < 50; i++) {
       final plPercent = [0, 40, 100, 15, 60][i % 5].toDouble();
       final brkPercent = [40, 60, 100, 15][i % 4].toDouble();
       final type = types[i % types.length];
       final status = i % 5 == 0 ? 'In-Active' : 'Active';
-
       users.add(
         UserModel(
           id: 'user_$i',
@@ -168,16 +157,13 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
         ),
       );
     }
-
     return users;
   }
-
   @override
   Future<List<String>> getExchanges() async {
     await Future.delayed(const Duration(milliseconds: 300));
     return ['NSE', 'MCX'];
   }
-
   @override
   Future<List<String>> getSymbols(String? exchange) async {
     await Future.delayed(const Duration(milliseconds: 300));
@@ -195,11 +181,9 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       'TATASTEEL',
     ];
   }
-
   @override
   Future<List<UserModel>> getNestedUsers(String parentUserId) async {
     await Future.delayed(const Duration(milliseconds: 500));
-
     return [
       UserModel(
         id: '1',

@@ -16,12 +16,9 @@ import '../../../bloc/user_rejection_log/user_rejection_log_state.dart';
 import '../../common/user_data_table.dart';
 import '../../common/user_record_count.dart';
 import '../../common/user_reset_buttons.dart';
-
 class UserRejectionLogTab extends StatelessWidget {
   final User user;
-
   const UserRejectionLogTab({super.key, required this.user});
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -31,10 +28,8 @@ class UserRejectionLogTab extends StatelessWidget {
     );
   }
 }
-
 class UserRejectionLogTabView extends StatelessWidget {
   const UserRejectionLogTabView({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -45,7 +40,6 @@ class UserRejectionLogTabView extends StatelessWidget {
       ],
     );
   }
-
   Widget _buildFilterBar(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(12.w),
@@ -57,7 +51,6 @@ class UserRejectionLogTabView extends StatelessWidget {
           DateTimeRange? selectedDateRange;
           String? selectedExchange;
           String? selectedSymbol;
-
           if (state is UserRejectionLogLoaded) {
             selectedDateRange = state.selectedDateRange;
             selectedExchange = state.selectedExchange;
@@ -67,7 +60,6 @@ class UserRejectionLogTabView extends StatelessWidget {
               symbolItems = state.metadata!.symbols;
             }
           }
-
           return Row(
             children: [
               DateRangePickerButton(
@@ -148,7 +140,6 @@ class UserRejectionLogTabView extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildRecordCount(BuildContext context) {
     return Container(
       color: AppColors.white,
@@ -164,23 +155,19 @@ class UserRejectionLogTabView extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildTable(BuildContext context) {
     return BlocBuilder<UserRejectionLogBloc, UserRejectionLogState>(
       builder: (context, state) {
         if (state is UserRejectionLogLoading) {
           return const Center(child: CircularProgressIndicator());
         }
-
         if (state is UserRejectionLogError) {
           return Center(child: Text('Error: ${state.message}'));
         }
-
         List<UserRejectionLog> logs = [];
         if (state is UserRejectionLogLoaded) {
           logs = state.filteredLogs;
         }
-
         return UserDataTable<UserRejectionLog>(
           columns: [
             UserTableColumn(id: 'uName', label: 'U.Name', width: 100.w),
@@ -242,7 +229,6 @@ class UserRejectionLogTabView extends StatelessWidget {
       },
     );
   }
-
   TextStyle _cellStyle({
     Color? color,
     bool isSymbol = false,

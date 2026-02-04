@@ -2,12 +2,9 @@ import 'package:dartz/dartz.dart';
 import '../../../../../core/errors/failures.dart';
 import '../../entities/symbol_wise_pl/symbol_wise_pl_report.dart';
 import '../../repositories/symbol_wise_pl/symbol_wise_pl_repository.dart';
-
 class GetSymbolWisePLReport {
   final SymbolWisePLRepository repository;
-
   GetSymbolWisePLReport(this.repository);
-
   Future<Either<Failure, List<SymbolWisePLReport>>> call({
     String? exchange,
     String? symbol,

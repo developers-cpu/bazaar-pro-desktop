@@ -1,6 +1,5 @@
 import 'package:bazarpro/features/report/data/models/bill_generate_report_model.dart';
 import '../../../../../core/errors/exceptions.dart';
-
 abstract class BillGenerateRemoteDataSource {
   Future<BillGenerateReportModel> getBillGenerateReport({
     required String userId,
@@ -8,7 +7,6 @@ abstract class BillGenerateRemoteDataSource {
     required String billType,
   });
 }
-
 class BillGenerateRemoteDataSourceImpl implements BillGenerateRemoteDataSource {
   @override
   Future<BillGenerateReportModel> getBillGenerateReport({
@@ -17,7 +15,6 @@ class BillGenerateRemoteDataSourceImpl implements BillGenerateRemoteDataSource {
     required String billType,
   }) async {
     await Future.delayed(const Duration(milliseconds: 800));
-
     final mockResponse = {
       "headerInfo": {
         "userName": "AER01",
@@ -162,7 +159,6 @@ class BillGenerateRemoteDataSourceImpl implements BillGenerateRemoteDataSource {
         "totalNetAmount": 6750.0,
       },
     };
-
     try {
       return BillGenerateReportModel.fromJson(mockResponse);
     } catch (e) {

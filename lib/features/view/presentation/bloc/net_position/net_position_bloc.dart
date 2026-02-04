@@ -4,7 +4,6 @@ import '../../../domain/entities/net_postion/net_position.dart';
 import '../../../domain/usecases/netposition/net_position_usecases.dart';
 import 'net_position_event.dart';
 import 'net_position_state.dart';
-
 class NetPositionBloc extends Bloc<NetPositionEvent, NetPositionState> {
   final GetNetPositions getNetPositions;
   final GetNetPositionsWithFilters getNetPositionsWithFilters;
@@ -15,7 +14,6 @@ class NetPositionBloc extends Bloc<NetPositionEvent, NetPositionState> {
   final ExportNetPositionsToPdf exportToPdf;
   final ExportNetPositionsToExcel exportToExcel;
   final GetPositionDetails getPositionDetails;
-
   NetPositionBloc({
     required this.getNetPositions,
     required this.getNetPositionsWithFilters,
@@ -36,15 +34,12 @@ class NetPositionBloc extends Bloc<NetPositionEvent, NetPositionState> {
     on<ExportNetPositionsToExcelEvent>(_onExportToExcel);
     on<LoadPositionDetailsEvent>(_onLoadPositionDetails);
   }
-
   Future<void> _onLoadNetPositions(
       LoadNetPositionsEvent event,
       Emitter<NetPositionState> emit,
       ) async {
     emit(const NetPositionLoading());
-
     try {
-
       final results = await Future.wait([
         getNetPositions(NoParams()),
         getClients(NoParams()),
@@ -52,25 +47,21 @@ class NetPositionBloc extends Bloc<NetPositionEvent, NetPositionState> {
         getSymbols(NoParams()),
         getUserTypes(NoParams()),
       ]);
-
       final positionsResult = results[0];
       final clientsResult = results[1];
       final exchangesResult = results[2];
       final symbolsResult = results[3];
       final userTypesResult = results[4];
-
       if (positionsResult.isLeft()) {
         final failure = positionsResult.fold((l) => l, (r) => null);
         emit(NetPositionError(failure?.message ?? 'Failed to load net positions'));
         return;
       }
-
       final positions = positionsResult.fold((l) => <NetPosition>[], (r) => r as List<NetPosition>);
       final clients = clientsResult.fold((l) => <String>[], (r) => r as List<String>);
       final exchanges = exchangesResult.fold((l) => <String>[], (r) => r as List<String>);
       final symbols = symbolsResult.fold((l) => <String>[], (r) => r as List<String>);
       final userTypes = userTypesResult.fold((l) => <String>[], (r) => r as List<String>);
-
       emit(NetPositionLoaded(
         positions: positions,
         filteredPositions: positions,
@@ -84,23 +75,19 @@ class NetPositionBloc extends Bloc<NetPositionEvent, NetPositionState> {
       emit(NetPositionError(e.toString()));
     }
   }
-
   Future<void> _onApplyFilters(
       ApplyFiltersEvent event,
       Emitter<NetPositionState> emit,
       ) async {
     if (state is! NetPositionLoaded) return;
-
     final currentState = state as NetPositionLoaded;
     emit(const NetPositionLoading());
-
     final result = await getNetPositionsWithFilters(NetPositionFilterParams(
       userType: event.userType,
       client: event.client,
       exchange: event.exchange,
       symbol: event.symbol,
     ));
-
     result.fold(
           (failure) => emit(NetPositionError(failure.message)),
           (positions) => emit(currentState.copyWith(
@@ -113,15 +100,12 @@ class NetPositionBloc extends Bloc<NetPositionEvent, NetPositionState> {
       )),
     );
   }
-
   Future<void> _onResetFilters(
       ResetFiltersEvent event,
       Emitter<NetPositionState> emit,
       ) async {
     if (state is! NetPositionLoaded) return;
-
     final currentState = state as NetPositionLoaded;
-
     emit(NetPositionLoaded(
       positions: currentState.positions,
       filteredPositions: currentState.positions,
@@ -132,26 +116,21 @@ class NetPositionBloc extends Bloc<NetPositionEvent, NetPositionState> {
       userTypes: currentState.userTypes,
     ));
   }
-
   void _onSelectPosition(
       SelectPositionEvent event,
       Emitter<NetPositionState> emit,
       ) {
     if (state is! NetPositionLoaded) return;
-
     final currentState = state as NetPositionLoaded;
     emit(currentState.copyWith(selectedPositionId: event.positionId));
   }
-
   void _onSortByColumn(
       SortPositionsByColumnEvent event,
       Emitter<NetPositionState> emit,
       ) {
     if (state is! NetPositionLoaded) return;
-
     final currentState = state as NetPositionLoaded;
     final sortedPositions = List<NetPosition>.from(currentState.filteredPositions);
-
     sortedPositions.sort((a, b) {
       int comparison = 0;
       switch (event.columnId) {
@@ -196,24 +175,19 @@ class NetPositionBloc extends Bloc<NetPositionEvent, NetPositionState> {
       }
       return event.ascending ? comparison : -comparison;
     });
-
     emit(currentState.copyWith(
       filteredPositions: sortedPositions,
       sortColumn: event.columnId,
       sortAscending: event.ascending,
     ));
   }
-
   Future<void> _onExportToPdf(
       ExportNetPositionsToPdfEvent event,
       Emitter<NetPositionState> emit,
       ) async {
     if (state is! NetPositionLoaded) return;
-
     final currentState = state as NetPositionLoaded;
-
     final result = await exportToPdf(currentState.filteredPositions);
-
     result.fold(
           (failure) => emit(NetPositionError(failure.message)),
           (path) {
@@ -221,22 +195,17 @@ class NetPositionBloc extends Bloc<NetPositionEvent, NetPositionState> {
           message: 'PDF exported successfully',
           filePath: path,
         ));
-
         emit(currentState);
       },
     );
   }
-
   Future<void> _onExportToExcel(
       ExportNetPositionsToExcelEvent event,
       Emitter<NetPositionState> emit,
       ) async {
     if (state is! NetPositionLoaded) return;
-
     final currentState = state as NetPositionLoaded;
-
     final result = await exportToExcel(currentState.filteredPositions);
-
     result.fold(
           (failure) => emit(NetPositionError(failure.message)),
           (path) {
@@ -244,23 +213,19 @@ class NetPositionBloc extends Bloc<NetPositionEvent, NetPositionState> {
           message: 'Excel exported successfully',
           filePath: path,
         ));
-
         emit(currentState);
       },
     );
   }
-
   Future<void> _onLoadPositionDetails(
       LoadPositionDetailsEvent event,
       Emitter<NetPositionState> emit,
       ) async {
     emit(const PositionDetailsLoading());
-
     final result = await getPositionDetails(PositionDetailsParams(
       symbol: event.symbol,
       userName: event.userName,
     ));
-
     result.fold(
           (failure) => emit(PositionDetailsError(failure.message)),
           (positions) => emit(PositionDetailsLoaded(

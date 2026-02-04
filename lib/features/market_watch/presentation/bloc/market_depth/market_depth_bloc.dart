@@ -2,7 +2,6 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'market_depth_event.dart';
 import 'market_depth_state.dart';
-
 class MarketDepthBloc extends Bloc<MarketDepthEvent, MarketDepthState> {
   MarketDepthBloc() : super(const MarketDepthState()) {
     on<OpenMarketDepthEvent>(_onOpenMarketDepth);
@@ -11,10 +10,8 @@ class MarketDepthBloc extends Bloc<MarketDepthEvent, MarketDepthState> {
     on<UpdateSymbolEvent>(_onUpdateSymbol);
     on<RefreshMarketDepthEvent>(_onRefreshMarketDepth);
   }
-
   void _onOpenMarketDepth(
       OpenMarketDepthEvent event, Emitter<MarketDepthState> emit) {
-
     final sampleData = MarketDepthData(
       lotSize: 35,
       ltp: 60013,
@@ -41,7 +38,6 @@ class MarketDepthBloc extends Bloc<MarketDepthEvent, MarketDepthState> {
         MarketDepthRow(price: 25644, orders: 2, qty: 2),
       ],
     );
-
     emit(MarketDepthState(
       isOpen: true,
       exchange: event.exchange ?? 'MCX',
@@ -49,32 +45,24 @@ class MarketDepthBloc extends Bloc<MarketDepthEvent, MarketDepthState> {
       marketDepthData: sampleData,
     ));
   }
-
   void _onCloseMarketDepth(
       CloseMarketDepthEvent event, Emitter<MarketDepthState> emit) {
     emit(const MarketDepthState());
   }
-
   void _onUpdateExchange(
       UpdateExchangeEvent event, Emitter<MarketDepthState> emit) {
     emit(state.copyWith(exchange: event.exchange));
-
     add(const RefreshMarketDepthEvent());
   }
-
   void _onUpdateSymbol(
       UpdateSymbolEvent event, Emitter<MarketDepthState> emit) {
     emit(state.copyWith(symbol: event.symbol));
-
     add(const RefreshMarketDepthEvent());
   }
-
   void _onRefreshMarketDepth(
       RefreshMarketDepthEvent event, Emitter<MarketDepthState> emit) async {
     emit(state.copyWith(isLoading: true));
-
     await Future.delayed(const Duration(milliseconds: 500));
-
     final sampleData = MarketDepthData(
       lotSize: 35,
       ltp: 60013,
@@ -101,7 +89,6 @@ class MarketDepthBloc extends Bloc<MarketDepthEvent, MarketDepthState> {
         MarketDepthRow(price: 25644, orders: 2, qty: 2),
       ],
     );
-
     emit(state.copyWith(isLoading: false, marketDepthData: sampleData));
   }
 }

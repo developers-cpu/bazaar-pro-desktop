@@ -1,12 +1,10 @@
 import '../../models/symbol_wise_position_report_model.dart';
-
 abstract class SymbolWisePositionReportRemoteDataSource {
   Future<List<SymbolWisePositionReportModel>> getSymbolWisePositionReport({
     String? exchange,
     String? symbol,
   });
 }
-
 class SymbolWisePositionReportRemoteDataSourceImpl
     implements SymbolWisePositionReportRemoteDataSource {
   @override
@@ -14,7 +12,6 @@ class SymbolWisePositionReportRemoteDataSourceImpl
     String? exchange,
     String? symbol,
   }) async {
-    
     await Future.delayed(const Duration(milliseconds: 500));
     final List<SymbolWisePositionReportModel> mockData = [
       const SymbolWisePositionReportModel(
@@ -66,7 +63,6 @@ class SymbolWisePositionReportRemoteDataSourceImpl
         netPLWithBrokerage: 2800,
       ),
     ];
-
     if (exchange != null && exchange != 'All') {
       return mockData.where((e) => e.exchange == exchange).toList();
     }

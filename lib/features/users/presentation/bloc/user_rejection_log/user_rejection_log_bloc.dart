@@ -5,12 +5,10 @@ import 'package:bazarpro/core/usecases/usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'user_rejection_log_event.dart';
 import 'user_rejection_log_state.dart';
-
 class UserRejectionLogBloc
     extends Bloc<UserRejectionLogEvent, UserRejectionLogState> {
   final GetUserRejectionLog getUserRejectionLog;
   final GetUserRejectionLogMetadata getUserRejectionLogMetadata;
-
   UserRejectionLogBloc({
     required this.getUserRejectionLog,
     required this.getUserRejectionLogMetadata,
@@ -18,7 +16,6 @@ class UserRejectionLogBloc
     on<LoadUserRejectionLog>(_onLoadLogs);
     on<FilterUserRejectionLogs>(_onFilterLogs);
   }
-
   void _onLoadLogs(
     LoadUserRejectionLog event,
     Emitter<UserRejectionLogState> emit,
@@ -26,7 +23,6 @@ class UserRejectionLogBloc
     emit(UserRejectionLogLoading());
     final logsResult = await getUserRejectionLog(event.userId);
     final metadataResult = await getUserRejectionLogMetadata(NoParams());
-
     logsResult.fold((failure) => emit(UserRejectionLogError(failure.message)), (
       logs,
     ) {
@@ -48,7 +44,6 @@ class UserRejectionLogBloc
       );
     });
   }
-
   void _onFilterLogs(
     FilterUserRejectionLogs event,
     Emitter<UserRejectionLogState> emit,
@@ -56,7 +51,6 @@ class UserRejectionLogBloc
     if (state is UserRejectionLogLoaded) {
       final currentState = state as UserRejectionLogLoaded;
       List<UserRejectionLog> filtered = currentState.logs;
-
       if (event.dateRange != null) {
         filtered = filtered.where((log) {
           return log.dateTime.isAfter(event.dateRange!.start) &&
@@ -65,13 +59,11 @@ class UserRejectionLogBloc
               );
         }).toList();
       }
-
       if (event.exchange != null && event.exchange != 'All') {
         filtered = filtered
             .where((log) => log.exchange == event.exchange)
             .toList();
       }
-
       if (event.symbol != null && event.symbol!.isNotEmpty) {
         filtered = filtered
             .where(
@@ -81,7 +73,6 @@ class UserRejectionLogBloc
             )
             .toList();
       }
-
       emit(
         currentState.copyWith(
           filteredLogs: filtered,

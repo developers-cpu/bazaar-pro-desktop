@@ -1,5 +1,4 @@
 import '../../domain/entities/user_script_position_tracking.dart';
-
 class UserScriptPositionTrackingModel extends UserScriptPositionTracking {
   const UserScriptPositionTrackingModel({
     required super.id,
@@ -10,7 +9,6 @@ class UserScriptPositionTrackingModel extends UserScriptPositionTracking {
     required super.openAPrice,
     required super.days,
   });
-
   factory UserScriptPositionTrackingModel.fromJson(Map<String, dynamic> json) {
     return UserScriptPositionTrackingModel(
       id: json['id'] as String,
@@ -22,7 +20,6 @@ class UserScriptPositionTrackingModel extends UserScriptPositionTracking {
       days: json['days'] as int,
     );
   }
-
   Map<String, dynamic> toJson() {
     return {
       'id': id,

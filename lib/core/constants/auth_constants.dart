@@ -1,14 +1,11 @@
 class AuthConstants {
   AuthConstants._();
-
-  static const String baseUrl = 'https:
+  static const String baseUrl = 'https://dummyjson.com';
   static const String loginEndpoint = '/auth/login';
   static const String refreshTokenEndpoint = '';
-
   static const String demoUsername = 'emilys';
   static const String demoPassword = 'emilyspass';
   static const int tokenExpiryMinutes = 30;
-
   static const String appName = 'BAZAAR';
   static const String loginTitle = 'Log In';
   static const String loginSubtitle = 'Glad you\'re back.!';
@@ -23,19 +20,16 @@ class AuthConstants {
   static const String versionText = 'Version 1.2.2';
   static const String termsAndConditionsText = 'Terms & Conditions';
   static const String privacyPolicyText = 'Privacy Policy';
-
   static const String emptyUsernameError = 'Please enter username';
   static const String emptyPasswordError = 'Please enter password';
   static const String loginSuccessMessage = 'Login successful!';
   static const String loginFailedMessage = 'Login failed. Please try again.';
   static const String invalidCredentialsMessage =
       'Invalid username or password';
-
   static const String forgotPasswordComingSoon =
       'Forgot password feature coming soon!';
   static const String termsComingSoon = 'Terms & Conditions page coming soon!';
   static const String privacyComingSoon = 'Privacy Policy page coming soon!';
-
   static const String serverRGX = 'RGX';
   static const String serverTests = 'TESTS';
   static const String serverForex = 'FOREXSERVER';

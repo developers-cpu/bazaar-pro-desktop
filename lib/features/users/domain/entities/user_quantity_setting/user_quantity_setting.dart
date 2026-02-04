@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 class UserQuantitySetting extends Equatable {
   final String id;
   final String symbol;
@@ -7,7 +6,6 @@ class UserQuantitySetting extends Equatable {
   final int breakupQty;
   final int maxLot;
   final int breakupLot;
-
   const UserQuantitySetting({
     required this.id,
     required this.symbol,
@@ -16,7 +14,6 @@ class UserQuantitySetting extends Equatable {
     required this.maxLot,
     required this.breakupLot,
   });
-
   @override
   List<Object?> get props => [
     id,

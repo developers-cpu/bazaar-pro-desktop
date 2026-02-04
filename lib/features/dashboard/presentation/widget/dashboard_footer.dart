@@ -3,15 +3,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../domain/entities/dashboard_entity.dart';
-
 class DashboardFooter extends StatelessWidget {
   final DashboardSummary summary;
-
   const DashboardFooter({
     Key? key,
     required this.summary,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -42,7 +39,6 @@ class DashboardFooter extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildSummaryItem(String label, double value) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -56,7 +52,6 @@ class DashboardFooter extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildDivider() {
     return Container(
       width: 1,
@@ -64,7 +59,6 @@ class DashboardFooter extends StatelessWidget {
       color: LightThemeColors.primaryColor.withOpacity(0.3),
     );
   }
-
   String _formatNumber(double value) {
     return value.toStringAsFixed(2);
   }

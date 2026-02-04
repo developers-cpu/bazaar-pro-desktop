@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/widget/svg_icon.dart';
-
 class CustomInputField extends StatelessWidget {
   final String hintText;
   final String? svgIconPath;
@@ -18,7 +17,6 @@ class CustomInputField extends StatelessWidget {
   final bool readOnly;
   final ValueChanged<String>? onChanged;
   final double? height;
-
   const CustomInputField({
     Key? key,
     required this.hintText,
@@ -35,7 +33,6 @@ class CustomInputField extends StatelessWidget {
     this.onChanged,
     this.height,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -67,12 +64,10 @@ class CustomInputField extends StatelessWidget {
             color: AppColors.primaryBlue,
           ),
           isDense: true,
-
           contentPadding: EdgeInsets.symmetric(
             horizontal: 14.w,
             vertical: height != null ? height! / 3 : 14.h,
           ),
-
           errorStyle: GoogleFonts.openSans(
             fontSize: 12.sp,
             fontWeight: FontWeight.w400,
@@ -92,7 +87,6 @@ class CustomInputField extends StatelessWidget {
       ),
     );
   }
-
   Widget? _buildSuffixIcon() {
     if (suffixIcon != null) {
       return IconButton(
@@ -100,17 +94,14 @@ class CustomInputField extends StatelessWidget {
         onPressed: onSuffixIconPressed,
       );
     }
-
     if (svgIconPath != null) {
       return Padding(
         padding: EdgeInsets.all(10.w),
         child: SvgIcon(assetPath: svgIconPath!, isActive: true, size: 24.sp),
       );
     }
-
     return null;
   }
-
   OutlineInputBorder _buildBorder({
     bool isError = false,
     bool isDisabled = false,
@@ -123,7 +114,6 @@ class CustomInputField extends StatelessWidget {
     } else {
       borderColor = AppColors.primaryBlue;
     }
-
     return OutlineInputBorder(
       borderRadius: BorderRadius.circular(10.r),
       borderSide: BorderSide(color: borderColor, width: 2.w),

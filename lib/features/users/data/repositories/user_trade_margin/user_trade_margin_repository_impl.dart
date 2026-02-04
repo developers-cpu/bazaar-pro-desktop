@@ -4,12 +4,9 @@ import '../../../domain/entities/user_trade_margin/user_trade_margin.dart';
 import '../../../domain/entities/user_trade_margin/user_trade_margin_metadata.dart';
 import '../../../domain/repositories/user_trade_margin/user_trade_margin_repository.dart';
 import '../../datasources/user_trade_margin/user_trade_margin_datasource.dart';
-
 class UserTradeMarginRepositoryImpl implements UserTradeMarginRepository {
   final UserTradeMarginDataSource dataSource;
-
   UserTradeMarginRepositoryImpl({required this.dataSource});
-
   @override
   Future<Either<Failure, List<UserTradeMargin>>> getUserTradeMargin(
     String userId,
@@ -21,7 +18,6 @@ class UserTradeMarginRepositoryImpl implements UserTradeMarginRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
-
   @override
   Future<Either<Failure, UserTradeMarginMetadata>>
   getTradeMarginMetadata() async {

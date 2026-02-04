@@ -3,15 +3,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import '../constants/app_colors.dart';
-
 class SingleDatePickerDialog extends StatefulWidget {
   final DateTime? initialDate;
-
   const SingleDatePickerDialog({
     Key? key,
     this.initialDate,
   }) : super(key: key);
-
   static Future<DateTime?> show(
       BuildContext context, {
         DateTime? initialDate,
@@ -24,22 +21,18 @@ class SingleDatePickerDialog extends StatefulWidget {
       ),
     );
   }
-
   @override
   State<SingleDatePickerDialog> createState() => _SingleDatePickerDialogState();
 }
-
 class _SingleDatePickerDialogState extends State<SingleDatePickerDialog> {
   late DateTime _currentMonth;
   DateTime? _selectedDate;
-
   @override
   void initState() {
     super.initState();
     _selectedDate = widget.initialDate;
     _currentMonth = _selectedDate ?? DateTime.now();
   }
-
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -64,7 +57,6 @@ class _SingleDatePickerDialogState extends State<SingleDatePickerDialog> {
       ),
     );
   }
-
   Widget _buildHeader() {
     return Container(
       padding: EdgeInsets.all(16.w),
@@ -96,10 +88,8 @@ class _SingleDatePickerDialogState extends State<SingleDatePickerDialog> {
       ),
     );
   }
-
   Widget _buildMonthNavigation() {
     final monthFormat = DateFormat('MMMM yyyy');
-
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
       child: Row(
@@ -137,10 +127,8 @@ class _SingleDatePickerDialogState extends State<SingleDatePickerDialog> {
       ),
     );
   }
-
   Widget _buildWeekdayHeaders() {
     const weekdays = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
-
     return Container(
       padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 16.w),
       child: Row(
@@ -165,27 +153,22 @@ class _SingleDatePickerDialogState extends State<SingleDatePickerDialog> {
       ),
     );
   }
-
   Widget _buildCalendarGrid() {
     final firstDayOfMonth =
     DateTime(_currentMonth.year, _currentMonth.month, 1);
     final lastDayOfMonth =
     DateTime(_currentMonth.year, _currentMonth.month + 1, 0);
     final firstWeekday = firstDayOfMonth.weekday % 7;
-
     final List<Widget> rows = [];
     List<Widget> currentRow = [];
-
     for (int i = 0; i < firstWeekday; i++) {
       final prevMonthDay =
       firstDayOfMonth.subtract(Duration(days: firstWeekday - i));
       currentRow.add(_buildDayCell(prevMonthDay, isCurrentMonth: false));
     }
-
     for (int day = 1; day <= lastDayOfMonth.day; day++) {
       final date = DateTime(_currentMonth.year, _currentMonth.month, day);
       currentRow.add(_buildDayCell(date, isCurrentMonth: true));
-
       if (currentRow.length == 7) {
         rows.add(Padding(
           padding: EdgeInsets.symmetric(vertical: 2.h),
@@ -197,7 +180,6 @@ class _SingleDatePickerDialogState extends State<SingleDatePickerDialog> {
         currentRow = [];
       }
     }
-
     if (currentRow.isNotEmpty) {
       int nextMonthDay = 1;
       while (currentRow.length < 7) {
@@ -213,23 +195,19 @@ class _SingleDatePickerDialogState extends State<SingleDatePickerDialog> {
         ),
       ));
     }
-
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
       child: Column(children: rows),
     );
   }
-
   Widget _buildDayCell(DateTime date, {required bool isCurrentMonth}) {
     final isSelected =
         _selectedDate != null && _isSameDay(date, _selectedDate!);
     final isWeekend =
         date.weekday == DateTime.sunday || date.weekday == DateTime.saturday;
-
     Color textColor;
     Color? backgroundColor;
     BoxDecoration? decoration;
-
     if (isSelected) {
       textColor = AppColors.white;
       backgroundColor = AppColors.primaryBlue;
@@ -244,7 +222,6 @@ class _SingleDatePickerDialogState extends State<SingleDatePickerDialog> {
     } else {
       textColor = AppColors.primaryTextColor;
     }
-
     return GestureDetector(
       onTap: isCurrentMonth ? () => _onDayTap(date) : null,
       child: Container(
@@ -263,20 +240,16 @@ class _SingleDatePickerDialogState extends State<SingleDatePickerDialog> {
       ),
     );
   }
-
   bool _isSameDay(DateTime a, DateTime b) {
     return a.year == b.year && a.month == b.month && a.day == b.day;
   }
-
   void _onDayTap(DateTime date) {
     setState(() {
       _selectedDate = date;
     });
   }
-
   Widget _buildSelectedDateDisplay() {
     final dateFormat = DateFormat('dd MMMM yyyy');
-
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
       padding: EdgeInsets.all(12.w),
@@ -303,7 +276,6 @@ class _SingleDatePickerDialogState extends State<SingleDatePickerDialog> {
       ),
     );
   }
-
   Widget _buildButtons() {
     return Padding(
       padding: EdgeInsets.all(16.w),

@@ -8,7 +8,6 @@ import '../../../../../core/utils/number_formatter.dart';
 import '../../../../../core/widget/svg_icon.dart';
 import '../../../domain/entities/market_item.dart';
 import 'table_text_style_helper.dart';
-
 class TableCellBuilder extends StatelessWidget {
   final String columnId;
   final MarketItem item;
@@ -16,7 +15,6 @@ class TableCellBuilder extends StatelessWidget {
   final String fontFamily;
   final double fontSize;
   final FontWeight fontWeight;
-
   const TableCellBuilder({
     Key? key,
     required this.columnId,
@@ -26,12 +24,10 @@ class TableCellBuilder extends StatelessWidget {
     required this.fontSize,
     required this.fontWeight,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return _buildCellContent();
   }
-
   Widget _buildCellContent() {
     switch (columnId) {
       case 'exchange':
@@ -78,11 +74,9 @@ class TableCellBuilder extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
-
   Widget _buildExchangeWithArrowCell() {
     final isPositive = item.netChange > 0;
     final isNegative = item.netChange < 0;
-
     Color iconColor;
     if (isPositive) {
       iconColor = isDark
@@ -97,7 +91,6 @@ class TableCellBuilder extends StatelessWidget {
           ? DarkThemeColors.textColor
           : LightThemeColors.textColor;
     }
-
     return Center(
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -129,7 +122,6 @@ class TableCellBuilder extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildTextCell(String text, {bool isBold = false, Color? color}) {
     return Center(
       child: Text(
@@ -146,11 +138,9 @@ class TableCellBuilder extends StatelessWidget {
       ),
     );
   }
-
   Color _getTextColor() {
     return isDark ? DarkThemeColors.textColor : LightThemeColors.textColor;
   }
-
   Color? _getChangeColor(double value) {
     if (value > 0) {
       return isDark

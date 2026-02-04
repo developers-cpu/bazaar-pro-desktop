@@ -4,7 +4,6 @@ import '../../../domain/entities/script_master/script_master.dart';
 import '../../../domain/usecases/script_master/script_master_usecases.dart';
 import 'script_master_event.dart';
 import 'script_master_state.dart';
-
 class ScriptMasterBloc extends Bloc<ScriptMasterEvent, ScriptMasterState> {
   final GetScriptMasters getScriptMasters;
   final GetScriptMastersWithFilters getScriptMastersWithFilters;
@@ -12,7 +11,6 @@ class ScriptMasterBloc extends Bloc<ScriptMasterEvent, ScriptMasterState> {
   final GetScriptMasterSymbols getSymbols;
   final ExportScriptMastersToPdf exportToPdf;
   final ExportScriptMastersToExcel exportToExcel;
-
   ScriptMasterBloc({
     required this.getScriptMasters,
     required this.getScriptMastersWithFilters,
@@ -29,35 +27,28 @@ class ScriptMasterBloc extends Bloc<ScriptMasterEvent, ScriptMasterState> {
     on<ExportScriptMastersToPdfEvent>(_onExportToPdf);
     on<ExportScriptMastersToExcelEvent>(_onExportToExcel);
   }
-
   Future<void> _onLoadScriptMasters(
       LoadScriptMastersEvent event,
       Emitter<ScriptMasterState> emit,
       ) async {
     emit(const ScriptMasterLoading());
-
     try {
-
       final results = await Future.wait([
         getScriptMasters(NoParams()),
         getExchanges(NoParams()),
         getSymbols(NoParams()),
       ]);
-
       final scriptsResult = results[0];
       final exchangesResult = results[1];
       final symbolsResult = results[2];
-
       if (scriptsResult.isLeft()) {
         final failure = scriptsResult.fold((l) => l, (r) => null);
         emit(ScriptMasterError(failure?.message ?? 'Failed to load script masters'));
         return;
       }
-
       final scripts = scriptsResult.fold((l) => <ScriptMaster>[], (r) => r as List<ScriptMaster>);
       final exchanges = exchangesResult.fold((l) => <String>[], (r) => r as List<String>);
       final symbols = symbolsResult.fold((l) => <String>[], (r) => r as List<String>);
-
       emit(ScriptMasterLoaded(
         scripts: scripts,
         filteredScripts: scripts,
@@ -69,21 +60,17 @@ class ScriptMasterBloc extends Bloc<ScriptMasterEvent, ScriptMasterState> {
       emit(ScriptMasterError(e.toString()));
     }
   }
-
   Future<void> _onApplyFilters(
       ApplyFiltersEvent event,
       Emitter<ScriptMasterState> emit,
       ) async {
     if (state is! ScriptMasterLoaded) return;
-
     final currentState = state as ScriptMasterLoaded;
     emit(const ScriptMasterLoading());
-
     final result = await getScriptMastersWithFilters(ScriptMasterFilterParams(
       exchange: event.exchange,
       symbol: event.symbol,
     ));
-
     result.fold(
           (failure) => emit(ScriptMasterError(failure.message)),
           (scripts) => emit(currentState.copyWith(
@@ -94,15 +81,12 @@ class ScriptMasterBloc extends Bloc<ScriptMasterEvent, ScriptMasterState> {
       )),
     );
   }
-
   Future<void> _onResetFilters(
       ResetFiltersEvent event,
       Emitter<ScriptMasterState> emit,
       ) async {
     if (state is! ScriptMasterLoaded) return;
-
     final currentState = state as ScriptMasterLoaded;
-
     emit(ScriptMasterLoaded(
       scripts: currentState.scripts,
       filteredScripts: currentState.scripts,
@@ -111,26 +95,21 @@ class ScriptMasterBloc extends Bloc<ScriptMasterEvent, ScriptMasterState> {
       symbols: currentState.symbols,
     ));
   }
-
   void _onSelectScript(
       SelectScriptEvent event,
       Emitter<ScriptMasterState> emit,
       ) {
     if (state is! ScriptMasterLoaded) return;
-
     final currentState = state as ScriptMasterLoaded;
     emit(currentState.copyWith(selectedScriptId: event.scriptId));
   }
-
   void _onSortByColumn(
       SortScriptsByColumnEvent event,
       Emitter<ScriptMasterState> emit,
       ) {
     if (state is! ScriptMasterLoaded) return;
-
     final currentState = state as ScriptMasterLoaded;
     final sortedScripts = List<ScriptMaster>.from(currentState.filteredScripts);
-
     sortedScripts.sort((a, b) {
       int comparison = 0;
       switch (event.columnId) {
@@ -154,24 +133,19 @@ class ScriptMasterBloc extends Bloc<ScriptMasterEvent, ScriptMasterState> {
       }
       return event.ascending ? comparison : -comparison;
     });
-
     emit(currentState.copyWith(
       filteredScripts: sortedScripts,
       sortColumn: event.columnId,
       sortAscending: event.ascending,
     ));
   }
-
   Future<void> _onExportToPdf(
       ExportScriptMastersToPdfEvent event,
       Emitter<ScriptMasterState> emit,
       ) async {
     if (state is! ScriptMasterLoaded) return;
-
     final currentState = state as ScriptMasterLoaded;
-
     final result = await exportToPdf(currentState.filteredScripts);
-
     result.fold(
           (failure) => emit(ScriptMasterError(failure.message)),
           (path) {
@@ -179,22 +153,17 @@ class ScriptMasterBloc extends Bloc<ScriptMasterEvent, ScriptMasterState> {
           message: 'PDF exported successfully',
           filePath: path,
         ));
-
         emit(currentState);
       },
     );
   }
-
   Future<void> _onExportToExcel(
       ExportScriptMastersToExcelEvent event,
       Emitter<ScriptMasterState> emit,
       ) async {
     if (state is! ScriptMasterLoaded) return;
-
     final currentState = state as ScriptMasterLoaded;
-
     final result = await exportToExcel(currentState.filteredScripts);
-
     result.fold(
           (failure) => emit(ScriptMasterError(failure.message)),
           (path) {

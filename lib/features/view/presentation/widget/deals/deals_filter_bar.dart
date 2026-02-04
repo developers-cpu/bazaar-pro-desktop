@@ -10,10 +10,8 @@ import '../../bloc/deals/deals_bloc.dart';
 import '../../bloc/deals/deals_event.dart';
 import '../../bloc/deals/deals_state.dart';
 import '../common/view_reset_buttons.dart';
-
 class DealsFilterBar extends StatelessWidget {
   const DealsFilterBar({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<DealsBloc, DealsState>(
@@ -21,17 +19,14 @@ class DealsFilterBar extends StatelessWidget {
         if (state is! DealsLoaded) {
           return const SizedBox.shrink();
         }
-
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Row(
             children: [
-
               Expanded(
                 child: _buildDateRangePicker(context, state),
               ),
               SizedBox(width: 12.w),
-
               Expanded(
                 child: AppDropdown(
                   type: AppDropdownType.search,
@@ -54,7 +49,6 @@ class DealsFilterBar extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 12.w),
-
               Expanded(
                 child: AppDropdown(
                   type: AppDropdownType.simple,
@@ -78,7 +72,6 @@ class DealsFilterBar extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 12.w),
-
               Expanded(
                 child: AppDropdown(
                   type: AppDropdownType.search,
@@ -101,7 +94,6 @@ class DealsFilterBar extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 12.w),
-
               Expanded(
                 child: AppDropdown(
                   type: AppDropdownType.simple,
@@ -125,7 +117,6 @@ class DealsFilterBar extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 12.w),
-
               Expanded(
                 child: AppDropdown(
                   type: AppDropdownType.simple,
@@ -148,9 +139,7 @@ class DealsFilterBar extends StatelessWidget {
                   },
                 ),
               ),
-
               const Spacer(),
-
               ViewResetButtons(
                 onReset: () {
                   context.read<DealsBloc>().add(
@@ -177,15 +166,12 @@ class DealsFilterBar extends StatelessWidget {
       },
     );
   }
-
   Widget _buildDateRangePicker(BuildContext context, DealsLoaded state) {
     final dateFormat = DateFormat('dd/MM/yyyy');
     String displayText = 'Select Date Range';
-
     if (state.startDate != null && state.endDate != null) {
       displayText = '${dateFormat.format(state.startDate!)} - ${dateFormat.format(state.endDate!)}';
     }
-
     return GestureDetector(
       onTap: () async {
         final result = await CustomDateRangePickerDialog.show(
@@ -193,7 +179,6 @@ class DealsFilterBar extends StatelessWidget {
           initialStartDate: state.startDate,
           initialEndDate: state.endDate,
         );
-
         if (result != null) {
           context.read<DealsBloc>().add(
             ApplyFiltersEvent(

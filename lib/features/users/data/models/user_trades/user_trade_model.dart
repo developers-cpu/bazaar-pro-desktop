@@ -1,5 +1,4 @@
 import '../../../domain/entities/user_trades/user_trade.dart';
-
 class UserTradeModel extends UserTrade {
   const UserTradeModel({
     required super.id,
@@ -21,7 +20,6 @@ class UserTradeModel extends UserTrade {
     required super.requestPrice,
     required super.orderDuration,
   });
-
   factory UserTradeModel.fromJson(Map<String, dynamic> json) {
     return UserTradeModel(
       id: json['id'] ?? '',

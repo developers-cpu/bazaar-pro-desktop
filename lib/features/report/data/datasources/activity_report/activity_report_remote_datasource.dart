@@ -1,5 +1,4 @@
 import '../../models/activity_report_model.dart';
-
 abstract class ActivityReportRemoteDataSource {
   Future<List<ActivityReportModel>> getActivityReport({
     String? user,
@@ -8,7 +7,6 @@ abstract class ActivityReportRemoteDataSource {
     String? editUserType,
   });
 }
-
 class ActivityReportRemoteDataSourceImpl
     implements ActivityReportRemoteDataSource {
   @override
@@ -19,7 +17,6 @@ class ActivityReportRemoteDataSourceImpl
     String? editUserType,
   }) async {
     await Future.delayed(const Duration(milliseconds: 500));
-
     final List<ActivityReportModel> mockData = [
       ActivityReportModel(
         id: '1',
@@ -113,7 +110,6 @@ class ActivityReportRemoteDataSourceImpl
         updatedBy: 'DEMO4',
       ),
     ];
-
     return mockData.where((item) {
       if (user != null &&
           user.isNotEmpty &&
@@ -126,7 +122,6 @@ class ActivityReportRemoteDataSourceImpl
       if (endDate != null && item.updatedOn.isAfter(endDate)) {
         return false;
       }
-
       return true;
     }).toList();
   }

@@ -19,25 +19,20 @@ import 'table_cell_builder.dart';
 import 'table_column_helper.dart';
 import 'table_header_cell.dart';
 import 'table_text_style_helper.dart';
-
 class MarketDataTable extends StatefulWidget {
   final MarketWatchLoaded state;
   final Function(Offset) onRightClick;
-
   const MarketDataTable({
     Key? key,
     required this.state,
     required this.onRightClick,
   }) : super(key: key);
-
   @override
   State<MarketDataTable> createState() => _MarketDataTableState();
 }
-
 class _MarketDataTableState extends State<MarketDataTable> {
   int? _sortColumnIndex;
   bool _sortAscending = true;
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ThemeBloc, ThemeState>(
@@ -48,17 +43,14 @@ class _MarketDataTableState extends State<MarketDataTable> {
               builder: (context, fontState) {
                 final isDark = themeState.isDarkMode;
                 final showGrid = widget.state.showGrid;
-
                 var visibleColumns = arrangeState.columns.isEmpty
                     ? TableColumnHelper.getDefaultColumns()
                     : arrangeState.columns
                     .where((c) => c.isVisible && c.id != 'arrow')
                     .toList();
-
                 if (visibleColumns.isEmpty) {
                   visibleColumns = TableColumnHelper.getDefaultColumns();
                 }
-
                 final fontFamily = fontState.selectedFontFamily.isNotEmpty
                     ? fontState.selectedFontFamily
                     : 'Open Sans';
@@ -67,11 +59,9 @@ class _MarketDataTableState extends State<MarketDataTable> {
                     : 13.0;
                 final fontWeight =
                 TableTextStyleHelper.getFontWeight(fontState.selectedFontStyle);
-
                 if (widget.state.filteredItems.isEmpty) {
                   return _buildEmptyState(isDark);
                 }
-
                 return _buildTableContainer(
                   isDark: isDark,
                   showGrid: showGrid,
@@ -87,7 +77,6 @@ class _MarketDataTableState extends State<MarketDataTable> {
       },
     );
   }
-
   Widget _buildEmptyState(bool isDark) {
     return Container(
       color: isDark
@@ -106,7 +95,6 @@ class _MarketDataTableState extends State<MarketDataTable> {
       ),
     );
   }
-
   Widget _buildTableContainer({
     required bool isDark,
     required bool showGrid,
@@ -116,7 +104,6 @@ class _MarketDataTableState extends State<MarketDataTable> {
     required FontWeight fontWeight,
   }) {
     final minWidth = TableColumnHelper.calculateMinWidth(visibleColumns, fontSize);
-
     return Container(
       margin: EdgeInsets.all(10.w),
       decoration: BoxDecoration(
@@ -147,7 +134,6 @@ class _MarketDataTableState extends State<MarketDataTable> {
       ),
     );
   }
-
   Widget _buildDataTable({
     required bool isDark,
     required bool showGrid,
@@ -159,7 +145,6 @@ class _MarketDataTableState extends State<MarketDataTable> {
   }) {
     final rowHeight = (fontSize * 3.2).clamp(48.0, 80.0);
     final headerHeight = (fontSize * 3.5).clamp(55.0, 85.0);
-
     return DataTable2(
       columnSpacing: 12,
       horizontalMargin: 12,
@@ -196,7 +181,6 @@ class _MarketDataTableState extends State<MarketDataTable> {
       ),
     );
   }
-
   List<DataColumn2> _buildColumns({
     required List<ColumnItem> visibleColumns,
     required bool isDark,
@@ -207,7 +191,6 @@ class _MarketDataTableState extends State<MarketDataTable> {
     return visibleColumns.map((column) {
       final label = TableColumnHelper.getLabel(column.id);
       final config = TableColumnHelper.getConfig(column.id);
-
       return DataColumn2(
         label: TableHeaderCell(
           title: label,
@@ -216,14 +199,12 @@ class _MarketDataTableState extends State<MarketDataTable> {
           fontSize: fontSize,
           fontWeight: fontWeight,
         ),
-
         size: _getColumnSize(column.id, visibleColumns.length),
         numeric: config?.isNumeric ?? false,
         onSort: _onSort,
       );
     }).toList();
   }
-
   ColumnSize _getColumnSize(String columnId, int visibleColumnCount) {
     if (visibleColumnCount <= 5) {
       return ColumnSize.L;
@@ -232,14 +213,12 @@ class _MarketDataTableState extends State<MarketDataTable> {
     }
     return ColumnSize.S;
   }
-
   void _onSort(int columnIndex, bool ascending) {
     setState(() {
       _sortColumnIndex = columnIndex;
       _sortAscending = ascending;
     });
   }
-
   List<DataRow2> _buildRows({
     required List<ColumnItem> visibleColumns,
     required bool isDark,
@@ -249,7 +228,6 @@ class _MarketDataTableState extends State<MarketDataTable> {
   }) {
     return widget.state.filteredItems.map((item) {
       final isSelected = widget.state.selectedItemId == item.id;
-
       return DataRow2(
         selected: isSelected,
         color: WidgetStateProperty.resolveWith<Color?>((states) {
@@ -276,16 +254,13 @@ class _MarketDataTableState extends State<MarketDataTable> {
       );
     }).toList();
   }
-
   void _onRowTap(String itemId) {
     context.read<MarketWatchBloc>().add(SelectMarketItemEvent(itemId: itemId));
   }
-
   void _onRowRightClick(TapDownDetails details, String itemId) {
     widget.onRightClick(details.globalPosition);
     context.read<MarketWatchBloc>().add(SelectMarketItemEvent(itemId: itemId));
   }
-
   List<DataCell> _buildCells({
     required List<ColumnItem> visibleColumns,
     required MarketItem item,

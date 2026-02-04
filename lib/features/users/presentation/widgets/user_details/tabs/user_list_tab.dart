@@ -12,12 +12,9 @@ import '../../../../../../core/constants/app_colors.dart';
 import '../../../../domain/entities/user.dart';
 import '../../common/user_record_count.dart';
 import '../user_details_dialog.dart';
-
 class UserListTab extends StatelessWidget {
   final User user;
-
   const UserListTab({super.key, required this.user});
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -26,10 +23,8 @@ class UserListTab extends StatelessWidget {
     );
   }
 }
-
 class UserListTabView extends StatelessWidget {
   const UserListTabView({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -55,12 +50,10 @@ class UserListTabView extends StatelessWidget {
               if (state is NestedUsersError) {
                 return Center(child: Text('Error: ${state.message}'));
               }
-
               List<User> users = [];
               if (state is NestedUsersLoaded) {
                 users = state.users;
               }
-
               return UserDataTable<User>(
                 columns: _getColumns(),
                 data: users,
@@ -77,7 +70,6 @@ class UserListTabView extends StatelessWidget {
       ],
     );
   }
-
   List<UserTableColumn> _getColumns() {
     return [
       UserTableColumn(id: 'userName', label: 'USER NAME', width: 120.w),
@@ -113,7 +105,6 @@ class UserListTabView extends StatelessWidget {
       UserTableColumn(id: 'ipAddress', label: 'IP ADDRESS', width: 130.w),
     ];
   }
-
   Widget _buildCellContent(BuildContext context, User user, String columnId) {
     switch (columnId) {
       case 'userName':
@@ -174,14 +165,12 @@ class UserListTabView extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
-
   TextStyle _textStyle(BuildContext context) {
     return GoogleFonts.openSans(
       fontSize: 11.sp,
       color: AppColors.textColor(context),
     );
   }
-
   void _showUserDetailsDialog(
     BuildContext context,
     User user, {

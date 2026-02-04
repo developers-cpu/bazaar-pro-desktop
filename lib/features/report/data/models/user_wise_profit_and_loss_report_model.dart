@@ -1,5 +1,4 @@
 import '../../domain/entities/user_wise_profit_and_loss_report.dart';
-
 class UserWiseProfitAndLossReportModel extends UserWiseProfitAndLossReport {
   const UserWiseProfitAndLossReportModel({
     required super.id,
@@ -19,7 +18,6 @@ class UserWiseProfitAndLossReportModel extends UserWiseProfitAndLossReport {
     required super.createdBy,
     required super.createdDate,
   });
-
   factory UserWiseProfitAndLossReportModel.fromJson(Map<String, dynamic> json) {
     return UserWiseProfitAndLossReportModel(
       id: json['id'] as String? ?? '',
@@ -43,7 +41,6 @@ class UserWiseProfitAndLossReportModel extends UserWiseProfitAndLossReport {
           : DateTime.now(),
     );
   }
-
   Map<String, dynamic> toJson() {
     return {
       'id': id,

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 class TableTextStyleHelper {
   TableTextStyleHelper._();
-
   static FontWeight getFontWeight(String fontStyle) {
     switch (fontStyle.toLowerCase()) {
       case 'thin':
@@ -22,7 +20,6 @@ class TableTextStyleHelper {
         return FontWeight.w400;
     }
   }
-
   static bool isItalic(String fontStyle) {
     return fontStyle.toLowerCase().contains('italic');
   }
@@ -34,7 +31,6 @@ class TableTextStyleHelper {
     FontStyle? fontStyle,
   }) {
     final style = fontStyle ?? FontStyle.normal;
-
     switch (fontFamily.toLowerCase()) {
       case 'inter':
         return GoogleFonts.inter(

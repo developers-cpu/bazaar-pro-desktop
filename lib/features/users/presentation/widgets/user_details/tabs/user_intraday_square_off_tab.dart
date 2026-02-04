@@ -8,12 +8,9 @@ import '../../../../domain/entities/user.dart';
 import '../../../bloc/user_intraday/user_intraday_bloc.dart';
 import '../../../bloc/user_intraday/user_intraday_event.dart';
 import '../../../bloc/user_intraday/user_intraday_state.dart';
-
 class UserIntradaySquareOffTab extends StatelessWidget {
   final User user;
-
   const UserIntradaySquareOffTab({super.key, required this.user});
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -23,10 +20,8 @@ class UserIntradaySquareOffTab extends StatelessWidget {
     );
   }
 }
-
 class UserIntradaySquareOffTabView extends StatelessWidget {
   const UserIntradaySquareOffTabView({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -41,7 +36,6 @@ class UserIntradaySquareOffTabView extends StatelessWidget {
           }
           if (state is UserIntradayLoaded) {
             final settings = state.settings;
-
             return GridView.builder(
               itemCount: settings.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -52,7 +46,6 @@ class UserIntradaySquareOffTabView extends StatelessWidget {
               ),
               itemBuilder: (context, index) {
                 final setting = settings[index];
-
                 return Container(
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                   decoration: BoxDecoration(

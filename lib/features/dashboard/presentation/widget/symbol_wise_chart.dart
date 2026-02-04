@@ -4,22 +4,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../domain/entities/dashboard_entity.dart';
-
 class SymbolWiseChart extends StatefulWidget {
   final List<SymbolReportData> data;
-
   const SymbolWiseChart({
     Key? key,
     required this.data,
   }) : super(key: key);
-
   @override
   State<SymbolWiseChart> createState() => _SymbolWiseChartState();
 }
-
 class _SymbolWiseChartState extends State<SymbolWiseChart> {
   int? _touchedIndex;
-
   static const List<Color> _chartColors = [
     Color(0xFF5B8DEF), 
     Color(0xFFB8A8E8), 
@@ -34,7 +29,6 @@ class _SymbolWiseChartState extends State<SymbolWiseChart> {
     Color(0xFFFFB347), 
     Color(0xFF9B7EBD), 
   ];
-
   @override
   Widget build(BuildContext context) {
     if (widget.data.isEmpty) {
@@ -48,21 +42,16 @@ class _SymbolWiseChartState extends State<SymbolWiseChart> {
         ),
       );
     }
-
     return LayoutBuilder(
       builder: (context, constraints) {
         final availableHeight = constraints.maxHeight;
         final availableWidth = constraints.maxWidth;
-
         final minChartSize = 200.0;
         final maxChartSize = math.min(availableWidth * 0.6, availableHeight * 0.9);
         final chartSize = math.max(minChartSize, maxChartSize);
-
         final legendMinWidth = 180.0;
         final canFitSideBySide = availableWidth > (chartSize + legendMinWidth);
-
         if (!canFitSideBySide) {
-
           return SingleChildScrollView(
             child: Column(
               children: [
@@ -84,7 +73,6 @@ class _SymbolWiseChartState extends State<SymbolWiseChart> {
             ),
           );
         }
-
         return Row(
           children: [
             Expanded(
@@ -112,12 +100,10 @@ class _SymbolWiseChartState extends State<SymbolWiseChart> {
       },
     );
   }
-
   Widget _buildRightLegend() {
     final halfLength = (widget.data.length / 2).ceil();
     final firstColumn = widget.data.take(halfLength).toList();
     final secondColumn = widget.data.skip(halfLength).toList();
-
     return Padding(
       padding: EdgeInsets.only(right: 8.w, left: 8.w),
       child: Row(
@@ -142,7 +128,6 @@ class _SymbolWiseChartState extends State<SymbolWiseChart> {
       ),
     );
   }
-
   Widget _buildHorizontalLegend() {
     return Wrap(
       spacing: 16.w,
@@ -151,7 +136,6 @@ class _SymbolWiseChartState extends State<SymbolWiseChart> {
       children: widget.data.map((item) => _buildLegendItem(item)).toList(),
     );
   }
-
   Widget _buildLegendItem(SymbolReportData item) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 4.h),
@@ -183,42 +167,33 @@ class _SymbolWiseChartState extends State<SymbolWiseChart> {
     );
   }
 }
-
 class _PieChartWithLabelsPainter extends CustomPainter {
   final List<SymbolReportData> data;
   final List<Color> colors;
   final int? touchedIndex;
-
   _PieChartWithLabelsPainter({
     required this.data,
     required this.colors,
     required this.touchedIndex,
   });
-
   @override
   void paint(Canvas canvas, Size size) {
     final center = Offset(size.width / 2, size.height / 2);
-
     final pieRadius = math.min(size.width, size.height) * 0.25;
     final totalPercentage = data.fold<double>(0, (sum, item) => sum + item.percentage);
-
     _drawPieSections(canvas, center, pieRadius, totalPercentage);
     _drawLabelsWithConnectors(canvas, center, pieRadius, size, totalPercentage);
   }
-
   void _drawPieSections(Canvas canvas, Offset center, double radius, double totalPercentage) {
     double startAngle = -math.pi / 2;
-
     for (int i = 0; i < data.length; i++) {
       final item = data[i];
       final normalizedPercentage = (item.percentage / totalPercentage) * 100;
       final sweepAngle = (normalizedPercentage / 100) * 2 * math.pi;
       final color = colors[item.colorIndex % colors.length];
-
       final paint = Paint()
         ..color = color
         ..style = PaintingStyle.fill;
-
       canvas.drawArc(
         Rect.fromCircle(center: center, radius: radius),
         startAngle,
@@ -226,11 +201,9 @@ class _PieChartWithLabelsPainter extends CustomPainter {
         true,
         paint,
       );
-
       startAngle += sweepAngle;
     }
   }
-
   void _drawLabelsWithConnectors(
       Canvas canvas,
       Offset center,
@@ -239,43 +212,34 @@ class _PieChartWithLabelsPainter extends CustomPainter {
       double totalPercentage,
       ) {
     double currentAngle = -math.pi / 2;
-
     for (int i = 0; i < data.length; i++) {
       final item = data[i];
       final normalizedPercentage = (item.percentage / totalPercentage) * 100;
       final sweepAngle = (normalizedPercentage / 100) * 2 * math.pi;
       final midAngle = currentAngle + sweepAngle / 2;
       final color = colors[item.colorIndex % colors.length];
-
       final pieEdgeX = center.dx + pieRadius * math.cos(midAngle);
       final pieEdgeY = center.dy + pieRadius * math.sin(midAngle);
       final isLeftSide = midAngle < -math.pi / 2 || midAngle > math.pi / 2;
-
       final bendRadius = pieRadius * 1.25;
       final bendX = center.dx + bendRadius * math.cos(midAngle);
       final bendY = center.dy + bendRadius * math.sin(midAngle);
-
       final horizontalLength = math.min(size.width * 0.1, 30.0);
       final labelX = isLeftSide ? bendX - horizontalLength : bendX + horizontalLength;
       final labelY = bendY;
-
       final linePaint = Paint()
         ..color = color
         ..strokeWidth = 1.5
         ..style = PaintingStyle.stroke;
-
       final path = Path();
       path.moveTo(pieEdgeX, pieEdgeY);
       path.lineTo(bendX, bendY);
       path.lineTo(labelX, labelY);
       canvas.drawPath(path, linePaint);
-
       _drawLabel(canvas, item, Offset(labelX, labelY), isLeftSide, color);
-
       currentAngle += sweepAngle;
     }
   }
-
   void _drawLabel(
       Canvas canvas,
       SymbolReportData item,
@@ -295,7 +259,6 @@ class _PieChartWithLabelsPainter extends CustomPainter {
       ),
       textDirection: TextDirection.ltr,
     )..layout();
-
     final valuePainter = TextPainter(
       text: TextSpan(
         text: '${item.value.toStringAsFixed(1)} ${item.percentage.toStringAsFixed(1)}%',
@@ -307,10 +270,8 @@ class _PieChartWithLabelsPainter extends CustomPainter {
       ),
       textDirection: TextDirection.ltr,
     )..layout();
-
     final totalHeight = symbolPainter.height + valuePainter.height + 2;
     final topOffset = position.dy - totalHeight / 2;
-
     if (isLeftSide) {
       symbolPainter.paint(
         canvas,
@@ -331,7 +292,6 @@ class _PieChartWithLabelsPainter extends CustomPainter {
       );
     }
   }
-
   @override
   bool shouldRepaint(_PieChartWithLabelsPainter oldDelegate) {
     return oldDelegate.touchedIndex != touchedIndex ||

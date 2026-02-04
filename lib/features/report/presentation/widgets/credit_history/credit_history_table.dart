@@ -9,12 +9,9 @@ import '../../../../view/presentation/widget/common/view_table_cell_styles.dart'
 import '../../../domain/entities/credit_history.dart';
 import '../../bloc/credit_history/credit_history_bloc.dart';
 import '../../bloc/credit_history/credit_history_state.dart';
-
 class CreditHistoryTable extends StatelessWidget {
   final bool isDarkMode;
-
   const CreditHistoryTable({super.key, this.isDarkMode = false});
-
   List<ViewTableColumn> _getColumns() {
     return const [
       ViewTableColumn(id: 'userName', label: 'U.NAME', width: 160),
@@ -36,7 +33,6 @@ class CreditHistoryTable extends StatelessWidget {
       ViewTableColumn(id: 'comment', label: 'COMMENT', width: 250),
     ];
   }
-
   Widget _buildCell(CreditHistory item, ViewTableColumn column, bool isDark) {
     switch (column.id) {
       case 'userName':
@@ -74,7 +70,6 @@ class CreditHistoryTable extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CreditHistoryBloc, CreditHistoryState>(
@@ -82,20 +77,16 @@ class CreditHistoryTable extends StatelessWidget {
         if (state is CreditHistoryLoading) {
           return const Center(child: CircularProgressIndicator());
         }
-
         if (state is CreditHistoryError) {
           return Center(child: Text('Error: ${state.message}'));
         }
-
         if (state is! CreditHistoryLoaded) {
           return const SizedBox.shrink();
         }
-
         double totalAmount = state.creditHistory.fold(
           0,
           (sum, item) => sum + item.amount,
         );
-
         return Column(
           children: [
             ViewRecordCount(count: state.creditHistory.length),

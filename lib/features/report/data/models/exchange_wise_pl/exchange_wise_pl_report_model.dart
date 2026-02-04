@@ -1,5 +1,4 @@
 import '../../../domain/entities/exchange_wise_pl/exchange_wise_pl_report.dart';
-
 class ExchangeWisePLReportModel extends ExchangeWisePLReport {
   const ExchangeWisePLReportModel({
     required super.exchange,
@@ -8,7 +7,6 @@ class ExchangeWisePLReportModel extends ExchangeWisePLReport {
     required super.brokerage,
     required super.totalPL,
   });
-
   factory ExchangeWisePLReportModel.fromJson(Map<String, dynamic> json) {
     return ExchangeWisePLReportModel(
       exchange: json['exchange'],
@@ -18,7 +16,6 @@ class ExchangeWisePLReportModel extends ExchangeWisePLReport {
       totalPL: (json['totalPL'] as num).toDouble(),
     );
   }
-
   Map<String, dynamic> toJson() {
     return {
       'exchange': exchange,

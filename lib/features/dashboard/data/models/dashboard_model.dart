@@ -1,6 +1,4 @@
-
 import '../../domain/entities/dashboard_entity.dart';
-
 class TradeReportModel extends TradeReportData {
   const TradeReportModel({
     required super.date,
@@ -8,7 +6,6 @@ class TradeReportModel extends TradeReportData {
     required super.cancelled,
     required super.success,
   });
-
   factory TradeReportModel.fromJson(Map<String, dynamic> json) {
     return TradeReportModel(
       date: json['date'] as String,
@@ -17,7 +14,6 @@ class TradeReportModel extends TradeReportData {
       success: (json['success'] as num).toDouble(),
     );
   }
-
   Map<String, dynamic> toJson() {
     return {
       'date': date,
@@ -27,7 +23,6 @@ class TradeReportModel extends TradeReportData {
     };
   }
 }
-
 class SymbolReportModel extends SymbolReportData {
   const SymbolReportModel({
     required super.symbol,
@@ -35,7 +30,6 @@ class SymbolReportModel extends SymbolReportData {
     required super.percentage,
     required super.colorIndex,
   });
-
   factory SymbolReportModel.fromJson(Map<String, dynamic> json, int index) {
     return SymbolReportModel(
       symbol: json['symbol'] as String,
@@ -44,7 +38,6 @@ class SymbolReportModel extends SymbolReportData {
       colorIndex: index,
     );
   }
-
   Map<String, dynamic> toJson() {
     return {
       'symbol': symbol,
@@ -53,7 +46,6 @@ class SymbolReportModel extends SymbolReportData {
     };
   }
 }
-
 class DashboardSummaryModel extends DashboardSummary {
   const DashboardSummaryModel({
     required super.pnl,
@@ -61,7 +53,6 @@ class DashboardSummaryModel extends DashboardSummary {
     required super.other,
     required super.balance,
   });
-
   factory DashboardSummaryModel.fromJson(Map<String, dynamic> json) {
     return DashboardSummaryModel(
       pnl: (json['pnl'] as num).toDouble(),
@@ -70,7 +61,6 @@ class DashboardSummaryModel extends DashboardSummary {
       balance: (json['balance'] as num).toDouble(),
     );
   }
-
   Map<String, dynamic> toJson() {
     return {
       'pnl': pnl,

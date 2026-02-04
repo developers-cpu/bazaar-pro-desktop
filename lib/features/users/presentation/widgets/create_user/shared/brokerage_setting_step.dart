@@ -12,18 +12,14 @@ import '../../../bloc/user_form/user_form_bloc.dart';
 import '../../../bloc/user_form/user_form_event.dart';
 import '../../../bloc/user_form/user_form_state.dart';
 import '../../common/user_record_count.dart';
-
 class BrokerageSettingStep extends StatefulWidget {
   const BrokerageSettingStep({super.key});
-
   @override
   State<BrokerageSettingStep> createState() => _BrokerageSettingStepState();
 }
-
 class _BrokerageSettingStepState extends State<BrokerageSettingStep> {
   late TextEditingController _exchangeWiseBrkController;
   late TextEditingController _symbolWiseBrkController;
-
   @override
   void initState() {
     super.initState();
@@ -33,20 +29,17 @@ class _BrokerageSettingStepState extends State<BrokerageSettingStep> {
     );
     _symbolWiseBrkController = TextEditingController(text: state.symbolWiseBrk);
   }
-
   @override
   void dispose() {
     _exchangeWiseBrkController.dispose();
     _symbolWiseBrkController.dispose();
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserFormBloc, UserFormState>(
       builder: (context, state) {
         final isExchangeWise = state.brokerageViewMode == 'Exchange Wise';
-
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 20.h),
           decoration: BoxDecoration(
@@ -69,16 +62,13 @@ class _BrokerageSettingStepState extends State<BrokerageSettingStep> {
                 },
               ),
               SizedBox(height: 20.h),
-
               if (isExchangeWise)
                 _buildExchangeWiseInputs(state)
               else
                 _buildSymbolWiseInputs(state),
               SizedBox(height: 16.h),
-
               UserRecordCount(count: UserFormState.availableExchanges.length),
               SizedBox(height: 8.h),
-
               Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -97,19 +87,16 @@ class _BrokerageSettingStepState extends State<BrokerageSettingStep> {
                   child: Column(
                     children: [
                       _buildTableHeader(context, state),
-
                       Divider(
                         height: 1,
                         thickness: 1,
                         color: Colors.grey.withOpacity(0.2),
                       ),
-
                       ...UserFormState.availableExchanges.map((exchange) {
                         final data = state.brokerageData[exchange];
                         return Column(
                           children: [
                             _buildTableRow(context, state, exchange, data),
-
                             Divider(
                               height: 1,
                               thickness: 1,
@@ -122,9 +109,7 @@ class _BrokerageSettingStepState extends State<BrokerageSettingStep> {
                   ),
                 ),
               ),
-
               SizedBox(height: 20.h),
-
               Center(
                 child: CustomActionButton(
                   text: 'Update',
@@ -140,7 +125,6 @@ class _BrokerageSettingStepState extends State<BrokerageSettingStep> {
       },
     );
   }
-
   Widget _buildExchangeWiseInputs(UserFormState state) {
     return Row(
       children: [
@@ -191,7 +175,6 @@ class _BrokerageSettingStepState extends State<BrokerageSettingStep> {
       ],
     );
   }
-
   Widget _buildSymbolWiseInputs(UserFormState state) {
     return Row(
       children: [
@@ -230,12 +213,10 @@ class _BrokerageSettingStepState extends State<BrokerageSettingStep> {
       ],
     );
   }
-
   Widget _buildTableHeader(BuildContext context, UserFormState state) {
     final isAllSelected =
         state.selectedBrokerageExchanges.length ==
         UserFormState.availableExchanges.length;
-
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 14.h),
       decoration: BoxDecoration(
@@ -309,7 +290,6 @@ class _BrokerageSettingStepState extends State<BrokerageSettingStep> {
       ),
     );
   }
-
   Widget _buildTableRow(
     BuildContext context,
     UserFormState state,
@@ -319,7 +299,6 @@ class _BrokerageSettingStepState extends State<BrokerageSettingStep> {
     final isSelected = state.selectedBrokerageExchanges.contains(exchange);
     final index = UserFormState.availableExchanges.indexOf(exchange);
     final isLast = index == UserFormState.availableExchanges.length - 1;
-
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
       decoration: BoxDecoration(

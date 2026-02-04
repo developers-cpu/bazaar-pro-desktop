@@ -1,16 +1,12 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-
 import '../../../../core/errors/failures.dart';
 import '../../../../core/usecases/usecase.dart';
 import '../entities/user.dart';
 import '../repositories/auth_repository.dart';
-
 class LoginUser implements UseCase<User, LoginParams> {
   final AuthRepository repository;
-
   LoginUser({required this.repository});
-
   @override
   Future<Either<Failure, User>> call(LoginParams params) async {
     return await repository.login(
@@ -20,18 +16,15 @@ class LoginUser implements UseCase<User, LoginParams> {
     );
   }
 }
-
 class LoginParams extends Equatable {
   final String username;
   final String password;
   final int expiresInMins;
-
   const LoginParams({
     required this.username,
     required this.password,
     this.expiresInMins = 30,
   });
-
   @override
   List<Object?> get props => [username, password, expiresInMins];
 }

@@ -1,21 +1,16 @@
 import 'package:equatable/equatable.dart';
 import '../../../domain/entities/trades/trade.dart';
-
 abstract class TradesState extends Equatable {
   const TradesState();
-
   @override
   List<Object?> get props => [];
 }
-
 class TradesInitial extends TradesState {
   const TradesInitial();
 }
-
 class TradesLoading extends TradesState {
   const TradesLoading();
 }
-
 class TradesLoaded extends TradesState {
   final List<Trade> trades;
   final List<Trade> filteredTrades;
@@ -23,19 +18,16 @@ class TradesLoaded extends TradesState {
   final String? selectedTradeId;
   final String? sortColumn;
   final bool sortAscending;
-
   final DateTime? startDate;
   final DateTime? endDate;
   final String? selectedClient;
   final String? selectedExchange;
   final String? selectedSymbol;
   final String? selectedOrderType;
-
   final List<String> clients;
   final List<String> exchanges;
   final List<String> symbols;
   final List<String> orderTypes;
-
   const TradesLoaded({
     required this.trades,
     required this.filteredTrades,
@@ -54,7 +46,6 @@ class TradesLoaded extends TradesState {
     this.symbols = const [],
     this.orderTypes = const [],
   });
-
   @override
   List<Object?> get props => [
     trades,
@@ -74,7 +65,6 @@ class TradesLoaded extends TradesState {
     symbols,
     orderTypes,
   ];
-
   TradesLoaded copyWith({
     List<Trade>? trades,
     List<Trade>? filteredTrades,
@@ -113,25 +103,19 @@ class TradesLoaded extends TradesState {
     );
   }
 }
-
 class TradesError extends TradesState {
   final String message;
-
   const TradesError(this.message);
-
   @override
   List<Object?> get props => [message];
 }
-
 class TradesExportSuccess extends TradesState {
   final String message;
   final String filePath;
-
   const TradesExportSuccess({
     required this.message,
     required this.filePath,
   });
-
   @override
   List<Object?> get props => [message, filePath];
 }

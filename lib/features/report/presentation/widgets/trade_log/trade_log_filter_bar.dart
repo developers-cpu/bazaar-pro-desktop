@@ -8,10 +8,8 @@ import '../../../presentation/bloc/trade_log/trade_log_bloc.dart';
 import '../../../presentation/bloc/trade_log/trade_log_event.dart';
 import '../../../presentation/bloc/trade_log/trade_log_state.dart';
 import '../../../../view/presentation/widget/common/view_reset_buttons.dart';
-
 class TradeLogFilterBar extends StatelessWidget {
   const TradeLogFilterBar({super.key});
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TradeLogBloc, TradeLogState>(
@@ -19,7 +17,6 @@ class TradeLogFilterBar extends StatelessWidget {
         if (state is! TradeLogLoaded) {
           return const SizedBox.shrink();
         }
-
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Row(

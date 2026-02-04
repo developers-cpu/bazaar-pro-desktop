@@ -6,10 +6,8 @@ import '../../../../../../core/widget/app_checkbox.dart';
 import '../../../bloc/user_form/user_form_bloc.dart';
 import '../../../bloc/user_form/user_form_event.dart';
 import '../../../bloc/user_form/user_form_state.dart';
-
 class HighLowLimitStep extends StatelessWidget {
   const HighLowLimitStep({super.key});
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserFormBloc, UserFormState>(
@@ -17,7 +15,6 @@ class HighLowLimitStep extends StatelessWidget {
         final exchanges = UserFormState.availableExchanges;
         final isAllSelected =
             state.selectedTradeLimits.length == exchanges.length;
-
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 20.h),
           decoration: BoxDecoration(
@@ -37,12 +34,10 @@ class HighLowLimitStep extends StatelessWidget {
                 },
               ),
               SizedBox(height: 20.h),
-
               LayoutBuilder(
                 builder: (context, constraints) {
                   final availableWidth = constraints.maxWidth;
                   final itemWidth = (availableWidth - (4 * 32.w)) / 5; 
-
                   return Wrap(
                     spacing: 32.w,
                     runSpacing: 16.h,

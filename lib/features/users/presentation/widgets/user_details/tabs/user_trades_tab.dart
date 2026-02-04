@@ -16,12 +16,9 @@ import '../../../bloc/user_trades/user_trades_state.dart';
 import '../../common/user_data_table.dart';
 import '../../common/user_record_count.dart';
 import '../../common/user_reset_buttons.dart';
-
 class UserTradesTab extends StatelessWidget {
   final User user;
-
   const UserTradesTab({super.key, required this.user});
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -30,10 +27,8 @@ class UserTradesTab extends StatelessWidget {
     );
   }
 }
-
 class UserTradesTabView extends StatelessWidget {
   const UserTradesTabView({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -44,7 +39,6 @@ class UserTradesTabView extends StatelessWidget {
       ],
     );
   }
-
   Widget _buildFilterBar(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(12.w),
@@ -57,7 +51,6 @@ class UserTradesTabView extends StatelessWidget {
           String? selectedStatus;
           List<String> exchanges = [];
           List<String> symbols = [];
-
           if (state is UserTradesLoaded) {
             selectedDateRange = state.selectedDateRange;
             selectedExchange = state.selectedExchange;
@@ -68,11 +61,9 @@ class UserTradesTabView extends StatelessWidget {
               symbols = state.metadata!.symbols;
             }
           }
-
           final statuses = state is UserTradesLoaded && state.metadata != null
               ? state.metadata!.statuses
               : ['All'];
-
           return Row(
             children: [
               DateRangePickerButton(
@@ -96,7 +87,6 @@ class UserTradesTabView extends StatelessWidget {
                 },
               ),
               SizedBox(width: 5.w),
-
               AppDropdown(
                 hintText: 'Exchange',
                 items: exchanges,
@@ -116,7 +106,6 @@ class UserTradesTabView extends StatelessWidget {
                 type: AppDropdownType.simple,
               ),
               SizedBox(width: 5.w),
-
               AppDropdown(
                 hintText: 'Symbol',
                 items: symbols,
@@ -137,7 +126,6 @@ class UserTradesTabView extends StatelessWidget {
                 searchHint: 'Search & Add',
               ),
               SizedBox(width: 5.w),
-
               AppDropdown(
                 hintText: 'Status',
                 items: statuses,
@@ -156,7 +144,6 @@ class UserTradesTabView extends StatelessWidget {
                 height: 35.h,
                 type: AppDropdownType.simple,
               ),
-
               const Spacer(),
               UserResetButtons(
                 height: 35.h,
@@ -179,7 +166,6 @@ class UserTradesTabView extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildRecordCount(BuildContext context) {
     return Container(
       color: AppColors.white,
@@ -195,23 +181,19 @@ class UserTradesTabView extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildTable(BuildContext context) {
     return BlocBuilder<UserTradesBloc, UserTradesState>(
       builder: (context, state) {
         if (state is UserTradesLoading) {
           return const Center(child: CircularProgressIndicator());
         }
-
         if (state is UserTradesError) {
           return Center(child: Text('Error: ${state.message}'));
         }
-
         List<UserTrade> trades = [];
         if (state is UserTradesLoaded) {
           trades = state.filteredTrades;
         }
-
         return UserDataTable<UserTrade>(
           columns: [
             UserTableColumn(id: 'userName', label: 'U. NAME', width: 100.w),
@@ -368,7 +350,6 @@ class UserTradesTabView extends StatelessWidget {
       },
     );
   }
-
   TextStyle _cellStyle({
     Color? color,
     bool isSymbol = false,

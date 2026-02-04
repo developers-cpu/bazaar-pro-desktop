@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import '../../models/deals/deals_model.dart';
-
 abstract class DealsRemoteDataSource {
   Future<List<DealModel>> getDeals();
   Future<List<DealModel>> getDealsWithFilters({
@@ -20,23 +19,18 @@ abstract class DealsRemoteDataSource {
   Future<String> exportToPdf(List<DealModel> deals);
   Future<String> exportToExcel(List<DealModel> deals);
 }
-
 class DealsRemoteDataSourceImpl implements DealsRemoteDataSource {
   final Dio dio;
-
   DealsRemoteDataSourceImpl({required this.dio});
-
   @override
   Future<List<DealModel>> getDeals() async {
     try {
-
       await Future.delayed(const Duration(milliseconds: 500));
       return _generateMockDeals();
     } catch (e) {
       throw Exception('Failed to fetch deals: $e');
     }
   }
-
   @override
   Future<List<DealModel>> getDealsWithFilters({
     DateTime? startDate,
@@ -48,14 +42,10 @@ class DealsRemoteDataSourceImpl implements DealsRemoteDataSource {
     String? status,
   }) async {
     try {
-
       await Future.delayed(const Duration(milliseconds: 300));
-
       final allDeals = await getDeals();
-
       return allDeals.where((deal) {
         bool matches = true;
-
         if (startDate != null) {
           matches = matches && deal.orderDateTime.isAfter(startDate);
         }
@@ -77,14 +67,12 @@ class DealsRemoteDataSourceImpl implements DealsRemoteDataSource {
         if (status != null && status.isNotEmpty && status != 'All') {
           matches = matches && deal.status == status;
         }
-
         return matches;
       }).toList();
     } catch (e) {
       throw Exception('Failed to fetch filtered deals: $e');
     }
   }
-
   @override
   Future<List<String>> getClients() async {
     try {
@@ -94,7 +82,6 @@ class DealsRemoteDataSourceImpl implements DealsRemoteDataSource {
       throw Exception('Failed to fetch clients: $e');
     }
   }
-
   @override
   Future<List<String>> getExchanges() async {
     try {
@@ -104,7 +91,6 @@ class DealsRemoteDataSourceImpl implements DealsRemoteDataSource {
       throw Exception('Failed to fetch exchanges: $e');
     }
   }
-
   @override
   Future<List<String>> getSymbols() async {
     try {
@@ -122,7 +108,6 @@ class DealsRemoteDataSourceImpl implements DealsRemoteDataSource {
       throw Exception('Failed to fetch symbols: $e');
     }
   }
-
   @override
   Future<List<String>> getOrderTypes() async {
     try {
@@ -132,7 +117,6 @@ class DealsRemoteDataSourceImpl implements DealsRemoteDataSource {
       throw Exception('Failed to fetch order types: $e');
     }
   }
-
   @override
   Future<List<String>> getStatuses() async {
     try {
@@ -142,29 +126,24 @@ class DealsRemoteDataSourceImpl implements DealsRemoteDataSource {
       throw Exception('Failed to fetch statuses: $e');
     }
   }
-
   @override
   Future<String> exportToPdf(List<DealModel> deals) async {
     try {
-
       await Future.delayed(const Duration(seconds: 1));
       return 'deals_export_${DateTime.now().millisecondsSinceEpoch}.pdf';
     } catch (e) {
       throw Exception('Failed to export PDF: $e');
     }
   }
-
   @override
   Future<String> exportToExcel(List<DealModel> deals) async {
     try {
-
       await Future.delayed(const Duration(seconds: 1));
       return 'deals_export_${DateTime.now().millisecondsSinceEpoch}.xlsx';
     } catch (e) {
       throw Exception('Failed to export Excel: $e');
     }
   }
-
   List<DealModel> _generateMockDeals() {
     final List<DealModel> deals = [];
     final symbols = ['GOLD05DEC', 'SILVER05DEC', 'CRUDE05DEC', 'MCX SILVER Dec 05'];
@@ -190,17 +169,14 @@ class DealsRemoteDataSourceImpl implements DealsRemoteDataSource {
       'BUY Limit',
       'SELL',
     ];
-
     for (int i = 0; i < 150; i++) {
       final isBuy = buySellOptions[i % buySellOptions.length].startsWith('BUY');
       final orderDate = DateTime(2025, 11, 22, 3, 6, 34);
       final executionDate = DateTime(2025, 11, 22, 3, 6, 34);
-
       final duration = DateTime.now().difference(orderDate);
       final hours = duration.inHours;
       final minutes = duration.inMinutes % 60;
       final orderDuration = '$hours hours $minutes minutes';
-
       deals.add(DealModel(
         id: 'deal_$i',
         userName: users[i % users.length],
@@ -223,7 +199,6 @@ class DealsRemoteDataSourceImpl implements DealsRemoteDataSource {
         status: statuses[i % statuses.length],
       ));
     }
-
     return deals;
   }
 }

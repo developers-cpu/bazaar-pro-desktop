@@ -3,11 +3,9 @@ import '../../../domain/usecases/get_user_script_position_tracking.dart';
 import '../../../domain/entities/user_script_position_tracking.dart';
 import 'user_script_position_tracking_event.dart';
 import 'user_script_position_tracking_state.dart';
-
 import 'package:bazarpro/features/users/domain/usecases/user/get_exchanges.dart';
 import 'package:bazarpro/features/users/domain/usecases/user/get_symbols.dart'
     as user_symbols;
-
 class UserScriptPositionTrackingBloc
     extends
         Bloc<UserScriptPositionTrackingEvent, UserScriptPositionTrackingState> {
@@ -17,7 +15,6 @@ class UserScriptPositionTrackingBloc
   List<UserScriptPositionTracking> _allReports = [];
   List<String> _exchanges = [];
   List<String> _symbols = [];
-
   UserScriptPositionTrackingBloc({
     required this.getUserScriptPositionTracking,
     required this.getExchanges,
@@ -29,7 +26,6 @@ class UserScriptPositionTrackingBloc
       _onResetUserScriptPositionTrackingFilters,
     );
   }
-
   Future<void> _onLoadUserScriptPositionTracking(
     LoadUserScriptPositionTracking event,
     Emitter<UserScriptPositionTrackingState> emit,
@@ -40,21 +36,17 @@ class UserScriptPositionTrackingBloc
       getExchanges(),
       getSymbols(),
     ]);
-
     final reportResult = results[0] as dynamic;
     final exchangeResult = results[1] as dynamic;
     final symbolResult = results[2] as dynamic;
-
     exchangeResult.fold(
       (failure) => _exchanges = [],
       (List<String> exchanges) => _exchanges = exchanges,
     );
-
     symbolResult.fold(
       (failure) => _symbols = [],
       (List<String> symbols) => _symbols = symbols,
     );
-
     reportResult.fold(
       (failure) =>
           emit(UserScriptPositionTrackingError(message: failure.message)),
@@ -62,7 +54,6 @@ class UserScriptPositionTrackingBloc
         _allReports = reports as List<UserScriptPositionTracking>;
         final userNames = _allReports.map((e) => e.userName).toSet().toList()
           ..sort();
-
         emit(
           UserScriptPositionTrackingLoaded(
             reports: _allReports,
@@ -74,13 +65,11 @@ class UserScriptPositionTrackingBloc
       },
     );
   }
-
   Future<void> _onFilterUserScriptPositionTracking(
     FilterUserScriptPositionTracking event,
     Emitter<UserScriptPositionTrackingState> emit,
   ) async {
     emit(UserScriptPositionTrackingLoading());
-
     final result = await getUserScriptPositionTracking(
       startDate: event.startDate,
       endDate: event.endDate,
@@ -88,14 +77,12 @@ class UserScriptPositionTrackingBloc
       exchange: event.exchange,
       symbol: event.symbol,
     );
-
     result.fold(
       (failure) =>
           emit(UserScriptPositionTrackingError(message: failure.message)),
       (filteredReports) {
         final userNames = _allReports.map((e) => e.userName).toSet().toList()
           ..sort();
-
         emit(
           UserScriptPositionTrackingLoaded(
             reports: filteredReports,
@@ -112,7 +99,6 @@ class UserScriptPositionTrackingBloc
       },
     );
   }
-
   Future<void> _onResetUserScriptPositionTrackingFilters(
     ResetUserScriptPositionTrackingFilters event,
     Emitter<UserScriptPositionTrackingState> emit,
@@ -125,7 +111,6 @@ class UserScriptPositionTrackingBloc
       (reports) {
         final userNames = reports.map((e) => e.userName).toSet().toList()
           ..sort();
-
         emit(
           UserScriptPositionTrackingLoaded(
             reports: reports,

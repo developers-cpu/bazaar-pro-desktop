@@ -10,17 +10,14 @@ import '../../../domain/entities/pending_orders/pending_order.dart';
 import '../../bloc/pending_orders/pending_orders_bloc.dart';
 import '../../bloc/pending_orders/pending_orders_event.dart';
 import '../../bloc/pending_orders/pending_orders_state.dart';
-
 class PendingOrdersTable extends StatelessWidget {
   final bool showDeviceInfo;
   final bool isDarkMode;
-
   const PendingOrdersTable({
     Key? key,
     this.showDeviceInfo = false,
     this.isDarkMode = false,
   }) : super(key: key);
-
   List<ViewTableColumn> _getColumns() {
     final columns = <ViewTableColumn>[
       const ViewTableColumn(id: 'userId', label: 'USER ID', width: 120),
@@ -39,10 +36,8 @@ class PendingOrdersTable extends StatelessWidget {
       const ViewTableColumn(id: 'deviceId', label: 'DEVICE ID', width: 1200),
       const ViewTableColumn(id: 'ipAddress', label: 'IP ADDRESS', width: 160),
     ];
-
     return columns;
   }
-
   Widget _buildCell(PendingOrder item, ViewTableColumn column, bool isDark) {
     switch (column.id) {
       case 'userId':
@@ -98,7 +93,6 @@ class PendingOrdersTable extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<PendingOrdersBloc, PendingOrdersState>(
@@ -106,20 +100,15 @@ class PendingOrdersTable extends StatelessWidget {
         if (state is PendingOrdersLoading) {
           return const Center(child: CircularProgressIndicator());
         }
-
         if (state is PendingOrdersError) {
           return _buildErrorState(context, state.message);
         }
-
         if (state is! PendingOrdersLoaded) {
           return const SizedBox.shrink();
         }
-
         return Column(
           children: [
-
             ViewRecordCount(count: state.totalRecords),
-
             Expanded(
               child: ViewDataTable<PendingOrder>(
                 columns: _getColumns(),
@@ -146,7 +135,6 @@ class PendingOrdersTable extends StatelessWidget {
       },
     );
   }
-
   Widget _buildErrorState(BuildContext context, String message) {
     return Center(
       child: Column(

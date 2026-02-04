@@ -1,7 +1,4 @@
-
-
 import '../../../domain/entities/net_postion/net_position.dart';
-
 class NetPositionModel extends NetPosition {
   const NetPositionModel({
     required super.id,
@@ -21,7 +18,6 @@ class NetPositionModel extends NetPosition {
     required super.lastUpdated,
     required super.status,
   });
-
   factory NetPositionModel.fromJson(Map<String, dynamic> json) {
     return NetPositionModel(
       id: json['id']?.toString() ?? '',
@@ -44,7 +40,6 @@ class NetPositionModel extends NetPosition {
       status: json['status'] ?? 'Active',
     );
   }
-
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -65,7 +60,6 @@ class NetPositionModel extends NetPosition {
       'status': status,
     };
   }
-
   factory NetPositionModel.fromEntity(NetPosition position) {
     return NetPositionModel(
       id: position.id,

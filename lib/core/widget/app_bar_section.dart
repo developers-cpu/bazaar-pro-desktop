@@ -8,6 +8,7 @@ import '../../features/users/presentation/widgets/create_user/user_search_dialog
 import '../../features/tools/presentation/widgets/about_dialog.dart';
 import '../../features/users/presentation/widgets/create_user/change_password_dialog.dart';
 import '../../features/tools/presentation/widgets/messages/messages_dialog.dart';
+import '../../features/tools/presentation/widgets/announcement/announcement_dialog.dart';
 
 class AppBarSection extends StatefulWidget implements PreferredSizeWidget {
   final int selectedTabIndex;
@@ -217,10 +218,9 @@ class AppBarSectionState extends State<AppBarSection> {
             onTap: () {
               ChangePasswordDialog.show(
                 context: context,
-                userId: 'current_user_id', 
-                userName: 'Current User', 
+                userId: 'current_user_id',
+                userName: 'Current User',
                 onChangePassword: (oldNum, newNum) {
-                  
                   print('Change password: $oldNum -> $newNum');
                 },
               );
@@ -245,8 +245,12 @@ class AppBarSectionState extends State<AppBarSection> {
           ),
           MenuItemData(
             title: 'Announcement',
-            onTap: () =>
-                _navigateToPage(5, 'Announcement', '/tools/announcement'),
+            onTap: () {
+              AnnouncementDialog.show(context);
+              setState(() {
+                _selectedDropdownItems[5] = 'Announcement';
+              });
+            },
           ),
           MenuItemData(
             title: 'Rules & Regulations',

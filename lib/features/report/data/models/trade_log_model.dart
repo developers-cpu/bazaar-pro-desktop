@@ -33,37 +33,25 @@ class TradeLogModel extends TradeLog {
 
   factory TradeLogModel.fromJson(Map<String, dynamic> json) {
     return TradeLogModel(
-      id: json['id'] as String,
-      userName: json['userName'] as String,
-      exchange: json['exchange'] as String,
-      symbol: json['symbol'] as String,
-      orderUpdateType: json['orderUpdateType'] as String,
-      userType: json['userType'] as String,
-      oldQty: (json['oldQty'] as num).toDouble(),
-      qty: (json['qty'] as num).toDouble(),
-      oldPrice: (json['oldPrice'] as num).toDouble(),
-      price: (json['price'] as num).toDouble(),
-      updateTime: DateTime.parse(json['updateTime'] as String),
-      orderDateTime: DateTime.parse(json['orderDateTime'] as String),
-      modifyBy: json['modifyBy'] as String,
+      id:
+          json['id'] as String? ??
+          DateTime.now().millisecondsSinceEpoch.toString(),
+      userName: json['userName'] as String? ?? '',
+      exchange: json['exchange'] as String? ?? '',
+      symbol: json['symbol'] as String? ?? '',
+      orderUpdateType: json['orderUpdateType'] as String? ?? '',
+      userType: json['userType'] as String? ?? '',
+      oldQty: (json['oldQty'] as num?)?.toDouble() ?? 0.0,
+      qty: (json['qty'] as num?)?.toDouble() ?? 0.0,
+      oldPrice: (json['oldPrice'] as num?)?.toDouble() ?? 0.0,
+      price: (json['price'] as num?)?.toDouble() ?? 0.0,
+      updateTime: json['updateTime'] != null
+          ? DateTime.parse(json['updateTime'] as String)
+          : DateTime.now(),
+      orderDateTime: json['orderDateTime'] != null
+          ? DateTime.parse(json['orderDateTime'] as String)
+          : DateTime.now(),
+      modifyBy: json['modifyBy'] as String? ?? '',
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'userName': userName,
-      'exchange': exchange,
-      'symbol': symbol,
-      'orderUpdateType': orderUpdateType,
-      'userType': userType,
-      'oldQty': oldQty,
-      'qty': qty,
-      'oldPrice': oldPrice,
-      'price': price,
-      'updateTime': updateTime.toIso8601String(),
-      'orderDateTime': orderDateTime.toIso8601String(),
-      'modifyBy': modifyBy,
-    };
   }
 }

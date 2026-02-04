@@ -1,3 +1,4 @@
+import 'package:bazarpro/features/report/presentation/pages/symbol_wise_pl_report_page.dart';
 import 'package:bazarpro/features/report/presentation/pages/profit_and_loss_report_page.dart';
 import 'package:flutter/material.dart';
 import '../../../../../core/constants/app_colors.dart';
@@ -189,7 +190,7 @@ class SymbolWisePLPageWithAppBar extends StatelessWidget {
       pageTitle: 'Symbol Wise PL',
       onExportPdf: () {},
       onExportExcel: () {},
-      child: const Center(child: Text('Symbol Wise PL - Coming Soon')),
+      child: const SymbolWisePLReportPage(),
     );
   }
 }

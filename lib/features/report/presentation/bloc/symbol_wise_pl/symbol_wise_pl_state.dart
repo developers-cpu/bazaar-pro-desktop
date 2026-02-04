@@ -1,40 +1,40 @@
 import 'package:equatable/equatable.dart';
-import '../../../domain/entities/symbol_wise_position_report.dart';
+import '../../../domain/entities/symbol_wise_pl_report.dart';
 
-abstract class SymbolWisePositionReportState extends Equatable {
-  const SymbolWisePositionReportState();
+abstract class SymbolWisePLState extends Equatable {
+  const SymbolWisePLState();
 
   @override
   List<Object?> get props => [];
 }
 
-class SymbolWisePositionReportInitial extends SymbolWisePositionReportState {}
+class SymbolWisePLInitial extends SymbolWisePLState {}
 
-class SymbolWisePositionReportLoading extends SymbolWisePositionReportState {}
+class SymbolWisePLLoading extends SymbolWisePLState {}
 
-class SymbolWisePositionReportLoaded extends SymbolWisePositionReportState {
-  final List<SymbolWisePositionReport> reports;
+class SymbolWisePLLoaded extends SymbolWisePLState {
+  final List<SymbolWisePLReport> reports;
   final List<String> exchanges;
   final List<String> symbols;
   final String? selectedExchange;
   final String? selectedSymbol;
 
-  const SymbolWisePositionReportLoaded({
+  const SymbolWisePLLoaded({
     required this.reports,
-    required this.exchanges,
-    required this.symbols,
+    this.exchanges = const [],
+    this.symbols = const [],
     this.selectedExchange,
     this.selectedSymbol,
   });
 
-  SymbolWisePositionReportLoaded copyWith({
-    List<SymbolWisePositionReport>? reports,
+  SymbolWisePLLoaded copyWith({
+    List<SymbolWisePLReport>? reports,
     List<String>? exchanges,
     List<String>? symbols,
     String? selectedExchange,
     String? selectedSymbol,
   }) {
-    return SymbolWisePositionReportLoaded(
+    return SymbolWisePLLoaded(
       reports: reports ?? this.reports,
       exchanges: exchanges ?? this.exchanges,
       symbols: symbols ?? this.symbols,
@@ -53,10 +53,10 @@ class SymbolWisePositionReportLoaded extends SymbolWisePositionReportState {
   ];
 }
 
-class SymbolWisePositionReportError extends SymbolWisePositionReportState {
+class SymbolWisePLError extends SymbolWisePLState {
   final String message;
 
-  const SymbolWisePositionReportError(this.message);
+  const SymbolWisePLError({required this.message});
 
   @override
   List<Object?> get props => [message];

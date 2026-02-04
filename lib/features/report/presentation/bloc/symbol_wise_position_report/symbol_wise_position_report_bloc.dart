@@ -1,98 +1,67 @@
-import 'package:bazarpro/features/report/domain/entities/symbol_wise_position_report.dart';
-import 'package:bazarpro/features/report/domain/usecases/get_symbol_wise_position_report.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../domain/usecases/get_symbol_wise_position_report.dart';
 import 'symbol_wise_position_report_event.dart';
 import 'symbol_wise_position_report_state.dart';
 
 class SymbolWisePositionReportBloc
     extends Bloc<SymbolWisePositionReportEvent, SymbolWisePositionReportState> {
   final GetSymbolWisePositionReportUseCase getSymbolWisePositionReport;
-  List<SymbolWisePositionReport> _allReports = [];
 
   SymbolWisePositionReportBloc({required this.getSymbolWisePositionReport})
     : super(SymbolWisePositionReportInitial()) {
-    on<LoadSymbolWisePositionReport>(_onLoadSymbolWisePositionReport);
-    on<FilterSymbolWisePositionReport>(_onFilterSymbolWisePositionReport);
-    on<ResetSymbolWisePositionReportFilters>(
-      _onResetSymbolWisePositionReportFilters,
-    );
+    on<LoadSymbolWisePositionReport>(_onLoad);
+    on<FilterSymbolWisePositionReport>(_onFilter);
+    on<ResetSymbolWisePositionReportFilters>(_onReset);
   }
 
-  Future<void> _onLoadSymbolWisePositionReport(
+  Future<void> _onLoad(
     LoadSymbolWisePositionReport event,
     Emitter<SymbolWisePositionReportState> emit,
   ) async {
     emit(SymbolWisePositionReportLoading());
     final result = await getSymbolWisePositionReport();
     result.fold(
-      (failure) =>
-          emit(SymbolWisePositionReportError(message: failure.message)),
+      (failure) => emit(SymbolWisePositionReportError(failure.message)),
       (reports) {
-        _allReports = reports;
         final exchanges = reports.map((e) => e.exchange).toSet().toList()
           ..sort();
-        List<String> getSymbols(String? exchange) {
-          if (exchange == null || exchange.isEmpty) {
-            return reports.map((e) => e.symbol).toSet().toList()..sort();
-          }
-          return reports
-              .where((e) => e.exchange == exchange)
-              .map((e) => e.symbol)
-              .toSet()
-              .toList()
-            ..sort();
-        }
-
+        final symbols = reports.map((e) => e.symbol).toSet().toList()..sort();
         emit(
           SymbolWisePositionReportLoaded(
             reports: reports,
-            exchanges: exchanges,
-            symbols: getSymbols(null),
+            exchanges: ['All', ...exchanges],
+            symbols: ['All', ...symbols],
+            selectedExchange: 'All',
+            selectedSymbol: 'All',
           ),
         );
       },
     );
   }
 
-  Future<void> _onFilterSymbolWisePositionReport(
+  Future<void> _onFilter(
     FilterSymbolWisePositionReport event,
     Emitter<SymbolWisePositionReportState> emit,
   ) async {
     final currentState = state;
     if (currentState is SymbolWisePositionReportLoaded) {
+      final exchange = event.exchange ?? currentState.selectedExchange;
+      final symbol = event.symbol ?? currentState.selectedSymbol;
+
       emit(SymbolWisePositionReportLoading());
       final result = await getSymbolWisePositionReport(
-        exchange: event.exchange,
-        symbol: event.symbol,
+        exchange: exchange == 'All' ? null : exchange,
+        symbol: symbol == 'All' ? null : symbol,
       );
 
       result.fold(
-        (failure) =>
-            emit(SymbolWisePositionReportError(message: failure.message)),
-        (filteredReports) {
-          final exchanges = _allReports.map((e) => e.exchange).toSet().toList()
-            ..sort();
-
-          List<String> symbols;
-          if (event.exchange != null && event.exchange!.isNotEmpty) {
-            symbols =
-                _allReports
-                    .where((e) => e.exchange == event.exchange)
-                    .map((e) => e.symbol)
-                    .toSet()
-                    .toList()
-                  ..sort();
-          } else {
-            symbols = _allReports.map((e) => e.symbol).toSet().toList()..sort();
-          }
-
+        (failure) => emit(SymbolWisePositionReportError(failure.message)),
+        (reports) {
           emit(
-            SymbolWisePositionReportLoaded(
-              reports: filteredReports,
-              exchanges: exchanges,
-              symbols: symbols,
-              selectedExchange: event.exchange ?? currentState.selectedExchange,
-              selectedSymbol: event.symbol ?? currentState.selectedSymbol,
+            currentState.copyWith(
+              reports: reports,
+              selectedExchange: exchange,
+              selectedSymbol: symbol,
             ),
           );
         },
@@ -100,31 +69,10 @@ class SymbolWisePositionReportBloc
     }
   }
 
-  Future<void> _onResetSymbolWisePositionReportFilters(
+  Future<void> _onReset(
     ResetSymbolWisePositionReportFilters event,
     Emitter<SymbolWisePositionReportState> emit,
   ) async {
-    emit(SymbolWisePositionReportLoading());
-
-    final result = await getSymbolWisePositionReport();
-    result.fold(
-      (failure) =>
-          emit(SymbolWisePositionReportError(message: failure.message)),
-      (reports) {
-        final exchanges = reports.map((e) => e.exchange).toSet().toList()
-          ..sort();
-        final symbols = reports.map((e) => e.symbol).toSet().toList()..sort();
-
-        emit(
-          SymbolWisePositionReportLoaded(
-            reports: reports,
-            exchanges: exchanges,
-            symbols: symbols,
-            selectedExchange: null,
-            selectedSymbol: null,
-          ),
-        );
-      },
-    );
+    add(const LoadSymbolWisePositionReport());
   }
 }

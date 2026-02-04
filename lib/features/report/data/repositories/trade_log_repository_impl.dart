@@ -17,15 +17,15 @@ class TradeLogRepositoryImpl implements TradeLogRepository {
     String? symbol,
   }) async {
     try {
-      final tradeLogs = await remoteDataSource.getTradeLogs(
+      final result = await remoteDataSource.getTradeLogs(
         dateRange: dateRange,
         user: user,
         exchange: exchange,
         symbol: symbol,
       );
-      return Right(tradeLogs);
+      return result.map((models) => models);
     } catch (e) {
-      return Left(ServerFailure( e.toString()));
+      return Left(ServerFailure(e.toString()));
     }
   }
 }

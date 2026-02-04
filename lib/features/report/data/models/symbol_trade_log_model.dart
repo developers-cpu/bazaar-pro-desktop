@@ -1,0 +1,63 @@
+import '../../domain/entities/symbol_trade_log.dart';
+
+class SymbolTradeLogModel extends SymbolTradeLog {
+  const SymbolTradeLogModel({
+    required String sequence,
+    required String userName,
+    required String pUser,
+    required String exchange,
+    required String symbol,
+    required String buySell,
+    required String tradeType,
+    required double qty,
+    required double lot,
+    required double pl,
+    required String validity,
+    required double tradePrice,
+    required double brokerage,
+    required double netPrice,
+    required String orderDateTime,
+    required String executionDateTime,
+    required double referencePrice,
+  }) : super(
+         sequence: sequence,
+         userName: userName,
+         pUser: pUser,
+         exchange: exchange,
+         symbol: symbol,
+         buySell: buySell,
+         tradeType: tradeType,
+         qty: qty,
+         lot: lot,
+         pl: pl,
+         validity: validity,
+         tradePrice: tradePrice,
+         brokerage: brokerage,
+         netPrice: netPrice,
+         orderDateTime: orderDateTime,
+         executionDateTime: executionDateTime,
+         referencePrice: referencePrice,
+       );
+
+  factory SymbolTradeLogModel.fromJson(Map<String, dynamic> json) {
+    return SymbolTradeLogModel(
+      sequence: json['sequence'] as String? ?? '',
+      userName: json['userName'] as String? ?? '',
+      pUser: json['pUser'] as String? ?? '',
+      exchange: json['exchange'] as String? ?? '',
+      symbol: json['symbol'] as String? ?? '',
+      buySell: json['buySell'] as String? ?? '',
+      tradeType: json['tradeType'] as String? ?? '',
+      qty: (json['qty'] as num?)?.toDouble() ?? 0.0,
+      lot: (json['lot'] as num?)?.toDouble() ?? 0.0,
+      pl: (json['pl'] as num?)?.toDouble() ?? 0.0,
+      validity: json['validity'] as String? ?? '',
+      tradePrice: (json['tradePrice'] as num?)?.toDouble() ?? 0.0,
+      brokerage: (json['brokerage'] as num?)?.toDouble() ?? 0.0,
+      netPrice: (json['netPrice'] as num?)?.toDouble() ?? 0.0,
+      orderDateTime: json['orderDateTime'] as String? ?? '',
+      executionDateTime: json['executionDateTime'] as String? ?? '',
+      referencePrice: (json['referencePrice'] as num?)?.toDouble() ?? 0.0,
+    );
+  }
+}

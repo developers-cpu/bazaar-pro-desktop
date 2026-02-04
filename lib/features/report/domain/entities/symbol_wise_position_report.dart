@@ -5,28 +5,48 @@ class SymbolWisePositionReport extends Equatable {
   final String exchange;
   final String symbol;
   final double netQty;
-  final double netQtyPercent;
-  final double avgPrice;
-  final double brokerage;
-  final double wbaPrice;
+  final double netMs;
+  final double carryFwdQty;
+  final double carryFwdMs;
+  final double openQty;
+  final double openMs;
+  final double totalQty;
+  final double totalMs;
+  final double buyQty;
+  final double buyMs;
+  final double sellQty;
+  final double sellMs;
+  final double netAvgPrice;
   final double cmp;
-  final double pl;
-  final double plPercent;
-  final double brokeragePercent;
+  final double m2m;
+  final double releasePL;
+  final double netPL;
+  final double brokerage;
+  final double netPLWithBrokerage;
 
   const SymbolWisePositionReport({
     required this.id,
     required this.exchange,
     required this.symbol,
     required this.netQty,
-    required this.netQtyPercent,
-    required this.avgPrice,
-    required this.brokerage,
-    required this.wbaPrice,
+    required this.netMs,
+    required this.carryFwdQty,
+    required this.carryFwdMs,
+    required this.openQty,
+    required this.openMs,
+    required this.totalQty,
+    required this.totalMs,
+    required this.buyQty,
+    required this.buyMs,
+    required this.sellQty,
+    required this.sellMs,
+    required this.netAvgPrice,
     required this.cmp,
-    required this.pl,
-    required this.plPercent,
-    required this.brokeragePercent,
+    required this.m2m,
+    required this.releasePL,
+    required this.netPL,
+    required this.brokerage,
+    required this.netPLWithBrokerage,
   });
 
   @override
@@ -35,13 +55,23 @@ class SymbolWisePositionReport extends Equatable {
     exchange,
     symbol,
     netQty,
-    netQtyPercent,
-    avgPrice,
-    brokerage,
-    wbaPrice,
+    netMs,
+    carryFwdQty,
+    carryFwdMs,
+    openQty,
+    openMs,
+    totalQty,
+    totalMs,
+    buyQty,
+    buyMs,
+    sellQty,
+    sellMs,
+    netAvgPrice,
     cmp,
-    pl,
-    plPercent,
-    brokeragePercent,
+    m2m,
+    releasePL,
+    netPL,
+    brokerage,
+    netPLWithBrokerage,
   ];
 }

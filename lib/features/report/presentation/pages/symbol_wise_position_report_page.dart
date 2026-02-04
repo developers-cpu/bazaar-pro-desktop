@@ -3,8 +3,8 @@ import 'package:bazarpro/features/report/presentation/bloc/symbol_wise_position_
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../../injection_container.dart';
-import '../widgets/symbol_wise_position_report/symbol_wise_position_report_filter_bar.dart';
-import '../widgets/symbol_wise_position_report/symbol_wise_position_report_table.dart';
+import '../widgets/symbol_wise_pl_report/symbol_wise_position_report_filter_bar.dart';
+import '../widgets/symbol_wise_pl_report/symbol_wise_position_report_table.dart';
 
 class SymbolWisePositionReportPage extends StatelessWidget {
   const SymbolWisePositionReportPage({super.key});

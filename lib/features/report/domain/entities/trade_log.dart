@@ -1,4 +1,6 @@
-class TradeLog {
+import 'package:equatable/equatable.dart';
+
+class TradeLog extends Equatable {
   final String id;
   final String userName;
   final String exchange;
@@ -30,39 +32,19 @@ class TradeLog {
   });
 
   @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is TradeLog &&
-        other.id == id &&
-        other.userName == userName &&
-        other.exchange == exchange &&
-        other.symbol == symbol &&
-        other.orderUpdateType == orderUpdateType &&
-        other.userType == userType &&
-        other.oldQty == oldQty &&
-        other.qty == qty &&
-        other.oldPrice == oldPrice &&
-        other.price == price &&
-        other.updateTime == updateTime &&
-        other.orderDateTime == orderDateTime &&
-        other.modifyBy == modifyBy;
-  }
-
-  @override
-  int get hashCode {
-    return id.hashCode ^
-        userName.hashCode ^
-        exchange.hashCode ^
-        symbol.hashCode ^
-        orderUpdateType.hashCode ^
-        userType.hashCode ^
-        oldQty.hashCode ^
-        qty.hashCode ^
-        oldPrice.hashCode ^
-        price.hashCode ^
-        updateTime.hashCode ^
-        orderDateTime.hashCode ^
-        modifyBy.hashCode;
-  }
+  List<Object?> get props => [
+    id,
+    userName,
+    exchange,
+    symbol,
+    orderUpdateType,
+    userType,
+    oldQty,
+    qty,
+    oldPrice,
+    price,
+    updateTime,
+    orderDateTime,
+    modifyBy,
+  ];
 }

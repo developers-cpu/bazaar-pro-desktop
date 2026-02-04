@@ -14,77 +14,62 @@ class SymbolWisePositionReportRemoteDataSourceImpl
     String? exchange,
     String? symbol,
   }) async {
+    
     await Future.delayed(const Duration(milliseconds: 500));
-
     final List<SymbolWisePositionReportModel> mockData = [
       const SymbolWisePositionReportModel(
         id: '1',
         exchange: 'NSE',
-        symbol: 'NIFTY30DEC',
-        netQty: -10.00,
-        netQtyPercent: 10.00,
-        avgPrice: 26387.40,
-        brokerage: 0.00,
-        wbaPrice: 26387.40,
-        cmp: 26076.00,
-        pl: 3082.00,
-        plPercent: -3080.00,
-        brokeragePercent: 0.00,
+        symbol: 'CRUDEOIL 18SEP2024',
+        netQty: 100,
+        netMs: 1000,
+        carryFwdQty: 0,
+        carryFwdMs: 0,
+        openQty: 50,
+        openMs: 500,
+        totalQty: 150,
+        totalMs: 1500,
+        buyQty: 200,
+        buyMs: 2000,
+        sellQty: 100,
+        sellMs: 1000,
+        netAvgPrice: 6500,
+        cmp: 6550,
+        m2m: 5000,
+        releasePL: 2000,
+        netPL: 7000,
+        brokerage: 100,
+        netPLWithBrokerage: 6900,
       ),
       const SymbolWisePositionReportModel(
         id: '2',
-        exchange: 'NSE',
-        symbol: 'BANKNIFTY30DEC',
-        netQty: -35.00,
-        netQtyPercent: 35.00,
-        avgPrice: 60225.00,
-        brokerage: 105.39,
-        wbaPrice: 60221.99,
-        cmp: 59371.20,
-        pl: 29834.00,
-        plPercent: -29785.00,
-        brokeragePercent: 105.39,
-      ),
-      const SymbolWisePositionReportModel(
-        id: '3',
-        exchange: 'NSE',
-        symbol: 'JSWSTEEL30DEC',
-        netQty: -500.00,
-        netQtyPercent: 0.00,
-        avgPrice: 1157.10,
-        brokerage: 842.88,
-        wbaPrice: 1155.41,
-        cmp: 1158.20,
-        pl: -900.00,
-        plPercent: 0.00,
-        brokeragePercent: 44.36,
-      ),
-      const SymbolWisePositionReportModel(
-        id: '4',
         exchange: 'MCX',
-        symbol: 'GOLDPETAL',
-        netQty: 10.00,
-        netQtyPercent: 5.00,
-        avgPrice: 59000.00,
-        brokerage: 50.00,
-        wbaPrice: 59050.00,
-        cmp: 59200.00,
-        pl: 2000.00,
-        plPercent: 15.00,
-        brokeragePercent: 10.00,
+        symbol: 'GOLD 05OCT2024',
+        netQty: -10,
+        netMs: -100,
+        carryFwdQty: 0,
+        carryFwdMs: 0,
+        openQty: -5,
+        openMs: -50,
+        totalQty: -15,
+        totalMs: -150,
+        buyQty: 10,
+        buyMs: 100,
+        sellQty: 20,
+        sellMs: 200,
+        netAvgPrice: 58000,
+        cmp: 57800,
+        m2m: 2000,
+        releasePL: 1000,
+        netPL: 3000,
+        brokerage: 200,
+        netPLWithBrokerage: 2800,
       ),
     ];
 
-    return mockData.where((item) {
-      if (exchange != null &&
-          exchange.isNotEmpty &&
-          item.exchange.toLowerCase() != exchange.toLowerCase()) {
-        return false;
-      }
-      if (symbol != null && symbol.isNotEmpty) {
-        return item.symbol.toLowerCase() == symbol.toLowerCase();
-      }
-      return true;
-    }).toList();
+    if (exchange != null && exchange != 'All') {
+      return mockData.where((e) => e.exchange == exchange).toList();
+    }
+    return mockData;
   }
 }

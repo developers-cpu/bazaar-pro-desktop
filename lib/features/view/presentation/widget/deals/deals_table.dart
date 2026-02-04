@@ -28,17 +28,59 @@ class DealsTable extends StatelessWidget {
       const ViewTableColumn(id: 'pUser', label: 'P USER', width: 120),
       const ViewTableColumn(id: 'exchange', label: 'EXCH', width: 100),
       const ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 150),
-      const ViewTableColumn(id: 'orderDateTime', label: 'ORDER D/T', width: 220),
+      const ViewTableColumn(
+        id: 'orderDateTime',
+        label: 'ORDER D/T',
+        width: 220,
+      ),
       const ViewTableColumn(id: 'buySell', label: 'B/S', width: 280),
-      const ViewTableColumn(id: 'qty', label: 'QTY', width: 120, isNumeric: true),
-      const ViewTableColumn(id: 'lot', label: 'LOT', width: 100, isNumeric: true),
+      const ViewTableColumn(
+        id: 'qty',
+        label: 'QTY',
+        width: 120,
+        isNumeric: true,
+      ),
+      const ViewTableColumn(
+        id: 'lot',
+        label: 'LOT',
+        width: 100,
+        isNumeric: true,
+      ),
       const ViewTableColumn(id: 'orderType', label: 'TYPE', width: 100),
-      const ViewTableColumn(id: 'pl', label: 'P/L', width: 120, isNumeric: true),
-      const ViewTableColumn(id: 'triggerPrice', label: 'T. PRICE', width: 130, isNumeric: true),
-      const ViewTableColumn(id: 'brokerage', label: 'BRK', width: 100, isNumeric: true),
-      const ViewTableColumn(id: 'executionDateTime', label: 'EXECUTION D/T', width: 220),
-      const ViewTableColumn(id: 'rPrice', label: 'R. PRICE', width: 120, isNumeric: true),
-      const ViewTableColumn(id: 'orderDuration', label: 'ORDER DURATION', width: 180),
+      const ViewTableColumn(
+        id: 'pl',
+        label: 'P/L',
+        width: 120,
+        isNumeric: true,
+      ),
+      const ViewTableColumn(
+        id: 'triggerPrice',
+        label: 'T. PRICE',
+        width: 130,
+        isNumeric: true,
+      ),
+      const ViewTableColumn(
+        id: 'brokerage',
+        label: 'BRK',
+        width: 100,
+        isNumeric: true,
+      ),
+      const ViewTableColumn(
+        id: 'executionDateTime',
+        label: 'EXECUTION D/T',
+        width: 220,
+      ),
+      const ViewTableColumn(
+        id: 'rPrice',
+        label: 'R. PRICE',
+        width: 120,
+        isNumeric: true,
+      ),
+      const ViewTableColumn(
+        id: 'orderDuration',
+        label: 'ORDER DURATION',
+        width: 180,
+      ),
     ];
 
     if (showDeviceInfo) {
@@ -51,7 +93,12 @@ class DealsTable extends StatelessWidget {
     return columns;
   }
 
-  Widget _buildCell(BuildContext context, Deal item, ViewTableColumn column, bool isDark) {
+  Widget _buildCell(
+    BuildContext context,
+    Deal item,
+    ViewTableColumn column,
+    bool isDark,
+  ) {
     switch (column.id) {
       case 'userName':
         return ViewTextCell(text: item.userName, isDark: isDark);
@@ -72,10 +119,7 @@ class DealsTable extends StatelessWidget {
           isDark: isDark,
         );
       case 'lot':
-        return ViewTextCell(
-          text: item.lot.toStringAsFixed(2),
-          isDark: isDark,
-        );
+        return ViewTextCell(text: item.lot.toStringAsFixed(2), isDark: isDark);
       case 'orderType':
         return ViewTextCell(text: item.orderType, isDark: isDark);
       case 'pl':
@@ -104,7 +148,10 @@ class DealsTable extends StatelessWidget {
         );
       case 'executionDateTime':
         return item.executionDateTime != null
-            ? ViewDateTimeCell(dateTime: item.executionDateTime!, isDark: isDark)
+            ? ViewDateTimeCell(
+                dateTime: item.executionDateTime!,
+                isDark: isDark,
+              )
             : ViewTextCell(text: '-', isDark: isDark);
       case 'orderDuration':
         return _buildOrderDurationCell(context, item, isDark);
@@ -120,13 +167,14 @@ class DealsTable extends StatelessWidget {
   Widget _buildOrderDurationCell(BuildContext context, Deal item, bool isDark) {
     return GestureDetector(
       onTap: () {
-
         final state = context.read<DealsBloc>().state;
         if (state is DealsLoaded) {
           final relatedOrders = state.filteredDeals
-              .where((deal) =>
-          deal.symbol == item.symbol &&
-              deal.userName == item.userName)
+              .where(
+                (deal) =>
+                    deal.symbol == item.symbol &&
+                    deal.userName == item.userName,
+              )
               .toList();
 
           OrderDurationDialog.show(
@@ -171,7 +219,6 @@ class DealsTable extends StatelessWidget {
 
         return Column(
           children: [
-
             ViewRecordCount(count: state.totalRecords),
 
             Expanded(
@@ -184,13 +231,17 @@ class DealsTable extends StatelessWidget {
                 sortAscending: state.sortAscending,
                 isDarkMode: isDarkMode,
                 emptyMessage: 'No deals found',
-                cellBuilder: (item, column) => _buildCell(context, item, column, isDarkMode),
+                cellBuilder: (item, column) =>
+                    _buildCell(context, item, column, isDarkMode),
                 onRowTap: (item) {
                   context.read<DealsBloc>().add(SelectDealEvent(item.id));
                 },
                 onSort: (columnId, ascending) {
                   context.read<DealsBloc>().add(
-                    SortDealsByColumnEvent(columnId: columnId, ascending: ascending),
+                    SortDealsByColumnEvent(
+                      columnId: columnId,
+                      ascending: ascending,
+                    ),
                   );
                 },
               ),
@@ -208,10 +259,7 @@ class DealsTable extends StatelessWidget {
         children: [
           Text(
             message,
-            style: GoogleFonts.openSans(
-              fontSize: 14.sp,
-              color: AppColors.red,
-            ),
+            style: GoogleFonts.openSans(fontSize: 14.sp, color: AppColors.red),
           ),
           SizedBox(height: 16.h),
           ElevatedButton(

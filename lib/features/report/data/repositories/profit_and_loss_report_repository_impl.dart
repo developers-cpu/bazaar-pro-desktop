@@ -1,10 +1,8 @@
 import 'package:dartz/dartz.dart';
-
-import '../../../../core/errors/exceptions.dart';
 import '../../../../core/errors/failures.dart';
 import '../../domain/entities/profit_and_loss_report.dart';
 import '../../domain/repositories/profit_and_loss_report_repository.dart';
-import '../datasources/profit_and_loss_report_remote_datasource.dart';
+import '../datasources/profit_and_loss_report/profit_and_loss_report_remote_datasource.dart';
 
 class ProfitAndLossReportRepositoryImpl
     implements ProfitAndLossReportRepository {

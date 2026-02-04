@@ -61,17 +61,17 @@ class SymbolWisePositionReportTable extends StatelessWidget {
         );
       case 'releasePL':
         return _buildClickableNumberCell(context, item.releasePL, () {
-          SymbolTradeListDialog.show(context, item.symbol);
+          SymbolTradeListDialog.show(context, symbol: item.symbol);
         }, isDark);
       case 'm2m':
         return _buildClickableNumberCell(context, item.m2m, () {
-          SymbolOpenPositionDialog.show(context, item.symbol);
+          SymbolOpenPositionDialog.show(context, symbol: item.symbol);
         }, isDark);
       case 'brokerage':
         return ViewNumberCell(
           value: item.brokerage,
           isDark: isDark,
-          colorByValue: false, 
+          colorByValue: false,
         );
       case 'netPL':
         return ViewNumberCell(value: item.netPL, isDark: isDark);
@@ -121,7 +121,7 @@ class SymbolWisePositionReportTable extends StatelessWidget {
                 idExtractor: (item) => item.id,
                 sortColumn: null,
                 sortAscending: true,
-                autoFit: true, 
+                autoFit: true,
                 isDarkMode: isDarkMode,
                 emptyMessage: 'No reports found',
                 cellBuilder: (item, column) =>

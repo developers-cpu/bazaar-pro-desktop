@@ -35,7 +35,7 @@ class SymbolWisePLFilterBar extends StatelessWidget {
                     FilterSymbolWisePL(exchange: value),
                   );
                 },
-                width: 150.w,
+                width: 200.w,
                 height: 40.h,
               ),
               SizedBox(width: 16.w),
@@ -52,7 +52,7 @@ class SymbolWisePLFilterBar extends StatelessWidget {
                     );
                   },
                   width: 200.w,
-                  height: 48.h, 
+                  height: 40.h, 
                 ),
               ),
               const Spacer(),
@@ -63,10 +63,7 @@ class SymbolWisePLFilterBar extends StatelessWidget {
                 child: OutlinedButton(
                   onPressed: () {
                     
-                    
-                    
-                    
-                    
+          
                     context.read<SymbolWisePLBloc>().add(
                       const LoadSymbolWisePL(),
                     );

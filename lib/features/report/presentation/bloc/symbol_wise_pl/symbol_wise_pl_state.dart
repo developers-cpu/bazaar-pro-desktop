@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import '../../../domain/entities/symbol_wise_pl_report.dart';
+import '../../../domain/entities/symbol_wise_pl/symbol_wise_pl_report.dart';
 
 abstract class SymbolWisePLState extends Equatable {
   const SymbolWisePLState();

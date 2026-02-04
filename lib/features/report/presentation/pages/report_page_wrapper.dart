@@ -9,6 +9,7 @@ import 'activity_report_page.dart';
 import 'symbol_wise_position_report_page.dart';
 import 'user_script_position_tracking_page.dart';
 import 'user_wise_profit_and_loss_page.dart';
+import 'exchange_wise_pl_report_page.dart';
 
 class ReportPageWrapper extends StatelessWidget {
   final String pageTitle;
@@ -204,7 +205,7 @@ class ExchangeWiseReportPageWithAppBar extends StatelessWidget {
       pageTitle: 'Exchange Wise Report',
       onExportPdf: () {},
       onExportExcel: () {},
-      child: const Center(child: Text('Exchange Wise Report - Coming Soon')),
+      child: const ExchangeWisePLReportPage(),
     );
   }
 }

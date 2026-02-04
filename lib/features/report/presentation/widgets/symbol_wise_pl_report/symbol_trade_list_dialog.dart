@@ -7,23 +7,24 @@ import '../../../../view/presentation/widget/common/view_data_table.dart';
 import '../../../../view/presentation/widget/common/view_record_count.dart';
 import '../../../../view/presentation/widget/common/view_table_cell_styles.dart';
 import '../../../domain/entities/symbol_trade_log.dart';
-import '../../bloc/symbol_wise_pl/symbol_trade_list_bloc.dart';
-import '../../bloc/symbol_wise_pl/symbol_trade_list_event.dart';
-import '../../bloc/symbol_wise_pl/symbol_trade_list_state.dart';
+import '../../bloc/symbol_wise_pl/trade_list/symbol_trade_list_bloc.dart';
+import '../../bloc/symbol_wise_pl/trade_list/symbol_trade_list_event.dart';
+import '../../bloc/symbol_wise_pl/trade_list/symbol_trade_list_state.dart';
 
 class SymbolTradeListDialog extends StatelessWidget {
-  final String symbol;
+  final String? symbol;
+  final String? exchange;
 
-  const SymbolTradeListDialog({Key? key, required this.symbol})
+  const SymbolTradeListDialog({Key? key, this.symbol, this.exchange})
     : super(key: key);
 
-  static void show(BuildContext context, String symbol) {
+  static void show(BuildContext context, {String? symbol, String? exchange}) {
     CommonDialog.show(
       context: context,
       title: 'User Details',
-      width: 1200.w, 
+      width: 1200.w,
       height: 700.h,
-      content: SymbolTradeListDialog(symbol: symbol),
+      content: SymbolTradeListDialog(symbol: symbol, exchange: exchange),
       showButtons: false,
     );
   }
@@ -32,7 +33,8 @@ class SymbolTradeListDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) =>
-          sl<SymbolTradeListBloc>()..add(LoadSymbolTradeList(symbol)),
+          sl<SymbolTradeListBloc>()
+            ..add(LoadSymbolTradeList(symbol: symbol, exchange: exchange)),
       child: BlocBuilder<SymbolTradeListBloc, SymbolTradeListState>(
         builder: (context, state) {
           if (state is SymbolTradeListLoading) {

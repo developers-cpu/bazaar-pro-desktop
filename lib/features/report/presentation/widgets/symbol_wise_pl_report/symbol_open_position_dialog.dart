@@ -8,23 +8,24 @@ import '../../../../view/presentation/widget/common/view_data_table.dart';
 import '../../../../view/presentation/widget/common/view_record_count.dart';
 import '../../../../view/presentation/widget/common/view_table_cell_styles.dart';
 import '../../../domain/entities/symbol_open_position.dart';
-import '../../bloc/symbol_wise_pl/symbol_open_position_bloc.dart';
-import '../../bloc/symbol_wise_pl/symbol_open_position_event.dart';
-import '../../bloc/symbol_wise_pl/symbol_open_position_state.dart';
+import '../../bloc/symbol_wise_pl/open_postion/symbol_open_position_bloc.dart';
+import '../../bloc/symbol_wise_pl/open_postion/symbol_open_position_event.dart';
+import '../../bloc/symbol_wise_pl/open_postion/symbol_open_position_state.dart';
 
 class SymbolOpenPositionDialog extends StatelessWidget {
-  final String symbol;
+  final String? symbol;
+  final String? exchange;
 
-  const SymbolOpenPositionDialog({Key? key, required this.symbol})
+  const SymbolOpenPositionDialog({Key? key, this.symbol, this.exchange})
     : super(key: key);
 
-  static void show(BuildContext context, String symbol) {
+  static void show(BuildContext context, {String? symbol, String? exchange}) {
     CommonDialog.show(
       context: context,
       title: 'Open Position',
       width: 1400.w,
       height: 700.h,
-      content: SymbolOpenPositionDialog(symbol: symbol),
+      content: SymbolOpenPositionDialog(symbol: symbol, exchange: exchange),
       showButtons: false,
     );
   }
@@ -33,7 +34,8 @@ class SymbolOpenPositionDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) =>
-          sl<SymbolOpenPositionBloc>()..add(LoadSymbolOpenPosition(symbol)),
+          sl<SymbolOpenPositionBloc>()
+            ..add(LoadSymbolOpenPosition(symbol: symbol, exchange: exchange)),
       child: BlocBuilder<SymbolOpenPositionBloc, SymbolOpenPositionState>(
         builder: (context, state) {
           if (state is SymbolOpenPositionLoading) {

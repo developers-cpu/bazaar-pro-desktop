@@ -1,5 +1,6 @@
+import 'package:bazarpro/features/report/domain/usecases/symbol_wise_pl/get_symbol_wise_pl_report.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../domain/usecases/get_symbol_wise_pl_report.dart';
+
 import 'symbol_wise_pl_event.dart';
 import 'symbol_wise_pl_state.dart';
 
@@ -44,8 +45,8 @@ class SymbolWisePLBloc extends Bloc<SymbolWisePLEvent, SymbolWisePLState> {
   ) async {
     emit(SymbolWisePLLoading());
     final result = await getSymbolWisePLReport(
-      exchange: event.exchange,
-      symbol: event.symbol,
+      exchange: event.exchange == 'All' ? null : event.exchange,
+      symbol: event.symbol == 'All' ? null : event.symbol,
     );
 
     result.fold(

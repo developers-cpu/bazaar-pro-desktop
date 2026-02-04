@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import '../../../../core/errors/failures.dart';
 import '../../domain/entities/activity_report.dart';
 import '../../domain/repositories/activity_report_repository.dart';
-import '../datasources/activity_report_remote_datasource.dart';
+import '../datasources/activity_report/activity_report_remote_datasource.dart';
 
 class ActivityReportRepositoryImpl implements ActivityReportRepository {
   final ActivityReportRemoteDataSource dataSource;

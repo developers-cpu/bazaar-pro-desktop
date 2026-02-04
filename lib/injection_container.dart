@@ -152,10 +152,10 @@ import 'features/users/domain/usecases/user_position/get_user_positions.dart';
 import 'features/users/data/datasources/user_position/user_position_datasource.dart';
 import 'features/users/domain/repositories/user_brokerage_setting/user_brokerage_setting_repository.dart';
 import 'features/users/data/repositories/user_brokerage_setting/user_brokerage_setting_repository_impl.dart';
-import 'features/report/data/datasources/trade_log_remote_datasource.dart';
-import 'features/report/data/datasources/trade_margin_remote_datasource.dart';
-import 'features/report/data/datasources/credit_history_remote_datasource.dart';
-import 'features/report/data/datasources/activity_report_remote_datasource.dart';
+import 'features/report/data/datasources/trade_log/trade_log_remote_datasource.dart';
+import 'features/report/data/datasources/trade_margin/trade_margin_remote_datasource.dart';
+import 'features/report/data/datasources/credit_history/credit_history_remote_datasource.dart';
+import 'features/report/data/datasources/activity_report/activity_report_remote_datasource.dart';
 import 'features/report/data/repositories/trade_log_repository_impl.dart';
 import 'features/report/data/repositories/trade_margin_repository_impl.dart';
 import 'features/report/data/repositories/credit_history_repository_impl.dart';
@@ -173,33 +173,38 @@ import 'features/report/presentation/bloc/credit_history/credit_history_bloc.dar
 import 'features/report/presentation/bloc/activity_report/activity_report_bloc.dart';
 import 'features/report/domain/repositories/symbol_wise_position_report_repository.dart';
 import 'features/report/domain/usecases/get_symbol_wise_position_report.dart';
-import 'features/report/data/datasources/symbol_wise_position_report_remote_datasource.dart';
+import 'features/report/data/datasources/symbol_wise_pl/symbol_wise_position_report_remote_datasource.dart';
 import 'features/report/data/repositories/symbol_wise_position_report_repository_impl.dart';
 import 'features/report/presentation/bloc/symbol_wise_position_report/symbol_wise_position_report_bloc.dart';
 import 'features/report/presentation/bloc/profit_and_loss_report/profit_and_loss_report_bloc.dart';
 import 'features/report/domain/usecases/get_profit_and_loss_report.dart';
 import 'features/report/domain/repositories/profit_and_loss_report_repository.dart';
 import 'features/report/data/repositories/profit_and_loss_report_repository_impl.dart';
-import 'features/report/data/datasources/profit_and_loss_report_remote_datasource.dart';
+import 'features/report/data/datasources/profit_and_loss_report/profit_and_loss_report_remote_datasource.dart';
 
 import 'features/report/presentation/bloc/user_script_position_tracking/user_script_position_tracking_bloc.dart';
 import 'features/report/domain/usecases/get_user_script_position_tracking.dart';
 import 'features/report/domain/repositories/user_script_position_tracking_repository.dart';
 import 'features/report/data/repositories/user_script_position_tracking_repository_impl.dart';
-import 'features/report/data/datasources/user_script_position_tracking_remote_datasource.dart';
+import 'features/report/data/datasources/user_script_position_tracking/user_script_position_tracking_remote_datasource.dart';
 
 import 'features/report/presentation/bloc/user_wise_profit_and_loss/user_wise_profit_and_loss_bloc.dart';
 import 'features/report/domain/usecases/get_user_wise_profit_and_loss_report.dart';
 import 'features/report/domain/repositories/user_wise_profit_and_loss_repository.dart';
 import 'features/report/data/repositories/user_wise_profit_and_loss_repository_impl.dart';
-import 'features/report/data/datasources/user_wise_profit_and_loss_remote_datasource.dart';
+import 'features/report/data/datasources/user_wise_profit_and_loss/user_wise_profit_and_loss_remote_datasource.dart';
 import 'features/report/presentation/bloc/symbol_wise_pl/symbol_wise_pl_bloc.dart';
-import 'features/report/domain/usecases/get_symbol_wise_pl_report.dart';
-import 'features/report/domain/repositories/symbol_wise_pl_repository.dart';
-import 'features/report/data/repositories/symbol_wise_pl_repository_impl.dart';
-import 'features/report/data/datasources/symbol_wise_pl_remote_datasource.dart';
-import 'features/report/presentation/bloc/symbol_wise_pl/symbol_trade_list_bloc.dart';
-import 'features/report/presentation/bloc/symbol_wise_pl/symbol_open_position_bloc.dart';
+import 'features/report/domain/usecases/symbol_wise_pl/get_symbol_wise_pl_report.dart';
+import 'features/report/domain/repositories/symbol_wise_pl/symbol_wise_pl_repository.dart';
+import 'features/report/data/repositories/symbol_wise_pl/symbol_wise_pl_repository_impl.dart';
+import 'features/report/data/datasources/symbol_wise_pl/symbol_wise_pl_remote_datasource.dart';
+import 'features/report/presentation/bloc/symbol_wise_pl/trade_list/symbol_trade_list_bloc.dart';
+import 'features/report/presentation/bloc/symbol_wise_pl/open_postion/symbol_open_position_bloc.dart';
+import 'features/report/presentation/bloc/exchange_wise_pl/exchange_wise_pl_bloc.dart';
+import 'features/report/domain/usecases/exchange_wise_pl/get_exchange_wise_pl_report.dart';
+import 'features/report/domain/repositories/exchange_wise_pl/exchange_wise_pl_repository.dart';
+import 'features/report/data/repositories/exchange_wise_pl/exchange_wise_pl_repository_impl.dart';
+import 'features/report/data/datasources/exchange_wise_pl/exchange_wise_pl_remote_datasource.dart';
 
 final sl = GetIt.instance;
 
@@ -815,4 +820,13 @@ Future<void> init() async {
 
   sl.registerFactory(() => SymbolTradeListBloc(repository: sl()));
   sl.registerFactory(() => SymbolOpenPositionBloc(repository: sl()));
+
+  sl.registerFactory(() => ExchangeWisePLBloc(getExchangeWisePLReport: sl()));
+  sl.registerLazySingleton(() => GetExchangeWisePLReport(sl()));
+  sl.registerLazySingleton<ExchangeWisePLRepository>(
+    () => ExchangeWisePLRepositoryImpl(dataSource: sl()),
+  );
+  sl.registerLazySingleton<ExchangeWisePLRemoteDataSource>(
+    () => ExchangeWisePLRemoteDataSourceImpl(),
+  );
 }

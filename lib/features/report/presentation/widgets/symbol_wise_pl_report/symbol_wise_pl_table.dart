@@ -6,7 +6,7 @@ import '../../../../view/presentation/widget/common/view_table_cell_styles.dart'
 import '../../../../view/presentation/widget/common/view_data_table_footer.dart';
 import '../../bloc/symbol_wise_pl/symbol_wise_pl_bloc.dart';
 import '../../bloc/symbol_wise_pl/symbol_wise_pl_state.dart';
-import '../../../domain/entities/symbol_wise_pl_report.dart';
+import '../../../domain/entities/symbol_wise_pl/symbol_wise_pl_report.dart';
 import 'symbol_open_position_dialog.dart';
 import 'symbol_trade_list_dialog.dart';
 
@@ -36,10 +36,17 @@ class SymbolWisePLTable extends StatelessWidget {
       child: Center(
         child: Text(
           value.toStringAsFixed(2),
-          style: ViewTableCellStyles.getTextStyle(
-            isDark: isDark,
-            color: ViewTableCellStyles.getValueColor(value, isDark: isDark),
-          ).copyWith(decoration: TextDecoration.underline),
+          style:
+              ViewTableCellStyles.getTextStyle(
+                isDark: isDark,
+                color: ViewTableCellStyles.getValueColor(value, isDark: isDark),
+              ).copyWith(
+                decoration: TextDecoration.underline,
+                decorationColor: ViewTableCellStyles.getValueColor(
+                  value,
+                  isDark: isDark,
+                ),
+              ),
           textAlign: TextAlign.center,
         ),
       ),
@@ -61,11 +68,11 @@ class SymbolWisePLTable extends StatelessWidget {
         );
       case 'releasePL':
         return _buildClickableNumberCell(context, item.releasePL, () {
-          SymbolTradeListDialog.show(context, item.symbol);
+          SymbolTradeListDialog.show(context, symbol: item.symbol);
         }, isDark);
       case 'm2m':
         return _buildClickableNumberCell(context, item.m2m, () {
-          SymbolOpenPositionDialog.show(context, item.symbol);
+          SymbolOpenPositionDialog.show(context, symbol: item.symbol);
         }, isDark);
       case 'brokerage':
         return ViewNumberCell(

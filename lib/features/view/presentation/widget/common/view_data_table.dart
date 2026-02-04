@@ -15,7 +15,7 @@ class ViewTableColumn {
   const ViewTableColumn({
     required this.id,
     required this.label,
-    required this.width,
+    required this.width, 
     this.isNumeric = false,
     this.sortable = true,
   });

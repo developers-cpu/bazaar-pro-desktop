@@ -221,6 +221,11 @@ import 'features/tools/data/repositories/announcement_repository_impl.dart';
 import 'features/tools/domain/repositories/announcement_repository.dart';
 import 'features/tools/domain/usecases/get_announcements_usecase.dart';
 import 'features/tools/presentation/bloc/announcement/announcement_bloc.dart';
+import 'features/tools/data/datasources/rules_remote_datasource.dart';
+import 'features/tools/data/repositories/rules_repository_impl.dart';
+import 'features/tools/domain/repositories/rules_repository.dart';
+import 'features/tools/domain/usecases/get_rules_usecase.dart';
+import 'features/tools/presentation/bloc/rules/rules_bloc.dart';
 
 final sl = GetIt.instance;
 Future<void> init() async {
@@ -772,7 +777,6 @@ Future<void> init() async {
     () => MessageRemoteDataSourceImpl(),
   );
 
-  
   sl.registerFactory(() => AnnouncementBloc(getAnnouncements: sl()));
   sl.registerLazySingleton(() => GetAnnouncementsUseCase(repository: sl()));
   sl.registerLazySingleton<AnnouncementRepository>(
@@ -780,5 +784,15 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<AnnouncementRemoteDataSource>(
     () => AnnouncementRemoteDataSourceImpl(),
+  );
+
+  
+  sl.registerFactory(() => RulesBloc(getRules: sl()));
+  sl.registerLazySingleton(() => GetRulesUseCase(repository: sl()));
+  sl.registerLazySingleton<RulesRepository>(
+    () => RulesRepositoryImpl(remoteDataSource: sl()),
+  );
+  sl.registerLazySingleton<RulesRemoteDataSource>(
+    () => RulesRemoteDataSourceImpl(),
   );
 }

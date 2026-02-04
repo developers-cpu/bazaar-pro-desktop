@@ -89,7 +89,15 @@ class _UserDetailsDialogState extends State<UserDetailsDialog>
       _currentTabs.remove('User List');
     }
 
-    _initTabController();
+    int initialIndex = 0;
+    if (widget.initialTab != null) {
+      initialIndex = _currentTabs.indexOf(widget.initialTab!);
+      if (initialIndex == -1) {
+        initialIndex = 0;
+      }
+    }
+
+    _initTabController(initialIndex: initialIndex);
   }
 
   void _initTabController({int initialIndex = 0}) {

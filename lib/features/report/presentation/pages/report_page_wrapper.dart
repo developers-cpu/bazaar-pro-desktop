@@ -7,6 +7,7 @@ import 'credit_history_page.dart';
 import 'activity_report_page.dart';
 import 'symbol_wise_position_report_page.dart';
 import 'user_script_position_tracking_page.dart';
+import 'user_wise_profit_and_loss_page.dart';
 
 class ReportPageWrapper extends StatelessWidget {
   final String pageTitle;
@@ -146,7 +147,7 @@ class UserWisePLPageWithAppBar extends StatelessWidget {
       pageTitle: 'User Wise Profit & Loss',
       onExportPdf: () {},
       onExportExcel: () {},
-      child: const Center(child: Text('User Wise Profit & Loss - Coming Soon')),
+      child: const UserWiseProfitAndLossPage(),
     );
   }
 }

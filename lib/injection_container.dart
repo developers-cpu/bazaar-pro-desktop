@@ -188,6 +188,12 @@ import 'features/report/domain/repositories/user_script_position_tracking_reposi
 import 'features/report/data/repositories/user_script_position_tracking_repository_impl.dart';
 import 'features/report/data/datasources/user_script_position_tracking_remote_datasource.dart';
 
+import 'features/report/presentation/bloc/user_wise_profit_and_loss/user_wise_profit_and_loss_bloc.dart';
+import 'features/report/domain/usecases/get_user_wise_profit_and_loss_report.dart';
+import 'features/report/domain/repositories/user_wise_profit_and_loss_repository.dart';
+import 'features/report/data/repositories/user_wise_profit_and_loss_repository_impl.dart';
+import 'features/report/data/datasources/user_wise_profit_and_loss_remote_datasource.dart';
+
 final sl = GetIt.instance;
 
 Future<void> init() async {
@@ -776,5 +782,19 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<UserScriptPositionTrackingRemoteDataSource>(
     () => UserScriptPositionTrackingRemoteDataSourceImpl(),
+  );
+
+  
+  sl.registerFactory(
+    () => UserWiseProfitAndLossBloc(getUserWiseProfitAndLossReport: sl()),
+  );
+  sl.registerLazySingleton(
+    () => GetUserWiseProfitAndLossReportUseCase(repository: sl()),
+  );
+  sl.registerLazySingleton<UserWiseProfitAndLossRepository>(
+    () => UserWiseProfitAndLossRepositoryImpl(dataSource: sl()),
+  );
+  sl.registerLazySingleton<UserWiseProfitAndLossRemoteDataSource>(
+    () => UserWiseProfitAndLossRemoteDataSourceImpl(),
   );
 }

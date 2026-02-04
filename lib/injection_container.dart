@@ -210,6 +210,11 @@ import 'features/report/domain/usecases/get_bill_generate_report.dart';
 import 'features/report/domain/repositories/bill_generate_repository.dart';
 import 'features/report/data/repositories/bill_generate_repository_impl.dart';
 import 'features/report/data/datasources/bill_generate_remote_datasource.dart';
+import 'features/report/presentation/bloc/settlement_report/settlement_report_bloc.dart';
+import 'features/report/domain/usecases/get_settlement_report.dart';
+import 'features/report/domain/repositories/settlement_report_repository.dart';
+import 'features/report/data/repositories/settlement_report_repository_impl.dart';
+import 'features/report/data/datasources/settlement_report_remote_datasource.dart';
 
 final sl = GetIt.instance;
 
@@ -842,5 +847,14 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<BillGenerateRemoteDataSource>(
     () => BillGenerateRemoteDataSourceImpl(),
+  );
+
+  sl.registerFactory(() => SettlementReportBloc(getSettlementReport: sl()));
+  sl.registerLazySingleton(() => GetSettlementReport(sl()));
+  sl.registerLazySingleton<SettlementReportRepository>(
+    () => SettlementReportRepositoryImpl(remoteDataSource: sl()),
+  );
+  sl.registerLazySingleton<SettlementReportRemoteDataSource>(
+    () => SettlementReportRemoteDataSourceImpl(),
   );
 }

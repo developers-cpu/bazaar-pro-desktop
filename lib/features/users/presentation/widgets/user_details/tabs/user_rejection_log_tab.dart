@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart' hide DateRangePickerDialog;
+import 'package:flutter/material.dart' hide CustomDateRangePickerDialog;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -74,7 +74,7 @@ class UserRejectionLogTabView extends StatelessWidget {
                 selectedDateRange: selectedDateRange,
                 onTap: () async {
                   final DateTimeRange? picked =
-                      await DateRangePickerDialog.show(
+                      await CustomDateRangePickerDialog.show(
                         context,
                         initialStartDate: selectedDateRange?.start,
                         initialEndDate: selectedDateRange?.end,

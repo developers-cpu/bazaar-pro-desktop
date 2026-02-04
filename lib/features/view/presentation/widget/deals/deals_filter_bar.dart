@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart' hide DateRangePickerDialog;
+import 'package:flutter/material.dart' hide CustomDateRangePickerDialog;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -188,7 +188,7 @@ class DealsFilterBar extends StatelessWidget {
 
     return GestureDetector(
       onTap: () async {
-        final result = await DateRangePickerDialog.show(
+        final result = await CustomDateRangePickerDialog.show(
           context,
           initialStartDate: state.startDate,
           initialEndDate: state.endDate,

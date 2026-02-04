@@ -1,5 +1,5 @@
 import 'package:bazarpro/injection_container.dart';
-import 'package:flutter/material.dart' hide DateRangePickerDialog;
+import 'package:flutter/material.dart' hide CustomDateRangePickerDialog;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../domain/entities/user_trades/user_trade.dart';
@@ -78,7 +78,7 @@ class UserTradesTabView extends StatelessWidget {
               DateRangePickerButton(
                 selectedDateRange: selectedDateRange,
                 onTap: () async {
-                  final result = await DateRangePickerDialog.show(
+                  final result = await CustomDateRangePickerDialog.show(
                     context,
                     initialStartDate: selectedDateRange?.start,
                     initialEndDate: selectedDateRange?.end,

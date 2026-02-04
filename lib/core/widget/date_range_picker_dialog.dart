@@ -4,11 +4,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import '../constants/app_colors.dart';
 
-class DateRangePickerDialog extends StatefulWidget {
+class CustomDateRangePickerDialog extends StatefulWidget {
   final DateTime? initialStartDate;
   final DateTime? initialEndDate;
 
-  const DateRangePickerDialog({
+  const CustomDateRangePickerDialog({
     super.key,
     this.initialStartDate,
     this.initialEndDate,
@@ -22,7 +22,7 @@ class DateRangePickerDialog extends StatefulWidget {
     return await showDialog<DateTimeRange>(
       context: context,
       barrierColor: AppColors.black.withOpacity(0.5),
-      builder: (context) => DateRangePickerDialog(
+      builder: (context) => CustomDateRangePickerDialog(
         initialStartDate: initialStartDate,
         initialEndDate: initialEndDate,
       ),
@@ -30,10 +30,12 @@ class DateRangePickerDialog extends StatefulWidget {
   }
 
   @override
-  State<DateRangePickerDialog> createState() => _DateRangePickerDialogState();
+  State<CustomDateRangePickerDialog> createState() =>
+      _CustomDateRangePickerDialogState();
 }
 
-class _DateRangePickerDialogState extends State<DateRangePickerDialog> {
+class _CustomDateRangePickerDialogState
+    extends State<CustomDateRangePickerDialog> {
   late DateTime _currentMonth;
   DateTime? _startDate;
   DateTime? _endDate;

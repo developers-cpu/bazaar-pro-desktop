@@ -1,6 +1,7 @@
 import 'package:bazarpro/features/report/presentation/pages/bill_generate_page.dart';
 import 'package:bazarpro/features/report/presentation/pages/symbol_wise_pl_report_page.dart';
 import 'package:bazarpro/features/report/presentation/pages/profit_and_loss_report_page.dart';
+import 'package:bazarpro/features/report/presentation/pages/settlement_report_page.dart';
 import 'package:flutter/material.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../core/widget/app_bar_section.dart';
@@ -80,7 +81,7 @@ class SettlementPageWithAppBar extends StatelessWidget {
       pageTitle: 'Settlement',
       onExportPdf: () {},
       onExportExcel: () {},
-      child: const Center(child: Text('Settlement - Coming Soon')),
+      child: const SettlementReportPage(),
     );
   }
 }

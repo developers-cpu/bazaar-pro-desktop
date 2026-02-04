@@ -63,7 +63,7 @@ class UserWiseProfitAndLossFilterBar extends StatelessWidget {
                 height: 40.h,
                 selectedDateRange: selectedDateRange,
                 onTap: () async {
-                  final picked = await custom.DateRangePickerDialog.show(
+                  final picked = await custom.CustomDateRangePickerDialog.show(
                     context,
                     initialStartDate: null,
                     initialEndDate: null,

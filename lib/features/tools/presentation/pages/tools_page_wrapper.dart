@@ -3,6 +3,7 @@ import '../../../../../core/constants/app_colors.dart';
 import '../../../../core/widget/app_bar_section.dart';
 import 'tools_sub_pages.dart';
 import 'rules_page.dart';
+import 'market_timing_page.dart';
 
 class ToolsPageWrapper extends StatelessWidget {
   final String pageTitle;

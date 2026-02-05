@@ -226,6 +226,11 @@ import 'features/tools/data/repositories/rules_repository_impl.dart';
 import 'features/tools/domain/repositories/rules_repository.dart';
 import 'features/tools/domain/usecases/get_rules_usecase.dart';
 import 'features/tools/presentation/bloc/rules/rules_bloc.dart';
+import 'features/tools/presentation/bloc/market_timing/market_timing_bloc.dart';
+import 'features/tools/domain/usecases/get_market_timing_usecase.dart';
+import 'features/tools/domain/repositories/market_timing_repository.dart';
+import 'features/tools/data/repositories/market_timing_repository_impl.dart';
+import 'features/tools/data/datasources/market_timing_remote_datasource.dart';
 
 final sl = GetIt.instance;
 Future<void> init() async {
@@ -786,7 +791,6 @@ Future<void> init() async {
     () => AnnouncementRemoteDataSourceImpl(),
   );
 
-  
   sl.registerFactory(() => RulesBloc(getRules: sl()));
   sl.registerLazySingleton(() => GetRulesUseCase(repository: sl()));
   sl.registerLazySingleton<RulesRepository>(
@@ -794,5 +798,15 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<RulesRemoteDataSource>(
     () => RulesRemoteDataSourceImpl(),
+  );
+
+  
+  sl.registerFactory(() => MarketTimingBloc(getMarketTiming: sl()));
+  sl.registerLazySingleton(() => GetMarketTimingUseCase(sl()));
+  sl.registerLazySingleton<MarketTimingRepository>(
+    () => MarketTimingRepositoryImpl(remoteDataSource: sl()),
+  );
+  sl.registerLazySingleton<MarketTimingRemoteDataSource>(
+    () => MarketTimingRemoteDataSourceImpl(),
   );
 }

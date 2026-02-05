@@ -45,6 +45,7 @@ class _RulesPageState extends State<RulesPage>
                 controller: _tabController,
                 isScrollable: true,
                 dividerColor: Colors.transparent,
+                overlayColor: MaterialStateProperty.all(Colors.transparent),
                 indicatorSize: TabBarIndicatorSize.tab,
                 indicatorWeight: 3.0,
                 labelColor: AppColors.primaryBlue,

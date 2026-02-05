@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'svg_icon.dart';
-
 class CustomInputField extends StatelessWidget {
   final String hintText;
   final String? svgIconPath;
@@ -20,7 +19,6 @@ class CustomInputField extends StatelessWidget {
   final double? width;
   final String? prefixSvgPath;
   final bool showErrorBorder;
-
   const CustomInputField({
     Key? key,
     required this.hintText,
@@ -39,12 +37,10 @@ class CustomInputField extends StatelessWidget {
     this.prefixSvgPath,
     this.showErrorBorder = true,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: width ?? 250.w,
-      
       child: TextFormField(
         controller: controller,
         obscureText: obscureText,
@@ -99,7 +95,6 @@ class CustomInputField extends StatelessWidget {
       ),
     );
   }
-
   Widget? _buildPrefixIcon() {
     if (prefixSvgPath != null) {
       return Padding(
@@ -109,7 +104,6 @@ class CustomInputField extends StatelessWidget {
     }
     return null;
   }
-
   Widget? _buildSuffixIcon() {
     if (suffixIcon != null) {
       return IconButton(
@@ -125,7 +119,6 @@ class CustomInputField extends StatelessWidget {
     }
     return null;
   }
-
   OutlineInputBorder _buildBorder({
     bool isError = false,
     bool isDisabled = false,

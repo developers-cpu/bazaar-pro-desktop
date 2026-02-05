@@ -1,18 +1,12 @@
 import '../models/rule_model.dart';
-
 abstract class RulesRemoteDataSource {
   Future<List<RuleModel>> getRules();
 }
-
 class RulesRemoteDataSourceImpl implements RulesRemoteDataSource {
   @override
   Future<List<RuleModel>> getRules() async {
-    
     await Future.delayed(const Duration(milliseconds: 500));
-
-    
     return [
-      
       const RuleModel(
         id: '1',
         language: 'en',
@@ -125,8 +119,6 @@ class RulesRemoteDataSourceImpl implements RulesRemoteDataSource {
         rule:
             'WHEN THERE IS A GAP-UP OR GAP-DOWN, ACTUAL LOSS WILL BE COUNTED. EVEN IF YOUR CREDIT IS 5 LAKH AND LOSS IS 7 LAKH, COMPLETE LOSS OF 7 LAKH WILL BE CONSIDERED.',
       ),
-
-      
       const RuleModel(
         id: '20',
         language: 'hi',
@@ -237,8 +229,6 @@ class RulesRemoteDataSourceImpl implements RulesRemoteDataSource {
         rule:
             'जब गैप-अप या गैप-डाउन होता है, तो वास्तविक नुकसान गिना जाएगा भले ही आपका क्रेडिट 5 लाख हो और नुकसान 7 लाख हो, 7 लाख का पूरा नुकसान गिना जाएगा',
       ),
-
-      
       const RuleModel(
         id: '39',
         language: 'gu',

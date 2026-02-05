@@ -5,14 +5,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-
 import '../../../../../core/widget/common_dilog_box.dart';
 import '../../../../../injection_container.dart';
 import '../../../domain/entities/message_entity.dart';
-
 class MessagesDialog extends StatelessWidget {
   const MessagesDialog({super.key});
-
   static void show(BuildContext context) {
     showDialog(
       context: context,
@@ -23,7 +20,6 @@ class MessagesDialog extends StatelessWidget {
       ),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return CommonDialog(
@@ -47,9 +43,7 @@ class MessagesDialog extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildMessageList(List<MessageEntity> messages) {
-    
     final groupedMessages = <String, List<MessageEntity>>{};
     for (var message in messages) {
       final dateKey = _getDateKey(message.timestamp);
@@ -58,14 +52,12 @@ class MessagesDialog extends StatelessWidget {
       }
       groupedMessages[dateKey]!.add(message);
     }
-
     return ListView.builder(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
       itemCount: groupedMessages.length,
       itemBuilder: (context, index) {
         final dateKey = groupedMessages.keys.elementAt(index);
         final dateMessages = groupedMessages[dateKey]!;
-
         return Column(
           children: [
             _buildDateHeader(dateKey),
@@ -75,7 +67,6 @@ class MessagesDialog extends StatelessWidget {
       },
     );
   }
-
   String _getDateKey(DateTime timestamp) {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
@@ -85,7 +76,6 @@ class MessagesDialog extends StatelessWidget {
       timestamp.month,
       timestamp.day,
     );
-
     if (messageDate == today) {
       return 'Today';
     } else if (messageDate == yesterday) {
@@ -94,7 +84,6 @@ class MessagesDialog extends StatelessWidget {
       return DateFormat('dd/MM/yy').format(timestamp);
     }
   }
-
   Widget _buildDateHeader(String date) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 12.h),
@@ -117,7 +106,6 @@ class MessagesDialog extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildMessageCard(MessageEntity message) {
     return Container(
       margin: EdgeInsets.only(bottom: 12.h),

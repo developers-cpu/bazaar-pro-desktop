@@ -2,22 +2,18 @@ import 'package:bazarpro/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../../../../../core/widget/common_dilog_box.dart';
 import '../../../../../core/widget/custom_input_field.dart';
-
 class ChangePasswordDialog extends StatefulWidget {
   final String userId;
   final String userName;
   final Function(String oldPassword, String newPassword) onChangePassword;
-
   const ChangePasswordDialog({
     super.key,
     required this.userId,
     required this.userName,
     required this.onChangePassword,
   });
-
   static void show({
     required BuildContext context,
     required String userId,
@@ -34,21 +30,17 @@ class ChangePasswordDialog extends StatefulWidget {
       ),
     );
   }
-
   @override
   State<ChangePasswordDialog> createState() => _ChangePasswordDialogState();
 }
-
 class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
   final _formKey = GlobalKey<FormState>();
   final _currentPasswordController = TextEditingController();
   final _newPasswordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
-
   bool _obscureCurrent = true;
   bool _obscureNew = true;
   bool _obscureConfirm = true;
-
   @override
   void dispose() {
     _currentPasswordController.dispose();
@@ -56,7 +48,6 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
     _confirmPasswordController.dispose();
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     return CommonDialog(
@@ -166,7 +157,6 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
       ),
     );
   }
-
   void _handleSubmit() {
     if (_formKey.currentState?.validate() ?? false) {
       widget.onChangePassword(

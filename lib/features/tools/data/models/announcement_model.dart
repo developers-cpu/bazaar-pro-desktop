@@ -1,5 +1,4 @@
 import '../../domain/entities/announcement_entity.dart';
-
 class AnnouncementModel extends AnnouncementEntity {
   const AnnouncementModel({
     required String id,
@@ -14,7 +13,6 @@ class AnnouncementModel extends AnnouncementEntity {
          timestamp: timestamp,
          isRead: isRead,
        );
-
   factory AnnouncementModel.fromJson(Map<String, dynamic> json) {
     return AnnouncementModel(
       id: json['id'],
@@ -24,7 +22,6 @@ class AnnouncementModel extends AnnouncementEntity {
       isRead: json['isRead'] ?? false,
     );
   }
-
   Map<String, dynamic> toJson() {
     return {
       'id': id,

@@ -9,7 +9,7 @@ import '../../features/tools/presentation/widgets/about_dialog.dart';
 import '../../features/users/presentation/widgets/create_user/change_password_dialog.dart';
 import '../../features/tools/presentation/widgets/messages/messages_dialog.dart';
 import '../../features/tools/presentation/widgets/announcement/announcement_dialog.dart';
-
+import '../../features/tools/presentation/widgets/shortcuts/shortcuts_dialog.dart';
 class AppBarSection extends StatefulWidget implements PreferredSizeWidget {
   final int selectedTabIndex;
   final String? currentPageTitle;
@@ -39,7 +39,6 @@ class AppBarSection extends StatefulWidget implements PreferredSizeWidget {
   @override
   State<AppBarSection> createState() => AppBarSectionState();
 }
-
 class AppBarSectionState extends State<AppBarSection> {
   late List<AppBarTab> _tabs;
   final Map<int, String> _selectedDropdownItems = {};
@@ -52,7 +51,6 @@ class AppBarSectionState extends State<AppBarSection> {
           widget.currentPageTitle!;
     }
   }
-
   @override
   void didUpdateWidget(AppBarSection oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -62,7 +60,6 @@ class AppBarSectionState extends State<AppBarSection> {
           widget.currentPageTitle!;
     }
   }
-
   void _initializeTabs() {
     _tabs = [
       const AppBarTab(title: AppStrings.marketWatch),
@@ -262,7 +259,12 @@ class AppBarSectionState extends State<AppBarSection> {
           ),
           MenuItemData(
             title: 'ShortCuts',
-            onTap: () => _navigateToPage(5, 'ShortCuts', '/tools/shortcuts'),
+            onTap: () {
+              ShortcutsDialog.show(context);
+              setState(() {
+                _selectedDropdownItems[5] = 'ShortCuts';
+              });
+            },
           ),
           MenuItemData(
             title: 'My Profile',
@@ -277,7 +279,6 @@ class AppBarSectionState extends State<AppBarSection> {
       ),
     ];
   }
-
   void _navigateToPage(int tabIndex, String itemTitle, String routeName) {
     setState(() {
       _selectedDropdownItems[tabIndex] = itemTitle;
@@ -285,7 +286,6 @@ class AppBarSectionState extends State<AppBarSection> {
     widget.onViewAction?.call(routeName);
     Navigator.of(context).pushReplacementNamed(routeName);
   }
-
   void _onTabSelected(int index) {
     if (index == 0) {
       Navigator.of(context).pushReplacementNamed('/market-watch');
@@ -296,16 +296,13 @@ class AppBarSectionState extends State<AppBarSection> {
     }
     widget.onTabSelected(index);
   }
-
   bool hasDropdown(int index) {
     if (index < 0 || index >= _tabs.length) return false;
     return _tabs[index].hasDropdown;
   }
-
   bool get _shouldShowReloadIcon {
     return widget.selectedTabIndex == 0;
   }
-
   @override
   Widget build(BuildContext context) {
     return CommonAppBar(

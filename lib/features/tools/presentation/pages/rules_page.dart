@@ -2,35 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../injection_container.dart';
 import '../../domain/entities/rule_entity.dart';
 import '../bloc/rules/rules_bloc.dart';
-
 class RulesPage extends StatefulWidget {
   const RulesPage({super.key});
-
   @override
   State<RulesPage> createState() => _RulesPageState();
 }
-
 class _RulesPageState extends State<RulesPage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
   }
-
   @override
   void dispose() {
     _tabController.dispose();
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -89,10 +82,8 @@ class _RulesPageState extends State<RulesPage>
       ),
     );
   }
-
   Widget _buildRulesList(List<RuleEntity> allRules, String languageCode) {
     final rules = allRules.where((r) => r.language == languageCode).toList();
-
     return ListView.builder(
       padding: EdgeInsets.all(24.w),
       itemCount: rules.length,

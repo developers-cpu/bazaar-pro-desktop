@@ -231,7 +231,11 @@ import 'features/tools/domain/usecases/get_market_timing_usecase.dart';
 import 'features/tools/domain/repositories/market_timing_repository.dart';
 import 'features/tools/data/repositories/market_timing_repository_impl.dart';
 import 'features/tools/data/datasources/market_timing_remote_datasource.dart';
-
+import 'features/tools/presentation/bloc/shortcuts/shortcuts_bloc.dart';
+import 'features/tools/domain/usecases/get_shortcuts_usecase.dart';
+import 'features/tools/domain/repositories/shortcuts_repository.dart';
+import 'features/tools/data/repositories/shortcuts_repository_impl.dart';
+import 'features/tools/data/datasources/shortcuts_remote_datasource.dart';
 final sl = GetIt.instance;
 Future<void> init() async {
   sl.registerLazySingleton(() => ApiClient());
@@ -772,7 +776,6 @@ Future<void> init() async {
   sl.registerLazySingleton<SettlementReportRemoteDataSource>(
     () => SettlementReportRemoteDataSourceImpl(),
   );
-
   sl.registerFactory(() => MessageBloc(getMessages: sl()));
   sl.registerLazySingleton(() => GetMessagesUseCase(repository: sl()));
   sl.registerLazySingleton<MessageRepository>(
@@ -781,7 +784,6 @@ Future<void> init() async {
   sl.registerLazySingleton<MessageRemoteDataSource>(
     () => MessageRemoteDataSourceImpl(),
   );
-
   sl.registerFactory(() => AnnouncementBloc(getAnnouncements: sl()));
   sl.registerLazySingleton(() => GetAnnouncementsUseCase(repository: sl()));
   sl.registerLazySingleton<AnnouncementRepository>(
@@ -790,7 +792,6 @@ Future<void> init() async {
   sl.registerLazySingleton<AnnouncementRemoteDataSource>(
     () => AnnouncementRemoteDataSourceImpl(),
   );
-
   sl.registerFactory(() => RulesBloc(getRules: sl()));
   sl.registerLazySingleton(() => GetRulesUseCase(repository: sl()));
   sl.registerLazySingleton<RulesRepository>(
@@ -799,8 +800,6 @@ Future<void> init() async {
   sl.registerLazySingleton<RulesRemoteDataSource>(
     () => RulesRemoteDataSourceImpl(),
   );
-
-  
   sl.registerFactory(() => MarketTimingBloc(getMarketTiming: sl()));
   sl.registerLazySingleton(() => GetMarketTimingUseCase(sl()));
   sl.registerLazySingleton<MarketTimingRepository>(
@@ -808,5 +807,13 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<MarketTimingRemoteDataSource>(
     () => MarketTimingRemoteDataSourceImpl(),
+  );
+  sl.registerFactory(() => ShortcutsBloc(getShortcuts: sl()));
+  sl.registerLazySingleton(() => GetShortcutsUseCase(sl()));
+  sl.registerLazySingleton<ShortcutsRepository>(
+    () => ShortcutsRepositoryImpl(remoteDataSource: sl()),
+  );
+  sl.registerLazySingleton<ShortcutsRemoteDataSource>(
+    () => ShortcutsRemoteDataSourceImpl(),
   );
 }

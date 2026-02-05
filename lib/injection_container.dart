@@ -231,11 +231,17 @@ import 'features/tools/domain/usecases/get_market_timing_usecase.dart';
 import 'features/tools/domain/repositories/market_timing_repository.dart';
 import 'features/tools/data/repositories/market_timing_repository_impl.dart';
 import 'features/tools/data/datasources/market_timing_remote_datasource.dart';
+import 'features/tools/data/datasources/total_volume_remote_datasource.dart';
+import 'features/tools/data/repositories/total_volume_repository_impl.dart';
+import 'features/tools/domain/repositories/total_volume_repository.dart';
+import 'features/tools/domain/usecases/get_total_volume_usecase.dart';
+import 'features/tools/presentation/bloc/total_volume/total_volume_bloc.dart';
 import 'features/tools/presentation/bloc/shortcuts/shortcuts_bloc.dart';
 import 'features/tools/domain/usecases/get_shortcuts_usecase.dart';
 import 'features/tools/domain/repositories/shortcuts_repository.dart';
 import 'features/tools/data/repositories/shortcuts_repository_impl.dart';
 import 'features/tools/data/datasources/shortcuts_remote_datasource.dart';
+
 final sl = GetIt.instance;
 Future<void> init() async {
   sl.registerLazySingleton(() => ApiClient());
@@ -815,5 +821,16 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<ShortcutsRemoteDataSource>(
     () => ShortcutsRemoteDataSourceImpl(),
+  );
+
+  sl.registerFactory(
+    () => TotalVolumeBloc(getTotalVolume: sl(), getExchanges: sl()),
+  );
+  sl.registerLazySingleton(() => GetTotalVolumeUseCase(sl()));
+  sl.registerLazySingleton<TotalVolumeRepository>(
+    () => TotalVolumeRepositoryImpl(remoteDataSource: sl()),
+  );
+  sl.registerLazySingleton<TotalVolumeRemoteDataSource>(
+    () => TotalVolumeRemoteDataSourceImpl(),
   );
 }

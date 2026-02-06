@@ -241,6 +241,11 @@ import 'features/tools/domain/usecases/get_shortcuts_usecase.dart';
 import 'features/tools/domain/repositories/shortcuts_repository.dart';
 import 'features/tools/data/repositories/shortcuts_repository_impl.dart';
 import 'features/tools/data/datasources/shortcuts_remote_datasource.dart';
+import 'features/tools/presentation/bloc/my_profile/my_profile_bloc.dart';
+import 'features/tools/domain/usecases/get_my_profile_usecase.dart';
+import 'features/tools/domain/repositories/my_profile_repository.dart';
+import 'features/tools/data/repositories/my_profile_repository_impl.dart';
+import 'features/tools/data/datasources/my_profile_remote_datasource.dart';
 
 final sl = GetIt.instance;
 Future<void> init() async {
@@ -832,5 +837,14 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<TotalVolumeRemoteDataSource>(
     () => TotalVolumeRemoteDataSourceImpl(),
+  );
+
+  sl.registerFactory(() => MyProfileBloc(getMyProfile: sl()));
+  sl.registerLazySingleton(() => GetMyProfileUseCase(sl()));
+  sl.registerLazySingleton<MyProfileRepository>(
+    () => MyProfileRepositoryImpl(remoteDataSource: sl()),
+  );
+  sl.registerLazySingleton<MyProfileRemoteDataSource>(
+    () => MyProfileRemoteDataSourceImpl(),
   );
 }

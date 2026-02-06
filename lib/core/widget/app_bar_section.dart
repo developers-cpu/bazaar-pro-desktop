@@ -11,6 +11,7 @@ import '../../features/tools/presentation/widgets/messages/messages_dialog.dart'
 import '../../features/tools/presentation/widgets/announcement/announcement_dialog.dart';
 import '../../features/tools/presentation/widgets/shortcuts/shortcuts_dialog.dart';
 import '../../features/tools/presentation/widgets/total_volume/total_volume_dialog.dart';
+import '../../features/tools/presentation/widgets/my_profile/my_profile_dialog.dart';
 
 class AppBarSection extends StatefulWidget implements PreferredSizeWidget {
   final int selectedTabIndex;
@@ -273,7 +274,12 @@ class AppBarSectionState extends State<AppBarSection> {
           ),
           MenuItemData(
             title: 'My Profile',
-            onTap: () => _navigateToPage(5, 'My Profile', '/tools/my-profile'),
+            onTap: () {
+              MyProfileDialog.show(context);
+              setState(() {
+                _selectedDropdownItems[5] = 'My Profile';
+              });
+            },
           ),
           MenuItemData(
             title: 'Total Volume',

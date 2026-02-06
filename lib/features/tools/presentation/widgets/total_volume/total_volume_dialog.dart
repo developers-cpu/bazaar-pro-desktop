@@ -39,12 +39,10 @@ class _TotalVolumeDialogState extends State<TotalVolumeDialog> {
           sl<TotalVolumeBloc>()..add(GetTotalVolumeExchangesEvent()),
       child: BlocBuilder<TotalVolumeBloc, TotalVolumeState>(
         builder: (context, state) {
-           
-           
           final exchanges =
               state.exchanges.isEmpty &&
                   state.exchangeStatus == ExchangeStatus.success
-              ? ['NSE', 'MCX']  
+              ? ['NSE', 'MCX']
               : state.exchanges;
 
           return SizedBox(

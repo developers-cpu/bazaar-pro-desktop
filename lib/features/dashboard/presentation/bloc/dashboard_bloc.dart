@@ -3,19 +3,20 @@ import '../../domain/repositories/dashboard_repository.dart';
 import '../../domain/usecases/dashboard_usecases.dart';
 import 'dashboard_event.dart';
 import 'dashboard_state.dart';
+
 class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
   final DashboardRepository _repository;
   late final GetDashboardDataUseCase _getDashboardData;
   late final GetTradeReportsUseCase _getTradeReports;
   late final GetSymbolReportsUseCase _getSymbolReports;
-  late final GetDashboardSummaryUseCase _getDashboardSummary;
+
   DashboardBloc({required DashboardRepository repository})
-      : _repository = repository,
-        super(const DashboardInitial()) {
+    : _repository = repository,
+      super(const DashboardInitial()) {
     _getDashboardData = GetDashboardDataUseCase(repository: _repository);
     _getTradeReports = GetTradeReportsUseCase(repository: _repository);
     _getSymbolReports = GetSymbolReportsUseCase(repository: _repository);
-    _getDashboardSummary = GetDashboardSummaryUseCase(repository: _repository);
+
     on<LoadDashboardEvent>(_onLoadDashboard);
     on<FilterTradeReportsByClientEvent>(_onFilterTradeReportsByClient);
     on<FilterTradeReportsByPeriodEvent>(_onFilterTradeReportsByPeriod);
@@ -24,87 +25,124 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     on<FilterSymbolReportsByPeriodEvent>(_onFilterSymbolReportsByPeriod);
     on<ToggleSymbolReportExchangeEvent>(_onToggleSymbolReportExchange);
     on<ChangeSymbolReportTopCountEvent>(_onChangeSymbolReportTopCount);
+    on<FilterWeeklyProgressByClientEvent>(_onFilterWeeklyProgressByClient);
+    on<FilterWeeklyProgressByPeriodEvent>(_onFilterWeeklyProgressByPeriod);
+    on<ToggleWeeklyProgressExchangeEvent>(_onToggleWeeklyProgressExchange);
     on<RefreshDashboardEvent>(_onRefreshDashboard);
   }
+
   Future<void> _onLoadDashboard(
-      LoadDashboardEvent event,
-      Emitter<DashboardState> emit,
-      ) async {
+    LoadDashboardEvent event,
+    Emitter<DashboardState> emit,
+  ) async {
     emit(const DashboardLoading());
     try {
       final dashboardData = await _getDashboardData();
-      emit(DashboardLoaded(
-        tradeReports: dashboardData.tradeReports,
-        symbolReports: dashboardData.symbolReports,
-        summary: dashboardData.summary,
-        tradeReportSelectedExchanges: {'NSE', 'MCX'},
-        symbolReportSelectedExchanges: {'NSE', 'MCX', 'GIFTNIFTY', 'CE/PE', 'USSTOCK'},
-      ));
+      emit(
+        DashboardLoaded(
+          tradeReports: dashboardData.tradeReports,
+          symbolReports: dashboardData.symbolReports,
+          weeklyProgress: dashboardData.weeklyProgress,
+          summary: dashboardData.summary,
+          tradeReportSelectedExchanges: {'NSE', 'MCX'},
+          symbolReportSelectedExchanges: {
+            'NSE',
+            'MCX',
+            'GIFTNIFTY',
+            'CE/PE',
+            'USSTOCK',
+          },
+          weeklyProgressSelectedExchanges: {
+            'NSE',
+            'MCX',
+            'GIFTNIFTY',
+            'CE/PE',
+            'OTHERS',
+            'COMEX',
+            'CRYPTO',
+            'FOREX',
+            'USSTOCK',
+          },
+        ),
+      );
     } catch (e) {
       emit(DashboardError(message: e.toString()));
     }
   }
+
   Future<void> _onFilterTradeReportsByClient(
-      FilterTradeReportsByClientEvent event,
-      Emitter<DashboardState> emit,
-      ) async {
+    FilterTradeReportsByClientEvent event,
+    Emitter<DashboardState> emit,
+  ) async {
     final currentState = state;
     if (currentState is! DashboardLoaded) return;
+
     try {
       final tradeReports = await _getTradeReports(
         clientId: event.clientId,
         showPeriod: currentState.tradeReportPeriod,
         exchanges: currentState.tradeReportSelectedExchanges.toList(),
       );
-      emit(currentState.copyWith(
-        tradeReports: tradeReports,
-        tradeReportClientId: event.clientId,
-        clearTradeClient: event.clientId == null || event.clientId!.isEmpty,
-      ));
+      emit(
+        currentState.copyWith(
+          tradeReports: tradeReports,
+          tradeReportClientId: event.clientId,
+          clearTradeClient: event.clientId == null || event.clientId!.isEmpty,
+        ),
+      );
     } catch (e) {
+      // Handle error sparingly or show toast/snackbar via listener
     }
   }
+
   Future<void> _onFilterTradeReportsByPeriod(
-      FilterTradeReportsByPeriodEvent event,
-      Emitter<DashboardState> emit,
-      ) async {
+    FilterTradeReportsByPeriodEvent event,
+    Emitter<DashboardState> emit,
+  ) async {
     final currentState = state;
     if (currentState is! DashboardLoaded) return;
+
     try {
       final tradeReports = await _getTradeReports(
         clientId: currentState.tradeReportClientId,
         showPeriod: event.period,
         exchanges: currentState.tradeReportSelectedExchanges.toList(),
       );
-      emit(currentState.copyWith(
-        tradeReports: tradeReports,
-        tradeReportPeriod: event.period,
-      ));
-    } catch (e) {
-    }
+      emit(
+        currentState.copyWith(
+          tradeReports: tradeReports,
+          tradeReportPeriod: event.period,
+        ),
+      );
+    } catch (e) {}
   }
+
   void _onToggleTradeReportExchange(
-      ToggleTradeReportExchangeEvent event,
-      Emitter<DashboardState> emit,
-      ) {
+    ToggleTradeReportExchangeEvent event,
+    Emitter<DashboardState> emit,
+  ) {
     final currentState = state;
     if (currentState is! DashboardLoaded) return;
-    final newExchanges = Set<String>.from(currentState.tradeReportSelectedExchanges);
+
+    final newExchanges = Set<String>.from(
+      currentState.tradeReportSelectedExchanges,
+    );
     if (newExchanges.contains(event.exchange)) {
       newExchanges.remove(event.exchange);
     } else {
       newExchanges.add(event.exchange);
     }
-    emit(currentState.copyWith(
-      tradeReportSelectedExchanges: newExchanges,
-    ));
+
+    emit(currentState.copyWith(tradeReportSelectedExchanges: newExchanges));
   }
+
   Future<void> _onFilterSymbolReportsByClient(
-      FilterSymbolReportsByClientEvent event,
-      Emitter<DashboardState> emit,
-      ) async {
+    FilterSymbolReportsByClientEvent event,
+    Emitter<DashboardState> emit,
+  ) async {
     final currentState = state;
     if (currentState is! DashboardLoaded) return;
+
     try {
       final symbolReports = await _getSymbolReports(
         clientId: event.clientId,
@@ -112,20 +150,23 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
         exchanges: currentState.symbolReportSelectedExchanges.toList(),
         topCount: currentState.symbolReportTopCount,
       );
-      emit(currentState.copyWith(
-        symbolReports: symbolReports,
-        symbolReportClientId: event.clientId,
-        clearSymbolClient: event.clientId == null || event.clientId!.isEmpty,
-      ));
-    } catch (e) {
-    }
+      emit(
+        currentState.copyWith(
+          symbolReports: symbolReports,
+          symbolReportClientId: event.clientId,
+          clearSymbolClient: event.clientId == null || event.clientId!.isEmpty,
+        ),
+      );
+    } catch (e) {}
   }
+
   Future<void> _onFilterSymbolReportsByPeriod(
-      FilterSymbolReportsByPeriodEvent event,
-      Emitter<DashboardState> emit,
-      ) async {
+    FilterSymbolReportsByPeriodEvent event,
+    Emitter<DashboardState> emit,
+  ) async {
     final currentState = state;
     if (currentState is! DashboardLoaded) return;
+
     try {
       final symbolReports = await _getSymbolReports(
         clientId: currentState.symbolReportClientId,
@@ -133,35 +174,41 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
         exchanges: currentState.symbolReportSelectedExchanges.toList(),
         topCount: currentState.symbolReportTopCount,
       );
-      emit(currentState.copyWith(
-        symbolReports: symbolReports,
-        symbolReportPeriod: event.period,
-      ));
-    } catch (e) {
-    }
+      emit(
+        currentState.copyWith(
+          symbolReports: symbolReports,
+          symbolReportPeriod: event.period,
+        ),
+      );
+    } catch (e) {}
   }
+
   void _onToggleSymbolReportExchange(
-      ToggleSymbolReportExchangeEvent event,
-      Emitter<DashboardState> emit,
-      ) {
+    ToggleSymbolReportExchangeEvent event,
+    Emitter<DashboardState> emit,
+  ) {
     final currentState = state;
     if (currentState is! DashboardLoaded) return;
-    final newExchanges = Set<String>.from(currentState.symbolReportSelectedExchanges);
+
+    final newExchanges = Set<String>.from(
+      currentState.symbolReportSelectedExchanges,
+    );
     if (newExchanges.contains(event.exchange)) {
       newExchanges.remove(event.exchange);
     } else {
       newExchanges.add(event.exchange);
     }
-    emit(currentState.copyWith(
-      symbolReportSelectedExchanges: newExchanges,
-    ));
+
+    emit(currentState.copyWith(symbolReportSelectedExchanges: newExchanges));
   }
+
   Future<void> _onChangeSymbolReportTopCount(
-      ChangeSymbolReportTopCountEvent event,
-      Emitter<DashboardState> emit,
-      ) async {
+    ChangeSymbolReportTopCountEvent event,
+    Emitter<DashboardState> emit,
+  ) async {
     final currentState = state;
     if (currentState is! DashboardLoaded) return;
+
     try {
       final symbolReports = await _getSymbolReports(
         clientId: currentState.symbolReportClientId,
@@ -169,17 +216,60 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
         exchanges: currentState.symbolReportSelectedExchanges.toList(),
         topCount: event.topCount,
       );
-      emit(currentState.copyWith(
-        symbolReports: symbolReports,
-        symbolReportTopCount: event.topCount,
-      ));
-    } catch (e) {
-    }
+      emit(
+        currentState.copyWith(
+          symbolReports: symbolReports,
+          symbolReportTopCount: event.topCount,
+        ),
+      );
+    } catch (e) {}
   }
+
+  void _onFilterWeeklyProgressByClient(
+    FilterWeeklyProgressByClientEvent event,
+    Emitter<DashboardState> emit,
+  ) {
+    final currentState = state;
+    if (currentState is! DashboardLoaded) return;
+    emit(
+      currentState.copyWith(
+        weeklyProgressClientId: event.clientId,
+        clearWeeklyProgressClient:
+            event.clientId == null || event.clientId!.isEmpty,
+      ),
+    );
+  }
+
+  void _onFilterWeeklyProgressByPeriod(
+    FilterWeeklyProgressByPeriodEvent event,
+    Emitter<DashboardState> emit,
+  ) {
+    final currentState = state;
+    if (currentState is! DashboardLoaded) return;
+    emit(currentState.copyWith(weeklyProgressPeriod: event.period));
+  }
+
+  void _onToggleWeeklyProgressExchange(
+    ToggleWeeklyProgressExchangeEvent event,
+    Emitter<DashboardState> emit,
+  ) {
+    final currentState = state;
+    if (currentState is! DashboardLoaded) return;
+    final newExchanges = Set<String>.from(
+      currentState.weeklyProgressSelectedExchanges,
+    );
+    if (newExchanges.contains(event.exchange)) {
+      newExchanges.remove(event.exchange);
+    } else {
+      newExchanges.add(event.exchange);
+    }
+    emit(currentState.copyWith(weeklyProgressSelectedExchanges: newExchanges));
+  }
+
   Future<void> _onRefreshDashboard(
-      RefreshDashboardEvent event,
-      Emitter<DashboardState> emit,
-      ) async {
+    RefreshDashboardEvent event,
+    Emitter<DashboardState> emit,
+  ) async {
     add(const LoadDashboardEvent());
   }
 }

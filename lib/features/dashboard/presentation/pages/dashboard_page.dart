@@ -7,26 +7,30 @@ import '../../../../core/widget/app_bar_section.dart';
 import '../bloc/dashboard_bloc.dart';
 import '../bloc/dashboard_event.dart';
 import '../bloc/dashboard_state.dart';
-import '../widget/dashboard_footer.dart';
 import '../widget/report_card.dart';
 import '../widget/symbol_wise_chart.dart';
 import '../widget/trade_reports_chart.dart';
+import '../widget/weekly_progress_chart.dart';
+
 class DashboardPage extends StatefulWidget {
   const DashboardPage({Key? key}) : super(key: key);
   @override
   State<DashboardPage> createState() => _DashboardPageState();
 }
+
 class _DashboardPageState extends State<DashboardPage> {
   @override
   void initState() {
     super.initState();
     context.read<DashboardBloc>().add(const LoadDashboardEvent());
   }
+
   @override
   Widget build(BuildContext context) {
     return const _DashboardView();
   }
 }
+
 class DashboardPageWithAppBar extends StatelessWidget {
   const DashboardPageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -34,7 +38,7 @@ class DashboardPageWithAppBar extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: AppBarSection(
-        selectedTabIndex: 1, 
+        selectedTabIndex: 1,
         onTabSelected: (_) {},
         showExportByDefault: false,
       ),
@@ -42,6 +46,7 @@ class DashboardPageWithAppBar extends StatelessWidget {
     );
   }
 }
+
 class _DashboardView extends StatelessWidget {
   const _DashboardView();
   @override
@@ -64,14 +69,13 @@ class _DashboardView extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildLoading() {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          CircularProgressIndicator(
-            color: LightThemeColors.primaryColor,
-          ),
+          CircularProgressIndicator(color: LightThemeColors.primaryColor),
           SizedBox(height: 16.h),
           Text(
             'Loading Dashboard...',
@@ -85,16 +89,13 @@ class _DashboardView extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildError(String message) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            Icons.error_outline,
-            size: 64.sp,
-            color: AppColors.errorColor,
-          ),
+          Icon(Icons.error_outline, size: 64.sp, color: AppColors.errorColor),
           SizedBox(height: 16.h),
           Text(
             'Error loading dashboard',
@@ -116,6 +117,7 @@ class _DashboardView extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildContent(BuildContext context, DashboardLoaded state) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -131,108 +133,120 @@ class _DashboardView extends StatelessWidget {
           ),
         ),
         Expanded(
-          child: Align(
-            alignment: Alignment.topCenter,
-            child: ConstrainedBox(
-              constraints: BoxConstraints(
-                maxWidth: 1400.w,
-                maxHeight: 500.h,
-              ),
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Expanded(
-                      child: ConstrainedBox(
-                        constraints: BoxConstraints(
-                          maxWidth: 750.w,
-                          maxHeight: 700.h,
-                        ),
-                        child: ReportCard(
-                          title: 'Trade Reports',
-                          chart: TradeReportsChart(data: state.tradeReports),
-                          clients: state.clients,
-                          selectedClient: state.tradeReportClientId,
-                          onClientChanged: (client) {
-                            context.read<DashboardBloc>().add(
-                              FilterTradeReportsByClientEvent(clientId: client),
-                            );
-                          },
-                          periods: state.periods,
-                          selectedPeriod: state.tradeReportPeriod,
-                          onPeriodChanged: (period) {
-                            if (period != null) {
-                              context.read<DashboardBloc>().add(
-                                FilterTradeReportsByPeriodEvent(period: period),
-                              );
-                            }
-                          },
-                          exchanges: state.exchanges,
-                          selectedExchanges: state.tradeReportSelectedExchanges,
-                          onExchangeToggle: (exchange) {
-                            context.read<DashboardBloc>().add(
-                              ToggleTradeReportExchangeEvent(exchange: exchange),
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 16.w),
-                    Expanded(
-                      child: ConstrainedBox(
-                        constraints: BoxConstraints(
-                          maxWidth: 750.w,
-                          maxHeight: 700.h,
-                        ),
-                        child: ReportCard(
-                          title: 'Symbol Wise Report',
-                          chart: SymbolWiseChart(data: state.symbolReports),
-                          clients: state.clients,
-                          selectedClient: state.symbolReportClientId,
-                          onClientChanged: (client) {
-                            context.read<DashboardBloc>().add(
-                              FilterSymbolReportsByClientEvent(clientId: client),
-                            );
-                          },
-                          periods: state.periods,
-                          selectedPeriod: state.symbolReportPeriod,
-                          onPeriodChanged: (period) {
-                            if (period != null) {
-                              context.read<DashboardBloc>().add(
-                                FilterSymbolReportsByPeriodEvent(period: period),
-                              );
-                            }
-                          },
-                          exchanges: state.exchanges,
-                          selectedExchanges: state.symbolReportSelectedExchanges,
-                          onExchangeToggle: (exchange) {
-                            context.read<DashboardBloc>().add(
-                              ToggleSymbolReportExchangeEvent(exchange: exchange),
-                            );
-                          },
-                          topCounts: state.topCounts,
-                          selectedTopCount: state.symbolReportTopCount,
-                          onTopCountChanged: (topCount) {
-                            if (topCount != null) {
-                              context.read<DashboardBloc>().add(
-                                ChangeSymbolReportTopCountEvent(
-                                  topCount: int.parse(topCount),
-                                ),
-                              );
-                            }
-                          },
-                        ),
-                      ),
-                    ),
-                  ],
+          flex: 6,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.w),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(
+                  child: ReportCard(
+                    title: 'Trade Reports',
+                    chart: TradeReportsChart(data: state.tradeReports),
+                    clients: state.clients,
+                    selectedClient: state.tradeReportClientId,
+                    onClientChanged: (client) {
+                      context.read<DashboardBloc>().add(
+                        FilterTradeReportsByClientEvent(clientId: client),
+                      );
+                    },
+                    periods: state.periods,
+                    selectedPeriod: state.tradeReportPeriod,
+                    onPeriodChanged: (period) {
+                      if (period != null) {
+                        context.read<DashboardBloc>().add(
+                          FilterTradeReportsByPeriodEvent(period: period),
+                        );
+                      }
+                    },
+                    exchanges: state.exchanges,
+                    selectedExchanges: state.tradeReportSelectedExchanges,
+                    onExchangeToggle: (exchange) {
+                      context.read<DashboardBloc>().add(
+                        ToggleTradeReportExchangeEvent(exchange: exchange),
+                      );
+                    },
+                  ),
                 ),
-              ),
+                SizedBox(width: 16.w),
+                Expanded(
+                  child: ReportCard(
+                    title: 'Symbol Wise Report',
+                    chart: SymbolWiseChart(data: state.symbolReports),
+                    clients: state.clients,
+                    selectedClient: state.symbolReportClientId,
+                    onClientChanged: (client) {
+                      context.read<DashboardBloc>().add(
+                        FilterSymbolReportsByClientEvent(clientId: client),
+                      );
+                    },
+                    periods: state.periods,
+                    selectedPeriod: state.symbolReportPeriod,
+                    onPeriodChanged: (period) {
+                      if (period != null) {
+                        context.read<DashboardBloc>().add(
+                          FilterSymbolReportsByPeriodEvent(period: period),
+                        );
+                      }
+                    },
+                    exchanges: state.exchanges,
+                    selectedExchanges: state.symbolReportSelectedExchanges,
+                    onExchangeToggle: (exchange) {
+                      context.read<DashboardBloc>().add(
+                        ToggleSymbolReportExchangeEvent(exchange: exchange),
+                      );
+                    },
+                    topCounts: state.topCounts,
+                    selectedTopCount: state.symbolReportTopCount,
+                    onTopCountChanged: (topCount) {
+                      if (topCount != null) {
+                        context.read<DashboardBloc>().add(
+                          ChangeSymbolReportTopCountEvent(
+                            topCount: int.parse(topCount),
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                ),
+              ],
             ),
           ),
         ),
         SizedBox(height: 16.h),
-        DashboardFooter(summary: state.summary),
+        Expanded(
+          flex: 4,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.w),
+            child: ReportCard(
+              title: 'Weekly Progress Report',
+              chart: WeeklyProgressChart(data: state.weeklyProgress),
+              clients: state.clients,
+              selectedClient: state.weeklyProgressClientId,
+              onClientChanged: (client) {
+                context.read<DashboardBloc>().add(
+                  FilterWeeklyProgressByClientEvent(clientId: client),
+                );
+              },
+              periods: const ['This Week', 'Last Week'],
+              selectedPeriod: state.weeklyProgressPeriod,
+              onPeriodChanged: (period) {
+                if (period != null) {
+                  context.read<DashboardBloc>().add(
+                    FilterWeeklyProgressByPeriodEvent(period: period),
+                  );
+                }
+              },
+              exchanges: state.exchanges,
+              selectedExchanges: state.weeklyProgressSelectedExchanges,
+              onExchangeToggle: (exchange) {
+                context.read<DashboardBloc>().add(
+                  ToggleWeeklyProgressExchangeEvent(exchange: exchange),
+                );
+              },
+            ),
+          ),
+        ),
         SizedBox(height: 8.h),
       ],
     );

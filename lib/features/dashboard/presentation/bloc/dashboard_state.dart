@@ -1,16 +1,20 @@
 import 'package:equatable/equatable.dart';
 import '../../domain/entities/dashboard_entity.dart';
+
 abstract class DashboardState extends Equatable {
   const DashboardState();
   @override
   List<Object?> get props => [];
 }
+
 class DashboardInitial extends DashboardState {
   const DashboardInitial();
 }
+
 class DashboardLoading extends DashboardState {
   const DashboardLoading();
 }
+
 class DashboardLoaded extends DashboardState {
   final List<TradeReportData> tradeReports;
   final String? tradeReportClientId;
@@ -21,6 +25,10 @@ class DashboardLoaded extends DashboardState {
   final String symbolReportPeriod;
   final Set<String> symbolReportSelectedExchanges;
   final int symbolReportTopCount;
+  final List<WeeklyProgressData> weeklyProgress;
+  final String? weeklyProgressClientId;
+  final String weeklyProgressPeriod;
+  final Set<String> weeklyProgressSelectedExchanges;
   final DashboardSummary summary;
   final List<String> clients;
   final List<String> periods;
@@ -36,10 +44,30 @@ class DashboardLoaded extends DashboardState {
     this.symbolReportPeriod = 'Day',
     this.symbolReportSelectedExchanges = const {},
     this.symbolReportTopCount = 10,
+    required this.weeklyProgress,
+    this.weeklyProgressClientId,
+    this.weeklyProgressPeriod = 'This Week',
+    this.weeklyProgressSelectedExchanges = const {},
     required this.summary,
-    this.clients = const ['Client 1', 'Client 2', 'Client 3', 'Client 4', 'Client 5'],
+    this.clients = const [
+      'Client 1',
+      'Client 2',
+      'Client 3',
+      'Client 4',
+      'Client 5',
+    ],
     this.periods = const ['Day', 'Week', 'Month'],
-    this.exchanges = const ['NSE', 'MCX', 'GIFTNIFTY', 'CE/PE', 'OTHERS', 'COMEX', 'CRYPTO', 'FOREX', 'USSTOCK'],
+    this.exchanges = const [
+      'NSE',
+      'MCX',
+      'GIFTNIFTY',
+      'CE/PE',
+      'OTHERS',
+      'COMEX',
+      'CRYPTO',
+      'FOREX',
+      'USSTOCK',
+    ],
     this.topCounts = const [5, 10, 15],
   });
   DashboardLoaded copyWith({
@@ -52,6 +80,10 @@ class DashboardLoaded extends DashboardState {
     String? symbolReportPeriod,
     Set<String>? symbolReportSelectedExchanges,
     int? symbolReportTopCount,
+    List<WeeklyProgressData>? weeklyProgress,
+    String? weeklyProgressClientId,
+    String? weeklyProgressPeriod,
+    Set<String>? weeklyProgressSelectedExchanges,
     DashboardSummary? summary,
     List<String>? clients,
     List<String>? periods,
@@ -59,17 +91,32 @@ class DashboardLoaded extends DashboardState {
     List<int>? topCounts,
     bool clearTradeClient = false,
     bool clearSymbolClient = false,
+    bool clearWeeklyProgressClient = false,
   }) {
     return DashboardLoaded(
       tradeReports: tradeReports ?? this.tradeReports,
-      tradeReportClientId: clearTradeClient ? null : (tradeReportClientId ?? this.tradeReportClientId),
+      tradeReportClientId: clearTradeClient
+          ? null
+          : (tradeReportClientId ?? this.tradeReportClientId),
       tradeReportPeriod: tradeReportPeriod ?? this.tradeReportPeriod,
-      tradeReportSelectedExchanges: tradeReportSelectedExchanges ?? this.tradeReportSelectedExchanges,
+      tradeReportSelectedExchanges:
+          tradeReportSelectedExchanges ?? this.tradeReportSelectedExchanges,
       symbolReports: symbolReports ?? this.symbolReports,
-      symbolReportClientId: clearSymbolClient ? null : (symbolReportClientId ?? this.symbolReportClientId),
+      symbolReportClientId: clearSymbolClient
+          ? null
+          : (symbolReportClientId ?? this.symbolReportClientId),
       symbolReportPeriod: symbolReportPeriod ?? this.symbolReportPeriod,
-      symbolReportSelectedExchanges: symbolReportSelectedExchanges ?? this.symbolReportSelectedExchanges,
+      symbolReportSelectedExchanges:
+          symbolReportSelectedExchanges ?? this.symbolReportSelectedExchanges,
       symbolReportTopCount: symbolReportTopCount ?? this.symbolReportTopCount,
+      weeklyProgress: weeklyProgress ?? this.weeklyProgress,
+      weeklyProgressClientId: clearWeeklyProgressClient
+          ? null
+          : (weeklyProgressClientId ?? this.weeklyProgressClientId),
+      weeklyProgressPeriod: weeklyProgressPeriod ?? this.weeklyProgressPeriod,
+      weeklyProgressSelectedExchanges:
+          weeklyProgressSelectedExchanges ??
+          this.weeklyProgressSelectedExchanges,
       summary: summary ?? this.summary,
       clients: clients ?? this.clients,
       periods: periods ?? this.periods,
@@ -77,6 +124,7 @@ class DashboardLoaded extends DashboardState {
       topCounts: topCounts ?? this.topCounts,
     );
   }
+
   @override
   List<Object?> get props => [
     tradeReports,
@@ -88,6 +136,10 @@ class DashboardLoaded extends DashboardState {
     symbolReportPeriod,
     symbolReportSelectedExchanges,
     symbolReportTopCount,
+    weeklyProgress,
+    weeklyProgressClientId,
+    weeklyProgressPeriod,
+    weeklyProgressSelectedExchanges,
     summary,
     clients,
     periods,
@@ -95,6 +147,7 @@ class DashboardLoaded extends DashboardState {
     topCounts,
   ];
 }
+
 class DashboardError extends DashboardState {
   final String message;
   const DashboardError({required this.message});

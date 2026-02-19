@@ -6,6 +6,7 @@ import '../constants/app_colors.dart';
 import '../constants/app_images.dart';
 import '../constants/app_strings.dart';
 import 'svg_icon.dart';
+
 class CommonAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String username;
   final String version;
@@ -13,7 +14,7 @@ class CommonAppBar extends StatefulWidget implements PreferredSizeWidget {
   final Function(int)? onTabSelected;
   final List<AppBarTab> tabs;
   final bool showReloadIcon;
-  final bool showExportIcon; 
+  final bool showExportIcon;
   final VoidCallback? onReload;
   final VoidCallback? onExportPdf;
   final VoidCallback? onExportExcel;
@@ -26,7 +27,7 @@ class CommonAppBar extends StatefulWidget implements PreferredSizeWidget {
     this.onTabSelected,
     required this.tabs,
     this.showReloadIcon = false,
-    this.showExportIcon = false, 
+    this.showExportIcon = false,
     this.onReload,
     this.onExportPdf,
     this.onExportExcel,
@@ -37,6 +38,7 @@ class CommonAppBar extends StatefulWidget implements PreferredSizeWidget {
   @override
   State<CommonAppBar> createState() => _CommonAppBarState();
 }
+
 class _CommonAppBarState extends State<CommonAppBar>
     with SingleTickerProviderStateMixin {
   int? _hoveredDropdownIndex;
@@ -50,6 +52,7 @@ class _CommonAppBarState extends State<CommonAppBar>
       _tabKeys[i] = GlobalKey();
     }
   }
+
   @override
   void didUpdateWidget(CommonAppBar oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -63,20 +66,23 @@ class _CommonAppBarState extends State<CommonAppBar>
       _isExportExpanded = false;
     }
   }
+
   @override
   void dispose() {
     _removeDropdown();
     super.dispose();
   }
+
   void _removeDropdown() {
     _dropdownOverlay?.remove();
     _dropdownOverlay = null;
   }
+
   void _showDropdown(int index) {
     if (!widget.tabs[index].hasDropdown) return;
     _removeDropdown();
     final RenderBox? renderBox =
-    _tabKeys[index]?.currentContext?.findRenderObject() as RenderBox?;
+        _tabKeys[index]?.currentContext?.findRenderObject() as RenderBox?;
     if (renderBox == null) return;
     final position = renderBox.localToGlobal(Offset.zero);
     final size = renderBox.size;
@@ -97,25 +103,26 @@ class _CommonAppBarState extends State<CommonAppBar>
     Overlay.of(context).insert(_dropdownOverlay!);
     setState(() => _hoveredDropdownIndex = index);
   }
+
   void _toggleExportButtons() {
     setState(() {
       _isExportExpanded = !_isExportExpanded;
     });
   }
+
   void _closeExportButtons() {
     setState(() {
       _isExportExpanded = false;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
       height: 64.h,
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-      decoration: const BoxDecoration(
-        color: AppColors.white,
-      ),
+      decoration: const BoxDecoration(color: AppColors.white),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -126,6 +133,7 @@ class _CommonAppBarState extends State<CommonAppBar>
       ),
     );
   }
+
   Widget _buildLogo() {
     return ClipRRect(
       borderRadius: BorderRadius.circular(10.r),
@@ -157,6 +165,7 @@ class _CommonAppBarState extends State<CommonAppBar>
       ),
     );
   }
+
   Widget _buildMenuBar() {
     return Container(
       height: 44.h,
@@ -186,6 +195,7 @@ class _CommonAppBarState extends State<CommonAppBar>
       ),
     );
   }
+
   Widget _buildNavTab(int index, AppBarTab tab, {required bool isSelected}) {
     final hasDropdown = tab.hasDropdown;
     final isDropdownOpen = _hoveredDropdownIndex == index;
@@ -194,9 +204,11 @@ class _CommonAppBarState extends State<CommonAppBar>
         widget.selectedDropdownItems!.containsKey(index)) {
       displayTitle = widget.selectedDropdownItems![index]!;
     }
-    final shouldHighlight = isSelected ||
-        isDropdownOpen ||
-        (hasDropdown && widget.selectedDropdownItems?.containsKey(index) == true);
+    final isActive =
+        isSelected ||
+        (hasDropdown &&
+            widget.selectedDropdownItems?.containsKey(index) == true);
+    final isHoveredOrOpen = isDropdownOpen;
     return GestureDetector(
       key: _tabKeys[index],
       onTap: () {
@@ -217,30 +229,48 @@ class _CommonAppBarState extends State<CommonAppBar>
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         curve: Curves.easeInOut,
-        width: 110.w,
-        height: 36.h,
-        decoration: BoxDecoration(
-          color: shouldHighlight ? AppColors.primaryBlue : AppColors.transparent,
-          borderRadius: BorderRadius.circular(12.r),
-        ),
+        constraints: BoxConstraints(minWidth: 100.w),
+        padding: EdgeInsets.symmetric(horizontal: 10.w),
+        decoration: isActive
+            ? BoxDecoration(
+                color: AppColors.primaryBlue,
+                borderRadius: BorderRadius.circular(12.r),
+              )
+            : isHoveredOrOpen
+            ? BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    AppColors.primaryBlue.withOpacity(0.0),
+                    AppColors.primaryBlue.withOpacity(0.5),
+                  ],
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                ),
+                borderRadius: BorderRadius.circular(4.r),
+              )
+            : BoxDecoration(
+                color: AppColors.transparent,
+                borderRadius: BorderRadius.circular(12.r),
+              ),
         alignment: Alignment.center,
-        padding: EdgeInsets.symmetric(horizontal: 6.w),
+        // Alignment handles positioning within constraints
         child: Text(
           displayTitle,
           textAlign: TextAlign.center,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: GoogleFonts.openSans(
-            fontSize: 12.sp,
+            fontSize: 11.sp,
             fontWeight: FontWeight.w600,
             height: 1.0,
             letterSpacing: 0.15,
-            color: shouldHighlight ? AppColors.white : AppColors.textDark,
+            color: isActive ? AppColors.white : AppColors.textDark,
           ),
         ),
       ),
     );
   }
+
   Widget _buildRightSection(BuildContext context) {
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -263,6 +293,7 @@ class _CommonAppBarState extends State<CommonAppBar>
       ],
     );
   }
+
   Widget _buildCollapsedExportButton() {
     return GestureDetector(
       onTap: _toggleExportButtons,
@@ -271,7 +302,7 @@ class _CommonAppBarState extends State<CommonAppBar>
         height: 45.h,
         padding: EdgeInsets.all(10.w),
         decoration: BoxDecoration(
-          color: const Color(0xFF1F4A66), 
+          color: const Color(0xFF1F4A66),
           borderRadius: BorderRadius.circular(15.r),
         ),
         child: Center(
@@ -285,6 +316,7 @@ class _CommonAppBarState extends State<CommonAppBar>
       ),
     );
   }
+
   Widget _buildExpandedExportButtons() {
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -293,7 +325,7 @@ class _CommonAppBarState extends State<CommonAppBar>
           height: 45.h,
           padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
           decoration: BoxDecoration(
-            color: const Color(0xFFE8F4FA), 
+            color: const Color(0xFFE8F4FA),
             borderRadius: BorderRadius.circular(15.r),
           ),
           child: Row(
@@ -346,6 +378,7 @@ class _CommonAppBarState extends State<CommonAppBar>
       ],
     );
   }
+
   Widget _buildReloadButton(BuildContext context) {
     return GestureDetector(
       onTap: widget.onReload,
@@ -356,6 +389,7 @@ class _CommonAppBarState extends State<CommonAppBar>
       ),
     );
   }
+
   Widget _buildUserInfoSection(BuildContext context) {
     return Container(
       height: 44.h,
@@ -376,6 +410,7 @@ class _CommonAppBarState extends State<CommonAppBar>
       ),
     );
   }
+
   Widget _buildUserInitial() {
     return Container(
       width: 26.w,
@@ -402,6 +437,7 @@ class _CommonAppBarState extends State<CommonAppBar>
       ),
     );
   }
+
   Widget _buildUserDetails() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -431,6 +467,7 @@ class _CommonAppBarState extends State<CommonAppBar>
       ],
     );
   }
+
   Widget _buildLogoutButton(BuildContext context) {
     return GestureDetector(
       onTap: () => Navigator.of(context).pushReplacementNamed('/'),
@@ -448,15 +485,12 @@ class _CommonAppBarState extends State<CommonAppBar>
     );
   }
 }
+
 class _ExportButton extends StatelessWidget {
   final String icon;
   final String label;
   final VoidCallback? onTap;
-  const _ExportButton({
-    required this.icon,
-    required this.label,
-    this.onTap,
-  });
+  const _ExportButton({required this.icon, required this.label, this.onTap});
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -493,6 +527,7 @@ class _ExportButton extends StatelessWidget {
     );
   }
 }
+
 class _DropdownMenu extends StatelessWidget {
   final List<MenuItemData> items;
   final VoidCallback onDismiss;
@@ -511,10 +546,7 @@ class _DropdownMenu extends StatelessWidget {
         borderRadius: BorderRadius.circular(12.r),
         color: AppColors.white,
         child: Container(
-          constraints: BoxConstraints(
-            minWidth: 160.w,
-            maxWidth: 220.w,
-          ),
+          constraints: BoxConstraints(minWidth: 130.w, maxWidth: 200.w),
           padding: EdgeInsets.symmetric(vertical: 6.h),
           decoration: BoxDecoration(
             color: AppColors.white,
@@ -547,6 +579,7 @@ class _DropdownMenu extends StatelessWidget {
     );
   }
 }
+
 class _DropdownMenuItem extends StatefulWidget {
   final String title;
   final VoidCallback? onTap;
@@ -559,6 +592,7 @@ class _DropdownMenuItem extends StatefulWidget {
   @override
   State<_DropdownMenuItem> createState() => _DropdownMenuItemState();
 }
+
 class _DropdownMenuItemState extends State<_DropdownMenuItem> {
   bool _isHovered = false;
   @override
@@ -569,19 +603,10 @@ class _DropdownMenuItemState extends State<_DropdownMenuItem> {
       child: GestureDetector(
         onTap: widget.onTap,
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 10.h),
+          padding: EdgeInsets.only(left: 10.w, top: 5.h, bottom: 5.h),
           decoration: BoxDecoration(
-            color: widget.isSelected
-                ? AppColors.primaryBlue.withOpacity(0.15)
-                : (_isHovered ? AppColors.primaryBgColor : AppColors.transparent),
-            border: widget.isSelected
-                ? Border(
-              left: BorderSide(
-                color: AppColors.primaryBlue,
-                width: 3.w,
-              ),
-            )
-                : null,
+            color: AppColors.transparent,
+            borderRadius: BorderRadius.circular(4.r),
           ),
           child: Row(
             children: [
@@ -589,18 +614,12 @@ class _DropdownMenuItemState extends State<_DropdownMenuItem> {
                 child: Text(
                   widget.title,
                   style: GoogleFonts.openSans(
-                    fontSize: 13.sp,
-                    fontWeight: widget.isSelected ? FontWeight.w700 : FontWeight.w500,
-                    color: widget.isSelected ? AppColors.primaryBlue : AppColors.textDark,
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.primaryBlue,
                   ),
                 ),
               ),
-              if (widget.isSelected)
-                Icon(
-                  Icons.check_circle,
-                  size: 18.sp,
-                  color: AppColors.primaryBlue,
-                ),
             ],
           ),
         ),

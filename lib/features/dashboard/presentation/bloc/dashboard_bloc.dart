@@ -90,9 +90,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
           clearTradeClient: event.clientId == null || event.clientId!.isEmpty,
         ),
       );
-    } catch (e) {
-      // Handle error sparingly or show toast/snackbar via listener
-    }
+    } catch (e) {}
   }
 
   Future<void> _onFilterTradeReportsByPeriod(

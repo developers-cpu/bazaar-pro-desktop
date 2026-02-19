@@ -24,13 +24,20 @@ class WeeklyProgressChart extends StatelessWidget {
       );
     }
 
+    final maxVal = data.map((e) => e.value).reduce((a, b) => a > b ? a : b);
+    final computedMaxY = maxVal <= 0 ? 100.0 : maxVal * 1.2;
+    final yInterval = (computedMaxY / 5).ceilToDouble().clamp(
+      1.0,
+      double.maxFinite,
+    );
+
     return LineChart(
       LineChartData(
         gridData: FlGridData(
           show: true,
           drawVerticalLine: true,
           drawHorizontalLine: true,
-          horizontalInterval: 250,
+          horizontalInterval: yInterval,
           verticalInterval: 1,
           getDrawingHorizontalLine: (value) {
             return FlLine(color: LightThemeColors.dividerColor, strokeWidth: 1);
@@ -42,10 +49,10 @@ class WeeklyProgressChart extends StatelessWidget {
         titlesData: FlTitlesData(
           show: true,
           rightTitles: const AxisTitles(
-            sideTitles: SideTitles(showTitles: false),
+            sideTitles: SideTitles(showTitles: false, reservedSize: 0),
           ),
           topTitles: const AxisTitles(
-            sideTitles: SideTitles(showTitles: false),
+            sideTitles: SideTitles(showTitles: false, reservedSize: 0),
           ),
           bottomTitles: AxisTitles(
             sideTitles: SideTitles(
@@ -73,7 +80,7 @@ class WeeklyProgressChart extends StatelessWidget {
           leftTitles: AxisTitles(
             sideTitles: SideTitles(
               showTitles: true,
-              interval: 250,
+              interval: yInterval,
               reservedSize: 42,
               getTitlesWidget: (value, meta) {
                 return Text(
@@ -88,10 +95,11 @@ class WeeklyProgressChart extends StatelessWidget {
           ),
         ),
         borderData: FlBorderData(show: false),
+        clipData: const FlClipData.all(),
         minX: 0,
-        maxX: data.length.toDouble() - 1,
+        maxX: data.length.toDouble() + 1,
         minY: 0,
-        maxY: 1250,
+        maxY: computedMaxY,
         lineBarsData: [
           LineChartBarData(
             spots: data

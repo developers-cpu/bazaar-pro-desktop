@@ -7,7 +7,9 @@ import '../../../../../core/utils/date_formatter.dart';
 import '../../../../../core/utils/number_formatter.dart';
 import '../../../../../core/widget/svg_icon.dart';
 import '../../../domain/entities/market_item.dart';
+import 'animated_price_cell.dart';
 import 'table_text_style_helper.dart';
+
 class TableCellBuilder extends StatelessWidget {
   final String columnId;
   final MarketItem item;
@@ -28,6 +30,7 @@ class TableCellBuilder extends StatelessWidget {
   Widget build(BuildContext context) {
     return _buildCellContent();
   }
+
   Widget _buildCellContent() {
     switch (columnId) {
       case 'exchange':
@@ -37,9 +40,13 @@ class TableCellBuilder extends StatelessWidget {
       case 'buyQty':
         return _buildTextCell(NumberFormatter.formatQuantity(item.buyQty));
       case 'buyPrice':
-        return _buildTextCell(NumberFormatter.formatPrice(item.buyPrice));
+        return _buildAnimatedPriceCell(
+          NumberFormatter.formatPrice(item.buyPrice),
+        );
       case 'sellPrice':
-        return _buildTextCell(NumberFormatter.formatPrice(item.sellPrice));
+        return _buildAnimatedPriceCell(
+          NumberFormatter.formatPrice(item.sellPrice),
+        );
       case 'sellQty':
         return _buildTextCell(NumberFormatter.formatQuantity(item.sellQty));
       case 'netChange':
@@ -56,7 +63,7 @@ class TableCellBuilder extends StatelessWidget {
       case 'close':
         return _buildTextCell(NumberFormatter.formatPrice(item.close));
       case 'ltp':
-        return _buildTextCell(NumberFormatter.formatPrice(item.ltp));
+        return _buildAnimatedPriceCell(NumberFormatter.formatPrice(item.ltp));
       case 'netChangePercent':
         return _buildTextCell(
           NumberFormatter.formatPercentage(item.netChangePercent),
@@ -74,6 +81,7 @@ class TableCellBuilder extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
+
   Widget _buildExchangeWithArrowCell() {
     final isPositive = item.netChange > 0;
     final isNegative = item.netChange < 0;
@@ -91,20 +99,19 @@ class TableCellBuilder extends StatelessWidget {
           ? DarkThemeColors.textColor
           : LightThemeColors.textColor;
     }
-    return Center(
+    return Padding(
+      padding: EdgeInsets.only(left: 4.w),
       child: Row(
         mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           SvgIcon(
-            assetPath: isPositive
-                ? AppImages.buyIcon
-                : AppImages.sellIcon,
+            assetPath: isPositive ? AppImages.buyIcon : AppImages.sellIcon,
             isActive: true,
-            size: (fontSize * 1.5).sp,
+            size: (fontSize * 1.1).sp,
             activeColor: iconColor,
           ),
-          SizedBox(width: 6.w),
+          SizedBox(width: 3.w),
           Flexible(
             child: Text(
               item.exchange,
@@ -122,6 +129,18 @@ class TableCellBuilder extends StatelessWidget {
       ),
     );
   }
+
+  Widget _buildAnimatedPriceCell(String text) {
+    return AnimatedPriceCell(
+      text: text,
+      isDark: isDark,
+      fontFamily: fontFamily,
+      fontSize: fontSize,
+      fontWeight: fontWeight,
+      textColor: _getTextColor(),
+    );
+  }
+
   Widget _buildTextCell(String text, {bool isBold = false, Color? color}) {
     return Center(
       child: Text(
@@ -138,9 +157,11 @@ class TableCellBuilder extends StatelessWidget {
       ),
     );
   }
+
   Color _getTextColor() {
     return isDark ? DarkThemeColors.textColor : LightThemeColors.textColor;
   }
+
   Color? _getChangeColor(double value) {
     if (value > 0) {
       return isDark

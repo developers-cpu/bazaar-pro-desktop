@@ -46,7 +46,7 @@ class DashboardSummary extends Equatable {
 }
 
 class WeeklyProgressData extends Equatable {
-  final String label; // e.g., "02 - Feb"
+  final String label;
   final double value;
 
   const WeeklyProgressData({required this.label, required this.value});

@@ -19,6 +19,7 @@ import 'table_cell_builder.dart';
 import 'table_column_helper.dart';
 import 'table_header_cell.dart';
 import 'table_text_style_helper.dart';
+
 class MarketDataTable extends StatefulWidget {
   final MarketWatchLoaded state;
   final Function(Offset) onRightClick;
@@ -30,6 +31,7 @@ class MarketDataTable extends StatefulWidget {
   @override
   State<MarketDataTable> createState() => _MarketDataTableState();
 }
+
 class _MarketDataTableState extends State<MarketDataTable> {
   int? _sortColumnIndex;
   bool _sortAscending = true;
@@ -46,8 +48,8 @@ class _MarketDataTableState extends State<MarketDataTable> {
                 var visibleColumns = arrangeState.columns.isEmpty
                     ? TableColumnHelper.getDefaultColumns()
                     : arrangeState.columns
-                    .where((c) => c.isVisible && c.id != 'arrow')
-                    .toList();
+                          .where((c) => c.isVisible && c.id != 'arrow')
+                          .toList();
                 if (visibleColumns.isEmpty) {
                   visibleColumns = TableColumnHelper.getDefaultColumns();
                 }
@@ -57,8 +59,9 @@ class _MarketDataTableState extends State<MarketDataTable> {
                 final fontSize = fontState.selectedFontSize > 0
                     ? fontState.selectedFontSize.toDouble()
                     : 13.0;
-                final fontWeight =
-                TableTextStyleHelper.getFontWeight(fontState.selectedFontStyle);
+                final fontWeight = TableTextStyleHelper.getFontWeight(
+                  fontState.selectedFontStyle,
+                );
                 if (widget.state.filteredItems.isEmpty) {
                   return _buildEmptyState(isDark);
                 }
@@ -77,6 +80,7 @@ class _MarketDataTableState extends State<MarketDataTable> {
       },
     );
   }
+
   Widget _buildEmptyState(bool isDark) {
     return Container(
       color: isDark
@@ -95,6 +99,7 @@ class _MarketDataTableState extends State<MarketDataTable> {
       ),
     );
   }
+
   Widget _buildTableContainer({
     required bool isDark,
     required bool showGrid,
@@ -103,7 +108,10 @@ class _MarketDataTableState extends State<MarketDataTable> {
     required double fontSize,
     required FontWeight fontWeight,
   }) {
-    final minWidth = TableColumnHelper.calculateMinWidth(visibleColumns, fontSize);
+    final minWidth = TableColumnHelper.calculateMinWidth(
+      visibleColumns,
+      fontSize,
+    );
     return Container(
       margin: EdgeInsets.all(10.w),
       decoration: BoxDecoration(
@@ -112,11 +120,11 @@ class _MarketDataTableState extends State<MarketDataTable> {
             : LightThemeColors.backgroundColor,
         border: showGrid
             ? Border.all(
-          color: isDark
-              ? DarkThemeColors.dividerColor
-              : LightThemeColors.dividerColor,
-          width: 1,
-        )
+                color: isDark
+                    ? DarkThemeColors.dividerColor
+                    : LightThemeColors.dividerColor,
+                width: 1,
+              )
             : null,
         borderRadius: BorderRadius.circular(10.r),
       ),
@@ -134,6 +142,7 @@ class _MarketDataTableState extends State<MarketDataTable> {
       ),
     );
   }
+
   Widget _buildDataTable({
     required bool isDark,
     required bool showGrid,
@@ -143,44 +152,48 @@ class _MarketDataTableState extends State<MarketDataTable> {
     required FontWeight fontWeight,
     required double minWidth,
   }) {
-    final rowHeight = (fontSize * 3.2).clamp(48.0, 80.0);
-    final headerHeight = (fontSize * 3.5).clamp(55.0, 85.0);
-    return DataTable2(
-      columnSpacing: 12,
-      horizontalMargin: 12,
-      minWidth: minWidth,
-      headingRowHeight: headerHeight.h,
-      dataRowHeight: rowHeight.h,
-      headingRowColor: WidgetStateProperty.all(
-        LightThemeColors.tableColumnHeadColor,
-      ),
-      dividerThickness: showGrid ? 1 : 0,
-      border: showGrid
-          ? TableBorder.all(
-        color: isDark
-            ? AppColors.white
-            : AppColors.black,
-        width: 1,
-      )
-          : const TableBorder(),
-      sortColumnIndex: _sortColumnIndex,
-      sortAscending: _sortAscending,
-      columns: _buildColumns(
-        visibleColumns: visibleColumns,
-        isDark: isDark,
-        fontFamily: fontFamily,
-        fontSize: fontSize,
-        fontWeight: fontWeight,
-      ),
-      rows: _buildRows(
-        visibleColumns: visibleColumns,
-        isDark: isDark,
-        fontFamily: fontFamily,
-        fontSize: fontSize,
-        fontWeight: fontWeight,
+    final rowHeight = (fontSize * 2.4).clamp(36.0, 56.0);
+    final headerHeight = (fontSize * 2.8).clamp(40.0, 60.0);
+    return Listener(
+      onPointerDown: (event) {
+        _lastTapPosition = event.position;
+      },
+      child: DataTable2(
+        columnSpacing: 0,
+        horizontalMargin: 0,
+        minWidth: minWidth,
+        headingRowHeight: headerHeight.h,
+        dataRowHeight: rowHeight.h,
+        headingRowColor: WidgetStateProperty.all(
+          LightThemeColors.tableColumnHeadColor,
+        ),
+        dividerThickness: showGrid ? 1 : 0,
+        border: showGrid
+            ? TableBorder.all(
+                color: isDark ? AppColors.white : AppColors.black,
+                width: 1,
+              )
+            : const TableBorder(),
+        sortColumnIndex: _sortColumnIndex,
+        sortAscending: _sortAscending,
+        columns: _buildColumns(
+          visibleColumns: visibleColumns,
+          isDark: isDark,
+          fontFamily: fontFamily,
+          fontSize: fontSize,
+          fontWeight: fontWeight,
+        ),
+        rows: _buildRows(
+          visibleColumns: visibleColumns,
+          isDark: isDark,
+          fontFamily: fontFamily,
+          fontSize: fontSize,
+          fontWeight: fontWeight,
+        ),
       ),
     );
   }
+
   List<DataColumn2> _buildColumns({
     required List<ColumnItem> visibleColumns,
     required bool isDark,
@@ -188,9 +201,12 @@ class _MarketDataTableState extends State<MarketDataTable> {
     required double fontSize,
     required FontWeight fontWeight,
   }) {
-    return visibleColumns.map((column) {
+    return visibleColumns.asMap().entries.map((entry) {
+      final index = entry.key;
+      final column = entry.value;
       final label = TableColumnHelper.getLabel(column.id);
       final config = TableColumnHelper.getConfig(column.id);
+      final isLut = column.id == 'lut';
       return DataColumn2(
         label: TableHeaderCell(
           title: label,
@@ -198,27 +214,23 @@ class _MarketDataTableState extends State<MarketDataTable> {
           fontFamily: fontFamily,
           fontSize: fontSize,
           fontWeight: fontWeight,
+          isLast: index == visibleColumns.length - 1,
         ),
-        size: _getColumnSize(column.id, visibleColumns.length),
+        fixedWidth: isLut ? config?.getWidth(fontSize) : null,
+        size: isLut ? ColumnSize.S : ColumnSize.S,
         numeric: config?.isNumeric ?? false,
         onSort: _onSort,
       );
     }).toList();
   }
-  ColumnSize _getColumnSize(String columnId, int visibleColumnCount) {
-    if (visibleColumnCount <= 5) {
-      return ColumnSize.L;
-    } else if (visibleColumnCount <= 10) {
-      return ColumnSize.M;
-    }
-    return ColumnSize.S;
-  }
+
   void _onSort(int columnIndex, bool ascending) {
     setState(() {
       _sortColumnIndex = columnIndex;
       _sortAscending = ascending;
     });
   }
+
   List<DataRow2> _buildRows({
     required List<ColumnItem> visibleColumns,
     required bool isDark,
@@ -254,13 +266,21 @@ class _MarketDataTableState extends State<MarketDataTable> {
       );
     }).toList();
   }
+
+  Offset? _lastTapPosition;
+
   void _onRowTap(String itemId) {
     context.read<MarketWatchBloc>().add(SelectMarketItemEvent(itemId: itemId));
+    if (_lastTapPosition != null) {
+      widget.onRightClick(_lastTapPosition!);
+    }
   }
+
   void _onRowRightClick(TapDownDetails details, String itemId) {
     widget.onRightClick(details.globalPosition);
     context.read<MarketWatchBloc>().add(SelectMarketItemEvent(itemId: itemId));
   }
+
   List<DataCell> _buildCells({
     required List<ColumnItem> visibleColumns,
     required MarketItem item,

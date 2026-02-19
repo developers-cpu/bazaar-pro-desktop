@@ -1,4 +1,5 @@
 import '../../bloc/arrangesymbol/arrange_symbol_state.dart';
+
 class TableColumnConfig {
   final double baseWidth;
   final bool isNumeric;
@@ -13,6 +14,7 @@ class TableColumnConfig {
     return baseWidth * scaleFactor;
   }
 }
+
 class TableColumnHelper {
   TableColumnHelper._();
   static const Map<String, TableColumnConfig> columnConfigs = {
@@ -51,31 +53,11 @@ class TableColumnHelper {
       isNumeric: true,
       label: 'Net Change',
     ),
-    'high': TableColumnConfig(
-      baseWidth: 100,
-      isNumeric: true,
-      label: 'High',
-    ),
-    'low': TableColumnConfig(
-      baseWidth: 100,
-      isNumeric: true,
-      label: 'Low',
-    ),
-    'open': TableColumnConfig(
-      baseWidth: 100,
-      isNumeric: true,
-      label: 'Open',
-    ),
-    'close': TableColumnConfig(
-      baseWidth: 100,
-      isNumeric: true,
-      label: 'Close',
-    ),
-    'ltp': TableColumnConfig(
-      baseWidth: 110,
-      isNumeric: true,
-      label: 'LTP',
-    ),
+    'high': TableColumnConfig(baseWidth: 100, isNumeric: true, label: 'High'),
+    'low': TableColumnConfig(baseWidth: 100, isNumeric: true, label: 'Low'),
+    'open': TableColumnConfig(baseWidth: 100, isNumeric: true, label: 'Open'),
+    'close': TableColumnConfig(baseWidth: 100, isNumeric: true, label: 'Close'),
+    'ltp': TableColumnConfig(baseWidth: 110, isNumeric: true, label: 'LTP'),
     'netChangePercent': TableColumnConfig(
       baseWidth: 100,
       isNumeric: true,
@@ -86,11 +68,7 @@ class TableColumnHelper {
       isNumeric: false,
       label: 'Expiry',
     ),
-    'lut': TableColumnConfig(
-      baseWidth: 160,
-      isNumeric: false,
-      label: 'LUT',
-    ),
+    'lut': TableColumnConfig(baseWidth: 150, isNumeric: false, label: 'LUT'),
   };
   static List<ColumnItem> getDefaultColumns() {
     return const [
@@ -111,7 +89,11 @@ class TableColumnHelper {
       ColumnItem(id: 'lut', name: 'LUT', isVisible: true),
     ];
   }
-  static double calculateMinWidth(List<ColumnItem> visibleColumns, double fontSize) {
+
+  static double calculateMinWidth(
+    List<ColumnItem> visibleColumns,
+    double fontSize,
+  ) {
     double totalWidth = 0;
     for (final column in visibleColumns) {
       final config = columnConfigs[column.id];
@@ -121,12 +103,15 @@ class TableColumnHelper {
     }
     return totalWidth;
   }
+
   static TableColumnConfig? getConfig(String columnId) {
     return columnConfigs[columnId];
   }
+
   static String getLabel(String columnId) {
     return columnConfigs[columnId]?.label ?? '';
   }
+
   static bool isNumeric(String columnId) {
     return columnConfigs[columnId]?.isNumeric ?? false;
   }

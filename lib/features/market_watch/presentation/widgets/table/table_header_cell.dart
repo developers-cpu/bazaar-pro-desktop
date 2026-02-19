@@ -32,7 +32,7 @@ class TableHeaderCell extends StatelessWidget {
     final textStyle = TableTextStyleHelper.getTextStyle(
       fontFamily: fontFamily,
       fontSize: fontSize.sp,
-      fontWeight: FontWeight.w600,
+      fontWeight: FontWeight.w400,
       color: LightThemeColors.textColor,
     );
     Widget content;

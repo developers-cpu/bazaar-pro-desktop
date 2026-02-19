@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 class LightThemeColors {
   LightThemeColors._();
   static const Color backgroundColor = Color(0xFFFFFFFF);
@@ -28,6 +29,7 @@ class LightThemeColors {
   static const Color gradientPrimaryColor = Color(0xFF368AE9);
   static const Color gradientBaseColor = Color(0xFFFFFFFF);
 }
+
 class DarkThemeColors {
   DarkThemeColors._();
   static const Color backgroundColor = Color(0xFF0D0D0D);
@@ -57,6 +59,7 @@ class DarkThemeColors {
   static const Color gradientPrimaryColor = Color(0xFF1F4A66);
   static const Color gradientBaseColor = Color(0xFF0D0D0D);
 }
+
 class AppColors {
   AppColors._();
   static const Color primaryBlue = Color(0xFF1F4A66);
@@ -113,126 +116,151 @@ class AppColors {
   static bool isDarkMode(BuildContext context) {
     return Theme.of(context).brightness == Brightness.dark;
   }
+
   static Color backgroundColor(BuildContext context) {
     return isDarkMode(context)
         ? DarkThemeColors.backgroundColor
         : LightThemeColors.backgroundColor;
   }
+
   static Color inputFieldBackground(BuildContext context) {
     return isDarkMode(context)
         ? DarkThemeColors.inputFieldBackground
         : LightThemeColors.inputFieldBackground;
   }
+
   static Color cardBackground(BuildContext context) {
     return isDarkMode(context)
         ? DarkThemeColors.cardBackground
         : LightThemeColors.cardBackground;
   }
+
   static Color primaryColor(BuildContext context) {
     return isDarkMode(context)
         ? DarkThemeColors.primaryColor
         : LightThemeColors.primaryColor;
   }
+
   static Color secondaryColor(BuildContext context) {
     return isDarkMode(context)
         ? DarkThemeColors.secondaryColor
         : LightThemeColors.secondaryColor;
   }
+
   static Color textColor(BuildContext context) {
     return isDarkMode(context)
         ? DarkThemeColors.textColor
         : LightThemeColors.textColor;
   }
+
   static Color supportiveTextColor(BuildContext context) {
     return isDarkMode(context)
         ? DarkThemeColors.supportiveTextColor
         : LightThemeColors.supportiveTextColor;
   }
+
   static Color cardBorderColor(BuildContext context) {
     return isDarkMode(context)
         ? DarkThemeColors.cardBorderColor
         : LightThemeColors.cardBorderColor;
   }
+
   static Color dividerColor(BuildContext context) {
     return isDarkMode(context)
         ? DarkThemeColors.dividerColor
         : LightThemeColors.dividerColor;
   }
+
   static Color tableBackground(BuildContext context) {
     return isDarkMode(context)
         ? DarkThemeColors.tableBackground
         : LightThemeColors.tableBackground;
   }
+
   static Color tableColumnHeadColor(BuildContext context) {
     return isDarkMode(context)
         ? DarkThemeColors.tableColumnHeadColor
         : LightThemeColors.tableColumnHeadColor;
   }
+
   static Color getTableRowBackground(BuildContext context) {
     return isDarkMode(context)
         ? DarkThemeColors.tableRowBackground
         : LightThemeColors.tableRowBackground;
   }
+
   static Color getTableAlternateRowBackground(BuildContext context) {
     return isDarkMode(context)
         ? DarkThemeColors.tableAlternateRowBackground
         : LightThemeColors.tableAlternateRowBackground;
   }
+
   static Color chipTextBlueColor(BuildContext context) {
     return isDarkMode(context)
         ? DarkThemeColors.chipTextBlueColor
         : LightThemeColors.chipTextBlueColor;
   }
+
   static Color chipBgBlue(BuildContext context) {
     return isDarkMode(context)
         ? DarkThemeColors.chipBgBlue
         : LightThemeColors.chipBgBlue;
   }
+
   static Color chipTextRedColor(BuildContext context) {
     return isDarkMode(context)
         ? DarkThemeColors.chipTextRedColor
         : LightThemeColors.chipTextRedColor;
   }
+
   static Color chipBgRed(BuildContext context) {
     return isDarkMode(context)
         ? DarkThemeColors.chipBgRed
         : LightThemeColors.chipBgRed;
   }
+
   static Color getSelectedRowBackground(BuildContext context) {
     return isDarkMode(context)
         ? DarkThemeColors.selectedRowBackground
         : LightThemeColors.selectedRowBackground;
   }
+
   static Color getHighlightColor(BuildContext context) {
     return isDarkMode(context)
         ? DarkThemeColors.highlightColor
         : LightThemeColors.highlightColor;
   }
+
   static Color getSelectedRowBorder(BuildContext context) {
     return isDarkMode(context)
         ? DarkThemeColors.selectedRowBorder
         : LightThemeColors.selectedRowBorder;
   }
+
   static Color getContextMenuBackground(BuildContext context) {
     return isDarkMode(context)
         ? DarkThemeColors.contextMenuBackground
         : LightThemeColors.contextMenuBackground;
   }
+
   static Color getContextMenuHover(BuildContext context) {
     return isDarkMode(context)
         ? DarkThemeColors.contextMenuHover
         : LightThemeColors.contextMenuHover;
   }
+
   static Color getPositiveTextColor(BuildContext context) {
     return isDarkMode(context)
         ? DarkThemeColors.positiveTextColor
         : LightThemeColors.positiveTextColor;
   }
+
   static Color getNegativeTextColor(BuildContext context) {
     return isDarkMode(context)
         ? DarkThemeColors.negativeTextColor
         : LightThemeColors.negativeTextColor;
   }
+
   static Decoration inputFieldDecoration(BuildContext context) {
     if (isDarkMode(context)) {
       return BoxDecoration(
@@ -250,6 +278,7 @@ class AppColors {
     }
     return const BoxDecoration(color: LightThemeColors.inputFieldBackground);
   }
+
   static LinearGradient collapseCardGradient(BuildContext context) {
     final baseColor = isDarkMode(context)
         ? DarkThemeColors.gradientBaseColor
@@ -265,6 +294,7 @@ class AppColors {
       stops: const [0.0, 0.64, 1.0],
     );
   }
+
   static LinearGradient loginScreenBgGradient(BuildContext context) {
     final baseColor = isDarkMode(context)
         ? DarkThemeColors.gradientBaseColor

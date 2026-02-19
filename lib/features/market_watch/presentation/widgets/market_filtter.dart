@@ -10,12 +10,14 @@ import '../bloc/theme/theme_bloc.dart';
 import '../bloc/theme/theme_event.dart';
 import '../bloc/theme/theme_state.dart';
 import '../../../../core/widget/app_dropdown.dart';
+
 class MarketFilters extends StatelessWidget {
   final MarketWatchLoaded state;
   const MarketFilters({Key? key, required this.state}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final availableSymbols = state.items.map((item) => item.symbol).toSet().toList()..sort();
+    final availableSymbols =
+        state.items.map((item) => item.symbol).toSet().toList()..sort();
     final exchanges = [
       AppStrings.nse,
       AppStrings.mcx,
@@ -26,22 +28,14 @@ class MarketFilters extends StatelessWidget {
       AppStrings.gift,
       AppStrings.forex,
     ];
-    final users = [
-      'Client 1',
-      'Client 2',
-      'Client 3',
-      'Client 4',
-      'Client 5',
-    ];
+    final users = ['Client 1', 'Client 2', 'Client 3', 'Client 4', 'Client 5'];
     return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (context, themeState) {
         return Container(
           width: double.infinity,
-          height: 60.h,
-          padding: EdgeInsets.symmetric(horizontal: 20.w),
-          decoration: BoxDecoration(
-            color:  AppColors.white,
-          ),
+          height: 40.h,
+          padding: EdgeInsets.symmetric(horizontal: 12.w),
+          decoration: BoxDecoration(color: AppColors.white),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -52,8 +46,8 @@ class MarketFilters extends StatelessWidget {
                     hintText: AppStrings.exchangeFilter,
                     value: state.selectedExchange,
                     items: exchanges,
-                    width: 250.w,
-                    dropdownHeight: 400.h,
+                    width: 200.w,
+                    dropdownHeight: 250.h,
                     showAllOption: true,
                     allOptionText: 'All',
                     onChanged: (exchange) {
@@ -64,14 +58,14 @@ class MarketFilters extends StatelessWidget {
                       );
                     },
                   ),
-                  SizedBox(width: 16.w),
+                  SizedBox(width: 10.w),
                   AppDropdown(
                     type: AppDropdownType.multiSelect,
                     hintText: AppStrings.symbolFilter,
                     selectedValues: state.selectedSymbols ?? [],
                     items: availableSymbols,
-                    width: 250.w,
-                    dropdownHeight: 400.h,
+                    width: 200.w,
+                    dropdownHeight: 250.h,
                     searchHint: 'Search & Add',
                     onMultiChanged: (symbols) {
                       context.read<MarketWatchBloc>().add(
@@ -88,7 +82,7 @@ class MarketFilters extends StatelessWidget {
                     hintText: 'Search User',
                     value: state.selectedUser,
                     items: users,
-                    width: 250.w,
+                    width: 200.w,
                     dropdownHeight: 280.h,
                     searchHint: 'Search & Add',
                     onChanged: (user) {
@@ -97,7 +91,7 @@ class MarketFilters extends StatelessWidget {
                       );
                     },
                   ),
-                  SizedBox(width: 16.w),
+                  SizedBox(width: 10.w),
                   _buildThemeToggle(context),
                 ],
               ),
@@ -107,6 +101,7 @@ class MarketFilters extends StatelessWidget {
       },
     );
   }
+
   Widget _buildThemeToggle(BuildContext context) {
     return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (context, themeState) {
@@ -117,20 +112,17 @@ class MarketFilters extends StatelessWidget {
           },
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 200),
-            width: 50.w,
-            height: 50.h,
+            width: 35.w,
+            height: 35.h,
             decoration: BoxDecoration(
               color: isDarkMode ? AppColors.primaryBlue : AppColors.white,
-              borderRadius: BorderRadius.circular(12.r),
-              border: Border.all(
-                color: AppColors.primaryBlue,
-                width: 2.w,
-              ),
+              borderRadius: BorderRadius.circular(8.r),
+              border: Border.all(color: AppColors.primaryBlue, width: 1.5),
             ),
             child: Center(
               child: Icon(
                 isDarkMode ? Icons.dark_mode : Icons.light_mode,
-                size: 28.sp,
+                size: 20.sp,
                 color: isDarkMode ? AppColors.white : AppColors.primaryBlue,
               ),
             ),

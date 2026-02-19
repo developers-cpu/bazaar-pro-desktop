@@ -6,12 +6,10 @@ import '../../../../core/constants/app_strings.dart';
 import '../bloc/watchlist/watch_list_bloc.dart';
 import '../bloc/watchlist/watch_list_event.dart';
 import '../bloc/watchlist/watchlist_state.dart';
+
 class WatchlistWidget extends StatelessWidget {
   final Function(int)? onWatchlistSelected;
-  const WatchlistWidget({
-    Key? key,
-    this.onWatchlistSelected,
-  }) : super(key: key);
+  const WatchlistWidget({Key? key, this.onWatchlistSelected}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<WatchlistBloc, WatchlistState>(
@@ -31,14 +29,12 @@ class WatchlistWidget extends StatelessWidget {
       },
     );
   }
+
   void _handleStateChange(BuildContext context, WatchlistState state) {
     if (state is WatchlistError) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(
-            state.message,
-            style: TextStyle(fontSize: 14.sp),
-          ),
+          content: Text(state.message, style: TextStyle(fontSize: 14.sp)),
           duration: const Duration(seconds: 2),
           backgroundColor: AppColors.errorColor,
         ),
@@ -48,26 +44,26 @@ class WatchlistWidget extends StatelessWidget {
       onWatchlistSelected?.call(state.selectedIndex);
     }
   }
+
   Widget _buildLoadingState() {
     return Container(
-      height: 58.h,
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+      height: 40.h,
+      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
       color: AppColors.white,
-      child: const Center(
-        child: CircularProgressIndicator(),
-      ),
+      child: const Center(child: CircularProgressIndicator()),
     );
   }
+
   Widget _buildLoadedState(BuildContext context, WatchlistLoaded state) {
     return Container(
-      height: 58.h,
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+      height: 40.h,
+      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
       color: AppColors.white,
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: [
           _buildAddButton(context),
-          SizedBox(width: 10.w),
+          SizedBox(width: 6.w),
           _buildWatchlistButton(
             context: context,
             label: AppStrings.all,
@@ -75,10 +71,10 @@ class WatchlistWidget extends StatelessWidget {
             isSelected: state.selectedIndex == -1,
             showCloseIcon: false,
           ),
-          SizedBox(width: 10.w),
+          SizedBox(width: 6.w),
           ...List.generate(state.watchlists.length, (index) {
             return Padding(
-              padding: EdgeInsets.only(right: 10.w),
+              padding: EdgeInsets.only(right: 6.w),
               child: _buildWatchlistButton(
                 context: context,
                 label: state.watchlists[index],
@@ -92,6 +88,7 @@ class WatchlistWidget extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildAddButton(BuildContext context) {
     return InkWell(
       onTap: () {
@@ -100,40 +97,33 @@ class WatchlistWidget extends StatelessWidget {
       borderRadius: BorderRadius.circular(15.r),
       child: Container(
         width: 135.w,
-        height: 42.h,
-        padding: EdgeInsets.all(10.w),
+        height: 32.h,
+        padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 6.h),
         decoration: BoxDecoration(
           color: AppColors.primaryBlue,
-          borderRadius: BorderRadius.circular(15.r),
+          borderRadius: BorderRadius.circular(10.r),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              width: 18.w,
-              height: 18.h,
+              width: 16.w,
+              height: 16.h,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                border: Border.all(
-                  color: AppColors.white,
-                  width: 1.2.w,
-                ),
+                border: Border.all(color: AppColors.white, width: 1.2.w),
               ),
               child: Center(
-                child: Icon(
-                  Icons.add,
-                  size: 14.sp,
-                  color: AppColors.white,
-                ),
+                child: Icon(Icons.add, size: 12.sp, color: AppColors.white),
               ),
             ),
-            SizedBox(width: 8.w),
+            SizedBox(width: 6.w),
             Text(
               AppStrings.add,
               style: TextStyle(
                 fontFamily: 'Open Sans',
                 fontWeight: FontWeight.w600,
-                fontSize: 16.sp,
+                fontSize: 13.sp,
                 color: AppColors.white,
                 letterSpacing: 0.15,
                 height: 1.0,
@@ -144,6 +134,7 @@ class WatchlistWidget extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildWatchlistButton({
     required BuildContext context,
     required String label,
@@ -155,19 +146,19 @@ class WatchlistWidget extends StatelessWidget {
       onTap: () {
         context.read<WatchlistBloc>().add(SelectWatchlistEvent(index: index));
       },
-      borderRadius: BorderRadius.circular(15.r),
+      borderRadius: BorderRadius.circular(10.r),
       child: Container(
         width: 135.w,
-        height: 42.h,
+        height: 32.h,
         padding: EdgeInsets.only(
-          top: 10.h,
-          bottom: 10.h,
-          left: 10.w,
-          right: showCloseIcon ? 5.w : 10.w,
+          top: 6.h,
+          bottom: 6.h,
+          left: 8.w,
+          right: showCloseIcon ? 4.w : 8.w,
         ),
         decoration: BoxDecoration(
           color: AppColors.transparent,
-          borderRadius: BorderRadius.circular(15.r),
+          borderRadius: BorderRadius.circular(10.r),
           border: Border.all(
             color: AppColors.primaryBlue,
             width: isSelected ? 1.5.w : 1.w,
@@ -183,7 +174,7 @@ class WatchlistWidget extends StatelessWidget {
                 style: TextStyle(
                   fontFamily: 'Open Sans',
                   fontWeight: FontWeight.w600,
-                  fontSize: 16.sp,
+                  fontSize: 13.sp,
                   color: AppColors.primaryBlue,
                   letterSpacing: 0.15,
                   height: 1.0,
@@ -195,14 +186,14 @@ class WatchlistWidget extends StatelessWidget {
               SizedBox(width: 4.w),
               InkWell(
                 onTap: () {
-                  context
-                      .read<WatchlistBloc>()
-                      .add(RemoveWatchlistEvent(index: index));
+                  context.read<WatchlistBloc>().add(
+                    RemoveWatchlistEvent(index: index),
+                  );
                 },
                 borderRadius: BorderRadius.circular(9.r),
                 child: Container(
-                  width: 18.w,
-                  height: 18.h,
+                  width: 16.w,
+                  height: 16.h,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     border: Border.all(

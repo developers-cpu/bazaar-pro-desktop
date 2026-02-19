@@ -36,7 +36,7 @@ class TableCellBuilder extends StatelessWidget {
       case 'exchange':
         return _buildExchangeWithArrowCell();
       case 'symbol':
-        return _buildTextCell(item.symbol, isBold: true);
+        return _buildTextCell(item.symbol);
       case 'buyQty':
         return _buildTextCell(NumberFormatter.formatQuantity(item.buyQty));
       case 'buyPrice':
@@ -159,7 +159,7 @@ class TableCellBuilder extends StatelessWidget {
   }
 
   Color _getTextColor() {
-    return isDark ? DarkThemeColors.textColor : LightThemeColors.textColor;
+    return isDark ? DarkThemeColors.textColor : AppColors.black;
   }
 
   Color? _getChangeColor(double value) {

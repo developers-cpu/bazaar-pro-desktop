@@ -4,7 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_images.dart';
+
 enum AppDropdownType { simple, search, multiSelect }
+
 class AppDropdown extends StatefulWidget {
   final AppDropdownType type;
   final String hintText;
@@ -48,6 +50,7 @@ class AppDropdown extends StatefulWidget {
   @override
   State<AppDropdown> createState() => _AppDropdownState();
 }
+
 class _AppDropdownState extends State<AppDropdown>
     with SingleTickerProviderStateMixin {
   final LayerLink _layerLink = LayerLink();
@@ -60,9 +63,9 @@ class _AppDropdownState extends State<AppDropdown>
   late AnimationController _controller;
   late Animation<double> _animation;
   static const int _maxVisibleItems = 6;
-  static double get _itemHeight => 40.h;
-  static double get _searchFieldHeight => 50.h;
-  static double get _selectAllHeight => 40.h;
+  static double get _itemHeight => 32.h;
+  static double get _searchFieldHeight => 38.h;
+  static double get _selectAllHeight => 32.h;
   @override
   void initState() {
     super.initState();
@@ -76,6 +79,7 @@ class _AppDropdownState extends State<AppDropdown>
       _selectedSet = Set.from(widget.selectedValues!);
     }
   }
+
   @override
   void didUpdateWidget(AppDropdown oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -86,6 +90,7 @@ class _AppDropdownState extends State<AppDropdown>
       _selectedSet = Set.from(widget.selectedValues!);
     }
   }
+
   @override
   void dispose() {
     _removeOverlay();
@@ -94,6 +99,7 @@ class _AppDropdownState extends State<AppDropdown>
     _scrollController.dispose();
     super.dispose();
   }
+
   void _toggle() => _isOpen ? _close() : _open();
   void _open() {
     _searchController.clear();
@@ -103,17 +109,20 @@ class _AppDropdownState extends State<AppDropdown>
     setState(() => _isOpen = true);
     _controller.forward();
   }
+
   void _close() {
     _controller.reverse().then((_) {
       _removeOverlay();
       if (mounted) setState(() => _isOpen = false);
     });
   }
+
   void _removeOverlay() {
     _overlayEntry?.remove();
     _overlayEntry?.dispose();
     _overlayEntry = null;
   }
+
   void _onSearch(String query) {
     setState(() {
       if (query.isEmpty) {
@@ -126,6 +135,7 @@ class _AppDropdownState extends State<AppDropdown>
     });
     _overlayEntry?.markNeedsBuild();
   }
+
   void _onItemSelected(String item) {
     if (widget.type == AppDropdownType.multiSelect) {
       setState(() {
@@ -142,6 +152,7 @@ class _AppDropdownState extends State<AppDropdown>
       _close();
     }
   }
+
   void _onSelectAll(bool selectAll) {
     setState(() {
       if (selectAll) {
@@ -153,6 +164,7 @@ class _AppDropdownState extends State<AppDropdown>
     widget.onMultiChanged?.call(_selectedSet.toList());
     _overlayEntry?.markNeedsBuild();
   }
+
   Color get _borderColor => widget.borderColor ?? AppColors.primaryBlue;
   Color get _textColor =>
       widget.textColor ??
@@ -181,6 +193,7 @@ class _AppDropdownState extends State<AppDropdown>
     }
     return widget.value ?? widget.hintText;
   }
+
   double _calculateDropdownHeight(int filteredCount) {
     int totalItems = filteredCount;
     if (widget.showAllOption && widget.type == AppDropdownType.simple) {
@@ -200,6 +213,7 @@ class _AppDropdownState extends State<AppDropdown>
     }
     return listHeight + searchHeight + selectAllHeight;
   }
+
   OverlayEntry _createOverlay() {
     final renderBox = context.findRenderObject() as RenderBox;
     final size = renderBox.size;
@@ -220,7 +234,7 @@ class _AppDropdownState extends State<AppDropdown>
             ),
             Positioned(
               left: offset.dx,
-              top: offset.dy + size.height + 5.h,
+              top: offset.dy + size.height + 3.h,
               width: (widget.width == null || widget.width == double.infinity)
                   ? size.width
                   : widget.width,
@@ -229,11 +243,11 @@ class _AppDropdownState extends State<AppDropdown>
                 child: Material(
                   color: AppColors.transparent,
                   child: Container(
-                    height: dropdownHeight,
+                    constraints: BoxConstraints(maxHeight: dropdownHeight),
                     decoration: BoxDecoration(
                       color: _dropdownBgColor,
-                      borderRadius: BorderRadius.circular(10.r),
-                      border: Border.all(color: _borderColor, width: 2.w),
+                      borderRadius: BorderRadius.circular(8.r),
+                      border: Border.all(color: _borderColor, width: 1.5),
                       boxShadow: [
                         BoxShadow(
                           color: AppColors.black.withOpacity(0.1),
@@ -249,7 +263,7 @@ class _AppDropdownState extends State<AppDropdown>
                           _buildSearchField(),
                         if (widget.type == AppDropdownType.multiSelect)
                           _buildSelectAllOption(),
-                        Expanded(
+                        Flexible(
                           child: RawScrollbar(
                             controller: _scrollController,
                             thumbVisibility: _getItemCount() > _maxVisibleItems,
@@ -259,6 +273,7 @@ class _AppDropdownState extends State<AppDropdown>
                             child: ListView.builder(
                               controller: _scrollController,
                               padding: EdgeInsets.zero,
+                              shrinkWrap: true,
                               physics: const ClampingScrollPhysics(),
                               itemCount: _getItemCount(),
                               itemBuilder: (context, index) {
@@ -278,12 +293,14 @@ class _AppDropdownState extends State<AppDropdown>
       },
     );
   }
+
   int _getItemCount() {
     if (widget.showAllOption && widget.type == AppDropdownType.simple) {
       return _filteredItems.length + 1;
     }
     return _filteredItems.length;
   }
+
   Widget _buildListItem(int index) {
     if (widget.showAllOption &&
         widget.type == AppDropdownType.simple &&
@@ -303,24 +320,25 @@ class _AppDropdownState extends State<AppDropdown>
     }
     return _buildSimpleItem(item);
   }
+
   Widget _buildSearchField() {
     return Container(
-      margin: EdgeInsets.all(10.w),
-      height: 30.h,
+      margin: EdgeInsets.symmetric(horizontal: 6.w, vertical: 5.h),
+      height: 28.h,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(6.r),
         border: Border.all(color: AppColors.primaryBlue, width: 0.5),
       ),
       child: Row(
         children: [
-          SizedBox(width: 12.w),
+          SizedBox(width: 8.w),
           SvgIcon(
             assetPath: AppImages.searchIcon,
             isActive: _searchController.text.isNotEmpty,
-            size: 20.w,
+            size: 16.w,
             activeColor: _borderColor,
           ),
-          SizedBox(width: 8.w),
+          SizedBox(width: 6.w),
           Expanded(
             child: TextField(
               controller: _searchController,
@@ -342,6 +360,7 @@ class _AppDropdownState extends State<AppDropdown>
       ),
     );
   }
+
   Widget _buildSelectAllOption() {
     final isAllSelected =
         _selectedSet.length == widget.items.length && widget.items.isNotEmpty;
@@ -349,16 +368,16 @@ class _AppDropdownState extends State<AppDropdown>
       onTap: () => _onSelectAll(!isAllSelected),
       child: Container(
         height: _selectAllHeight,
-        padding: EdgeInsets.symmetric(horizontal: 14.w),
+        padding: EdgeInsets.symmetric(horizontal: 10.w),
         child: Row(
           children: [
             _buildCheckbox(isAllSelected),
-            SizedBox(width: 12.w),
+            SizedBox(width: 8.w),
             Text(
               'Select All',
               style: GoogleFonts.openSans(
                 fontSize: 12.sp,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w600,
                 color: _textColor,
               ),
             ),
@@ -367,23 +386,24 @@ class _AppDropdownState extends State<AppDropdown>
       ),
     );
   }
+
   Widget _buildCheckboxItem(String item) {
     final isSelected = _selectedSet.contains(item);
     return InkWell(
       onTap: () => _onItemSelected(item),
       child: Container(
         height: _itemHeight,
-        padding: EdgeInsets.symmetric(horizontal: 14.w),
+        padding: EdgeInsets.symmetric(horizontal: 10.w),
         child: Row(
           children: [
             _buildCheckbox(isSelected),
-            SizedBox(width: 12.w),
+            SizedBox(width: 8.w),
             Expanded(
               child: Text(
                 item,
                 style: GoogleFonts.openSans(
                   fontSize: 12.sp,
-                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                  fontWeight: FontWeight.w600,
                   color: _textColor,
                 ),
                 overflow: TextOverflow.ellipsis,
@@ -394,23 +414,25 @@ class _AppDropdownState extends State<AppDropdown>
       ),
     );
   }
+
   Widget _buildCheckbox(bool isChecked) {
     return Container(
-      width: 22.w,
-      height: 22.h,
+      width: 18.w,
+      height: 18.h,
       decoration: BoxDecoration(
         color: isChecked ? _borderColor : AppColors.transparent,
         borderRadius: BorderRadius.circular(4.r),
         border: Border.all(
           color: isChecked ? _borderColor : _hintColor,
-          width: 2,
+          width: 1.5,
         ),
       ),
       child: isChecked
-          ? Icon(Icons.check, size: 16.sp, color: AppColors.white)
+          ? Icon(Icons.check, size: 12.sp, color: AppColors.white)
           : null,
     );
   }
+
   Widget _buildSimpleItem(String item, {bool isAllOption = false}) {
     final isSelected =
         widget.value == item || (isAllOption && widget.value == null);
@@ -418,7 +440,7 @@ class _AppDropdownState extends State<AppDropdown>
       onTap: () => _onItemSelected(isAllOption ? '' : item),
       child: Container(
         height: _itemHeight,
-        padding: EdgeInsets.symmetric(horizontal: 14.w),
+        padding: EdgeInsets.symmetric(horizontal: 10.w),
         decoration: BoxDecoration(
           color: isSelected
               ? _borderColor.withOpacity(0.1)
@@ -429,7 +451,7 @@ class _AppDropdownState extends State<AppDropdown>
           item,
           style: GoogleFonts.openSans(
             fontSize: 12.sp,
-            fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+            fontWeight: FontWeight.w600,
             color: _textColor,
           ),
           overflow: TextOverflow.ellipsis,
@@ -437,6 +459,7 @@ class _AppDropdownState extends State<AppDropdown>
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     final bool hasValue = widget.value != null || _selectedSet.isNotEmpty;
@@ -459,17 +482,17 @@ class _AppDropdownState extends State<AppDropdown>
           width: (widget.width == null || widget.width == double.infinity)
               ? null
               : widget.width,
-          height: widget.height ?? 45.h,
+          height: widget.height ?? 35.h,
           child: CompositedTransformTarget(
             link: _layerLink,
             child: GestureDetector(
               onTap: _toggle,
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 10.w),
+                padding: EdgeInsets.symmetric(horizontal: 8.w),
                 decoration: BoxDecoration(
                   color: _bgColor,
-                  borderRadius: BorderRadius.circular(10.r),
-                  border: Border.all(color: _borderColor, width: 2.w),
+                  borderRadius: BorderRadius.circular(8.r),
+                  border: Border.all(color: _borderColor, width: 1.5),
                 ),
                 child: Row(
                   children: [
@@ -477,7 +500,7 @@ class _AppDropdownState extends State<AppDropdown>
                       child: Text(
                         _displayText,
                         style: GoogleFonts.openSans(
-                          fontSize: 14.sp,
+                          fontSize: 12.sp,
                           fontWeight: FontWeight.w600,
                           height: 1.0,
                           letterSpacing: 0.15,
@@ -487,13 +510,13 @@ class _AppDropdownState extends State<AppDropdown>
                         maxLines: 1,
                       ),
                     ),
-                    SizedBox(width: 8.w),
+                    SizedBox(width: 4.w),
                     Icon(
                       _isOpen
                           ? Icons.keyboard_arrow_up
                           : Icons.keyboard_arrow_down,
                       color: AppColors.primaryBlue,
-                      size: 24.sp,
+                      size: 20.sp,
                     ),
                   ],
                 ),

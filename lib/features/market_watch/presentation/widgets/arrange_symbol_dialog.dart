@@ -9,6 +9,7 @@ import '../../../../core/widget/svg_icon.dart';
 import '../bloc/arrangesymbol/arrange_symbol_bloc.dart';
 import '../bloc/arrangesymbol/arrange_symbol_event.dart';
 import '../bloc/arrangesymbol/arrange_symbol_state.dart';
+
 class ArrangeSymbolDialog extends StatelessWidget {
   const ArrangeSymbolDialog({Key? key}) : super(key: key);
   static void show(BuildContext context) {
@@ -25,12 +26,13 @@ class ArrangeSymbolDialog extends StatelessWidget {
         context.read<ArrangeSymbolBloc>().add(const SaveColumnsEvent());
       },
       backgroundColor: LightThemeColors.cardBackground,
-      headerColor: const Color(0xFF2C5766),
+      headerColor: AppColors.primaryBlue,
       buttonWidth: 180.w,
       buttonHeight: 45.h,
       contentPadding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return CommonDialog(
@@ -41,24 +43,24 @@ class ArrangeSymbolDialog extends StatelessWidget {
         context.read<ArrangeSymbolBloc>().add(const SaveColumnsEvent());
       },
       backgroundColor: LightThemeColors.cardBackground,
-      headerColor: const Color(0xFF2C5766),
+      headerColor: AppColors.primaryBlue,
       buttonWidth: 180.w,
       buttonHeight: 45.h,
       contentPadding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
     );
   }
 }
+
 class _ArrangeSymbolContent extends StatelessWidget {
   const _ArrangeSymbolContent({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
-      children: [
-        _buildColumnList(),
-      ],
+      children: [_buildColumnList()],
     );
   }
+
   Widget _buildColumnList() {
     return BlocBuilder<ArrangeSymbolBloc, ArrangeSymbolState>(
       builder: (context, state) {
@@ -66,7 +68,7 @@ class _ArrangeSymbolContent extends StatelessWidget {
           constraints: BoxConstraints(maxHeight: 450.h),
           child: ReorderableListView.builder(
             shrinkWrap: true,
-            buildDefaultDragHandles: false, 
+            buildDefaultDragHandles: false,
             itemCount: state.columns.length,
             onReorder: (oldIndex, newIndex) {
               context.read<ArrangeSymbolBloc>().add(
@@ -87,6 +89,7 @@ class _ArrangeSymbolContent extends StatelessWidget {
       },
     );
   }
+
   Widget _buildColumnItem({
     required Key key,
     required BuildContext context,
@@ -100,10 +103,7 @@ class _ArrangeSymbolContent extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.white,
         borderRadius: BorderRadius.circular(12.r),
-        border: Border.all(
-          color: const Color(0xFFE0E0E0),
-          width: 1,
-        ),
+        border: Border.all(color: const Color(0xFFE0E0E0), width: 1),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.04),
@@ -114,10 +114,7 @@ class _ArrangeSymbolContent extends StatelessWidget {
       ),
       child: Row(
         children: [
-          ReorderableDragStartListener(
-            index: index,
-            child: _buildDragHandle(),
-          ),
+          ReorderableDragStartListener(index: index, child: _buildDragHandle()),
           SizedBox(width: 16.w),
           Expanded(
             child: Text(
@@ -125,7 +122,7 @@ class _ArrangeSymbolContent extends StatelessWidget {
               style: GoogleFonts.openSans(
                 fontSize: 15.sp,
                 fontWeight: FontWeight.w600,
-                color: const Color(0xFF2C5766),
+                color: AppColors.primaryBlue,
                 letterSpacing: 0.2,
               ),
             ),
@@ -135,6 +132,7 @@ class _ArrangeSymbolContent extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildDragHandle() {
     return Container(
       width: 32.w,
@@ -147,9 +145,10 @@ class _ArrangeSymbolContent extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildToggleCheckbox(BuildContext context, ColumnItem column) {
     return GestureDetector(
-      behavior: HitTestBehavior.opaque, 
+      behavior: HitTestBehavior.opaque,
       onTap: () {
         print('Checkbox tapped: ${column.id} -> ${!column.isVisible}');
         context.read<ArrangeSymbolBloc>().add(
@@ -160,22 +159,13 @@ class _ArrangeSymbolContent extends StatelessWidget {
         width: 32.w,
         height: 32.h,
         decoration: BoxDecoration(
-          color: column.isVisible
-              ? const Color(0xFF2C5766)
-              : Colors.white,
+          color: column.isVisible ? AppColors.primaryBlue : Colors.white,
           borderRadius: BorderRadius.circular(6.r),
-          border: Border.all(
-            color: const Color(0xFF2C5766),
-            width: 2,
-          ),
+          border: Border.all(color: AppColors.primaryBlue, width: 2),
         ),
         alignment: Alignment.center,
         child: column.isVisible
-            ? Icon(
-          Icons.check,
-          size: 24.sp,
-          color: Colors.white,
-        )
+            ? Icon(Icons.check, size: 24.sp, color: Colors.white)
             : null,
       ),
     );

@@ -1,10 +1,11 @@
 import 'package:bazarpro/features/market_watch/presentation/bloc/symbolfont/symbol_font_event.dart';
 import 'package:bazarpro/features/market_watch/presentation/bloc/symbolfont/symbol_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 class SymbolFontBloc extends Bloc<SymbolFontEvent, SymbolFontState> {
   static const String _defaultFontFamily = 'Inter';
   static const String _defaultFontStyle = 'Regular';
-  static const int _defaultFontSize = 14;
+  static const int _defaultFontSize = 11;
   static const List<String> _availableFontFamilies = [
     'Airal',
     'Gilroy',
@@ -28,6 +29,7 @@ class SymbolFontBloc extends Bloc<SymbolFontEvent, SymbolFontState> {
     'Bold Italic',
   ];
   static const List<int> _availableFontSizes = [
+    10,
     11,
     12,
     14,
@@ -51,57 +53,70 @@ class SymbolFontBloc extends Bloc<SymbolFontEvent, SymbolFontState> {
     on<ResetFontSettingsEvent>(_onResetFontSettings);
   }
   void _onLoadFontSettings(
-      LoadFontSettingsEvent event, Emitter<SymbolFontState> emit) {
-    emit(state.copyWith(
-      fontFamilies: _availableFontFamilies,
-      fontStyles: _availableFontStyles,
-      fontSizes: _availableFontSizes,
-      selectedFontFamily: _savedFontFamily,
-      selectedFontStyle: _savedFontStyle,
-      selectedFontSize: _savedFontSize,
-      isSaved: false,
-    ));
+    LoadFontSettingsEvent event,
+    Emitter<SymbolFontState> emit,
+  ) {
+    emit(
+      state.copyWith(
+        fontFamilies: _availableFontFamilies,
+        fontStyles: _availableFontStyles,
+        fontSizes: _availableFontSizes,
+        selectedFontFamily: _savedFontFamily,
+        selectedFontStyle: _savedFontStyle,
+        selectedFontSize: _savedFontSize,
+        isSaved: false,
+      ),
+    );
   }
+
   void _onSelectFontFamily(
-      SelectFontFamilyEvent event, Emitter<SymbolFontState> emit) {
-    emit(state.copyWith(
-      selectedFontFamily: event.fontFamily,
-      isSaved: false,
-    ));
+    SelectFontFamilyEvent event,
+    Emitter<SymbolFontState> emit,
+  ) {
+    emit(state.copyWith(selectedFontFamily: event.fontFamily, isSaved: false));
   }
+
   void _onSelectFontStyle(
-      SelectFontStyleEvent event, Emitter<SymbolFontState> emit) {
-    emit(state.copyWith(
-      selectedFontStyle: event.fontStyle,
-      isSaved: false,
-    ));
+    SelectFontStyleEvent event,
+    Emitter<SymbolFontState> emit,
+  ) {
+    emit(state.copyWith(selectedFontStyle: event.fontStyle, isSaved: false));
   }
+
   void _onSelectFontSize(
-      SelectFontSizeEvent event, Emitter<SymbolFontState> emit) {
-    emit(state.copyWith(
-      selectedFontSize: event.fontSize,
-      isSaved: false,
-    ));
+    SelectFontSizeEvent event,
+    Emitter<SymbolFontState> emit,
+  ) {
+    emit(state.copyWith(selectedFontSize: event.fontSize, isSaved: false));
   }
+
   void _onSaveFontSettings(
-      SaveFontSettingsEvent event, Emitter<SymbolFontState> emit) {
+    SaveFontSettingsEvent event,
+    Emitter<SymbolFontState> emit,
+  ) {
     _savedFontFamily = state.selectedFontFamily;
     _savedFontStyle = state.selectedFontStyle;
     _savedFontSize = state.selectedFontSize;
     emit(state.copyWith(isSaved: true));
   }
+
   void _onResetFontSettings(
-      ResetFontSettingsEvent event, Emitter<SymbolFontState> emit) {
+    ResetFontSettingsEvent event,
+    Emitter<SymbolFontState> emit,
+  ) {
     _savedFontFamily = _defaultFontFamily;
     _savedFontStyle = _defaultFontStyle;
     _savedFontSize = _defaultFontSize;
-    emit(state.copyWith(
-      selectedFontFamily: _defaultFontFamily,
-      selectedFontStyle: _defaultFontStyle,
-      selectedFontSize: _defaultFontSize,
-      isSaved: true,
-    ));
+    emit(
+      state.copyWith(
+        selectedFontFamily: _defaultFontFamily,
+        selectedFontStyle: _defaultFontStyle,
+        selectedFontSize: _defaultFontSize,
+        isSaved: true,
+      ),
+    );
   }
+
   String get savedFontFamily => _savedFontFamily;
   String get savedFontStyle => _savedFontStyle;
   int get savedFontSize => _savedFontSize;

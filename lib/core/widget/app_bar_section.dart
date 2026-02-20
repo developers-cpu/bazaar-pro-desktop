@@ -74,17 +74,17 @@ class AppBarSectionState extends State<AppBarSection> {
         title: AppStrings.view,
         dropdownItems: [
           MenuItemData(
-            title: 'Pending Orders',
-            onTap: () =>
-                _navigateToPage(2, 'Pending Orders', '/pending_order-orders'),
-          ),
-          MenuItemData(
             title: 'Trades',
             onTap: () => _navigateToPage(2, 'Trades', '/trades'),
           ),
           MenuItemData(
             title: 'Deals',
             onTap: () => _navigateToPage(2, 'Deals', '/deals'),
+          ),
+          MenuItemData(
+            title: 'Pending Orders',
+            onTap: () =>
+                _navigateToPage(2, 'Pending Orders', '/pending_order-orders'),
           ),
           MenuItemData(
             title: 'Net Position',
@@ -104,13 +104,23 @@ class AppBarSectionState extends State<AppBarSection> {
                 _navigateToPage(2, 'Intraday History', '/intraday-history'),
           ),
           MenuItemData(
+            title: 'Script Quantity',
+            onTap: () =>
+                _navigateToPage(2, 'Script Quantity', '/script-quantity'),
+          ),
+          MenuItemData(
+            title: 'Trade Margin',
+            onTap: () {
+              TradeMarginDialog.show(context);
+            },
+          ),
+          MenuItemData(
             title: 'Script Master',
             onTap: () => _navigateToPage(2, 'Script Master', '/script-master'),
           ),
           MenuItemData(
-            title: 'Script Quantity',
-            onTap: () =>
-                _navigateToPage(2, 'Script Quantity', '/script-quantity'),
+            title: 'Broker List',
+            onTap: () => _navigateToPage(2, 'Broker List', '/broker-list'),
           ),
         ],
       ),
@@ -141,16 +151,6 @@ class AppBarSectionState extends State<AppBarSection> {
             onTap: () => _navigateToPage(4, 'Trade Logs', '/trade-logs'),
           ),
           MenuItemData(
-            title: 'Trade Margin',
-            onTap: () {
-              TradeMarginDialog.show(context);
-            },
-          ),
-          MenuItemData(
-            title: 'Settlement',
-            onTap: () => _navigateToPage(4, 'Settlement', '/settlement'),
-          ),
-          MenuItemData(
             title: 'Credit History',
             onTap: () =>
                 _navigateToPage(4, 'Credit History', '/credit-history'),
@@ -160,9 +160,8 @@ class AppBarSectionState extends State<AppBarSection> {
             onTap: () => _navigateToPage(4, 'Bill Generate', '/bill-generate'),
           ),
           MenuItemData(
-            title: 'Activity Report',
-            onTap: () =>
-                _navigateToPage(4, 'Activity Report', '/activity-report'),
+            title: 'Settlement',
+            onTap: () => _navigateToPage(4, 'Settlement', '/settlement'),
           ),
           MenuItemData(
             title: 'Profit & Loss',
@@ -172,14 +171,6 @@ class AppBarSectionState extends State<AppBarSection> {
             title: 'User Wise Profit & Loss',
             onTap: () =>
                 _navigateToPage(4, 'User Wise Profit & Loss', '/user-wise-pl'),
-          ),
-          MenuItemData(
-            title: 'User Script Position Tracking',
-            onTap: () => _navigateToPage(
-              4,
-              'User Script Position Tracking',
-              '/user-script-position',
-            ),
           ),
           MenuItemData(
             title: 'Symbol Wise Position Report',
@@ -201,6 +192,19 @@ class AppBarSectionState extends State<AppBarSection> {
               'Exchange Wise Report',
               '/exchange-wise-report',
             ),
+          ),
+          MenuItemData(
+            title: 'User Script Position Tracking',
+            onTap: () => _navigateToPage(
+              4,
+              'User Script Position Tracking',
+              '/user-script-position',
+            ),
+          ),
+          MenuItemData(
+            title: 'Activity Report',
+            onTap: () =>
+                _navigateToPage(4, 'Activity Report', '/activity-report'),
           ),
         ],
       ),

@@ -4,24 +4,23 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../domain/entities/dashboard_entity.dart';
+
 class TradeReportsChart extends StatefulWidget {
   final List<TradeReportData> data;
-  const TradeReportsChart({
-    Key? key,
-    required this.data,
-  }) : super(key: key);
+  const TradeReportsChart({Key? key, required this.data}) : super(key: key);
   @override
   State<TradeReportsChart> createState() => _TradeReportsChartState();
 }
+
 class _TradeReportsChartState extends State<TradeReportsChart> {
   int? _touchedGroupIndex;
   int? _touchedRodIndex;
-  static const Color _deletedColor = Color(0xFF4993F4); 
-  static const Color _cancelledColor = Color(0xFFFF1201); 
-  static const Color _successColor = Color(0xFF1F4A66); 
-  static const Color _deletedBgColor = Color(0xFFE8F2FE); 
-  static const Color _cancelledBgColor = Color(0xFFFFE8E6); 
-  static const Color _successBgColor = Color(0xFFE6EEF2); 
+  static const Color _deletedColor = Color(0xFF4993F4);
+  static const Color _cancelledColor = Color(0xFFFF1201);
+  static const Color _successColor = Color(0xFF1F4A66);
+  static const Color _deletedBgColor = Color(0xFFE8F2FE);
+  static const Color _cancelledBgColor = Color(0xFFFFE8E6);
+  static const Color _successBgColor = Color(0xFFE6EEF2);
   @override
   Widget build(BuildContext context) {
     if (widget.data.isEmpty) {
@@ -38,15 +37,19 @@ class _TradeReportsChartState extends State<TradeReportsChart> {
     return LayoutBuilder(
       builder: (context, constraints) {
         final isCompact = constraints.maxWidth < 600;
-        final barWidth = isCompact ? 24.w : (constraints.maxWidth < 650 ? 32.w : 42.w);
-        final groupSpacing = isCompact ? 12.w : (constraints.maxWidth < 650 ? 20.w : 30.w);
+        final barWidth =
+            (isCompact ? 24.w : (constraints.maxWidth < 650 ? 32.w : 42.w))
+                .clamp(10.0, 30.0);
+        final groupSpacing =
+            (isCompact ? 12.w : (constraints.maxWidth < 650 ? 20.w : 30.w))
+                .clamp(8.0, 24.0);
         return Column(
           children: [
             Expanded(
               child: Padding(
                 padding: EdgeInsets.only(
-                  right: 16.w,
-                  top: constraints.maxHeight > 300 ? 30.h : 10.h,
+                  right: 10.w,
+                  top: constraints.maxHeight > 300 ? 16.h : 6.h,
                 ),
                 child: BarChart(
                   BarChartData(
@@ -109,8 +112,10 @@ class _TradeReportsChartState extends State<TradeReportsChart> {
                             _touchedGroupIndex = null;
                             _touchedRodIndex = null;
                           } else {
-                            _touchedGroupIndex = response.spot!.touchedBarGroupIndex;
-                            _touchedRodIndex = response.spot!.touchedRodDataIndex;
+                            _touchedGroupIndex =
+                                response.spot!.touchedBarGroupIndex;
+                            _touchedRodIndex =
+                                response.spot!.touchedRodDataIndex;
                           }
                         });
                       },
@@ -129,7 +134,9 @@ class _TradeReportsChartState extends State<TradeReportsChart> {
                                 child: Text(
                                   widget.data[index].date,
                                   style: GoogleFonts.openSans(
-                                    fontSize: constraints.maxWidth > 600 ? 13.sp : 11.sp,
+                                    fontSize: constraints.maxWidth > 600
+                                        ? 13.sp
+                                        : 11.sp,
                                     fontWeight: FontWeight.w500,
                                     color: LightThemeColors.supportiveTextColor,
                                   ),
@@ -218,15 +225,19 @@ class _TradeReportsChartState extends State<TradeReportsChart> {
                 ),
               ),
             ),
-            SizedBox(height: 12.h),
+            SizedBox(height: 6.h),
             _buildLegend(),
-            SizedBox(height: 8.h),
+            SizedBox(height: 4.h),
           ],
         );
       },
     );
   }
-  List<BarChartGroupData> _buildBarGroups(BoxConstraints constraints, double barWidth) {
+
+  List<BarChartGroupData> _buildBarGroups(
+    BoxConstraints constraints,
+    double barWidth,
+  ) {
     return widget.data.asMap().entries.map((entry) {
       final index = entry.key;
       final item = entry.value;
@@ -258,19 +269,21 @@ class _TradeReportsChartState extends State<TradeReportsChart> {
             barWidth,
           ),
         ],
-        barsSpace: 3.w,
+        barsSpace: 3.w.clamp(2.0, 4.0),
       );
     }).toList();
   }
+
   BarChartRodData _buildBarRod(
-      double value,
-      Color color,
-      Color bgColor,
-      int groupIndex,
-      int rodIndex,
-      double barWidth,
-      ) {
-    final isTouched = _touchedGroupIndex == groupIndex && _touchedRodIndex == rodIndex;
+    double value,
+    Color color,
+    Color bgColor,
+    int groupIndex,
+    int rodIndex,
+    double barWidth,
+  ) {
+    final isTouched =
+        _touchedGroupIndex == groupIndex && _touchedRodIndex == rodIndex;
     return BarChartRodData(
       toY: value,
       color: isTouched ? color.withOpacity(0.9) : color,
@@ -287,6 +300,7 @@ class _TradeReportsChartState extends State<TradeReportsChart> {
       ),
     );
   }
+
   Widget _buildLegend() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -299,6 +313,7 @@ class _TradeReportsChartState extends State<TradeReportsChart> {
       ],
     );
   }
+
   Widget _buildLegendItem(String label, Color color) {
     return Row(
       mainAxisSize: MainAxisSize.min,

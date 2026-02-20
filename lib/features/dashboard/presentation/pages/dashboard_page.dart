@@ -122,33 +122,33 @@ class _DashboardView extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         final isWide = constraints.maxWidth > 800;
-        final topCardHeight = isWide ? constraints.maxHeight * 0.55 : 400.0;
-        final weeklyCardHeight = constraints.maxHeight * 0.38;
+        final topCardHeight = isWide ? constraints.maxHeight * 0.52 : 350.0;
+        final weeklyCardHeight = constraints.maxHeight * 0.35;
 
         return SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsets.fromLTRB(20.w, 16.h, 20.w, 12.h),
+                padding: EdgeInsets.fromLTRB(14.w, 10.h, 14.w, 6.h),
                 child: Text(
                   'Dashboard',
                   style: GoogleFonts.openSans(
-                    fontSize: 22.sp,
+                    fontSize: 18.sp,
                     color: LightThemeColors.textColor,
                   ),
                 ),
               ),
               if (isWide)
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.w),
+                  padding: EdgeInsets.symmetric(horizontal: 14.w),
                   child: SizedBox(
                     height: topCardHeight,
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Expanded(child: _buildTradeReportsCard(context, state)),
-                        SizedBox(width: 16.w),
+                        SizedBox(width: 10.w),
                         Expanded(child: _buildSymbolWiseCard(context, state)),
                       ],
                     ),
@@ -156,26 +156,26 @@ class _DashboardView extends StatelessWidget {
                 )
               else ...[
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.w),
+                  padding: EdgeInsets.symmetric(horizontal: 14.w),
                   child: SizedBox(
                     height: topCardHeight,
                     child: _buildTradeReportsCard(context, state),
                   ),
                 ),
-                SizedBox(height: 16.h),
+                SizedBox(height: 10.h),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.w),
+                  padding: EdgeInsets.symmetric(horizontal: 14.w),
                   child: SizedBox(
                     height: topCardHeight,
                     child: _buildSymbolWiseCard(context, state),
                   ),
                 ),
               ],
-              SizedBox(height: 16.h),
+              SizedBox(height: 6.h),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                padding: EdgeInsets.symmetric(horizontal: 14.w),
                 child: SizedBox(
-                  height: weeklyCardHeight.clamp(280.0, 400.0),
+                  height: weeklyCardHeight.clamp(220.0, 350.0),
                   child: ReportCard(
                     title: 'Weekly Progress Report',
                     chart: WeeklyProgressChart(data: state.weeklyProgress),
@@ -205,7 +205,7 @@ class _DashboardView extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 16.h),
+              SizedBox(height: 4.h),
             ],
           ),
         );

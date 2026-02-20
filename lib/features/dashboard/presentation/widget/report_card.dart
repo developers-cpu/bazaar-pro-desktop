@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/widget/app_dropdown.dart';
 import 'exchange_chips.dart';
+
 class ReportCard extends StatelessWidget {
   final String title;
   final Widget chart;
@@ -41,31 +42,28 @@ class ReportCard extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(
-          color: LightThemeColors.primaryColor,
-          width: 1.w,
-        ),
+        borderRadius: BorderRadius.circular(12.r),
+        border: Border.all(color: LightThemeColors.primaryColor, width: 1.w),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.all(16.w),
+            padding: EdgeInsets.fromLTRB(10.w, 10.w, 10.w, 6.w),
             child: _buildHeader(),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            padding: EdgeInsets.symmetric(horizontal: 10.w),
             child: ExchangeChips(
               exchanges: exchanges,
               selectedExchanges: selectedExchanges,
               onToggle: onExchangeToggle,
             ),
           ),
-          SizedBox(height: 12.h),
+          SizedBox(height: 6.h),
           Expanded(
             child: Padding(
-              padding: EdgeInsets.fromLTRB(16.w, 0, 16.w, 16.h),
+              padding: EdgeInsets.fromLTRB(10.w, 0, 10.w, 8.h),
               child: chart,
             ),
           ),
@@ -73,13 +71,15 @@ class ReportCard extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildHeader() {
     return LayoutBuilder(
       builder: (context, constraints) {
         final dropdownWidth = 140.w;
         final spacing = 12.w;
         final numDropdowns = topCounts != null ? 3 : 2;
-        final requiredWidth = (dropdownWidth * numDropdowns) + (spacing * (numDropdowns - 1));
+        final requiredWidth =
+            (dropdownWidth * numDropdowns) + (spacing * (numDropdowns - 1));
         final canFitInRow = constraints.maxWidth > requiredWidth + 100.w;
         if (canFitInRow) {
           return Row(
@@ -89,7 +89,7 @@ class ReportCard extends StatelessWidget {
                   title,
                   style: GoogleFonts.openSans(
                     fontSize: 14.sp,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w400,
                     color: LightThemeColors.textColor,
                   ),
                 ),
@@ -105,7 +105,7 @@ class ReportCard extends StatelessWidget {
                 title,
                 style: GoogleFonts.openSans(
                   fontSize: 18.sp,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w400,
                   color: LightThemeColors.textColor,
                 ),
               ),
@@ -120,13 +120,14 @@ class ReportCard extends StatelessWidget {
       },
     );
   }
+
   Widget _buildDropdowns(double dropdownWidth) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
         AppDropdown(
           type: AppDropdownType.search,
-          hintText: 'Client',
+          hintText: 'User',
           value: selectedClient,
           items: clients,
           width: dropdownWidth,
@@ -136,7 +137,7 @@ class ReportCard extends StatelessWidget {
         SizedBox(width: 12.w),
         AppDropdown(
           type: AppDropdownType.simple,
-          hintText: 'Period',
+          hintText: 'Show',
           value: selectedPeriod,
           items: periods,
           width: dropdownWidth,

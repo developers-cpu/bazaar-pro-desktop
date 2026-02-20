@@ -49,13 +49,7 @@ class DashboardLoaded extends DashboardState {
     this.weeklyProgressPeriod = 'This Week',
     this.weeklyProgressSelectedExchanges = const {},
     required this.summary,
-    this.clients = const [
-      'Client 1',
-      'Client 2',
-      'Client 3',
-      'Client 4',
-      'Client 5',
-    ],
+    this.clients = const ['User 1', 'User 2', 'User 3', 'User 4', 'User 5'],
     this.periods = const ['Day', 'Week', 'Month'],
     this.exchanges = const [
       'NSE',

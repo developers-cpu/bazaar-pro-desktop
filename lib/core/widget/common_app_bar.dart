@@ -253,7 +253,6 @@ class _CommonAppBarState extends State<CommonAppBar>
                 borderRadius: BorderRadius.circular(12.r),
               ),
         alignment: Alignment.center,
-        // Alignment handles positioning within constraints
         child: Text(
           displayTitle,
           textAlign: TextAlign.center,

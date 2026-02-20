@@ -28,12 +28,7 @@ class _ScriptQuantityPageState extends State<ScriptQuantityPage> {
         color: AppColors.white,
         child: Column(
           children: [
-            const ScriptQuantityFilterBar(),
-            Container(
-              height: 1.h,
-              color: AppColors.greyBorder,
-            ),
-            Expanded(
+            const ScriptQuantityFilterBar(),            Expanded(
               child: Center(
                 child: Text(
                   'Select Exchange and Group, then click View to see script quantities',

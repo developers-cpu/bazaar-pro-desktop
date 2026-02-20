@@ -35,12 +35,7 @@ class _IntradayHistoryPageState extends State<IntradayHistoryPage> {
                 if (state is IntradayHistoryLoaded)
                   const IntradayHistoryFilterBar()
                 else if (state is IntradayHistorySecondsView)
-                  const IntradaySecondsFilterBar(),
-                Container(
-                  height: 1.h,
-                  color: AppColors.greyBorder,
-                ),
-                Expanded(
+                  const IntradaySecondsFilterBar(),                Expanded(
                   child: state is IntradayHistorySecondsView
                       ? const IntradaySecondsTable()
                       : const IntradayHistoryTable(),

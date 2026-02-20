@@ -28,12 +28,7 @@ class _NetPositionPageState extends State<NetPositionPage> {
         color: AppColors.white,
         child: Column(
           children: [
-            const NetPositionFilterBar(),
-            Container(
-              height: 1.h,
-              color: AppColors.greyBorder,
-            ),
-            const Expanded(
+            const NetPositionFilterBar(),            const Expanded(
               child: NetPositionTable(
                 showDeviceInfo: false,
               ),

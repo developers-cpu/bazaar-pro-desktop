@@ -28,12 +28,7 @@ class _ScriptMasterPageState extends State<ScriptMasterPage> {
         color: AppColors.white,
         child: Column(
           children: [
-            const ScriptMasterFilterBar(),
-            Container(
-              height: 1.h,
-              color: AppColors.greyBorder,
-            ),
-            const Expanded(
+            const ScriptMasterFilterBar(),            const Expanded(
               child: ScriptMasterTable(),
             ),
           ],

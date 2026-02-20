@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart' hide CustomDateRangePickerDialog;
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -10,6 +10,7 @@ import '../../bloc/deals/deals_bloc.dart';
 import '../../bloc/deals/deals_event.dart';
 import '../../bloc/deals/deals_state.dart';
 import '../common/view_reset_buttons.dart';
+
 class DealsFilterBar extends StatelessWidget {
   const DealsFilterBar({Key? key}) : super(key: key);
   @override
@@ -23,9 +24,7 @@ class DealsFilterBar extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Row(
             children: [
-              Expanded(
-                child: _buildDateRangePicker(context, state),
-              ),
+              Expanded(child: _buildDateRangePicker(context, state)),
               SizedBox(width: 12.w),
               Expanded(
                 child: AppDropdown(
@@ -142,9 +141,7 @@ class DealsFilterBar extends StatelessWidget {
               const Spacer(),
               ViewResetButtons(
                 onReset: () {
-                  context.read<DealsBloc>().add(
-                    const ResetFiltersEvent(),
-                  );
+                  context.read<DealsBloc>().add(const ResetFiltersEvent());
                 },
                 onView: () {
                   context.read<DealsBloc>().add(
@@ -166,11 +163,13 @@ class DealsFilterBar extends StatelessWidget {
       },
     );
   }
+
   Widget _buildDateRangePicker(BuildContext context, DealsLoaded state) {
     final dateFormat = DateFormat('dd/MM/yyyy');
     String displayText = 'Select Date Range';
     if (state.startDate != null && state.endDate != null) {
-      displayText = '${dateFormat.format(state.startDate!)} - ${dateFormat.format(state.endDate!)}';
+      displayText =
+          '${dateFormat.format(state.startDate!)} - ${dateFormat.format(state.endDate!)}';
     }
     return GestureDetector(
       onTap: () async {
@@ -194,12 +193,12 @@ class DealsFilterBar extends StatelessWidget {
         }
       },
       child: Container(
-        height: 45.h,
+        height: 35.h,
         padding: EdgeInsets.symmetric(horizontal: 12.w),
         decoration: BoxDecoration(
           color: AppColors.white,
-          borderRadius: BorderRadius.circular(10.r),
-          border: Border.all(color: AppColors.primaryBlue, width: 2.w),
+          borderRadius: BorderRadius.circular(8.r),
+          border: Border.all(color: AppColors.primaryBlue, width: 1.5.w),
         ),
         child: Row(
           children: [
@@ -207,7 +206,7 @@ class DealsFilterBar extends StatelessWidget {
               child: Text(
                 displayText,
                 style: GoogleFonts.openSans(
-                  fontSize: 16.sp,
+                  fontSize: 12.sp,
                   fontWeight: FontWeight.w600,
                   color: (state.startDate != null && state.endDate != null)
                       ? AppColors.primaryTextColor
@@ -218,7 +217,7 @@ class DealsFilterBar extends StatelessWidget {
             ),
             Icon(
               Icons.calendar_today,
-              size: 20.sp,
+              size: 16.sp,
               color: AppColors.primaryBlue,
             ),
           ],

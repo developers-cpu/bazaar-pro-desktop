@@ -10,6 +10,7 @@ import '../../bloc/trade/trades_state.dart';
 import '../common/view_data_table.dart';
 import '../common/view_record_count.dart';
 import '../common/view_table_cell_styles.dart';
+
 class TradesTable extends StatelessWidget {
   final bool showDeviceInfo;
   final bool isDarkMode;
@@ -24,25 +25,64 @@ class TradesTable extends StatelessWidget {
       const ViewTableColumn(id: 'pUser', label: 'P USER', width: 120),
       const ViewTableColumn(id: 'exchange', label: 'EXCH', width: 100),
       const ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 150),
-      const ViewTableColumn(id: 'orderDateTime', label: 'ORDER D/T', width: 220),
+      const ViewTableColumn(
+        id: 'orderDateTime',
+        label: 'ORDER D/T',
+        width: 220,
+      ),
       const ViewTableColumn(id: 'buySell', label: 'B/S', width: 280),
-      const ViewTableColumn(id: 'qty', label: 'QTY', width: 120, isNumeric: true),
-      const ViewTableColumn(id: 'lot', label: 'LOT', width: 100, isNumeric: true),
+      const ViewTableColumn(
+        id: 'qty',
+        label: 'QTY',
+        width: 120,
+        isNumeric: true,
+      ),
+      const ViewTableColumn(
+        id: 'lot',
+        label: 'LOT',
+        width: 100,
+        isNumeric: true,
+      ),
       const ViewTableColumn(id: 'orderType', label: 'TYPE', width: 100),
-      const ViewTableColumn(id: 'pl', label: 'P/L', width: 120, isNumeric: true),
-      const ViewTableColumn(id: 'triggerPrice', label: 'T. PRICE', width: 130, isNumeric: true),
-      const ViewTableColumn(id: 'brokerage', label: 'BRK', width: 100, isNumeric: true),
-      const ViewTableColumn(id: 'rPrice', label: 'R. PRICE', width: 120, isNumeric: true),
+      const ViewTableColumn(
+        id: 'pl',
+        label: 'P/L',
+        width: 120,
+        isNumeric: true,
+      ),
+      const ViewTableColumn(
+        id: 'triggerPrice',
+        label: 'T. PRICE',
+        width: 130,
+        isNumeric: true,
+      ),
+      const ViewTableColumn(
+        id: 'brokerage',
+        label: 'BRK',
+        width: 100,
+        isNumeric: true,
+      ),
+      const ViewTableColumn(
+        id: 'rPrice',
+        label: 'R. PRICE',
+        width: 120,
+        isNumeric: true,
+      ),
     ];
     if (showDeviceInfo) {
       columns.addAll(const [
-        ViewTableColumn(id: 'executionDateTime', label: 'EXECUTION D/T', width: 220),
+        ViewTableColumn(
+          id: 'executionDateTime',
+          label: 'EXECUTION D/T',
+          width: 220,
+        ),
         ViewTableColumn(id: 'deviceId', label: 'DEVICE ID', width: 400),
         ViewTableColumn(id: 'ipAddress', label: 'IP ADDRESS', width: 160),
       ]);
     }
     return columns;
   }
+
   Widget _buildCell(Trade item, ViewTableColumn column, bool isDark) {
     switch (column.id) {
       case 'userName':
@@ -64,10 +104,7 @@ class TradesTable extends StatelessWidget {
           isDark: isDark,
         );
       case 'lot':
-        return ViewTextCell(
-          text: item.lot.toStringAsFixed(2),
-          isDark: isDark,
-        );
+        return ViewTextCell(text: item.lot.toStringAsFixed(2), isDark: isDark);
       case 'orderType':
         return ViewTextCell(text: item.orderType, isDark: isDark);
       case 'pl':
@@ -79,24 +116,27 @@ class TradesTable extends StatelessWidget {
       case 'triggerPrice':
         return ViewNumberCell(
           value: item.triggerPrice,
-          fixedColor: AppColors.primaryBlue,
+          colorByValue: true,
           isDark: isDark,
         );
       case 'brokerage':
         return ViewNumberCell(
           value: item.brokerage,
-          fixedColor: AppColors.primaryBlue,
+          colorByValue: true,
           isDark: isDark,
         );
       case 'rPrice':
         return ViewNumberCell(
           value: item.rPrice,
-          fixedColor: AppColors.primaryBlue,
+          colorByValue: true,
           isDark: isDark,
         );
       case 'executionDateTime':
         return item.executionDateTime != null
-            ? ViewDateTimeCell(dateTime: item.executionDateTime!, isDark: isDark)
+            ? ViewDateTimeCell(
+                dateTime: item.executionDateTime!,
+                isDark: isDark,
+              )
             : ViewTextCell(text: '-', isDark: isDark);
       case 'deviceId':
         return ViewTextCell(text: item.deviceId ?? '-', isDark: isDark);
@@ -106,6 +146,7 @@ class TradesTable extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TradesBloc, TradesState>(
@@ -132,13 +173,17 @@ class TradesTable extends StatelessWidget {
                 sortAscending: state.sortAscending,
                 isDarkMode: isDarkMode,
                 emptyMessage: 'No trades found',
-                cellBuilder: (item, column) => _buildCell(item, column, isDarkMode),
+                cellBuilder: (item, column) =>
+                    _buildCell(item, column, isDarkMode),
                 onRowTap: (item) {
                   context.read<TradesBloc>().add(SelectTradeEvent(item.id));
                 },
                 onSort: (columnId, ascending) {
                   context.read<TradesBloc>().add(
-                    SortTradesByColumnEvent(columnId: columnId, ascending: ascending),
+                    SortTradesByColumnEvent(
+                      columnId: columnId,
+                      ascending: ascending,
+                    ),
                   );
                 },
               ),
@@ -148,6 +193,7 @@ class TradesTable extends StatelessWidget {
       },
     );
   }
+
   Widget _buildErrorState(BuildContext context, String message) {
     return Center(
       child: Column(
@@ -155,10 +201,7 @@ class TradesTable extends StatelessWidget {
         children: [
           Text(
             message,
-            style: GoogleFonts.openSans(
-              fontSize: 14.sp,
-              color: AppColors.red,
-            ),
+            style: GoogleFonts.openSans(fontSize: 14.sp, color: AppColors.red),
           ),
           SizedBox(height: 16.h),
           ElevatedButton(

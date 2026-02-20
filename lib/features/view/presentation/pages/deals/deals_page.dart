@@ -28,12 +28,7 @@ class _DealsPageState extends State<DealsPage> {
         color: AppColors.white,
         child: Column(
           children: [
-            const DealsFilterBar(),
-            Container(
-              height: 1.h,
-              color: AppColors.greyBorder,
-            ),
-            const Expanded(
+            const DealsFilterBar(),            const Expanded(
               child: DealsTable(
                 showDeviceInfo: true,
               ),

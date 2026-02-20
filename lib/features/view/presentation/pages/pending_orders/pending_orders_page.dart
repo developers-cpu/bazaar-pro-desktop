@@ -28,12 +28,7 @@ class _PendingOrdersPageState extends State<PendingOrdersPage> {
         color: AppColors.white,
         child: Column(
           children: [
-            const PendingOrdersFilterBar(),
-            Container(
-              height: 1.h,
-              color: AppColors.greyBorder,
-            ),
-            const Expanded(
+            const PendingOrdersFilterBar(),            const Expanded(
               child: PendingOrdersTable(
                 showDeviceInfo: false, 
               ),

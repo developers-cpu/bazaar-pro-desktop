@@ -28,12 +28,7 @@ class _RejectionLogPageState extends State<RejectionLogPage> {
         color: AppColors.white,
         child: Column(
           children: [
-            const RejectionLogFilterBar(),
-            Container(
-              height: 1.h,
-              color: AppColors.greyBorder,
-            ),
-            const Expanded(
+            const RejectionLogFilterBar(),            const Expanded(
               child: RejectionLogTable(),
             ),
           ],

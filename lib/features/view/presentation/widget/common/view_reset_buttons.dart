@@ -2,6 +2,7 @@ import 'package:bazarpro/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 class ViewResetButtons extends StatelessWidget {
   final VoidCallback? onView;
   final VoidCallback? onReset;
@@ -22,22 +23,20 @@ class ViewResetButtons extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         _buildResetButton(),
-        SizedBox(width: 12.w),
+        SizedBox(width: 8.w),
         _buildViewButton(),
       ],
     );
   }
+
   Widget _buildResetButton() {
     return SizedBox(
-      width: 120.w,
-      height: 40.h,
+      width: 90.w,
+      height: 35.h,
       child: OutlinedButton(
         onPressed: isLoading ? null : onReset,
         style: OutlinedButton.styleFrom(
-          side: BorderSide(
-            color: AppColors.primaryBlue,
-            width: 1.5.w,
-          ),
+          side: BorderSide(color: AppColors.primaryBlue, width: 0.8.w),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8.r),
           ),
@@ -46,7 +45,7 @@ class ViewResetButtons extends StatelessWidget {
         child: Text(
           resetText,
           style: GoogleFonts.openSans(
-            fontSize: 14.sp,
+            fontSize: 12.sp,
             fontWeight: FontWeight.w600,
             color: AppColors.primaryBlue,
           ),
@@ -54,10 +53,11 @@ class ViewResetButtons extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildViewButton() {
     return SizedBox(
-      width: 120.w,
-      height: 40.h,
+      width: 90.w,
+      height: 35.h,
       child: ElevatedButton(
         onPressed: isLoading ? null : onView,
         style: ElevatedButton.styleFrom(
@@ -70,25 +70,26 @@ class ViewResetButtons extends StatelessWidget {
         ),
         child: isLoading
             ? SizedBox(
-          width: 20.w,
-          height: 20.h,
-          child: CircularProgressIndicator(
-            strokeWidth: 2.w,
-            color: AppColors.white,
-          ),
-        )
+                width: 20.w,
+                height: 20.h,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2.w,
+                  color: AppColors.white,
+                ),
+              )
             : Text(
-          viewText,
-          style: GoogleFonts.openSans(
-            fontSize: 14.sp,
-            fontWeight: FontWeight.w600,
-            color: AppColors.white,
-          ),
-        ),
+                viewText,
+                style: GoogleFonts.openSans(
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.white,
+                ),
+              ),
       ),
     );
   }
 }
+
 class RecordCountWidget extends StatelessWidget {
   final int count;
   final String label;
@@ -102,7 +103,7 @@ class RecordCountWidget extends StatelessWidget {
     return Text(
       '$label : $count',
       style: GoogleFonts.openSans(
-        fontSize: 14.sp,
+        fontSize: 10.sp,
         fontWeight: FontWeight.w600,
         color: AppColors.primaryBlue,
       ),

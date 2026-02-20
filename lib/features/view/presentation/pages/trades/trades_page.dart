@@ -28,12 +28,7 @@ class _TradesPageState extends State<TradesPage> {
         color: AppColors.white,
         child: Column(
           children: [
-            const TradesFilterBar(),
-            Container(
-              height: 1.h,
-              color: AppColors.greyBorder,
-            ),
-            const Expanded(
+            const TradesFilterBar(),            const Expanded(
               child: TradesTable(
                 showDeviceInfo: true,
               ),

@@ -28,12 +28,7 @@ class _LoginHistoryPageState extends State<LoginHistoryPage> {
         color: AppColors.white,
         child: Column(
           children: [
-            const LoginHistoryFilterBar(),
-            Container(
-              height: 1.h,
-              color: AppColors.greyBorder,
-            ),
-            const Expanded(
+            const LoginHistoryFilterBar(),            const Expanded(
               child: LoginHistoryTable(),
             ),
           ],

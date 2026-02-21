@@ -8,9 +8,11 @@ import '../../bloc/net_position/net_position_bloc.dart';
 import '../../bloc/net_position/net_position_event.dart';
 import '../../bloc/net_position/net_position_state.dart';
 import '../common/view_data_table.dart';
+import '../common/view_data_table_footer.dart';
 import '../common/view_record_count.dart';
 import '../common/view_table_cell_styles.dart';
 import 'open_postion_dilog.dart';
+
 class NetPositionTable extends StatelessWidget {
   final bool showDeviceInfo;
   final bool isDarkMode;
@@ -23,17 +25,58 @@ class NetPositionTable extends StatelessWidget {
     return const [
       ViewTableColumn(id: 'exchange', label: 'EXCH', width: 110),
       ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 160),
-      ViewTableColumn(id: 'buyQty', label: 'BUY QTY', width: 130, isNumeric: true),
-      ViewTableColumn(id: 'sellQty', label: 'SELL QTY', width: 130, isNumeric: true),
-      ViewTableColumn(id: 'netQty', label: 'NET QTY', width: 130, isNumeric: true),
-      ViewTableColumn(id: 'netAvgPrice', label: 'NET AVG PRICE', width: 220, isNumeric: true),
+      ViewTableColumn(
+        id: 'buyQty',
+        label: 'BUY QTY',
+        width: 130,
+        isNumeric: true,
+      ),
+      ViewTableColumn(
+        id: 'sellQty',
+        label: 'SELL QTY',
+        width: 130,
+        isNumeric: true,
+      ),
+      ViewTableColumn(
+        id: 'netQty',
+        label: 'NET QTY',
+        width: 130,
+        isNumeric: true,
+      ),
+      ViewTableColumn(
+        id: 'netAvgPrice',
+        label: 'NET AVG PRICE',
+        width: 220,
+        isNumeric: true,
+      ),
       ViewTableColumn(id: 'cmp', label: 'CMP', width: 120, isNumeric: true),
-      ViewTableColumn(id: 'm2mAmount', label: 'M2M AMT', width: 150, isNumeric: true),
-      ViewTableColumn(id: 'ourPercentage', label: 'OUR %', width: 150, isNumeric: true),
-      ViewTableColumn(id: 'userCount', label: 'USER', width: 90, isNumeric: true),
+      ViewTableColumn(
+        id: 'm2mAmount',
+        label: 'M2M AMT',
+        width: 150,
+        isNumeric: true,
+      ),
+      ViewTableColumn(
+        id: 'ourPercentage',
+        label: 'OUR %',
+        width: 150,
+        isNumeric: true,
+      ),
+      ViewTableColumn(
+        id: 'userCount',
+        label: 'USER',
+        width: 90,
+        isNumeric: true,
+      ),
     ];
   }
-  Widget _buildCell(BuildContext context, NetPosition item, ViewTableColumn column, bool isDark) {
+
+  Widget _buildCell(
+    BuildContext context,
+    NetPosition item,
+    ViewTableColumn column,
+    bool isDark,
+  ) {
     switch (column.id) {
       case 'exchange':
         return ViewTextCell(text: item.exchange, isDark: isDark);
@@ -42,22 +85,23 @@ class NetPositionTable extends StatelessWidget {
       case 'buyQty':
         return ViewNumberCell(
           value: item.buyQty,
-          fixedColor: item.buyQty > 0 ? AppColors.blue : AppColors.primaryTextColor,
+          fixedColor: item.buyQty > 0
+              ? AppColors.blue
+              : AppColors.primaryTextColor,
           isDark: isDark,
         );
       case 'sellQty':
         return ViewNumberCell(
           value: item.sellQty,
-          fixedColor: item.sellQty > 0 ? AppColors.red : AppColors.primaryTextColor,
+          fixedColor: item.sellQty > 0
+              ? AppColors.red
+              : AppColors.primaryTextColor,
           isDark: isDark,
         );
       case 'netQty':
         return _buildNetQtyCell(context, item, isDark);
       case 'netAvgPrice':
-        return ViewNumberCell(
-          value: item.netAvgPrice,
-          isDark: isDark,
-        );
+        return ViewNumberCell(value: item.netAvgPrice, isDark: isDark);
       case 'cmp':
         return ViewNumberCell(
           value: item.cmp,
@@ -76,21 +120,16 @@ class NetPositionTable extends StatelessWidget {
           isDark: isDark,
         );
       case 'userCount':
-        return ViewTextCell(
-          text: item.userCount.toString(),
-          isDark: isDark,
-        );
+        return ViewTextCell(text: item.userCount.toString(), isDark: isDark);
       default:
         return const SizedBox.shrink();
     }
   }
+
   Widget _buildNetQtyCell(BuildContext context, NetPosition item, bool isDark) {
     return GestureDetector(
       onTap: () {
-        OpenPositionDialog.show(
-          context: context,
-          isDarkMode: isDark,
-        );
+        OpenPositionDialog.show(context: context, isDarkMode: isDark);
       },
       child: Container(
         alignment: Alignment.centerRight,
@@ -108,6 +147,7 @@ class NetPositionTable extends StatelessWidget {
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<NetPositionBloc, NetPositionState>(
@@ -134,16 +174,23 @@ class NetPositionTable extends StatelessWidget {
                 sortAscending: state.sortAscending,
                 isDarkMode: isDarkMode,
                 emptyMessage: 'No net positions found',
-                cellBuilder: (item, column) => _buildCell(context, item, column, isDarkMode),
+                cellBuilder: (item, column) =>
+                    _buildCell(context, item, column, isDarkMode),
                 onRowTap: (item) {
-                  context.read<NetPositionBloc>().add(SelectPositionEvent(item.id));
+                  context.read<NetPositionBloc>().add(
+                    SelectPositionEvent(item.id),
+                  );
                 },
                 onSort: (columnId, ascending) {
                   context.read<NetPositionBloc>().add(
-                    SortPositionsByColumnEvent(columnId: columnId, ascending: ascending),
+                    SortPositionsByColumnEvent(
+                      columnId: columnId,
+                      ascending: ascending,
+                    ),
                   );
                 },
-                footerBuilder: (columns) => _buildTotalsRow(columns, state.filteredPositions),
+                footerBuilder: (columns) =>
+                    _buildTotalsRow(columns, state.filteredPositions),
               ),
             ),
           ],
@@ -151,63 +198,30 @@ class NetPositionTable extends StatelessWidget {
       },
     );
   }
-  Widget _buildTotalsRow(List<ViewTableColumn> columns, List<NetPosition> positions) {
+
+  Widget _buildTotalsRow(
+    List<ViewTableColumn> columns,
+    List<NetPosition> positions,
+  ) {
     double totalM2M = positions.fold(0.0, (sum, item) => sum + item.m2mAmount);
-    double totalOurPercentage = positions.fold(0.0, (sum, item) => sum + item.ourPercentage);
-    return Container(
-      height: 45.h,
-      decoration: BoxDecoration(
-        color: const Color(0xFFC6DBE8),
-        border: Border(
-          top: BorderSide(color: AppColors.greyBorder, width: 2),
-        ),
-      ),
-      child: Row(
-        children: columns.map((column) {
-          return _buildTotalCell(column, totalM2M, totalOurPercentage);
-        }).toList(),
-      ),
+    double totalOurPercentage = positions.fold(
+      0.0,
+      (sum, item) => sum + item.ourPercentage,
+    );
+
+    final Map<String, String> values = {
+      'exchange': 'TOTAL',
+      'm2mAmount': totalM2M.toStringAsFixed(2),
+      'ourPercentage': '${totalOurPercentage.toStringAsFixed(2)}%',
+    };
+
+    return ViewDataTableFooter(
+      columns: columns,
+      values: values,
+      isDarkMode: isDarkMode,
     );
   }
-  Widget _buildTotalCell(ViewTableColumn column, double totalM2M, double totalOurPercentage) {
-    String text = '';
-    Color textColor = const Color(0xFF2C5F7A);
-    TextAlign alignment = TextAlign.center;
-    switch (column.id) {
-      case 'exchange':
-        text = 'TOTAL';
-        alignment = TextAlign.left;
-        break;
-      case 'm2mAmount':
-        text = totalM2M.toStringAsFixed(2);
-        textColor = totalM2M >= 0 ? const Color(0xFF1565C0) : const Color(0xFFD32F2F);
-        alignment = TextAlign.right;
-        break;
-      case 'ourPercentage':
-        text = '${totalOurPercentage.toStringAsFixed(2)}%';
-        alignment = TextAlign.right;
-        break;
-      default:
-        text = '';
-    }
-    return Container(
-      width: column.width,
-      padding: EdgeInsets.symmetric(horizontal: 8.w),
-      alignment: alignment == TextAlign.left
-          ? Alignment.centerLeft
-          : alignment == TextAlign.right
-          ? Alignment.centerRight
-          : Alignment.center,
-      child: Text(
-        text,
-        style: GoogleFonts.openSans(
-          fontSize: 14.sp,
-          fontWeight: FontWeight.w700,
-          color: textColor,
-        ),
-      ),
-    );
-  }
+
   Widget _buildErrorState(BuildContext context, String message) {
     return Center(
       child: Column(
@@ -215,15 +229,14 @@ class NetPositionTable extends StatelessWidget {
         children: [
           Text(
             message,
-            style: GoogleFonts.openSans(
-              fontSize: 14.sp,
-              color: AppColors.red,
-            ),
+            style: GoogleFonts.openSans(fontSize: 14.sp, color: AppColors.red),
           ),
           SizedBox(height: 16.h),
           ElevatedButton(
             onPressed: () {
-              context.read<NetPositionBloc>().add(const LoadNetPositionsEvent());
+              context.read<NetPositionBloc>().add(
+                const LoadNetPositionsEvent(),
+              );
             },
             child: const Text('Retry'),
           ),

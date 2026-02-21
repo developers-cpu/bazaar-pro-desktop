@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
+import '../../../../../../core/constants/app_colors.dart';
 import '../../../../../../core/widget/app_dropdown.dart';
 import '../../bloc/pending_orders/pending_orders_bloc.dart';
 import '../../bloc/pending_orders/pending_orders_event.dart';
 import '../../bloc/pending_orders/pending_orders_state.dart';
 import '../common/view_reset_buttons.dart';
+import 'cancel_all_orders_dialog.dart';
+
 class PendingOrdersFilterBar extends StatelessWidget {
   const PendingOrdersFilterBar({Key? key}) : super(key: key);
   @override
@@ -93,6 +97,35 @@ class PendingOrdersFilterBar extends StatelessWidget {
                     ),
                   );
                 },
+              ),
+              SizedBox(width: 8.w),
+              SizedBox(
+                height: 35.h,
+                child: ElevatedButton(
+                  onPressed: () {
+                    CancelAllOrdersDialog.show(
+                      context: context,
+                      pendingOrders: state.filteredOrders,
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.red,
+                    foregroundColor: AppColors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
+                    elevation: 0,
+                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  ),
+                  child: Text(
+                    'Cancel All Orders',
+                    style: GoogleFonts.openSans(
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.white,
+                    ),
+                  ),
+                ),
               ),
             ],
           ),

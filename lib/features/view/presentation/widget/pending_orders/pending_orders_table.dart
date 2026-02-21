@@ -10,6 +10,8 @@ import '../../../domain/entities/pending_orders/pending_order.dart';
 import '../../bloc/pending_orders/pending_orders_bloc.dart';
 import '../../bloc/pending_orders/pending_orders_event.dart';
 import '../../bloc/pending_orders/pending_orders_state.dart';
+import 'trade_details_dialog.dart';
+
 class PendingOrdersTable extends StatelessWidget {
   final bool showDeviceInfo;
   final bool isDarkMode;
@@ -25,19 +27,53 @@ class PendingOrdersTable extends StatelessWidget {
       const ViewTableColumn(id: 'exchange', label: 'EXCH', width: 100),
       const ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 150),
       const ViewTableColumn(id: 'buySell', label: 'B/S', width: 280),
-      const ViewTableColumn(id: 'qty', label: 'QTY', width: 120, isNumeric: true),
-      const ViewTableColumn(id: 'lot', label: 'LOT', width: 100, isNumeric: true),
-      const ViewTableColumn(id: 'triggerPrice', label: 'T. PRICE', width: 130, isNumeric: true),
-      const ViewTableColumn(id: 'orderDateTime', label: 'ORDER D/T', width: 220),
-      const ViewTableColumn(id: 'modifyOrderDateTime', label: 'MODIFY ORDER D/T', width: 240),
+      const ViewTableColumn(
+        id: 'qty',
+        label: 'QTY',
+        width: 120,
+        isNumeric: true,
+      ),
+      const ViewTableColumn(
+        id: 'lot',
+        label: 'LOT',
+        width: 100,
+        isNumeric: true,
+      ),
+      const ViewTableColumn(
+        id: 'triggerPrice',
+        label: 'T. PRICE',
+        width: 130,
+        isNumeric: true,
+      ),
+      const ViewTableColumn(
+        id: 'orderDateTime',
+        label: 'ORDER D/T',
+        width: 220,
+      ),
+      const ViewTableColumn(
+        id: 'modifyOrderDateTime',
+        label: 'MODIFY ORDER D/T',
+        width: 240,
+      ),
       const ViewTableColumn(id: 'orderType', label: 'TYPE', width: 100),
-      const ViewTableColumn(id: 'cmp', label: 'CMP', width: 120, isNumeric: true),
-      const ViewTableColumn(id: 'rPrice', label: 'R.PRICE', width: 120, isNumeric: true),
+      const ViewTableColumn(
+        id: 'cmp',
+        label: 'CMP',
+        width: 120,
+        isNumeric: true,
+      ),
+      const ViewTableColumn(
+        id: 'rPrice',
+        label: 'R.PRICE',
+        width: 120,
+        isNumeric: true,
+      ),
       const ViewTableColumn(id: 'deviceId', label: 'DEVICE ID', width: 1200),
       const ViewTableColumn(id: 'ipAddress', label: 'IP ADDRESS', width: 160),
     ];
     return columns;
   }
+
   Widget _buildCell(PendingOrder item, ViewTableColumn column, bool isDark) {
     switch (column.id) {
       case 'userId':
@@ -57,10 +93,7 @@ class PendingOrdersTable extends StatelessWidget {
           isDark: isDark,
         );
       case 'lot':
-        return ViewTextCell(
-          text: item.lot.toStringAsFixed(2),
-          isDark: isDark,
-        );
+        return ViewTextCell(text: item.lot.toStringAsFixed(2), isDark: isDark);
       case 'triggerPrice':
         return ViewNumberCell(
           value: item.triggerPrice,
@@ -70,7 +103,10 @@ class PendingOrdersTable extends StatelessWidget {
       case 'orderDateTime':
         return ViewDateTimeCell(dateTime: item.orderDateTime, isDark: isDark);
       case 'modifyOrderDateTime':
-        return ViewDateTimeCell(dateTime: item.modifyOrderDateTime, isDark: isDark);
+        return ViewDateTimeCell(
+          dateTime: item.modifyOrderDateTime,
+          isDark: isDark,
+        );
       case 'orderType':
         return ViewTextCell(text: item.orderType, isDark: isDark);
       case 'cmp':
@@ -93,6 +129,7 @@ class PendingOrdersTable extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<PendingOrdersBloc, PendingOrdersState>(
@@ -119,9 +156,17 @@ class PendingOrdersTable extends StatelessWidget {
                 sortAscending: state.sortAscending,
                 isDarkMode: isDarkMode,
                 emptyMessage: 'No pending orders found',
-                cellBuilder: (item, column) => _buildCell(item, column, isDarkMode),
+                cellBuilder: (item, column) =>
+                    _buildCell(item, column, isDarkMode),
                 onRowTap: (item) {
-                  context.read<PendingOrdersBloc>().add(SelectOrderEvent(item.id));
+                  context.read<PendingOrdersBloc>().add(
+                    SelectOrderEvent(item.id),
+                  );
+                  TradeDetailsDialog.show(
+                    context: context,
+                    order: item,
+                    isDarkMode: isDarkMode,
+                  );
                 },
                 onSort: (columnId, ascending) {
                   context.read<PendingOrdersBloc>().add(
@@ -135,6 +180,7 @@ class PendingOrdersTable extends StatelessWidget {
       },
     );
   }
+
   Widget _buildErrorState(BuildContext context, String message) {
     return Center(
       child: Column(
@@ -142,15 +188,14 @@ class PendingOrdersTable extends StatelessWidget {
         children: [
           Text(
             message,
-            style: GoogleFonts.openSans(
-              fontSize: 14.sp,
-              color: AppColors.red,
-            ),
+            style: GoogleFonts.openSans(fontSize: 14.sp, color: AppColors.red),
           ),
           SizedBox(height: 16.h),
           ElevatedButton(
             onPressed: () {
-              context.read<PendingOrdersBloc>().add(const LoadPendingOrdersEvent());
+              context.read<PendingOrdersBloc>().add(
+                const LoadPendingOrdersEvent(),
+              );
             },
             child: const Text('Retry'),
           ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
+
 class CommonDialog extends StatelessWidget {
   final String title;
   final Widget content;
@@ -19,6 +20,8 @@ class CommonDialog extends StatelessWidget {
   final double? buttonWidth;
   final double? buttonHeight;
   final bool scrollable;
+  final bool autoPop;
+
   const CommonDialog({
     Key? key,
     required this.title,
@@ -37,7 +40,9 @@ class CommonDialog extends StatelessWidget {
     this.buttonWidth,
     this.buttonHeight,
     this.scrollable = true,
+    this.autoPop = true,
   }) : super(key: key);
+
   static void show({
     required BuildContext context,
     required String title,
@@ -56,6 +61,7 @@ class CommonDialog extends StatelessWidget {
     double? buttonWidth,
     double? buttonHeight,
     bool scrollable = true,
+    bool autoPop = true,
   }) {
     showDialog(
       context: context,
@@ -77,9 +83,11 @@ class CommonDialog extends StatelessWidget {
         buttonWidth: buttonWidth,
         buttonHeight: buttonHeight,
         scrollable: scrollable,
+        autoPop: autoPop,
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     final bgColor =
@@ -127,6 +135,7 @@ class CommonDialog extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildHeader(BuildContext context, Color headerBgColor) {
     return ClipRRect(
       borderRadius: BorderRadius.only(
@@ -134,7 +143,7 @@ class CommonDialog extends StatelessWidget {
         topRight: Radius.circular(16.r),
       ),
       child: Container(
-        height: 60.h,
+        height: 48.h,
         color: headerBgColor,
         padding: EdgeInsets.symmetric(horizontal: 20.w),
         child: Row(
@@ -163,6 +172,7 @@ class CommonDialog extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildButtons(BuildContext context) {
     final primaryColor = isDarkMode
         ? const Color(0xFF1F4A66)
@@ -182,7 +192,9 @@ class CommonDialog extends StatelessWidget {
                 if (onCancel != null) {
                   onCancel!();
                 }
-                Navigator.pop(context);
+                if (autoPop) {
+                  Navigator.pop(context);
+                }
               },
               style: OutlinedButton.styleFrom(
                 padding: EdgeInsets.symmetric(vertical: 12.h),
@@ -211,7 +223,9 @@ class CommonDialog extends StatelessWidget {
                 if (onSave != null) {
                   onSave!();
                 }
-                Navigator.pop(context);
+                if (autoPop) {
+                  Navigator.pop(context);
+                }
               },
               style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.symmetric(vertical: 12.h),

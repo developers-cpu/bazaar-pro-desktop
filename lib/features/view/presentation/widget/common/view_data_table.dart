@@ -11,12 +11,14 @@ class ViewTableColumn {
   final double width;
   final bool isNumeric;
   final bool sortable;
+  final Widget? customHeaderWidget;
   const ViewTableColumn({
     required this.id,
     required this.label,
     required this.width,
     this.isNumeric = false,
     this.sortable = true,
+    this.customHeaderWidget,
   });
 }
 
@@ -196,27 +198,31 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Flexible(
-                child: Text(
-                  column.label,
-                  style: GoogleFonts.openSans(
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.w600,
-                    color: _textColor,
+              if (column.customHeaderWidget != null)
+                column.customHeaderWidget!
+              else ...[
+                Flexible(
+                  child: Text(
+                    column.label,
+                    style: GoogleFonts.openSans(
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w600,
+                      color: _textColor,
+                    ),
+                    textAlign: TextAlign.center,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  textAlign: TextAlign.center,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
                 ),
-              ),
-              if (column.sortable) ...[
-                SizedBox(width: 4.w),
-                SvgIcon(
-                  assetPath: AppImages.sortIcon,
-                  isActive: isSorted,
-                  size: 12.sp,
-                  activeColor: isSorted ? AppColors.primaryBlue : null,
-                ),
+                if (column.sortable) ...[
+                  SizedBox(width: 4.w),
+                  SvgIcon(
+                    assetPath: AppImages.sortIcon,
+                    isActive: isSorted,
+                    size: 12.sp,
+                    activeColor: isSorted ? AppColors.primaryBlue : null,
+                  ),
+                ],
               ],
             ],
           ),

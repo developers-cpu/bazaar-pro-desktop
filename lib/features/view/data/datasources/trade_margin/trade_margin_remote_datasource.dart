@@ -1,4 +1,5 @@
-import '../../models/trade_margin_model.dart';
+import 'package:bazarpro/features/view/data/models/trade_margin/trade_margin_model.dart';
+
 abstract class TradeMarginRemoteDataSource {
   Future<List<TradeMarginModel>> getTradeMargins({
     String? exchange,

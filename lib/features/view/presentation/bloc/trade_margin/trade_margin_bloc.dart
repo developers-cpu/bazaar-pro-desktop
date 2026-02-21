@@ -1,13 +1,15 @@
+import 'package:bazarpro/features/view/domain/usecases/trade_margin/get_trade_margins.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../domain/usecases/get_trade_margins.dart';
 import 'trade_margin_event.dart';
 import 'trade_margin_state.dart';
+
 class TradeMarginBloc extends Bloc<TradeMarginEvent, TradeMarginState> {
   final GetTradeMarginsUseCase getTradeMargins;
   TradeMarginBloc({required this.getTradeMargins})
     : super(TradeMarginInitial()) {
     on<LoadTradeMargins>(_onLoadTradeMargins);
-    on<FilterTradeMargins>(_onFilterTradeMargins);
+    on<UpdateTradeMarginFilters>(_onUpdateTradeMarginFilters);
+    on<ViewTradeMargins>(_onViewTradeMargins);
     on<ResetTradeMarginFilters>(_onResetTradeMarginFilters);
   }
   Future<void> _onLoadTradeMargins(
@@ -21,28 +23,50 @@ class TradeMarginBloc extends Bloc<TradeMarginEvent, TradeMarginState> {
       (data) => emit(TradeMarginLoaded(tradeMargins: data)),
     );
   }
-  Future<void> _onFilterTradeMargins(
-    FilterTradeMargins event,
+
+  Future<void> _onUpdateTradeMarginFilters(
+    UpdateTradeMarginFilters event,
     Emitter<TradeMarginState> emit,
   ) async {
     final currentState = state;
     if (currentState is TradeMarginLoaded) {
       final exchange = event.exchange ?? currentState.selectedExchange;
       final search = event.search ?? currentState.searchQuery;
-      final result = await getTradeMargins(exchange: exchange, search: search);
+
+      emit(
+        currentState.copyWith(
+          selectedExchange: exchange,
+          searchQuery: search,
+          showDialog: false, // Don't show dialog just on filter update
+        ),
+      );
+    }
+  }
+
+  Future<void> _onViewTradeMargins(
+    ViewTradeMargins event,
+    Emitter<TradeMarginState> emit,
+  ) async {
+    final currentState = state;
+    if (currentState is TradeMarginLoaded) {
+      emit(TradeMarginLoading());
+      final result = await getTradeMargins(
+        exchange: currentState.selectedExchange,
+        search: currentState.searchQuery,
+      );
       result.fold(
         (failure) =>
-            emit(const TradeMarginError(message: 'Failed to filter data')),
+            emit(const TradeMarginError(message: 'Failed to fetch data')),
         (data) => emit(
           currentState.copyWith(
             tradeMargins: data,
-            selectedExchange: exchange,
-            searchQuery: search,
+            showDialog: true, // Show dialog only when View is clicked
           ),
         ),
       );
     }
   }
+
   Future<void> _onResetTradeMarginFilters(
     ResetTradeMarginFilters event,
     Emitter<TradeMarginState> emit,

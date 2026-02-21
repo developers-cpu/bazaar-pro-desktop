@@ -155,22 +155,22 @@ import 'features/users/data/datasources/user_position/user_position_datasource.d
 import 'features/users/domain/repositories/user_brokerage_setting/user_brokerage_setting_repository.dart';
 import 'features/users/data/repositories/user_brokerage_setting/user_brokerage_setting_repository_impl.dart';
 import 'features/report/data/datasources/trade_log/trade_log_remote_datasource.dart';
-import 'features/report/data/datasources/trade_margin/trade_margin_remote_datasource.dart';
+import 'features/view/data/datasources/trade_margin/trade_margin_remote_datasource.dart';
 import 'features/report/data/datasources/credit_history/credit_history_remote_datasource.dart';
 import 'features/report/data/datasources/activity_report/activity_report_remote_datasource.dart';
 import 'features/report/data/repositories/trade_log_repository_impl.dart';
-import 'features/report/data/repositories/trade_margin_repository_impl.dart';
+import 'features/view/data/repositories/trade_margin/trade_margin_repository_impl.dart';
 import 'features/report/data/repositories/credit_history_repository_impl.dart';
 import 'features/report/data/repositories/activity_report_repository_impl.dart';
 import 'features/report/domain/repositories/trade_log_repository.dart';
-import 'features/report/domain/repositories/trade_margin_repository.dart';
+import 'features/view/domain/repositories/trade_margin/trade_margin_repository.dart';
 import 'features/report/domain/repositories/credit_history_repository.dart';
 import 'features/report/domain/repositories/activity_report_repository.dart';
 import 'features/report/domain/usecases/get_trade_logs.dart';
-import 'features/report/domain/usecases/get_trade_margins.dart';
+import 'features/view/domain/usecases/trade_margin/get_trade_margins.dart';
 import 'features/report/domain/usecases/get_credit_history.dart';
 import 'features/report/domain/usecases/get_activity_report.dart';
-import 'features/report/presentation/bloc/trade_margin/trade_margin_bloc.dart';
+import 'features/view/presentation/bloc/trade_margin/trade_margin_bloc.dart';
 import 'features/report/presentation/bloc/credit_history/credit_history_bloc.dart';
 import 'features/report/presentation/bloc/activity_report/activity_report_bloc.dart';
 import 'features/report/domain/repositories/symbol_wise_position_report_repository.dart';
@@ -507,7 +507,6 @@ Future<void> init() async {
   sl.registerLazySingleton<IntradayHistoryRemoteDataSource>(
     () => IntradayHistoryRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
   );
-
 
   sl.registerFactory(() => BrokerListBloc(repository: sl()));
   sl.registerLazySingleton<BrokerRepository>(

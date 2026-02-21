@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/widget/common_app_bar.dart';
 import '../../features/market_watch/data/models/menu_Item_data.dart';
-import '../../features/report/presentation/widgets/trade_margin/trade_margin_dialog.dart';
 import '../../features/users/presentation/widgets/create_user/user_search_dialog.dart';
 import '../../features/tools/presentation/widgets/about_dialog.dart';
 import '../../features/users/presentation/widgets/create_user/change_password_dialog.dart';
@@ -110,9 +109,7 @@ class AppBarSectionState extends State<AppBarSection> {
           ),
           MenuItemData(
             title: 'Trade Margin',
-            onTap: () {
-              TradeMarginDialog.show(context);
-            },
+            onTap: () => _navigateToPage(2, 'Trade Margin', '/trade-margin'),
           ),
           MenuItemData(
             title: 'Script Master',

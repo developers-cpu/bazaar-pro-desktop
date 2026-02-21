@@ -18,11 +18,11 @@ class ScriptMasterTable extends StatelessWidget {
     : super(key: key);
   List<ViewTableColumn> _getColumns() {
     return const [
-      ViewTableColumn(id: 'exchange', label: 'EXCH', width: 200),
-      ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 400),
-      ViewTableColumn(id: 'expiryDate', label: 'EXPIRY DATE', width: 300),
-      ViewTableColumn(id: 'tradeAttribute', label: 'TRADE ATTR.', width: 220),
-      ViewTableColumn(id: 'allowTrade', label: 'ALLOW TRADE', width: 220),
+      ViewTableColumn(id: 'exchange', label: 'EXCH', width: 100),
+      ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 200),
+      ViewTableColumn(id: 'expiryDate', label: 'EXPIRY DATE', width: 150),
+      ViewTableColumn(id: 'tradeAttribute', label: 'TRADE ATTR.', width: 120),
+      ViewTableColumn(id: 'allowTrade', label: 'ALLOW TRADE', width: 120),
     ];
   }
 
@@ -70,9 +70,6 @@ class ScriptMasterTable extends StatelessWidget {
   }
 
   Widget _buildTradeAttributeCell(ScriptMaster item, bool isDark) {
-    final color = item.tradeAttribute.toLowerCase() == 'close'
-        ? AppColors.red
-        : AppColors.primaryTextColor;
     return Container(
       alignment: Alignment.centerLeft,
       child: Text(
@@ -80,7 +77,7 @@ class ScriptMasterTable extends StatelessWidget {
         style: GoogleFonts.openSans(
           fontSize: 14.sp,
           fontWeight: FontWeight.w400,
-          color: isDark ? Colors.white : color,
+          color: isDark ? Colors.white : AppColors.primaryTextColor,
         ),
       ),
     );

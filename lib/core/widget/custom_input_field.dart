@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'svg_icon.dart';
+
 class CustomInputField extends StatelessWidget {
   final String hintText;
   final String? svgIconPath;
@@ -41,6 +42,7 @@ class CustomInputField extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: width ?? 250.w,
+      height: height,
       child: TextFormField(
         controller: controller,
         obscureText: obscureText,
@@ -56,6 +58,7 @@ class CustomInputField extends StatelessWidget {
         ),
         textAlignVertical: TextAlignVertical.center,
         decoration: InputDecoration(
+          isDense: height != null ? true : false,
           filled: true,
           fillColor: AppColors.white,
           hintText: hintText,
@@ -68,9 +71,14 @@ class CustomInputField extends StatelessWidget {
           ),
           contentPadding: EdgeInsets.symmetric(
             horizontal: 10.w,
-            vertical:
-                12.h,
+            vertical: height != null ? 0 : 12.h,
           ),
+          prefixIconConstraints: height != null
+              ? BoxConstraints(minHeight: height!, minWidth: 0)
+              : null,
+          suffixIconConstraints: height != null
+              ? BoxConstraints(minHeight: height!, minWidth: 0)
+              : null,
           border: _buildBorder(),
           enabledBorder: _buildBorder(),
           focusedBorder: _buildBorder(),
@@ -95,6 +103,7 @@ class CustomInputField extends StatelessWidget {
       ),
     );
   }
+
   Widget? _buildPrefixIcon() {
     if (prefixSvgPath != null) {
       return Padding(
@@ -104,6 +113,7 @@ class CustomInputField extends StatelessWidget {
     }
     return null;
   }
+
   Widget? _buildSuffixIcon() {
     if (suffixIcon != null) {
       return IconButton(
@@ -119,6 +129,7 @@ class CustomInputField extends StatelessWidget {
     }
     return null;
   }
+
   OutlineInputBorder _buildBorder({
     bool isError = false,
     bool isDisabled = false,
@@ -132,8 +143,8 @@ class CustomInputField extends StatelessWidget {
       borderColor = AppColors.primaryBlue;
     }
     return OutlineInputBorder(
-      borderRadius: BorderRadius.circular(10.r),
-      borderSide: BorderSide(color: borderColor, width: 2.w),
+      borderRadius: BorderRadius.circular(8.r),
+      borderSide: BorderSide(color: borderColor, width: 1.5),
     );
   }
 }

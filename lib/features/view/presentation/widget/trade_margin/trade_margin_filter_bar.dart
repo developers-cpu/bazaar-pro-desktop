@@ -4,10 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../../core/constants/app_images.dart';
 import '../../../../../../core/widget/app_dropdown.dart';
 import '../../../../../../core/widget/custom_input_field.dart';
-import '../../../../view/presentation/widget/common/view_reset_buttons.dart';
+import '../common/view_reset_buttons.dart';
 import '../../bloc/trade_margin/trade_margin_bloc.dart';
 import '../../bloc/trade_margin/trade_margin_event.dart';
 import '../../bloc/trade_margin/trade_margin_state.dart';
+
 class TradeMarginFilterBar extends StatelessWidget {
   const TradeMarginFilterBar({super.key});
   @override
@@ -31,7 +32,7 @@ class TradeMarginFilterBar extends StatelessWidget {
                 showAllOption: true,
                 onChanged: (value) {
                   context.read<TradeMarginBloc>().add(
-                    FilterTradeMargins(exchange: value),
+                    UpdateTradeMarginFilters(exchange: value),
                   );
                 },
               ),
@@ -43,7 +44,7 @@ class TradeMarginFilterBar extends StatelessWidget {
                 prefixSvgPath: AppImages.searchIcon,
                 onChanged: (value) {
                   context.read<TradeMarginBloc>().add(
-                    FilterTradeMargins(search: value),
+                    UpdateTradeMarginFilters(search: value),
                   );
                 },
               ),
@@ -55,12 +56,7 @@ class TradeMarginFilterBar extends StatelessWidget {
                   );
                 },
                 onView: () {
-                  context.read<TradeMarginBloc>().add(
-                    FilterTradeMargins(
-                      exchange: state.selectedExchange,
-                      search: state.searchQuery,
-                    ),
-                  );
+                  context.read<TradeMarginBloc>().add(const ViewTradeMargins());
                 },
               ),
             ],

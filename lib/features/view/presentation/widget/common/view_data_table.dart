@@ -58,7 +58,7 @@ class ViewDataTable<T> extends StatefulWidget {
     this.footerBuilder,
     this.autoFit = false,
     this.headerBgColor,
-    this.shrinkWrap = false,
+    this.shrinkWrap = false, 
   }) : super(key: key);
   @override
   State<ViewDataTable<T>> createState() => _ViewDataTableState<T>();

@@ -1,7 +1,8 @@
 import 'package:dartz/dartz.dart';
 import '../../../../../core/errors/failures.dart';
-import '../entities/trade_margin.dart';
-import '../repositories/trade_margin_repository.dart';
+import '../../entities/trade_margin/trade_margin.dart';
+import '../../repositories/trade_margin/trade_margin_repository.dart';
+
 class GetTradeMarginsUseCase {
   final TradeMarginRepository repository;
   GetTradeMarginsUseCase({required this.repository});

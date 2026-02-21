@@ -29,6 +29,7 @@ import 'intraday_history/intraday_history_page.dart';
 import 'login_history/login_history_page.dart';
 import 'net_postion/net_position_page.dart';
 import 'pending_orders/pending_orders_page.dart';
+import 'trade_margin/trade_margin_page.dart';
 import 'trades/trades_page.dart';
 import 'broker_list/broker_list_page.dart';
 import '../../../../../injection_container.dart' as di;
@@ -294,6 +295,21 @@ class ScriptQuantityPageWithAppBar extends StatelessWidget {
           );
         },
       ),
+    );
+  }
+}
+
+
+
+class TradeMarginPageWithAppBar extends StatelessWidget {
+  const TradeMarginPageWithAppBar({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return ViewPageWrapper(
+      pageTitle: 'Trade Margin',
+      onExportPdf: () {},
+      onExportExcel: () {},
+      child: const TradeMarginPage(),
     );
   }
 }

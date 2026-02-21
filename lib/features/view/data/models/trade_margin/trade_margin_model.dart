@@ -1,4 +1,5 @@
-import '../../domain/entities/trade_margin.dart';
+import '../../../domain/entities/trade_margin/trade_margin.dart';
+
 class TradeMarginModel extends TradeMargin {
   const TradeMarginModel({
     required super.exchange,

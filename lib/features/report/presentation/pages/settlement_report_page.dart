@@ -99,7 +99,7 @@ class SettlementReportPage extends StatelessWidget {
                       margin: EdgeInsets.symmetric(
                         vertical: 8.h,
                         horizontal: 16.w,
-                      ), 
+                      ),
                       padding: EdgeInsets.symmetric(vertical: 8.h),
                       decoration: BoxDecoration(
                         color: Colors.white,

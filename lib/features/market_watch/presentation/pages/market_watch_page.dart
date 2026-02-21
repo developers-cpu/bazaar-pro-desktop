@@ -118,7 +118,7 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
               onViewAction: _handleViewAction,
               onUserAction: _handleUserAction,
               onReportAction: _handleReportAction,
-              showExportByDefault: false, 
+              showExportByDefault: false,
             ),
             body: _buildBodyContent(),
           ),

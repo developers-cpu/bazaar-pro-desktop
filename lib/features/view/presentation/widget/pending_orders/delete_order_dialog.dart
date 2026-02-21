@@ -42,10 +42,10 @@ class DeleteOrderDialog extends StatelessWidget {
       saveText: 'Yes',
       autoPop: false,
       onCancel: () {
-        Navigator.pop(context); // Just pop the Delete Order Dialog
+        Navigator.pop(context);
       },
       onSave: () {
-        // Pop the Delete Order Dialog
+
         Navigator.pop(context);
 
         Future.delayed(Duration.zero, () {

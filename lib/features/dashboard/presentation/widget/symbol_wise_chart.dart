@@ -16,18 +16,18 @@ class SymbolWiseChart extends StatefulWidget {
 class _SymbolWiseChartState extends State<SymbolWiseChart> {
   int? _touchedIndex;
   static const List<Color> _chartColors = [
-    Color(0xFF5B8DEF), 
-    Color(0xFFB8A8E8), 
-    Color(0xFFFF9B8A), 
-    Color(0xFF6EC4DB), 
-    Color(0xFFFFB347), 
-    Color(0xFF7CB89D), 
-    Color(0xFF5B9BD5), 
-    Color(0xFF9B7EBD), 
-    Color(0xFFE8D44D), 
-    Color(0xFF6EC4DB), 
-    Color(0xFFFFB347), 
-    Color(0xFF9B7EBD), 
+    Color(0xFF5B8DEF),
+    Color(0xFFB8A8E8),
+    Color(0xFFFF9B8A),
+    Color(0xFF6EC4DB),
+    Color(0xFFFFB347),
+    Color(0xFF7CB89D),
+    Color(0xFF5B9BD5),
+    Color(0xFF9B7EBD),
+    Color(0xFFE8D44D),
+    Color(0xFF6EC4DB),
+    Color(0xFFFFB347),
+    Color(0xFF9B7EBD),
   ];
   @override
   Widget build(BuildContext context) {

@@ -47,7 +47,7 @@ class SymbolWisePLFilterBar extends StatelessWidget {
                     );
                   },
                   width: 200.w,
-                  height: 40.h, 
+                  height: 40.h,
                 ),
               ),
               const Spacer(),

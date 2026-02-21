@@ -33,7 +33,7 @@ class DealsDialog extends StatelessWidget {
             height: 600.h,
             child: Column(
               children: [
-                const DealsFilterBar(), 
+                const DealsFilterBar(),
                 Expanded(child: DealsTable(showDeviceInfo: true)),
               ],
             ),

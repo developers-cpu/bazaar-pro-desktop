@@ -52,8 +52,8 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
   Widget build(BuildContext context) {
     return CommonDialog(
       title: 'Change Password',
-      width: 500.w, 
-      showButtons: false, 
+      width: 500.w,
+      showButtons: false,
       content: Form(
         key: _formKey,
         child: Column(

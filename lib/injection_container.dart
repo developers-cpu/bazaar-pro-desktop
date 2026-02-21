@@ -42,6 +42,7 @@ import 'features/view/data/datasources/rejection_log/rejection_log_remote_dataso
 import 'features/view/data/datasources/script_master/script_master_remote_datasource.dart';
 import 'features/view/data/datasources/script_quantity/script_quantity_remote_datasource.dart';
 import 'features/view/data/datasources/trades/trades_remote_datasource.dart';
+import 'features/view/data/datasources/broker_list/broker_remote_data_source.dart';
 import 'features/view/data/repositories/deals/deals_repository_impl.dart';
 import 'features/view/data/repositories/intraday_history/intraday_history_repository_impl.dart';
 import 'features/view/data/repositories/login_history/login_history_repository_impl.dart';
@@ -51,6 +52,7 @@ import 'features/view/data/repositories/rejection_log/rejection_log_repository_i
 import 'features/view/data/repositories/script_master/script_master_repository_impl.dart';
 import 'features/view/data/repositories/script_quantity/script_quantity_repository_impl.dart';
 import 'features/view/data/repositories/trades/trades_repository_impl.dart';
+import 'features/view/data/repositories/broker_list/broker_repository_impl.dart';
 import 'features/view/domain/repositories/deals/deals_repository.dart';
 import 'features/view/domain/repositories/intraday_history/intraday_history_repository.dart';
 import 'features/view/domain/repositories/login_history/login_history_repository.dart';
@@ -60,6 +62,7 @@ import 'features/view/domain/repositories/rejection_log/rejection_log_repository
 import 'features/view/domain/repositories/script_master/script_master_repository.dart';
 import 'features/view/domain/repositories/script_quantity/script_quantity_repository.dart';
 import 'features/view/domain/repositories/trades/trades_repository.dart';
+import 'features/view/domain/repositories/broker_list/broker_repository.dart';
 import 'features/view/domain/usecases/ rejection_log/rejection_log_usecases.dart';
 import 'features/view/domain/usecases/deals/deals_usecases.dart';
 import 'features/view/domain/usecases/intraday_history/intraday_history_usecases.dart';
@@ -80,6 +83,7 @@ import 'features/view/presentation/bloc/rejection_log/rejection_log_bloc.dart';
 import 'features/view/presentation/bloc/script_master/script_master_bloc.dart';
 import 'features/view/presentation/bloc/script_quantity/script_quantity_bloc.dart';
 import 'features/view/presentation/bloc/trade/trades_bloc.dart';
+import 'features/view/presentation/bloc/broker_list/broker_list_bloc.dart';
 import 'features/users/data/repositories/user/user_repository_impl.dart';
 import 'features/users/domain/repositories/user/user_repository.dart';
 import 'features/users/presentation/bloc/user_list/user_list_bloc.dart';
@@ -503,6 +507,16 @@ Future<void> init() async {
   sl.registerLazySingleton<IntradayHistoryRemoteDataSource>(
     () => IntradayHistoryRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
   );
+
+
+  sl.registerFactory(() => BrokerListBloc(repository: sl()));
+  sl.registerLazySingleton<BrokerRepository>(
+    () => BrokerRepositoryImpl(remoteDataSource: sl()),
+  );
+  sl.registerLazySingleton<BrokerRemoteDataSource>(
+    () => BrokerRemoteDataSourceImpl(),
+  );
+
   sl.registerFactory(
     () => UserListBloc(
       getUsers: sl(),

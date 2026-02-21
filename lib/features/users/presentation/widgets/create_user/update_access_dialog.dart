@@ -51,7 +51,7 @@ class _UpdateAccessDialogState extends State<UpdateAccessDialog> {
     return CommonDialog(
       title: 'Update Access (${widget.userName})',
       width: 500.w,
-      showButtons:false, 
+      showButtons:false,
       onSave: () {
         widget.onUpdate(_settings);
       },
@@ -82,13 +82,13 @@ class _UpdateAccessDialogState extends State<UpdateAccessDialog> {
               color: AppColors.primaryBlue.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(8.r),
             ),
-            padding: EdgeInsets.all(6.w), 
+            padding: EdgeInsets.all(6.w),
             child: SvgPicture.asset(
               iconPath,
             ),
           ),
         if (iconPath == null)
-          Container(width: 32.w, height: 32.h), 
+          Container(width: 32.w, height: 32.h),
         SizedBox(width: 12.w),
         Expanded(
           child: Text(
@@ -136,11 +136,11 @@ class _UpdateAccessDialogState extends State<UpdateAccessDialog> {
   String? _getIconPath(String key) {
     switch (key) {
       case 'bet':
-        return AppImages.tradeLockIcon; 
+        return AppImages.tradeLockIcon;
       case 'closeOnly':
         return AppImages.closeModeIcon;
       case 'viewOnly':
-        return AppImages.canTradeForClientIcon; 
+        return AppImages.canTradeForClientIcon;
       case 'status':
         return AppImages.statusIcon;
       case 'allowChat':

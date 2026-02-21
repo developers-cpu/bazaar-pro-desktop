@@ -34,8 +34,8 @@ class MarketItemModel extends MarketItem {
       close: (json['close'] as num).toDouble(),
       ltp: (json['ltp'] as num).toDouble(),
       netChangePercent: (json['netChangePercent'] as num).toDouble(),
-      expiry: json['expiry'] != null 
-          ? DateTime.parse(json['expiry'] as String) 
+      expiry: json['expiry'] != null
+          ? DateTime.parse(json['expiry'] as String)
           : null,
       lut: DateTime.parse(json['lut'] as String),
     );

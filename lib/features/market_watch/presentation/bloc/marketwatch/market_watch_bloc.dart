@@ -97,7 +97,7 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
     emit(currentState.copyWith(
       filteredItems: filtered,
       selectedSymbols: event.symbols.isEmpty ? null : event.symbols,
-      clearSymbol: true, 
+      clearSymbol: true,
     ));
   }
   void _onFilterByUser(

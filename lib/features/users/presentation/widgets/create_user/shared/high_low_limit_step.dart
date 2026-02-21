@@ -37,7 +37,7 @@ class HighLowLimitStep extends StatelessWidget {
               LayoutBuilder(
                 builder: (context, constraints) {
                   final availableWidth = constraints.maxWidth;
-                  final itemWidth = (availableWidth - (4 * 32.w)) / 5; 
+                  final itemWidth = (availableWidth - (4 * 32.w)) / 5;
                   return Wrap(
                     spacing: 32.w,
                     runSpacing: 16.h,

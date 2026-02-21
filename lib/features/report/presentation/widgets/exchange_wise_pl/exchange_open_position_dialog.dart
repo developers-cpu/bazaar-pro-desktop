@@ -68,13 +68,13 @@ class _DialogContentState extends State<_DialogContent> {
                       width: 200.w,
                       height: 40.h,
                       type: AppDropdownType
-                          .search, 
+                          .search,
                       hintText: 'User',
                       value: selectedUser,
                       items: positions
                           .map((e) => e.name)
                           .toSet()
-                          .toList(), 
+                          .toList(),
                       onChanged: (value) {
                         setState(() {
                           selectedUser = value;

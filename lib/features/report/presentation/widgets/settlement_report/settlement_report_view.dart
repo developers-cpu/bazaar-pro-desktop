@@ -21,7 +21,7 @@ class SettlementReportView extends StatelessWidget {
           Expanded(
             child: _buildTable(
               title: 'PROFIT',
-              headerColor: AppColors.billBuyColor, 
+              headerColor: AppColors.billBuyColor,
               entries: report.profitList,
               total: report.profitTotal,
               isProfitSection: true,
@@ -31,7 +31,7 @@ class SettlementReportView extends StatelessWidget {
           Expanded(
             child: _buildTable(
               title: 'LOSS',
-              headerColor: AppColors.billLossColor, 
+              headerColor: AppColors.billLossColor,
               entries: report.lossList,
               total: report.lossTotal,
               isProfitSection: false,
@@ -103,7 +103,7 @@ class SettlementReportView extends StatelessWidget {
                     Expanded(
                       flex: 3,
                       child: _buildHeaderText('Total', alignLeft: true),
-                    ), 
+                    ),
                     Expanded(
                       flex: 2,
                       child: Text(

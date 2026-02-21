@@ -64,7 +64,7 @@ class _ModifyOrderDialogState extends State<ModifyOrderDialog> {
         padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
         child: Column(
           children: [
-            // Top Symbol Info
+
             Container(
               padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
               decoration: BoxDecoration(
@@ -78,7 +78,7 @@ class _ModifyOrderDialogState extends State<ModifyOrderDialog> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          widget.order.symbol, // E.g. SGX GIFTNIFTY Oct 28
+                          widget.order.symbol,
                           style: GoogleFonts.openSans(
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w600,
@@ -114,7 +114,7 @@ class _ModifyOrderDialogState extends State<ModifyOrderDialog> {
               ),
             ),
             SizedBox(height: 16.h),
-            // Client Name Input
+
             Container(
               padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
               decoration: BoxDecoration(
@@ -123,7 +123,7 @@ class _ModifyOrderDialogState extends State<ModifyOrderDialog> {
               ),
               alignment: Alignment.centerLeft,
               child: Text(
-                widget.order.userId, // PATIL
+                widget.order.userId,
                 style: GoogleFonts.openSans(
                   fontSize: 16.sp,
                   color: Colors.grey.shade600,
@@ -131,7 +131,7 @@ class _ModifyOrderDialogState extends State<ModifyOrderDialog> {
               ),
             ),
             SizedBox(height: 16.h),
-            // Limit / SL Tabs
+
             Container(
               padding: EdgeInsets.all(16.w),
               decoration: BoxDecoration(
@@ -163,14 +163,14 @@ class _ModifyOrderDialogState extends State<ModifyOrderDialog> {
               ),
             ),
             SizedBox(height: 24.h),
-            // Buy/Sell Buttons
+
             Row(
               children: [
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.pop(context); // Pop Modify Order Dialog
-                      // Return to TradeDetailsDialog
+                      Navigator.pop(context);
+
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('Order Modified')),
                       );
@@ -207,7 +207,7 @@ class _ModifyOrderDialogState extends State<ModifyOrderDialog> {
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.pop(context); // Pop Modify Order Dialog
+                      Navigator.pop(context);
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('Order Modified')),
                       );
@@ -215,7 +215,7 @@ class _ModifyOrderDialogState extends State<ModifyOrderDialog> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(
                         0xFF0052FF,
-                      ), // Vivid blue from screenshot
+                      ),
                       padding: EdgeInsets.symmetric(vertical: 12.h),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.r),
@@ -245,7 +245,7 @@ class _ModifyOrderDialogState extends State<ModifyOrderDialog> {
               ],
             ),
             SizedBox(height: 16.h),
-            // Additional Information text
+
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -268,7 +268,7 @@ class _ModifyOrderDialogState extends State<ModifyOrderDialog> {
               ],
             ),
             SizedBox(height: 12.h),
-            // Market Data Cards Placeholder
+
             Row(
               children: [
                 Expanded(
@@ -293,7 +293,7 @@ class _ModifyOrderDialogState extends State<ModifyOrderDialog> {
               ],
             ),
             SizedBox(height: 8.h),
-            // Market Depth
+
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -301,7 +301,7 @@ class _ModifyOrderDialogState extends State<ModifyOrderDialog> {
                   child: Container(
                     padding: EdgeInsets.all(8.w),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFEAF1FA), // Light blue tint
+                      color: const Color(0xFFEAF1FA),
                       borderRadius: BorderRadius.circular(8.r),
                     ),
                     child: Column(
@@ -336,7 +336,7 @@ class _ModifyOrderDialogState extends State<ModifyOrderDialog> {
                           ],
                         ),
                         SizedBox(height: 4.h),
-                        // Mock rows
+
                         _buildDepthRow(
                           '25639',
                           '2',
@@ -388,7 +388,7 @@ class _ModifyOrderDialogState extends State<ModifyOrderDialog> {
                   child: Container(
                     padding: EdgeInsets.all(8.w),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFFBEBEA), // Light red tint
+                      color: const Color(0xFFFBEBEA),
                       borderRadius: BorderRadius.circular(8.r),
                     ),
                     child: Column(
@@ -423,7 +423,7 @@ class _ModifyOrderDialogState extends State<ModifyOrderDialog> {
                           ],
                         ),
                         SizedBox(height: 4.h),
-                        // Mock rows
+
                         _buildDepthRow(
                           '25639',
                           '2',

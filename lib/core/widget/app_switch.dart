@@ -104,7 +104,7 @@ class AppSwitchRow extends StatelessWidget {
     return GestureDetector(
       onTap: enabled && onChanged != null ? () => onChanged!(!value) : null,
       behavior: HitTestBehavior
-          .translucent, 
+          .translucent,
       child: Row(
         children: [
           if (icon != null) ...[icon!, SizedBox(width: 8.w)],
@@ -120,7 +120,7 @@ class AppSwitchRow extends StatelessWidget {
           ),
           IgnorePointer(
             ignoring:
-                true, 
+                true,
             child: AppSwitch(
               value: value,
               onChanged: onChanged,

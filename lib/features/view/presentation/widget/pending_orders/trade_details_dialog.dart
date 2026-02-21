@@ -38,7 +38,7 @@ class TradeDetailsDialog extends StatelessWidget {
       width: 500.w,
       height: 350.h,
       headerColor: const Color(0xFF2C5F7A),
-      showButtons: false, // We use custom buttons for this dialog
+      showButtons: false,
       scrollable: false,
       contentPadding: EdgeInsets.zero,
       content: Padding(
@@ -98,7 +98,7 @@ class TradeDetailsDialog extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8.r),
               ),
               child: Text(
-                order.userId, // PATIL
+                order.userId,
                 style: GoogleFonts.openSans(
                   fontSize: 16.sp,
                   color: Colors.grey.shade600,
@@ -121,7 +121,7 @@ class TradeDetailsDialog extends StatelessWidget {
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors
-                            .blue, // Ensure this matches screenshot (a deeper blue)
+                            .blue,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.r),
                         ),

@@ -166,12 +166,12 @@ class UserSharingDetailsTabView extends StatelessWidget {
     );
   }
   String _getIconForPerson(String person) {
-    print("Getting icon for person: $person"); 
+    print("Getting icon for person: $person");
     final p = person.toLowerCase();
     if (p.contains('admin')) {
       return AppImages.serverIcon;
     } else if (p.contains('master')) {
-      return AppImages.input1; 
+      return AppImages.input1;
     } else if (p.contains('client')) {
       return AppImages.input2;
     } else {

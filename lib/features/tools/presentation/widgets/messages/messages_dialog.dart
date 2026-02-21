@@ -129,7 +129,7 @@ class MessagesDialog extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Icon(
-                Icons.campaign, 
+                Icons.campaign,
                 color: AppColors.primaryBlue,
                 size: 24.sp,
               ),

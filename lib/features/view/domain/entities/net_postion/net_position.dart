@@ -9,8 +9,8 @@ class NetPosition extends Equatable {
   final double sellQty;
   final double netQty;
   final double netAvgPrice;
-  final double cmp; 
-  final double m2mAmount; 
+  final double cmp;
+  final double m2mAmount;
   final double ourPercentage;
   final int userCount;
   final int days;

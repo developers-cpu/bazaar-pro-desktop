@@ -11,12 +11,11 @@ import '../../bloc/script_master/script_master_state.dart';
 import '../common/view_data_table.dart';
 import '../common/view_record_count.dart';
 import '../common/view_table_cell_styles.dart';
+
 class ScriptMasterTable extends StatelessWidget {
   final bool isDarkMode;
-  const ScriptMasterTable({
-    Key? key,
-    this.isDarkMode = false,
-  }) : super(key: key);
+  const ScriptMasterTable({Key? key, this.isDarkMode = false})
+    : super(key: key);
   List<ViewTableColumn> _getColumns() {
     return const [
       ViewTableColumn(id: 'exchange', label: 'EXCH', width: 200),
@@ -26,7 +25,13 @@ class ScriptMasterTable extends StatelessWidget {
       ViewTableColumn(id: 'allowTrade', label: 'ALLOW TRADE', width: 220),
     ];
   }
-  Widget _buildCell(BuildContext context, ScriptMaster item, ViewTableColumn column, bool isDark) {
+
+  Widget _buildCell(
+    BuildContext context,
+    ScriptMaster item,
+    ViewTableColumn column,
+    bool isDark,
+  ) {
     switch (column.id) {
       case 'exchange':
         return ViewTextCell(text: item.exchange, isDark: isDark);
@@ -45,6 +50,7 @@ class ScriptMasterTable extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
+
   Widget _buildExpiryDateCell(ScriptMaster item, bool isDark) {
     final dateFormat = DateFormat('dd/MM/yy');
     final timeFormat = DateFormat('h:mm:ss a');
@@ -62,6 +68,7 @@ class ScriptMasterTable extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildTradeAttributeCell(ScriptMaster item, bool isDark) {
     final color = item.tradeAttribute.toLowerCase() == 'close'
         ? AppColors.red
@@ -78,6 +85,7 @@ class ScriptMasterTable extends StatelessWidget {
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ScriptMasterBloc, ScriptMasterState>(
@@ -103,14 +111,21 @@ class ScriptMasterTable extends StatelessWidget {
                 sortColumn: state.sortColumn,
                 sortAscending: state.sortAscending,
                 isDarkMode: isDarkMode,
+                autoFit: true,
                 emptyMessage: 'No script masters found',
-                cellBuilder: (item, column) => _buildCell(context, item, column, isDarkMode),
+                cellBuilder: (item, column) =>
+                    _buildCell(context, item, column, isDarkMode),
                 onRowTap: (item) {
-                  context.read<ScriptMasterBloc>().add(SelectScriptEvent(item.id));
+                  context.read<ScriptMasterBloc>().add(
+                    SelectScriptEvent(item.id),
+                  );
                 },
                 onSort: (columnId, ascending) {
                   context.read<ScriptMasterBloc>().add(
-                    SortScriptsByColumnEvent(columnId: columnId, ascending: ascending),
+                    SortScriptsByColumnEvent(
+                      columnId: columnId,
+                      ascending: ascending,
+                    ),
                   );
                 },
               ),
@@ -120,6 +135,7 @@ class ScriptMasterTable extends StatelessWidget {
       },
     );
   }
+
   Widget _buildErrorState(BuildContext context, String message) {
     return Center(
       child: Column(
@@ -127,15 +143,14 @@ class ScriptMasterTable extends StatelessWidget {
         children: [
           Text(
             message,
-            style: GoogleFonts.openSans(
-              fontSize: 14.sp,
-              color: AppColors.red,
-            ),
+            style: GoogleFonts.openSans(fontSize: 14.sp, color: AppColors.red),
           ),
           SizedBox(height: 16.h),
           ElevatedButton(
             onPressed: () {
-              context.read<ScriptMasterBloc>().add(const LoadScriptMastersEvent());
+              context.read<ScriptMasterBloc>().add(
+                const LoadScriptMastersEvent(),
+              );
             },
             child: const Text('Retry'),
           ),

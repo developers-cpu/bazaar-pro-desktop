@@ -6,6 +6,7 @@ import '../../features/view/presentation/pages/view_page_wrapper.dart';
 import '../../features/users/presentation/pages/user_page_wrapper.dart';
 import '../../features/report/presentation/pages/report_page_wrapper.dart';
 import '../../features/tools/presentation/pages/tools_page_wrapper.dart';
+
 class AppRoutes {
   static const String login = '/';
   static const String marketWatch = '/market-watch';
@@ -23,6 +24,7 @@ class AppRoutes {
   static const String totalVolume = '/total-volume';
   static const String deletedTrade = '/deleted-trade';
   static const String manualTrade = '/manual-trade';
+  static const String brokerList = '/broker-list';
   static const String createUser = '/create-user';
   static const String inactiveUser = '/inactive-user';
   static const String searchUser = '/search-user';
@@ -67,6 +69,7 @@ class AppRoutes {
       totalVolume: (context) => const TotalVolumePageWithAppBar(),
       deletedTrade: (context) => const DeletedTradePageWithAppBar(),
       manualTrade: (context) => const ManualTradePageWithAppBar(),
+      brokerList: (context) => const BrokerListPageWithAppBar(),
       createUser: (context) => const CreateUserPageWithAppBar(),
       inactiveUser: (context) => const InactiveUserPageWithAppBar(),
       userList: (context) => const UserListPageWithAppBar(),

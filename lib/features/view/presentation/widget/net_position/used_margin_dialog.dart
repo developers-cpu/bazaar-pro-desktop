@@ -145,7 +145,7 @@ class _UsedMarginDialogState extends State<UsedMarginDialog> {
   Widget _buildTableRow(int index) {
     bool isEven = index % 2 == 0;
 
-    // Pattern to match the screenshot
+
     String qty = index % 3 == 0 ? '1000' : (index % 2 == 0 ? '1.00' : '-1.00');
     Color qtyColor = qty.startsWith('-') ? AppColors.red : AppColors.blue;
 

@@ -34,7 +34,7 @@ class AboutDialogBox extends StatelessWidget {
             ),
             Container(
               decoration: BoxDecoration(
-                color: const Color(0xFF0C2436),  
+                color: const Color(0xFF0C2436),
                 borderRadius: BorderRadius.circular(8.r),
               ),
               padding: EdgeInsets.all(4.w),
@@ -127,7 +127,7 @@ class AboutDialogBox extends StatelessWidget {
             child: Container(
               padding: EdgeInsets.fromLTRB(16.w, 30.h, 16.w, 16.w),
               decoration: BoxDecoration(
-                color: const Color(0xFFDDEBF3),  
+                color: const Color(0xFFDDEBF3),
                 borderRadius: BorderRadius.circular(12.r),
               ),
               child: Column(

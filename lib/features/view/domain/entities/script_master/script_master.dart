@@ -4,7 +4,7 @@ class ScriptMaster extends Equatable {
   final String exchange;
   final String symbol;
   final DateTime expiryDate;
-  final String tradeAttribute; 
+  final String tradeAttribute;
   final bool allowTrade;
   final DateTime lastUpdated;
   const ScriptMaster({

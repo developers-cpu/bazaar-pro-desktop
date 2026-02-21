@@ -69,24 +69,24 @@ class _CancelAllOrdersDialogState extends State<CancelAllOrdersDialog> {
       height: 500.h,
       headerColor: AppColors.primaryBlue,
       showButtons: false,
-      autoPop: false, // Don't pop automatically when Yes is pressed
-      // onCancel needs to pop the dialog since autoPop is false
+      autoPop: false,
+
       onCancel: () {
         Navigator.pop(context);
         if (_filteredOrders.isNotEmpty) {
           Future.delayed(Duration.zero, () {
             TradeDetailsDialog.show(
               context: context,
-              order: _filteredOrders.first, // or selected order
+              order: _filteredOrders.first,
               isDarkMode: widget.isDarkMode,
             );
           });
         }
       },
       onSave: () {
-        // Implement cancellation logic using _selectedOrderIds
 
-        // We do NOT pop here because CommonDialog will pop this dialog right after onSave returns.
+
+
         Future.delayed(Duration.zero, () {
           SuccessDialog.show(
             context: context,
@@ -126,7 +126,7 @@ class _CancelAllOrdersDialogState extends State<CancelAllOrdersDialog> {
                 setState(() {
                   _selectedUser = value;
                   _selectedOrderIds
-                      .clear(); // Clear selections when filter changes
+                      .clear();
                 });
               },
             ),
@@ -160,7 +160,7 @@ class _CancelAllOrdersDialogState extends State<CancelAllOrdersDialog> {
                 Future.delayed(Duration.zero, () {
                   TradeDetailsDialog.show(
                     context: context,
-                    order: _filteredOrders.first, // or selected order
+                    order: _filteredOrders.first,
                     isDarkMode: widget.isDarkMode,
                   );
                 });

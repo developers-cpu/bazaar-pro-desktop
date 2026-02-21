@@ -104,7 +104,7 @@ class PendingOrdersError extends PendingOrdersState {
   List<Object?> get props => [message];
 }
 class PendingOrdersExporting extends PendingOrdersState {
-  final String exportType; 
+  final String exportType;
   const PendingOrdersExporting(this.exportType);
   @override
   List<Object?> get props => [exportType];

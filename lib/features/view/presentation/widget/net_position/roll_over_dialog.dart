@@ -462,7 +462,7 @@ class _RollOverDialogState extends State<RollOverDialog> {
               height: 40.h,
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.pop(context); // close confirmation
+                  Navigator.pop(context);
                   Future.delayed(Duration.zero, () {
                     SuccessDialog.show(
                       context: context,

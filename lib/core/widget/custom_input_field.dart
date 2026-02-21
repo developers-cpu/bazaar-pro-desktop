@@ -69,7 +69,7 @@ class CustomInputField extends StatelessWidget {
           contentPadding: EdgeInsets.symmetric(
             horizontal: 10.w,
             vertical:
-                12.h, 
+                12.h,
           ),
           border: _buildBorder(),
           enabledBorder: _buildBorder(),

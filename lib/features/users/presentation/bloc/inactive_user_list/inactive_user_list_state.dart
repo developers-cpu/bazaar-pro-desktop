@@ -86,7 +86,7 @@ class InactiveUserListError extends InactiveUserListState {
   List<Object?> get props => [message];
 }
 class InactiveUserListExporting extends InactiveUserListState {
-  final String exportType; 
+  final String exportType;
   const InactiveUserListExporting(this.exportType);
   @override
   List<Object?> get props => [exportType];

@@ -67,7 +67,7 @@ class _SuccessDialogState extends State<SuccessDialog> {
               style: GoogleFonts.openSans(
                 fontSize: 22.sp,
                 fontWeight: FontWeight.w600,
-                color: const Color(0xFF0052FF), // Vivid blue
+                color: const Color(0xFF0052FF),
               ),
             ),
             SizedBox(height: 16.h),

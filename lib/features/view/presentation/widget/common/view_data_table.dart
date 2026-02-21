@@ -38,6 +38,8 @@ class ViewDataTable<T> extends StatefulWidget {
   final double? headerHeight;
   final Widget Function(List<ViewTableColumn> columns)? footerBuilder;
   final bool autoFit;
+  final Color? headerBgColor;
+  final bool shrinkWrap;
   const ViewDataTable({
     Key? key,
     required this.columns,
@@ -55,6 +57,8 @@ class ViewDataTable<T> extends StatefulWidget {
     this.headerHeight,
     this.footerBuilder,
     this.autoFit = false,
+    this.headerBgColor,
+    this.shrinkWrap = false,
   }) : super(key: key);
   @override
   State<ViewDataTable<T>> createState() => _ViewDataTableState<T>();
@@ -74,9 +78,11 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
     return widget.columns.fold<double>(0, (sum, col) => sum + col.width);
   }
 
-  Color get _headerBgColor => widget.isDarkMode
-      ? DarkThemeColors.tableColumnHeadColor
-      : LightThemeColors.tableColumnHeadColor;
+  Color get _headerBgColor =>
+      widget.headerBgColor ??
+      (widget.isDarkMode
+          ? DarkThemeColors.tableColumnHeadColor
+          : LightThemeColors.tableColumnHeadColor);
   Color get _rowBgColor => widget.isDarkMode
       ? DarkThemeColors.tableRowBackground
       : LightThemeColors.tableRowBackground;
@@ -112,37 +118,83 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
           }
           return ClipRRect(
             borderRadius: BorderRadius.circular(10.r),
-            child: Column(
-              children: [
-                Expanded(
-                  child: Scrollbar(
-                    controller: _horizontalScrollController,
-                    thumbVisibility: true,
-                    child: SingleChildScrollView(
-                      controller: _horizontalScrollController,
-                      scrollDirection: Axis.horizontal,
-                      child: SizedBox(
-                        width: totalWidth,
-                        child: Column(
-                          children: [
-                            _buildHeaderRow(headerHeight, scale),
-                            Expanded(
-                              child: widget.data.isEmpty
-                                  ? _buildEmptyState()
-                                  : _buildDataRows(rowHeight, scale),
-                            ),
-                            if (widget.footerBuilder != null)
-                              _buildFooterRow(rowHeight, scale),
-                          ],
-                        ),
-                      ),
-                    ),
+            child: widget.shrinkWrap
+                ? _buildShrinkWrapContent(
+                    headerHeight,
+                    rowHeight,
+                    totalWidth,
+                    scale,
+                  )
+                : _buildExpandedContent(
+                    headerHeight,
+                    rowHeight,
+                    totalWidth,
+                    scale,
                   ),
-                ),
-              ],
-            ),
           );
         },
+      ),
+    );
+  }
+
+  Widget _buildExpandedContent(
+    double headerHeight,
+    double rowHeight,
+    double totalWidth,
+    double scale,
+  ) {
+    return Column(
+      children: [
+        Expanded(
+          child: Scrollbar(
+            controller: _horizontalScrollController,
+            thumbVisibility: true,
+            child: SingleChildScrollView(
+              controller: _horizontalScrollController,
+              scrollDirection: Axis.horizontal,
+              child: SizedBox(
+                width: totalWidth,
+                child: Column(
+                  children: [
+                    _buildHeaderRow(headerHeight, scale),
+                    Expanded(
+                      child: widget.data.isEmpty
+                          ? _buildEmptyState()
+                          : _buildDataRows(rowHeight, scale),
+                    ),
+                    if (widget.footerBuilder != null)
+                      _buildFooterRow(rowHeight, scale),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildShrinkWrapContent(
+    double headerHeight,
+    double rowHeight,
+    double totalWidth,
+    double scale,
+  ) {
+    return SingleChildScrollView(
+      controller: _horizontalScrollController,
+      scrollDirection: Axis.horizontal,
+      child: SizedBox(
+        width: totalWidth,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _buildHeaderRow(headerHeight, scale),
+            widget.data.isEmpty
+                ? SizedBox(height: 50.h, child: _buildEmptyState())
+                : _buildDataRows(rowHeight, scale),
+            if (widget.footerBuilder != null) _buildFooterRow(rowHeight, scale),
+          ],
+        ),
       ),
     );
   }
@@ -233,11 +285,15 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
 
   Widget _buildDataRows(double rowHeight, double scale) {
     return Scrollbar(
-      controller: _verticalScrollController,
-      thumbVisibility: true,
+      controller: widget.shrinkWrap ? null : _verticalScrollController,
+      thumbVisibility: !widget.shrinkWrap,
       child: ListView.builder(
-        controller: _verticalScrollController,
+        controller: widget.shrinkWrap ? null : _verticalScrollController,
         padding: EdgeInsets.zero,
+        shrinkWrap: widget.shrinkWrap,
+        physics: widget.shrinkWrap
+            ? const NeverScrollableScrollPhysics()
+            : null,
         itemCount: widget.data.length,
         itemBuilder: (context, index) {
           final item = widget.data[index];

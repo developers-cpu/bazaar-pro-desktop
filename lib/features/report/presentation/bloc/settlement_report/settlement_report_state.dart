@@ -11,7 +11,7 @@ class SettlementReportLoaded extends SettlementReportState {
   final SettlementReport report;
   final String selectedDateRange;
   final String? selectedUserId;
-  final String? selectedUserName; 
+  final String? selectedUserName;
   const SettlementReportLoaded({
     required this.report,
     required this.selectedDateRange,

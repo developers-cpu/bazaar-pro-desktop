@@ -74,10 +74,10 @@ class _SettlementFilterBarState extends State<SettlementFilterBar> {
     _overlayEntry = null;
   }
   Future<void> _handleCustomDateSelection() async {
-    _closeDropdown(); 
+    _closeDropdown();
     final result = await CustomDateRangePickerDialog.show(
       context,
-      initialStartDate: DateTime.now(), 
+      initialStartDate: DateTime.now(),
     );
     if (result != null) {
       final dateFormat = DateFormat('dd-MM-yy');
@@ -102,14 +102,14 @@ class _SettlementFilterBarState extends State<SettlementFilterBar> {
           ),
           CompositedTransformFollower(
             link: _layerLink,
-            offset: Offset(0, 45.h), 
+            offset: Offset(0, 45.h),
             showWhenUnlinked: false,
             child: Material(
               elevation: 4,
               borderRadius: BorderRadius.circular(8.r),
               color: Colors.white,
               child: Container(
-                width: 200.w, 
+                width: 200.w,
                 decoration: BoxDecoration(
                   border: Border.all(color: AppColors.primaryBlue),
                   borderRadius: BorderRadius.circular(8.r),
@@ -172,7 +172,7 @@ class _SettlementFilterBarState extends State<SettlementFilterBar> {
               style: GoogleFonts.openSans(
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w600,
-                color: AppColors.primaryTextColor, 
+                color: AppColors.primaryTextColor,
               ),
             ),
             SizedBox(height: 4.h),

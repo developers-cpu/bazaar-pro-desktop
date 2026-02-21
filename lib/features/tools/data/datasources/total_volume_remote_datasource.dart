@@ -7,12 +7,12 @@ abstract class TotalVolumeRemoteDataSource {
 class TotalVolumeRemoteDataSourceImpl implements TotalVolumeRemoteDataSource {
   @override
   Future<TotalVolumeModel> getTotalVolume(String exchange) async {
-     
+
     await Future.delayed(const Duration(milliseconds: 500));
 
-     
-     
-     
+
+
+
     String volume;
     String volumeShort;
 

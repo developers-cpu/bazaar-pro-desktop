@@ -86,7 +86,7 @@ class UserListError extends UserListState {
   List<Object?> get props => [message];
 }
 class UserListExporting extends UserListState {
-  final String exportType; 
+  final String exportType;
   const UserListExporting(this.exportType);
   @override
   List<Object?> get props => [exportType];

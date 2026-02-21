@@ -120,7 +120,7 @@ class ClientTriggerSettingsStep extends StatelessWidget {
       case 'changePasswordFirstTime':
         return AppImages.changePasswordIcon;
       default:
-        return AppImages.statusIcon; 
+        return AppImages.statusIcon;
     }
   }
 }

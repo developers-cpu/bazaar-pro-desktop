@@ -44,7 +44,7 @@ class UserWiseProfitAndLossReportTable extends StatelessWidget {
       userName: item.userName,
       name: item.userName,
       parentUser: item.parentUser,
-      type: 'Client', 
+      type: 'Client',
       plPercent: 0,
       brkPercent: 0,
       leverage: '',

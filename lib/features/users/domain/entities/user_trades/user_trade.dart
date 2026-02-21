@@ -5,8 +5,8 @@ class UserTrade extends Equatable {
   final String parentUser;
   final String exchange;
   final String symbol;
-  final String buySell; 
-  final String tradeType; 
+  final String buySell;
+  final String tradeType;
   final double quantity;
   final double lot;
   final double profitLoss;

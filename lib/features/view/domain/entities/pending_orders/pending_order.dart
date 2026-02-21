@@ -5,13 +5,13 @@ class PendingOrder extends Equatable {
   final String upline;
   final String exchange;
   final String symbol;
-  final String buySell; 
+  final String buySell;
   final double qty;
   final double lot;
   final double triggerPrice;
   final DateTime orderDateTime;
   final DateTime modifyOrderDateTime;
-  final String orderType; 
+  final String orderType;
   final double cmp;
   final double rPrice;
   final String? deviceId;

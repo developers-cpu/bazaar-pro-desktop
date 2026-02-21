@@ -13,6 +13,7 @@ class AppDropdown extends StatefulWidget {
   final String? value;
   final List<String>? selectedValues;
   final List<String> items;
+  final List<String>? subtitles;
   final ValueChanged<String?>? onChanged;
   final ValueChanged<List<String>>? onMultiChanged;
   final double? width;
@@ -46,6 +47,7 @@ class AppDropdown extends StatefulWidget {
     this.isDarkMode = false,
     this.label,
     this.labelColor,
+    this.subtitles,
   }) : super(key: key);
   @override
   State<AppDropdown> createState() => _AppDropdownState();
@@ -177,13 +179,6 @@ class _AppDropdownState extends State<AppDropdown>
       : LightThemeColors.cardBackground;
   Color get _dropdownBgColor =>
       widget.isDarkMode ? DarkThemeColors.cardBackground : AppColors.white;
-  TextStyle get _textStyle => GoogleFonts.openSans(
-    fontSize: 14.sp,
-    fontWeight: FontWeight.w600,
-    height: 1.0,
-    letterSpacing: 0.15,
-    color: AppColors.primaryBlue,
-  );
   String get _displayText {
     if (widget.type == AppDropdownType.multiSelect) {
       if (_selectedSet.isEmpty) return widget.hintText;
@@ -210,6 +205,10 @@ class _AppDropdownState extends State<AppDropdown>
     double selectAllHeight = 0;
     if (widget.type == AppDropdownType.multiSelect) {
       selectAllHeight = _selectAllHeight;
+    }
+
+    if (widget.subtitles != null) {
+      listHeight = visibleItems * (_itemHeight + 10.h);
     }
     return listHeight + searchHeight + selectAllHeight;
   }
@@ -318,7 +317,7 @@ class _AppDropdownState extends State<AppDropdown>
     if (widget.type == AppDropdownType.multiSelect) {
       return _buildCheckboxItem(item);
     }
-    return _buildSimpleItem(item);
+    return _buildSimpleItem(item, index: itemIndex);
   }
 
   Widget _buildSearchField() {
@@ -433,13 +432,25 @@ class _AppDropdownState extends State<AppDropdown>
     );
   }
 
-  Widget _buildSimpleItem(String item, {bool isAllOption = false}) {
+  Widget _buildSimpleItem(
+    String item, {
+    bool isAllOption = false,
+    int index = -1,
+  }) {
     final isSelected =
         widget.value == item || (isAllOption && widget.value == null);
+    final subtitle =
+        (widget.subtitles != null &&
+            !isAllOption &&
+            index != -1 &&
+            index < widget.subtitles!.length)
+        ? widget.subtitles![index]
+        : null;
+
     return InkWell(
       onTap: () => _onItemSelected(isAllOption ? '' : item),
       child: Container(
-        height: _itemHeight,
+        height: subtitle != null ? _itemHeight + 10.h : _itemHeight,
         padding: EdgeInsets.symmetric(horizontal: 10.w),
         decoration: BoxDecoration(
           color: isSelected
@@ -447,14 +458,30 @@ class _AppDropdownState extends State<AppDropdown>
               : AppColors.transparent,
         ),
         alignment: Alignment.centerLeft,
-        child: Text(
-          item,
-          style: GoogleFonts.openSans(
-            fontSize: 12.sp,
-            fontWeight: FontWeight.w600,
-            color: _textColor,
-          ),
-          overflow: TextOverflow.ellipsis,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              item,
+              style: GoogleFonts.openSans(
+                fontSize: 12.sp,
+                fontWeight: FontWeight.w600,
+                color: _textColor,
+              ),
+              overflow: TextOverflow.ellipsis,
+            ),
+            if (subtitle != null)
+              Text(
+                subtitle,
+                style: GoogleFonts.openSans(
+                  fontSize: 10.sp,
+                  fontWeight: FontWeight.w400,
+                  color: AppColors.secondaryTextColor,
+                ),
+                overflow: TextOverflow.ellipsis,
+              ),
+          ],
         ),
       ),
     );

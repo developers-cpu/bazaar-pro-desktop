@@ -16,7 +16,7 @@ class SettlementReport extends Equatable {
 class SettlementEntry extends Equatable {
   final String userId;
   final String username;
-  final String userType; 
+  final String userType;
   final double pnl;
   final double brokerage;
   final double total;

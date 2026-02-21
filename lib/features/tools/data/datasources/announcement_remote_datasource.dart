@@ -22,7 +22,7 @@ class AnnouncementRemoteDataSourceImpl implements AnnouncementRemoteDataSource {
             'We\'ve rolled out a new update to make your trading experience faster, smoother, and more secure. Update now and enjoy enhanced performance with bug fixes and new features!',
         timestamp: DateTime.now()
             .subtract(const Duration(days: 1))
-            .add(const Duration(hours: 12, minutes: 31)), 
+            .add(const Duration(hours: 12, minutes: 31)),
         isRead: false,
       ),
       AnnouncementModel(
@@ -32,7 +32,7 @@ class AnnouncementRemoteDataSourceImpl implements AnnouncementRemoteDataSource {
             'We\'ve rolled out a new update to make your trading experience faster, smoother, and more secure. Update now and enjoy enhanced performance with bug fixes and new features!',
         timestamp: DateTime.now()
             .subtract(const Duration(days: 1))
-            .add(const Duration(hours: 12, minutes: 31)), 
+            .add(const Duration(hours: 12, minutes: 31)),
         isRead: false,
       ),
       AnnouncementModel(
@@ -42,7 +42,7 @@ class AnnouncementRemoteDataSourceImpl implements AnnouncementRemoteDataSource {
             'We\'ve rolled out a new update to make your trading experience faster, smoother, and more secure. Update now and enjoy enhanced performance with bug fixes and new features!',
         timestamp: DateTime.now().add(
           const Duration(hours: 12, minutes: 31),
-        ), 
+        ),
         isRead: false,
       ),
       AnnouncementModel(
@@ -52,7 +52,7 @@ class AnnouncementRemoteDataSourceImpl implements AnnouncementRemoteDataSource {
             'We\'ve rolled out a new update to make your trading experience faster, smoother, and more secure. Update now and enjoy enhanced performance with bug fixes and new features!',
         timestamp: DateTime.now().add(
           const Duration(hours: 12, minutes: 31),
-        ), 
+        ),
         isRead: false,
       ),
     ];

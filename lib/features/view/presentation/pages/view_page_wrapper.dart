@@ -21,6 +21,7 @@ import '../bloc/script_master/script_master_bloc.dart';
 import '../bloc/script_master/script_master_event.dart';
 import '../bloc/script_quantity/script_quantity_bloc.dart';
 import '../bloc/script_quantity/script_quantity_event.dart';
+import '../bloc/broker_list/broker_list_bloc.dart';
 import '../bloc/trade/trades_bloc.dart';
 import '../bloc/trade/trades_event.dart';
 import 'deals/deals_page.dart';
@@ -29,7 +30,9 @@ import 'login_history/login_history_page.dart';
 import 'net_postion/net_position_page.dart';
 import 'pending_orders/pending_orders_page.dart';
 import 'trades/trades_page.dart';
+import 'broker_list/broker_list_page.dart';
 import '../../../../../injection_container.dart' as di;
+
 class ViewPageWrapper extends StatelessWidget {
   final String pageTitle;
   final Widget child;
@@ -47,7 +50,7 @@ class ViewPageWrapper extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: AppBarSection(
-        selectedTabIndex: 2, 
+        selectedTabIndex: 2,
         currentPageTitle: pageTitle,
         onTabSelected: (_) {},
         onExportPdf: onExportPdf,
@@ -58,6 +61,7 @@ class ViewPageWrapper extends StatelessWidget {
     );
   }
 }
+
 class PendingOrdersPageWithAppBar extends StatelessWidget {
   const PendingOrdersPageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -81,6 +85,7 @@ class PendingOrdersPageWithAppBar extends StatelessWidget {
     );
   }
 }
+
 class TradesPageWithAppBar extends StatelessWidget {
   const TradesPageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -104,6 +109,7 @@ class TradesPageWithAppBar extends StatelessWidget {
     );
   }
 }
+
 class DealsPageWithAppBar extends StatelessWidget {
   const DealsPageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -127,21 +133,27 @@ class DealsPageWithAppBar extends StatelessWidget {
     );
   }
 }
+
 class NetPositionPageWithAppBar extends StatelessWidget {
   const NetPositionPageWithAppBar({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => di.sl<NetPositionBloc>()..add(const LoadNetPositionsEvent()),
+      create: (context) =>
+          di.sl<NetPositionBloc>()..add(const LoadNetPositionsEvent()),
       child: Builder(
         builder: (context) {
           return ViewPageWrapper(
             pageTitle: 'Net Position',
             onExportPdf: () {
-              context.read<NetPositionBloc>().add(const ExportNetPositionsToPdfEvent());
+              context.read<NetPositionBloc>().add(
+                const ExportNetPositionsToPdfEvent(),
+              );
             },
             onExportExcel: () {
-              context.read<NetPositionBloc>().add(const ExportNetPositionsToExcelEvent());
+              context.read<NetPositionBloc>().add(
+                const ExportNetPositionsToExcelEvent(),
+              );
             },
             child: const NetPositionPage(),
           );
@@ -150,26 +162,27 @@ class NetPositionPageWithAppBar extends StatelessWidget {
     );
   }
 }
+
 class RejectionLogPageWithAppBar extends StatelessWidget {
   const RejectionLogPageWithAppBar({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => di.sl<RejectionLogBloc>()
-        ..add(const LoadRejectionLogsEvent()),
+      create: (context) =>
+          di.sl<RejectionLogBloc>()..add(const LoadRejectionLogsEvent()),
       child: Builder(
         builder: (context) {
           return ViewPageWrapper(
             pageTitle: 'Rejection Log',
             onExportPdf: () {
-              context
-                  .read<RejectionLogBloc>()
-                  .add(const ExportRejectionLogsToPdfEvent());
+              context.read<RejectionLogBloc>().add(
+                const ExportRejectionLogsToPdfEvent(),
+              );
             },
             onExportExcel: () {
-              context
-                  .read<RejectionLogBloc>()
-                  .add(const ExportRejectionLogsToExcelEvent());
+              context.read<RejectionLogBloc>().add(
+                const ExportRejectionLogsToExcelEvent(),
+              );
             },
             child: const RejectionLogPage(),
           );
@@ -178,26 +191,27 @@ class RejectionLogPageWithAppBar extends StatelessWidget {
     );
   }
 }
+
 class LoginHistoryPageWithAppBar extends StatelessWidget {
   const LoginHistoryPageWithAppBar({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => di.sl<LoginHistoryBloc>()
-        ..add(const LoadClientsEvent()),
+      create: (context) =>
+          di.sl<LoginHistoryBloc>()..add(const LoadClientsEvent()),
       child: Builder(
         builder: (context) {
           return ViewPageWrapper(
             pageTitle: 'Login History',
             onExportPdf: () {
-              context
-                  .read<LoginHistoryBloc>()
-                  .add(const ExportLoginHistoryToPdfEvent());
+              context.read<LoginHistoryBloc>().add(
+                const ExportLoginHistoryToPdfEvent(),
+              );
             },
             onExportExcel: () {
-              context
-                  .read<LoginHistoryBloc>()
-                  .add(const ExportLoginHistoryToExcelEvent());
+              context.read<LoginHistoryBloc>().add(
+                const ExportLoginHistoryToExcelEvent(),
+              );
             },
             child: const LoginHistoryPage(),
           );
@@ -206,26 +220,27 @@ class LoginHistoryPageWithAppBar extends StatelessWidget {
     );
   }
 }
+
 class IntradayHistoryPageWithAppBar extends StatelessWidget {
   const IntradayHistoryPageWithAppBar({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => di.sl<IntradayHistoryBloc>()
-        ..add(const LoadIntradayHistoryEvent()),
+      create: (context) =>
+          di.sl<IntradayHistoryBloc>()..add(const LoadIntradayHistoryEvent()),
       child: Builder(
         builder: (context) {
           return ViewPageWrapper(
             pageTitle: 'Intraday History',
             onExportPdf: () {
-              context
-                  .read<IntradayHistoryBloc>()
-                  .add(const ExportIntradayToPdfEvent());
+              context.read<IntradayHistoryBloc>().add(
+                const ExportIntradayToPdfEvent(),
+              );
             },
             onExportExcel: () {
-              context
-                  .read<IntradayHistoryBloc>()
-                  .add(const ExportIntradayToExcelEvent());
+              context.read<IntradayHistoryBloc>().add(
+                const ExportIntradayToExcelEvent(),
+              );
             },
             child: const IntradayHistoryPage(),
           );
@@ -234,26 +249,27 @@ class IntradayHistoryPageWithAppBar extends StatelessWidget {
     );
   }
 }
+
 class ScriptMasterPageWithAppBar extends StatelessWidget {
   const ScriptMasterPageWithAppBar({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => di.sl<ScriptMasterBloc>()
-        ..add(const LoadScriptMastersEvent()),
+      create: (context) =>
+          di.sl<ScriptMasterBloc>()..add(const LoadScriptMastersEvent()),
       child: Builder(
         builder: (context) {
           return ViewPageWrapper(
             pageTitle: 'Script Master',
             onExportPdf: () {
-              context
-                  .read<ScriptMasterBloc>()
-                  .add(const ExportScriptMastersToPdfEvent());
+              context.read<ScriptMasterBloc>().add(
+                const ExportScriptMastersToPdfEvent(),
+              );
             },
             onExportExcel: () {
-              context
-                  .read<ScriptMasterBloc>()
-                  .add(const ExportScriptMastersToExcelEvent());
+              context.read<ScriptMasterBloc>().add(
+                const ExportScriptMastersToExcelEvent(),
+              );
             },
             child: const ScriptMasterPage(),
           );
@@ -262,13 +278,14 @@ class ScriptMasterPageWithAppBar extends StatelessWidget {
     );
   }
 }
+
 class ScriptQuantityPageWithAppBar extends StatelessWidget {
   const ScriptQuantityPageWithAppBar({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => di.sl<ScriptQuantityBloc>()
-        ..add(const LoadFiltersEvent()),
+      create: (context) =>
+          di.sl<ScriptQuantityBloc>()..add(const LoadFiltersEvent()),
       child: Builder(
         builder: (context) {
           return ViewPageWrapper(
@@ -280,6 +297,7 @@ class ScriptQuantityPageWithAppBar extends StatelessWidget {
     );
   }
 }
+
 class BulkTradePageWithAppBar extends StatelessWidget {
   const BulkTradePageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -292,6 +310,7 @@ class BulkTradePageWithAppBar extends StatelessWidget {
     );
   }
 }
+
 class TotalVolumePageWithAppBar extends StatelessWidget {
   const TotalVolumePageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -304,6 +323,7 @@ class TotalVolumePageWithAppBar extends StatelessWidget {
     );
   }
 }
+
 class DeletedTradePageWithAppBar extends StatelessWidget {
   const DeletedTradePageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -316,6 +336,7 @@ class DeletedTradePageWithAppBar extends StatelessWidget {
     );
   }
 }
+
 class ManualTradePageWithAppBar extends StatelessWidget {
   const ManualTradePageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -325,6 +346,31 @@ class ManualTradePageWithAppBar extends StatelessWidget {
       onExportPdf: () {},
       onExportExcel: () {},
       child: const Center(child: Text('Manual Trade Page - Coming Soon')),
+    );
+  }
+}
+
+class BrokerListPageWithAppBar extends StatelessWidget {
+  const BrokerListPageWithAppBar({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => di.sl<BrokerListBloc>(),
+      child: Builder(
+        builder: (context) {
+          return ViewPageWrapper(
+            pageTitle: 'Broker List',
+            onExportPdf: () {
+
+            },
+            onExportExcel: () {
+
+            },
+            child: const BrokerListPage(),
+          );
+        },
+      ),
     );
   }
 }

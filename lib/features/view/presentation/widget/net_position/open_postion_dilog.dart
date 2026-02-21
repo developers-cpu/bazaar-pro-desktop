@@ -131,7 +131,7 @@ class OpenPositionDialog extends StatelessWidget {
           return Row(
             children: [
               SizedBox(
-                width: 250.w, 
+                width: 250.w,
                 child: AppDropdown(
                   type: AppDropdownType.search,
                   hintText: 'Client',

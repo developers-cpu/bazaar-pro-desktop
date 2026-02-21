@@ -7,7 +7,7 @@ import 'square_off_dialog.dart';
 import 'roll_over_dialog.dart';
 
 class SelectUserDialog extends StatefulWidget {
-  final String actionType; // 'SquareOff' or 'RollOver'
+  final String actionType;
 
   const SelectUserDialog({Key? key, required this.actionType})
     : super(key: key);
@@ -54,7 +54,7 @@ class _SelectUserDialogState extends State<SelectUserDialog> {
             setState(() {
               _selectedUser = val;
             });
-            // Auto close and open next dialog
+
             Navigator.pop(context);
             if (widget.actionType == 'SquareOff') {
               SquareOffDialog.show(context: context);

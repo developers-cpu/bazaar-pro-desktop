@@ -4,7 +4,7 @@ class UserHierarchyNode extends Equatable {
   final User user;
   final List<UserHierarchyNode> children;
   final bool isExpanded;
-  final bool isVisible; 
+  final bool isVisible;
   const UserHierarchyNode({
     required this.user,
     this.children = const [],

@@ -9,7 +9,7 @@ class WatchlistInitial extends WatchlistState {
 }
 class WatchlistLoaded extends WatchlistState {
   final List<String> watchlists;
-  final int selectedIndex; 
+  final int selectedIndex;
   const WatchlistLoaded({
     required this.watchlists,
     this.selectedIndex = -1,

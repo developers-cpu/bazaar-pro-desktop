@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 class RuleEntity extends Equatable {
   final String id;
   final String rule;
-  final String language; 
+  final String language;
   const RuleEntity({
     required this.id,
     required this.rule,

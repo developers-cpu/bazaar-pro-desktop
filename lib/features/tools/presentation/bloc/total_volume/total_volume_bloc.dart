@@ -32,9 +32,9 @@ class TotalVolumeBloc extends Bloc<TotalVolumeEvent, TotalVolumeState> {
         ),
       ),
       (exchanges) {
-         
-         
-         
+
+
+
         emit(
           state.copyWith(
             exchangeStatus: ExchangeStatus.success,

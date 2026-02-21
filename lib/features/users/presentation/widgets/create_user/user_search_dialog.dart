@@ -34,10 +34,10 @@ class UserSearchDialogContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return CommonDialog(
       title: 'Search User',
-      width: 600.w, 
+      width: 600.w,
       height: 700.h,
       showButtons: false,
-      scrollable: false, 
+      scrollable: false,
       contentPadding: EdgeInsets.all(16.w),
       content: const UserSearchView(),
     );

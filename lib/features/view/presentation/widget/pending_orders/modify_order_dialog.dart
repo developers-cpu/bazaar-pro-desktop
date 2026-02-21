@@ -35,6 +35,14 @@ class ModifyOrderDialog extends StatefulWidget {
 }
 
 class _ModifyOrderDialogState extends State<ModifyOrderDialog> {
+  static const _depthData = [
+    {'price': '25639', 'orders': '2', 'qty': '2'},
+    {'price': '25639', 'orders': '1', 'qty': '1'},
+    {'price': '25639', 'orders': '1', 'qty': '1'},
+    {'price': '25639', 'orders': '5', 'qty': '5'},
+    {'price': '25639', 'orders': '2', 'qty': '2'},
+  ];
+
   late int _price;
   late int _lot;
   bool _isLimit = false;
@@ -48,432 +56,295 @@ class _ModifyOrderDialogState extends State<ModifyOrderDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final headerColor = const Color(0xFF2C5F7A);
-    final borderColor = AppColors.greyBorder;
-
     return CommonDialog(
       title: 'Modify Order',
       isDarkMode: widget.isDarkMode,
       width: 500.w,
-      height: 700.h,
-      headerColor: headerColor,
+      height: 800.h,
+      headerColor: AppColors.primaryBlue,
       showButtons: false,
       scrollable: true,
       contentPadding: EdgeInsets.zero,
       content: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
         child: Column(
           children: [
-
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-              decoration: BoxDecoration(
-                border: Border.all(color: AppColors.greyBorder),
-                borderRadius: BorderRadius.circular(8.r),
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          widget.order.symbol,
-                          style: GoogleFonts.openSans(
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w600,
-                            color: headerColor,
-                          ),
-                        ),
-                        SizedBox(height: 4.h),
-                        Text(
-                          'Q.${widget.order.qty.toStringAsFixed(6)}',
-                          style: GoogleFonts.openSans(
-                            fontSize: 14.sp,
-                            color: headerColor,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      AnimatedPriceBox(
-                        price: '2588212',
-                        isDarkMode: widget.isDarkMode,
-                      ),
-                      SizedBox(width: 8.w),
-                      AnimatedPriceBox(
-                        price: '2588212',
-                        isDarkMode: widget.isDarkMode,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 16.h),
-
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-              decoration: BoxDecoration(
-                border: Border.all(color: borderColor),
-                borderRadius: BorderRadius.circular(8.r),
-              ),
-              alignment: Alignment.centerLeft,
-              child: Text(
-                widget.order.userId,
-                style: GoogleFonts.openSans(
-                  fontSize: 16.sp,
-                  color: Colors.grey.shade600,
-                ),
-              ),
-            ),
-            SizedBox(height: 16.h),
-
-            Container(
-              padding: EdgeInsets.all(16.w),
-              decoration: BoxDecoration(
-                border: Border.all(color: borderColor),
-                borderRadius: BorderRadius.circular(12.r),
-              ),
-              child: Column(
-                children: [
-                  CustomToggleSwitch(
-                    leftLabel: 'Limit',
-                    rightLabel: 'SL',
-                    isLeftSelected: _isLimit,
-                    onChanged: (val) => setState(() => _isLimit = val),
-                    activeColor: headerColor,
-                  ),
-                  SizedBox(height: 24.h),
-                  _buildStepperRow(
-                    'Price',
-                    _price,
-                    (val) => setState(() => _price = val),
-                  ),
-                  SizedBox(height: 16.h),
-                  _buildStepperRow(
-                    'Lot',
-                    _lot,
-                    (val) => setState(() => _lot = val),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 24.h),
-
-            Row(
-              children: [
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Order Modified')),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.red,
-                      padding: EdgeInsets.symmetric(vertical: 12.h),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.r),
-                      ),
-                    ),
-                    child: Column(
-                      children: [
-                        Text(
-                          _isLimit ? 'Sell Limit' : 'Sell Stop',
-                          style: GoogleFonts.openSans(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.white,
-                          ),
-                        ),
-                        Text(
-                          '25800',
-                          style: GoogleFonts.openSans(
-                            fontSize: 14.sp,
-                            color: AppColors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(width: 16.w),
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Order Modified')),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(
-                        0xFF0052FF,
-                      ),
-                      padding: EdgeInsets.symmetric(vertical: 12.h),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.r),
-                      ),
-                    ),
-                    child: Column(
-                      children: [
-                        Text(
-                          _isLimit ? 'Buy Limit' : 'Buy Stop',
-                          style: GoogleFonts.openSans(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.white,
-                          ),
-                        ),
-                        Text(
-                          '25800',
-                          style: GoogleFonts.openSans(
-                            fontSize: 14.sp,
-                            color: AppColors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 16.h),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Open Position: 25 SELL',
-                  style: GoogleFonts.openSans(
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.red,
-                  ),
-                ),
-                Text(
-                  'AVG: 1000000',
-                  style: GoogleFonts.openSans(
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.w600,
-                    color: const Color(0xFF2C5F7A),
-                  ),
-                ),
-              ],
-            ),
+            _buildSymbolRow(),
+            SizedBox(height: 10.h),
+            _buildUserIdField(),
             SizedBox(height: 12.h),
-
-            Row(
-              children: [
-                Expanded(
-                  child: _buildInfoCard([
-                    'Lot Size: 35',
-                    'LTP: 60013',
-                    'Volume: 422590',
-                    'Avg. Price: 52402',
-                    'L.CRKT: 80254',
-                  ]),
-                ),
-                SizedBox(width: 8.w),
-                Expanded(
-                  child: _buildInfoCard([
-                    'Open: 35',
-                    'High: 60013',
-                    'Low: 422590',
-                    'Close: 52402',
-                    'U.CRKT: 80254',
-                  ]),
-                ),
-              ],
-            ),
+            _buildOrderControls(),
+            SizedBox(height: 16.h),
+            _buildActionButtons(),
+            SizedBox(height: 10.h),
+            _buildPositionInfo(),
             SizedBox(height: 8.h),
+            _buildInfoCards(),
+            SizedBox(height: 8.h),
+            _buildDepthCards(),
+          ],
+        ),
+      ),
+    );
+  }
 
-            Row(
+  Widget _buildSymbolRow() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: Container(
-                    padding: EdgeInsets.all(8.w),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFEAF1FA),
-                      borderRadius: BorderRadius.circular(8.r),
-                    ),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Bid',
-                              style: GoogleFonts.openSans(
-                                fontSize: 13.sp,
-                                fontWeight: FontWeight.w600,
-                                color: const Color(0xFF1E4C6B),
-                              ),
-                            ),
-                            Text(
-                              'Orders',
-                              style: GoogleFonts.openSans(
-                                fontSize: 13.sp,
-                                fontWeight: FontWeight.w600,
-                                color: const Color(0xFF1E4C6B),
-                              ),
-                            ),
-                            Text(
-                              'Qty',
-                              style: GoogleFonts.openSans(
-                                fontSize: 13.sp,
-                                fontWeight: FontWeight.w600,
-                                color: const Color(0xFF1E4C6B),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 4.h),
-
-                        _buildDepthRow(
-                          '25639',
-                          '2',
-                          '2',
-                          const Color(0xFF1A60FF),
-                          isTotal: false,
-                        ),
-                        _buildDepthRow(
-                          '25639',
-                          '1',
-                          '1',
-                          const Color(0xFF1A60FF),
-                          isTotal: false,
-                        ),
-                        _buildDepthRow(
-                          '25639',
-                          '1',
-                          '1',
-                          const Color(0xFF1A60FF),
-                          isTotal: false,
-                        ),
-                        _buildDepthRow(
-                          '25639',
-                          '5',
-                          '5',
-                          const Color(0xFF1A60FF),
-                          isTotal: false,
-                        ),
-                        _buildDepthRow(
-                          '25639',
-                          '2',
-                          '2',
-                          const Color(0xFF1A60FF),
-                          isTotal: false,
-                        ),
-                        _buildDepthRow(
-                          'Total',
-                          '',
-                          '1241',
-                          const Color(0xFF1A60FF),
-                          isTotal: true,
-                        ),
-                      ],
-                    ),
+                Text(
+                  widget.order.symbol,
+                  style: GoogleFonts.openSans(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.primaryBlue,
                   ),
                 ),
-                SizedBox(width: 8.w),
-                Expanded(
-                  child: Container(
-                    padding: EdgeInsets.all(8.w),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFFBEBEA),
-                      borderRadius: BorderRadius.circular(8.r),
-                    ),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Asked',
-                              style: GoogleFonts.openSans(
-                                fontSize: 13.sp,
-                                fontWeight: FontWeight.w600,
-                                color: const Color(0xFF1E4C6B),
-                              ),
-                            ),
-                            Text(
-                              'Orders',
-                              style: GoogleFonts.openSans(
-                                fontSize: 13.sp,
-                                fontWeight: FontWeight.w600,
-                                color: const Color(0xFF1E4C6B),
-                              ),
-                            ),
-                            Text(
-                              'Qty',
-                              style: GoogleFonts.openSans(
-                                fontSize: 13.sp,
-                                fontWeight: FontWeight.w600,
-                                color: const Color(0xFF1E4C6B),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 4.h),
-
-                        _buildDepthRow(
-                          '25639',
-                          '2',
-                          '2',
-                          AppColors.red,
-                          isTotal: false,
-                        ),
-                        _buildDepthRow(
-                          '25639',
-                          '1',
-                          '1',
-                          AppColors.red,
-                          isTotal: false,
-                        ),
-                        _buildDepthRow(
-                          '25639',
-                          '1',
-                          '1',
-                          AppColors.red,
-                          isTotal: false,
-                        ),
-                        _buildDepthRow(
-                          '25639',
-                          '5',
-                          '5',
-                          AppColors.red,
-                          isTotal: false,
-                        ),
-                        _buildDepthRow(
-                          '25639',
-                          '2',
-                          '2',
-                          AppColors.red,
-                          isTotal: false,
-                        ),
-                        _buildDepthRow(
-                          'Total',
-                          '',
-                          '1241',
-                          AppColors.red,
-                          isTotal: true,
-                        ),
-                      ],
-                    ),
+                SizedBox(height: 4.h),
+                Text(
+                  'Q.${widget.order.qty.toStringAsFixed(6)}',
+                  style: GoogleFonts.openSans(
+                    fontSize: 14.sp,
+                    color: AppColors.primaryBlue,
                   ),
                 ),
               ],
+            ),
+          ),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              AnimatedPriceBox(price: '2588212', isDarkMode: widget.isDarkMode),
+              SizedBox(width: 8.w),
+              AnimatedPriceBox(price: '2588212', isDarkMode: widget.isDarkMode),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildUserIdField() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+      decoration: BoxDecoration(
+        border: Border.all(color: AppColors.greyBorder),
+        borderRadius: BorderRadius.circular(8.r),
+      ),
+      alignment: Alignment.centerLeft,
+      child: Text(
+        widget.order.userId,
+        style: GoogleFonts.openSans(
+          fontSize: 16.sp,
+          color: Colors.grey.shade600,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildOrderControls() {
+    return Container(
+      padding: EdgeInsets.all(16.w),
+      child: Column(
+        children: [
+          CustomToggleSwitch(
+            leftLabel: 'Limit',
+            rightLabel: 'SL',
+            isLeftSelected: _isLimit,
+            onChanged: (val) => setState(() => _isLimit = val),
+            activeColor: AppColors.primaryBlue,
+          ),
+          SizedBox(height: 16.h),
+          _buildStepperRow(
+            'Price',
+            _price,
+            (val) => setState(() => _price = val),
+          ),
+          SizedBox(height: 16.h),
+          _buildStepperRow('Lot', _lot, (val) => setState(() => _lot = val)),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildActionButtons() {
+    return Row(
+      children: [
+        _buildOrderButton(
+          label: _isLimit ? 'Sell Limit' : 'Sell Stop',
+          price: '25800',
+          color: AppColors.red,
+        ),
+        SizedBox(width: 16.w),
+        _buildOrderButton(
+          label: _isLimit ? 'Buy Limit' : 'Buy Stop',
+          price: '25800',
+          color: const Color(0xFF0052FF),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildOrderButton({
+    required String label,
+    required String price,
+    required Color color,
+  }) {
+    return Expanded(
+      child: ElevatedButton(
+        onPressed: () {
+          Navigator.pop(context);
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(const SnackBar(content: Text('Order Modified')));
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: color,
+          padding: EdgeInsets.symmetric(vertical: 12.h),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8.r),
+          ),
+        ),
+        child: Column(
+          children: [
+            Text(
+              label,
+              style: GoogleFonts.openSans(
+                fontSize: 14.sp,
+                color: AppColors.white,
+              ),
+            ),
+            Text(
+              price,
+              style: GoogleFonts.openSans(
+                fontSize: 12.sp,
+                color: AppColors.white,
+              ),
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildPositionInfo() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          'Open Position: 25 SELL',
+          style: GoogleFonts.openSans(
+            fontSize: 12.sp,
+            fontWeight: FontWeight.w600,
+            color: AppColors.red,
+          ),
+        ),
+        Text(
+          'AVG: 1000000',
+          style: GoogleFonts.openSans(
+            fontSize: 12.sp,
+            fontWeight: FontWeight.w600,
+            color: const Color(0xFF2C5F7A),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildInfoCards() {
+    return Row(
+      children: [
+        Expanded(
+          child: _buildInfoCard({
+            'Lot Size': '35',
+            'LTP': '60013',
+            'Volume': '422590',
+            'Avg. Price': '52402',
+            'L.CRKT': '80254',
+          }),
+        ),
+        SizedBox(width: 8.w),
+        Expanded(
+          child: _buildInfoCard({
+            'Open': '35',
+            'High': '60013',
+            'Low': '422590',
+            'Close': '52402',
+            'U.CRKT': '80254',
+          }),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDepthCards() {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          child: _buildDepthSection(
+            title: 'Bid',
+            bgColor: const Color(0xFFEAF1FA),
+            dataColor: const Color(0xFF1A60FF),
+          ),
+        ),
+        SizedBox(width: 8.w),
+        Expanded(
+          child: _buildDepthSection(
+            title: 'Asked',
+            bgColor: const Color(0xFFFBEBEA),
+            dataColor: AppColors.red,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDepthSection({
+    required String title,
+    required Color bgColor,
+    required Color dataColor,
+  }) {
+    const headerStyle = Color(0xFF1E4C6B);
+    return Container(
+      padding: EdgeInsets.all(8.w),
+      decoration: BoxDecoration(
+        color: bgColor,
+        borderRadius: BorderRadius.circular(8.r),
+      ),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [title, 'Orders', 'Qty']
+                .map(
+                  (t) => Text(
+                    t,
+                    style: GoogleFonts.openSans(
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.w600,
+                      color: headerStyle,
+                    ),
+                  ),
+                )
+                .toList(),
+          ),
+          SizedBox(height: 4.h),
+          ..._depthData.map(
+            (row) => _buildDepthRow(
+              row['price']!,
+              row['orders']!,
+              row['qty']!,
+              dataColor,
+            ),
+          ),
+          _buildDepthRow('Total', '', '1241', dataColor, isTotal: true),
+        ],
       ),
     );
   }
@@ -485,6 +356,8 @@ class _ModifyOrderDialogState extends State<ModifyOrderDialog> {
     Color color, {
     bool isTotal = false,
   }) {
+    final fontSize = isTotal ? 14.sp : 13.sp;
+    final fontWeight = isTotal ? FontWeight.w600 : FontWeight.w500;
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 3.h),
       child: Row(
@@ -495,8 +368,8 @@ class _ModifyOrderDialogState extends State<ModifyOrderDialog> {
             child: Text(
               price,
               style: GoogleFonts.openSans(
-                fontSize: isTotal ? 14.sp : 13.sp,
-                fontWeight: isTotal ? FontWeight.w600 : FontWeight.w500,
+                fontSize: fontSize,
+                fontWeight: fontWeight,
                 color: color,
               ),
             ),
@@ -519,8 +392,8 @@ class _ModifyOrderDialogState extends State<ModifyOrderDialog> {
               qty,
               textAlign: TextAlign.right,
               style: GoogleFonts.openSans(
-                fontSize: isTotal ? 14.sp : 13.sp,
-                fontWeight: isTotal ? FontWeight.w600 : FontWeight.w500,
+                fontSize: fontSize,
+                fontWeight: fontWeight,
                 color: color,
               ),
             ),
@@ -530,7 +403,7 @@ class _ModifyOrderDialogState extends State<ModifyOrderDialog> {
     );
   }
 
-  Widget _buildInfoCard(List<String> items) {
+  Widget _buildInfoCard(Map<String, String> items) {
     return Container(
       padding: EdgeInsets.all(12.w),
       decoration: BoxDecoration(
@@ -540,32 +413,32 @@ class _ModifyOrderDialogState extends State<ModifyOrderDialog> {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: items.map((e) {
-          final parts = e.split(': ');
-          return Padding(
-            padding: EdgeInsets.symmetric(vertical: 4.h),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  parts[0],
-                  style: GoogleFonts.openSans(
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.black,
-                  ),
+        children: items.entries
+            .map(
+              (e) => Padding(
+                padding: EdgeInsets.symmetric(vertical: 4.h),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      e.key,
+                      style: GoogleFonts.openSans(
+                        fontSize: 12.sp,
+                        color: AppColors.black,
+                      ),
+                    ),
+                    Text(
+                      e.value,
+                      style: GoogleFonts.openSans(
+                        fontSize: 12.sp,
+                        color: const Color(0xFF2C5F7A),
+                      ),
+                    ),
+                  ],
                 ),
-                Text(
-                  parts[1],
-                  style: GoogleFonts.openSans(
-                    fontSize: 12.sp,
-                    color: const Color(0xFF2C5F7A),
-                  ),
-                ),
-              ],
-            ),
-          );
-        }).toList(),
+              ),
+            )
+            .toList(),
       ),
     );
   }
@@ -584,12 +457,12 @@ class _ModifyOrderDialogState extends State<ModifyOrderDialog> {
             style: GoogleFonts.openSans(
               fontSize: 14.sp,
               color: const Color(0xFF2C5F7A),
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w500,
             ),
           ),
         ),
         Expanded(
-          flex: 2,
+          flex: 1,
           child: OrderNumberField(
             label: '',
             value: value,

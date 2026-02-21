@@ -5,6 +5,7 @@ import '../../../../../../core/constants/app_colors.dart';
 import '../../bloc/net_position/net_position_bloc.dart';
 import '../../bloc/net_position/net_position_event.dart';
 import '../../bloc/net_position/net_position_state.dart';
+import '../../widget/net_position/net_position_filter_bar.dart';
 import '../../widget/net_position/net_position_table.dart';
 import '../../widget/net_position/select_user_dialog.dart';
 import '../../widget/net_position/used_margin_dialog.dart';
@@ -33,6 +34,7 @@ class _NetPositionPageState extends State<NetPositionPage> {
         color: AppColors.white,
         child: Column(
           children: [
+            const NetPositionFilterBar(),
             const Expanded(child: NetPositionTable(showDeviceInfo: false)),
             _buildFooter(context),
           ],
@@ -105,7 +107,7 @@ class _NetPositionPageState extends State<NetPositionPage> {
             decoration: BoxDecoration(
               color: const Color(0xFFC6DBE8),
               borderRadius: BorderRadius.circular(6.r),
-              border: Border.all(color: AppColors.greyBorder),
+              border: Border.all(color: Colors.transparent),
             ),
             child: Row(
               children: [

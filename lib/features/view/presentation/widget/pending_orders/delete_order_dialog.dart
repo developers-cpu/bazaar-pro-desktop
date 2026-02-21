@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/common_dilog_box.dart';
+import '../../../../../core/widget/custom_action_button.dart';
+import '../../../../../core/widget/custom_outlined_button.dart';
 import '../../../domain/entities/pending_orders/pending_order.dart';
 import '../common/animated_price_box.dart';
 import '../common/success_dialog.dart';
@@ -35,42 +37,24 @@ class DeleteOrderDialog extends StatelessWidget {
       title: 'Delete Order',
       isDarkMode: isDarkMode,
       width: 500.w,
-      height: 350.h,
-      headerColor: const Color(0xFF2C5F7A),
-      showButtons: true,
-      cancelText: 'No',
-      saveText: 'Yes',
-      autoPop: false,
-      onCancel: () {
-        Navigator.pop(context);
-      },
-      onSave: () {
-
-        Navigator.pop(context);
-
-        Future.delayed(Duration.zero, () {
-          SuccessDialog.show(
-            context: context,
-            title: 'Successful Deleted !',
-            subtitle: 'Your Order is Successfully Deleted',
-          );
-        });
-      },
+      headerColor: AppColors.primaryBlue,
+      showButtons: false,
       scrollable: false,
       contentPadding: EdgeInsets.zero,
       content: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 32.h),
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               'Are You Sure you want to Delete this Order ?',
               textAlign: TextAlign.center,
               style: GoogleFonts.openSans(
-                fontSize: 18.sp,
+                fontSize: 16.sp,
                 color: AppColors.primaryBlue,
               ),
             ),
-            SizedBox(height: 32.h),
+            SizedBox(height: 20.h),
             Row(
               children: [
                 Expanded(
@@ -80,17 +64,17 @@ class DeleteOrderDialog extends StatelessWidget {
                       Text(
                         order.symbol,
                         style: GoogleFonts.openSans(
-                          fontSize: 16.sp,
+                          fontSize: 14.sp,
                           fontWeight: FontWeight.w600,
-                          color: const Color(0xFF2C5F7A),
+                          color: AppColors.primaryBlue,
                         ),
                       ),
                       SizedBox(height: 4.h),
                       Text(
-                        'Q.${order.qty.toStringAsFixed(6)}',
+                        'Q.${order.qty.toStringAsFixed(0)}',
                         style: GoogleFonts.openSans(
                           fontSize: 14.sp,
-                          color: const Color(0xFF2C5F7A),
+                          color: AppColors.primaryBlue,
                         ),
                       ),
                     ],
@@ -109,6 +93,46 @@ class DeleteOrderDialog extends StatelessWidget {
                       isDarkMode: isDarkMode,
                     ),
                   ],
+                ),
+              ],
+            ),
+            SizedBox(height: 20.h),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CustomOutlinedActionButton(
+                  text: 'No',
+                  width: 200.w,
+                  height: 40.h,
+                  borderRadius: 8.r,
+                  fontSize: 14.sp,
+                  borderColor: isDarkMode
+                      ? Colors.white
+                      : const Color(0xFF1F4A66),
+                  textColor: isDarkMode
+                      ? Colors.white
+                      : const Color(0xFF1F4A66),
+                  onPressed: () => Navigator.pop(context),
+                ),
+                SizedBox(width: 16.w),
+                CustomActionButton(
+                  text: 'Yes',
+                  width: 200.w,
+                  height: 40.h,
+                  borderRadius: 8.r,
+                  fontSize: 14.sp,
+                  backgroundColor: const Color(0xFF1F4A66),
+                  textColor: Colors.white,
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Future.delayed(Duration.zero, () {
+                      SuccessDialog.show(
+                        context: context,
+                        title: 'Successful Deleted !',
+                        subtitle: 'Your Order is Successfully Deleted',
+                      );
+                    });
+                  },
                 ),
               ],
             ),

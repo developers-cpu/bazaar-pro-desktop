@@ -8,6 +8,7 @@ import '../../bloc/rejection_log/rejection_log_event.dart';
 import '../../bloc/rejection_log/rejection_log_state.dart';
 import '../common/view_record_count.dart';
 import '../common/view_table_cell_styles.dart';
+
 class RejectionLogTable extends StatelessWidget {
   const RejectionLogTable({Key? key}) : super(key: key);
   static final List<ViewTableColumn> _columns = [
@@ -16,9 +17,14 @@ class RejectionLogTable extends StatelessWidget {
     const ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 170),
     const ViewTableColumn(id: 'type', label: 'TYPE', width: 80),
     const ViewTableColumn(id: 'qty', label: 'QTY', width: 100, isNumeric: true),
-    const ViewTableColumn(id: 'price', label: 'PRICE', width: 100, isNumeric: true),
-    const ViewTableColumn(id: 'comment', label: 'COMMENT', width: 1300),
-    const ViewTableColumn(id: 'date', label: 'DATE', width: 120),
+    const ViewTableColumn(
+      id: 'price',
+      label: 'PRICE',
+      width: 100,
+      isNumeric: true,
+    ),
+    const ViewTableColumn(id: 'comment', label: 'COMMENT', width: 300),
+    const ViewTableColumn(id: 'date', label: 'DATE', width: 150),
   ];
   @override
   Widget build(BuildContext context) {
@@ -26,9 +32,7 @@ class RejectionLogTable extends StatelessWidget {
       builder: (context, state) {
         if (state is RejectionLogLoading) {
           return const Center(
-            child: CircularProgressIndicator(
-              color: AppColors.primaryBlue,
-            ),
+            child: CircularProgressIndicator(color: AppColors.primaryBlue),
           );
         }
         if (state is RejectionLogError) {
@@ -60,6 +64,7 @@ class RejectionLogTable extends StatelessWidget {
                   sortColumn: state.sortColumn,
                   sortAscending: state.sortAscending,
                   emptyMessage: 'No rejection logs found',
+                  autoFit: true,
                 ),
               ),
             ],
@@ -69,6 +74,7 @@ class RejectionLogTable extends StatelessWidget {
       },
     );
   }
+
   Widget _buildCell(RejectionLog log, ViewTableColumn column) {
     switch (column.id) {
       case 'orderDateTime':
@@ -80,22 +86,13 @@ class RejectionLogTable extends StatelessWidget {
       case 'type':
         return ViewBuySellCell(text: log.type);
       case 'qty':
-        return ViewNumberCell(
-          value: log.qty,
-          colorByValue: false,
-        );
+        return ViewNumberCell(value: log.qty, colorByValue: false);
       case 'price':
-        return ViewNumberCell(
-          value: log.price,
-          colorByValue: false,
-        );
+        return ViewNumberCell(value: log.price, colorByValue: false);
       case 'comment':
         return ViewTextCell(text: log.comment);
       case 'date':
-        return ViewDateTimeCell(
-          dateTime: log.date,
-          format: 'dd/MM/yy',
-        );
+        return ViewDateTimeCell(dateTime: log.date, format: 'dd/MM/yy');
       default:
         return const ViewTextCell(text: '-');
     }

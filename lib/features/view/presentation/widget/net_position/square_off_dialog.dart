@@ -6,6 +6,7 @@ import '../../../../../core/widget/common_dilog_box.dart';
 import '../../../../../core/widget/app_dropdown.dart';
 import '../common/success_dialog.dart';
 import '../common/view_data_table.dart';
+import '../common/view_record_count.dart';
 
 class SquareOffDialog extends StatefulWidget {
   const SquareOffDialog({Key? key}) : super(key: key);
@@ -90,9 +91,19 @@ class _SquareOffDialogState extends State<SquareOffDialog> {
                 SizedBox(
                   width: 200.w,
                   child: AppDropdown(
+                    type: AppDropdownType.simple,
                     value: _selectedExchange,
                     hintText: 'Exchange',
-                    items: const ['Exchange', 'MCX', 'NSE'],
+                    items: const [
+                      'NSE',
+                      'MCX',
+                      'CE/PE',
+                      'OTHERS',
+                      'COMEX',
+                      'CRYPTO',
+                      'GIFT',
+                      'FOREX',
+                    ],
                     onChanged: (val) {
                       if (val != null) setState(() => _selectedExchange = val);
                     },
@@ -102,9 +113,19 @@ class _SquareOffDialogState extends State<SquareOffDialog> {
                 SizedBox(
                   width: 200.w,
                   child: AppDropdown(
+                    type: AppDropdownType.search,
                     value: _selectedSymbol,
                     hintText: 'Symbol',
-                    items: const ['Symbol', 'GOLD05DEC', 'SILVER'],
+                    items: const [
+                      'GIFTNIFTY Oct 28',
+                      'NIFTY Oct 28',
+                      'BANKNIFTY Oct 28',
+                      'MINI GOLDMINI Dec 05',
+                      'MINI SILVERMINI Dec 05',
+                      'DOW Dec 19',
+                      'NASDAQ Dec 19',
+                      'S & P Dec 19',
+                    ],
                     onChanged: (val) {
                       if (val != null) setState(() => _selectedSymbol = val);
                     },
@@ -113,23 +134,7 @@ class _SquareOffDialogState extends State<SquareOffDialog> {
               ],
             ),
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(
-                  'RECORD : 12550',
-                  style: GoogleFonts.openSans(
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.bold,
-                    color: headerColor,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 8.h),
+          ViewRecordCount(count: 12550),
           Expanded(child: _buildTable()),
           _buildFooter(),
         ],
@@ -147,6 +152,7 @@ class _SquareOffDialogState extends State<SquareOffDialog> {
             idExtractor: (item) => item.toString(),
             cellBuilder: (item, column) => _buildCell(item, column),
             isDarkMode: false,
+            autoFit: true,
           ),
         ),
       ],
@@ -165,13 +171,13 @@ class _SquareOffDialogState extends State<SquareOffDialog> {
           child: _buildCheckbox(_selectAll),
         ),
       ),
-      ViewTableColumn(id: 'exchange', label: 'EXCH ⇅', width: 80.w),
-      ViewTableColumn(id: 'symbol', label: 'SYMBOL ⇅', width: 120.w),
-      ViewTableColumn(id: 'buyQty', label: 'BUY QTY ⇅', width: 100.w),
-      ViewTableColumn(id: 'sellQty', label: 'SELL QTY ⇅', width: 100.w),
-      ViewTableColumn(id: 'qty', label: 'QTY ⇅', width: 80.w),
-      ViewTableColumn(id: 'pl', label: 'P/L ⇅', width: 100.w),
-      ViewTableColumn(id: 'tPrice', label: 'T. PRICE ⇅', width: 100.w),
+      ViewTableColumn(id: 'exchange', label: 'EXCH', width: 80.w),
+      ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 120.w),
+      ViewTableColumn(id: 'buyQty', label: 'BUY QTY', width: 100.w),
+      ViewTableColumn(id: 'sellQty', label: 'SELL QTY', width: 100.w),
+      ViewTableColumn(id: 'qty', label: 'QTY', width: 80.w),
+      ViewTableColumn(id: 'pl', label: 'P/L', width: 100.w),
+      ViewTableColumn(id: 'tPrice', label: 'T. PRICE', width: 100.w),
     ];
   }
 
@@ -193,11 +199,11 @@ class _SquareOffDialogState extends State<SquareOffDialog> {
       case 'sellQty':
         return _tableCell('1.00', AppColors.red);
       case 'qty':
-        return _tableCell('-1.00', AppColors.blue, bold: true);
+        return _tableCell('-1.00', AppColors.blue);
       case 'pl':
         return _tableCell('36200.00', headerColor);
       case 'tPrice':
-        return _tableCell('124191.00', AppColors.red, bold: true);
+        return _tableCell('124191.00', AppColors.red);
       default:
         return const SizedBox.shrink();
     }

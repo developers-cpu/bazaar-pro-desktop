@@ -115,8 +115,9 @@ class NetPositionTable extends StatelessWidget {
           isDark: isDark,
         );
       case 'ourPercentage':
-        return ViewTextCell(
-          text: '${item.ourPercentage.toStringAsFixed(2)}%',
+        return ViewNumberCell(
+          value: item.ourPercentage,
+          fixedColor: item.ourPercentage >= 0 ? AppColors.blue : AppColors.red,
           isDark: isDark,
         );
       case 'userCount':
@@ -173,6 +174,7 @@ class NetPositionTable extends StatelessWidget {
                 sortColumn: state.sortColumn,
                 sortAscending: state.sortAscending,
                 isDarkMode: isDarkMode,
+                autoFit: true,
                 emptyMessage: 'No net positions found',
                 cellBuilder: (item, column) =>
                     _buildCell(context, item, column, isDarkMode),
@@ -212,13 +214,14 @@ class NetPositionTable extends StatelessWidget {
     final Map<String, String> values = {
       'exchange': 'TOTAL',
       'm2mAmount': totalM2M.toStringAsFixed(2),
-      'ourPercentage': '${totalOurPercentage.toStringAsFixed(2)}%',
+      'ourPercentage': totalOurPercentage.toStringAsFixed(2),
     };
 
     return ViewDataTableFooter(
       columns: columns,
       values: values,
       isDarkMode: isDarkMode,
+      backgroundColor: const Color(0xFFD3E3EC),
     );
   }
 

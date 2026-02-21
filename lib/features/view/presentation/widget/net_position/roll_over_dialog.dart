@@ -4,8 +4,11 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/common_dilog_box.dart';
 import '../../../../../core/widget/app_dropdown.dart';
+import '../../../../../core/widget/custom_action_button.dart';
+import '../../../../../core/widget/custom_outlined_button.dart';
 import '../common/success_dialog.dart';
 import '../common/view_data_table.dart';
+import '../common/view_record_count.dart';
 
 class RollOverDialog extends StatefulWidget {
   const RollOverDialog({Key? key}) : super(key: key);
@@ -90,9 +93,19 @@ class _RollOverDialogState extends State<RollOverDialog> {
                 SizedBox(
                   width: 200.w,
                   child: AppDropdown(
+                    type: AppDropdownType.simple,
                     value: _selectedExchange,
                     hintText: 'Exchange',
-                    items: const ['Exchange', 'MCX', 'NSE'],
+                    items: const [
+                      'NSE',
+                      'MCX',
+                      'CE/PE',
+                      'OTHERS',
+                      'COMEX',
+                      'CRYPTO',
+                      'GIFT',
+                      'FOREX',
+                    ],
                     onChanged: (val) {
                       if (val != null) setState(() => _selectedExchange = val);
                     },
@@ -102,9 +115,19 @@ class _RollOverDialogState extends State<RollOverDialog> {
                 SizedBox(
                   width: 200.w,
                   child: AppDropdown(
+                    type: AppDropdownType.search,
                     value: _selectedSymbol,
                     hintText: 'Symbol',
-                    items: const ['Symbol', 'GOLD05DEC', 'SILVER'],
+                    items: const [
+                      'GIFTNIFTY Oct 28',
+                      'NIFTY Oct 28',
+                      'BANKNIFTY Oct 28',
+                      'MINI GOLDMINI Dec 05',
+                      'MINI SILVERMINI Dec 05',
+                      'DOW Dec 19',
+                      'NASDAQ Dec 19',
+                      'S & P Dec 19',
+                    ],
                     onChanged: (val) {
                       if (val != null) setState(() => _selectedSymbol = val);
                     },
@@ -113,23 +136,7 @@ class _RollOverDialogState extends State<RollOverDialog> {
               ],
             ),
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(
-                  'RECORD : 12550',
-                  style: GoogleFonts.openSans(
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.bold,
-                    color: headerColor,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 8.h),
+          ViewRecordCount(count: 12550),
           Expanded(child: _buildTable()),
           _buildFooter(),
         ],
@@ -147,6 +154,7 @@ class _RollOverDialogState extends State<RollOverDialog> {
             idExtractor: (item) => item.toString(),
             cellBuilder: (item, column) => _buildCell(item, column),
             isDarkMode: false,
+            autoFit: true,
           ),
         ),
       ],
@@ -165,13 +173,13 @@ class _RollOverDialogState extends State<RollOverDialog> {
           child: _buildCheckbox(_selectAll),
         ),
       ),
-      ViewTableColumn(id: 'exchange', label: 'EXCH ⇅', width: 100.w),
-      ViewTableColumn(id: 'symbol', label: 'SYMBOL ⇅', width: 160.w),
-      ViewTableColumn(id: 'qty', label: 'QTY ⇅', width: 120.w),
-      ViewTableColumn(id: 'cmp', label: 'CMP ⇅', width: 150.w),
+      ViewTableColumn(id: 'exchange', label: 'EXCH', width: 100.w),
+      ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 160.w),
+      ViewTableColumn(id: 'qty', label: 'QTY', width: 120.w),
+      ViewTableColumn(id: 'cmp', label: 'CMP', width: 150.w),
       ViewTableColumn(
         id: 'rollOverPrice',
-        label: 'ROLL OVER PRICE ⇅',
+        label: 'ROLL OVER PRICE',
         width: 150.w,
       ),
     ];
@@ -219,22 +227,6 @@ class _RollOverDialogState extends State<RollOverDialog> {
           fontSize: 13.sp,
           fontWeight: bold ? FontWeight.bold : FontWeight.normal,
           color: color,
-        ),
-      ),
-    );
-  }
-
-  Widget _cell(String title, double width, Color color, {bool bold = false}) {
-    return SizedBox(
-      width: width,
-      child: Center(
-        child: Text(
-          title,
-          style: GoogleFonts.openSans(
-            fontSize: 13.sp,
-            fontWeight: bold ? FontWeight.bold : FontWeight.normal,
-            color: color,
-          ),
         ),
       ),
     );
@@ -302,6 +294,7 @@ class _RollOverDialogState extends State<RollOverDialog> {
   }
 
   Widget _buildConfirmationContent() {
+    final selectedList = _selectedIndices.toList();
     return Column(
       children: [
         Text(
@@ -317,85 +310,84 @@ class _RollOverDialogState extends State<RollOverDialog> {
           ),
         ),
         SizedBox(height: 10.h),
+        ViewRecordCount(count: selectedList.length),
+        Expanded(
+          child: ViewDataTable<int>(
+            columns: const [
+              ViewTableColumn(id: 'exchange', label: 'EXCH', width: 100),
+              ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 180),
+              ViewTableColumn(
+                id: 'qty',
+                label: 'QTY',
+                width: 140,
+                isNumeric: true,
+              ),
+              ViewTableColumn(
+                id: 'cmp',
+                label: 'CMP',
+                width: 140,
+                isNumeric: true,
+              ),
+              ViewTableColumn(
+                id: 'rollOverPrice',
+                label: 'ROLL OVER PRICE',
+                width: 140,
+                isNumeric: true,
+              ),
+            ],
+            data: selectedList,
+            idExtractor: (item) => item.toString(),
+            cellBuilder: (item, column) => _buildConfirmationCell(item, column),
+            isDarkMode: false,
+            autoFit: true,
+          ),
+        ),
+        SizedBox(height: 16.h),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.w),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Text(
-                'RECORD : ${_selectedIndices.length}',
-                style: GoogleFonts.openSans(
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.bold,
-                  color: headerColor,
+              Expanded(
+                child: CustomOutlinedActionButton(
+                  text: 'No',
+                  height: 40.h,
+                  borderRadius: 8.r,
+                  fontSize: 14.sp,
+                  borderColor: headerColor,
+                  textColor: headerColor,
+                  onPressed: () => Navigator.pop(context),
                 ),
               ),
-            ],
-          ),
-        ),
-        SizedBox(height: 8.h),
-        Expanded(
-          child: Column(
-            children: [
-              _buildConfirmationTableHeader(),
+              SizedBox(width: 16.w),
               Expanded(
-                child: ListView.builder(
-                  itemCount: _selectedIndices.length,
-                  itemBuilder: (context, index) {
-                    return _buildConfirmationTableRow(
-                      _selectedIndices.toList()[index],
-                      index,
-                    );
+                child: CustomActionButton(
+                  text: 'Yes',
+                  height: 40.h,
+                  borderRadius: 8.r,
+                  fontSize: 14.sp,
+                  backgroundColor: headerColor,
+                  textColor: Colors.white,
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Future.delayed(Duration.zero, () {
+                      SuccessDialog.show(
+                        context: context,
+                        title: 'Successful !',
+                        subtitle:
+                            'Selected Position are Successfully Rolled over',
+                      );
+                    });
                   },
                 ),
               ),
             ],
           ),
         ),
-        SizedBox(height: 16.h),
-        _buildConfirmationActions(),
       ],
     );
   }
 
-  Widget _buildConfirmationTableHeader() {
-    return Container(
-      height: 40.h,
-      color: const Color(0xFFC6DBE8),
-      child: Row(
-        children: [
-          _dialogHeaderCell('EXCH ⇅', 100.w),
-          _dialogHeaderCell('SYMBOL ⇅', 180.w),
-          _dialogHeaderCell('QTY ⇅', 140.w),
-          _dialogHeaderCell('CMP ⇅', 140.w),
-          _dialogHeaderCell('ROLL OVER PRICE ⇅', 140.w, isLast: true),
-        ],
-      ),
-    );
-  }
-
-  Widget _dialogHeaderCell(String title, double width, {bool isLast = false}) {
-    return Container(
-      width: width,
-      decoration: BoxDecoration(
-        border: isLast
-            ? null
-            : Border(right: BorderSide(color: Colors.white, width: 1.5)),
-      ),
-      child: Center(
-        child: Text(
-          title,
-          style: GoogleFonts.openSans(
-            fontSize: 12.sp,
-            fontWeight: FontWeight.bold,
-            color: headerColor,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildConfirmationTableRow(int sourceIndex, int tableIndex) {
+  Widget _buildConfirmationCell(int sourceIndex, ViewTableColumn column) {
     bool isPositive = sourceIndex % 2 == 0;
     String qty = sourceIndex == 0 ? '1000' : (isPositive ? '1.00' : '-1.00');
     Color qtyColor = sourceIndex == 0
@@ -403,94 +395,20 @@ class _RollOverDialogState extends State<RollOverDialog> {
         : (isPositive ? AppColors.blue : AppColors.red);
     String cmp = isPositive ? '124536.00' : '-124191.00';
     Color cmpColor = isPositive ? AppColors.blue : AppColors.red;
-    bool isLast = tableIndex == _selectedIndices.length - 1;
 
-    return Container(
-      height: 40.h,
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        border: isLast
-            ? null
-            : Border(
-                bottom: BorderSide(
-                  color: AppColors.greyBorder.withOpacity(0.5),
-                ),
-              ),
-      ),
-      child: Row(
-        children: [
-          _cell('MCX', 100.w, Colors.black87),
-          _cell('GOLD05DEC', 180.w, Colors.black87),
-          _cell(qty, 140.w, qtyColor),
-          _cell(cmp, 140.w, cmpColor),
-          _cell(cmp, 140.w, cmpColor),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildConfirmationActions() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.w),
-      child: Row(
-        children: [
-          Expanded(
-            child: SizedBox(
-              height: 40.h,
-              child: OutlinedButton(
-                onPressed: () => Navigator.pop(context),
-                style: OutlinedButton.styleFrom(
-                  side: BorderSide(color: headerColor, width: 1.5),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.r),
-                  ),
-                ),
-                child: Text(
-                  'No',
-                  style: GoogleFonts.openSans(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w600,
-                    color: headerColor,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          SizedBox(width: 16.w),
-          Expanded(
-            child: SizedBox(
-              height: 40.h,
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                  Future.delayed(Duration.zero, () {
-                    SuccessDialog.show(
-                      context: context,
-                      title: 'Successful !',
-                      subtitle:
-                          'Selected Position are Successfully Rolled over',
-                    );
-                  });
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: headerColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.r),
-                  ),
-                ),
-                child: Text(
-                  'Yes',
-                  style: GoogleFonts.openSans(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+    switch (column.id) {
+      case 'exchange':
+        return _tableCell('MCX', Colors.black87);
+      case 'symbol':
+        return _tableCell('GOLD05DEC', Colors.black87);
+      case 'qty':
+        return _tableCell(qty, qtyColor);
+      case 'cmp':
+        return _tableCell(cmp, cmpColor);
+      case 'rollOverPrice':
+        return _tableCell(cmp, cmpColor);
+      default:
+        return const SizedBox.shrink();
+    }
   }
 }

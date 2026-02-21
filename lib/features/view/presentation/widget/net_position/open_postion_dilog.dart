@@ -3,375 +3,264 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
-import '../../../../../core/widget/app_dropdown.dart';
+import '../../../../../core/widget/common_dilog_box.dart';
 import '../../../domain/entities/net_postion/net_position.dart';
 import '../../bloc/net_position/net_position_bloc.dart';
-import '../../bloc/net_position/net_position_event.dart';
 import '../../bloc/net_position/net_position_state.dart';
-import '../common/view_reset_buttons.dart';
-class OpenPositionDialog extends StatelessWidget {
+import '../common/view_data_table.dart';
+import '../common/view_table_cell_styles.dart';
+import '../common/view_record_count.dart';
+
+class OpenPositionDialog extends StatefulWidget {
   final bool isDarkMode;
-  const OpenPositionDialog({
-    Key? key,
-    this.isDarkMode = false,
-  }) : super(key: key);
-  static void show({
-    required BuildContext context,
-    bool isDarkMode = false,
-  }) {
+  const OpenPositionDialog({Key? key, this.isDarkMode = false})
+    : super(key: key);
+
+  static void show({required BuildContext context, bool isDarkMode = false}) {
     showDialog(
       context: context,
       barrierColor: AppColors.black.withOpacity(0.54),
       builder: (_) => BlocProvider.value(
         value: context.read<NetPositionBloc>(),
-        child: OpenPositionDialog(
-          isDarkMode: isDarkMode,
-        ),
+        child: OpenPositionDialog(isDarkMode: isDarkMode),
       ),
     );
   }
+
+  @override
+  State<OpenPositionDialog> createState() => _OpenPositionDialogState();
+}
+
+class _OpenPositionDialogState extends State<OpenPositionDialog> {
+  String? _selectedUser;
+
   @override
   Widget build(BuildContext context) {
-    final bgColor = isDarkMode
-        ? const Color(0xFF1A1A1A)
-        : AppColors.white;
-    final headerBgColor = const Color(0xFF2C5F7A);
-    return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20.r),
-      ),
-      backgroundColor: Colors.transparent,
-      insetPadding: EdgeInsets.all(20.w),
-      child: Container(
-        width: MediaQuery.of(context).size.width * 0.9,
-        height: MediaQuery.of(context).size.height * 0.8,
-        decoration: BoxDecoration(
-          color: bgColor,
-          borderRadius: BorderRadius.circular(20.r),
-        ),
-        child: Column(
-          children: [
-            _buildHeader(context, headerBgColor),
-            _buildFilterRow(context),
-            Expanded(
-              child: BlocBuilder<NetPositionBloc, NetPositionState>(
-                builder: (context, state) {
-                  if (state is NetPositionLoading) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                  if (state is NetPositionError) {
-                    return Center(
-                      child: Text(
-                        state.message,
-                        style: GoogleFonts.openSans(
-                          fontSize: 16.sp,
-                          color: AppColors.red,
-                        ),
+    return CommonDialog(
+      title: 'Open Position',
+      isDarkMode: widget.isDarkMode,
+      width: MediaQuery.of(context).size.width * 0.9,
+      height: MediaQuery.of(context).size.height * 0.8,
+      headerColor: AppColors.primaryBlue,
+      showButtons: false,
+      scrollable: false,
+      contentPadding: EdgeInsets.zero,
+      content: Column(
+        children: [
+          if (_selectedUser != null) _buildBackRow(),
+          Expanded(
+            child: BlocBuilder<NetPositionBloc, NetPositionState>(
+              builder: (context, state) {
+                if (state is NetPositionLoading) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if (state is NetPositionError) {
+                  return Center(
+                    child: Text(
+                      state.message,
+                      style: GoogleFonts.openSans(
+                        fontSize: 16.sp,
+                        color: AppColors.red,
                       ),
-                    );
-                  }
-                  if (state is NetPositionLoaded) {
-                    return _buildTable(state.filteredPositions);
-                  }
-                  return const Center(
-                    child: Text('No positions available'),
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-  Widget _buildHeader(BuildContext context, Color headerBgColor) {
-    return ClipRRect(
-      borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(20.r),
-        topRight: Radius.circular(20.r),
-      ),
-      child: Container(
-        width: double.infinity,
-        height: 60.h,
-        color: headerBgColor,
-        padding: EdgeInsets.symmetric(horizontal: 20.w),
-        child: Row(
-          children: [
-            Expanded(
-              child: Text(
-                'Open Position',
-                style: GoogleFonts.openSans(
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.white,
-                ),
-              ),
-            ),
-            GestureDetector(
-              onTap: () => Navigator.pop(context),
-              child: Icon(
-                Icons.close,
-                size: 22.sp,
-                color: AppColors.white,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-  Widget _buildFilterRow(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(20.w),
-      child: BlocBuilder<NetPositionBloc, NetPositionState>(
-        builder: (context, state) {
-          if (state is! NetPositionLoaded) {
-            return const SizedBox.shrink();
-          }
-          return Row(
-            children: [
-              SizedBox(
-                width: 250.w,
-                child: AppDropdown(
-                  type: AppDropdownType.search,
-                  hintText: 'Client',
-                  value: state.selectedClient,
-                  items: state.clients,
-                  onChanged: (value) {
-                    context.read<NetPositionBloc>().add(
-                      ApplyFiltersEvent(
-                        userType: state.selectedUserType,
-                        client: value,
-                        exchange: state.selectedExchange,
-                        symbol: state.selectedSymbol,
-                      ),
-                    );
-                  },
-                ),
-              ),
-              const Spacer(),
-              ViewResetButtons(
-                onReset: () {
-                  context.read<NetPositionBloc>().add(
-                    const ResetFiltersEvent(),
-                  );
-                },
-                onView: () {
-                  context.read<NetPositionBloc>().add(
-                    ApplyFiltersEvent(
-                      userType: state.selectedUserType,
-                      client: state.selectedClient,
-                      exchange: state.selectedExchange,
-                      symbol: state.selectedSymbol,
                     ),
                   );
-                },
-              ),
-            ],
-          );
-        },
-      ),
-    );
-  }
-  Widget _buildTable(List<NetPosition> positions) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20.w),
-      child: Column(
-        children: [
-          Container(
-            padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 12.w),
-            alignment: Alignment.centerRight,
-            child: Text(
-              'RECORD : ${positions.length}',
-              style: GoogleFonts.openSans(
-                fontSize: 14.sp,
-                fontWeight: FontWeight.w600,
-                color: AppColors.primaryBlue,
-              ),
-            ),
-          ),
-          _buildTableHeader(),
-          Expanded(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Column(
-                  children: positions
-                      .asMap()
-                      .entries
-                      .map((entry) => _buildTableRow(entry.value, entry.key))
-                      .toList(),
-                ),
-              ),
+                }
+                if (state is NetPositionLoaded) {
+                  final positions = _selectedUser != null
+                      ? state.filteredPositions
+                            .where((p) => p.userName == _selectedUser)
+                            .toList()
+                      : state.filteredPositions;
+                  return _buildTable(positions);
+                }
+                return const Center(child: Text('No positions available'));
+              },
             ),
           ),
         ],
       ),
     );
   }
-  Widget _buildTableHeader() {
-    return ClipRRect(
-      borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(12.r),
-        topRight: Radius.circular(12.r),
-      ),
-      child: Container(
-        height: 55.h,
-        decoration: const BoxDecoration(
-          color: Color(0xFFC6DBE8),
-          border: Border(
-            bottom: BorderSide(
-              color: AppColors.greyBorder,
-              width: 2,
+
+  Widget _buildBackRow() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+      alignment: Alignment.centerLeft,
+      child: Row(
+        children: [
+          GestureDetector(
+            onTap: () => setState(() => _selectedUser = null),
+            child: Icon(
+              Icons.arrow_back,
+              size: 20.sp,
+              color: AppColors.primaryBlue,
             ),
           ),
-        ),
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
-              _buildHeaderCell('U.NAME', 120),
-              _buildHeaderCell('EXCH', 80),
-              _buildHeaderCell('SYMBOL', 130),
-              _buildHeaderCell('BUY QTY', 100),
-              _buildHeaderCell('SELL QTY', 100),
-              _buildHeaderCell('NET QTY', 100),
-              _buildHeaderCell('NET AVG PRICE', 130),
-              _buildHeaderCell('CMP', 100),
-              _buildHeaderCell('M2M AMT', 120),
-              _buildHeaderCell('OUR %', 80),
-              _buildHeaderCell('USER', 60),
-              _buildHeaderCell('DAYS', 60),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-  Widget _buildHeaderCell(String label, double width) {
-    return SizedBox(
-      width: width.w,
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 8.w),
-        child: Text(
-          label,
-          style: GoogleFonts.openSans(
-            fontSize: 12.sp,
-            fontWeight: FontWeight.w600,
-            color: const Color(0xFF2C5F7A),
-          ),
-          overflow: TextOverflow.ellipsis,
-        ),
-      ),
-    );
-  }
-  Widget _buildTableRow(NetPosition position, int index) {
-    final rowColor = index % 2 == 0
-        ? AppColors.white
-        : const Color(0xFFF8F9FA);
-    return InkWell(
-      onTap: () {
-      },
-      child: Container(
-        height: 45.h,
-        decoration: BoxDecoration(
-          color: rowColor,
-          border: Border(
-            bottom: BorderSide(
-              color: AppColors.greyBorder,
-              width: 1,
+          SizedBox(width: 10.w),
+          Text(
+            _selectedUser ?? '',
+            style: GoogleFonts.openSans(
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w600,
+              color: AppColors.primaryBlue,
             ),
           ),
-        ),
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
-              _buildDataCell(position.userName, 120),
-              _buildDataCell(position.exchange, 80),
-              _buildDataCell(
-                position.symbol,
-                130,
-                color: const Color(0xFF2C5F7A),
-              ),
-              _buildDataCell(
-                position.buyQty.toStringAsFixed(2),
-                100,
-                isNumeric: true,
-                color: position.buyQty > 0 ? AppColors.blue : AppColors.primaryTextColor,
-              ),
-              _buildDataCell(
-                position.sellQty.toStringAsFixed(2),
-                100,
-                isNumeric: true,
-                color: position.sellQty > 0 ? AppColors.red : AppColors.primaryTextColor,
-              ),
-              _buildDataCell(
-                position.netQty.toStringAsFixed(0),
-                100,
-                isNumeric: true,
-                color: position.netQty > 0 ? AppColors.blue : AppColors.red,
-              ),
-              _buildDataCell(
-                position.netAvgPrice.toStringAsFixed(2),
-                130,
-                isNumeric: true,
-              ),
-              _buildDataCell(
-                position.cmp.toStringAsFixed(0),
-                100,
-                isNumeric: true,
-                color: AppColors.primaryBlue,
-              ),
-              _buildDataCell(
-                position.m2mAmount.toStringAsFixed(0),
-                120,
-                isNumeric: true,
-                color: position.m2mAmount >= 0 ? AppColors.blue : AppColors.red,
-              ),
-              _buildDataCell(
-                '${position.ourPercentage.toStringAsFixed(2)}',
-                80,
-                isNumeric: true,
-              ),
-              _buildDataCell(
-                position.userCount.toString(),
-                60,
-                isNumeric: true,
-              ),
-              _buildDataCell(
-                position.days.toString(),
-                60,
-                isNumeric: true,
-              ),
-            ],
-          ),
-        ),
+        ],
       ),
     );
   }
-  Widget _buildDataCell(
-      String text,
-      double width, {
-        bool isNumeric = false,
-        Color? color,
-      }) {
-    return SizedBox(
-      width: width.w,
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 8.w),
-        child: Text(
-          text,
-          style: GoogleFonts.openSans(
-            fontSize: 13.sp,
-            fontWeight: isNumeric ? FontWeight.w600 : FontWeight.w400,
-            color: color ?? AppColors.primaryTextColor,
+
+  Widget _buildTable(List<NetPosition> positions) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 12.w),
+      child: Column(
+        children: [
+          ViewRecordCount(count: positions.length),
+          Expanded(
+            child: ViewDataTable<NetPosition>(
+              columns: _getColumns(),
+              data: positions,
+              idExtractor: (item) =>
+                  '${item.userName}_${item.symbol}_${item.exchange}',
+              isDarkMode: widget.isDarkMode,
+              autoFit: true,
+              headerBgColor: const Color(0xFFD3E3EC),
+              emptyMessage: 'No positions found',
+              cellBuilder: (item, column) => _buildCell(item, column),
+            ),
           ),
-          textAlign: isNumeric ? TextAlign.right : TextAlign.left,
-          overflow: TextOverflow.ellipsis,
-        ),
+        ],
       ),
     );
+  }
+
+  List<ViewTableColumn> _getColumns() {
+    return const [
+      ViewTableColumn(id: 'exchange', label: 'EXCH', width: 80),
+      ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 130),
+      ViewTableColumn(
+        id: 'buyQty',
+        label: 'BUY QTY',
+        width: 100,
+        isNumeric: true,
+      ),
+      ViewTableColumn(
+        id: 'sellQty',
+        label: 'SELL QTY',
+        width: 100,
+        isNumeric: true,
+      ),
+      ViewTableColumn(
+        id: 'netQty',
+        label: 'NET QTY',
+        width: 100,
+        isNumeric: true,
+      ),
+      ViewTableColumn(
+        id: 'netAvgPrice',
+        label: 'NET AVG PRICE',
+        width: 130,
+        isNumeric: true,
+      ),
+      ViewTableColumn(id: 'cmp', label: 'CMP', width: 100, isNumeric: true),
+      ViewTableColumn(
+        id: 'mToMAmt',
+        label: 'M2M AMT',
+        width: 120,
+        isNumeric: true,
+      ),
+      ViewTableColumn(
+        id: 'ourPercent',
+        label: 'OUR %',
+        width: 80,
+        isNumeric: true,
+      ),
+      ViewTableColumn(id: 'user', label: 'USER', width: 60, isNumeric: true),
+      ViewTableColumn(id: 'days', label: 'DAYS', width: 60, isNumeric: true),
+    ];
+  }
+
+  Widget _buildCell(NetPosition item, ViewTableColumn column) {
+    switch (column.id) {
+      case 'exchange':
+        return ViewTextCell(text: item.exchange, isDark: widget.isDarkMode);
+      case 'symbol':
+        return ViewTextCell(
+          text: item.symbol,
+          isDark: widget.isDarkMode,
+          color: AppColors.primaryBlue,
+        );
+      case 'buyQty':
+        return ViewNumberCell(
+          value: item.buyQty,
+          fixedColor: item.buyQty > 0 ? AppColors.blue : null,
+          isDark: widget.isDarkMode,
+        );
+      case 'sellQty':
+        return ViewNumberCell(
+          value: item.sellQty,
+          fixedColor: item.sellQty > 0 ? AppColors.red : null,
+          isDark: widget.isDarkMode,
+        );
+      case 'netQty':
+        if (_selectedUser == null && item.userCount > 0) {
+          return GestureDetector(
+            onTap: () => setState(() => _selectedUser = item.userName),
+            child: Center(
+              child: Text(
+                item.netQty.toStringAsFixed(0),
+                style: GoogleFonts.openSans(
+                  fontSize: 13.sp,
+                  fontWeight: FontWeight.w600,
+                  color: item.netQty > 0 ? AppColors.blue : AppColors.red,
+                  decoration: TextDecoration.underline,
+                  decorationColor: item.netQty > 0
+                      ? AppColors.blue
+                      : AppColors.red,
+                ),
+              ),
+            ),
+          );
+        }
+        return ViewNumberCell(
+          value: item.netQty,
+          fixedColor: item.netQty > 0 ? AppColors.blue : AppColors.red,
+          isDark: widget.isDarkMode,
+        );
+      case 'netAvgPrice':
+        return ViewNumberCell(
+          value: item.netAvgPrice,
+          isDark: widget.isDarkMode,
+        );
+      case 'cmp':
+        return ViewNumberCell(
+          value: item.cmp,
+          fixedColor: AppColors.primaryBlue,
+          isDark: widget.isDarkMode,
+        );
+      case 'mToMAmt':
+        return ViewNumberCell(
+          value: item.m2mAmount,
+          fixedColor: item.m2mAmount >= 0 ? AppColors.blue : AppColors.red,
+          isDark: widget.isDarkMode,
+        );
+      case 'ourPercent':
+        return ViewTextCell(
+          text: item.ourPercentage.toStringAsFixed(2),
+          isDark: widget.isDarkMode,
+        );
+      case 'user':
+        return ViewTextCell(
+          text: item.userCount > 0 ? item.userCount.toString() : '-',
+          isDark: widget.isDarkMode,
+        );
+      case 'days':
+        return ViewTextCell(
+          text: item.days.toString(),
+          isDark: widget.isDarkMode,
+        );
+      default:
+        return const SizedBox.shrink();
+    }
   }
 }

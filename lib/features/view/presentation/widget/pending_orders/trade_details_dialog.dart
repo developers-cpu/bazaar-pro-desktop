@@ -36,14 +36,14 @@ class TradeDetailsDialog extends StatelessWidget {
       title: 'Trade Details',
       isDarkMode: isDarkMode,
       width: 500.w,
-      height: 350.h,
-      headerColor: const Color(0xFF2C5F7A),
+      headerColor: AppColors.primaryBlue,
       showButtons: false,
       scrollable: false,
       contentPadding: EdgeInsets.zero,
       content: Padding(
-        padding: EdgeInsets.all(24.w),
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Container(
               padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
@@ -89,10 +89,10 @@ class TradeDetailsDialog extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: 24.h),
+            SizedBox(height: 16.h),
             Container(
               width: double.infinity,
-              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
               decoration: BoxDecoration(
                 border: Border.all(color: AppColors.greyBorder),
                 borderRadius: BorderRadius.circular(8.r),
@@ -105,7 +105,7 @@ class TradeDetailsDialog extends StatelessWidget {
                 ),
               ),
             ),
-            const Spacer(),
+            SizedBox(height: 20.h),
             Row(
               children: [
                 Expanded(
@@ -120,8 +120,7 @@ class TradeDetailsDialog extends StatelessWidget {
                         );
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors
-                            .blue,
+                        backgroundColor: AppColors.blue,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.r),
                         ),

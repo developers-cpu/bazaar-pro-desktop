@@ -18,6 +18,7 @@ class SuccessDialog extends StatefulWidget {
     showDialog(
       context: context,
       barrierColor: AppColors.black.withOpacity(0.54),
+      useRootNavigator: true,
       builder: (_) => SuccessDialog(title: title, subtitle: subtitle),
     );
   }
@@ -32,7 +33,7 @@ class _SuccessDialogState extends State<SuccessDialog> {
     super.initState();
     Future.delayed(const Duration(seconds: 2), () {
       if (mounted) {
-        Navigator.of(context).pop();
+        Navigator.of(context, rootNavigator: true).pop();
       }
     });
   }
@@ -40,23 +41,13 @@ class _SuccessDialogState extends State<SuccessDialog> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
+      alignment: Alignment.center,
+      backgroundColor: AppColors.white,
+      elevation: 8,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.r)),
-      backgroundColor: Colors.transparent,
-      elevation: 0,
       child: Container(
-        width: 350.w,
-        padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 32.h),
-        decoration: BoxDecoration(
-          color: AppColors.white,
-          borderRadius: BorderRadius.circular(20.r),
-          boxShadow: [
-            BoxShadow(
-              color: AppColors.black.withOpacity(0.1),
-              blurRadius: 10,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
+        width: 400.w,
+        padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 36.h),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -70,7 +61,7 @@ class _SuccessDialogState extends State<SuccessDialog> {
                 color: const Color(0xFF0052FF),
               ),
             ),
-            SizedBox(height: 16.h),
+            SizedBox(height: 12.h),
             Text(
               widget.subtitle,
               textAlign: TextAlign.center,

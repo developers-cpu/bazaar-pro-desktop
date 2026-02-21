@@ -66,7 +66,7 @@ class _CancelAllOrdersDialogState extends State<CancelAllOrdersDialog> {
       title: 'Cancel Order',
       isDarkMode: widget.isDarkMode,
       width: 900.w,
-      height: 500.h,
+      height: 650.h,
       headerColor: AppColors.primaryBlue,
       showButtons: false,
       autoPop: false,
@@ -84,9 +84,6 @@ class _CancelAllOrdersDialogState extends State<CancelAllOrdersDialog> {
         }
       },
       onSave: () {
-
-
-
         Future.delayed(Duration.zero, () {
           SuccessDialog.show(
             context: context,
@@ -101,9 +98,9 @@ class _CancelAllOrdersDialogState extends State<CancelAllOrdersDialog> {
         children: [
           _buildFilterBar(),
           Expanded(child: _buildTable()),
-          SizedBox(height: 16.h),
+          SizedBox(height: 8.h),
           _buildActionButtons(context),
-          SizedBox(height: 16.h),
+          SizedBox(height: 8.h),
         ],
       ),
     );
@@ -125,8 +122,7 @@ class _CancelAllOrdersDialogState extends State<CancelAllOrdersDialog> {
               onChanged: (value) {
                 setState(() {
                   _selectedUser = value;
-                  _selectedOrderIds
-                      .clear();
+                  _selectedOrderIds.clear();
                 });
               },
             ),
@@ -144,10 +140,10 @@ class _CancelAllOrdersDialogState extends State<CancelAllOrdersDialog> {
         children: [
           CustomOutlinedActionButton(
             text: 'No',
-            width: 250.w,
-            height: 45.h,
+            width: 200.w,
+            height: 40.h,
             borderRadius: 8.r,
-            fontSize: 16.sp,
+            fontSize: 14.sp,
             borderColor: widget.isDarkMode
                 ? Colors.white
                 : const Color(0xFF1F4A66),
@@ -167,13 +163,13 @@ class _CancelAllOrdersDialogState extends State<CancelAllOrdersDialog> {
               }
             },
           ),
-          SizedBox(width: 24.w),
+          SizedBox(width: 16.w),
           CustomActionButton(
             text: 'Yes',
-            width: 250.w,
-            height: 45.h,
+            width: 200.w,
+            height: 40.h,
             borderRadius: 8.r,
-            fontSize: 16.sp,
+            fontSize: 14.sp,
             backgroundColor: widget.isDarkMode
                 ? const Color(0xFF1F4A66)
                 : const Color(0xFF1F4A66),
@@ -195,8 +191,33 @@ class _CancelAllOrdersDialogState extends State<CancelAllOrdersDialog> {
   }
 
   List<ViewTableColumn> _getColumns() {
-    return const [
-      ViewTableColumn(id: 'checkbox', label: '', width: 50),
+    final allSelected =
+        _filteredOrders.isNotEmpty &&
+        _filteredOrders.every((o) => _selectedOrderIds.contains(o.id));
+    return [
+      ViewTableColumn(
+        id: 'checkbox',
+        label: '',
+        width: 50,
+        sortable: false,
+        customHeaderWidget: Checkbox(
+          value: allSelected,
+          onChanged: (bool? value) {
+            setState(() {
+              if (value == true) {
+                _selectedOrderIds.addAll(_filteredOrders.map((o) => o.id));
+              } else {
+                _selectedOrderIds.clear();
+              }
+            });
+          },
+          activeColor: AppColors.primaryBlue,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(4.r),
+          ),
+          side: BorderSide(color: AppColors.primaryBlue, width: 1.5.w),
+        ),
+      ),
       ViewTableColumn(id: 'exchange', label: 'EXCH', width: 100),
       ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 160),
       ViewTableColumn(id: 'buySell', label: 'B/S', width: 220),
@@ -289,29 +310,23 @@ class _CancelAllOrdersDialogState extends State<CancelAllOrdersDialog> {
 
   Widget _buildTable() {
     final data = _filteredOrders;
-
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 16.w),
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.r)),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(10.r),
-        child: ViewDataTable<PendingOrder>(
-          columns: _getColumns(),
-          data: data,
-          idExtractor: (item) => item.id,
+    return ViewDataTable<PendingOrder>(
+      columns: _getColumns(),
+      data: data,
+      idExtractor: (item) => item.id,
+      isDarkMode: widget.isDarkMode,
+      autoFit: true,
+      headerBgColor: const Color(0xFFD3E3EC),
+      emptyMessage: 'No pending orders found',
+      onRowTap: (item) {
+        TradeDetailsDialog.show(
+          context: context,
+          order: item,
           isDarkMode: widget.isDarkMode,
-          emptyMessage: 'No pending orders found',
-          onRowTap: (item) {
-            TradeDetailsDialog.show(
-              context: context,
-              order: item,
-              isDarkMode: widget.isDarkMode,
-            );
-          },
-          cellBuilder: (item, column) =>
-              _buildCell(item, column, widget.isDarkMode),
-        ),
-      ),
+        );
+      },
+      cellBuilder: (item, column) =>
+          _buildCell(item, column, widget.isDarkMode),
     );
   }
 }

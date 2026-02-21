@@ -9,16 +9,42 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../common/view_data_table.dart';
 import '../common/view_record_count.dart';
 import '../common/view_table_cell_styles.dart';
+
 class IntradayHistoryTable extends StatelessWidget {
   const IntradayHistoryTable({Key? key}) : super(key: key);
   static final List<ViewTableColumn> _columns = [
-    const ViewTableColumn(id: 'view', label: 'VIEW', width: 80, sortable: false),
+    const ViewTableColumn(
+      id: 'view',
+      label: 'VIEW',
+      width: 80,
+      sortable: false,
+    ),
     const ViewTableColumn(id: 'timestamp', label: 'TIME STAMP', width: 280),
-    const ViewTableColumn(id: 'open', label: 'OPEN', width: 220, isNumeric: true),
-    const ViewTableColumn(id: 'high', label: 'HIGH', width: 220, isNumeric: true),
+    const ViewTableColumn(
+      id: 'open',
+      label: 'OPEN',
+      width: 220,
+      isNumeric: true,
+    ),
+    const ViewTableColumn(
+      id: 'high',
+      label: 'HIGH',
+      width: 220,
+      isNumeric: true,
+    ),
     const ViewTableColumn(id: 'low', label: 'LOW', width: 220, isNumeric: true),
-    const ViewTableColumn(id: 'close', label: 'CLOSE', width: 220, isNumeric: true),
-    const ViewTableColumn(id: 'volume', label: 'VOLUME', width: 220, isNumeric: true),
+    const ViewTableColumn(
+      id: 'close',
+      label: 'CLOSE',
+      width: 220,
+      isNumeric: true,
+    ),
+    const ViewTableColumn(
+      id: 'volume',
+      label: 'VOLUME',
+      width: 220,
+      isNumeric: true,
+    ),
   ];
   @override
   Widget build(BuildContext context) {
@@ -26,9 +52,7 @@ class IntradayHistoryTable extends StatelessWidget {
       builder: (context, state) {
         if (state is IntradayHistoryLoading) {
           return const Center(
-            child: CircularProgressIndicator(
-              color: AppColors.primaryBlue,
-            ),
+            child: CircularProgressIndicator(color: AppColors.primaryBlue),
           );
         }
         if (state is IntradayHistoryError) {
@@ -70,28 +94,25 @@ class IntradayHistoryTable extends StatelessWidget {
       },
     );
   }
+
   Widget _buildCell(
-      BuildContext context,
-      IntradayHistory history,
-      ViewTableColumn column,
-      IntradayHistoryLoaded state,
-      ) {
+    BuildContext context,
+    IntradayHistory history,
+    ViewTableColumn column,
+    IntradayHistoryLoaded state,
+  ) {
     switch (column.id) {
       case 'view':
         return GestureDetector(
           onTap: () => _onViewTap(context, history, state),
           child: Container(
-            width: 30.w,
-            height: 30.w,
+            width: 22.w,
+            height: 22.w,
             decoration: BoxDecoration(
               color: AppColors.primaryBlue,
               shape: BoxShape.circle,
             ),
-            child: Icon(
-              Icons.add,
-              color: AppColors.white,
-              size: 18.sp,
-            ),
+            child: Icon(Icons.add, color: AppColors.white, size: 14.sp),
           ),
         );
       case 'timestamp':
@@ -110,14 +131,27 @@ class IntradayHistoryTable extends StatelessWidget {
         return const ViewTextCell(text: '-');
     }
   }
+
   void _onViewTap(
-      BuildContext context,
-      IntradayHistory history,
-      IntradayHistoryLoaded state,
-      ) {
+    BuildContext context,
+    IntradayHistory history,
+    IntradayHistoryLoaded state,
+  ) {
     final selectedDate = state.selectedDate ?? DateTime.now();
-    final startTime = DateTime(selectedDate.year, selectedDate.month, selectedDate.day, 0, 0);
-    final endTime = DateTime(selectedDate.year, selectedDate.month, selectedDate.day, 23, 59);
+    final startTime = DateTime(
+      selectedDate.year,
+      selectedDate.month,
+      selectedDate.day,
+      0,
+      0,
+    );
+    final endTime = DateTime(
+      selectedDate.year,
+      selectedDate.month,
+      selectedDate.day,
+      23,
+      59,
+    );
     context.read<IntradayHistoryBloc>().add(
       LoadSecondsDataEvent(
         date: selectedDate,

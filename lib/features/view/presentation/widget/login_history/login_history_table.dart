@@ -10,16 +10,24 @@ import '../../bloc/login_history/login_history_state.dart';
 import '../common/view_data_table.dart';
 import '../common/view_record_count.dart';
 import '../common/view_table_cell_styles.dart';
+
 class LoginHistoryTable extends StatelessWidget {
   const LoginHistoryTable({Key? key}) : super(key: key);
   static final List<ViewTableColumn> _columns = [
-    const ViewTableColumn(id: 'index', label: 'INDEX', width: 80, isNumeric: true),
-    const ViewTableColumn(id: 'loginTime', label: 'LOGIN TIME', width: 180),
-    const ViewTableColumn(id: 'loginTime2', label: 'LOGIN TIME', width: 180),
-    const ViewTableColumn(id: 'userName', label: 'USER NAME', width: 150),
-    const ViewTableColumn(id: 'userType', label: 'USER TYPE', width: 150),
-    const ViewTableColumn(id: 'ipAddress', label: 'IP ADDRESS', width: 150),
-    const ViewTableColumn(id: 'deviceId', label: 'DEVICE ID', width: 550),
+    const ViewTableColumn(
+      id: 'index',
+      label: 'INDEX',
+      width: 60,
+      isNumeric: true,
+    ),
+    const ViewTableColumn(id: 'loginTime', label: 'LOGIN TIME', width: 160),
+    const ViewTableColumn(id: 'logoutTime', label: 'LOGOUT TIME', width: 160),
+    const ViewTableColumn(id: 'userName', label: 'USER NAME', width: 120),
+    const ViewTableColumn(id: 'userType', label: 'USER TYPE', width: 120),
+    const ViewTableColumn(id: 'ipAddress', label: 'IP ADDRESS', width: 120),
+    const ViewTableColumn(id: 'deviceId', label: 'DEVICE ID', width: 280),
+    const ViewTableColumn(id: 'device', label: 'DEVICE', width: 80),
+    const ViewTableColumn(id: 'city', label: 'City', width: 100),
   ];
   @override
   Widget build(BuildContext context) {
@@ -38,9 +46,7 @@ class LoginHistoryTable extends StatelessWidget {
         }
         if (state is LoginHistoryLoading) {
           return const Center(
-            child: CircularProgressIndicator(
-              color: AppColors.primaryBlue,
-            ),
+            child: CircularProgressIndicator(color: AppColors.primaryBlue),
           );
         }
         if (state is LoginHistoryError) {
@@ -72,6 +78,7 @@ class LoginHistoryTable extends StatelessWidget {
                   sortColumn: state.sortColumn,
                   sortAscending: state.sortAscending,
                   emptyMessage: 'No login history found',
+                  autoFit: true,
                 ),
               ),
             ],
@@ -81,27 +88,27 @@ class LoginHistoryTable extends StatelessWidget {
       },
     );
   }
+
   Widget _buildCell(LoginHistory history, ViewTableColumn column) {
     switch (column.id) {
       case 'index':
         return ViewTextCell(text: history.index.toString());
       case 'loginTime':
-      case 'loginTime2':
         return ViewDateTimeCell(dateTime: history.loginTime);
+      case 'logoutTime':
+        return ViewDateTimeCell(dateTime: history.logoutTime);
       case 'userName':
         return ViewTextCell(text: history.userName);
       case 'userType':
-        return ViewTextCell(
-          text: history.userType,
-          color: history.userType == 'MASTER'
-              ? AppColors.primaryBlue
-              : AppColors.secondaryTextColor,
-          fontWeight: FontWeight.w600,
-        );
+        return ViewTextCell(text: history.userType);
       case 'ipAddress':
         return ViewTextCell(text: history.ipAddress);
       case 'deviceId':
         return ViewTextCell(text: history.deviceId);
+      case 'device':
+        return ViewTextCell(text: history.device);
+      case 'city':
+        return ViewTextCell(text: history.city);
       default:
         return const ViewTextCell(text: '-');
     }

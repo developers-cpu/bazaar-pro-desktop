@@ -7,11 +7,14 @@ import '../../bloc/script_quantity/script_quantity_bloc.dart';
 import '../../bloc/script_quantity/script_quantity_event.dart';
 import '../../bloc/script_quantity/script_quantity_state.dart';
 import '../common/view_reset_buttons.dart';
+
 class ScriptQuantityFilterBar extends StatefulWidget {
   const ScriptQuantityFilterBar({Key? key}) : super(key: key);
   @override
-  State<ScriptQuantityFilterBar> createState() => _ScriptQuantityFilterBarState();
+  State<ScriptQuantityFilterBar> createState() =>
+      _ScriptQuantityFilterBarState();
 }
+
 class _ScriptQuantityFilterBarState extends State<ScriptQuantityFilterBar> {
   String? _tempSelectedGroup;
   @override
@@ -57,27 +60,26 @@ class _ScriptQuantityFilterBarState extends State<ScriptQuantityFilterBar> {
                 width: 230.w,
                 child: IgnorePointer(
                   ignoring: !isExchangeSelected,
-                  child: Opacity(
-                    opacity: isExchangeSelected ? 1.0 : 0.6,
-                    child: AppDropdown(
-                      type: AppDropdownType.search,
-                      hintText: 'Symbol',
-                      value: _tempSelectedGroup ?? state.selectedGroup,
-                      items: isExchangeSelected ? state.groups : [],
-                      onChanged: (value) {
-                        if (value != null && value.isNotEmpty && state.selectedExchange != null) {
-                          setState(() {
-                            _tempSelectedGroup = value;
-                          });
-                          context.read<ScriptQuantityBloc>().add(
-                            LoadScriptQuantitiesEvent(
-                              exchange: state.selectedExchange!,
-                              group: value,
-                            ),
-                          );
-                        }
-                      },
-                    ),
+                  child: AppDropdown(
+                    type: AppDropdownType.search,
+                    hintText: 'Symbol',
+                    value: _tempSelectedGroup ?? state.selectedGroup,
+                    items: isExchangeSelected ? state.groups : [],
+                    onChanged: (value) {
+                      if (value != null &&
+                          value.isNotEmpty &&
+                          state.selectedExchange != null) {
+                        setState(() {
+                          _tempSelectedGroup = value;
+                        });
+                        context.read<ScriptQuantityBloc>().add(
+                          LoadScriptQuantitiesEvent(
+                            exchange: state.selectedExchange!,
+                            group: value,
+                          ),
+                        );
+                      }
+                    },
                   ),
                 ),
               ),
@@ -92,7 +94,8 @@ class _ScriptQuantityFilterBarState extends State<ScriptQuantityFilterBar> {
                   );
                 },
                 onView: () {
-                  if (state.selectedExchange != null && _tempSelectedGroup != null) {
+                  if (state.selectedExchange != null &&
+                      _tempSelectedGroup != null) {
                     context.read<ScriptQuantityBloc>().add(
                       LoadScriptQuantitiesEvent(
                         exchange: state.selectedExchange!,
@@ -102,7 +105,9 @@ class _ScriptQuantityFilterBarState extends State<ScriptQuantityFilterBar> {
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: const Text('Please select both Exchange and Group'),
+                        content: const Text(
+                          'Please select both Exchange and Group',
+                        ),
                         backgroundColor: AppColors.errorColor,
                         duration: const Duration(seconds: 2),
                       ),

@@ -5,6 +5,7 @@ import '../../../../../core/widget/app_dropdown.dart';
 import '../../bloc/login_history/login_history_bloc.dart';
 import '../../bloc/login_history/login_history_event.dart';
 import '../../bloc/login_history/login_history_state.dart';
+
 class LoginHistoryFilterBar extends StatelessWidget {
   const LoginHistoryFilterBar({Key? key}) : super(key: key);
   @override
@@ -16,7 +17,9 @@ class LoginHistoryFilterBar extends StatelessWidget {
             : state is LoginHistoryLoaded
             ? state.clients
             : <String>[];
-        final selectedClient = state is LoginHistoryLoaded ? state.selectedClient : null;
+        final selectedClient = state is LoginHistoryLoaded
+            ? state.selectedClient
+            : null;
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Row(
@@ -25,12 +28,24 @@ class LoginHistoryFilterBar extends StatelessWidget {
                 width: 200.w,
                 child: AppDropdown(
                   type: AppDropdownType.simple,
-                  hintText: 'Select Client',
+                  hintText: 'User Type',
+                  items: const ['Master', 'Client'],
+                  onChanged: (value) {},
+                ),
+              ),
+              SizedBox(width: 12.w),
+              SizedBox(
+                width: 200.w,
+                child: AppDropdown(
+                  type: AppDropdownType.search,
+                  hintText: 'User',
                   value: selectedClient,
                   items: clients,
                   onChanged: (value) {
                     if (value != null && value.isNotEmpty) {
-                      context.read<LoginHistoryBloc>().add(SelectClientEvent(value));
+                      context.read<LoginHistoryBloc>().add(
+                        SelectClientEvent(value),
+                      );
                     }
                   },
                 ),

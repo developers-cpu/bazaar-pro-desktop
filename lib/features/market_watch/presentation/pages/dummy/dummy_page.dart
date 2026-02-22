@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 class DummyPage extends StatelessWidget {
   final String title;
   final String description;
@@ -34,10 +35,7 @@ class DummyPage extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [
-              accentColor.withOpacity(0.1),
-              Colors.white,
-            ],
+            colors: [accentColor.withOpacity(0.1), Colors.white],
           ),
         ),
         child: Center(
@@ -53,11 +51,7 @@ class DummyPage extends StatelessWidget {
                     color: accentColor.withOpacity(0.2),
                     shape: BoxShape.circle,
                   ),
-                  child: Icon(
-                    icon,
-                    size: 60.sp,
-                    color: accentColor,
-                  ),
+                  child: Icon(icon, size: 60.sp, color: accentColor),
                 ),
                 SizedBox(height: 32.h),
                 Text(
@@ -100,7 +94,11 @@ class DummyPage extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          Icon(Icons.info_outline, color: accentColor, size: 24.sp),
+                          Icon(
+                            Icons.info_outline,
+                            color: accentColor,
+                            size: 24.sp,
+                          ),
                           SizedBox(width: 12.w),
                           Text(
                             'Page Information',
@@ -115,7 +113,11 @@ class DummyPage extends StatelessWidget {
                       SizedBox(height: 16.h),
                       _buildInfoRow('Status', 'Active', accentColor),
                       _buildInfoRow('Type', 'Dummy Page', accentColor),
-                      _buildInfoRow('Created', DateTime.now().toString().substring(0, 10), accentColor),
+                      _buildInfoRow(
+                        'Created',
+                        DateTime.now().toString().substring(0, 10),
+                        accentColor,
+                      ),
                     ],
                   ),
                 ),
@@ -133,7 +135,10 @@ class DummyPage extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: accentColor,
                     foregroundColor: Colors.white,
-                    padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 16.h),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 32.w,
+                      vertical: 16.h,
+                    ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12.r),
                     ),
@@ -147,6 +152,7 @@ class DummyPage extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildInfoRow(String label, String value, Color color) {
     return Padding(
       padding: EdgeInsets.only(bottom: 12.h),
@@ -174,18 +180,21 @@ class DummyPage extends StatelessWidget {
     );
   }
 }
+
 class PendingOrdersPage extends StatelessWidget {
   const PendingOrdersPage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return const DummyPage(
       title: 'Pending Orders',
-      description: 'View and manage all your pending_order orders in one place.',
+      description:
+          'View and manage all your pending_order orders in one place.',
       accentColor: Color(0xFF2563EB),
       icon: Icons.pending_actions,
     );
   }
 }
+
 class TradesPage extends StatelessWidget {
   const TradesPage({Key? key}) : super(key: key);
   @override
@@ -198,6 +207,7 @@ class TradesPage extends StatelessWidget {
     );
   }
 }
+
 class DealsPage extends StatelessWidget {
   const DealsPage({Key? key}) : super(key: key);
   @override
@@ -210,6 +220,7 @@ class DealsPage extends StatelessWidget {
     );
   }
 }
+
 class NetPositionPage extends StatelessWidget {
   const NetPositionPage({Key? key}) : super(key: key);
   @override
@@ -222,6 +233,7 @@ class NetPositionPage extends StatelessWidget {
     );
   }
 }
+
 class RejectionLogPage extends StatelessWidget {
   const RejectionLogPage({Key? key}) : super(key: key);
   @override
@@ -234,6 +246,7 @@ class RejectionLogPage extends StatelessWidget {
     );
   }
 }
+
 class LoginHistoryPage extends StatelessWidget {
   const LoginHistoryPage({Key? key}) : super(key: key);
   @override
@@ -246,6 +259,7 @@ class LoginHistoryPage extends StatelessWidget {
     );
   }
 }
+
 class IntradayHistoryPage extends StatelessWidget {
   const IntradayHistoryPage({Key? key}) : super(key: key);
   @override
@@ -258,6 +272,7 @@ class IntradayHistoryPage extends StatelessWidget {
     );
   }
 }
+
 class ScriptMasterPage extends StatelessWidget {
   const ScriptMasterPage({Key? key}) : super(key: key);
   @override
@@ -270,6 +285,7 @@ class ScriptMasterPage extends StatelessWidget {
     );
   }
 }
+
 class ScriptQuantityPage extends StatelessWidget {
   const ScriptQuantityPage({Key? key}) : super(key: key);
   @override
@@ -282,6 +298,7 @@ class ScriptQuantityPage extends StatelessWidget {
     );
   }
 }
+
 class BulkTradePage extends StatelessWidget {
   const BulkTradePage({Key? key}) : super(key: key);
   @override
@@ -294,6 +311,7 @@ class BulkTradePage extends StatelessWidget {
     );
   }
 }
+
 class TotalVolumePage extends StatelessWidget {
   const TotalVolumePage({Key? key}) : super(key: key);
   @override
@@ -306,6 +324,7 @@ class TotalVolumePage extends StatelessWidget {
     );
   }
 }
+
 class DeletedTradePage extends StatelessWidget {
   const DeletedTradePage({Key? key}) : super(key: key);
   @override
@@ -318,6 +337,7 @@ class DeletedTradePage extends StatelessWidget {
     );
   }
 }
+
 class ManualTradePage extends StatelessWidget {
   const ManualTradePage({Key? key}) : super(key: key);
   @override
@@ -330,6 +350,7 @@ class ManualTradePage extends StatelessWidget {
     );
   }
 }
+
 class CreateUserPage extends StatelessWidget {
   const CreateUserPage({Key? key}) : super(key: key);
   @override
@@ -342,6 +363,7 @@ class CreateUserPage extends StatelessWidget {
     );
   }
 }
+
 class InactiveUserPage extends StatelessWidget {
   const InactiveUserPage({Key? key}) : super(key: key);
   @override
@@ -354,6 +376,7 @@ class InactiveUserPage extends StatelessWidget {
     );
   }
 }
+
 class SearchUserPage extends StatelessWidget {
   const SearchUserPage({Key? key}) : super(key: key);
   @override
@@ -366,6 +389,7 @@ class SearchUserPage extends StatelessWidget {
     );
   }
 }
+
 class DailyReportPage extends StatelessWidget {
   const DailyReportPage({Key? key}) : super(key: key);
   @override
@@ -378,6 +402,7 @@ class DailyReportPage extends StatelessWidget {
     );
   }
 }
+
 class WeeklyReportPage extends StatelessWidget {
   const WeeklyReportPage({Key? key}) : super(key: key);
   @override
@@ -390,6 +415,7 @@ class WeeklyReportPage extends StatelessWidget {
     );
   }
 }
+
 class MonthlyReportPage extends StatelessWidget {
   const MonthlyReportPage({Key? key}) : super(key: key);
   @override
@@ -402,6 +428,7 @@ class MonthlyReportPage extends StatelessWidget {
     );
   }
 }
+
 class CustomReportPage extends StatelessWidget {
   const CustomReportPage({Key? key}) : super(key: key);
   @override

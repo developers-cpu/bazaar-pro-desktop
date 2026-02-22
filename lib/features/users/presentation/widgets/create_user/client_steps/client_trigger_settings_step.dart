@@ -9,6 +9,7 @@ import '../../../../../../core/widget/app_switch.dart';
 import '../../../bloc/user_form/user_form_bloc.dart';
 import '../../../bloc/user_form/user_form_event.dart';
 import '../../../bloc/user_form/user_form_state.dart';
+
 class ClientTriggerSettingsStep extends StatelessWidget {
   const ClientTriggerSettingsStep({super.key});
   @override
@@ -25,7 +26,7 @@ class ClientTriggerSettingsStep extends StatelessWidget {
         return Container(
           padding: EdgeInsets.all(16.w),
           decoration: BoxDecoration(
-            border: Border.all(color: AppColors.primaryBlue, width: 1.5),
+            border: Border.all(color: AppColors.primaryBlue, width: 1.0),
             borderRadius: BorderRadius.circular(12.r),
           ),
           child: Row(
@@ -58,11 +59,12 @@ class ClientTriggerSettingsStep extends StatelessWidget {
       },
     );
   }
+
   Widget _buildSettingRow(
-      BuildContext context,
-      UserFormState state,
-      TriggerSetting setting,
-      ) {
+    BuildContext context,
+    UserFormState state,
+    TriggerSetting setting,
+  ) {
     final isEnabled = state.triggerSettings[setting.key] ?? false;
     return Row(
       children: [
@@ -107,6 +109,7 @@ class ClientTriggerSettingsStep extends StatelessWidget {
       ],
     );
   }
+
   String _getSvgIconForSetting(String key) {
     switch (key) {
       case 'fifteenDays':

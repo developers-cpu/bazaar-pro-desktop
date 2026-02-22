@@ -8,6 +8,7 @@ import '../../../../../../core/widget/app_dropdown.dart';
 import '../../../bloc/user_form/user_form_bloc.dart';
 import '../../../bloc/user_form/user_form_event.dart';
 import '../../../bloc/user_form/user_form_state.dart';
+
 class ClientExchangeAllowStep extends StatelessWidget {
   const ClientExchangeAllowStep({super.key});
   @override
@@ -18,9 +19,9 @@ class ClientExchangeAllowStep extends StatelessWidget {
         final isAllSelected =
             state.selectedExchanges.length == exchanges.length;
         return Container(
-          padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 20.h),
+          padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
           decoration: BoxDecoration(
-            border: Border.all(color: AppColors.primaryBlue, width: 2.w),
+            border: Border.all(color: AppColors.primaryBlue, width: 1.0),
             borderRadius: BorderRadius.circular(12.r),
           ),
           child: Column(
@@ -38,21 +39,14 @@ class ClientExchangeAllowStep extends StatelessWidget {
       },
     );
   }
+
   Widget _buildTableHeader(
     BuildContext context,
     UserFormState state,
     bool isAllSelected,
   ) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-      decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            color: AppColors.grey.withOpacity(0.3),
-            width: 1.5,
-          ),
-        ),
-      ),
+      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 6.h),
       child: Row(
         children: [
           Expanded(
@@ -63,16 +57,17 @@ class ClientExchangeAllowStep extends StatelessWidget {
                 Text(
                   'Exch',
                   style: GoogleFonts.openSans(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w700,
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w500,
                     color: AppColors.textColor(context),
                   ),
                 ),
-                SizedBox(height: 8.h),
+                SizedBox(height: 2.h),
                 AppCheckbox(
                   label: 'Select All',
                   value: isAllSelected,
-                  labelFontSize: 13.sp,
+                  size: 14.w,
+                  labelFontSize: 10.sp,
                   onChanged: (value) {
                     context.read<UserFormBloc>().add(
                       ToggleAllExchangesEvent(value ?? false),
@@ -89,12 +84,12 @@ class ClientExchangeAllowStep extends StatelessWidget {
                 Text(
                   'Brokerage',
                   style: GoogleFonts.openSans(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w700,
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w500,
                     color: AppColors.textColor(context),
                   ),
                 ),
-                SizedBox(height: 8.h),
+                SizedBox(height: 2.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -103,7 +98,7 @@ class ClientExchangeAllowStep extends StatelessWidget {
                         'Turnover wise',
                         textAlign: TextAlign.center,
                         style: GoogleFonts.openSans(
-                          fontSize: 11.sp,
+                          fontSize: 9.sp,
                           fontWeight: FontWeight.w500,
                           color: AppColors.grey,
                         ),
@@ -114,7 +109,7 @@ class ClientExchangeAllowStep extends StatelessWidget {
                         'Symbol wise',
                         textAlign: TextAlign.center,
                         style: GoogleFonts.openSans(
-                          fontSize: 11.sp,
+                          fontSize: 9.sp,
                           fontWeight: FontWeight.w500,
                           color: AppColors.grey,
                         ),
@@ -132,16 +127,16 @@ class ClientExchangeAllowStep extends StatelessWidget {
                 Text(
                   'Groups',
                   style: GoogleFonts.openSans(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w700,
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w500,
                     color: AppColors.textColor(context),
                   ),
                 ),
-                SizedBox(height: 8.h),
+                SizedBox(height: 2.h),
                 Text(
                   'Assign Groups',
                   style: GoogleFonts.openSans(
-                    fontSize: 11.sp,
+                    fontSize: 9.sp,
                     fontWeight: FontWeight.w500,
                     color: AppColors.grey,
                   ),
@@ -153,6 +148,7 @@ class ClientExchangeAllowStep extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildTableRow(
     BuildContext context,
     UserFormState state,
@@ -173,17 +169,7 @@ class ClientExchangeAllowStep extends StatelessWidget {
     final turnoverWise = brokerageData?.turnoverWise == 'true';
     final symbolWise = brokerageData?.symbolWiseBrk == 'true';
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
-      decoration: BoxDecoration(
-        border: isLast
-            ? null
-            : Border(
-                bottom: BorderSide(
-                  color: AppColors.grey.withOpacity(0.2),
-                  width: 1,
-                ),
-              ),
-      ),
+      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 6.h),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -192,7 +178,8 @@ class ClientExchangeAllowStep extends StatelessWidget {
             child: AppCheckbox(
               label: exchange,
               value: isSelected,
-              labelFontSize: 14.sp,
+              size: 14.w,
+              labelFontSize: 11.sp,
               onChanged: (value) {
                 context.read<UserFormBloc>().add(
                   UpdateExchangeSelectionEvent(
@@ -219,22 +206,22 @@ class ClientExchangeAllowStep extends StatelessWidget {
                     );
                   },
                   child: Container(
-                    width: 28.w,
-                    height: 28.w,
+                    width: 18.w,
+                    height: 18.w,
                     decoration: BoxDecoration(
                       color: turnoverWise
                           ? AppColors.primaryBlue
                           : Colors.transparent,
-                      borderRadius: BorderRadius.circular(6.r),
+                      borderRadius: BorderRadius.circular(4.r),
                       border: Border.all(
                         color: turnoverWise
                             ? AppColors.primaryBlue
                             : AppColors.grey,
-                        width: 2,
+                        width: 1.0,
                       ),
                     ),
                     child: turnoverWise
-                        ? Icon(Icons.check, size: 18.sp, color: AppColors.white)
+                        ? Icon(Icons.check, size: 12.sp, color: AppColors.white)
                         : null,
                   ),
                 ),
@@ -249,22 +236,22 @@ class ClientExchangeAllowStep extends StatelessWidget {
                     );
                   },
                   child: Container(
-                    width: 28.w,
-                    height: 28.w,
+                    width: 18.w,
+                    height: 18.w,
                     decoration: BoxDecoration(
                       color: symbolWise
                           ? AppColors.primaryBlue
                           : Colors.transparent,
-                      borderRadius: BorderRadius.circular(6.r),
+                      borderRadius: BorderRadius.circular(4.r),
                       border: Border.all(
                         color: symbolWise
                             ? AppColors.primaryBlue
                             : AppColors.grey,
-                        width: 2,
+                        width: 1.0,
                       ),
                     ),
                     child: symbolWise
-                        ? Icon(Icons.check, size: 18.sp, color: AppColors.white)
+                        ? Icon(Icons.check, size: 12.sp, color: AppColors.white)
                         : null,
                   ),
                 ),
@@ -274,13 +261,13 @@ class ClientExchangeAllowStep extends StatelessWidget {
           Expanded(
             flex: 4,
             child: AppDropdown(
-              type: AppDropdownType.multiSelect,
+              type: AppDropdownType.multiSelectRightNoSearch,
               hintText: 'Select Group',
               selectedValues: selectedGroups,
               items: state.exchangeGroupOptions.isNotEmpty
                   ? state.exchangeGroupOptions
                   : const ['NSE_X', 'NSE_2X', 'NSE_3X', 'NSE_4X', 'NSE_5X'],
-              height: 45.h,
+              height: 28.h,
               searchHint: 'Search Groups',
               onMultiChanged: (values) {
                 context.read<UserFormBloc>().add(

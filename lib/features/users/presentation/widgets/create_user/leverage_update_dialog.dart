@@ -82,7 +82,7 @@ class _LeverageUpdateDialogState extends State<LeverageUpdateDialog> {
                   color: AppColors.textColor(context),
                 ),
               ),
-              SizedBox(height: 8.h),
+              SizedBox(height: 4.h),
               AppDropdown(
                 type: AppDropdownType.simple,
                 hintText: 'Select Leverage',

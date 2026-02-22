@@ -50,7 +50,7 @@ class CustomInputField extends StatelessWidget {
         maxLines: 1,
         enabled: enabled,
         style: GoogleFonts.openSans(
-          fontSize: 14.sp,
+          fontSize: 12.sp,
           fontWeight: FontWeight.w600,
           height: 1.0,
           letterSpacing: 0.15,
@@ -63,22 +63,26 @@ class CustomInputField extends StatelessWidget {
           fillColor: AppColors.white,
           hintText: hintText,
           hintStyle: GoogleFonts.openSans(
-            fontSize: 14.sp,
+            fontSize: 12.sp,
             fontWeight: FontWeight.w600,
             height: 1.0,
             letterSpacing: 0.15,
             color: AppColors.primaryBlue,
           ),
           contentPadding: EdgeInsets.symmetric(
-            horizontal: 10.w,
-            vertical: height != null ? 0 : 12.h,
+            horizontal: 0,
+            vertical: ((height ?? 35.h) - 10.sp) / 2,
           ),
-          prefixIconConstraints: height != null
-              ? BoxConstraints(minHeight: height!, minWidth: 0)
-              : null,
-          suffixIconConstraints: height != null
-              ? BoxConstraints(minHeight: height!, minWidth: 0)
-              : null,
+          prefixIconConstraints: BoxConstraints(
+            minWidth: prefixSvgPath != null ? 35.w : 10.w,
+            minHeight: height ?? 35.h,
+            maxHeight: height ?? 35.h,
+          ),
+          suffixIconConstraints: BoxConstraints(
+            minWidth: (suffixIcon != null || svgIconPath != null) ? 35.w : 10.w,
+            minHeight: height ?? 35.h,
+            maxHeight: height ?? 35.h,
+          ),
           border: _buildBorder(),
           enabledBorder: _buildBorder(),
           focusedBorder: _buildBorder(),
@@ -89,8 +93,12 @@ class CustomInputField extends StatelessWidget {
               ? _buildBorder(isError: true)
               : _buildBorder(),
           disabledBorder: _buildBorder(isDisabled: true),
-          prefixIcon: _buildPrefixIcon(),
-          suffixIcon: _buildSuffixIcon(),
+          prefixIcon: prefixSvgPath != null
+              ? _buildPrefixIcon()
+              : SizedBox(width: 10.w),
+          suffixIcon: (suffixIcon != null || svgIconPath != null)
+              ? _buildSuffixIcon()
+              : SizedBox(width: 10.w),
           errorStyle: showErrorBorder
               ? null
               : GoogleFonts.openSans(
@@ -117,7 +125,10 @@ class CustomInputField extends StatelessWidget {
   Widget? _buildSuffixIcon() {
     if (suffixIcon != null) {
       return IconButton(
-        icon: Icon(suffixIcon, size: 22.sp, color: AppColors.primaryBlue),
+        icon: Icon(suffixIcon, size: 20.sp, color: AppColors.primaryBlue),
+        splashRadius: 20.sp,
+        padding: EdgeInsets.zero,
+        constraints: const BoxConstraints(),
         onPressed: onSuffixIconPressed,
       );
     }
@@ -144,7 +155,7 @@ class CustomInputField extends StatelessWidget {
     }
     return OutlineInputBorder(
       borderRadius: BorderRadius.circular(8.r),
-      borderSide: BorderSide(color: borderColor, width: 1.5),
+      borderSide: BorderSide(color: borderColor, width: 1.0),
     );
   }
 }

@@ -21,10 +21,6 @@ class _TradeMarginPageState extends State<TradeMarginPage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      // The initial LoadTradeMargins event is now handled by BlocProvider's create method
-      // context.read<TradeMarginBloc>().add(const LoadTradeMargins());
-    });
   }
 
   @override

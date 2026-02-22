@@ -7,6 +7,7 @@ import '../../../../../../core/widget/app_dropdown.dart';
 import '../../../bloc/user_form/user_form_bloc.dart';
 import '../../../bloc/user_form/user_form_event.dart';
 import '../../../bloc/user_form/user_form_state.dart';
+
 class MasterExchangeAllowStep extends StatelessWidget {
   const MasterExchangeAllowStep({super.key});
   @override
@@ -28,21 +29,28 @@ class MasterExchangeAllowStep extends StatelessWidget {
               AppCheckbox(
                 label: 'Allow All',
                 value: isAllSelected,
+                size: 16.w,
+                activeColor: AppColors.primaryBlue,
+                borderColor: AppColors.secondaryTextColor,
+                labelColor: isAllSelected
+                    ? AppColors.primaryBlue
+                    : AppColors.secondaryTextColor,
+                labelFontSize: 11.sp,
                 onChanged: (value) {
                   context.read<UserFormBloc>().add(
                     ToggleAllExchangesEvent(value ?? false),
                   );
                 },
               ),
-              SizedBox(height: 16.h),
+              SizedBox(height: 8.h),
               GridView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
-                  crossAxisSpacing: 12.w,
-                  mainAxisSpacing: 12.h,
-                  mainAxisExtent: 100.h,
+                  crossAxisSpacing: 8.w,
+                  mainAxisSpacing: 8.h,
+                  mainAxisExtent: 85.h,
                 ),
                 itemCount: exchanges.length,
                 itemBuilder: (context, index) {
@@ -56,6 +64,7 @@ class MasterExchangeAllowStep extends StatelessWidget {
       },
     );
   }
+
   Widget _buildExchangeCard(
     BuildContext context,
     UserFormState state,
@@ -72,7 +81,7 @@ class MasterExchangeAllowStep extends StatelessWidget {
       }
     }
     return Container(
-      padding: EdgeInsets.all(12.w),
+      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
       decoration: BoxDecoration(
         border: Border.all(
           color: isSelected
@@ -89,6 +98,13 @@ class MasterExchangeAllowStep extends StatelessWidget {
           AppCheckbox(
             label: exchange,
             value: isSelected,
+            size: 16.w,
+            activeColor: AppColors.primaryBlue,
+            borderColor: AppColors.secondaryTextColor,
+            labelColor: isSelected
+                ? AppColors.primaryBlue
+                : AppColors.secondaryTextColor,
+            labelFontSize: 11.sp,
             onChanged: (value) {
               context.read<UserFormBloc>().add(
                 UpdateExchangeSelectionEvent(
@@ -98,9 +114,9 @@ class MasterExchangeAllowStep extends StatelessWidget {
               );
             },
           ),
-          SizedBox(height: 8.h),
+          SizedBox(height: 4.h),
           AppDropdown(
-            type: AppDropdownType.multiSelect,
+            type: AppDropdownType.multiSelectRightNoSearch,
             height: 35.h,
             hintText: 'Select Group',
             selectedValues: selectedGroups,

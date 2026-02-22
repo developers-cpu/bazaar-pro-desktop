@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../constants/app_colors.dart';
+
 class AppRadioGroup<T> extends StatelessWidget {
   final List<RadioOption<T>> options;
   final T? value;
@@ -10,6 +11,9 @@ class AppRadioGroup<T> extends StatelessWidget {
   final Color? labelColor;
   final bool enabled;
   final double? spacing;
+  final double? fontSize;
+  final double? radioSize;
+
   const AppRadioGroup({
     super.key,
     required this.options,
@@ -19,6 +23,8 @@ class AppRadioGroup<T> extends StatelessWidget {
     this.labelColor,
     this.enabled = true,
     this.spacing,
+    this.fontSize,
+    this.radioSize,
   });
   @override
   Widget build(BuildContext context) {
@@ -37,6 +43,7 @@ class AppRadioGroup<T> extends StatelessWidget {
       }).toList(),
     );
   }
+
   Widget _buildRadioOption(
     BuildContext context,
     RadioOption<T> option,
@@ -52,8 +59,8 @@ class AppRadioGroup<T> extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            width: 20.w,
-            height: 20.h,
+            width: radioSize ?? 20.w,
+            height: radioSize ?? 20.h,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               border: Border.all(
@@ -64,8 +71,8 @@ class AppRadioGroup<T> extends StatelessWidget {
             child: isSelected
                 ? Center(
                     child: Container(
-                      width: 10.w,
-                      height: 10.h,
+                      width: (radioSize ?? 20.w) / 2,
+                      height: (radioSize ?? 20.h) / 2,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: effectiveActiveColor,
@@ -78,7 +85,7 @@ class AppRadioGroup<T> extends StatelessWidget {
           Text(
             option.label,
             style: GoogleFonts.openSans(
-              fontSize: 13.sp,
+              fontSize: fontSize ?? 13.sp,
               fontWeight: FontWeight.w500,
               color: enabled
                   ? (isSelected ? effectiveActiveColor : effectiveLabelColor)
@@ -90,6 +97,7 @@ class AppRadioGroup<T> extends StatelessWidget {
     );
   }
 }
+
 class RadioOption<T> {
   final T value;
   final String label;

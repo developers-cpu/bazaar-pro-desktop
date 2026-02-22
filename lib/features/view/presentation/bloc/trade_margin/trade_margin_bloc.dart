@@ -37,7 +37,7 @@ class TradeMarginBloc extends Bloc<TradeMarginEvent, TradeMarginState> {
         currentState.copyWith(
           selectedExchange: exchange,
           searchQuery: search,
-          showDialog: false, // Don't show dialog just on filter update
+          showDialog: false,
         ),
       );
     }
@@ -57,12 +57,8 @@ class TradeMarginBloc extends Bloc<TradeMarginEvent, TradeMarginState> {
       result.fold(
         (failure) =>
             emit(const TradeMarginError(message: 'Failed to fetch data')),
-        (data) => emit(
-          currentState.copyWith(
-            tradeMargins: data,
-            showDialog: true, // Show dialog only when View is clicked
-          ),
-        ),
+        (data) =>
+            emit(currentState.copyWith(tradeMargins: data, showDialog: true)),
       );
     }
   }

@@ -9,6 +9,7 @@ import '../../../../../../core/widget/app_switch.dart';
 import '../../../bloc/user_form/user_form_bloc.dart';
 import '../../../bloc/user_form/user_form_event.dart';
 import '../../../bloc/user_form/user_form_state.dart';
+
 class MasterTriggerSettingsStep extends StatelessWidget {
   const MasterTriggerSettingsStep({super.key});
   @override
@@ -23,10 +24,10 @@ class MasterTriggerSettingsStep extends StatelessWidget {
             .where((s) => settings.indexOf(s) % 2 == 1)
             .toList();
         return Container(
-          padding: EdgeInsets.all(16.w),
+          padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
           decoration: BoxDecoration(
-            border: Border.all(color: AppColors.primaryBlue, width: 1.5),
-            borderRadius: BorderRadius.circular(12.r),
+            border: Border.all(color: AppColors.primaryBlue, width: 1.0),
+            borderRadius: BorderRadius.circular(8.r),
           ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -35,18 +36,18 @@ class MasterTriggerSettingsStep extends StatelessWidget {
                 child: Column(
                   children: leftSettings.map((setting) {
                     return Padding(
-                      padding: EdgeInsets.only(bottom: 12.h),
+                      padding: EdgeInsets.only(bottom: 8.h),
                       child: _buildSettingRow(context, state, setting),
                     );
                   }).toList(),
                 ),
               ),
-              SizedBox(width: 24.w),
+              SizedBox(width: 16.w),
               Expanded(
                 child: Column(
                   children: rightSettings.map((setting) {
                     return Padding(
-                      padding: EdgeInsets.only(bottom: 12.h),
+                      padding: EdgeInsets.only(bottom: 8.h),
                       child: _buildSettingRow(context, state, setting),
                     );
                   }).toList(),
@@ -58,11 +59,12 @@ class MasterTriggerSettingsStep extends StatelessWidget {
       },
     );
   }
+
   Widget _buildSettingRow(
-      BuildContext context,
-      UserFormState state,
-      TriggerSetting setting,
-      ) {
+    BuildContext context,
+    UserFormState state,
+    TriggerSetting setting,
+  ) {
     final isEnabled = state.triggerSettings[setting.key] ?? false;
     return Row(
       children: [
@@ -107,6 +109,7 @@ class MasterTriggerSettingsStep extends StatelessWidget {
       ],
     );
   }
+
   String _getSvgIconForSetting(String key) {
     switch (key) {
       case 'addMaster':

@@ -14,6 +14,9 @@ import 'client_steps/client_exchange_allow_step.dart';
 import 'shared/high_low_limit_step.dart';
 import 'shared/brokerage_setting_step.dart';
 import 'client_steps/client_trigger_settings_step.dart';
+import 'client_steps/client_broker_setting_step.dart';
+import 'shared/profile_summary_dialog.dart';
+
 class ClientFormDialog extends StatelessWidget {
   final bool isEditMode;
   final Map<String, dynamic>? userData;
@@ -41,6 +44,7 @@ class ClientFormDialog extends StatelessWidget {
       ),
     );
   }
+
   static void showEdit({
     required BuildContext context,
     required Map<String, dynamic> userData,
@@ -67,6 +71,7 @@ class ClientFormDialog extends StatelessWidget {
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<UserFormBloc, UserFormState>(
@@ -88,7 +93,7 @@ class ClientFormDialog extends StatelessWidget {
           ),
           backgroundColor: Colors.transparent,
           child: Container(
-            width: 750.w,
+            width: 580.w,
             constraints: BoxConstraints(maxHeight: 600.h),
             decoration: BoxDecoration(
               color: AppColors.white,
@@ -116,6 +121,7 @@ class ClientFormDialog extends StatelessWidget {
       },
     );
   }
+
   Widget _buildHeader(BuildContext context, UserFormState state) {
     final title = state.isEditMode ? 'Edit Client' : 'Create Client';
     return ClipRRect(
@@ -147,13 +153,15 @@ class ClientFormDialog extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildStepIndicator(UserFormState state) {
     return AppStepIndicator(
       currentStep: state.currentStep,
-      totalSteps: 5,
+      totalSteps: 6,
       stepTitles: UserFormState.clientStepTitles,
     );
   }
+
   Widget _buildStepContent(UserFormState state) {
     switch (state.currentStep) {
       case 0:
@@ -166,12 +174,15 @@ class ClientFormDialog extends StatelessWidget {
         return const ClientTriggerSettingsStep();
       case 4:
         return const BrokerageSettingStep();
+      case 5:
+        return const ClientBrokerSettingStep();
       default:
         return const SizedBox.shrink();
     }
   }
+
   Widget _buildNavigationButtons(BuildContext context, UserFormState state) {
-    final isLastStep = state.currentStep == 4;
+    final isLastStep = state.currentStep == 5;
     final isFirstStep = state.currentStep == 0;
     return Container(
       padding: EdgeInsets.all(20.w),
@@ -191,15 +202,12 @@ class ClientFormDialog extends StatelessWidget {
           ],
           Expanded(
             child: CustomActionButton(
-              text: isLastStep
-                  ? (state.isEditMode ? 'Update' : 'Create')
-                  : 'Next',
+              text: isLastStep ? 'Preview' : 'Next',
               height: 35.h,
               borderRadius: 8.r,
-              isLoading: state.isSubmitting,
               onPressed: () {
                 if (isLastStep) {
-                  context.read<UserFormBloc>().add(const SubmitFormEvent());
+                  ProfileSummaryDialog.show(context);
                 } else {
                   context.read<UserFormBloc>().add(const NextStepEvent());
                 }

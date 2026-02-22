@@ -77,7 +77,7 @@ class _PersonalDetailsStepState extends State<PersonalDetailsStep> {
             children: [
               if (isMastersClient) ...[
                 _buildMasterSelector(state),
-                SizedBox(height: 8.h),
+                SizedBox(height: 4.h),
               ],
               Row(
                 children: [
@@ -85,7 +85,7 @@ class _PersonalDetailsStepState extends State<PersonalDetailsStep> {
                     child: CustomInputField(
                       controller: _nameController,
                       hintText: 'Name',
-                      height: 50.h,
+                      height: 35.h,
                       onChanged: (v) => _updateField('name', v),
                     ),
                   ),
@@ -94,21 +94,21 @@ class _PersonalDetailsStepState extends State<PersonalDetailsStep> {
                     child: CustomInputField(
                       controller: _usernameController,
                       hintText: 'Username',
-                      height: 50.h,
+                      height: 35.h,
                       enabled: true,
                       onChanged: (v) => _updateField('username', v),
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: 8.h),
+              SizedBox(height: 4.h),
               Row(
                 children: [
                   Expanded(
                     child: CustomInputField(
                       controller: _passwordController,
                       hintText: 'Password',
-                      height: 50.h,
+                      height: 35.h,
                       obscureText: _obscurePassword,
                       suffixIcon: _obscurePassword
                           ? Icons.visibility_off
@@ -124,7 +124,7 @@ class _PersonalDetailsStepState extends State<PersonalDetailsStep> {
                     child: CustomInputField(
                       controller: _confirmPasswordController,
                       hintText: 'Confirm Password',
-                      height: 50.h,
+                      height: 35.h,
                       obscureText: _obscureConfirmPassword,
                       suffixIcon: _obscureConfirmPassword
                           ? Icons.visibility_off
@@ -140,7 +140,7 @@ class _PersonalDetailsStepState extends State<PersonalDetailsStep> {
                   ),
                 ],
               ),
-              SizedBox(height: 8.h),
+              SizedBox(height: 4.h),
               Row(
                 children: [
                   Expanded(
@@ -148,7 +148,7 @@ class _PersonalDetailsStepState extends State<PersonalDetailsStep> {
                       controller: _mobileController,
                       hintText: 'Mobile No',
                       keyboardType: TextInputType.phone,
-                      height: 50.h,
+                      height: 35.h,
                       onChanged: (v) => _updateField('mobile', v),
                     ),
                   ),
@@ -157,14 +157,14 @@ class _PersonalDetailsStepState extends State<PersonalDetailsStep> {
                     child: CustomInputField(
                       controller: _creditController,
                       hintText: 'Credit',
-                      height: 50.h,
+                      height: 35.h,
                       keyboardType: TextInputType.number,
                       onChanged: (v) => _updateField('credit', v),
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: 8.h),
+              SizedBox(height: 4.h),
               if (isClient) ...[
                 Row(
                   children: [
@@ -172,7 +172,7 @@ class _PersonalDetailsStepState extends State<PersonalDetailsStep> {
                       child: CustomInputField(
                         controller: _cutOffController,
                         hintText: 'Cut Off',
-                        height: 50.h,
+                        height: 35.h,
                         keyboardType: TextInputType.number,
                         suffixIcon: Icons.percent,
                         onChanged: (v) => _updateField('cutOff', v),
@@ -181,7 +181,7 @@ class _PersonalDetailsStepState extends State<PersonalDetailsStep> {
                     SizedBox(width: 8.w),
                     Expanded(
                       child: AppDropdown(
-                        height: 50.h,
+                        height: 35.h,
                         hintText: 'Leverage',
                         value: state.leverage,
                         items: state.leverageOptions.isNotEmpty
@@ -192,14 +192,14 @@ class _PersonalDetailsStepState extends State<PersonalDetailsStep> {
                     ),
                   ],
                 ),
-                SizedBox(height: 8.h),
+                SizedBox(height: 4.h),
                 Row(
                   children: [
                     Expanded(
                       child: CustomInputField(
                         controller: _allowedDeviceController,
                         hintText: 'Allowed Device for login',
-                        height: 50.h,
+                        height: 35.h,
                         keyboardType: TextInputType.number,
                         onChanged: (v) => _updateField('allowedDevice', v),
                       ),
@@ -209,7 +209,7 @@ class _PersonalDetailsStepState extends State<PersonalDetailsStep> {
                       child: CustomInputField(
                         controller: _remarkController,
                         hintText: 'Remark',
-                        height: 50.h,
+                        height: 35.h,
                         onChanged: (v) => _updateField('remark', v),
                       ),
                     ),
@@ -220,7 +220,7 @@ class _PersonalDetailsStepState extends State<PersonalDetailsStep> {
                   children: [
                     Expanded(
                       child: AppDropdown(
-                        height: 50.h,
+                        height: 35.h,
                         hintText: 'Leverage',
                         value: state.leverage,
                         items: state.leverageOptions.isNotEmpty
@@ -234,21 +234,21 @@ class _PersonalDetailsStepState extends State<PersonalDetailsStep> {
                       child: CustomInputField(
                         controller: _creditLimitController,
                         hintText: 'Credit Limit Per Client',
-                        height: 50.h,
+                        height: 35.h,
                         keyboardType: TextInputType.number,
                         onChanged: (v) => _updateField('creditLimit', v),
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: 8.h),
+                SizedBox(height: 4.h),
                 Row(
                   children: [
                     Expanded(
                       child: CustomInputField(
                         controller: _remarkController,
                         hintText: 'Remark',
-                        height: 50.h,
+                        height: 35.h,
                         onChanged: (v) => _updateField('remark', v),
                       ),
                     ),
@@ -257,7 +257,7 @@ class _PersonalDetailsStepState extends State<PersonalDetailsStep> {
                       child: CustomInputField(
                         controller: _allowedDeviceController,
                         hintText: 'Allowed Device for login',
-                        height: 50.h,
+                        height: 35.h,
                         keyboardType: TextInputType.number,
                         onChanged: (v) => _updateField('allowedDevice', v),
                       ),
@@ -277,7 +277,7 @@ class _PersonalDetailsStepState extends State<PersonalDetailsStep> {
         Expanded(
           child: AppDropdown(
             type: AppDropdownType.search,
-            height: 50.h,
+            height: 35.h,
             width: 330.w,
             hintText: 'Master',
             value: state.selectedMaster,

@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_images.dart';
 
-enum AppDropdownType { simple, search, multiSelect }
+enum AppDropdownType { simple, search, multiSelect, multiSelectRightNoSearch }
 
 class AppDropdown extends StatefulWidget {
   final AppDropdownType type;
@@ -139,7 +139,8 @@ class _AppDropdownState extends State<AppDropdown>
   }
 
   void _onItemSelected(String item) {
-    if (widget.type == AppDropdownType.multiSelect) {
+    if (widget.type == AppDropdownType.multiSelect ||
+        widget.type == AppDropdownType.multiSelectRightNoSearch) {
       setState(() {
         if (_selectedSet.contains(item)) {
           _selectedSet.remove(item);
@@ -180,7 +181,8 @@ class _AppDropdownState extends State<AppDropdown>
   Color get _dropdownBgColor =>
       widget.isDarkMode ? DarkThemeColors.cardBackground : AppColors.white;
   String get _displayText {
-    if (widget.type == AppDropdownType.multiSelect) {
+    if (widget.type == AppDropdownType.multiSelect ||
+        widget.type == AppDropdownType.multiSelectRightNoSearch) {
       if (_selectedSet.isEmpty) return widget.hintText;
       if (_selectedSet.length == widget.items.length) return 'All Selected';
       if (_selectedSet.length == 1) return _selectedSet.first;
@@ -199,7 +201,8 @@ class _AppDropdownState extends State<AppDropdown>
         : totalItems;
     double listHeight = visibleItems * _itemHeight;
     double searchHeight = 0;
-    if (widget.type != AppDropdownType.simple) {
+    if (widget.type != AppDropdownType.simple &&
+        widget.type != AppDropdownType.multiSelectRightNoSearch) {
       searchHeight = _searchFieldHeight;
     }
     double selectAllHeight = 0;
@@ -246,7 +249,7 @@ class _AppDropdownState extends State<AppDropdown>
                     decoration: BoxDecoration(
                       color: _dropdownBgColor,
                       borderRadius: BorderRadius.circular(8.r),
-                      border: Border.all(color: _borderColor, width: 1.5),
+                      border: Border.all(color: _borderColor, width: 1.0),
                       boxShadow: [
                         BoxShadow(
                           color: AppColors.black.withOpacity(0.1),
@@ -258,7 +261,9 @@ class _AppDropdownState extends State<AppDropdown>
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        if (widget.type != AppDropdownType.simple)
+                        if (widget.type != AppDropdownType.simple &&
+                            widget.type !=
+                                AppDropdownType.multiSelectRightNoSearch)
                           _buildSearchField(),
                         if (widget.type == AppDropdownType.multiSelect)
                           _buildSelectAllOption(),
@@ -314,7 +319,8 @@ class _AppDropdownState extends State<AppDropdown>
       return const SizedBox.shrink();
     }
     final item = _filteredItems[itemIndex];
-    if (widget.type == AppDropdownType.multiSelect) {
+    if (widget.type == AppDropdownType.multiSelect ||
+        widget.type == AppDropdownType.multiSelectRightNoSearch) {
       return _buildCheckboxItem(item);
     }
     return _buildSimpleItem(item, index: itemIndex);
@@ -388,6 +394,8 @@ class _AppDropdownState extends State<AppDropdown>
 
   Widget _buildCheckboxItem(String item) {
     final isSelected = _selectedSet.contains(item);
+    final isRightAlign =
+        widget.type == AppDropdownType.multiSelectRightNoSearch;
     return InkWell(
       onTap: () => _onItemSelected(item),
       child: Container(
@@ -395,19 +403,25 @@ class _AppDropdownState extends State<AppDropdown>
         padding: EdgeInsets.symmetric(horizontal: 10.w),
         child: Row(
           children: [
-            _buildCheckbox(isSelected),
-            SizedBox(width: 8.w),
+            if (!isRightAlign) ...[
+              _buildCheckbox(isSelected),
+              SizedBox(width: 8.w),
+            ],
             Expanded(
               child: Text(
                 item,
                 style: GoogleFonts.openSans(
                   fontSize: 12.sp,
                   fontWeight: FontWeight.w600,
-                  color: _textColor,
+                  color: isSelected ? _borderColor : _textColor,
                 ),
                 overflow: TextOverflow.ellipsis,
               ),
             ),
+            if (isRightAlign) ...[
+              SizedBox(width: 8.w),
+              _buildCheckbox(isSelected),
+            ],
           ],
         ),
       ),
@@ -416,18 +430,18 @@ class _AppDropdownState extends State<AppDropdown>
 
   Widget _buildCheckbox(bool isChecked) {
     return Container(
-      width: 18.w,
-      height: 18.h,
+      width: 14.w,
+      height: 14.h,
       decoration: BoxDecoration(
         color: isChecked ? _borderColor : AppColors.transparent,
-        borderRadius: BorderRadius.circular(4.r),
+        borderRadius: BorderRadius.circular(3.r),
         border: Border.all(
-          color: isChecked ? _borderColor : _hintColor,
-          width: 1.5,
+          color: isChecked ? _borderColor : AppColors.secondaryTextColor,
+          width: 1.0,
         ),
       ),
       child: isChecked
-          ? Icon(Icons.check, size: 12.sp, color: AppColors.white)
+          ? Icon(Icons.check, size: 10.sp, color: AppColors.white)
           : null,
     );
   }
@@ -515,11 +529,11 @@ class _AppDropdownState extends State<AppDropdown>
             child: GestureDetector(
               onTap: _toggle,
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 8.w),
+                padding: EdgeInsets.symmetric(horizontal: 10.w),
                 decoration: BoxDecoration(
                   color: _bgColor,
                   borderRadius: BorderRadius.circular(8.r),
-                  border: Border.all(color: _borderColor, width: 1.5),
+                  border: Border.all(color: _borderColor, width: 1.0),
                 ),
                 child: Row(
                   children: [

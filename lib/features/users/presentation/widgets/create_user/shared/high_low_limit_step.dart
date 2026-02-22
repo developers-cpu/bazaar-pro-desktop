@@ -6,6 +6,7 @@ import '../../../../../../core/widget/app_checkbox.dart';
 import '../../../bloc/user_form/user_form_bloc.dart';
 import '../../../bloc/user_form/user_form_event.dart';
 import '../../../bloc/user_form/user_form_state.dart';
+
 class HighLowLimitStep extends StatelessWidget {
   const HighLowLimitStep({super.key});
   @override
@@ -16,10 +17,10 @@ class HighLowLimitStep extends StatelessWidget {
         final isAllSelected =
             state.selectedTradeLimits.length == exchanges.length;
         return Container(
-          padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 20.h),
+          padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
           decoration: BoxDecoration(
-            border: Border.all(color: AppColors.primaryBlue, width: 2.w),
-            borderRadius: BorderRadius.circular(12.r),
+            border: Border.all(color: AppColors.primaryBlue, width: 1.5),
+            borderRadius: BorderRadius.circular(8.r),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -27,37 +28,53 @@ class HighLowLimitStep extends StatelessWidget {
               AppCheckbox(
                 label: 'Select All',
                 value: isAllSelected,
+                size: 14.w,
+                activeColor: AppColors.primaryBlue,
+                borderColor: AppColors.secondaryTextColor,
+                labelColor: isAllSelected
+                    ? AppColors.primaryBlue
+                    : AppColors.secondaryTextColor,
+                labelFontSize: 10.sp,
                 onChanged: (value) {
                   context.read<UserFormBloc>().add(
                     ToggleAllTradeLimitsEvent(value ?? false),
                   );
                 },
               ),
-              SizedBox(height: 20.h),
-              LayoutBuilder(
-                builder: (context, constraints) {
-                  final availableWidth = constraints.maxWidth;
-                  final itemWidth = (availableWidth - (4 * 32.w)) / 5;
-                  return Wrap(
-                    spacing: 32.w,
-                    runSpacing: 16.h,
-                    children: exchanges.map((exchange) {
-                      return SizedBox(
-                        width: itemWidth,
-                        child: AppCheckbox(
-                          label: exchange,
-                          value: state.selectedTradeLimits.contains(exchange),
-                          onChanged: (value) {
-                            context.read<UserFormBloc>().add(
-                              UpdateTradeLimitEvent(
-                                exchange: exchange,
-                                isSelected: value ?? false,
-                              ),
-                            );
-                          },
+              SizedBox(height: 4.h),
+              GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 6,
+                  crossAxisSpacing: 4.w,
+                  mainAxisSpacing: 6.h,
+                  mainAxisExtent: 24.h,
+                ),
+                itemCount: exchanges.length,
+                itemBuilder: (context, index) {
+                  final exchange = exchanges[index];
+                  final isSelected = state.selectedTradeLimits.contains(
+                    exchange,
+                  );
+                  return AppCheckbox(
+                    label: exchange,
+                    value: isSelected,
+                    size: 14.w,
+                    activeColor: AppColors.primaryBlue,
+                    borderColor: AppColors.secondaryTextColor,
+                    labelColor: isSelected
+                        ? AppColors.primaryBlue
+                        : AppColors.secondaryTextColor,
+                    labelFontSize: 10.sp,
+                    onChanged: (value) {
+                      context.read<UserFormBloc>().add(
+                        UpdateTradeLimitEvent(
+                          exchange: exchange,
+                          isSelected: value ?? false,
                         ),
                       );
-                    }).toList(),
+                    },
                   );
                 },
               ),

@@ -58,7 +58,7 @@ class ViewDataTable<T> extends StatefulWidget {
     this.footerBuilder,
     this.autoFit = false,
     this.headerBgColor,
-    this.shrinkWrap = false, 
+    this.shrinkWrap = false,
   }) : super(key: key);
   @override
   State<ViewDataTable<T>> createState() => _ViewDataTableState<T>();
@@ -102,7 +102,7 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
     final rowHeight = widget.rowHeight ?? 30.h;
     final headerHeight = widget.headerHeight ?? 35.h;
     return Container(
-      margin: EdgeInsets.fromLTRB(10.w, 4.h, 10.w, 10.h),
+      margin: EdgeInsets.fromLTRB(0.w, 4.h, 0.w, 10.h),
       decoration: BoxDecoration(
         color: _rowBgColor,
         borderRadius: BorderRadius.circular(10.r),

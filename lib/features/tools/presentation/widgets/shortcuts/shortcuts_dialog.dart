@@ -10,25 +10,27 @@ import '../../../domain/entities/shortcut_entity.dart';
 import '../../bloc/shortcuts/shortcuts_bloc.dart';
 import '../../bloc/shortcuts/shortcuts_event.dart';
 import '../../bloc/shortcuts/shortcuts_state.dart';
+
 class ShortcutsDialog extends StatelessWidget {
   const ShortcutsDialog({Key? key}) : super(key: key);
   static void show(BuildContext context) {
     CommonDialog.show(
       context: context,
       title: 'Short Cuts',
-      width: 800.w,
+      width: 680.w,
       showButtons: false,
-      contentPadding: EdgeInsets.all(20.w),
+      contentPadding: EdgeInsets.all(16.w),
       content: BlocProvider<ShortcutsBloc>(
         create: (context) => sl<ShortcutsBloc>()..add(GetShortcutsEvent()),
         child: const ShortcutsDialog(),
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 450.h,
+      height: 400.h,
       child: BlocBuilder<ShortcutsBloc, ShortcutsState>(
         builder: (context, state) {
           if (state is ShortcutsLoading) {
@@ -37,9 +39,9 @@ class ShortcutsDialog extends StatelessWidget {
             return GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                childAspectRatio: 6,
-                crossAxisSpacing: 16.w,
-                mainAxisSpacing: 12.h,
+                childAspectRatio: 5,
+                crossAxisSpacing: 12.w,
+                mainAxisSpacing: 10.h,
               ),
               itemCount: state.shortcuts.length,
               itemBuilder: (context, index) {
@@ -55,6 +57,7 @@ class ShortcutsDialog extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildShortcutItem(ShortcutEntity item) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
@@ -94,6 +97,7 @@ class ShortcutsDialog extends StatelessWidget {
       ),
     );
   }
+
   Color? _getIconColor(String title) {
     if (title.toLowerCase().contains('buy')) return AppColors.successColor;
     if (title.toLowerCase().contains('sell')) return AppColors.red;

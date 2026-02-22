@@ -187,7 +187,7 @@ class _MarketDataTableState extends State<MarketDataTable> {
           visibleColumns: visibleColumns,
           isDark: isDark,
           fontFamily: fontFamily,
-          fontSize: fontSize,
+          fontSize: fontSize - 1.5,
           fontWeight: fontWeight,
         ),
       ),

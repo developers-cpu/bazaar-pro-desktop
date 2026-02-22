@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_images.dart';
 import '../../../../core/widget/common_dilog_box.dart';
+
 class AboutDialogBox extends StatelessWidget {
   const AboutDialogBox({Key? key}) : super(key: key);
   static void show(BuildContext context) {
@@ -12,10 +13,11 @@ class AboutDialogBox extends StatelessWidget {
       title: 'About',
       content: const AboutDialogBox(),
       showButtons: false,
-      width: 600.w,
-      height: 350.h,
+      width: 520.w,
+      height: 250.h,
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -27,7 +29,7 @@ class AboutDialogBox extends StatelessWidget {
             Text(
               'Operating System',
               style: GoogleFonts.openSans(
-                fontSize: 22.sp,
+                fontSize: 18.sp,
                 color: AppColors.primaryBlue,
                 fontWeight: FontWeight.w400,
               ),
@@ -40,15 +42,15 @@ class AboutDialogBox extends StatelessWidget {
               padding: EdgeInsets.all(4.w),
               child: Image.asset(
                 AppImages.appLogo,
-                height: 40.h,
+                height: 30.h,
                 errorBuilder: (context, error, stackTrace) {
-                  return const Icon(Icons.broken_image, size: 40);
+                  return Icon(Icons.broken_image, size: 30.sp);
                 },
               ),
             ),
           ],
         ),
-        SizedBox(height: 40.h),
+        SizedBox(height: 15.h),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -56,7 +58,7 @@ class AboutDialogBox extends StatelessWidget {
               iconWidget: Icon(
                 Icons.computer_outlined,
                 color: const Color(0xFFEAA92A),
-                size: 30.sp,
+                size: 24.sp,
               ),
               title: 'Component',
               value: 'BAZAAR PRO',
@@ -67,13 +69,13 @@ class AboutDialogBox extends StatelessWidget {
                   Icon(
                     Icons.chat_bubble,
                     color: const Color(0xFF4FA4F4),
-                    size: 28.sp,
+                    size: 22.sp,
                   ),
                   Positioned(
                     right: 0,
                     top: 0,
                     child: Container(
-                      padding: EdgeInsets.all(2.w),
+                      padding: EdgeInsets.all(1.w),
                       decoration: const BoxDecoration(
                         color: Color(0xFFEAA92A),
                         shape: BoxShape.circle,
@@ -81,7 +83,7 @@ class AboutDialogBox extends StatelessWidget {
                       child: Text(
                         '3',
                         style: TextStyle(
-                          fontSize: 8.sp,
+                          fontSize: 6.sp,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -96,7 +98,7 @@ class AboutDialogBox extends StatelessWidget {
               iconWidget: Icon(
                 Icons.gavel_outlined,
                 color: const Color(0xFFEAA92A),
-                size: 30.sp,
+                size: 24.sp,
               ),
               title: 'Copyrights',
               value: 'Copyrights @ 25',
@@ -107,6 +109,7 @@ class AboutDialogBox extends StatelessWidget {
       ],
     );
   }
+
   Widget _buildInfoCard({
     required Widget iconWidget,
     required String title,
@@ -114,21 +117,21 @@ class AboutDialogBox extends StatelessWidget {
     bool isLast = false,
   }) {
     return SizedBox(
-      width: 170.w,
-      height: 110.h,
+      width: 150.w,
+      height: 90.h,
       child: Stack(
         clipBehavior: Clip.none,
         children: [
           Positioned(
-            top: 15.h,
+            top: 12.h,
             bottom: 0,
             left: 0,
             right: 0,
             child: Container(
-              padding: EdgeInsets.fromLTRB(16.w, 30.h, 16.w, 16.w),
+              padding: EdgeInsets.fromLTRB(12.w, 20.h, 12.w, 12.w),
               decoration: BoxDecoration(
                 color: const Color(0xFFDDEBF3),
-                borderRadius: BorderRadius.circular(12.r),
+                borderRadius: BorderRadius.circular(10.r),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -137,16 +140,16 @@ class AboutDialogBox extends StatelessWidget {
                   Text(
                     title,
                     style: GoogleFonts.openSans(
-                      fontSize: 12.sp,
+                      fontSize: 10.sp,
                       color: AppColors.primaryBlue,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  SizedBox(height: 4.h),
+                  SizedBox(height: 2.h),
                   Text(
                     value,
                     style: GoogleFonts.openSans(
-                      fontSize: 12.sp,
+                      fontSize: 11.sp,
                       fontWeight: FontWeight.bold,
                       color: AppColors.primaryBlue,
                     ),
@@ -155,7 +158,7 @@ class AboutDialogBox extends StatelessWidget {
               ),
             ),
           ),
-          Positioned(top: 0, left: 16.w, child: iconWidget),
+          Positioned(top: 0, left: 12.w, child: iconWidget),
         ],
       ),
     );

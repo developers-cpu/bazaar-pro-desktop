@@ -8,18 +8,23 @@ import '../../../../../core/widget/custom_input_field.dart';
 class ChangePasswordDialog extends StatefulWidget {
   final String userId;
   final String userName;
+  final bool requireCurrentPassword;
   final Function(String oldPassword, String newPassword) onChangePassword;
+
   const ChangePasswordDialog({
     super.key,
     required this.userId,
     required this.userName,
     required this.onChangePassword,
+    this.requireCurrentPassword = true,
   });
+
   static void show({
     required BuildContext context,
     required String userId,
     required String userName,
     required Function(String oldPassword, String newPassword) onChangePassword,
+    bool requireCurrentPassword = true,
   }) {
     showDialog(
       context: context,
@@ -28,6 +33,7 @@ class ChangePasswordDialog extends StatefulWidget {
         userId: userId,
         userName: userName,
         onChangePassword: onChangePassword,
+        requireCurrentPassword: requireCurrentPassword,
       ),
     );
   }
@@ -38,12 +44,16 @@ class ChangePasswordDialog extends StatefulWidget {
 
 class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
   final _formKey = GlobalKey<FormState>();
+  final _currentPasswordController = TextEditingController();
   final _newPasswordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
+  bool _obscureCurrent = true;
   bool _obscureNew = true;
   bool _obscureConfirm = true;
+
   @override
   void dispose() {
+    _currentPasswordController.dispose();
     _newPasswordController.dispose();
     _confirmPasswordController.dispose();
     super.dispose();
@@ -62,6 +72,31 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             SizedBox(height: 12.h),
+            if (widget.requireCurrentPassword) ...[
+              CustomInputField(
+                controller: _currentPasswordController,
+                hintText: 'Current Password',
+                obscureText: _obscureCurrent,
+                width: double.infinity,
+                height: 40.h,
+                showErrorBorder: false,
+                suffixIcon: _obscureCurrent
+                    ? Icons.visibility_off_outlined
+                    : Icons.visibility_outlined,
+                onSuffixIconPressed: () {
+                  setState(() {
+                    _obscureCurrent = !_obscureCurrent;
+                  });
+                },
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter current password';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 12.h),
+            ],
             CustomInputField(
               controller: _newPasswordController,
               hintText: 'New Password',
@@ -142,7 +177,10 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
 
   void _handleSubmit() {
     if (_formKey.currentState?.validate() ?? false) {
-      widget.onChangePassword('', _newPasswordController.text);
+      widget.onChangePassword(
+        _currentPasswordController.text,
+        _newPasswordController.text,
+      );
       Navigator.pop(context);
     }
   }

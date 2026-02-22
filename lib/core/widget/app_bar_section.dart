@@ -224,6 +224,7 @@ class AppBarSectionState extends State<AppBarSection> {
                 context: context,
                 userId: 'current_user_id',
                 userName: 'Current User',
+                requireCurrentPassword: true,
                 onChangePassword: (oldNum, newNum) {
                   print('Change password: $oldNum -> $newNum');
                 },

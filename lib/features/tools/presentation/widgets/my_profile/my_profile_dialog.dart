@@ -29,7 +29,7 @@ class MyProfileDialog extends StatelessWidget {
     CommonDialog.show(
       context: context,
       title: 'My Profile',
-      width: 750.w,
+      width: 650.w,
       showButtons: false,
       contentPadding: EdgeInsets.zero,
       content: MultiBlocProvider(
@@ -100,18 +100,18 @@ class MyProfileDialog extends StatelessWidget {
             },
             builder: (context, state) {
               return Container(
-                height: 700.h,
+                height: 500.h,
                 decoration: BoxDecoration(
                   color: AppColors.white,
-                  borderRadius: BorderRadius.circular(16.r),
+                  borderRadius: BorderRadius.circular(12.r),
                 ),
                 child: Column(
                   children: [
                     Expanded(
                       child: SingleChildScrollView(
                         padding: EdgeInsets.symmetric(
-                          horizontal: 24.w,
-                          vertical: 16.h,
+                          horizontal: 16.w,
+                          vertical: 12.h,
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -143,8 +143,7 @@ class MyProfileDialog extends StatelessWidget {
                             _buildSectionHeader('Brokerage Settings'),
                             const BrokerageSettingStep(showUpdateButton: false),
 
-                            SizedBox(height: 24.h),
-                            SizedBox(height: 20.h),
+                            SizedBox(height: 12.h),
                           ],
                         ),
                       ),
@@ -168,11 +167,11 @@ class MyProfileDialog extends StatelessWidget {
 
   Widget _buildSectionHeader(String title) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 16.h, top: 8.h),
+      padding: EdgeInsets.only(bottom: 12.h, top: 4.h),
       child: Text(
         title,
         style: GoogleFonts.openSans(
-          fontSize: 16.sp,
+          fontSize: 14.sp,
           fontWeight: FontWeight.w600,
           color: AppColors.primaryBlue,
         ),
@@ -182,7 +181,7 @@ class MyProfileDialog extends StatelessWidget {
 
   Widget _buildDivider() {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 16.h),
+      padding: EdgeInsets.symmetric(vertical: 8.h),
       child: Divider(color: Colors.grey.withOpacity(0.2), thickness: 1),
     );
   }

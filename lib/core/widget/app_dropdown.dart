@@ -249,7 +249,7 @@ class _AppDropdownState extends State<AppDropdown>
                     decoration: BoxDecoration(
                       color: _dropdownBgColor,
                       borderRadius: BorderRadius.circular(8.r),
-                      border: Border.all(color: _borderColor, width: 1.0),
+                      border: Border.all(color: _borderColor, width: 1.4),
                       boxShadow: [
                         BoxShadow(
                           color: AppColors.black.withOpacity(0.1),
@@ -332,7 +332,7 @@ class _AppDropdownState extends State<AppDropdown>
       height: 28.h,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(6.r),
-        border: Border.all(color: AppColors.primaryBlue, width: 0.5),
+        border: Border.all(color: AppColors.primaryBlue, width: 1.0),
       ),
       child: Row(
         children: [
@@ -533,7 +533,7 @@ class _AppDropdownState extends State<AppDropdown>
                 decoration: BoxDecoration(
                   color: _bgColor,
                   borderRadius: BorderRadius.circular(8.r),
-                  border: Border.all(color: _borderColor, width: 1.0),
+                  border: Border.all(color: _borderColor, width: 1.4),
                 ),
                 child: Row(
                   children: [

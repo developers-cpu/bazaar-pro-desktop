@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import '../../../../../core/widget/common_dilog_box.dart';
 import '../../../../../injection_container.dart';
 import '../../../domain/entities/message_entity.dart';
+
 class MessagesDialog extends StatelessWidget {
   const MessagesDialog({super.key});
   static void show(BuildContext context) {
@@ -20,12 +21,13 @@ class MessagesDialog extends StatelessWidget {
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return CommonDialog(
       title: 'Messages',
-      width: 500.w,
-      height: 700.h,
+      width: 420.w,
+      height: 650.h,
       showButtons: false,
       scrollable: false,
       contentPadding: EdgeInsets.zero,
@@ -43,6 +45,7 @@ class MessagesDialog extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildMessageList(List<MessageEntity> messages) {
     final groupedMessages = <String, List<MessageEntity>>{};
     for (var message in messages) {
@@ -67,6 +70,7 @@ class MessagesDialog extends StatelessWidget {
       },
     );
   }
+
   String _getDateKey(DateTime timestamp) {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
@@ -84,6 +88,7 @@ class MessagesDialog extends StatelessWidget {
       return DateFormat('dd/MM/yy').format(timestamp);
     }
   }
+
   Widget _buildDateHeader(String date) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 12.h),
@@ -106,6 +111,7 @@ class MessagesDialog extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildMessageCard(MessageEntity message) {
     return Container(
       margin: EdgeInsets.only(bottom: 12.h),
@@ -128,11 +134,7 @@ class MessagesDialog extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Icon(
-                Icons.campaign,
-                color: AppColors.primaryBlue,
-                size: 24.sp,
-              ),
+              Icon(Icons.campaign, color: AppColors.primaryBlue, size: 24.sp),
               SizedBox(width: 12.w),
               Expanded(
                 child: Column(

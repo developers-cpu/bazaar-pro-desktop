@@ -338,6 +338,7 @@ class _UserDetailsDialogState extends State<UserDetailsDialog>
               context: context,
               userId: widget.user.id,
               userName: widget.user.userName,
+              requireCurrentPassword: false,
               onChangePassword: (oldPass, newPass) {
                 print('Change password: $oldPass -> $newPass');
               },

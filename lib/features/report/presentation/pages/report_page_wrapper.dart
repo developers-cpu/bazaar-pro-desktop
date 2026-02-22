@@ -55,8 +55,6 @@ class TradeLogsPageWithAppBar extends StatelessWidget {
   }
 }
 
-
-
 class SettlementPageWithAppBar extends StatelessWidget {
   const SettlementPageWithAppBar({Key? key}) : super(key: key);
   @override

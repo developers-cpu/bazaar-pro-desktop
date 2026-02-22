@@ -10,6 +10,7 @@ import '../../../presentation/bloc/trade_log/trade_log_state.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
 import '../../../../../core/widget/table/view_record_count.dart';
 import '../../../../../core/widget/table/view_table_cell_styles.dart';
+
 class TradeLogTable extends StatelessWidget {
   final bool isDarkMode;
   const TradeLogTable({Key? key, this.isDarkMode = false}) : super(key: key);
@@ -39,6 +40,7 @@ class TradeLogTable extends StatelessWidget {
       ViewTableColumn(id: 'modifyBy', label: 'MODIFY BY', width: 120),
     ];
   }
+
   Widget _buildCell(TradeLog item, ViewTableColumn column, bool isDark) {
     switch (column.id) {
       case 'userName':
@@ -77,6 +79,7 @@ class TradeLogTable extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TradeLogBloc, TradeLogState>(
@@ -100,6 +103,7 @@ class TradeLogTable extends StatelessWidget {
                 idExtractor: (item) => item.id,
                 sortColumn: state.sortColumn,
                 sortAscending: state.sortAscending,
+                autoFit: true,
                 isDarkMode: isDarkMode,
                 emptyMessage: 'No trade logs found',
                 cellBuilder: (item, column) =>
@@ -119,6 +123,7 @@ class TradeLogTable extends StatelessWidget {
       },
     );
   }
+
   Widget _buildErrorState(BuildContext context, String message) {
     return Center(
       child: Column(

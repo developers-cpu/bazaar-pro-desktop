@@ -13,6 +13,7 @@ import '../../../../users/presentation/widgets/user_details/user_details_dialog.
 import '../../../../users/presentation/widgets/create_user/master_form_dialog.dart';
 import '../../../../users/presentation/widgets/create_user/client_form_dialog.dart';
 import '../../../../users/presentation/widgets/create_user/update_access_dialog.dart';
+
 class ProfitAndLossDetailsDialog extends StatelessWidget {
   final List<ProfitAndLossReport> reports;
   final String userName;
@@ -39,9 +40,10 @@ class ProfitAndLossDetailsDialog extends StatelessWidget {
       ),
     );
   }
+
   List<ViewTableColumn> _getColumns() {
     return const [
-      ViewTableColumn(id: 'view', label: 'VIEW', width: 60),
+      ViewTableColumn(id: 'view', label: 'VIEW', width: 120),
       ViewTableColumn(id: 'userName', label: 'U. NAME', width: 120),
       ViewTableColumn(id: 'percentage', label: '%', width: 80),
       ViewTableColumn(id: 'releasePL', label: 'RELEASE P/L', width: 120),
@@ -52,6 +54,7 @@ class ProfitAndLossDetailsDialog extends StatelessWidget {
       ViewTableColumn(id: 'ourPercentage', label: 'OUR', width: 120),
     ];
   }
+
   Widget _buildCell(
     BuildContext context,
     ProfitAndLossReport item,
@@ -75,7 +78,7 @@ class ProfitAndLossDetailsDialog extends StatelessWidget {
             ProfitAndLossDetailsDialog.show(
               context,
               [item, item],
-              '${item.userName} ${level + 1}',
+              item.userName,
               level: level + 1,
             );
           },
@@ -181,6 +184,7 @@ class ProfitAndLossDetailsDialog extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
+
   @override
   Widget build(BuildContext context) {
     double totalReleasePL = 0;
@@ -210,30 +214,28 @@ class ProfitAndLossDetailsDialog extends StatelessWidget {
         padding: EdgeInsets.all(10.w),
         child: Column(
           children: [
-            Container(
-              width: double.infinity,
-              padding: EdgeInsets.symmetric(vertical: 8.h),
-              margin: EdgeInsets.symmetric(horizontal: 5.w, vertical: 5.h),
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(4.r),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    blurRadius: 4,
-                    offset: const Offset(0, 2),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 8.h),
+              child: Row(
+                children: [
+                  InkWell(
+                    onTap: () => Navigator.pop(context),
+                    child: Icon(
+                      Icons.arrow_back,
+                      color: const Color(0xFF1F4A66),
+                      size: 18.sp,
+                    ),
+                  ),
+                  SizedBox(width: 12.w),
+                  Text(
+                    userName,
+                    style: GoogleFonts.openSans(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w600,
+                      color: const Color(0xFF1F4A66),
+                    ),
                   ),
                 ],
-                border: Border.all(color: AppColors.greyBorder),
-              ),
-              child: Text(
-                userName,
-                style: GoogleFonts.openSans(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w600,
-                  color: const Color(0xFF1F4A66),
-                ),
               ),
             ),
             ViewRecordCount(count: reports.length),
@@ -242,6 +244,7 @@ class ProfitAndLossDetailsDialog extends StatelessWidget {
                 columns: _getColumns(),
                 data: reports,
                 idExtractor: (item) => item.id,
+                autoFit: true,
                 emptyMessage: 'No records found',
                 cellBuilder: (item, column) {
                   final index = reports.indexOf(item);
@@ -258,6 +261,26 @@ class ProfitAndLossDetailsDialog extends StatelessWidget {
                       'netPL': totalNetPL.toStringAsFixed(2),
                       'ourBrokerage': totalOurBrokerage.toStringAsFixed(2),
                       'ourPercentage': totalOurPercentage.toStringAsFixed(2),
+                    },
+                    columnColors: {
+                      'releasePL': totalReleasePL >= 0
+                          ? AppColors.buyColor
+                          : AppColors.sellColor,
+                      'brokerage': totalBrokerage >= 0
+                          ? AppColors.buyColor
+                          : AppColors.sellColor,
+                      'm2m': totalM2M >= 0
+                          ? AppColors.buyColor
+                          : AppColors.sellColor,
+                      'netPL': totalNetPL >= 0
+                          ? AppColors.buyColor
+                          : AppColors.sellColor,
+                      'ourBrokerage': totalOurBrokerage >= 0
+                          ? AppColors.buyColor
+                          : AppColors.sellColor,
+                      'ourPercentage': totalOurPercentage >= 0
+                          ? AppColors.buyColor
+                          : AppColors.sellColor,
                     },
                   );
                 },

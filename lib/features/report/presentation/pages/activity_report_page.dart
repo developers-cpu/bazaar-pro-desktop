@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../../injection_container.dart';
 import '../widgets/activity_report/activity_report_filter_bar.dart';
 import '../widgets/activity_report/activity_report_table.dart';
+
 class ActivityReportPage extends StatelessWidget {
   const ActivityReportPage({super.key});
   @override
@@ -14,7 +15,12 @@ class ActivityReportPage extends StatelessWidget {
       child: Column(
         children: [
           const ActivityReportFilterBar(),
-          Expanded(child: const ActivityReportTable()),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: const ActivityReportTable(),
+            ),
+          ),
         ],
       ),
     );

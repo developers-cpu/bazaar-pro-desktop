@@ -10,16 +10,17 @@ class ViewRecordCount extends StatelessWidget {
     : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 2.h),
+    return Align(
       alignment: Alignment.centerRight,
-      child: Text(
-        '$label : $count',
-        style: GoogleFonts.openSans(
-          fontSize: 10.sp,
-          fontWeight: FontWeight.w600,
-          color: AppColors.primaryBlue,
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 2.h),
+        child: Text(
+          '$label : $count',
+          style: GoogleFonts.openSans(
+            fontSize: 10.sp,
+            fontWeight: FontWeight.w600,
+            color: AppColors.primaryBlue,
+          ),
         ),
       ),
     );

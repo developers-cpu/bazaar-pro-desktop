@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../domain/usecases/get_activity_report.dart';
 import 'activity_report_event.dart';
 import 'activity_report_state.dart';
+
 class ActivityReportBloc
     extends Bloc<ActivityReportEvent, ActivityReportState> {
   final GetActivityReportUseCase getActivityReport;
@@ -26,12 +27,14 @@ class ActivityReportBloc
       },
     );
   }
+
   Future<void> _onFilterActivityReport(
     FilterActivityReport event,
     Emitter<ActivityReportState> emit,
   ) async {
     final currentState = state;
     if (currentState is ActivityReportLoaded) {
+      final userType = event.userType ?? currentState.selectedUserType;
       final user = event.user ?? currentState.selectedUser;
       final dateRange = event.dateRange ?? currentState.selectedDateRange;
       final editUserType =
@@ -48,6 +51,7 @@ class ActivityReportBloc
         (data) => emit(
           currentState.copyWith(
             reports: data,
+            selectedUserType: userType,
             selectedUser: user,
             selectedDateRange: dateRange,
             selectedEditUserType: editUserType,
@@ -56,6 +60,7 @@ class ActivityReportBloc
       );
     }
   }
+
   Future<void> _onResetActivityReportFilters(
     ResetActivityReportFilters event,
     Emitter<ActivityReportState> emit,
@@ -71,6 +76,7 @@ class ActivityReportBloc
           ActivityReportLoaded(
             reports: data,
             users: users,
+            selectedUserType: null,
             selectedUser: null,
             selectedDateRange: null,
             selectedEditUserType: null,

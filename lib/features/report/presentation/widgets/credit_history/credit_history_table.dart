@@ -4,11 +4,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
+import '../../../../../core/widget/table/view_data_table_footer.dart';
 import '../../../../../core/widget/table/view_record_count.dart';
 import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import '../../../domain/entities/credit_history.dart';
 import '../../bloc/credit_history/credit_history_bloc.dart';
 import '../../bloc/credit_history/credit_history_state.dart';
+
 class CreditHistoryTable extends StatelessWidget {
   final bool isDarkMode;
   const CreditHistoryTable({super.key, this.isDarkMode = false});
@@ -33,6 +35,7 @@ class CreditHistoryTable extends StatelessWidget {
       ViewTableColumn(id: 'comment', label: 'COMMENT', width: 250),
     ];
   }
+
   Widget _buildCell(CreditHistory item, ViewTableColumn column, bool isDark) {
     switch (column.id) {
       case 'userName':
@@ -70,6 +73,7 @@ class CreditHistoryTable extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CreditHistoryBloc, CreditHistoryState>(
@@ -103,40 +107,14 @@ class CreditHistoryTable extends StatelessWidget {
                 cellBuilder: (item, column) =>
                     _buildCell(item, column, isDarkMode),
                 footerBuilder: (columns) {
-                  return Row(
-                    children: columns.map((column) {
-                      if (column.id == 'userName') {
-                        return Container(
-                          width: column.width,
-                          alignment: Alignment.center,
-                          child: Text(
-                            'Total',
-                            style: GoogleFonts.openSans(
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.w700,
-                              color: isDarkMode
-                                  ? AppColors.white
-                                  : AppColors.primaryTextColor,
-                            ),
-                          ),
-                        );
-                      } else if (column.id == 'amount') {
-                        return Container(
-                          width: column.width,
-                          alignment: Alignment.center,
-                          child: Text(
-                            totalAmount.toStringAsFixed(2),
-                            style: GoogleFonts.openSans(
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.w700,
-                              color: AppColors.primaryBlue,
-                            ),
-                          ),
-                        );
-                      } else {
-                        return Container(width: column.width);
-                      }
-                    }).toList(),
+                  return ViewDataTableFooter(
+                    columns: columns,
+                    values: {
+                      'userName': 'Total',
+                      'amount': totalAmount.toStringAsFixed(2),
+                    },
+                    isDarkMode: isDarkMode,
+                    textAlign: TextAlign.center,
                   );
                 },
               ),

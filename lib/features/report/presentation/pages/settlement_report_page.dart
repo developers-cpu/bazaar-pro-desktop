@@ -10,6 +10,7 @@ import '../bloc/settlement_report/settlement_report_state.dart';
 import '../widgets/settlement_report/settlement_filter_bar.dart';
 import '../widgets/settlement_report/settlement_report_view.dart';
 import '../../../../../../core/constants/app_colors.dart';
+
 class SettlementReportPage extends StatelessWidget {
   const SettlementReportPage({super.key});
   @override
@@ -91,6 +92,77 @@ class SettlementReportPage extends StatelessWidget {
                         );
                       },
                     ),
+                  if (state is SettlementReportLoaded)
+                    Builder(
+                      builder: (context) {
+                        final netPnl =
+                            state.report.profitTotal.totalPnl +
+                            state.report.lossTotal.totalPnl;
+                        final isNegative = netPnl < 0;
+                        final color = isNegative
+                            ? AppColors.sellColor
+                            : AppColors.buyColor;
+                        return Container(
+                          margin: EdgeInsets.symmetric(
+                            horizontal: 16.w,
+                            vertical: 8.h,
+                          ),
+                          padding: EdgeInsets.symmetric(vertical: 8.h),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(color: color, width: 1),
+                            borderRadius: BorderRadius.circular(4.r),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    Icons.arrow_upward,
+                                    color: AppColors.primaryBlue,
+                                    size: 14.sp,
+                                  ),
+                                  Icon(
+                                    Icons.arrow_downward,
+                                    color: AppColors.sellColor,
+                                    size: 14.sp,
+                                  ),
+                                ],
+                              ),
+                              SizedBox(width: 4.w),
+                              Text(
+                                'P&L',
+                                style: GoogleFonts.openSans(
+                                  color: AppColors.billDataText,
+                                  fontSize: 13.sp,
+                                ),
+                              ),
+                              SizedBox(width: 16.w),
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 12.w,
+                                  vertical: 4.h,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: color,
+                                  borderRadius: BorderRadius.circular(4.r),
+                                ),
+                                child: Text(
+                                  netPnl.toStringAsFixed(0),
+                                  style: GoogleFonts.openSans(
+                                    color: Colors.white,
+                                    fontSize: 13.sp,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
                   if (state is SettlementReportLoaded &&
                       state.selectedUserId != null &&
                       state.selectedUserName != null)
@@ -103,21 +175,16 @@ class SettlementReportPage extends StatelessWidget {
                       padding: EdgeInsets.symmetric(vertical: 8.h),
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        border: Border.all(color: Colors.grey.shade100),
+                        border: Border.all(
+                          color: AppColors.billTableHeaderText,
+                        ),
                         borderRadius: BorderRadius.circular(4.r),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.02),
-                            blurRadius: 2,
-                            offset: const Offset(0, 1),
-                          ),
-                        ],
                       ),
                       alignment: Alignment.center,
                       child: Text(
                         state.selectedUserName!,
                         style: GoogleFonts.openSans(
-                          color: AppColors.billLossColor,
+                          color: AppColors.sellColor,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w600,
                         ),

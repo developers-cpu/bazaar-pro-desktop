@@ -9,12 +9,14 @@ class DateRangePickerButton extends StatelessWidget {
   final VoidCallback onTap;
   final double? width;
   final double? height;
+  final String hintText;
   const DateRangePickerButton({
     super.key,
     required this.selectedDateRange,
     required this.onTap,
     this.width,
     this.height,
+    this.hintText = 'Select Date ...',
   });
   @override
   Widget build(BuildContext context) {
@@ -36,23 +38,23 @@ class DateRangePickerButton extends StatelessWidget {
               child: Text(
                 selectedDateRange != null
                     ? '${DateFormat('yyyy-MM-dd').format(selectedDateRange!.start)} - ${DateFormat('yyyy-MM-dd').format(selectedDateRange!.end)}'
-                    : 'Select Date Range',
+                    : hintText,
                 style: GoogleFonts.openSans(
                   fontSize: 12.sp,
                   fontWeight: FontWeight.w600,
                   height: 1.0,
                   letterSpacing: 0.15,
                   color: selectedDateRange != null
-                      ? AppColors.textColor(context)
+                      ? AppColors.primaryTextColor
                       : AppColors.primaryBlue,
                 ),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
               ),
             ),
-            SizedBox(width: 8.w),
+            SizedBox(width: 4.w),
             Icon(
-              Icons.calendar_today,
+              Icons.calendar_month_outlined,
               size: 16.sp,
               color: AppColors.primaryBlue,
             ),

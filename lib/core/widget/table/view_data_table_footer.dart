@@ -13,6 +13,7 @@ class ViewDataTableFooter extends StatelessWidget {
   final Color? backgroundColor;
   final BorderRadius? borderRadius;
   final TextAlign? textAlign;
+  final Map<String, Color>? columnColors;
 
   const ViewDataTableFooter({
     Key? key,
@@ -24,6 +25,7 @@ class ViewDataTableFooter extends StatelessWidget {
     this.backgroundColor,
     this.borderRadius,
     this.textAlign,
+    this.columnColors,
   }) : super(key: key);
 
   @override
@@ -61,7 +63,10 @@ class ViewDataTableFooter extends StatelessWidget {
               style: ViewTableCellStyles.getTextStyle(
                 isDark: isDarkMode,
                 fontWeight: FontWeight.bold,
-                color: textColor ?? AppColors.primaryBlue,
+                color:
+                    columnColors?[column.id] ??
+                    textColor ??
+                    AppColors.primaryBlue,
               ),
               textAlign:
                   textAlign ??

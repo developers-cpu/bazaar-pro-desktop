@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../../injection_container.dart';
 import '../widgets/symbol_wise_pl_report/symbol_wise_position_report_filter_bar.dart';
 import '../widgets/symbol_wise_pl_report/symbol_wise_position_report_table.dart';
+
 class SymbolWisePositionReportPage extends StatelessWidget {
   const SymbolWisePositionReportPage({super.key});
   @override
@@ -16,7 +17,12 @@ class SymbolWisePositionReportPage extends StatelessWidget {
       child: Column(
         children: [
           const SymbolWisePositionReportFilterBar(),
-          Expanded(child: const SymbolWisePositionReportTable()),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: const SymbolWisePositionReportTable(),
+            ),
+          ),
         ],
       ),
     );

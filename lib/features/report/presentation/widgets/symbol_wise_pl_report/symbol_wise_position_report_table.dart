@@ -7,20 +7,59 @@ import '../../../../../core/widget/table/view_data_table.dart';
 import '../../../../../core/widget/table/view_record_count.dart';
 import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import '../../../../../core/widget/table/view_data_table_footer.dart';
+import '../../../../../core/constants/app_colors.dart';
 import '../../bloc/symbol_wise_position_report/symbol_wise_position_report_bloc.dart';
 import '../../bloc/symbol_wise_position_report/symbol_wise_position_report_state.dart';
+
 class SymbolWisePositionReportTable extends StatelessWidget {
   final bool isDarkMode;
   const SymbolWisePositionReportTable({super.key, this.isDarkMode = false});
   List<ViewTableColumn> _getColumns() {
     return const [
-      ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 220),
-      ViewTableColumn(id: 'releasePL', label: 'RELEASE PL', width: 140),
-      ViewTableColumn(id: 'm2m', label: 'M2M', width: 140),
-      ViewTableColumn(id: 'brokerage', label: 'BRK', width: 120),
-      ViewTableColumn(id: 'netPL', label: 'NET PL', width: 140),
+      ViewTableColumn(id: 'exchange', label: 'EXCH', width: 80),
+      ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 180),
+      ViewTableColumn(
+        id: 'netQty',
+        label: 'N.QTY',
+        width: 100,
+        isNumeric: true,
+      ),
+      ViewTableColumn(
+        id: 'netMs',
+        label: 'N.QTY%',
+        width: 100,
+        isNumeric: true,
+      ),
+      ViewTableColumn(
+        id: 'netAvgPrice',
+        label: 'A PRICE',
+        width: 120,
+        isNumeric: true,
+      ),
+      ViewTableColumn(
+        id: 'brokerage',
+        label: 'BRK',
+        width: 100,
+        isNumeric: true,
+      ),
+      ViewTableColumn(
+        id: 'wbaPrice',
+        label: 'W.B.A.PRICE',
+        width: 120,
+        isNumeric: true,
+      ),
+      ViewTableColumn(id: 'cmp', label: 'CMP', width: 120, isNumeric: true),
+      ViewTableColumn(id: 'netPL', label: 'P/L', width: 120, isNumeric: true),
+      ViewTableColumn(
+        id: 'releasePL',
+        label: 'P/L(%)',
+        width: 120,
+        isNumeric: true,
+      ),
+      ViewTableColumn(id: 'm2m', label: 'BRK%', width: 120, isNumeric: true),
     ];
   }
+
   Widget _buildClickableNumberCell(
     BuildContext context,
     double value,
@@ -41,39 +80,78 @@ class SymbolWisePositionReportTable extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildCell(
     BuildContext context,
     SymbolWisePositionReport item,
     ViewTableColumn column,
     bool isDark,
   ) {
+    final absQty = item.netQty.abs();
+    final wbaPrice = absQty > 0
+        ? (item.netQty < 0
+              ? item.netAvgPrice - (item.brokerage / absQty)
+              : item.netAvgPrice + (item.brokerage / absQty))
+        : item.netAvgPrice;
+
     switch (column.id) {
+      case 'exchange':
+        return ViewTextCell(text: item.exchange, isDark: isDark);
       case 'symbol':
-        return ViewTextCell(
+        return ViewLinkCell(
           text: item.symbol,
           isDark: isDark,
-          fontWeight: FontWeight.bold,
+          onTap: () =>
+              SymbolOpenPositionDialog.show(context, symbol: item.symbol),
         );
-      case 'releasePL':
-        return _buildClickableNumberCell(context, item.releasePL, () {
+      case 'netQty':
+        return _buildClickableNumberCell(context, item.netQty, () {
           SymbolTradeListDialog.show(context, symbol: item.symbol);
         }, isDark);
-      case 'm2m':
-        return _buildClickableNumberCell(context, item.m2m, () {
-          SymbolOpenPositionDialog.show(context, symbol: item.symbol);
-        }, isDark);
+      case 'netMs':
+        return ViewNumberCell(value: item.netMs, isDark: isDark);
+      case 'netAvgPrice':
+        return ViewNumberCell(
+          value: item.netAvgPrice,
+          isDark: isDark,
+          colorByValue: false,
+        );
       case 'brokerage':
         return ViewNumberCell(
           value: item.brokerage,
           isDark: isDark,
           colorByValue: false,
         );
+      case 'wbaPrice':
+        return ViewNumberCell(
+          value: wbaPrice,
+          isDark: isDark,
+          colorByValue: false,
+        );
+      case 'cmp':
+        Color cmpColor = isDark ? Colors.white : Colors.black;
+        if (item.netQty != 0) {
+          bool isProfit = item.netQty > 0
+              ? item.cmp > item.netAvgPrice
+              : item.cmp < item.netAvgPrice;
+          cmpColor = isProfit ? AppColors.buyColor : AppColors.sellColor;
+        }
+        return ViewNumberCell(
+          value: item.cmp,
+          isDark: isDark,
+          fixedColor: cmpColor,
+        );
       case 'netPL':
         return ViewNumberCell(value: item.netPL, isDark: isDark);
+      case 'releasePL':
+        return ViewNumberCell(value: item.releasePL, isDark: isDark);
+      case 'm2m':
+        return ViewNumberCell(value: item.m2m, isDark: isDark);
       default:
         return const SizedBox.shrink();
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<
@@ -90,15 +168,15 @@ class SymbolWisePositionReportTable extends StatelessWidget {
         if (state is! SymbolWisePositionReportLoaded) {
           return const SizedBox.shrink();
         }
-        double totalReleasePL = 0;
-        double totalM2M = 0;
         double totalBrokerage = 0;
         double totalNetPL = 0;
+        double totalReleasePL = 0;
+        double totalM2m = 0;
         for (var item in state.reports) {
-          totalReleasePL += item.releasePL;
-          totalM2M += item.m2m;
           totalBrokerage += item.brokerage;
           totalNetPL += item.netPL;
+          totalReleasePL += item.releasePL;
+          totalM2m += item.m2m;
         }
         return Column(
           children: [
@@ -120,10 +198,21 @@ class SymbolWisePositionReportTable extends StatelessWidget {
                     columns: columns,
                     values: {
                       'symbol': 'Total',
-                      'releasePL': totalReleasePL.toStringAsFixed(2),
-                      'm2m': totalM2M.toStringAsFixed(2),
                       'brokerage': totalBrokerage.toStringAsFixed(2),
                       'netPL': totalNetPL.toStringAsFixed(2),
+                      'releasePL': totalReleasePL.toStringAsFixed(2),
+                      'm2m': totalM2m.toStringAsFixed(2),
+                    },
+                    columnColors: {
+                      'netPL': totalNetPL >= 0
+                          ? AppColors.buyColor
+                          : AppColors.sellColor,
+                      'releasePL': totalReleasePL >= 0
+                          ? AppColors.buyColor
+                          : AppColors.sellColor,
+                      'm2m': totalM2m >= 0
+                          ? AppColors.buyColor
+                          : AppColors.sellColor,
                     },
                     isDarkMode: isDarkMode,
                   );

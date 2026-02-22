@@ -5,6 +5,7 @@ import '../../../../../core/widget/table/view_data_table.dart';
 import '../../../../../core/widget/table/view_record_count.dart';
 import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import '../../../../../core/widget/table/view_data_table_footer.dart';
+import '../../../../../core/constants/app_colors.dart';
 import '../../../../users/domain/entities/user.dart';
 import '../../../../users/presentation/widgets/user_details/user_details_dialog.dart';
 import '../../../../users/presentation/widgets/create_user/master_form_dialog.dart';
@@ -14,6 +15,7 @@ import '../../../domain/entities/profit_and_loss_report.dart';
 import '../../bloc/profit_and_loss_report/profit_and_loss_report_bloc.dart';
 import '../../bloc/profit_and_loss_report/profit_and_loss_report_state.dart';
 import 'profit_and_loss_details_dialog.dart';
+
 class ProfitAndLossReportTable extends StatelessWidget {
   final bool isDarkMode;
   const ProfitAndLossReportTable({super.key, this.isDarkMode = false});
@@ -30,6 +32,7 @@ class ProfitAndLossReportTable extends StatelessWidget {
       ViewTableColumn(id: 'ourPercentage', label: 'OUR', width: 150),
     ];
   }
+
   Widget _buildCell(
     BuildContext context,
     ProfitAndLossReport item,
@@ -48,7 +51,7 @@ class ProfitAndLossReportTable extends StatelessWidget {
             ProfitAndLossDetailsDialog.show(context, [
               item,
               item,
-            ], '${item.userName} 1');
+            ], item.userName);
           },
           padding: EdgeInsets.zero,
           constraints: const BoxConstraints(),
@@ -152,6 +155,7 @@ class ProfitAndLossReportTable extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ProfitAndLossReportBloc, ProfitAndLossReportState>(
@@ -203,8 +207,27 @@ class ProfitAndLossReportTable extends StatelessWidget {
                       'brokerage': totalBrokerage.toStringAsFixed(2),
                       'm2m': totalM2M.toStringAsFixed(2),
                       'netPL': totalNetPL.toStringAsFixed(2),
-                      'ourBrokerage': totalOurBrokerage.toStringAsFixed(2),
                       'ourPercentage': totalOurPercentage.toStringAsFixed(2),
+                    },
+                    columnColors: {
+                      'releasePL': totalReleasePL >= 0
+                          ? AppColors.buyColor
+                          : AppColors.sellColor,
+                      'brokerage': totalBrokerage >= 0
+                          ? AppColors.buyColor
+                          : AppColors.sellColor,
+                      'm2m': totalM2M >= 0
+                          ? AppColors.buyColor
+                          : AppColors.sellColor,
+                      'netPL': totalNetPL >= 0
+                          ? AppColors.buyColor
+                          : AppColors.sellColor,
+                      'ourBrokerage': totalOurBrokerage >= 0
+                          ? AppColors.buyColor
+                          : AppColors.sellColor,
+                      'ourPercentage': totalOurPercentage >= 0
+                          ? AppColors.buyColor
+                          : AppColors.sellColor,
                     },
                     isDarkMode: isDarkMode,
                   );

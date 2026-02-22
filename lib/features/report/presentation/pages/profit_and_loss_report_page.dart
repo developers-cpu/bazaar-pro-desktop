@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../../injection_container.dart';
 import '../widgets/profit_and_loss_report/profit_and_loss_filter_bar.dart';
 import '../widgets/profit_and_loss_report/profit_and_loss_report_table.dart';
+
 class ProfitAndLossReportPage extends StatelessWidget {
   const ProfitAndLossReportPage({super.key});
   @override
@@ -15,7 +16,12 @@ class ProfitAndLossReportPage extends StatelessWidget {
       child: Column(
         children: [
           const ProfitAndLossFilterBar(),
-          Expanded(child: const ProfitAndLossReportTable()),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: const ProfitAndLossReportTable(),
+            ),
+          ),
         ],
       ),
     );

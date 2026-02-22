@@ -20,8 +20,7 @@ class ScriptMasterFilterBar extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Row(
             children: [
-              SizedBox(
-                width: 200.w,
+              Expanded(
                 child: AppDropdown(
                   type: AppDropdownType.simple,
                   hintText: 'Exchange',
@@ -39,8 +38,7 @@ class ScriptMasterFilterBar extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 12.w),
-              SizedBox(
-                width: 200.w,
+              Expanded(
                 child: AppDropdown(
                   type: AppDropdownType.search,
                   hintText: 'Symbol',

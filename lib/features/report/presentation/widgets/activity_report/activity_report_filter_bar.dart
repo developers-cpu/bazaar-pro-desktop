@@ -8,6 +8,7 @@ import '../../../../../core/widget/date_range_picker_dialog.dart' as custom;
 import '../../bloc/activity_report/activity_report_bloc.dart';
 import '../../bloc/activity_report/activity_report_event.dart';
 import '../../bloc/activity_report/activity_report_state.dart';
+
 class ActivityReportFilterBar extends StatelessWidget {
   const ActivityReportFilterBar({super.key});
   @override
@@ -21,63 +22,52 @@ class ActivityReportFilterBar extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Row(
             children: [
-              AppDropdown(
-                width: 200.w,
-                height: 35.h,
-                type: AppDropdownType.search,
-                hintText: 'User',
-                searchHint: 'Search & Add',
-                value: state.selectedUser,
-                items: state.users,
-                onChanged: (value) {
-                  context.read<ActivityReportBloc>().add(
-                    FilterActivityReport(user: value),
-                  );
-                },
-              ),
-              SizedBox(width: 12.w),
-              DateRangePickerButton(
-                width: 200.w,
-                height: 35.h,
-                selectedDateRange: state.selectedDateRange,
-                onTap: () async {
-                  final picked = await custom.CustomDateRangePickerDialog.show(
-                    context,
-                    initialStartDate: state.selectedDateRange?.start,
-                    initialEndDate: state.selectedDateRange?.end,
-                  );
-                  if (picked != null && context.mounted) {
+              Expanded(
+                child: AppDropdown(
+                  type: AppDropdownType.simple,
+                  hintText: 'User Type',
+                  value: state.selectedUserType,
+                  items: const ['Master', 'Client'],
+                  onChanged: (value) {
                     context.read<ActivityReportBloc>().add(
-                      FilterActivityReport(dateRange: picked),
+                      FilterActivityReport(userType: value),
                     );
-                  }
-                },
+                  },
+                ),
               ),
               SizedBox(width: 12.w),
-              AppDropdown(
-                width: 200.w,
-                height: 35.h,
-                type: AppDropdownType.simple,
-                hintText: 'Edit User',
-                value: state.selectedEditUserType,
-                items: const [
-                  'View Only',
-                  'Leverage',
-                  'Edit User',
-                  'Bet',
-                  'Fifteen Days',
-                  'Close Only',
-                  'Margin Square off',
-                  'Status',
-                  'Turnoverwise Brk',
-                  'Symbolwise Brk',
-                  'Shift User',
-                ],
-                onChanged: (value) {
-                  context.read<ActivityReportBloc>().add(
-                    FilterActivityReport(editUserType: value),
-                  );
-                },
+              Expanded(
+                child: AppDropdown(
+                  type: AppDropdownType.search,
+                  hintText: 'User',
+                  searchHint: 'Search & Add',
+                  value: state.selectedUser,
+                  items: state.users,
+                  onChanged: (value) {
+                    context.read<ActivityReportBloc>().add(
+                      FilterActivityReport(user: value),
+                    );
+                  },
+                ),
+              ),
+              SizedBox(width: 12.w),
+              Expanded(
+                child: DateRangePickerButton(
+                  selectedDateRange: state.selectedDateRange,
+                  onTap: () async {
+                    final picked =
+                        await custom.CustomDateRangePickerDialog.show(
+                          context,
+                          initialStartDate: state.selectedDateRange?.start,
+                          initialEndDate: state.selectedDateRange?.end,
+                        );
+                    if (picked != null && context.mounted) {
+                      context.read<ActivityReportBloc>().add(
+                        FilterActivityReport(dateRange: picked),
+                      );
+                    }
+                  },
+                ),
               ),
               const Spacer(),
               ViewResetButtons(
@@ -89,9 +79,9 @@ class ActivityReportFilterBar extends StatelessWidget {
                 onView: () {
                   context.read<ActivityReportBloc>().add(
                     FilterActivityReport(
+                      userType: state.selectedUserType,
                       user: state.selectedUser,
                       dateRange: state.selectedDateRange,
-                      editUserType: state.selectedEditUserType,
                     ),
                   );
                 },

@@ -6,15 +6,16 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../../../core/constants/app_colors.dart';
 import '../../../../../../core/widget/app_dropdown.dart';
 import '../../../../../../core/widget/custom_input_field.dart';
+import '../../../../../../core/widget/table/view_data_table.dart';
+import '../../../../../../core/widget/table/view_record_count.dart';
+import '../../../../../../core/widget/table/view_reset_buttons.dart';
 import '../../../../domain/entities/user.dart';
 import '../../../../domain/entities/user_quantity_setting/user_quantity_setting.dart';
 import '../../../bloc/user_quantity_settings/user_quantity_settings_bloc.dart';
 import '../../../bloc/user_quantity_settings/user_quantity_settings_event.dart';
 import '../../../bloc/user_quantity_settings/user_quantity_settings_state.dart';
-import '../../common/user_data_table.dart';
-import '../../common/user_record_count.dart';
-import '../../common/user_reset_buttons.dart';
 import '../../../../../../injection_container.dart';
+
 class UserQuantitySettingsTab extends StatelessWidget {
   final User user;
   final String? groupName;
@@ -33,6 +34,7 @@ class UserQuantitySettingsTab extends StatelessWidget {
     );
   }
 }
+
 class UserQuantitySettingsTabView extends StatefulWidget {
   final String? groupName;
   const UserQuantitySettingsTabView({super.key, this.groupName});
@@ -40,6 +42,7 @@ class UserQuantitySettingsTabView extends StatefulWidget {
   State<UserQuantitySettingsTabView> createState() =>
       _UserQuantitySettingsTabViewState();
 }
+
 class _UserQuantitySettingsTabViewState
     extends State<UserQuantitySettingsTabView> {
   final TextEditingController _maxQtyController = TextEditingController();
@@ -56,6 +59,7 @@ class _UserQuantitySettingsTabViewState
     _breakupLotController.dispose();
     super.dispose();
   }
+
   void _onSelectAll(bool? value, List<UserQuantitySetting> allSettings) {
     setState(() {
       _isAllSelected = value ?? false;
@@ -66,6 +70,7 @@ class _UserQuantitySettingsTabViewState
       }
     });
   }
+
   void _onRowSelect(bool? value, String id) {
     setState(() {
       if (value == true) {
@@ -76,6 +81,7 @@ class _UserQuantitySettingsTabViewState
       }
     });
   }
+
   void _onUpdate() {
     if (_selectedIds.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -99,6 +105,7 @@ class _UserQuantitySettingsTabViewState
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -110,6 +117,7 @@ class _UserQuantitySettingsTabViewState
       ],
     );
   }
+
   Widget _buildFilterBar(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(12.w),
@@ -141,9 +149,7 @@ class _UserQuantitySettingsTabViewState
                     searchHint: 'Search & Add',
                   ),
                   const Spacer(),
-                  UserResetButtons(
-                    height: 35.h,
-                    width: 100.w,
+                  ViewResetButtons(
                     onReset: () {
                       context.read<UserQuantitySettingsBloc>().add(
                         const FilterUserQuantitySettings(symbol: null),
@@ -195,7 +201,7 @@ class _UserQuantitySettingsTabViewState
                   CustomActionButton(
                     text: 'Update',
                     onPressed: _onUpdate,
-                    width: 212.w,
+                    width: 188.w,
                     height: 35.h,
                     backgroundColor: AppColors.primaryBlue,
                     borderRadius: 8.r,
@@ -208,6 +214,7 @@ class _UserQuantitySettingsTabViewState
       ),
     );
   }
+
   Widget _buildGroupHeader(BuildContext context) {
     return Container(
       width: double.infinity,
@@ -238,6 +245,7 @@ class _UserQuantitySettingsTabViewState
       ),
     );
   }
+
   Widget _buildRecordCount(BuildContext context) {
     return Container(
       color: AppColors.white,
@@ -248,11 +256,12 @@ class _UserQuantitySettingsTabViewState
           if (state is UserQuantitySettingsLoaded) {
             count = state.filteredSettings.length;
           }
-          return UserRecordCount(count: count);
+          return ViewRecordCount(count: count);
         },
       ),
     );
   }
+
   Widget _buildTable(BuildContext context) {
     return BlocBuilder<UserQuantitySettingsBloc, UserQuantitySettingsState>(
       builder: (context, state) {
@@ -266,14 +275,14 @@ class _UserQuantitySettingsTabViewState
         if (state is UserQuantitySettingsLoaded) {
           settings = state.filteredSettings;
         }
-        return UserDataTable<UserQuantitySetting>(
+        return ViewDataTable<UserQuantitySetting>(
           columns: [
-            UserTableColumn(
+            ViewTableColumn(
               id: 'checkbox',
               label: '',
               width: 50.w,
               sortable: false,
-              customHeader: Checkbox(
+              customHeaderWidget: Checkbox(
                 value: _isAllSelected,
                 onChanged: (val) => _onSelectAll(val, settings),
                 activeColor: AppColors.primaryBlue,
@@ -281,28 +290,31 @@ class _UserQuantitySettingsTabViewState
                   color: AppColors.primaryBlue,
                   width: 1.5,
                 ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(4.r),
+                ),
               ),
             ),
-            UserTableColumn(id: 'symbol', label: 'Symbol', width: 230.w),
-            UserTableColumn(
+            ViewTableColumn(id: 'symbol', label: 'Symbol', width: 230.w),
+            ViewTableColumn(
               id: 'maxQty',
               label: 'Max Qty',
               width: 180.w,
               isNumeric: true,
             ),
-            UserTableColumn(
+            ViewTableColumn(
               id: 'breakupQty',
               label: 'Breakup Qty',
               width: 150.w,
               isNumeric: true,
             ),
-            UserTableColumn(
+            ViewTableColumn(
               id: 'maxLot',
               label: 'Max Lot',
               width: 180.w,
               isNumeric: true,
             ),
-            UserTableColumn(
+            ViewTableColumn(
               id: 'breakupLot',
               label: 'Breakup Lot',
               width: 180.w,
@@ -323,6 +335,9 @@ class _UserQuantitySettingsTabViewState
                     color: AppColors.primaryBlue,
                     width: 1.5,
                   ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(4.r),
+                  ),
                 );
               case 'symbol':
                 return Text(item.symbol, style: _cellStyle(isBold: true));
@@ -342,9 +357,10 @@ class _UserQuantitySettingsTabViewState
       },
     );
   }
+
   TextStyle _cellStyle({bool isBold = false}) {
     return GoogleFonts.openSans(
-      fontSize: 12.sp,
+      fontSize: 9.sp,
       fontWeight: isBold ? FontWeight.bold : FontWeight.w600,
       color: AppColors.primaryBlue,
     );

@@ -9,20 +9,22 @@ import '../../domain/entities/user.dart';
 import '../bloc/user_list/user_list_bloc.dart';
 import '../bloc/user_list/user_list_event.dart';
 import '../bloc/user_list/user_list_state.dart';
-import '../widgets/common/user_data_table.dart';
-import '../widgets/common/user_record_count.dart';
-import '../widgets/common/user_reset_buttons.dart';
+import '../../../../core/widget/table/view_data_table.dart';
+import '../../../../core/widget/table/view_record_count.dart';
+import '../../../../core/widget/table/view_reset_buttons.dart';
 import '../widgets/create_user/master_form_dialog.dart';
 import '../widgets/create_user/client_form_dialog.dart';
 import '../widgets/create_user/leverage_update_dialog.dart';
 import '../widgets/create_user/change_password_dialog.dart';
 import '../widgets/create_user/update_access_dialog.dart';
 import '../widgets/user_details/user_details_dialog.dart';
+
 class UserListPage extends StatefulWidget {
   const UserListPage({super.key});
   @override
   State<UserListPage> createState() => _UserListPageState();
 }
+
 class _UserListPageState extends State<UserListPage> {
   String? _selectedUserType;
   String? _selectedUserStatus;
@@ -31,6 +33,7 @@ class _UserListPageState extends State<UserListPage> {
     super.initState();
     context.read<UserListBloc>().add(const LoadUsersEvent());
   }
+
   void _showEditUserDialog(User user) {
     final userData = {
       'name': user.name,
@@ -59,6 +62,7 @@ class _UserListPageState extends State<UserListPage> {
       );
     }
   }
+
   void _showLeverageDialog(User user) {
     LeverageUpdateDialog.show(
       context: context,
@@ -70,6 +74,7 @@ class _UserListPageState extends State<UserListPage> {
       },
     );
   }
+
   void _showChangePasswordDialog(User user) {
     ChangePasswordDialog.show(
       context: context,
@@ -83,6 +88,7 @@ class _UserListPageState extends State<UserListPage> {
       },
     );
   }
+
   void _showActionDialog(User user) {
     final currentSettings = {
       'bet': true,
@@ -107,6 +113,7 @@ class _UserListPageState extends State<UserListPage> {
       },
     );
   }
+
   void _showUserDetailsDialog(User user, {String? initialTab}) {
     UserDetailsDialog.show(
       context,
@@ -116,6 +123,7 @@ class _UserListPageState extends State<UserListPage> {
       onAction: (_) => _showActionDialog(user),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -128,6 +136,7 @@ class _UserListPageState extends State<UserListPage> {
       ),
     );
   }
+
   Widget _buildFilterBar() {
     return Container(
       padding: EdgeInsets.all(12.w),
@@ -170,9 +179,7 @@ class _UserListPageState extends State<UserListPage> {
                     type: AppDropdownType.simple,
                   ),
                   const Spacer(),
-                  UserResetButtons(
-                    height: 35.h,
-                    width: 100.w,
+                  ViewResetButtons(
                     onReset: () {
                       setState(() {
                         _selectedUserType = null;
@@ -196,7 +203,7 @@ class _UserListPageState extends State<UserListPage> {
               SizedBox(height: 8.h),
               Align(
                 alignment: Alignment.centerLeft,
-                child: UserRecordCount(count: totalRecords),
+                child: ViewRecordCount(count: totalRecords),
               ),
             ],
           );
@@ -204,6 +211,7 @@ class _UserListPageState extends State<UserListPage> {
       ),
     );
   }
+
   Widget _buildDataTable() {
     return BlocBuilder<UserListBloc, UserListState>(
       builder: (context, state) {
@@ -239,10 +247,11 @@ class _UserListPageState extends State<UserListPage> {
       },
     );
   }
+
   Widget _buildTable(UserListLoaded state) {
     final columns = _getColumns();
     final isDarkMode = AppColors.isDarkMode(context);
-    return UserDataTable<User>(
+    return ViewDataTable<User>(
       columns: columns,
       data: state.filteredUsers,
       isDarkMode: isDarkMode,
@@ -262,86 +271,88 @@ class _UserListPageState extends State<UserListPage> {
       emptyMessage: 'No users found',
     );
   }
-  List<UserTableColumn> _getColumns() {
+
+  List<ViewTableColumn> _getColumns() {
     return [
-      const UserTableColumn(
+      const ViewTableColumn(
         id: 'edit',
         label: 'EDIT',
         width: 60,
         sortable: false,
       ),
-      const UserTableColumn(
+      const ViewTableColumn(
         id: 'action',
         label: 'ACTION',
         width: 70,
         sortable: false,
       ),
-      const UserTableColumn(id: 'userName', label: 'USER NAME', width: 150),
-      const UserTableColumn(id: 'parentUser', label: 'PAR.USER', width: 100),
-      const UserTableColumn(id: 'type', label: 'TYPE', width: 80),
-      const UserTableColumn(id: 'name', label: 'NAME', width: 100),
-      const UserTableColumn(
+      const ViewTableColumn(id: 'userName', label: 'USER NAME', width: 150),
+      const ViewTableColumn(id: 'parentUser', label: 'PAR.USER', width: 100),
+      const ViewTableColumn(id: 'type', label: 'TYPE', width: 80),
+      const ViewTableColumn(id: 'name', label: 'NAME', width: 100),
+      const ViewTableColumn(
         id: 'plPercent',
         label: 'P/L %',
         width: 80,
         isNumeric: true,
       ),
-      const UserTableColumn(
+      const ViewTableColumn(
         id: 'brkPercent',
         label: 'BRK %',
         width: 80,
         isNumeric: true,
       ),
-      const UserTableColumn(id: 'leverage', label: 'LVRJ', width: 60),
-      const UserTableColumn(
+      const ViewTableColumn(id: 'leverage', label: 'LVRJ', width: 60),
+      const ViewTableColumn(
         id: 'credit',
         label: 'CREDIT',
         width: 100,
         isNumeric: true,
       ),
-      const UserTableColumn(id: 'pl', label: 'P/L', width: 80, isNumeric: true),
-      const UserTableColumn(
+      const ViewTableColumn(id: 'pl', label: 'P/L', width: 80, isNumeric: true),
+      const ViewTableColumn(
         id: 'equity',
         label: 'EQUITY',
         width: 100,
         isNumeric: true,
       ),
-      const UserTableColumn(
+      const ViewTableColumn(
         id: 'totalMargin',
         label: 'TOT. MARGIN %',
         width: 120,
         isNumeric: true,
       ),
-      const UserTableColumn(
+      const ViewTableColumn(
         id: 'usedMargin',
         label: 'USED MARGIN %',
         width: 120,
         isNumeric: true,
       ),
-      const UserTableColumn(
+      const ViewTableColumn(
         id: 'freeMargin',
         label: 'FREE MARGIN %',
         width: 120,
         isNumeric: true,
       ),
-      const UserTableColumn(
+      const ViewTableColumn(
         id: 'createdDate',
         label: 'CREATED DATE',
         width: 150,
       ),
-      const UserTableColumn(
+      const ViewTableColumn(
         id: 'lastLoginDateTime',
         label: 'LAST LOGIN D/T',
         width: 150,
       ),
-      const UserTableColumn(
+      const ViewTableColumn(
         id: 'deviceType',
         label: 'TY. OFF DEVICE',
         width: 200,
       ),
-      const UserTableColumn(id: 'ipAddress', label: 'IP ADDRESS', width: 130),
+      const ViewTableColumn(id: 'ipAddress', label: 'IP ADDRESS', width: 130),
     ];
   }
+
   Widget _buildCellContent(User user, String columnId) {
     switch (columnId) {
       case 'edit':
@@ -597,6 +608,7 @@ class _UserListPageState extends State<UserListPage> {
         return const SizedBox.shrink();
     }
   }
+
   String _formatNumber(double value) {
     if (value == 0) return '0';
     return NumberFormat('#,##0').format(value.toInt());

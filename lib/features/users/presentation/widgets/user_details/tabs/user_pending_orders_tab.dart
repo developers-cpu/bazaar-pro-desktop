@@ -7,15 +7,16 @@ import 'package:intl/intl.dart';
 import '../../../../../../core/constants/app_colors.dart';
 import '../../../../../../core/constants/app_images.dart';
 import '../../../../../../core/widget/app_dropdown.dart';
+import '../../../../../../core/widget/table/view_data_table.dart';
+import '../../../../../../core/widget/table/view_record_count.dart';
+import '../../../../../../core/widget/table/view_reset_buttons.dart';
 import '../../../../domain/entities/user.dart';
 import '../../../../domain/entities/user_pending_order/user_pending_order.dart';
 import '../../../bloc/user_pending_order/user_pending_order_bloc.dart';
 import '../../../bloc/user_pending_order/user_pending_order_event.dart';
 import '../../../bloc/user_pending_order/user_pending_order_state.dart';
-import '../../common/user_data_table.dart';
-import '../../common/user_record_count.dart';
-import '../../common/user_reset_buttons.dart';
 import '../../../../../../injection_container.dart';
+
 class UserPendingOrdersTab extends StatelessWidget {
   final User user;
   const UserPendingOrdersTab({super.key, required this.user});
@@ -28,6 +29,7 @@ class UserPendingOrdersTab extends StatelessWidget {
     );
   }
 }
+
 class UserPendingOrdersTabView extends StatelessWidget {
   const UserPendingOrdersTabView({super.key});
   @override
@@ -40,6 +42,7 @@ class UserPendingOrdersTabView extends StatelessWidget {
       ],
     );
   }
+
   Widget _buildFilterBar(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(12.w),
@@ -119,9 +122,7 @@ class UserPendingOrdersTabView extends StatelessWidget {
                 type: AppDropdownType.simple,
               ),
               const Spacer(),
-              UserResetButtons(
-                height: 35.h,
-                width: 100.w,
+              ViewResetButtons(
                 onReset: () {
                   context.read<UserPendingOrderBloc>().add(
                     const FilterUserPendingOrders(
@@ -139,6 +140,7 @@ class UserPendingOrdersTabView extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildRecordCount(BuildContext context) {
     return Container(
       color: AppColors.white,
@@ -149,11 +151,12 @@ class UserPendingOrdersTabView extends StatelessWidget {
           if (state is UserPendingOrderLoaded) {
             count = state.filteredOrders.length;
           }
-          return UserRecordCount(count: count);
+          return ViewRecordCount(count: count);
         },
       ),
     );
   }
+
   Widget _buildContent(BuildContext context) {
     return BlocBuilder<UserPendingOrderBloc, UserPendingOrderState>(
       builder: (context, state) {
@@ -173,31 +176,31 @@ class UserPendingOrdersTabView extends StatelessWidget {
             ),
           );
         }
-        return UserDataTable<UserPendingOrder>(
+        return ViewDataTable<UserPendingOrder>(
           columns: [
-            UserTableColumn(id: 'time', label: 'TIME', width: 200.w),
-            UserTableColumn(id: 'exchange', label: 'EXCH', width: 120.w),
-            UserTableColumn(id: 'symbol', label: 'SYMBOL', width: 200.w),
-            UserTableColumn(id: 'type', label: 'TYPE', width: 100.w),
-            UserTableColumn(
+            ViewTableColumn(id: 'time', label: 'TIME', width: 200.w),
+            ViewTableColumn(id: 'exchange', label: 'EXCH', width: 120.w),
+            ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 200.w),
+            ViewTableColumn(id: 'type', label: 'TYPE', width: 100.w),
+            ViewTableColumn(
               id: 'lot',
               label: 'LOT',
               width: 100.w,
               isNumeric: true,
             ),
-            UserTableColumn(
+            ViewTableColumn(
               id: 'price',
               label: 'PRICE',
               width: 150.w,
               isNumeric: true,
             ),
-            UserTableColumn(id: 'status', label: 'STATUS', width: 120.w),
+            ViewTableColumn(id: 'status', label: 'STATUS', width: 120.w),
           ],
           data: data,
           idExtractor: (item) => item.id,
           cellBuilder: (item, column) {
             final commonStyle = GoogleFonts.openSans(
-              fontSize: 12.sp,
+              fontSize: 9.sp,
               fontWeight: FontWeight.w600,
               color: AppColors.primaryBlue,
             );

@@ -1,7 +1,10 @@
+import 'package:bazarpro/core/widget/table/view_reset_buttons.dart';
 import 'package:bazarpro/injection_container.dart';
 import 'package:flutter/material.dart' hide CustomDateRangePickerDialog;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../../../core/widget/table/view_data_table.dart';
+import '../../../../../../core/widget/table/view_record_count.dart';
 import '../../../../domain/entities/user_trades/user_trade.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -13,9 +16,7 @@ import '../../../../domain/entities/user.dart';
 import '../../../bloc/user_trades/user_trades_bloc.dart';
 import '../../../bloc/user_trades/user_trades_event.dart';
 import '../../../bloc/user_trades/user_trades_state.dart';
-import '../../common/user_data_table.dart';
-import '../../common/user_record_count.dart';
-import '../../common/user_reset_buttons.dart';
+
 class UserTradesTab extends StatelessWidget {
   final User user;
   const UserTradesTab({super.key, required this.user});
@@ -27,6 +28,7 @@ class UserTradesTab extends StatelessWidget {
     );
   }
 }
+
 class UserTradesTabView extends StatelessWidget {
   const UserTradesTabView({super.key});
   @override
@@ -39,6 +41,7 @@ class UserTradesTabView extends StatelessWidget {
       ],
     );
   }
+
   Widget _buildFilterBar(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(12.w),
@@ -145,9 +148,7 @@ class UserTradesTabView extends StatelessWidget {
                 type: AppDropdownType.simple,
               ),
               const Spacer(),
-              UserResetButtons(
-                height: 35.h,
-                width: 100.w,
+              ViewResetButtons(
                 onReset: () {
                   context.read<UserTradesBloc>().add(
                     const FilterUserTrades(
@@ -166,6 +167,7 @@ class UserTradesTabView extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildRecordCount(BuildContext context) {
     return Container(
       color: AppColors.white,
@@ -176,11 +178,12 @@ class UserTradesTabView extends StatelessWidget {
           if (state is UserTradesLoaded) {
             count = state.filteredTrades.length;
           }
-          return UserRecordCount(count: count);
+          return ViewRecordCount(count: count);
         },
       ),
     );
   }
+
   Widget _buildTable(BuildContext context) {
     return BlocBuilder<UserTradesBloc, UserTradesState>(
       builder: (context, state) {
@@ -194,60 +197,60 @@ class UserTradesTabView extends StatelessWidget {
         if (state is UserTradesLoaded) {
           trades = state.filteredTrades;
         }
-        return UserDataTable<UserTrade>(
+        return ViewDataTable<UserTrade>(
           columns: [
-            UserTableColumn(id: 'userName', label: 'U. NAME', width: 100.w),
-            UserTableColumn(id: 'parentUser', label: 'P USER', width: 100.w),
-            UserTableColumn(id: 'exchange', label: 'EXCH', width: 80.w),
-            UserTableColumn(id: 'symbol', label: 'SYMBOL', width: 140.w),
-            UserTableColumn(id: 'buySell', label: 'B/S', width: 80.w),
-            UserTableColumn(id: 'tradeType', label: 'Trade Type', width: 100.w),
-            UserTableColumn(
+            ViewTableColumn(id: 'userName', label: 'U. NAME', width: 100.w),
+            ViewTableColumn(id: 'parentUser', label: 'P USER', width: 100.w),
+            ViewTableColumn(id: 'exchange', label: 'EXCH', width: 80.w),
+            ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 140.w),
+            ViewTableColumn(id: 'buySell', label: 'B/S', width: 80.w),
+            ViewTableColumn(id: 'tradeType', label: 'Trade Type', width: 100.w),
+            ViewTableColumn(
               id: 'qty',
               label: 'QTY',
               width: 80.w,
               isNumeric: true,
             ),
-            UserTableColumn(
+            ViewTableColumn(
               id: 'lot',
               label: 'Lot',
               width: 60.w,
               isNumeric: true,
             ),
-            UserTableColumn(
+            ViewTableColumn(
               id: 'pnl',
               label: 'P/L',
               width: 100.w,
               isNumeric: true,
             ),
-            UserTableColumn(id: 'validity', label: 'Validity', width: 100.w),
-            UserTableColumn(
+            ViewTableColumn(id: 'validity', label: 'Validity', width: 100.w),
+            ViewTableColumn(
               id: 'tradePrice',
               label: 'T. PRICE',
               width: 100.w,
               isNumeric: true,
             ),
-            UserTableColumn(
+            ViewTableColumn(
               id: 'brk',
               label: 'Brk',
               width: 80.w,
               isNumeric: true,
             ),
-            UserTableColumn(
+            ViewTableColumn(
               id: 'netPrice',
               label: 'NET P.',
               width: 100.w,
               isNumeric: true,
             ),
-            UserTableColumn(id: 'orderDt', label: 'Order D/T', width: 140.w),
-            UserTableColumn(id: 'execDt', label: 'Execution D/T', width: 140.w),
-            UserTableColumn(
+            ViewTableColumn(id: 'orderDt', label: 'Order D/T', width: 140.w),
+            ViewTableColumn(id: 'execDt', label: 'Execution D/T', width: 140.w),
+            ViewTableColumn(
               id: 'reqPrice',
               label: 'R. PRICE',
               width: 100.w,
               isNumeric: true,
             ),
-            UserTableColumn(
+            ViewTableColumn(
               id: 'duration',
               label: 'Order Duration',
               width: 120.w,
@@ -350,13 +353,14 @@ class UserTradesTabView extends StatelessWidget {
       },
     );
   }
+
   TextStyle _cellStyle({
     Color? color,
     bool isSymbol = false,
     bool isUnderline = false,
   }) {
     return GoogleFonts.openSans(
-      fontSize: 11.sp,
+      fontSize: 9.sp,
       fontWeight: isSymbol ? FontWeight.bold : FontWeight.w600,
       color: color,
       decoration: isUnderline ? TextDecoration.underline : null,

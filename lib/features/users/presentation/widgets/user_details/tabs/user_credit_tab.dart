@@ -7,14 +7,16 @@ import '../../../../../../core/constants/app_colors.dart';
 import '../../../../../../core/widget/custom_input_field.dart';
 import '../../../../../../core/widget/custom_action_button.dart';
 import '../../../../../../core/widget/app_radio_button.dart';
+import '../../../../../../core/widget/table/view_data_table.dart';
+import '../../../../../../core/widget/table/view_record_count.dart';
 import '../../../../domain/entities/user.dart';
 import '../../../../domain/entities/user_credit_transaction/user_credit_transaction.dart';
 import '../../../bloc/user_credit/user_credit_bloc.dart';
 import '../../../bloc/user_credit/user_credit_event.dart';
 import '../../../bloc/user_credit/user_credit_state.dart';
-import '../../common/user_data_table.dart';
-import '../../common/user_record_count.dart';
+
 import '../../../../../../injection_container.dart';
+
 class UserCreditTab extends StatelessWidget {
   final User user;
   const UserCreditTab({super.key, required this.user});
@@ -26,11 +28,13 @@ class UserCreditTab extends StatelessWidget {
     );
   }
 }
+
 class UserCreditTabView extends StatefulWidget {
   const UserCreditTabView({super.key});
   @override
   State<UserCreditTabView> createState() => _UserCreditTabViewState();
 }
+
 class _UserCreditTabViewState extends State<UserCreditTabView> {
   String _transactionType = 'Credit';
   final TextEditingController _amountController = TextEditingController();
@@ -42,6 +46,7 @@ class _UserCreditTabViewState extends State<UserCreditTabView> {
     _commentController.dispose();
     super.dispose();
   }
+
   void _onSubmit() {
     final amount = double.tryParse(_amountController.text);
     if (amount == null) {
@@ -60,6 +65,7 @@ class _UserCreditTabViewState extends State<UserCreditTabView> {
     _amountController.clear();
     _commentController.clear();
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserCreditBloc, UserCreditState>(
@@ -85,6 +91,7 @@ class _UserCreditTabViewState extends State<UserCreditTabView> {
       },
     );
   }
+
   Widget _buildHeader(BuildContext context) {
     return Container(
       width: double.infinity,
@@ -123,6 +130,7 @@ class _UserCreditTabViewState extends State<UserCreditTabView> {
       ),
     );
   }
+
   Widget _buildFilterBar(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(12.w),
@@ -155,31 +163,33 @@ class _UserCreditTabViewState extends State<UserCreditTabView> {
       ),
     );
   }
+
   Widget _buildRecordCount(BuildContext context, UserCreditLoaded state) {
     return Container(
       color: AppColors.white,
       width: double.infinity,
-      child: UserRecordCount(count: state.transactions.length),
+      child: ViewRecordCount(count: state.transactions.length),
     );
   }
+
   Widget _buildTable(BuildContext context, UserCreditLoaded state) {
-    return UserDataTable<UserCreditTransaction>(
+    return ViewDataTable<UserCreditTransaction>(
       columns: [
-        UserTableColumn(id: 'date', label: 'DATE TIME', width: 200.w),
-        UserTableColumn(id: 'type', label: 'TYPE', width: 100.w),
-        UserTableColumn(
+        ViewTableColumn(id: 'date', label: 'DATE TIME', width: 200.w),
+        ViewTableColumn(id: 'type', label: 'TYPE', width: 100.w),
+        ViewTableColumn(
           id: 'amount',
           label: 'AMOUNT',
           width: 200.w,
           isNumeric: true,
         ),
-        UserTableColumn(
+        ViewTableColumn(
           id: 'balance',
           label: 'BALANCE',
           width: 200.w,
           isNumeric: true,
         ),
-        UserTableColumn(id: 'comment', label: 'COMMENT', width: 250.w),
+        ViewTableColumn(id: 'comment', label: 'COMMENT', width: 250.w),
       ],
       data: state.transactions,
       idExtractor: (item) => item.id,
@@ -187,7 +197,7 @@ class _UserCreditTabViewState extends State<UserCreditTabView> {
         final isDebit = item.type == 'Debit';
         final color = isDebit ? AppColors.errorColor : AppColors.primaryBlue;
         final commonStyle = GoogleFonts.openSans(
-          fontSize: 12.sp,
+          fontSize: 9.sp,
           fontWeight: FontWeight.w600,
           color: AppColors.primaryBlue,
         );
@@ -208,15 +218,9 @@ class _UserCreditTabViewState extends State<UserCreditTabView> {
               style: commonStyle.copyWith(color: color),
             );
           case 'balance':
-            return Text(
-              item.balance.toStringAsFixed(2),
-              style: commonStyle.copyWith(color: AppColors.textColor(context)),
-            );
+            return Text(item.balance.toStringAsFixed(2), style: commonStyle);
           case 'comment':
-            return Text(
-              item.comment,
-              style: commonStyle.copyWith(color: AppColors.textColor(context)),
-            );
+            return Text(item.comment, style: commonStyle);
           default:
             return const SizedBox();
         }
@@ -224,38 +228,50 @@ class _UserCreditTabViewState extends State<UserCreditTabView> {
       footerBuilder: (columns) => _buildFooter(columns, state.totalBalance),
     );
   }
-  Widget _buildFooter(List<UserTableColumn> columns, double totalBalance) {
+
+  Widget _buildFooter(List<ViewTableColumn> columns, double totalBalance) {
     return Row(
-      children: columns.map((column) {
+      children: columns.asMap().entries.map((entry) {
+        final index = entry.key;
+        final column = entry.value;
+        final isLast = index == columns.length - 1;
+
+        Widget content = const SizedBox();
         if (column.id == 'date') {
-          return Container(
-            width: column.width,
-            alignment: Alignment.center,
-            child: Text(
-              'Total',
-              style: GoogleFonts.openSans(
-                fontSize: 12.sp,
-                fontWeight: FontWeight.bold,
-                color: AppColors.primaryBlue,
-              ),
+          content = Text(
+            'Total',
+            style: GoogleFonts.openSans(
+              fontSize: 10.sp,
+              fontWeight: FontWeight.w600,
+              color: AppColors.primaryBlue,
+            ),
+          );
+        } else if (column.id == 'amount') {
+          content = Text(
+            totalBalance.toStringAsFixed(2),
+            style: GoogleFonts.openSans(
+              fontSize: 10.sp,
+              fontWeight: FontWeight.w600,
+              color: AppColors.primaryBlue,
             ),
           );
         }
-        if (column.id == 'amount') {
-          return Container(
-            width: column.width,
-            alignment: Alignment.center,
-            child: Text(
-              totalBalance.toStringAsFixed(2),
-              style: GoogleFonts.openSans(
-                fontSize: 12.sp,
-                fontWeight: FontWeight.bold,
-                color: AppColors.primaryBlue,
-              ),
-            ),
-          );
-        }
-        return SizedBox(width: column.width);
+
+        return Container(
+          width: column.width,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            border: isLast
+                ? null
+                : Border(
+                    right: BorderSide(
+                      color: AppColors.white.withOpacity(0.8),
+                      width: 1,
+                    ),
+                  ),
+          ),
+          child: content,
+        );
       }).toList(),
     );
   }

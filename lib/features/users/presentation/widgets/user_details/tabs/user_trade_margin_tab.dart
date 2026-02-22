@@ -8,15 +8,16 @@ import '../../../../../../core/constants/app_images.dart';
 import '../../../../../../core/widget/app_dropdown.dart';
 import '../../../../../../core/widget/custom_input_field.dart';
 import '../../../../../../core/widget/custom_action_button.dart';
+import '../../../../../../core/widget/table/view_data_table.dart';
+import '../../../../../../core/widget/table/view_record_count.dart';
+import '../../../../../../core/widget/table/view_reset_buttons.dart';
 import '../../../../domain/entities/user.dart';
 import '../../../../domain/entities/user_trade_margin/user_trade_margin.dart';
 import '../../../bloc/user_trade_margin/user_trade_margin_bloc.dart';
 import '../../../bloc/user_trade_margin/user_trade_margin_event.dart';
 import '../../../bloc/user_trade_margin/user_trade_margin_state.dart';
-import '../../common/user_data_table.dart';
-import '../../common/user_record_count.dart';
-import '../../common/user_reset_buttons.dart';
 import '../../../../../../injection_container.dart';
+
 class UserTradeMarginTab extends StatelessWidget {
   final User user;
   const UserTradeMarginTab({super.key, required this.user});
@@ -29,22 +30,28 @@ class UserTradeMarginTab extends StatelessWidget {
     );
   }
 }
+
 class UserTradeMarginTabView extends StatefulWidget {
   const UserTradeMarginTabView({super.key});
   @override
   State<UserTradeMarginTabView> createState() => _UserTradeMarginTabViewState();
 }
+
 class _UserTradeMarginTabViewState extends State<UserTradeMarginTabView> {
-  final TextEditingController _marginController = TextEditingController();
   final TextEditingController _searchController = TextEditingController();
+  final TextEditingController _intradayMarginController =
+      TextEditingController();
+  final TextEditingController _carryForwardMarginController =
+      TextEditingController();
   @override
   void dispose() {
-    _marginController.dispose();
     _searchController.dispose();
+    _intradayMarginController.dispose();
+    _carryForwardMarginController.dispose();
     super.dispose();
   }
-  void _onUpdate(BuildContext context) {
-  }
+
+  void _onUpdate(BuildContext context) {}
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -55,6 +62,7 @@ class _UserTradeMarginTabViewState extends State<UserTradeMarginTabView> {
       ],
     );
   }
+
   Widget _buildFilterBar(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(12.w),
@@ -116,15 +124,12 @@ class _UserTradeMarginTabViewState extends State<UserTradeMarginTabView> {
                     hintText: 'Search',
                     controller: _searchController,
                     height: 35.h,
-                    width: 200.w,
+                    width: 180.w,
                     prefixSvgPath: AppImages.searchIcon,
-                    onChanged: (val) {
-                    },
+                    onChanged: (val) {},
                   ),
                   const Spacer(),
-                  UserResetButtons(
-                    height: 35.h,
-                    width: 100.w,
+                  ViewResetButtons(
                     onReset: () {
                       context.read<UserTradeMarginBloc>().add(
                         const FilterUserTradeMargins(
@@ -142,7 +147,7 @@ class _UserTradeMarginTabViewState extends State<UserTradeMarginTabView> {
               Row(
                 children: [
                   AppDropdown(
-                    hintText: 'Margin Type',
+                    hintText: 'Amount',
                     items: const ['Percentage', 'Amount'],
                     value: null,
                     onChanged: (val) {},
@@ -152,16 +157,23 @@ class _UserTradeMarginTabViewState extends State<UserTradeMarginTabView> {
                   ),
                   SizedBox(width: 8.w),
                   CustomInputField(
-                    hintText: 'Margin%',
-                    controller: _marginController,
+                    hintText: 'Intraday Margin(A)',
+                    controller: _intradayMarginController,
                     height: 35.h,
                     width: 160.w,
+                  ),
+                  SizedBox(width: 8.w),
+                  CustomInputField(
+                    hintText: 'Carry Forward Margin(A)',
+                    controller: _carryForwardMarginController,
+                    height: 35.h,
+                    width: 180.w,
                   ),
                   const Spacer(),
                   CustomActionButton(
                     text: 'Update',
                     onPressed: () => _onUpdate(context),
-                    width: 212.w,
+                    width: 188.w,
                     height: 35.h,
                     backgroundColor: AppColors.primaryBlue,
                     borderRadius: 8.r,
@@ -174,6 +186,7 @@ class _UserTradeMarginTabViewState extends State<UserTradeMarginTabView> {
       ),
     );
   }
+
   Widget _buildRecordCount(BuildContext context) {
     return Container(
       color: AppColors.white,
@@ -184,11 +197,12 @@ class _UserTradeMarginTabViewState extends State<UserTradeMarginTabView> {
           if (state is UserTradeMarginLoaded) {
             count = state.filteredMargins.length;
           }
-          return UserRecordCount(count: count);
+          return ViewRecordCount(count: count);
         },
       ),
     );
   }
+
   Widget _buildTable(BuildContext context) {
     return BlocBuilder<UserTradeMarginBloc, UserTradeMarginState>(
       builder: (context, state) {
@@ -204,14 +218,14 @@ class _UserTradeMarginTabViewState extends State<UserTradeMarginTabView> {
           data = state.filteredMargins;
           isAllSelected = state.isAllSelected;
         }
-        return UserDataTable<UserTradeMargin>(
+        return ViewDataTable<UserTradeMargin>(
           columns: [
-            UserTableColumn(
+            ViewTableColumn(
               id: 'checkbox',
               label: '',
               width: 50.w,
               sortable: false,
-              customHeader: Checkbox(
+              customHeaderWidget: Checkbox(
                 value: isAllSelected,
                 onChanged: (val) {
                   context.read<UserTradeMarginBloc>().add(
@@ -223,22 +237,25 @@ class _UserTradeMarginTabViewState extends State<UserTradeMarginTabView> {
                   color: AppColors.primaryBlue,
                   width: 1.5,
                 ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(4.r),
+                ),
               ),
             ),
-            UserTableColumn(id: 'exchange', label: 'EXCH', width: 120.w),
-            UserTableColumn(id: 'symbol', label: 'SYMBOL', width: 200.w),
-            UserTableColumn(
+            ViewTableColumn(id: 'exchange', label: 'EXCH', width: 120.w),
+            ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 200.w),
+            ViewTableColumn(
               id: 'expiryDate',
               label: 'EXPIRY DATE',
               width: 250.w,
             ),
-            UserTableColumn(
+            ViewTableColumn(
               id: 'marginPct',
               label: 'MARGIN (%)',
               width: 150.w,
               isNumeric: true,
             ),
-            UserTableColumn(
+            ViewTableColumn(
               id: 'marginAmt',
               label: 'MARGIN (A.)',
               width: 150.w,
@@ -249,7 +266,7 @@ class _UserTradeMarginTabViewState extends State<UserTradeMarginTabView> {
           idExtractor: (item) => item.id,
           cellBuilder: (item, column) {
             final commonStyle = GoogleFonts.openSans(
-              fontSize: 12.sp,
+              fontSize: 9.sp,
               fontWeight: FontWeight.w600,
               color: AppColors.primaryBlue,
             );
@@ -266,6 +283,9 @@ class _UserTradeMarginTabViewState extends State<UserTradeMarginTabView> {
                   side: const BorderSide(
                     color: AppColors.primaryBlue,
                     width: 1.5,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(4.r),
                   ),
                 );
               case 'exchange':

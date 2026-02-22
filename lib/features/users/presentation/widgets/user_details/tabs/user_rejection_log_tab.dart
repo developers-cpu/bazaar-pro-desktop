@@ -1,3 +1,4 @@
+import 'package:bazarpro/core/widget/table/view_reset_buttons.dart';
 import 'package:flutter/material.dart' hide CustomDateRangePickerDialog;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,15 +8,15 @@ import '../../../../../../core/widget/date_range_picker_dialog.dart';
 import '../../../../../../core/widget/date_range_picker_button.dart';
 import '../../../../../../core/constants/app_colors.dart';
 import '../../../../../../core/widget/app_dropdown.dart';
+import '../../../../../../core/widget/table/view_data_table.dart';
+import '../../../../../../core/widget/table/view_record_count.dart';
 import '../../../../../../injection_container.dart';
 import '../../../../domain/entities/user.dart';
 import '../../../../domain/entities/user_rejection_log/user_rejection_log.dart';
 import '../../../bloc/user_rejection_log/user_rejection_log_bloc.dart';
 import '../../../bloc/user_rejection_log/user_rejection_log_event.dart';
 import '../../../bloc/user_rejection_log/user_rejection_log_state.dart';
-import '../../common/user_data_table.dart';
-import '../../common/user_record_count.dart';
-import '../../common/user_reset_buttons.dart';
+
 class UserRejectionLogTab extends StatelessWidget {
   final User user;
   const UserRejectionLogTab({super.key, required this.user});
@@ -28,6 +29,7 @@ class UserRejectionLogTab extends StatelessWidget {
     );
   }
 }
+
 class UserRejectionLogTabView extends StatelessWidget {
   const UserRejectionLogTabView({super.key});
   @override
@@ -40,6 +42,7 @@ class UserRejectionLogTabView extends StatelessWidget {
       ],
     );
   }
+
   Widget _buildFilterBar(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(12.w),
@@ -120,9 +123,7 @@ class UserRejectionLogTabView extends StatelessWidget {
                 searchHint: 'Search & Add',
               ),
               const Spacer(),
-              UserResetButtons(
-                height: 35.h,
-                width: 100.w,
+              ViewResetButtons(
                 onReset: () {
                   context.read<UserRejectionLogBloc>().add(
                     const FilterUserRejectionLogs(
@@ -140,6 +141,7 @@ class UserRejectionLogTabView extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildRecordCount(BuildContext context) {
     return Container(
       color: AppColors.white,
@@ -150,11 +152,12 @@ class UserRejectionLogTabView extends StatelessWidget {
           if (state is UserRejectionLogLoaded) {
             count = state.filteredLogs.length;
           }
-          return UserRecordCount(count: count);
+          return ViewRecordCount(count: count);
         },
       ),
     );
   }
+
   Widget _buildTable(BuildContext context) {
     return BlocBuilder<UserRejectionLogBloc, UserRejectionLogState>(
       builder: (context, state) {
@@ -168,58 +171,52 @@ class UserRejectionLogTabView extends StatelessWidget {
         if (state is UserRejectionLogLoaded) {
           logs = state.filteredLogs;
         }
-        return UserDataTable<UserRejectionLog>(
+        return ViewDataTable<UserRejectionLog>(
           columns: [
-            UserTableColumn(id: 'uName', label: 'U.Name', width: 100.w),
-            UserTableColumn(id: 'symbol', label: 'SYMBOL', width: 150.w),
-            UserTableColumn(id: 'type', label: 'TYPE', width: 100.w),
-            UserTableColumn(
+            ViewTableColumn(id: 'date', label: 'Order D/T', width: 160.w),
+            ViewTableColumn(id: 'status', label: 'STATUS', width: 90.w),
+            ViewTableColumn(id: 'uName', label: 'U.Name', width: 100.w),
+            ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 150.w),
+            ViewTableColumn(id: 'type', label: 'TYPE', width: 100.w),
+            ViewTableColumn(
               id: 'qty',
               label: 'QTY',
               width: 100.w,
               isNumeric: true,
             ),
-            UserTableColumn(
+            ViewTableColumn(
               id: 'price',
               label: 'PRICE',
               width: 100.w,
               isNumeric: true,
             ),
-            UserTableColumn(id: 'comment', label: 'COMMENT', width: 350.w),
-            UserTableColumn(id: 'date', label: 'DATE', width: 160.w),
+            ViewTableColumn(id: 'comment', label: 'COMMENT', width: 350.w),
           ],
           data: logs,
           idExtractor: (item) => item.id,
           cellBuilder: (item, column) {
             switch (column.id) {
+              case 'date':
+                return Text(
+                  DateFormat('dd/MM/yy hh:mm:ss a').format(item.dateTime),
+                  style: _cellStyle(),
+                );
+              case 'status':
+                return Text(item.status, style: _cellStyle());
               case 'uName':
                 return Text(item.userName, style: _cellStyle());
               case 'symbol':
-                return Text(
-                  item.symbol,
-                  style: _cellStyle(
-                    isSymbol: true,
-                    color: AppColors.errorColor,
-                  ),
-                );
+                return Text(item.symbol, style: _cellStyle(isSymbol: true));
               case 'type':
                 return Text(item.type, style: _cellStyle());
               case 'qty':
                 return Text(item.qty.toString(), style: _cellStyle());
               case 'price':
-                return Text(
-                  item.price.toStringAsFixed(0),
-                  style: _cellStyle(color: AppColors.errorColor),
-                );
+                return Text(item.price.toStringAsFixed(0), style: _cellStyle());
               case 'comment':
                 return Text(
                   item.comment,
                   style: _cellStyle(color: AppColors.primaryBlue),
-                );
-              case 'date':
-                return Text(
-                  DateFormat('dd/MM/yy hh:mm:ss a').format(item.dateTime),
-                  style: _cellStyle(color: AppColors.errorColor),
                 );
               default:
                 return const SizedBox();
@@ -229,13 +226,14 @@ class UserRejectionLogTabView extends StatelessWidget {
       },
     );
   }
+
   TextStyle _cellStyle({
     Color? color,
     bool isSymbol = false,
     bool isUnderline = false,
   }) {
     return GoogleFonts.openSans(
-      fontSize: 11.sp,
+      fontSize: 9.sp,
       fontWeight: isSymbol ? FontWeight.bold : FontWeight.w600,
       color: color,
       decoration: isUnderline ? TextDecoration.underline : null,

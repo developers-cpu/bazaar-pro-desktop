@@ -6,8 +6,8 @@ import '../../../../../core/widget/common_dilog_box.dart';
 import '../../../../../core/widget/custom_action_button.dart';
 import '../../../../../core/widget/custom_outlined_button.dart';
 import '../../../domain/entities/pending_orders/pending_order.dart';
-import '../../../../../core/widget/common/animated_price_box.dart';
-import '../../../../../core/widget/common/success_dialog.dart';
+import '../../../../../core/widget/table/animated_price_box.dart';
+import '../../../../../core/widget/table/success_dialog.dart';
 
 class DeleteOrderDialog extends StatelessWidget {
   final PendingOrder order;

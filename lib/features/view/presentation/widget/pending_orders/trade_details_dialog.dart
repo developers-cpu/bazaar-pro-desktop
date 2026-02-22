@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/common_dilog_box.dart';
 import '../../../domain/entities/pending_orders/pending_order.dart';
-import '../../../../../core/widget/common/animated_price_box.dart';
+import '../../../../../core/widget/table/animated_price_box.dart';
 import 'delete_order_dialog.dart';
 import 'modify_order_dialog.dart';
 

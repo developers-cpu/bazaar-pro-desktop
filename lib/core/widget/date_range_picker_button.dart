@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import '../constants/app_colors.dart';
+
 class DateRangePickerButton extends StatelessWidget {
   final DateTimeRange? selectedDateRange;
   final VoidCallback onTap;
@@ -25,8 +26,8 @@ class DateRangePickerButton extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 10.w),
         decoration: BoxDecoration(
           color: AppColors.white,
-          border: Border.all(color: AppColors.primaryBlue, width: 2.w),
-          borderRadius: BorderRadius.circular(10.r),
+          border: Border.all(color: AppColors.primaryBlue, width: 1.0),
+          borderRadius: BorderRadius.circular(8.r),
         ),
         alignment: Alignment.centerLeft,
         child: Row(
@@ -38,10 +39,15 @@ class DateRangePickerButton extends StatelessWidget {
                     : 'Select Date Range',
                 style: GoogleFonts.openSans(
                   fontSize: 12.sp,
-                  color: AppColors.primaryBlue,
                   fontWeight: FontWeight.w600,
+                  height: 1.0,
+                  letterSpacing: 0.15,
+                  color: selectedDateRange != null
+                      ? AppColors.textColor(context)
+                      : AppColors.primaryBlue,
                 ),
                 overflow: TextOverflow.ellipsis,
+                maxLines: 1,
               ),
             ),
             SizedBox(width: 8.w),

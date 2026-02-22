@@ -257,7 +257,7 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
                   child: Text(
                     column.label,
                     style: GoogleFonts.openSans(
-                      fontSize: 12.sp,
+                      fontSize: 10.sp,
                       fontWeight: FontWeight.w600,
                       color: _textColor,
                     ),

@@ -14,10 +14,12 @@ import 'tabs/user_credit_tab.dart';
 import 'tabs/user_list_tab.dart';
 import 'tabs/user_rejection_log_tab.dart';
 import 'tabs/user_sharing_details_tab.dart';
-import 'tabs/user_intraday_square_off_tab.dart';
+import 'user_intraday_square_off_dialog.dart';
+import 'user_exchange_wise_position_limit_dialog.dart';
 import 'tabs/user_trade_margin_tab.dart';
 import 'tabs/user_pending_orders_tab.dart';
 import '../create_user/change_password_dialog.dart';
+
 class UserDetailsDialog extends StatefulWidget {
   final User user;
   final String? initialTab;
@@ -48,9 +50,11 @@ class UserDetailsDialog extends StatefulWidget {
       ),
     );
   }
+
   @override
   State<UserDetailsDialog> createState() => _UserDetailsDialogState();
 }
+
 class _UserDetailsDialogState extends State<UserDetailsDialog>
     with TickerProviderStateMixin {
   late TabController _tabController;
@@ -60,13 +64,14 @@ class _UserDetailsDialogState extends State<UserDetailsDialog>
     'Group Settings',
     'Brk',
     'Credit',
-    'User List',
     'Rejection Log',
     'Sharing Details',
     'Trade Margin',
     'Pending Orders',
     'Change Password',
-    'Intraday Square off',
+    'INT. Square off',
+    'Ex. Wise Position Lmt',
+    'User List',
   ];
   late List<String> _currentTabs;
   String? _selectedQuantityGroup;
@@ -86,6 +91,7 @@ class _UserDetailsDialogState extends State<UserDetailsDialog>
     }
     _initTabController(initialIndex: initialIndex);
   }
+
   void _initTabController({int initialIndex = 0}) {
     _tabController = TabController(
       length: _currentTabs.length,
@@ -94,6 +100,7 @@ class _UserDetailsDialogState extends State<UserDetailsDialog>
     );
     _tabController.addListener(_handleTabSelection);
   }
+
   void _handleTabSelection() {
     if (_tabController.indexIsChanging) {
       return;
@@ -115,11 +122,13 @@ class _UserDetailsDialogState extends State<UserDetailsDialog>
       });
     }
   }
+
   @override
   void dispose() {
     _tabController.dispose();
     super.dispose();
   }
+
   void _onViewSettings(String groupName) {
     setState(() {
       _selectedQuantityGroup = groupName;
@@ -137,6 +146,7 @@ class _UserDetailsDialogState extends State<UserDetailsDialog>
       _initTabController(initialIndex: qtyIndex);
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return CommonDialog(
@@ -151,52 +161,58 @@ class _UserDetailsDialogState extends State<UserDetailsDialog>
           _buildHeader(),
           _buildTabBar(),
           Expanded(
-            child: TabBarView(
-              controller: _tabController,
-              children: _currentTabs.map((tab) {
-                switch (tab) {
-                  case 'Position':
-                    return UserPositionTab(user: widget.user);
-                  case 'Trades':
-                    return UserTradesTab(user: widget.user);
-                  case 'Group Settings':
-                    return UserGroupSettingsTab(
-                      user: widget.user,
-                      onViewSettings: _onViewSettings,
-                    );
-                  case 'Quantity Settings':
-                    return UserQuantitySettingsTab(
-                      user: widget.user,
-                      groupName: _selectedQuantityGroup,
-                    );
-                  case 'Brk':
-                    return UserBrokerageTab(user: widget.user);
-                  case 'Credit':
-                    return UserCreditTab(user: widget.user);
-                  case 'User List':
-                    return UserListTab(user: widget.user);
-                  case 'Rejection Log':
-                    return UserRejectionLogTab(user: widget.user);
-                  case 'Sharing Details':
-                    return UserSharingDetailsTab(user: widget.user);
-                  case 'Trade Margin':
-                    return UserTradeMarginTab(user: widget.user);
-                  case 'Pending Orders':
-                    return UserPendingOrdersTab(user: widget.user);
-                  case 'Change Password':
-                    return const SizedBox();
-                  case 'Intraday Square off':
-                    return UserIntradaySquareOffTab(user: widget.user);
-                  default:
-                    return UserPlaceholderTab(title: tab);
-                }
-              }).toList(),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 12.w),
+              child: TabBarView(
+                controller: _tabController,
+                children: _currentTabs.map((tab) {
+                  switch (tab) {
+                    case 'Position':
+                      return UserPositionTab(user: widget.user);
+                    case 'Trades':
+                      return UserTradesTab(user: widget.user);
+                    case 'Group Settings':
+                      return UserGroupSettingsTab(
+                        user: widget.user,
+                        onViewSettings: _onViewSettings,
+                      );
+                    case 'Quantity Settings':
+                      return UserQuantitySettingsTab(
+                        user: widget.user,
+                        groupName: _selectedQuantityGroup,
+                      );
+                    case 'Brk':
+                      return UserBrokerageTab(user: widget.user);
+                    case 'Credit':
+                      return UserCreditTab(user: widget.user);
+                    case 'User List':
+                      return UserListTab(user: widget.user);
+                    case 'Rejection Log':
+                      return UserRejectionLogTab(user: widget.user);
+                    case 'Sharing Details':
+                      return UserSharingDetailsTab(user: widget.user);
+                    case 'Trade Margin':
+                      return UserTradeMarginTab(user: widget.user);
+                    case 'Pending Orders':
+                      return UserPendingOrdersTab(user: widget.user);
+                    case 'Change Password':
+                      return const SizedBox();
+                    case 'INT. Square off':
+                      return const SizedBox();
+                    case 'Ex. Wise Position Lmt':
+                      return const SizedBox();
+                    default:
+                      return UserPlaceholderTab(title: tab);
+                  }
+                }).toList(),
+              ),
             ),
           ),
         ],
       ),
     );
   }
+
   Widget _buildHeader() {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
@@ -247,6 +263,7 @@ class _UserDetailsDialogState extends State<UserDetailsDialog>
       ),
     );
   }
+
   Widget _buildActionButton(
     IconData icon,
     String label,
@@ -290,6 +307,7 @@ class _UserDetailsDialogState extends State<UserDetailsDialog>
       ),
     );
   }
+
   Widget _buildTabBar() {
     return Container(
       color: AppColors.white,
@@ -300,12 +318,16 @@ class _UserDetailsDialogState extends State<UserDetailsDialog>
         dividerColor: Colors.transparent,
         dividerHeight: 0,
         labelColor: AppColors.primaryBlue,
-        unselectedLabelColor: AppColors.textColor(context),
+        unselectedLabelColor: const Color(0xFF9E9E9E),
         indicatorColor: AppColors.primaryBlue,
-        indicatorWeight: 3.h,
+        indicatorWeight: 2.5.h,
         labelStyle: GoogleFonts.openSans(
-          fontSize: 12.sp,
+          fontSize: 11.sp,
           fontWeight: FontWeight.w600,
+        ),
+        unselectedLabelStyle: GoogleFonts.openSans(
+          fontSize: 11.sp,
+          fontWeight: FontWeight.w500,
         ),
         tabs: _currentTabs.map((tab) => Tab(text: tab)).toList(),
         tabAlignment: TabAlignment.start,
@@ -320,6 +342,12 @@ class _UserDetailsDialogState extends State<UserDetailsDialog>
                 print('Change password: $oldPass -> $newPass');
               },
             );
+          } else if (_currentTabs[index] == 'INT. Square off') {
+            _tabController.index = _tabController.previousIndex;
+            UserIntradaySquareOffDialog.show(context, widget.user);
+          } else if (_currentTabs[index] == 'Ex. Wise Position Lmt') {
+            _tabController.index = _tabController.previousIndex;
+            UserExchangeWisePositionLimitDialog.show(context, widget.user);
           }
         },
       ),

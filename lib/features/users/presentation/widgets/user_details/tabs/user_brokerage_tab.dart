@@ -4,6 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../../core/widget/custom_action_button.dart';
 import '../../../../../../core/widget/app_radio_button.dart';
+import '../../../../../../core/widget/table/view_data_table.dart';
+import '../../../../../../core/widget/table/view_record_count.dart';
 import '../../../../../../injection_container.dart';
 import '../../../../../../core/constants/app_colors.dart';
 import '../../../../../../core/widget/app_dropdown.dart';
@@ -13,8 +15,7 @@ import '../../../../domain/entities/user_brokerage_setting/user_brokerage_settin
 import '../../../bloc/user_brokerage/user_brokerage_bloc.dart';
 import '../../../bloc/user_brokerage/user_brokerage_event.dart';
 import '../../../bloc/user_brokerage/user_brokerage_state.dart';
-import '../../common/user_data_table.dart';
-import '../../common/user_record_count.dart';
+
 class UserBrokerageTab extends StatelessWidget {
   final User user;
   const UserBrokerageTab({super.key, required this.user});
@@ -27,11 +28,13 @@ class UserBrokerageTab extends StatelessWidget {
     );
   }
 }
+
 class UserBrokerageTabView extends StatefulWidget {
   const UserBrokerageTabView({super.key});
   @override
   State<UserBrokerageTabView> createState() => _UserBrokerageTabViewState();
 }
+
 class _UserBrokerageTabViewState extends State<UserBrokerageTabView> {
   final TextEditingController _exchangeBrkController = TextEditingController();
   final TextEditingController _symbolBrkController = TextEditingController();
@@ -43,6 +46,7 @@ class _UserBrokerageTabViewState extends State<UserBrokerageTabView> {
     _symbolBrkController.dispose();
     super.dispose();
   }
+
   void _onSelectAll(bool? value, List<UserBrokerageSetting> allSettings) {
     setState(() {
       _isAllSelected = value ?? false;
@@ -53,6 +57,7 @@ class _UserBrokerageTabViewState extends State<UserBrokerageTabView> {
       }
     });
   }
+
   void _onRowSelect(bool? value, String id) {
     setState(() {
       if (value == true) {
@@ -63,6 +68,7 @@ class _UserBrokerageTabViewState extends State<UserBrokerageTabView> {
       }
     });
   }
+
   void _onUpdate(String viewType) {
     if (_selectedIds.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -89,6 +95,7 @@ class _UserBrokerageTabViewState extends State<UserBrokerageTabView> {
       _isAllSelected = false;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserBrokerageBloc, UserBrokerageState>(
@@ -114,6 +121,7 @@ class _UserBrokerageTabViewState extends State<UserBrokerageTabView> {
       },
     );
   }
+
   Widget _buildFilterBar(BuildContext context, UserBrokerageLoaded state) {
     return Container(
       padding: EdgeInsets.all(12.w),
@@ -134,14 +142,21 @@ class _UserBrokerageTabViewState extends State<UserBrokerageTabView> {
             type: AppDropdownType.simple,
           ),
           SizedBox(width: 8.w),
-          if (state.viewType == 'Exchange')
+          if (state.viewType == 'Exchange') ...[
             CustomInputField(
               hintText: 'Type exchange wise brk',
               controller: _exchangeBrkController,
               height: 35.h,
-              width: 200.w,
-            )
-          else
+              width: 180.w,
+            ),
+            SizedBox(width: 8.w),
+            CustomInputField(
+              hintText: 'Type symbol wise brk',
+              controller: _symbolBrkController,
+              height: 35.h,
+              width: 180.w,
+            ),
+          ] else
             CustomInputField(
               hintText: 'Type brokerage price',
               controller: _symbolBrkController,
@@ -161,6 +176,7 @@ class _UserBrokerageTabViewState extends State<UserBrokerageTabView> {
       ),
     );
   }
+
   Widget _buildHeader(BuildContext context, UserBrokerageLoaded state) {
     return Container(
       width: double.infinity,
@@ -207,41 +223,46 @@ class _UserBrokerageTabViewState extends State<UserBrokerageTabView> {
       ),
     );
   }
+
   Widget _buildRecordCount(BuildContext context, UserBrokerageLoaded state) {
     return Container(
       color: AppColors.white,
       width: double.infinity,
-      child: UserRecordCount(count: state.filteredSettings.length),
+      child: ViewRecordCount(count: state.filteredSettings.length),
     );
   }
+
   Widget _buildTable(BuildContext context, UserBrokerageLoaded state) {
     final isExchangeWise = state.viewType == 'Exchange';
     return Expanded(
-      child: UserDataTable<UserBrokerageSetting>(
+      child: ViewDataTable<UserBrokerageSetting>(
         columns: [
-          UserTableColumn(
+          ViewTableColumn(
             id: 'checkbox',
             label: '',
             width: 50.w,
             sortable: false,
-            customHeader: Checkbox(
+            customHeaderWidget: Checkbox(
               value: _isAllSelected,
               onChanged: (val) => _onSelectAll(val, state.filteredSettings),
               activeColor: AppColors.primaryBlue,
               side: const BorderSide(color: AppColors.primaryBlue, width: 1.5),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(4.r),
+              ),
             ),
           ),
-          UserTableColumn(id: 'exchange', label: 'EXCHANGE', width: 320.w),
+          ViewTableColumn(id: 'exchange', label: 'EXCHANGE', width: 320.w),
           if (isExchangeWise)
-            UserTableColumn(
+            ViewTableColumn(
               id: 'turnover',
               label: 'TURNOVER WISE (Rs.PER1/CR)',
               width: 320.w,
               isNumeric: true,
             )
           else
-            UserTableColumn(id: 'symbol', label: 'SYMBOL', width: 320.w),
-          UserTableColumn(
+            ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 320.w),
+          ViewTableColumn(
             id: 'symbolBrk',
             label: 'SYMBOL WISE BRK (Rs.)',
             width: 320.w,
@@ -253,7 +274,7 @@ class _UserBrokerageTabViewState extends State<UserBrokerageTabView> {
         cellBuilder: (item, column) {
           final isSelected = _selectedIds.contains(item.id);
           final commonStyle = GoogleFonts.openSans(
-            fontSize: 12.sp,
+            fontSize: 9.sp,
             fontWeight: FontWeight.w600,
             color: AppColors.primaryBlue,
           );
@@ -266,6 +287,9 @@ class _UserBrokerageTabViewState extends State<UserBrokerageTabView> {
                 side: const BorderSide(
                   color: AppColors.primaryBlue,
                   width: 1.5,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(4.r),
                 ),
               );
             case 'exchange':

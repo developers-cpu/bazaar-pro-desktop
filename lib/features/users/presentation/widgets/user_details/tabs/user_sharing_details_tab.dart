@@ -3,14 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../../core/constants/app_colors.dart';
-import '../../../../../../core/constants/app_images.dart';
-import '../../../../../../core/widget/svg_icon.dart';
+
 import '../../../../domain/entities/user.dart';
 import '../../../../domain/entities/user_sharing_info.dart';
 import '../../../bloc/user_sharing/user_sharing_bloc.dart';
 import '../../../bloc/user_sharing/user_sharing_event.dart';
 import '../../../bloc/user_sharing/user_sharing_state.dart';
 import '../../../../../../injection_container.dart';
+
 class UserSharingDetailsTab extends StatelessWidget {
   final User user;
   const UserSharingDetailsTab({super.key, required this.user});
@@ -23,6 +23,7 @@ class UserSharingDetailsTab extends StatelessWidget {
     );
   }
 }
+
 class UserSharingDetailsTabView extends StatelessWidget {
   const UserSharingDetailsTabView({super.key});
   @override
@@ -64,6 +65,7 @@ class UserSharingDetailsTabView extends StatelessWidget {
       },
     );
   }
+
   Widget _buildSharingCard(
     BuildContext context, {
     required String title,
@@ -85,7 +87,7 @@ class UserSharingDetailsTabView extends StatelessWidget {
             textAlign: TextAlign.center,
             style: GoogleFonts.openSans(
               fontSize: 16.sp,
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.normal,
               color: AppColors.primaryBlue,
             ),
           ),
@@ -96,16 +98,16 @@ class UserSharingDetailsTabView extends StatelessWidget {
               Text(
                 'Person',
                 style: GoogleFonts.openSans(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.bold,
+                  fontSize: 11.sp,
+                  fontWeight: FontWeight.w600,
                   color: AppColors.primaryBlue.withOpacity(0.8),
                 ),
               ),
               Text(
                 'Share',
                 style: GoogleFonts.openSans(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.bold,
+                  fontSize: 11.sp,
+                  fontWeight: FontWeight.w600,
                   color: AppColors.primaryBlue.withOpacity(0.8),
                 ),
               ),
@@ -122,36 +124,18 @@ class UserSharingDetailsTabView extends StatelessWidget {
               return Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(6.w),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: AppColors.primaryBlue.withOpacity(0.1),
-                        ),
-                        child: SvgIcon(
-                          assetPath: _getIconForPerson(info.person),
-                          isActive: true,
-                          activeColor: AppColors.primaryBlue,
-                          size: 16.sp,
-                        ),
-                      ),
-                      SizedBox(width: 8.w),
-                      Text(
-                        info.person,
-                        style: GoogleFonts.openSans(
-                          fontSize: 13.sp,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.primaryBlue,
-                        ),
-                      ),
-                    ],
+                  Text(
+                    info.person,
+                    style: GoogleFonts.openSans(
+                      fontSize: 11.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.primaryBlue,
+                    ),
                   ),
                   Text(
                     info.share,
                     style: GoogleFonts.openSans(
-                      fontSize: 13.sp,
+                      fontSize: 11.sp,
                       fontWeight: FontWeight.w600,
                       color: AppColors.primaryBlue,
                     ),
@@ -164,18 +148,5 @@ class UserSharingDetailsTabView extends StatelessWidget {
         ],
       ),
     );
-  }
-  String _getIconForPerson(String person) {
-    print("Getting icon for person: $person");
-    final p = person.toLowerCase();
-    if (p.contains('admin')) {
-      return AppImages.serverIcon;
-    } else if (p.contains('master')) {
-      return AppImages.input1;
-    } else if (p.contains('client')) {
-      return AppImages.input2;
-    } else {
-      return AppImages.input2;
-    }
   }
 }

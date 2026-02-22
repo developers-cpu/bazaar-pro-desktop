@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/common_dilog_box.dart';
 import '../../../../../core/widget/app_dropdown.dart';
+
 class LeverageUpdateDialog extends StatefulWidget {
   final String userId;
   final String userName;
@@ -34,9 +35,11 @@ class LeverageUpdateDialog extends StatefulWidget {
       ),
     );
   }
+
   @override
   State<LeverageUpdateDialog> createState() => _LeverageUpdateDialogState();
 }
+
 class _LeverageUpdateDialogState extends State<LeverageUpdateDialog> {
   String? _selectedLeverage;
   final List<String> _leverageOptions = [
@@ -53,20 +56,14 @@ class _LeverageUpdateDialogState extends State<LeverageUpdateDialog> {
     super.initState();
     _selectedLeverage = widget.currentLeverage;
   }
+
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return CommonDialog(
       title: 'Update Leverage (${widget.userName})',
-      width: 500.w,
-      showButtons: true,
-      cancelText: 'Cancel',
-      saveText: 'Update',
-      onSave: () {
-        if (_selectedLeverage != null) {
-          widget.onUpdate?.call(_selectedLeverage!);
-        }
-      },
+      width: 400.w,
+      showButtons: false,
       content: LayoutBuilder(
         builder: (context, constraints) {
           final availableWidth = constraints.maxWidth;
@@ -74,18 +71,9 @@ class _LeverageUpdateDialogState extends State<LeverageUpdateDialog> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                'Leverage',
-                style: GoogleFonts.openSans(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.textColor(context),
-                ),
-              ),
-              SizedBox(height: 4.h),
               AppDropdown(
                 type: AppDropdownType.simple,
-                hintText: 'Select Leverage',
+                hintText: 'Leverage',
                 value: _selectedLeverage,
                 items: _leverageOptions,
                 width: availableWidth,
@@ -100,6 +88,33 @@ class _LeverageUpdateDialogState extends State<LeverageUpdateDialog> {
                     });
                   }
                 },
+              ),
+              SizedBox(height: 16.h),
+              SizedBox(
+                height: 40.h,
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (_selectedLeverage != null) {
+                      widget.onUpdate?.call(_selectedLeverage!);
+                    }
+                    Navigator.of(context).pop();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primaryBlue,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
+                  ),
+                  child: Text(
+                    'Update',
+                    style: GoogleFonts.openSans(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
               ),
             ],
           );

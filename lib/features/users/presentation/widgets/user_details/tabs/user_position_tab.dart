@@ -1,16 +1,18 @@
-import 'package:bazarpro/features/users/presentation/widgets/common/user_data_table.dart';
-import 'package:bazarpro/features/users/presentation/widgets/common/user_record_count.dart';
-import 'package:bazarpro/features/users/presentation/widgets/common/user_reset_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../../../../../core/widget/table/view_data_table.dart'
+    show ViewTableColumn, ViewDataTable;
+import '../../../../../../core/widget/table/view_record_count.dart';
+import '../../../../../../core/widget/table/view_reset_buttons.dart';
 import '../../../../../../injection_container.dart';
 import '../../../../../../core/constants/app_colors.dart';
 import '../../../../../../core/widget/app_dropdown.dart';
 import '../../../../domain/entities/user.dart';
 import '../../../../domain/entities/user_position/user_position.dart';
 import '../../../bloc/user_position/user_position_bloc.dart';
+
 class UserPositionTab extends StatelessWidget {
   final User user;
   const UserPositionTab({super.key, required this.user});
@@ -23,6 +25,7 @@ class UserPositionTab extends StatelessWidget {
     );
   }
 }
+
 class UserPositionTabView extends StatelessWidget {
   const UserPositionTabView({super.key});
   @override
@@ -36,6 +39,7 @@ class UserPositionTabView extends StatelessWidget {
       ],
     );
   }
+
   Widget _buildFilterBar(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(12.w),
@@ -92,9 +96,7 @@ class UserPositionTabView extends StatelessWidget {
                 ],
               ),
               const Spacer(),
-              UserResetButtons(
-                height: 35.h,
-                width: 100.w,
+              ViewResetButtons(
                 onReset: () {
                   context.read<UserPositionBloc>().add(
                     const FilterUserPositions(exchange: null, symbol: null),
@@ -108,6 +110,7 @@ class UserPositionTabView extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildRecordCount(BuildContext context) {
     return Container(
       color: AppColors.white,
@@ -118,11 +121,12 @@ class UserPositionTabView extends StatelessWidget {
           if (state is UserPositionLoaded) {
             count = state.filteredPositions.length;
           }
-          return UserRecordCount(count: count);
+          return ViewRecordCount(count: count);
         },
       ),
     );
   }
+
   Widget _buildTable(BuildContext context) {
     return BlocBuilder<UserPositionBloc, UserPositionState>(
       builder: (context, state) {
@@ -136,47 +140,47 @@ class UserPositionTabView extends StatelessWidget {
         if (state is UserPositionLoaded) {
           positions = state.filteredPositions;
         }
-        return UserDataTable<UserPosition>(
+        return ViewDataTable<UserPosition>(
           columns: [
-            UserTableColumn(id: 'exch', label: 'EXCH', width: 80.w),
-            UserTableColumn(id: 'symbol', label: 'SYMBOL', width: 120.w),
-            UserTableColumn(
+            ViewTableColumn(id: 'exch', label: 'EXCH', width: 80.w),
+            ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 120.w),
+            ViewTableColumn(
               id: 'buyQty',
               label: 'BUY QTY',
               width: 120.w,
               isNumeric: true,
             ),
-            UserTableColumn(
+            ViewTableColumn(
               id: 'sellQty',
               label: 'SELL QTY',
               width: 120.w,
               isNumeric: true,
             ),
-            UserTableColumn(
+            ViewTableColumn(
               id: 'netQty',
               label: 'NET QTY',
               width: 120.w,
               isNumeric: true,
             ),
-            UserTableColumn(
+            ViewTableColumn(
               id: 'netAp',
               label: 'NET A. P.',
               width: 120.w,
               isNumeric: true,
             ),
-            UserTableColumn(
+            ViewTableColumn(
               id: 'cmp',
               label: 'CMP',
               width: 120.w,
               isNumeric: true,
             ),
-            UserTableColumn(
+            ViewTableColumn(
               id: 'm2m',
               label: 'M2M AMT',
               width: 120.w,
               isNumeric: true,
             ),
-            UserTableColumn(
+            ViewTableColumn(
               id: 'lot',
               label: 'Lot',
               width: 80.w,
@@ -235,13 +239,15 @@ class UserPositionTabView extends StatelessWidget {
       },
     );
   }
+
   TextStyle _cellStyle({Color? color, bool isSymbol = false}) {
     return GoogleFonts.openSans(
-      fontSize: 11.sp,
+      fontSize: 9.sp,
       fontWeight: isSymbol ? FontWeight.bold : FontWeight.w600,
       color: color ?? AppColors.primaryBlue,
     );
   }
+
   Widget _buildFooter(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(12.w),
@@ -298,6 +304,7 @@ class UserPositionTabView extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildVerticalDivider() {
     return Container(
       height: 20.h,
@@ -306,6 +313,7 @@ class UserPositionTabView extends StatelessWidget {
       margin: EdgeInsets.symmetric(horizontal: 12.w),
     );
   }
+
   Widget _buildFooterItem(String label, String value) {
     return Row(
       children: [
@@ -328,6 +336,7 @@ class UserPositionTabView extends StatelessWidget {
       ],
     );
   }
+
   Widget _buildSummaryItem(String label, String value) {
     return Row(
       children: [

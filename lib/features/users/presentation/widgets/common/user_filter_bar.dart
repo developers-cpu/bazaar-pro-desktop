@@ -1,9 +1,9 @@
 import 'package:bazarpro/core/constants/app_colors.dart';
 import 'package:bazarpro/core/widget/app_dropdown.dart';
-import 'package:bazarpro/features/users/presentation/widgets/common/user_record_count.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../../../../core/widget/table/view_record_count.dart';
 import '../../../data/models/user/user_filter_dropdown.dart';
 class UserFilterBar extends StatelessWidget {
   final List<UserFilterDropdown> filters;
@@ -48,7 +48,7 @@ class UserFilterBar extends StatelessWidget {
             ),
           ),
           const Spacer(),
-          UserRecordCount(count: recordCount, compact: true),
+          ViewRecordCount(count: recordCount,),
           SizedBox(width: 16.w),
           _buildActionButton(
             label: 'Reset',

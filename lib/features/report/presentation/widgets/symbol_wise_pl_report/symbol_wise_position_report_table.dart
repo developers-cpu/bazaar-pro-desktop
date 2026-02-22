@@ -3,10 +3,10 @@ import 'package:bazarpro/features/report/presentation/widgets/symbol_wise_pl_rep
 import 'package:bazarpro/features/report/presentation/widgets/symbol_wise_pl_report/symbol_trade_list_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../view/presentation/widget/common/view_data_table.dart';
-import '../../../../view/presentation/widget/common/view_record_count.dart';
-import '../../../../view/presentation/widget/common/view_table_cell_styles.dart';
-import '../../../../view/presentation/widget/common/view_data_table_footer.dart';
+import '../../../../../core/widget/table/view_data_table.dart';
+import '../../../../../core/widget/table/view_record_count.dart';
+import '../../../../../core/widget/table/view_table_cell_styles.dart';
+import '../../../../../core/widget/table/view_data_table_footer.dart';
 import '../../bloc/symbol_wise_position_report/symbol_wise_position_report_bloc.dart';
 import '../../bloc/symbol_wise_position_report/symbol_wise_position_report_state.dart';
 class SymbolWisePositionReportTable extends StatelessWidget {

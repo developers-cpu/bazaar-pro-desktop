@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/widget/app_dropdown.dart';
-import '../../../../view/presentation/widget/common/view_reset_buttons.dart';
+import '../../../../../core/widget/table/view_reset_buttons.dart';
 import '../../bloc/symbol_wise_position_report/symbol_wise_position_report_bloc.dart';
 import '../../bloc/symbol_wise_position_report/symbol_wise_position_report_event.dart';
 import '../../bloc/symbol_wise_position_report/symbol_wise_position_report_state.dart';

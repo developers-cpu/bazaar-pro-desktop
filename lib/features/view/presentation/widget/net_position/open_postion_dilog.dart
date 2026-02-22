@@ -7,9 +7,9 @@ import '../../../../../core/widget/common_dilog_box.dart';
 import '../../../domain/entities/net_postion/net_position.dart';
 import '../../bloc/net_position/net_position_bloc.dart';
 import '../../bloc/net_position/net_position_state.dart';
-import '../common/view_data_table.dart';
-import '../common/view_table_cell_styles.dart';
-import '../common/view_record_count.dart';
+import '../../../../../core/widget/table/view_data_table.dart';
+import '../../../../../core/widget/table/view_table_cell_styles.dart';
+import '../../../../../core/widget/table/view_record_count.dart';
 
 class OpenPositionDialog extends StatefulWidget {
   final bool isDarkMode;

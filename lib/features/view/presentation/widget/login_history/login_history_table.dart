@@ -7,9 +7,9 @@ import '../../../domain/entities/login_history/login_history.dart';
 import '../../bloc/login_history/login_history_bloc.dart';
 import '../../bloc/login_history/login_history_event.dart';
 import '../../bloc/login_history/login_history_state.dart';
-import '../common/view_data_table.dart';
-import '../common/view_record_count.dart';
-import '../common/view_table_cell_styles.dart';
+import '../../../../../core/widget/table/view_data_table.dart';
+import '../../../../../core/widget/table/view_record_count.dart';
+import '../../../../../core/widget/table/view_table_cell_styles.dart';
 
 class LoginHistoryTable extends StatelessWidget {
   const LoginHistoryTable({Key? key}) : super(key: key);

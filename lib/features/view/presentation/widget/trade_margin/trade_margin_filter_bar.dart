@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../../core/constants/app_images.dart';
 import '../../../../../../core/widget/app_dropdown.dart';
 import '../../../../../../core/widget/custom_input_field.dart';
-import '../common/view_reset_buttons.dart';
+import '../../../../../core/widget/table/view_reset_buttons.dart';
 import '../../bloc/trade_margin/trade_margin_bloc.dart';
 import '../../bloc/trade_margin/trade_margin_event.dart';
 import '../../bloc/trade_margin/trade_margin_state.dart';

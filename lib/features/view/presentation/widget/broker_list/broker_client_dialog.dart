@@ -9,10 +9,10 @@ import '../../../domain/entities/broker_list/broker_client.dart';
 import '../../bloc/broker_list/broker_list_bloc.dart';
 import '../../bloc/broker_list/broker_list_event.dart';
 import '../../bloc/broker_list/broker_list_state.dart';
-import '../common/view_data_table_footer.dart';
-import '../common/view_data_table.dart';
-import '../common/view_record_count.dart';
-import '../common/view_table_cell_styles.dart';
+import '../../../../../core/widget/table/view_data_table_footer.dart';
+import '../../../../../core/widget/table/view_data_table.dart';
+import '../../../../../core/widget/table/view_record_count.dart';
+import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import 'client_breakdown_dialog.dart';
 
 class BrokerClientDialog extends StatelessWidget {

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/constants/app_colors.dart';
+import '../../../../../core/widget/table/view_data_table.dart';
+import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import '../../../domain/entities/deals/deals.dart';
-import 'package:bazarpro/features/view/presentation/widget/common/view_data_table.dart';
-import 'package:bazarpro/features/view/presentation/widget/common/view_table_cell_styles.dart';
 import 'package:bazarpro/core/widget/common_dilog_box.dart';
 
 class OrderDurationDialog extends StatelessWidget {

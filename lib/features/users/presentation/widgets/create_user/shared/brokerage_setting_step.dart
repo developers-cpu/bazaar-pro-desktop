@@ -11,8 +11,8 @@ import '../../../../../../core/widget/custom_input_field.dart';
 import '../../../bloc/user_form/user_form_bloc.dart';
 import '../../../bloc/user_form/user_form_event.dart';
 import '../../../bloc/user_form/user_form_state.dart';
-import '../../../../../view/presentation/widget/common/view_data_table.dart';
-import '../../../../../view/presentation/widget/common/view_record_count.dart';
+import '../../../../../../core/widget/table/view_data_table.dart';
+import '../../../../../../core/widget/table/view_record_count.dart';
 
 class BrokerageSettingStep extends StatefulWidget {
   final bool showUpdateButton;

@@ -5,13 +5,13 @@ import 'package:bazarpro/features/users/presentation/widgets/create_user/client_
 import 'package:bazarpro/features/users/presentation/widgets/create_user/update_access_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../view/presentation/widget/common/view_data_table.dart';
-import '../../../../view/presentation/widget/common/view_record_count.dart';
-import '../../../../view/presentation/widget/common/view_table_cell_styles.dart';
-import '../../../../view/presentation/widget/common/view_data_table_footer.dart';
 import '../../../../report/domain/entities/user_wise_profit_and_loss_report.dart';
 import '../../bloc/user_wise_profit_and_loss/user_wise_profit_and_loss_bloc.dart';
 import '../../bloc/user_wise_profit_and_loss/user_wise_profit_and_loss_state.dart';
+import '../../../../../core/widget/table/view_data_table.dart';
+import '../../../../../core/widget/table/view_record_count.dart';
+import '../../../../../core/widget/table/view_table_cell_styles.dart';
+import '../../../../../core/widget/table/view_data_table_footer.dart';
 class UserWiseProfitAndLossReportTable extends StatelessWidget {
   final bool isDarkMode;
   const UserWiseProfitAndLossReportTable({super.key, this.isDarkMode = false});

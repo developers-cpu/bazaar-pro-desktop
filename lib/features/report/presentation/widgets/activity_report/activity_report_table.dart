@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../view/presentation/widget/common/view_data_table.dart';
-import '../../../../view/presentation/widget/common/view_record_count.dart';
-import '../../../../view/presentation/widget/common/view_table_cell_styles.dart';
+import '../../../../../core/widget/table/view_data_table.dart';
+import '../../../../../core/widget/table/view_record_count.dart';
+import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import '../../../domain/entities/activity_report.dart';
 import '../../bloc/activity_report/activity_report_bloc.dart';
 import '../../bloc/activity_report/activity_report_state.dart';

@@ -1,6 +1,6 @@
-import 'package:bazarpro/features/view/presentation/widget/common/view_data_table.dart';
-import 'package:bazarpro/features/view/presentation/widget/common/view_record_count.dart';
-import 'package:bazarpro/features/view/presentation/widget/common/view_table_cell_styles.dart';
+import 'package:bazarpro/core/widget/table/view_data_table.dart';
+import 'package:bazarpro/core/widget/table/view_record_count.dart';
+import 'package:bazarpro/core/widget/table/view_table_cell_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

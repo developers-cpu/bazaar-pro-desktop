@@ -2,7 +2,7 @@ import 'package:bazarpro/core/widget/app_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../view/presentation/widget/common/view_reset_buttons.dart';
+import '../../../../../core/widget/table/view_reset_buttons.dart';
 import '../../bloc/profit_and_loss_report/profit_and_loss_report_bloc.dart';
 import '../../bloc/profit_and_loss_report/profit_and_loss_report_event.dart';
 import '../../bloc/profit_and_loss_report/profit_and_loss_report_state.dart';

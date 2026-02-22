@@ -8,9 +8,9 @@ import '../../../domain/entities/script_master/script_master.dart';
 import '../../bloc/script_master/script_master_bloc.dart';
 import '../../bloc/script_master/script_master_event.dart';
 import '../../bloc/script_master/script_master_state.dart';
-import '../common/view_data_table.dart';
-import '../common/view_record_count.dart';
-import '../common/view_table_cell_styles.dart';
+import '../../../../../core/widget/table/view_data_table.dart';
+import '../../../../../core/widget/table/view_record_count.dart';
+import '../../../../../core/widget/table/view_table_cell_styles.dart';
 
 class ScriptMasterTable extends StatelessWidget {
   final bool isDarkMode;

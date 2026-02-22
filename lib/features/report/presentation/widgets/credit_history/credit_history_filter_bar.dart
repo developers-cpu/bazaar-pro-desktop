@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../../core/widget/app_dropdown.dart';
-import '../../../../view/presentation/widget/common/view_reset_buttons.dart';
+import '../../../../../core/widget/table/view_reset_buttons.dart';
 import '../../bloc/credit_history/credit_history_bloc.dart';
 import '../../bloc/credit_history/credit_history_event.dart';
 import '../../bloc/credit_history/credit_history_state.dart';

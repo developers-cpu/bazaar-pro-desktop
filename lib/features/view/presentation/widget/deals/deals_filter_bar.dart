@@ -9,7 +9,7 @@ import '../../../../../core/widget/date_range_picker_dialog.dart';
 import '../../bloc/deals/deals_bloc.dart';
 import '../../bloc/deals/deals_event.dart';
 import '../../bloc/deals/deals_state.dart';
-import '../common/view_reset_buttons.dart';
+import '../../../../../core/widget/table/view_reset_buttons.dart';
 
 class DealsFilterBar extends StatelessWidget {
   const DealsFilterBar({Key? key}) : super(key: key);

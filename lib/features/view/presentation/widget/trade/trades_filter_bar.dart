@@ -6,10 +6,11 @@ import 'package:intl/intl.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/app_dropdown.dart';
 import '../../../../../core/widget/date_range_picker_dialog.dart';
+import '../../../../../core/widget/table/view_reset_buttons.dart';
 import '../../bloc/trade/trades_bloc.dart';
 import '../../bloc/trade/trades_event.dart';
 import '../../bloc/trade/trades_state.dart';
-import '../common/view_reset_buttons.dart';
+
 
 class TradesFilterBar extends StatelessWidget {
   const TradesFilterBar({Key? key}) : super(key: key);

@@ -5,8 +5,8 @@ import '../../../../../../core/widget/app_dropdown.dart';
 import '../../bloc/broker_list/broker_list_bloc.dart';
 import '../../bloc/broker_list/broker_list_event.dart';
 import '../../bloc/broker_list/broker_list_state.dart';
-import '../common/view_reset_buttons.dart';
-import '../common/view_record_count.dart';
+import '../../../../../core/widget/table/view_reset_buttons.dart';
+import '../../../../../core/widget/table/view_record_count.dart';
 
 class BrokerListFilterBar extends StatelessWidget {
   const BrokerListFilterBar({Key? key}) : super(key: key);

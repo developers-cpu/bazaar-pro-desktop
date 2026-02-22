@@ -5,11 +5,11 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../../../core/constants/app_colors.dart';
 import '../../../../../../core/widget/custom_action_button.dart';
 import '../../../../../../core/widget/custom_input_field.dart';
+import '../../../../../../core/widget/table/view_data_table.dart';
 import '../../../bloc/user_form/user_form_bloc.dart';
 import '../../../bloc/user_form/user_form_event.dart';
 import '../../../bloc/user_form/user_form_state.dart';
-import '../../../../../view/presentation/widget/common/view_data_table.dart';
-import '../../../../../view/presentation/widget/common/view_record_count.dart';
+import '../../../../../../core/widget/table/view_record_count.dart';
 
 class ClientBrokerSettingStep extends StatefulWidget {
   const ClientBrokerSettingStep({super.key});

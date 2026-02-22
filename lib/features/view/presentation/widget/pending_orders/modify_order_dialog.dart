@@ -6,7 +6,7 @@ import '../../../../../core/widget/common_dilog_box.dart';
 import '../../../../market_watch/presentation/widgets/order/order_number_field.dart';
 import '../../../domain/entities/pending_orders/pending_order.dart';
 import '../../../../../core/widget/custom_toggle_switch.dart';
-import '../common/animated_price_box.dart';
+import '../../../../../core/widget/common/animated_price_box.dart';
 
 class ModifyOrderDialog extends StatefulWidget {
   final PendingOrder order;

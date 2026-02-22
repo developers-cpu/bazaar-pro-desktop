@@ -1,10 +1,10 @@
 import 'package:bazarpro/core/widget/app_dropdown.dart';
 import 'package:bazarpro/core/widget/date_range_picker_button.dart';
 import 'package:bazarpro/core/widget/date_range_picker_dialog.dart' as custom;
+import 'package:bazarpro/core/widget/table/view_reset_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../view/presentation/widget/common/view_reset_buttons.dart';
 import '../../bloc/user_wise_profit_and_loss/user_wise_profit_and_loss_bloc.dart';
 import '../../bloc/user_wise_profit_and_loss/user_wise_profit_and_loss_event.dart';
 import '../../bloc/user_wise_profit_and_loss/user_wise_profit_and_loss_state.dart';

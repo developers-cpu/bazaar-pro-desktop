@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../view/presentation/widget/common/view_data_table.dart';
-import '../../../../view/presentation/widget/common/view_record_count.dart';
-import '../../../../view/presentation/widget/common/view_table_cell_styles.dart';
-import '../../../../view/presentation/widget/common/view_data_table_footer.dart';
+import '../../../../../core/widget/table/view_data_table.dart';
+import '../../../../../core/widget/table/view_data_table_footer.dart';
+import '../../../../../core/widget/table/view_record_count.dart' show ViewRecordCount;
+import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import '../../bloc/symbol_wise_pl/symbol_wise_pl_bloc.dart';
 import '../../bloc/symbol_wise_pl/symbol_wise_pl_state.dart';
 import '../../../domain/entities/symbol_wise_pl/symbol_wise_pl_report.dart';

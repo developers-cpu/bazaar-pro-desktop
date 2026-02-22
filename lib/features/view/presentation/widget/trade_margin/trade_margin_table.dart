@@ -1,8 +1,8 @@
 import 'package:bazarpro/features/view/domain/entities/trade_margin/trade_margin.dart';
 import 'package:flutter/material.dart';
-import '../common/view_data_table.dart';
-import '../common/view_record_count.dart';
-import '../common/view_table_cell_styles.dart';
+import '../../../../../core/widget/table/view_data_table.dart';
+import '../../../../../core/widget/table/view_record_count.dart';
+import '../../../../../core/widget/table/view_table_cell_styles.dart';
 
 class TradeMarginTable extends StatelessWidget {
   final List<TradeMargin> tradeMargins;

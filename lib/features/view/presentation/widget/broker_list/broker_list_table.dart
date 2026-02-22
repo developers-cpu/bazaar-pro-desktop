@@ -4,8 +4,8 @@ import '../../../../../../core/constants/app_colors.dart';
 import '../../../domain/entities/broker_list/broker.dart';
 import '../../bloc/broker_list/broker_list_bloc.dart';
 import '../../bloc/broker_list/broker_list_state.dart';
-import '../common/view_data_table.dart';
-import '../common/view_table_cell_styles.dart';
+import '../../../../../core/widget/table/view_data_table.dart';
+import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import 'broker_client_dialog.dart';
 
 class BrokerListTable extends StatelessWidget {

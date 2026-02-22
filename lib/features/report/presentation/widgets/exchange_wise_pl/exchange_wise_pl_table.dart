@@ -1,9 +1,9 @@
 import 'package:bazarpro/features/report/domain/entities/exchange_wise_pl/exchange_wise_pl_report.dart';
 import 'package:flutter/material.dart';
-import '../../../../view/presentation/widget/common/view_data_table.dart';
-import '../../../../view/presentation/widget/common/view_data_table_footer.dart';
-import '../../../../view/presentation/widget/common/view_record_count.dart';
-import '../../../../view/presentation/widget/common/view_table_cell_styles.dart';
+import '../../../../../core/widget/table/view_data_table.dart';
+import '../../../../../core/widget/table/view_data_table_footer.dart';
+import '../../../../../core/widget/table/view_record_count.dart';
+import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import 'deals_dialog.dart';
 import 'exchange_trade_list_dialog.dart';
 import 'exchange_open_position_dialog.dart';

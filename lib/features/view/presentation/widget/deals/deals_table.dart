@@ -7,9 +7,9 @@ import '../../../domain/entities/deals/deals.dart';
 import '../../bloc/deals/deals_bloc.dart';
 import '../../bloc/deals/deals_event.dart';
 import '../../bloc/deals/deals_state.dart';
-import '../common/view_data_table.dart';
-import '../common/view_record_count.dart';
-import '../common/view_table_cell_styles.dart';
+import '../../../../../core/widget/table/view_data_table.dart';
+import '../../../../../core/widget/table/view_record_count.dart';
+import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import 'order_duration_dialog.dart';
 class DealsTable extends StatelessWidget {
   final bool showDeviceInfo;

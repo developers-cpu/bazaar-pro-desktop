@@ -6,9 +6,9 @@ import '../../../../../core/widget/common_dilog_box.dart';
 import '../../../../../core/widget/app_dropdown.dart';
 import '../../../../../core/widget/custom_action_button.dart';
 import '../../../../../core/widget/custom_outlined_button.dart';
-import '../common/success_dialog.dart';
-import '../common/view_data_table.dart';
-import '../common/view_record_count.dart';
+import '../../../../../core/widget/common/success_dialog.dart';
+import '../../../../../core/widget/table/view_data_table.dart';
+import '../../../../../core/widget/table/view_record_count.dart';
 
 class RollOverDialog extends StatefulWidget {
   const RollOverDialog({Key? key}) : super(key: key);

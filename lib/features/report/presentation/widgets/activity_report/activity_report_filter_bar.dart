@@ -1,10 +1,10 @@
+import 'package:bazarpro/core/widget/table/view_reset_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/widget/app_dropdown.dart';
 import '../../../../../core/widget/date_range_picker_button.dart';
 import '../../../../../core/widget/date_range_picker_dialog.dart' as custom;
-import '../../../../view/presentation/widget/common/view_reset_buttons.dart';
 import '../../bloc/activity_report/activity_report_bloc.dart';
 import '../../bloc/activity_report/activity_report_event.dart';
 import '../../bloc/activity_report/activity_report_state.dart';

@@ -6,9 +6,9 @@ import '../../bloc/intraday_history/intraday_history_bloc.dart';
 import '../../bloc/intraday_history/intraday_history_event.dart';
 import '../../bloc/intraday_history/intraday_history_state.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../common/view_data_table.dart';
-import '../common/view_record_count.dart';
-import '../common/view_table_cell_styles.dart';
+import '../../../../../core/widget/table/view_data_table.dart';
+import '../../../../../core/widget/table/view_record_count.dart';
+import '../../../../../core/widget/table/view_table_cell_styles.dart';
 
 class IntradayHistoryTable extends StatelessWidget {
   const IntradayHistoryTable({Key? key}) : super(key: key);

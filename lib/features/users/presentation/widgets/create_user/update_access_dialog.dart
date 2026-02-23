@@ -6,7 +6,6 @@ import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/constants/app_images.dart';
 import '../../../../../core/widget/app_switch.dart';
 import '../../../../../core/widget/common_dilog_box.dart';
-
 class UpdateAccessDialog extends StatefulWidget {
   final String userId;
   final String userName;
@@ -37,11 +36,9 @@ class UpdateAccessDialog extends StatefulWidget {
       ),
     );
   }
-
   @override
   State<UpdateAccessDialog> createState() => _UpdateAccessDialogState();
 }
-
 class _UpdateAccessDialogState extends State<UpdateAccessDialog> {
   late Map<String, bool> _settings;
   @override
@@ -49,7 +46,6 @@ class _UpdateAccessDialogState extends State<UpdateAccessDialog> {
     super.initState();
     _settings = Map.from(widget.currentSettings);
   }
-
   @override
   Widget build(BuildContext context) {
     return CommonDialog(
@@ -72,7 +68,6 @@ class _UpdateAccessDialogState extends State<UpdateAccessDialog> {
       ),
     );
   }
-
   Widget _buildSettingRow(String key) {
     final label = _getLabel(key);
     final iconPath = _getIconPath(key);
@@ -113,7 +108,6 @@ class _UpdateAccessDialogState extends State<UpdateAccessDialog> {
       ],
     );
   }
-
   String _getLabel(String key) {
     switch (key) {
       case 'bet':
@@ -136,7 +130,6 @@ class _UpdateAccessDialogState extends State<UpdateAccessDialog> {
         return key;
     }
   }
-
   String? _getIconPath(String key) {
     switch (key) {
       case 'bet':

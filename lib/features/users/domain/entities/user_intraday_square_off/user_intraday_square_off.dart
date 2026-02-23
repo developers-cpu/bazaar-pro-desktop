@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 class UserIntradaySquareOff extends Equatable {
   final String id;
   final String exchange;
@@ -11,7 +10,6 @@ class UserIntradaySquareOff extends Equatable {
     required this.time,
     required this.isEnabled,
   });
-
   UserIntradaySquareOff copyWith({
     String? id,
     String? exchange,
@@ -25,7 +23,6 @@ class UserIntradaySquareOff extends Equatable {
       isEnabled: isEnabled ?? this.isEnabled,
     );
   }
-
   @override
   List<Object?> get props => [id, exchange, time, isEnabled];
 }

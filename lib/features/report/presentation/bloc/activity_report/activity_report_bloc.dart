@@ -2,7 +2,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../domain/usecases/get_activity_report.dart';
 import 'activity_report_event.dart';
 import 'activity_report_state.dart';
-
 class ActivityReportBloc
     extends Bloc<ActivityReportEvent, ActivityReportState> {
   final GetActivityReportUseCase getActivityReport;
@@ -27,7 +26,6 @@ class ActivityReportBloc
       },
     );
   }
-
   Future<void> _onFilterActivityReport(
     FilterActivityReport event,
     Emitter<ActivityReportState> emit,
@@ -60,7 +58,6 @@ class ActivityReportBloc
       );
     }
   }
-
   Future<void> _onResetActivityReportFilters(
     ResetActivityReportFilters event,
     Emitter<ActivityReportState> emit,

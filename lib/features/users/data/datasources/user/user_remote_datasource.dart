@@ -1,6 +1,5 @@
 import 'package:bazarpro/features/users/data/models/user/user_model.dart';
 import 'package:dio/dio.dart';
-
 abstract class UserRemoteDataSource {
   Future<List<UserModel>> getUsers();
   Future<List<UserModel>> getUsersWithFilters({
@@ -11,7 +10,6 @@ abstract class UserRemoteDataSource {
   Future<List<String>> getSymbols(String? exchange);
   Future<List<UserModel>> getNestedUsers(String parentUserId);
 }
-
 class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   final Dio dio;
   UserRemoteDataSourceImpl({required this.dio});
@@ -24,7 +22,6 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       throw Exception('Failed to fetch users: $e');
     }
   }
-
   @override
   Future<List<UserModel>> getUsersWithFilters({
     String? userType,
@@ -49,7 +46,6 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       throw Exception('Failed to fetch filtered users: $e');
     }
   }
-
   List<UserModel> _generateDummyUsers() {
     final List<String> userNames = [
       'RAJ03',
@@ -163,7 +159,6 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
     }
     return users;
   }
-
   @override
   Future<List<String>> getExchanges() async {
     await Future.delayed(const Duration(milliseconds: 300));
@@ -178,7 +173,6 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       'FOREX',
     ];
   }
-
   @override
   Future<List<String>> getSymbols(String? exchange) async {
     await Future.delayed(const Duration(milliseconds: 300));
@@ -196,7 +190,6 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       'TATASTEEL',
     ];
   }
-
   @override
   Future<List<UserModel>> getNestedUsers(String parentUserId) async {
     await Future.delayed(const Duration(milliseconds: 500));

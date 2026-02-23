@@ -6,11 +6,9 @@ import '../../../../../../core/widget/table/view_record_count.dart';
 import '../../../../../../core/widget/table/view_table_cell_styles.dart';
 import '../../../bloc/activity_detail/activity_detail_bloc.dart';
 import '../../../bloc/activity_detail/activity_detail_state.dart';
-
 class BrokerageDetailView extends StatelessWidget {
   final bool isDarkMode;
   const BrokerageDetailView({super.key, this.isDarkMode = false});
-
   @override
   Widget build(BuildContext context) {
     final columns = [
@@ -30,7 +28,6 @@ class BrokerageDetailView extends StatelessWidget {
       const ViewTableColumn(id: 'updatedOn', label: 'UPDATED ON', width: 230),
       const ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 150),
     ];
-
     return BlocBuilder<ActivityDetailBloc, ActivityDetailState>(
       builder: (context, state) {
         if (state is ActivityDetailLoading) {
@@ -42,7 +39,6 @@ class BrokerageDetailView extends StatelessWidget {
         if (state is! ActivityDetailLoaded) {
           return const SizedBox.shrink();
         }
-
         return Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [

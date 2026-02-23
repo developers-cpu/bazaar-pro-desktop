@@ -1,20 +1,16 @@
 import 'package:equatable/equatable.dart';
 import '../../../domain/entities/deals/deals.dart';
-
 abstract class DealsState extends Equatable {
   const DealsState();
   @override
   List<Object?> get props => [];
 }
-
 class DealsInitial extends DealsState {
   const DealsInitial();
 }
-
 class DealsLoading extends DealsState {
   const DealsLoading();
 }
-
 class DealsLoaded extends DealsState {
   final List<Deal> deals;
   final List<Deal> filteredDeals;
@@ -117,14 +113,12 @@ class DealsLoaded extends DealsState {
     );
   }
 }
-
 class DealsError extends DealsState {
   final String message;
   const DealsError(this.message);
   @override
   List<Object?> get props => [message];
 }
-
 class DealsExportSuccess extends DealsState {
   final String message;
   final String filePath;

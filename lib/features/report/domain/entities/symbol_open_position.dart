@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 class SymbolOpenPosition extends Equatable {
   final String name;
   final String type;

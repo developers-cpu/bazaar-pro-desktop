@@ -11,20 +11,16 @@ import '../../widgets/date_settings/date_settings_tab_bar.dart';
 import '../../widgets/date_settings/date_settings_headers.dart';
 import '../../widgets/date_settings/date_settings_data_table.dart';
 import '../../../domain/entities/date_settings/date_setting.dart';
-
 class DateSettingsPage extends StatefulWidget {
   const DateSettingsPage({super.key});
-
   @override
   State<DateSettingsPage> createState() => _DateSettingsPageState();
 }
-
 class _DateSettingsPageState extends State<DateSettingsPage> {
   int _activeTab = 0;
   final _searchCtrl = TextEditingController();
   Set<String> _selectedIds = {};
   String _selectedMonth = 'February';
-
   final _exchanges = const [
     'NSE',
     'MCX',
@@ -36,13 +32,11 @@ class _DateSettingsPageState extends State<DateSettingsPage> {
     'FOREX',
     'USSTOCK',
   ];
-
   @override
   void dispose() {
     _searchCtrl.dispose();
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<DateSettingsBloc, DateSettingsState>(
@@ -64,7 +58,6 @@ class _DateSettingsPageState extends State<DateSettingsPage> {
         final filteredData = allSettings
             .where((s) => s.exchange == _exchanges[_activeTab])
             .toList();
-
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
           child: Column(
@@ -112,7 +105,6 @@ class _DateSettingsPageState extends State<DateSettingsPage> {
       },
     );
   }
-
   Widget _buildBody(DateSettingsState state, List<DateSetting> displayData) {
     if (state is DateSettingsLoading) {
       return const Center(child: CircularProgressIndicator());
@@ -120,7 +112,6 @@ class _DateSettingsPageState extends State<DateSettingsPage> {
     if (state is DateSettingsError) {
       return Center(child: Text(state.message));
     }
-
     return DateSettingsDataTable(
       data: displayData,
       selectedIds: _selectedIds,

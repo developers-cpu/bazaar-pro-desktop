@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 class SymbolTradeLog extends Equatable {
   final String sequence;
   final String userName;

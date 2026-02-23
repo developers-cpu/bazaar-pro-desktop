@@ -1,5 +1,4 @@
 import '../../../domain/entities/script_settings/script_setting.dart';
-
 class ScriptSettingModel extends ScriptSetting {
   const ScriptSettingModel({
     required super.id,
@@ -9,7 +8,6 @@ class ScriptSettingModel extends ScriptSetting {
     super.isBanned = false,
     super.cutDate,
   });
-
   factory ScriptSettingModel.fromJson(Map<String, dynamic> json) {
     return ScriptSettingModel(
       id: json['id'] ?? '',
@@ -20,7 +18,6 @@ class ScriptSettingModel extends ScriptSetting {
       cutDate: json['cutDate'],
     );
   }
-
   Map<String, dynamic> toJson() {
     return {
       'id': id,

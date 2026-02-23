@@ -10,10 +10,8 @@ import '../../../../../core/widget/svg_icon.dart';
 import '../../../../../../injection_container.dart';
 import '../../bloc/total_volume/total_volume_bloc.dart';
 import '../../../domain/entities/total_volume_entity.dart';
-
 class TotalVolumeDialog extends StatefulWidget {
   const TotalVolumeDialog({Key? key}) : super(key: key);
-
   static void show(BuildContext context) {
     CommonDialog.show(
       context: context,
@@ -24,14 +22,11 @@ class TotalVolumeDialog extends StatefulWidget {
       content: const TotalVolumeDialog(),
     );
   }
-
   @override
   State<TotalVolumeDialog> createState() => _TotalVolumeDialogState();
 }
-
 class _TotalVolumeDialogState extends State<TotalVolumeDialog> {
   String? _selectedExchange;
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -44,7 +39,6 @@ class _TotalVolumeDialogState extends State<TotalVolumeDialog> {
                   state.exchangeStatus == ExchangeStatus.success
               ? ['NSE', 'MCX']
               : state.exchanges;
-
           return SizedBox(
             height: 220.h,
             child: Column(
@@ -82,7 +76,6 @@ class _TotalVolumeDialogState extends State<TotalVolumeDialog> {
       ),
     );
   }
-
   Widget _buildContent(TotalVolumeState state) {
     if (state.status == TotalVolumeStatus.loading) {
       return const Center(child: CircularProgressIndicator());
@@ -96,7 +89,6 @@ class _TotalVolumeDialogState extends State<TotalVolumeDialog> {
     }
     return const SizedBox.shrink();
   }
-
   Widget _buildVolumeCard(TotalVolumeEntity data) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 15.h),

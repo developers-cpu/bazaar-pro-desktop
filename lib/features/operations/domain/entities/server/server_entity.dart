@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 class ServerEntity extends Equatable {
   final String id;
   final int index;
@@ -7,7 +6,6 @@ class ServerEntity extends Equatable {
   final String updatedOn;
   final String updatedBy;
   final bool status;
-
   const ServerEntity({
     required this.id,
     required this.index,
@@ -16,7 +14,6 @@ class ServerEntity extends Equatable {
     required this.updatedBy,
     required this.status,
   });
-
   @override
   List<Object?> get props => [
     id,

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 class CustomToggleSwitch extends StatelessWidget {
   final String leftLabel;
   final String rightLabel;
@@ -9,7 +8,6 @@ class CustomToggleSwitch extends StatelessWidget {
   final ValueChanged<bool> onChanged;
   final Color activeColor;
   final Color inactiveColor;
-
   const CustomToggleSwitch({
     Key? key,
     required this.leftLabel,
@@ -19,7 +17,6 @@ class CustomToggleSwitch extends StatelessWidget {
     required this.activeColor,
     this.inactiveColor = Colors.transparent,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Row(

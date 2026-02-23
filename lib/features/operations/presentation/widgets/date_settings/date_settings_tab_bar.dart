@@ -2,26 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
-
 class DateSettingsTabBar extends StatefulWidget {
   final List<String> tabs;
   final int activeTab;
   final ValueChanged<int> onTabChanged;
-
   const DateSettingsTabBar({
     super.key,
     required this.tabs,
     required this.activeTab,
     required this.onTabChanged,
   });
-
   @override
   State<DateSettingsTabBar> createState() => _DateSettingsTabBarState();
 }
-
 class _DateSettingsTabBarState extends State<DateSettingsTabBar> {
   int? _hoveredIndex;
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(

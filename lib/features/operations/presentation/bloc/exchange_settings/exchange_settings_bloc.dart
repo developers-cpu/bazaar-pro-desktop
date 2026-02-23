@@ -6,16 +6,13 @@ import '../../../domain/usecases/exchange_settings/get_exchange_settings.dart';
 import '../../../domain/usecases/exchange_settings/update_exchange_settings.dart';
 import 'exchange_settings_event.dart';
 import 'exchange_settings_state.dart';
-
 class ExchangeSettingsBloc
     extends Bloc<ExchangeSettingsEvent, ExchangeSettingsState> {
   final GetExchangeSettings getExchangeSettings;
   final UpdateExchangeSettings updateExchangeSettings;
   final ExchangeSettingsRepository repository;
-
   List<ExchangeSetting> _cachedSettings = [];
   List<DefaultSymbol> _cachedSymbols = [];
-
   ExchangeSettingsBloc({
     required this.getExchangeSettings,
     required this.updateExchangeSettings,
@@ -34,7 +31,6 @@ class ExchangeSettingsBloc
         },
       );
     });
-
     on<UpdateExchangeSettingsEvent>((event, emit) async {
       emit(ExchangeSettingsLoading());
       final result = await updateExchangeSettings(
@@ -52,7 +48,6 @@ class ExchangeSettingsBloc
         },
       );
     });
-
     on<LoadDefaultSymbolsEvent>((event, emit) async {
       emit(ExchangeSettingsLoading());
       final result = await repository.getDefaultSymbols(

@@ -5,13 +5,10 @@ import '../../../../../core/widget/common_dilog_box.dart';
 import '../../../../../core/widget/app_dropdown.dart';
 import 'square_off_dialog.dart';
 import 'roll_over_dialog.dart';
-
 class SelectUserDialog extends StatefulWidget {
   final String actionType;
-
   const SelectUserDialog({Key? key, required this.actionType})
     : super(key: key);
-
   static void show({
     required BuildContext context,
     required String actionType,
@@ -22,14 +19,11 @@ class SelectUserDialog extends StatefulWidget {
       builder: (_) => SelectUserDialog(actionType: actionType),
     );
   }
-
   @override
   State<SelectUserDialog> createState() => _SelectUserDialogState();
 }
-
 class _SelectUserDialogState extends State<SelectUserDialog> {
   String _selectedUser = 'Client 1';
-
   @override
   Widget build(BuildContext context) {
     return CommonDialog(
@@ -54,7 +48,6 @@ class _SelectUserDialogState extends State<SelectUserDialog> {
             setState(() {
               _selectedUser = val;
             });
-
             Navigator.pop(context);
             if (widget.actionType == 'SquareOff') {
               SquareOffDialog.show(context: context);

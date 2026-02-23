@@ -4,7 +4,6 @@ import '../../../../../core/errors/failures.dart';
 import '../../../../../core/usecases/usecase.dart';
 import '../entities/bill_generate_report.dart';
 import '../repositories/bill_generate_repository.dart';
-
 class GetBillGenerateReport
     implements UseCase<BillGenerateReport, GetBillGenerateParams> {
   final BillGenerateRepository repository;
@@ -20,7 +19,6 @@ class GetBillGenerateReport
     );
   }
 }
-
 class GetBillGenerateParams extends Equatable {
   final String userId;
   final String billFormat;

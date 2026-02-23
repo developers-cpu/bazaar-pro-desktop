@@ -1,5 +1,4 @@
 import '../../../domain/entities/server/server_entity.dart';
-
 class ServerModel extends ServerEntity {
   const ServerModel({
     required super.id,
@@ -9,7 +8,6 @@ class ServerModel extends ServerEntity {
     required super.updatedBy,
     required super.status,
   });
-
   factory ServerModel.fromJson(Map<String, dynamic> json, int index) {
     return ServerModel(
       id: json['id'] ?? '',
@@ -20,7 +18,6 @@ class ServerModel extends ServerEntity {
       status: json['status'] ?? false,
     );
   }
-
   Map<String, dynamic> toJson() {
     return {
       'id': id,

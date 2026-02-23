@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../constants/app_colors.dart';
-
 class AppDatePicker extends StatefulWidget {
   final String label;
   final DateTime? value;
@@ -11,7 +10,6 @@ class AppDatePicker extends StatefulWidget {
   final double? height;
   final DateTime? firstDate;
   final DateTime? lastDate;
-
   const AppDatePicker({
     super.key,
     required this.label,
@@ -22,11 +20,9 @@ class AppDatePicker extends StatefulWidget {
     this.firstDate,
     this.lastDate,
   });
-
   @override
   State<AppDatePicker> createState() => _AppDatePickerState();
 }
-
 class _AppDatePickerState extends State<AppDatePicker>
     with SingleTickerProviderStateMixin {
   OverlayEntry? _overlayEntry;
@@ -34,9 +30,7 @@ class _AppDatePickerState extends State<AppDatePicker>
   final LayerLink _layerLink = LayerLink();
   late AnimationController _controller;
   late Animation<double> _animation;
-
   DateTime _viewMonth = DateTime.now();
-
   @override
   void initState() {
     super.initState();
@@ -49,16 +43,13 @@ class _AppDatePickerState extends State<AppDatePicker>
       _viewMonth = DateTime(widget.value!.year, widget.value!.month);
     }
   }
-
   @override
   void dispose() {
     _removeOverlay();
     _controller.dispose();
     super.dispose();
   }
-
   void _toggle() => _isOpen ? _close() : _open();
-
   void _open() {
     if (widget.value != null) {
       _viewMonth = DateTime(widget.value!.year, widget.value!.month);
@@ -70,33 +61,27 @@ class _AppDatePickerState extends State<AppDatePicker>
     setState(() => _isOpen = true);
     _controller.forward();
   }
-
   void _close() {
     _controller.reverse().then((_) {
       _removeOverlay();
       if (mounted) setState(() => _isOpen = false);
     });
   }
-
   void _removeOverlay() {
     _overlayEntry?.remove();
     _overlayEntry?.dispose();
     _overlayEntry = null;
   }
-
   Color get _borderColor => AppColors.primaryBlue;
-
   String get _displayText {
     if (widget.value == null) return 'Select Date';
     final d = widget.value!;
     return '${d.day.toString().padLeft(2, '0')}/${d.month.toString().padLeft(2, '0')}/${d.year.toString().substring(2)}';
   }
-
   OverlayEntry _createOverlay() {
     final renderBox = context.findRenderObject() as RenderBox;
     final size = renderBox.size;
     final offset = renderBox.localToGlobal(Offset.zero);
-
     return OverlayEntry(
       builder: (context) {
         return Stack(
@@ -128,7 +113,6 @@ class _AppDatePickerState extends State<AppDatePicker>
       },
     );
   }
-
   Widget _buildCalendar(StateSetter setCalState) {
     final daysInMonth = DateTime(_viewMonth.year, _viewMonth.month + 1, 0).day;
     final firstWeekday =
@@ -148,11 +132,9 @@ class _AppDatePickerState extends State<AppDatePicker>
       'December',
     ];
     final dayLabels = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
-
     final prevMonthDays = DateTime(_viewMonth.year, _viewMonth.month, 0).day;
     final totalCells = firstWeekday + daysInMonth;
     final totalRows = ((totalCells + 6) ~/ 7);
-
     return Container(
       width: 280.w,
       padding: EdgeInsets.all(12.w),
@@ -294,7 +276,6 @@ class _AppDatePickerState extends State<AppDatePicker>
       ),
     );
   }
-
   Widget _buildDayCell(
     String text, {
     bool isSelected = false,
@@ -327,7 +308,6 @@ class _AppDatePickerState extends State<AppDatePicker>
       ),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return Column(

@@ -4,7 +4,6 @@ import '../../../domain/entities/trades/trade.dart';
 import '../../../domain/repositories/trades/trades_repository.dart';
 import '../../datasources/trades/trades_remote_datasource.dart';
 import '../../models/trades/trade_model.dart';
-
 class TradesRepositoryImpl implements TradesRepository {
   final TradesRemoteDataSource remoteDataSource;
   TradesRepositoryImpl({required this.remoteDataSource});
@@ -17,7 +16,6 @@ class TradesRepositoryImpl implements TradesRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
-
   @override
   Future<Either<Failure, List<Trade>>> getTradesWithFilters({
     DateTime? startDate,
@@ -41,7 +39,6 @@ class TradesRepositoryImpl implements TradesRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
-
   @override
   Future<Either<Failure, List<String>>> getClients() async {
     try {
@@ -51,7 +48,6 @@ class TradesRepositoryImpl implements TradesRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
-
   @override
   Future<Either<Failure, List<String>>> getExchanges() async {
     try {
@@ -61,7 +57,6 @@ class TradesRepositoryImpl implements TradesRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
-
   @override
   Future<Either<Failure, List<String>>> getSymbols() async {
     try {
@@ -71,7 +66,6 @@ class TradesRepositoryImpl implements TradesRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
-
   @override
   Future<Either<Failure, List<String>>> getOrderTypes() async {
     try {
@@ -81,7 +75,6 @@ class TradesRepositoryImpl implements TradesRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
-
   @override
   Future<Either<Failure, String>> exportToPdf(List<Trade> trades) async {
     try {
@@ -92,7 +85,6 @@ class TradesRepositoryImpl implements TradesRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
-
   @override
   Future<Either<Failure, String>> exportToExcel(List<Trade> trades) async {
     try {

@@ -7,7 +7,6 @@ class SurveillanceBulkOrder {
   final double tradeSlLimit;
   final String updatedOn;
   final String updatedBy;
-
   const SurveillanceBulkOrder({
     required this.id,
     required this.exchange,

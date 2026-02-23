@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/custom_input_field.dart';
 import '../../../../../core/widget/custom_action_button.dart';
-
 class TradeSettingsHeaders extends StatefulWidget {
   final int activeTab;
   final String marginType;
   final ValueChanged<String> onMarginTypeChanged;
   final String brokerageType;
   final ValueChanged<String> onBrokerageTypeChanged;
-
   const TradeSettingsHeaders({
     super.key,
     required this.activeTab,
@@ -21,26 +18,20 @@ class TradeSettingsHeaders extends StatefulWidget {
     required this.brokerageType,
     required this.onBrokerageTypeChanged,
   });
-
   @override
   State<TradeSettingsHeaders> createState() => _TradeSettingsHeadersState();
 }
-
 class _TradeSettingsHeadersState extends State<TradeSettingsHeaders> {
   String get _marginType => widget.marginType;
   final _intMarginPercentageCtrl = TextEditingController(text: '0.05');
   final _cfMarginPercentageCtrl = TextEditingController(text: '0.05');
   final _intMarginAmtCtrl = TextEditingController(text: '0.05');
   final _cfMarginAmtCtrl = TextEditingController(text: '0.05');
-
   String get _brokerageType => widget.brokerageType;
   final _turnoverBrokerageCtrl = TextEditingController(text: '0.05');
   final _lotWiseBrokerageCtrl = TextEditingController(text: '0.05');
-
   final _leverageCtrl = TextEditingController();
-
   final _tradeSecondsCtrl = TextEditingController();
-
   @override
   void dispose() {
     _intMarginPercentageCtrl.dispose();
@@ -53,7 +44,6 @@ class _TradeSettingsHeadersState extends State<TradeSettingsHeaders> {
     _tradeSecondsCtrl.dispose();
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     switch (widget.activeTab) {
@@ -69,7 +59,6 @@ class _TradeSettingsHeadersState extends State<TradeSettingsHeaders> {
         return const SizedBox.shrink();
     }
   }
-
   Widget _marginHeader(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -189,7 +178,6 @@ class _TradeSettingsHeadersState extends State<TradeSettingsHeaders> {
       ],
     );
   }
-
   Widget _brokerageHeader(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -267,7 +255,6 @@ class _TradeSettingsHeadersState extends State<TradeSettingsHeaders> {
       ],
     );
   }
-
   Widget _leverageHeader(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -295,7 +282,6 @@ class _TradeSettingsHeadersState extends State<TradeSettingsHeaders> {
       ],
     );
   }
-
   Widget _tradeSecondsHeader(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -323,7 +309,6 @@ class _TradeSettingsHeadersState extends State<TradeSettingsHeaders> {
       ],
     );
   }
-
   Widget _radioOption(
     String label,
     bool selected,
@@ -348,7 +333,6 @@ class _TradeSettingsHeadersState extends State<TradeSettingsHeaders> {
       ],
     );
   }
-
   Widget _updateButton(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(top: 20.h),
@@ -361,7 +345,6 @@ class _TradeSettingsHeadersState extends State<TradeSettingsHeaders> {
       ),
     );
   }
-
   TextStyle _labelStyle() => GoogleFonts.openSans(
     fontSize: 12.sp,
     fontWeight: FontWeight.w600,

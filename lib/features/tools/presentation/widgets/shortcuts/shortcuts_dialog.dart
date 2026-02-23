@@ -10,7 +10,6 @@ import '../../../domain/entities/shortcut_entity.dart';
 import '../../bloc/shortcuts/shortcuts_bloc.dart';
 import '../../bloc/shortcuts/shortcuts_event.dart';
 import '../../bloc/shortcuts/shortcuts_state.dart';
-
 class ShortcutsDialog extends StatelessWidget {
   const ShortcutsDialog({Key? key}) : super(key: key);
   static void show(BuildContext context) {
@@ -26,7 +25,6 @@ class ShortcutsDialog extends StatelessWidget {
       ),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -57,7 +55,6 @@ class ShortcutsDialog extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildShortcutItem(ShortcutEntity item) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
@@ -97,7 +94,6 @@ class ShortcutsDialog extends StatelessWidget {
       ),
     );
   }
-
   Color? _getIconColor(String title) {
     if (title.toLowerCase().contains('buy')) return AppColors.successColor;
     if (title.toLowerCase().contains('sell')) return AppColors.red;

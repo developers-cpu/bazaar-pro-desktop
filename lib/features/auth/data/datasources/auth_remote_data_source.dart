@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import '../../../../core/constants/auth_constants.dart';
 import '../models/login_request_model.dart';
 import '../models/user_model.dart';
-
 abstract class AuthRemoteDataSource {
   Future<LoginUserModel> login({
     required String username,
@@ -11,7 +10,6 @@ abstract class AuthRemoteDataSource {
   });
   Future<LoginUserModel> refreshToken({required String refreshToken});
 }
-
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final Dio dio;
   AuthRemoteDataSourceImpl({required this.dio});
@@ -53,7 +51,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       throw Exception('Unexpected error: $e');
     }
   }
-
   @override
   Future<LoginUserModel> refreshToken({required String refreshToken}) async {
     try {

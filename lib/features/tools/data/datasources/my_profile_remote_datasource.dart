@@ -1,9 +1,7 @@
 import '../models/my_profile_model.dart';
-
 abstract class MyProfileRemoteDataSource {
   Future<MyProfileModel> getMyProfile();
 }
-
 class MyProfileRemoteDataSourceImpl implements MyProfileRemoteDataSource {
   @override
   Future<MyProfileModel> getMyProfile() async {

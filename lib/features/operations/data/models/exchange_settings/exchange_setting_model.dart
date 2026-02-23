@@ -1,5 +1,4 @@
 import '../../../domain/entities/exchange_settings/exchange_setting.dart';
-
 class ExchangeSettingModel extends ExchangeSetting {
   const ExchangeSettingModel({
     required super.id,
@@ -14,7 +13,6 @@ class ExchangeSettingModel extends ExchangeSetting {
     required super.updatedOn,
     required super.updatedBy,
   });
-
   factory ExchangeSettingModel.fromJson(Map<String, dynamic> json) {
     return ExchangeSettingModel(
       id: json['id'] ?? '',
@@ -30,7 +28,6 @@ class ExchangeSettingModel extends ExchangeSetting {
       updatedBy: json['updated_by'] ?? '',
     );
   }
-
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -47,7 +44,6 @@ class ExchangeSettingModel extends ExchangeSetting {
     };
   }
 }
-
 class DefaultSymbolModel extends DefaultSymbol {
   const DefaultSymbolModel({
     required super.id,
@@ -57,7 +53,6 @@ class DefaultSymbolModel extends DefaultSymbol {
     required super.updatedBy,
     required super.showInWatchlist,
   });
-
   factory DefaultSymbolModel.fromJson(Map<String, dynamic> json) {
     return DefaultSymbolModel(
       id: json['id'] ?? '',

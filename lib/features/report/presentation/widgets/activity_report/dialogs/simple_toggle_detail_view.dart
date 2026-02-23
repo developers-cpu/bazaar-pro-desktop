@@ -6,13 +6,11 @@ import '../../../../../../core/widget/table/view_record_count.dart';
 import '../../../../../../core/widget/table/view_table_cell_styles.dart';
 import '../../../bloc/activity_detail/activity_detail_bloc.dart';
 import '../../../bloc/activity_detail/activity_detail_state.dart';
-
 class SimpleToggleDetailView extends StatelessWidget {
   final String oldLabel;
   final String newLabel;
   final String valueType;
   final bool isDarkMode;
-
   const SimpleToggleDetailView({
     super.key,
     required this.oldLabel,
@@ -20,7 +18,6 @@ class SimpleToggleDetailView extends StatelessWidget {
     this.valueType = 'allowed',
     this.isDarkMode = false,
   });
-
   @override
   Widget build(BuildContext context) {
     final columns = [
@@ -29,7 +26,6 @@ class SimpleToggleDetailView extends StatelessWidget {
       const ViewTableColumn(id: 'updatedOn', label: 'UPDATED ON', width: 250),
       const ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 150),
     ];
-
     return BlocBuilder<ActivityDetailBloc, ActivityDetailState>(
       builder: (context, state) {
         if (state is ActivityDetailLoading) {
@@ -41,7 +37,6 @@ class SimpleToggleDetailView extends StatelessWidget {
         if (state is! ActivityDetailLoaded) {
           return const SizedBox.shrink();
         }
-
         return Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [

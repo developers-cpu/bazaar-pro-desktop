@@ -1,6 +1,5 @@
 import 'package:bazarpro/features/users/domain/entities/user_sharing_info.dart';
 import 'package:equatable/equatable.dart';
-
 class UserSharingDetails extends Equatable {
   final List<UserSharingInfo> plSharing;
   final List<UserSharingInfo> brokerageSharing;

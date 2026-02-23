@@ -4,19 +4,16 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
 import '../../../domain/entities/surveillance/surveillance_bulk_order.dart';
-
 class BulkOrderDataTable extends StatelessWidget {
   final List<SurveillanceBulkOrder> data;
   final Set<String> selectedIds;
   final ValueChanged<Set<String>> onSelectionChanged;
-
   const BulkOrderDataTable({
     super.key,
     required this.data,
     required this.selectedIds,
     required this.onSelectionChanged,
   });
-
   @override
   Widget build(BuildContext context) {
     return ViewDataTable(
@@ -41,7 +38,6 @@ class BulkOrderDataTable extends StatelessWidget {
             ),
           );
         }
-
         return _buildCell(item, column.id);
       },
       idExtractor: (item) => item.id,
@@ -58,7 +54,6 @@ class BulkOrderDataTable extends StatelessWidget {
       autoFit: true,
     );
   }
-
   List<ViewTableColumn> _buildColumns() {
     return [
       ViewTableColumn(
@@ -98,7 +93,6 @@ class BulkOrderDataTable extends StatelessWidget {
       ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 150.w),
     ];
   }
-
   Widget _buildCell(SurveillanceBulkOrder item, String colId) {
     String text = '';
     switch (colId) {

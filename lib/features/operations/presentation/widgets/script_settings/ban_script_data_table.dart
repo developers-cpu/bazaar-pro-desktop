@@ -5,13 +5,11 @@ import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/app_switch.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
 import '../../../domain/entities/script_settings/script_setting.dart';
-
 class BanScriptDataTable extends StatelessWidget {
   final List<ScriptSetting> data;
   final Set<String> selectedIds;
   final ValueChanged<Set<String>> onSelectionChanged;
   final Function(String id, bool isBanned) onToggleStatus;
-
   const BanScriptDataTable({
     super.key,
     required this.data,
@@ -19,7 +17,6 @@ class BanScriptDataTable extends StatelessWidget {
     required this.onSelectionChanged,
     required this.onToggleStatus,
   });
-
   @override
   Widget build(BuildContext context) {
     return ViewDataTable(
@@ -44,14 +41,12 @@ class BanScriptDataTable extends StatelessWidget {
             ),
           );
         }
-
         if (column.id == 'status') {
           return AppSwitch(
             value: item.isBanned,
             onChanged: (val) => onToggleStatus(item.id, val),
           );
         }
-
         return _buildCell(item, column.id);
       },
       idExtractor: (item) => item.id,
@@ -68,7 +63,6 @@ class BanScriptDataTable extends StatelessWidget {
       autoFit: true,
     );
   }
-
   List<ViewTableColumn> _buildColumns() {
     return [
       ViewTableColumn(
@@ -97,7 +91,6 @@ class BanScriptDataTable extends StatelessWidget {
       ViewTableColumn(id: 'status', label: 'STATUS', width: 120.w),
     ];
   }
-
   Widget _buildCell(ScriptSetting item, String colId) {
     String text = '';
     switch (colId) {

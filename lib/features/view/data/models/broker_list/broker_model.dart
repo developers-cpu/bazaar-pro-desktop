@@ -1,5 +1,4 @@
 import '../../../domain/entities/broker_list/broker.dart';
-
 class BrokerModel extends Broker {
   const BrokerModel({
     required int index,
@@ -16,7 +15,6 @@ class BrokerModel extends Broker {
          totalBrokerage: totalBrokerage,
          updatedOn: updatedOn,
        );
-
   factory BrokerModel.fromJson(Map<String, dynamic> json) {
     return BrokerModel(
       index: json['index'] as int,
@@ -27,7 +25,6 @@ class BrokerModel extends Broker {
       updatedOn: DateTime.parse(json['updatedOn'] as String),
     );
   }
-
   Map<String, dynamic> toJson() {
     return {
       'index': index,

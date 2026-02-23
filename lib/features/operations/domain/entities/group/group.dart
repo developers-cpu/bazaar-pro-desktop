@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 class Group extends Equatable {
   final String id;
   final String exchange;
@@ -8,7 +7,6 @@ class Group extends Equatable {
   final String updatedOn;
   final String updatedBy;
   final bool isDefault;
-
   const Group({
     required this.id,
     required this.exchange,
@@ -18,7 +16,6 @@ class Group extends Equatable {
     required this.updatedBy,
     required this.isDefault,
   });
-
   @override
   List<Object?> get props => [
     id,

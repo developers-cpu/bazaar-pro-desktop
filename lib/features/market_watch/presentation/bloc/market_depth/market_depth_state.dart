@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 class MarketDepthState extends Equatable {
   final bool isOpen;
   final String exchange;
@@ -32,7 +31,6 @@ class MarketDepthState extends Equatable {
       errorMessage: errorMessage,
     );
   }
-
   @override
   List<Object?> get props => [
     isOpen,
@@ -43,7 +41,6 @@ class MarketDepthState extends Equatable {
     errorMessage,
   ];
 }
-
 class MarketDepthData extends Equatable {
   final int lotSize;
   final double ltp;
@@ -89,7 +86,6 @@ class MarketDepthData extends Equatable {
     askRows,
   ];
 }
-
 class MarketDepthRow extends Equatable {
   final double price;
   final int orders;

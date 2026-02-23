@@ -1,12 +1,10 @@
 import '../../models/profit_and_loss_report_model.dart';
 import '../../../../../core/errors/exceptions.dart';
-
 abstract class ProfitAndLossReportRemoteDataSource {
   Future<List<ProfitAndLossReportModel>> getProfitAndLossReport({
     String? userId,
   });
 }
-
 class ProfitAndLossReportRemoteDataSourceImpl
     implements ProfitAndLossReportRemoteDataSource {
   @override

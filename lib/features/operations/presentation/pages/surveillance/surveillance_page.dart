@@ -15,24 +15,19 @@ import '../../widgets/surveillance/bulk_order_data_table.dart';
 import '../../widgets/surveillance/vpn_restriction_view.dart';
 import '../../widgets/surveillance/import_surveillance_dialog.dart';
 import '../../../domain/entities/surveillance/surveillance_data.dart';
-
 class SurveillancePage extends StatefulWidget {
   const SurveillancePage({super.key});
-
   @override
   State<SurveillancePage> createState() => _SurveillancePageState();
 }
-
 class _SurveillancePageState extends State<SurveillancePage> {
   int _activeTab = 0;
   final _searchCtrl = TextEditingController();
   final _intervalTimeCtrl = TextEditingController();
   final _totalQtyCtrl = TextEditingController();
   final _tradeSlLimitCtrl = TextEditingController();
-
   Set<String> _selectedIds = {};
   String? _selectedExchange;
-
   final _tabs = const ['Bulk Order', 'VPN Restriction'];
   final _exchanges = const [
     'NSE',
@@ -44,7 +39,6 @@ class _SurveillancePageState extends State<SurveillancePage> {
     'GIFT',
     'FOREX',
   ];
-
   @override
   void dispose() {
     _searchCtrl.dispose();
@@ -53,14 +47,12 @@ class _SurveillancePageState extends State<SurveillancePage> {
     _tradeSlLimitCtrl.dispose();
     super.dispose();
   }
-
   void _showImportDialog() {
     showDialog(
       context: context,
       builder: (_) => const ImportSurveillanceDialog(),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<SurveillanceBloc, SurveillanceState>(
@@ -84,7 +76,6 @@ class _SurveillancePageState extends State<SurveillancePage> {
         } else if (state is SurveillanceError) {
           currentData = state.currentData;
         }
-
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
           child: Column(
@@ -102,7 +93,6 @@ class _SurveillancePageState extends State<SurveillancePage> {
               if (_activeTab == 0) ..._buildBulkOrderHeader(currentData),
               if (_activeTab == 1 && currentData != null)
                 VpnRestrictionView(vpnData: currentData.vpnRestriction),
-
               SizedBox(height: 15.h),
               if (_activeTab == 0)
                 ..._buildBulkOrderSearchAndTable(state, currentData),
@@ -112,7 +102,6 @@ class _SurveillancePageState extends State<SurveillancePage> {
       },
     );
   }
-
   List<Widget> _buildBulkOrderHeader(SurveillanceData? data) {
     return [
       Row(
@@ -164,7 +153,6 @@ class _SurveillancePageState extends State<SurveillancePage> {
       ),
     ];
   }
-
   List<Widget> _buildBulkOrderSearchAndTable(
     SurveillanceState state,
     SurveillanceData? data,
@@ -174,7 +162,6 @@ class _SurveillancePageState extends State<SurveillancePage> {
         const Expanded(child: Center(child: CircularProgressIndicator())),
       ];
     }
-
     final bulkOrders = data?.bulkOrders ?? [];
     return [
       Row(
@@ -207,7 +194,6 @@ class _SurveillancePageState extends State<SurveillancePage> {
       ),
     ];
   }
-
   Widget _buildLabeledInput(
     String label,
     TextEditingController controller, {

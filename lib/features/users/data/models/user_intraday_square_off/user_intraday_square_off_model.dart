@@ -1,5 +1,4 @@
 import '../../../domain/entities/user_intraday_square_off/user_intraday_square_off.dart';
-
 class UserIntradaySquareOffModel extends UserIntradaySquareOff {
   const UserIntradaySquareOffModel({
     required super.id,

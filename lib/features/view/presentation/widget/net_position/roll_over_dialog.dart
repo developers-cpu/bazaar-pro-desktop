@@ -9,10 +9,8 @@ import '../../../../../core/widget/custom_outlined_button.dart';
 import '../../../../../core/widget/table/success_dialog.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
 import '../../../../../core/widget/table/view_record_count.dart';
-
 class RollOverDialog extends StatefulWidget {
   const RollOverDialog({Key? key}) : super(key: key);
-
   static void show({required BuildContext context}) {
     showDialog(
       context: context,
@@ -20,16 +18,13 @@ class RollOverDialog extends StatefulWidget {
       builder: (_) => const RollOverDialog(),
     );
   }
-
   @override
   State<RollOverDialog> createState() => _RollOverDialogState();
 }
-
 class _RollOverDialogState extends State<RollOverDialog> {
   String _selectedExchange = 'Exchange';
   String _selectedSymbol = 'Symbol';
   final Color headerColor = const Color(0xFF2C5F7A);
-
   Set<int> _selectedIndices = {
     0,
     1,
@@ -48,7 +43,6 @@ class _RollOverDialogState extends State<RollOverDialog> {
     14,
   };
   bool _selectAll = true;
-
   void _toggleSelectAll() {
     setState(() {
       _selectAll = !_selectAll;
@@ -59,7 +53,6 @@ class _RollOverDialogState extends State<RollOverDialog> {
       }
     });
   }
-
   void _toggleSelection(int index) {
     setState(() {
       if (_selectedIndices.contains(index)) {
@@ -73,7 +66,6 @@ class _RollOverDialogState extends State<RollOverDialog> {
       }
     });
   }
-
   @override
   Widget build(BuildContext context) {
     return CommonDialog(
@@ -143,7 +135,6 @@ class _RollOverDialogState extends State<RollOverDialog> {
       ),
     );
   }
-
   Widget _buildTable() {
     return Column(
       children: [
@@ -160,7 +151,6 @@ class _RollOverDialogState extends State<RollOverDialog> {
       ],
     );
   }
-
   List<ViewTableColumn> _getColumns() {
     return [
       ViewTableColumn(
@@ -184,7 +174,6 @@ class _RollOverDialogState extends State<RollOverDialog> {
       ),
     ];
   }
-
   Widget _buildCell(int index, ViewTableColumn column) {
     bool isEven = index % 2 == 0;
     bool isPositive = isEven;
@@ -194,7 +183,6 @@ class _RollOverDialogState extends State<RollOverDialog> {
         : (isPositive ? AppColors.blue : AppColors.red);
     String cmp = isPositive ? '124536.00' : '-124191.00';
     Color cmpColor = isPositive ? AppColors.blue : AppColors.red;
-
     switch (column.id) {
       case 'select':
         return Center(
@@ -217,7 +205,6 @@ class _RollOverDialogState extends State<RollOverDialog> {
         return const SizedBox.shrink();
     }
   }
-
   Widget _tableCell(String title, Color color, {bool bold = false}) {
     return Container(
       alignment: Alignment.center,
@@ -231,7 +218,6 @@ class _RollOverDialogState extends State<RollOverDialog> {
       ),
     );
   }
-
   Widget _buildCheckbox(bool value) {
     return Container(
       width: 18.w,
@@ -247,7 +233,6 @@ class _RollOverDialogState extends State<RollOverDialog> {
       child: value ? Icon(Icons.check, size: 14.sp, color: Colors.white) : null,
     );
   }
-
   Widget _buildFooter() {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
@@ -292,7 +277,6 @@ class _RollOverDialogState extends State<RollOverDialog> {
       ),
     );
   }
-
   Widget _buildConfirmationContent() {
     final selectedList = _selectedIndices.toList();
     return Column(
@@ -386,7 +370,6 @@ class _RollOverDialogState extends State<RollOverDialog> {
       ],
     );
   }
-
   Widget _buildConfirmationCell(int sourceIndex, ViewTableColumn column) {
     bool isPositive = sourceIndex % 2 == 0;
     String qty = sourceIndex == 0 ? '1000' : (isPositive ? '1.00' : '-1.00');
@@ -395,7 +378,6 @@ class _RollOverDialogState extends State<RollOverDialog> {
         : (isPositive ? AppColors.blue : AppColors.red);
     String cmp = isPositive ? '124536.00' : '-124191.00';
     Color cmpColor = isPositive ? AppColors.blue : AppColors.red;
-
     switch (column.id) {
       case 'exchange':
         return _tableCell('MCX', Colors.black87);

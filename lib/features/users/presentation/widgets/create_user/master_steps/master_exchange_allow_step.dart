@@ -7,7 +7,6 @@ import '../../../../../../core/widget/app_dropdown.dart';
 import '../../../bloc/user_form/user_form_bloc.dart';
 import '../../../bloc/user_form/user_form_event.dart';
 import '../../../bloc/user_form/user_form_state.dart';
-
 class MasterExchangeAllowStep extends StatelessWidget {
   const MasterExchangeAllowStep({super.key});
   @override
@@ -64,7 +63,6 @@ class MasterExchangeAllowStep extends StatelessWidget {
       },
     );
   }
-
   Widget _buildExchangeCard(
     BuildContext context,
     UserFormState state,

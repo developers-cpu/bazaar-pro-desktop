@@ -8,7 +8,6 @@ import '../../bloc/user_script_position_tracking/user_script_position_tracking_b
 import '../../bloc/user_script_position_tracking/user_script_position_tracking_event.dart';
 import '../../bloc/user_script_position_tracking/user_script_position_tracking_state.dart';
 import '../../../../../core/widget/table/view_reset_buttons.dart';
-
 class UserScriptPositionTrackingFilterBar extends StatelessWidget {
   const UserScriptPositionTrackingFilterBar({super.key});
   @override

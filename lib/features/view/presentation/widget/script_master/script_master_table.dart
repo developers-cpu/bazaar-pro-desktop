@@ -11,7 +11,6 @@ import '../../bloc/script_master/script_master_state.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
 import '../../../../../core/widget/table/view_record_count.dart';
 import '../../../../../core/widget/table/view_table_cell_styles.dart';
-
 class ScriptMasterTable extends StatelessWidget {
   final bool isDarkMode;
   const ScriptMasterTable({Key? key, this.isDarkMode = false})
@@ -25,7 +24,6 @@ class ScriptMasterTable extends StatelessWidget {
       ViewTableColumn(id: 'allowTrade', label: 'ALLOW TRADE', width: 120),
     ];
   }
-
   Widget _buildCell(
     BuildContext context,
     ScriptMaster item,
@@ -50,7 +48,6 @@ class ScriptMasterTable extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
-
   Widget _buildExpiryDateCell(ScriptMaster item, bool isDark) {
     final dateFormat = DateFormat('dd/MM/yy');
     final timeFormat = DateFormat('h:mm:ss a');
@@ -68,7 +65,6 @@ class ScriptMasterTable extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildTradeAttributeCell(ScriptMaster item, bool isDark) {
     return Container(
       alignment: Alignment.centerLeft,
@@ -82,7 +78,6 @@ class ScriptMasterTable extends StatelessWidget {
       ),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ScriptMasterBloc, ScriptMasterState>(
@@ -132,7 +127,6 @@ class ScriptMasterTable extends StatelessWidget {
       },
     );
   }
-
   Widget _buildErrorState(BuildContext context, String message) {
     return Center(
       child: Column(

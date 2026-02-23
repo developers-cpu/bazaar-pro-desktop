@@ -4,14 +4,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../domain/entities/dashboard_entity.dart';
-
 class SymbolWiseChart extends StatefulWidget {
   final List<SymbolReportData> data;
   const SymbolWiseChart({Key? key, required this.data}) : super(key: key);
   @override
   State<SymbolWiseChart> createState() => _SymbolWiseChartState();
 }
-
 class _SymbolWiseChartState extends State<SymbolWiseChart> {
   int? _touchedIndex;
   static const List<Color> _chartColors = [
@@ -100,7 +98,6 @@ class _SymbolWiseChartState extends State<SymbolWiseChart> {
       },
     );
   }
-
   Widget _buildRightLegend() {
     final halfLength = (widget.data.length / 2).ceil();
     final firstColumn = widget.data.take(halfLength).toList();
@@ -133,7 +130,6 @@ class _SymbolWiseChartState extends State<SymbolWiseChart> {
       ),
     );
   }
-
   Widget _buildHorizontalLegend() {
     return Wrap(
       spacing: 16.w,
@@ -142,7 +138,6 @@ class _SymbolWiseChartState extends State<SymbolWiseChart> {
       children: widget.data.map((item) => _buildLegendItem(item)).toList(),
     );
   }
-
   Widget _buildLegendItem(SymbolReportData item) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 4.h),
@@ -174,7 +169,6 @@ class _SymbolWiseChartState extends State<SymbolWiseChart> {
     );
   }
 }
-
 class _PieChartWithLabelsPainter extends CustomPainter {
   final List<SymbolReportData> data;
   final List<Color> colors;
@@ -195,7 +189,6 @@ class _PieChartWithLabelsPainter extends CustomPainter {
     _drawPieSections(canvas, center, pieRadius, totalPercentage);
     _drawLabelsWithConnectors(canvas, center, pieRadius, size, totalPercentage);
   }
-
   void _drawPieSections(
     Canvas canvas,
     Offset center,
@@ -221,7 +214,6 @@ class _PieChartWithLabelsPainter extends CustomPainter {
       startAngle += sweepAngle;
     }
   }
-
   void _drawLabelsWithConnectors(
     Canvas canvas,
     Offset center,
@@ -260,7 +252,6 @@ class _PieChartWithLabelsPainter extends CustomPainter {
       currentAngle += sweepAngle;
     }
   }
-
   void _drawLabel(
     Canvas canvas,
     SymbolReportData item,
@@ -310,7 +301,6 @@ class _PieChartWithLabelsPainter extends CustomPainter {
       );
     }
   }
-
   @override
   bool shouldRepaint(_PieChartWithLabelsPainter oldDelegate) {
     return oldDelegate.touchedIndex != touchedIndex || oldDelegate.data != data;

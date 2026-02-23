@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../injection_container.dart';
 import '../../bloc/trade_settings/trade_settings_bloc.dart';
@@ -15,10 +14,8 @@ import '../../widgets/trade_settings/trade_settings_toolbar.dart';
 import '../../widgets/trade_settings/trade_settings_data_table.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
 import '../../../domain/entities/trade_settings/trade_setting.dart';
-
 class TradeSettingsPageWithAppBar extends StatelessWidget {
   const TradeSettingsPageWithAppBar({super.key});
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -36,14 +33,11 @@ class TradeSettingsPageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class TradeSettingsPage extends StatefulWidget {
   const TradeSettingsPage({super.key});
-
   @override
   State<TradeSettingsPage> createState() => _TradeSettingsPageState();
 }
-
 class _TradeSettingsPageState extends State<TradeSettingsPage> {
   int _activeTab = 0;
   final _searchCtrl = TextEditingController();
@@ -51,15 +45,12 @@ class _TradeSettingsPageState extends State<TradeSettingsPage> {
   String? _selectedExchange;
   String _marginType = 'Percentage Wise';
   String _brokerageType = 'Turnover Wise';
-
   final _tabs = const ['Margin', 'Brokerage', 'Leverage', 'Trade Seconds'];
-
   @override
   void dispose() {
     _searchCtrl.dispose();
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<TradeSettingsBloc, TradeSettingsState>(
@@ -76,7 +67,6 @@ class _TradeSettingsPageState extends State<TradeSettingsPage> {
       },
       builder: (_, state) {
         final settings = (state is TradeSettingsLoaded) ? state.settings : [];
-
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
           child: Column(
@@ -125,7 +115,6 @@ class _TradeSettingsPageState extends State<TradeSettingsPage> {
       },
     );
   }
-
   Widget _buildDetailHeader() {
     return Row(
       children: [
@@ -153,7 +142,6 @@ class _TradeSettingsPageState extends State<TradeSettingsPage> {
       ],
     );
   }
-
   Widget _buildBody(TradeSettingsState state, List<dynamic> displayData) {
     if (state is TradeSettingsLoading) {
       return const Center(child: CircularProgressIndicator());
@@ -161,7 +149,6 @@ class _TradeSettingsPageState extends State<TradeSettingsPage> {
     if (state is TradeSettingsError) {
       return Center(child: Text(state.message));
     }
-
     return TradeSettingsDataTable(
       data: displayData,
       selectedIds: _selectedIds,
@@ -175,13 +162,11 @@ class _TradeSettingsPageState extends State<TradeSettingsPage> {
           : null,
     );
   }
-
   List<dynamic> _getDetailData(List<dynamic> settings) {
     return settings
         .where((s) => s is TradeSetting && s.exchange == _selectedExchange)
         .toList();
   }
-
   Widget _buildDetailBody(TradeSettingsState state, List<dynamic> settings) {
     if (state is TradeSettingsLoading) {
       return const Center(child: CircularProgressIndicator());
@@ -189,9 +174,7 @@ class _TradeSettingsPageState extends State<TradeSettingsPage> {
     if (state is TradeSettingsError) {
       return Center(child: Text(state.message));
     }
-
     final detailData = _getDetailData(settings);
-
     return ViewDataTable(
       data: detailData,
       columns: [
@@ -226,7 +209,6 @@ class _TradeSettingsPageState extends State<TradeSettingsPage> {
       ],
       cellBuilder: (item, column) {
         if (item is! TradeSetting) return const SizedBox.shrink();
-
         if (column.id == 'checkbox') {
           return Checkbox(
             value: _selectedIds.contains(item.id),
@@ -245,7 +227,6 @@ class _TradeSettingsPageState extends State<TradeSettingsPage> {
             ),
           );
         }
-
         if (column.id == 'symbol') {
           return Text(
             item.exchange,
@@ -257,7 +238,6 @@ class _TradeSettingsPageState extends State<TradeSettingsPage> {
             overflow: TextOverflow.ellipsis,
           );
         }
-
         return _buildDetailCell(item, column.id);
       },
       idExtractor: (item) {
@@ -279,7 +259,6 @@ class _TradeSettingsPageState extends State<TradeSettingsPage> {
       autoFit: true,
     );
   }
-
   List<ViewTableColumn> _detailColumnsForTab() {
     switch (_activeTab) {
       case 0:
@@ -382,7 +361,6 @@ class _TradeSettingsPageState extends State<TradeSettingsPage> {
         ];
     }
   }
-
   Widget _buildDetailCell(TradeSetting item, String colId) {
     String text = '';
     switch (colId) {

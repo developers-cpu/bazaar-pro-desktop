@@ -2,16 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../../../../../core/constants/app_colors.dart';
 import '../../bloc/trade_margin/trade_margin_bloc.dart';
 import '../../bloc/trade_margin/trade_margin_state.dart';
 import 'trade_margin_filter_bar.dart';
 import 'trade_margin_table.dart';
-
 class TradeMarginDialog extends StatelessWidget {
   const TradeMarginDialog({super.key});
-
   static Future<void> show(BuildContext context) {
     return showDialog(
       context: context,
@@ -22,12 +19,10 @@ class TradeMarginDialog extends StatelessWidget {
       ),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     final bgColor = AppColors.cardBackground(context);
     final headerBgColor = AppColors.primaryColor(context);
-
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
       backgroundColor: Colors.transparent,
@@ -66,7 +61,6 @@ class TradeMarginDialog extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildHeader(BuildContext context, Color headerBgColor) {
     return Container(
       width: double.infinity,

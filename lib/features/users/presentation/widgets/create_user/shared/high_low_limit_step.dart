@@ -6,7 +6,6 @@ import '../../../../../../core/widget/app_checkbox.dart';
 import '../../../bloc/user_form/user_form_bloc.dart';
 import '../../../bloc/user_form/user_form_event.dart';
 import '../../../bloc/user_form/user_form_state.dart';
-
 class HighLowLimitStep extends StatelessWidget {
   const HighLowLimitStep({super.key});
   @override

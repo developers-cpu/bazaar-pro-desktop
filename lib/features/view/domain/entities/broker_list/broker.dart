@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 class Broker extends Equatable {
   final int index;
   final DateTime createdAt;
@@ -7,7 +6,6 @@ class Broker extends Equatable {
   final int clientsCount;
   final double totalBrokerage;
   final DateTime updatedOn;
-
   const Broker({
     required this.index,
     required this.createdAt,
@@ -16,7 +14,6 @@ class Broker extends Equatable {
     required this.totalBrokerage,
     required this.updatedOn,
   });
-
   @override
   List<Object?> get props => [
     index,

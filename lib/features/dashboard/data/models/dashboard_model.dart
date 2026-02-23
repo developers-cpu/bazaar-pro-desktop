@@ -1,5 +1,4 @@
 import '../../domain/entities/dashboard_entity.dart';
-
 class TradeReportModel extends TradeReportData {
   const TradeReportModel({
     required super.date,
@@ -24,7 +23,6 @@ class TradeReportModel extends TradeReportData {
     };
   }
 }
-
 class SymbolReportModel extends SymbolReportData {
   const SymbolReportModel({
     required super.symbol,
@@ -44,7 +42,6 @@ class SymbolReportModel extends SymbolReportData {
     return {'symbol': symbol, 'value': value, 'percentage': percentage};
   }
 }
-
 class DashboardSummaryModel extends DashboardSummary {
   const DashboardSummaryModel({
     required super.pnl,

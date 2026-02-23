@@ -10,7 +10,6 @@ import '../user_details/user_details_dialog.dart';
 import '../create_user/master_form_dialog.dart';
 import '../create_user/client_form_dialog.dart';
 import '../create_user/update_access_dialog.dart';
-
 class UserTreeView extends StatelessWidget {
   final List<UserHierarchyNode> nodes;
   final int level;
@@ -23,7 +22,6 @@ class UserTreeView extends StatelessWidget {
       }).toList(),
     );
   }
-
   Widget _buildNode(BuildContext context, UserHierarchyNode node) {
     Color iconColor;
     Color textColor;
@@ -58,7 +56,6 @@ class UserTreeView extends StatelessWidget {
       ],
     );
   }
-
   Widget _buildNodeRow(
     BuildContext context,
     UserHierarchyNode node,
@@ -129,7 +126,6 @@ class UserTreeView extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildDottedLineWrapper(BuildContext context, Widget child) {
     return Container(
       decoration: BoxDecoration(
@@ -138,7 +134,6 @@ class UserTreeView extends StatelessWidget {
       child: child,
     );
   }
-
   void _showEditUserDialog(BuildContext context, UserHierarchyNode node) {
     final user = node.user;
     final userData = {
@@ -168,7 +163,6 @@ class UserTreeView extends StatelessWidget {
       );
     }
   }
-
   void _showActionDialog(BuildContext context, UserHierarchyNode node) {
     final user = node.user;
     final currentSettings = {

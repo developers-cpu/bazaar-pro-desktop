@@ -14,28 +14,22 @@ import '../../widgets/trade_settings/trade_settings_tab_bar.dart';
 import '../../widgets/script_settings/ban_script_data_table.dart';
 import '../../widgets/script_settings/dividend_script_data_table.dart';
 import '../../../domain/entities/script_settings/script_setting.dart';
-
 class ScriptSettingsPage extends StatefulWidget {
   const ScriptSettingsPage({super.key});
-
   @override
   State<ScriptSettingsPage> createState() => _ScriptSettingsPageState();
 }
-
 class _ScriptSettingsPageState extends State<ScriptSettingsPage> {
   int _activeTab = 0;
   final _searchCtrl = TextEditingController();
   Set<String> _selectedIds = {};
   DateTime? _cutDate;
-
   final _tabs = const ['Ban Script', 'Dividend Script'];
-
   @override
   void dispose() {
     _searchCtrl.dispose();
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ScriptSettingsBloc, ScriptSettingsState>(
@@ -58,7 +52,6 @@ class _ScriptSettingsPageState extends State<ScriptSettingsPage> {
                   ? state.settings
                   : (state as ScriptSettingsUpdateSuccess).settings)
             : <ScriptSetting>[];
-
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
           child: Column(
@@ -73,7 +66,6 @@ class _ScriptSettingsPageState extends State<ScriptSettingsPage> {
                 }),
               ),
               SizedBox(height: 15.h),
-
               Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
@@ -96,7 +88,6 @@ class _ScriptSettingsPageState extends State<ScriptSettingsPage> {
                 ],
               ),
               SizedBox(height: 15.h),
-
               Row(
                 children: [
                   CustomInputField(
@@ -118,7 +109,6 @@ class _ScriptSettingsPageState extends State<ScriptSettingsPage> {
                 ],
               ),
               SizedBox(height: 10.h),
-
               Expanded(child: _buildBody(context, state, allSettings)),
             ],
           ),
@@ -126,7 +116,6 @@ class _ScriptSettingsPageState extends State<ScriptSettingsPage> {
       },
     );
   }
-
   Widget _buildBody(
     BuildContext context,
     ScriptSettingsState state,
@@ -138,7 +127,6 @@ class _ScriptSettingsPageState extends State<ScriptSettingsPage> {
     if (state is ScriptSettingsError) {
       return Center(child: Text(state.message));
     }
-
     if (_activeTab == 0) {
       return BanScriptDataTable(
         data: displayData,

@@ -14,9 +14,7 @@ import '../../../../domain/entities/user_credit_transaction/user_credit_transact
 import '../../../bloc/user_credit/user_credit_bloc.dart';
 import '../../../bloc/user_credit/user_credit_event.dart';
 import '../../../bloc/user_credit/user_credit_state.dart';
-
 import '../../../../../../injection_container.dart';
-
 class UserCreditTab extends StatelessWidget {
   final User user;
   const UserCreditTab({super.key, required this.user});
@@ -28,13 +26,11 @@ class UserCreditTab extends StatelessWidget {
     );
   }
 }
-
 class UserCreditTabView extends StatefulWidget {
   const UserCreditTabView({super.key});
   @override
   State<UserCreditTabView> createState() => _UserCreditTabViewState();
 }
-
 class _UserCreditTabViewState extends State<UserCreditTabView> {
   String _transactionType = 'Credit';
   final TextEditingController _amountController = TextEditingController();
@@ -46,7 +42,6 @@ class _UserCreditTabViewState extends State<UserCreditTabView> {
     _commentController.dispose();
     super.dispose();
   }
-
   void _onSubmit() {
     final amount = double.tryParse(_amountController.text);
     if (amount == null) {
@@ -65,7 +60,6 @@ class _UserCreditTabViewState extends State<UserCreditTabView> {
     _amountController.clear();
     _commentController.clear();
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserCreditBloc, UserCreditState>(
@@ -91,7 +85,6 @@ class _UserCreditTabViewState extends State<UserCreditTabView> {
       },
     );
   }
-
   Widget _buildHeader(BuildContext context) {
     return Container(
       width: double.infinity,
@@ -130,7 +123,6 @@ class _UserCreditTabViewState extends State<UserCreditTabView> {
       ),
     );
   }
-
   Widget _buildFilterBar(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(12.w),
@@ -163,7 +155,6 @@ class _UserCreditTabViewState extends State<UserCreditTabView> {
       ),
     );
   }
-
   Widget _buildRecordCount(BuildContext context, UserCreditLoaded state) {
     return Container(
       color: AppColors.white,
@@ -171,7 +162,6 @@ class _UserCreditTabViewState extends State<UserCreditTabView> {
       child: ViewRecordCount(count: state.transactions.length),
     );
   }
-
   Widget _buildTable(BuildContext context, UserCreditLoaded state) {
     return ViewDataTable<UserCreditTransaction>(
       columns: [
@@ -228,14 +218,12 @@ class _UserCreditTabViewState extends State<UserCreditTabView> {
       footerBuilder: (columns) => _buildFooter(columns, state.totalBalance),
     );
   }
-
   Widget _buildFooter(List<ViewTableColumn> columns, double totalBalance) {
     return Row(
       children: columns.asMap().entries.map((entry) {
         final index = entry.key;
         final column = entry.value;
         final isLast = index == columns.length - 1;
-
         Widget content = const SizedBox();
         if (column.id == 'date') {
           content = Text(
@@ -256,7 +244,6 @@ class _UserCreditTabViewState extends State<UserCreditTabView> {
             ),
           );
         }
-
         return Container(
           width: column.width,
           alignment: Alignment.center,

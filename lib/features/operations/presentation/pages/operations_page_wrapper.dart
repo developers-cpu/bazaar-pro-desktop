@@ -18,13 +18,13 @@ import 'message/operations_message_page.dart';
 import 'script_settings/script_settings_page.dart';
 import 'surveillance/surveillance_page.dart';
 import 'server/server_page.dart';
-
+import '../bloc/bill_comparison/bill_comparison_bloc.dart';
+import 'bill_comparison/bill_comparison_page.dart';
 class OperationsPageWrapper extends StatelessWidget {
   final String pageTitle;
   final Widget child;
   final VoidCallback? onExportPdf;
   final VoidCallback? onExportExcel;
-
   const OperationsPageWrapper({
     Key? key,
     required this.pageTitle,
@@ -32,7 +32,6 @@ class OperationsPageWrapper extends StatelessWidget {
     this.onExportPdf,
     this.onExportExcel,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(
@@ -58,10 +57,8 @@ class OperationsPageWrapper extends StatelessWidget {
     );
   }
 }
-
 class DateSettingsPageWithAppBar extends StatelessWidget {
   const DateSettingsPageWithAppBar({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -77,10 +74,8 @@ class DateSettingsPageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class ScriptSettingsPageWithAppBar extends StatelessWidget {
   const ScriptSettingsPageWithAppBar({super.key});
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -96,10 +91,8 @@ class ScriptSettingsPageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class SurveillancePageWithAppBar extends StatelessWidget {
   const SurveillancePageWithAppBar({super.key});
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -115,10 +108,8 @@ class SurveillancePageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class OperationsMessagePageWithAppBar extends StatelessWidget {
   const OperationsMessagePageWithAppBar({super.key});
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -127,10 +118,8 @@ class OperationsMessagePageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class OperationsMessagePageWrapper extends StatelessWidget {
   const OperationsMessagePageWrapper({super.key});
-
   @override
   Widget build(BuildContext context) {
     return const OperationsPageWrapper(
@@ -139,10 +128,8 @@ class OperationsMessagePageWrapper extends StatelessWidget {
     );
   }
 }
-
 class SettlementProgressPageWithAppBar extends StatelessWidget {
   const SettlementProgressPageWithAppBar({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return const OperationsPageWrapper(
@@ -151,10 +138,8 @@ class SettlementProgressPageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class ServerPageWithAppBar extends StatelessWidget {
   const ServerPageWithAppBar({super.key});
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -166,22 +151,21 @@ class ServerPageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class BillComparisonPageWithAppBar extends StatelessWidget {
   const BillComparisonPageWithAppBar({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
-    return const OperationsPageWrapper(
-      pageTitle: 'Bill Comparison',
-      child: Center(child: Text('Bill Comparison Page - Coming Soon')),
+    return BlocProvider(
+      create: (_) => sl<BillComparisonBloc>(),
+      child: const OperationsPageWrapper(
+        pageTitle: 'Bill Comparison',
+        child: BillComparisonPage(),
+      ),
     );
   }
 }
-
 class InactivityManagementPageWithAppBar extends StatelessWidget {
   const InactivityManagementPageWithAppBar({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return const OperationsPageWrapper(

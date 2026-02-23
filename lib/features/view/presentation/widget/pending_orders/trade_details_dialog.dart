@@ -7,17 +7,14 @@ import '../../../domain/entities/pending_orders/pending_order.dart';
 import '../../../../../core/widget/table/animated_price_box.dart';
 import 'delete_order_dialog.dart';
 import 'modify_order_dialog.dart';
-
 class TradeDetailsDialog extends StatelessWidget {
   final PendingOrder order;
   final bool isDarkMode;
-
   const TradeDetailsDialog({
     Key? key,
     required this.order,
     this.isDarkMode = false,
   }) : super(key: key);
-
   static void show({
     required BuildContext context,
     required PendingOrder order,
@@ -29,7 +26,6 @@ class TradeDetailsDialog extends StatelessWidget {
       builder: (_) => TradeDetailsDialog(order: order, isDarkMode: isDarkMode),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return CommonDialog(

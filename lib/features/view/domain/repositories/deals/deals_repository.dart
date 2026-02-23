@@ -1,7 +1,6 @@
 import 'package:dartz/dartz.dart';
 import '../../../../../core/errors/failures.dart';
 import '../../entities/deals/deals.dart';
-
 abstract class DealsRepository {
   Future<Either<Failure, List<Deal>>> getDeals();
   Future<Either<Failure, List<Deal>>> getDealsWithFilters({

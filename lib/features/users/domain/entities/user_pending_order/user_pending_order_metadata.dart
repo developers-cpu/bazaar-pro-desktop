@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 class UserPendingOrderMetadata extends Equatable {
   final List<String> exchanges;
   final List<String> symbols;

@@ -13,17 +13,14 @@ import 'dialogs/general_detail_view.dart';
 import 'dialogs/leverage_detail_view.dart';
 import 'dialogs/simple_toggle_detail_view.dart';
 import 'dialogs/trade_margin_detail_view.dart';
-
 class ActivityDetailDialog extends StatelessWidget {
   final ActivityReport activity;
   final bool isDarkMode;
-
   const ActivityDetailDialog({
     super.key,
     required this.activity,
     this.isDarkMode = false,
   });
-
   static void show(BuildContext context, ActivityReport activity) {
     CommonDialog.show(
       context: context,
@@ -34,7 +31,6 @@ class ActivityDetailDialog extends StatelessWidget {
       showButtons: false,
     );
   }
-
   @override
   Widget build(BuildContext context) {
     String? valueType;
@@ -47,7 +43,6 @@ class ActivityDetailDialog extends StatelessWidget {
         valueType = 'yesNo';
         break;
     }
-
     return BlocProvider(
       create: (context) => ActivityDetailBloc()
         ..add(
@@ -59,7 +54,6 @@ class ActivityDetailDialog extends StatelessWidget {
       child: _buildContent(context),
     );
   }
-
   Widget _buildContent(BuildContext context) {
     switch (activity.activityName) {
       case 'Leverage':

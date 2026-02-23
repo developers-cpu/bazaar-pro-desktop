@@ -1,5 +1,4 @@
 import '../../../domain/entities/user_group_settings/user_group_settings.dart';
-
 class UserGroupSettingsModel extends UserGroupSettings {
   const UserGroupSettingsModel({
     required super.id,

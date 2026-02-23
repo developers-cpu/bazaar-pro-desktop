@@ -6,7 +6,6 @@ import '../../../../core/constants/app_colors.dart';
 import '../bloc/market_depth/market_depth_bloc.dart';
 import '../bloc/market_depth/market_depth_event.dart';
 import '../bloc/market_depth/market_depth_state.dart';
-
 class MarketDepthDialog extends StatelessWidget {
   const MarketDepthDialog({Key? key}) : super(key: key);
   static Future<void> show(BuildContext context) async {
@@ -48,7 +47,6 @@ class MarketDepthDialog extends StatelessWidget {
       context.read<MarketDepthBloc>().add(const CloseMarketDepthEvent());
     });
   }
-
   static Widget _buildHeader(BuildContext context) {
     final isDarkMode = AppColors.isDarkMode(context);
     final headerBgColor = isDarkMode
@@ -89,7 +87,6 @@ class MarketDepthDialog extends StatelessWidget {
       ),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<MarketDepthBloc, MarketDepthState>(
@@ -109,7 +106,6 @@ class MarketDepthDialog extends StatelessWidget {
       },
     );
   }
-
   Widget _buildDropdowns(BuildContext context, MarketDepthState state) {
     return Row(
       children: [
@@ -143,7 +139,6 @@ class MarketDepthDialog extends StatelessWidget {
       ],
     );
   }
-
   Widget _buildThemedDropdown({
     required BuildContext context,
     required String hintText,
@@ -237,7 +232,6 @@ class MarketDepthDialog extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildSymbolInfo(BuildContext context, MarketDepthState state) {
     final textColor = AppColors.textColor(context);
     final positiveColor = AppColors.chipTextBlueColor(context);
@@ -270,7 +264,6 @@ class MarketDepthDialog extends StatelessWidget {
       ],
     );
   }
-
   Widget _buildMarketDataCards(BuildContext context, MarketDepthState state) {
     final data = state.marketDepthData;
     final cardBgColor = AppColors.chipBgBlue(context).withOpacity(0.3);
@@ -353,7 +346,6 @@ class MarketDepthDialog extends StatelessWidget {
       ],
     );
   }
-
   Widget _buildDataRow(BuildContext context, String label, String value) {
     final textColor = AppColors.textColor(context);
     final supportiveColor = AppColors.supportiveTextColor(context);
@@ -381,7 +373,6 @@ class MarketDepthDialog extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildBidAskTable(BuildContext context, MarketDepthState state) {
     final data = state.marketDepthData;
     return Row(
@@ -607,7 +598,6 @@ class MarketDepthDialog extends StatelessWidget {
       ],
     );
   }
-
   Widget _buildBidRow(BuildContext context, MarketDepthRow row) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
@@ -648,7 +638,6 @@ class MarketDepthDialog extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildAskRow(BuildContext context, MarketDepthRow row) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),

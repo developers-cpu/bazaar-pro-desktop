@@ -7,7 +7,6 @@ import '../../../../../../core/widget/table/view_table_cell_styles.dart';
 import '../../../../domain/entities/activity_report.dart';
 import '../../../bloc/activity_detail/activity_detail_bloc.dart';
 import '../../../bloc/activity_detail/activity_detail_state.dart';
-
 class GeneralDetailView extends StatelessWidget {
   final ActivityReport activity;
   final bool isDarkMode;
@@ -16,7 +15,6 @@ class GeneralDetailView extends StatelessWidget {
     required this.activity,
     this.isDarkMode = false,
   });
-
   @override
   Widget build(BuildContext context) {
     final data = [
@@ -35,18 +33,15 @@ class GeneralDetailView extends StatelessWidget {
         'updatedBy': activity.updatedBy,
       },
     ];
-
     final columns = [
       const ViewTableColumn(id: 'oldValue', label: 'OLD VALUE', width: 220),
       const ViewTableColumn(id: 'newValue', label: 'NEW VALUE', width: 220),
       const ViewTableColumn(id: 'updatedOn', label: 'UPDATED ON', width: 250),
       const ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 200),
     ];
-
     return BlocBuilder<ActivityDetailBloc, ActivityDetailState>(
       builder: (context, state) {
         final count = state is ActivityDetailLoaded ? state.recordCount : 1;
-
         return Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [

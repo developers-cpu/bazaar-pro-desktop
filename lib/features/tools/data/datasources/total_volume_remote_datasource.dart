@@ -1,17 +1,13 @@
 import '../models/total_volume_model.dart';
-
 abstract class TotalVolumeRemoteDataSource {
   Future<TotalVolumeModel> getTotalVolume(String exchange);
 }
-
 class TotalVolumeRemoteDataSourceImpl implements TotalVolumeRemoteDataSource {
   @override
   Future<TotalVolumeModel> getTotalVolume(String exchange) async {
     await Future.delayed(const Duration(milliseconds: 500));
-
     String volume;
     String volumeShort;
-
     switch (exchange) {
       case 'NSE':
         volume = '2513645236';
@@ -30,7 +26,6 @@ class TotalVolumeRemoteDataSourceImpl implements TotalVolumeRemoteDataSource {
         volumeShort = '89 Cr.';
         break;
     }
-
     return TotalVolumeModel(
       exchange: exchange,
       totalVolume: volume,

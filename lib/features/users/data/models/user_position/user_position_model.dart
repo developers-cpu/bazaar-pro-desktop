@@ -1,5 +1,4 @@
 import '../../../domain/entities/user_position/user_position.dart';
-
 class UserPositionModel extends UserPosition {
   const UserPositionModel({
     required super.exchange,

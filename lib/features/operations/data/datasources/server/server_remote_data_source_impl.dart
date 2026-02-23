@@ -1,7 +1,5 @@
-
 import '../../models/server/server_model.dart';
 import 'server_remote_data_source.dart';
-
 class ServerRemoteDataSourceImpl implements ServerRemoteDataSource {
   final List<ServerModel> _mockServers = List.generate(
     10,
@@ -14,13 +12,11 @@ class ServerRemoteDataSourceImpl implements ServerRemoteDataSource {
       status: true,
     ),
   );
-
   @override
   Future<List<ServerModel>> getServers() async {
     await Future.delayed(const Duration(milliseconds: 600));
     return _mockServers;
   }
-
   @override
   Future<void> updateServerStatus(String id, bool status) async {
     await Future.delayed(const Duration(milliseconds: 400));
@@ -37,7 +33,6 @@ class ServerRemoteDataSourceImpl implements ServerRemoteDataSource {
       );
     }
   }
-
   @override
   Future<void> addServer(String serverName, String logoPath) async {
     await Future.delayed(const Duration(milliseconds: 600));
@@ -52,7 +47,6 @@ class ServerRemoteDataSourceImpl implements ServerRemoteDataSource {
       ),
     );
   }
-
   @override
   Future<void> editServer(String id, String serverName, String logoPath) async {
     await Future.delayed(const Duration(milliseconds: 600));

@@ -1,5 +1,4 @@
 import '../../../domain/entities/deals/deals.dart';
-
 class DealModel extends Deal {
   const DealModel({
     required super.id,
@@ -72,7 +71,6 @@ class DealModel extends Deal {
       'status': status,
     };
   }
-
   factory DealModel.fromEntity(Deal deal) {
     return DealModel(
       id: deal.id,

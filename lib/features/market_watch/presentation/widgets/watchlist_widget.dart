@@ -6,7 +6,6 @@ import '../../../../core/constants/app_strings.dart';
 import '../bloc/watchlist/watch_list_bloc.dart';
 import '../bloc/watchlist/watch_list_event.dart';
 import '../bloc/watchlist/watchlist_state.dart';
-
 class WatchlistWidget extends StatelessWidget {
   final Function(int)? onWatchlistSelected;
   const WatchlistWidget({Key? key, this.onWatchlistSelected}) : super(key: key);
@@ -29,7 +28,6 @@ class WatchlistWidget extends StatelessWidget {
       },
     );
   }
-
   void _handleStateChange(BuildContext context, WatchlistState state) {
     if (state is WatchlistError) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -44,7 +42,6 @@ class WatchlistWidget extends StatelessWidget {
       onWatchlistSelected?.call(state.selectedIndex);
     }
   }
-
   Widget _buildLoadingState() {
     return Container(
       height: 40.h,
@@ -53,7 +50,6 @@ class WatchlistWidget extends StatelessWidget {
       child: const Center(child: CircularProgressIndicator()),
     );
   }
-
   Widget _buildLoadedState(BuildContext context, WatchlistLoaded state) {
     return Container(
       height: 40.h,
@@ -88,7 +84,6 @@ class WatchlistWidget extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildAddButton(BuildContext context) {
     return InkWell(
       onTap: () {
@@ -134,7 +129,6 @@ class WatchlistWidget extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildWatchlistButton({
     required BuildContext context,
     required String label,

@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import '../../../../../../core/constants/app_colors.dart';
 import '../../../../../../core/widget/date_range_picker_dialog.dart';
-
 class SettlementFilterBar extends StatefulWidget {
   final String selectedDateRange;
   final ValueChanged<String?> onDateRangeChanged;
@@ -20,7 +19,6 @@ class SettlementFilterBar extends StatefulWidget {
   @override
   State<SettlementFilterBar> createState() => _SettlementFilterBarState();
 }
-
 class _SettlementFilterBarState extends State<SettlementFilterBar> {
   final LayerLink _layerLink = LayerLink();
   OverlayEntry? _overlayEntry;
@@ -33,7 +31,6 @@ class _SettlementFilterBarState extends State<SettlementFilterBar> {
     super.initState();
     _calculateDateRanges();
   }
-
   void _calculateDateRanges() {
     final now = DateTime.now();
     final dateFormat = DateFormat('dd-MM-yy');
@@ -46,13 +43,11 @@ class _SettlementFilterBarState extends State<SettlementFilterBar> {
     _prevWeekSubtitle =
         '${dateFormat.format(prevMonday)} to ${dateFormat.format(prevSunday)}';
   }
-
   @override
   void dispose() {
     _removeOverlay();
     super.dispose();
   }
-
   void _toggleDropdown() {
     if (_isOpen) {
       _closeDropdown();
@@ -60,7 +55,6 @@ class _SettlementFilterBarState extends State<SettlementFilterBar> {
       _openDropdown();
     }
   }
-
   void _openDropdown() {
     _overlayEntry = _createOverlayEntry();
     Overlay.of(context).insert(_overlayEntry!);
@@ -68,7 +62,6 @@ class _SettlementFilterBarState extends State<SettlementFilterBar> {
       _isOpen = true;
     });
   }
-
   void _closeDropdown() {
     _overlayEntry?.remove();
     _overlayEntry = null;
@@ -76,12 +69,10 @@ class _SettlementFilterBarState extends State<SettlementFilterBar> {
       _isOpen = false;
     });
   }
-
   void _removeOverlay() {
     _overlayEntry?.remove();
     _overlayEntry = null;
   }
-
   Future<void> _handleCustomDateSelection() async {
     _closeDropdown();
     final result = await CustomDateRangePickerDialog.show(
@@ -98,7 +89,6 @@ class _SettlementFilterBarState extends State<SettlementFilterBar> {
       widget.onDateRangeChanged('Custom Period');
     }
   }
-
   OverlayEntry _createOverlayEntry() {
     return OverlayEntry(
       builder: (context) => Stack(
@@ -157,7 +147,6 @@ class _SettlementFilterBarState extends State<SettlementFilterBar> {
       ),
     );
   }
-
   Widget _buildDropdownItem({
     required String title,
     required String subtitle,
@@ -199,7 +188,6 @@ class _SettlementFilterBarState extends State<SettlementFilterBar> {
       ),
     );
   }
-
   Widget _buildCustomPeriodItem() {
     final isSelected = widget.selectedDateRange == 'Custom Period';
     return Container(
@@ -238,7 +226,6 @@ class _SettlementFilterBarState extends State<SettlementFilterBar> {
       ),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return Container(

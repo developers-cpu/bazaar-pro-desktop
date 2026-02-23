@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_images.dart';
 import '../../../../core/widget/common_dilog_box.dart';
-
 class AboutDialogBox extends StatelessWidget {
   const AboutDialogBox({Key? key}) : super(key: key);
   static void show(BuildContext context) {
@@ -17,7 +16,6 @@ class AboutDialogBox extends StatelessWidget {
       height: 250.h,
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -109,7 +107,6 @@ class AboutDialogBox extends StatelessWidget {
       ],
     );
   }
-
   Widget _buildInfoCard({
     required Widget iconWidget,
     required String title,

@@ -2,19 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
-
 class ExchangeSettingsTabBar extends StatelessWidget {
   final List<String> tabs;
   final int activeTab;
   final ValueChanged<int> onTabChanged;
-
   const ExchangeSettingsTabBar({
     super.key,
     required this.tabs,
     required this.activeTab,
     required this.onTabChanged,
   });
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(

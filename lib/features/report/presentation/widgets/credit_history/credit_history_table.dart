@@ -10,7 +10,6 @@ import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import '../../../domain/entities/credit_history.dart';
 import '../../bloc/credit_history/credit_history_bloc.dart';
 import '../../bloc/credit_history/credit_history_state.dart';
-
 class CreditHistoryTable extends StatelessWidget {
   final bool isDarkMode;
   const CreditHistoryTable({super.key, this.isDarkMode = false});
@@ -35,7 +34,6 @@ class CreditHistoryTable extends StatelessWidget {
       ViewTableColumn(id: 'comment', label: 'COMMENT', width: 250),
     ];
   }
-
   Widget _buildCell(CreditHistory item, ViewTableColumn column, bool isDark) {
     switch (column.id) {
       case 'userName':
@@ -73,7 +71,6 @@ class CreditHistoryTable extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CreditHistoryBloc, CreditHistoryState>(

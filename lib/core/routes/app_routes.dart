@@ -10,7 +10,6 @@ import '../../features/operations/presentation/pages/operations_page_wrapper.dar
 import '../../features/operations/presentation/pages/exchange_settings/exchange_settings_page.dart';
 import '../../features/operations/presentation/pages/trade_settings/trade_settings_page.dart';
 import '../../features/operations/presentation/pages/group/group_page.dart';
-
 class AppRoutes {
   static const String login = '/';
   static const String marketWatch = '/market-watch';

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'view_data_table.dart';
 import 'view_table_cell_styles.dart';
-
 class ViewDataTableFooter extends StatelessWidget {
   final List<ViewTableColumn> columns;
   final Map<String, String> values;
@@ -14,7 +13,6 @@ class ViewDataTableFooter extends StatelessWidget {
   final BorderRadius? borderRadius;
   final TextAlign? textAlign;
   final Map<String, Color>? columnColors;
-
   const ViewDataTableFooter({
     Key? key,
     required this.columns,
@@ -27,13 +25,11 @@ class ViewDataTableFooter extends StatelessWidget {
     this.textAlign,
     this.columnColors,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     Color dividerColor = isDarkMode
         ? DarkThemeColors.dividerColor.withOpacity(0.5)
         : AppColors.dividerColor(context);
-
     return Container(
       decoration: BoxDecoration(
         color: backgroundColor,

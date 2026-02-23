@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/common_dilog_box.dart';
 import '../../../../../core/widget/app_dropdown.dart';
-
 class LeverageUpdateDialog extends StatefulWidget {
   final String userId;
   final String userName;
@@ -35,11 +34,9 @@ class LeverageUpdateDialog extends StatefulWidget {
       ),
     );
   }
-
   @override
   State<LeverageUpdateDialog> createState() => _LeverageUpdateDialogState();
 }
-
 class _LeverageUpdateDialogState extends State<LeverageUpdateDialog> {
   String? _selectedLeverage;
   final List<String> _leverageOptions = [
@@ -56,7 +53,6 @@ class _LeverageUpdateDialogState extends State<LeverageUpdateDialog> {
     super.initState();
     _selectedLeverage = widget.currentLeverage;
   }
-
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;

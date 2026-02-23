@@ -1,5 +1,4 @@
 import '../../domain/entities/settlement_report.dart';
-
 class SettlementReportModel extends SettlementReport {
   const SettlementReportModel({
     required List<SettlementEntryModel> profitList,
@@ -25,7 +24,6 @@ class SettlementReportModel extends SettlementReport {
     );
   }
 }
-
 class SettlementEntryModel extends SettlementEntry {
   const SettlementEntryModel({
     required String userId,
@@ -53,7 +51,6 @@ class SettlementEntryModel extends SettlementEntry {
     );
   }
 }
-
 class SettlementTotalModel extends SettlementTotal {
   const SettlementTotalModel({
     required double totalPnl,

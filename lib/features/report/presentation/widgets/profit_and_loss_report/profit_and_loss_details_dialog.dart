@@ -13,7 +13,6 @@ import '../../../../users/presentation/widgets/user_details/user_details_dialog.
 import '../../../../users/presentation/widgets/create_user/master_form_dialog.dart';
 import '../../../../users/presentation/widgets/create_user/client_form_dialog.dart';
 import '../../../../users/presentation/widgets/create_user/update_access_dialog.dart';
-
 class ProfitAndLossDetailsDialog extends StatelessWidget {
   final List<ProfitAndLossReport> reports;
   final String userName;
@@ -40,7 +39,6 @@ class ProfitAndLossDetailsDialog extends StatelessWidget {
       ),
     );
   }
-
   List<ViewTableColumn> _getColumns() {
     return const [
       ViewTableColumn(id: 'view', label: 'VIEW', width: 120),
@@ -54,7 +52,6 @@ class ProfitAndLossDetailsDialog extends StatelessWidget {
       ViewTableColumn(id: 'ourPercentage', label: 'OUR', width: 120),
     ];
   }
-
   Widget _buildCell(
     BuildContext context,
     ProfitAndLossReport item,
@@ -184,7 +181,6 @@ class ProfitAndLossDetailsDialog extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
-
   @override
   Widget build(BuildContext context) {
     double totalReleasePL = 0;

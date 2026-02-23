@@ -7,13 +7,11 @@ import '../../bloc/trade/trades_event.dart';
 import '../../bloc/trade/trades_state.dart';
 import '../../widget/trade/trades_filter_bar.dart';
 import '../../widget/trade/trades_table.dart';
-
 class TradesPage extends StatefulWidget {
   const TradesPage({Key? key}) : super(key: key);
   @override
   State<TradesPage> createState() => _TradesPageState();
 }
-
 class _TradesPageState extends State<TradesPage> {
   @override
   void initState() {
@@ -22,7 +20,6 @@ class _TradesPageState extends State<TradesPage> {
       context.read<TradesBloc>().add(const LoadTradesEvent());
     });
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocListener<TradesBloc, TradesState>(
@@ -38,7 +35,6 @@ class _TradesPageState extends State<TradesPage> {
       ),
     );
   }
-
   void _handleStateChange(BuildContext context, TradesState state) {
     if (state is TradesExportSuccess) {
       ScaffoldMessenger.of(context).showSnackBar(

@@ -8,7 +8,6 @@ import '../../../../../core/widget/table/view_reset_buttons.dart';
 import '../../bloc/trade_margin/trade_margin_bloc.dart';
 import '../../bloc/trade_margin/trade_margin_event.dart';
 import '../../bloc/trade_margin/trade_margin_state.dart';
-
 class TradeMarginFilterBar extends StatelessWidget {
   const TradeMarginFilterBar({super.key});
   @override

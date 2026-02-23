@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import '../constants/app_colors.dart';
-
 class AppCalendar extends StatefulWidget {
   final DateTime initialDate;
   final ValueChanged<DateTime> onDateSelected;
@@ -19,7 +18,6 @@ class AppCalendar extends StatefulWidget {
   @override
   State<AppCalendar> createState() => _AppCalendarState();
 }
-
 class _AppCalendarState extends State<AppCalendar> {
   late DateTime _currentMonth;
   @override
@@ -27,7 +25,6 @@ class _AppCalendarState extends State<AppCalendar> {
     super.initState();
     _currentMonth = widget.initialDate;
   }
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -39,7 +36,6 @@ class _AppCalendarState extends State<AppCalendar> {
       ],
     );
   }
-
   Widget _buildMonthNavigation() {
     final monthFormat = DateFormat('MMMM yyyy');
     return Container(
@@ -89,7 +85,6 @@ class _AppCalendarState extends State<AppCalendar> {
       ),
     );
   }
-
   Widget _buildWeekdayHeaders() {
     const weekdays = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
     return Container(
@@ -116,7 +111,6 @@ class _AppCalendarState extends State<AppCalendar> {
       ),
     );
   }
-
   Widget _buildCalendarGrid() {
     final firstDayOfMonth = DateTime(
       _currentMonth.year,
@@ -178,7 +172,6 @@ class _AppCalendarState extends State<AppCalendar> {
       child: Column(children: rows),
     );
   }
-
   Widget _buildDayCell(DateTime date, {required bool isCurrentMonth}) {
     final isSelected =
         widget.selectedDate != null && _isSameDay(date, widget.selectedDate!);
@@ -220,7 +213,6 @@ class _AppCalendarState extends State<AppCalendar> {
       ),
     );
   }
-
   bool _isSameDay(DateTime a, DateTime b) {
     return a.year == b.year && a.month == b.month && a.day == b.day;
   }

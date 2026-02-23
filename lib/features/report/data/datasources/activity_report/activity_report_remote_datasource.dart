@@ -1,5 +1,4 @@
 import '../../models/activity_report_model.dart';
-
 abstract class ActivityReportRemoteDataSource {
   Future<List<ActivityReportModel>> getActivityReport({
     String? user,
@@ -8,7 +7,6 @@ abstract class ActivityReportRemoteDataSource {
     String? editUserType,
   });
 }
-
 class ActivityReportRemoteDataSourceImpl
     implements ActivityReportRemoteDataSource {
   @override

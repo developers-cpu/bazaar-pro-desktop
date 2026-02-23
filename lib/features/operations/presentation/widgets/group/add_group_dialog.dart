@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../../../../../core/widget/app_dropdown.dart';
 import '../../../../../core/widget/common_dilog_box.dart';
 import '../../../../../core/widget/custom_action_button.dart';
@@ -11,13 +10,11 @@ import '../../../../../core/widget/custom_input_field.dart'
     show CustomInputField;
 import '../../bloc/group/group_bloc.dart';
 import '../../bloc/group/group_event.dart';
-
 class AddGroupDialog extends StatefulWidget {
   final bool isEdit;
   final String? initialExchange;
   final String? initialGroupName;
   final bool initialIsDefault;
-
   const AddGroupDialog({
     super.key,
     this.isEdit = false,
@@ -25,16 +22,13 @@ class AddGroupDialog extends StatefulWidget {
     this.initialGroupName,
     this.initialIsDefault = false,
   });
-
   @override
   State<AddGroupDialog> createState() => _AddGroupDialogState();
 }
-
 class _AddGroupDialogState extends State<AddGroupDialog> {
   String? _selectedExchange;
   final TextEditingController _groupNameController = TextEditingController();
   bool _isDefault = false;
-
   @override
   void initState() {
     super.initState();
@@ -42,13 +36,11 @@ class _AddGroupDialogState extends State<AddGroupDialog> {
     _groupNameController.text = widget.initialGroupName ?? '';
     _isDefault = widget.initialIsDefault;
   }
-
   @override
   void dispose() {
     _groupNameController.dispose();
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     return CommonDialog(

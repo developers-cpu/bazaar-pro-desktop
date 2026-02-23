@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 class UserPosition extends Equatable {
   final String exchange;
   final String symbol;

@@ -10,7 +10,6 @@ import '../../../../users/presentation/widgets/create_user/update_access_dialog.
 import '../../../../report/domain/entities/user_script_position_tracking.dart';
 import '../../bloc/user_script_position_tracking/user_script_position_tracking_bloc.dart';
 import '../../bloc/user_script_position_tracking/user_script_position_tracking_state.dart';
-
 class UserScriptPositionTrackingTable extends StatelessWidget {
   final bool isDarkMode;
   const UserScriptPositionTrackingTable({super.key, this.isDarkMode = false});
@@ -24,7 +23,6 @@ class UserScriptPositionTrackingTable extends StatelessWidget {
       ViewTableColumn(id: 'days', label: 'DAYS', width: 80),
     ];
   }
-
   Widget _buildCell(
     BuildContext context,
     UserScriptPositionTracking item,
@@ -109,7 +107,6 @@ class UserScriptPositionTrackingTable extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<

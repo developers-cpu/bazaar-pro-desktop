@@ -10,12 +10,10 @@ import '../../bloc/net_position/net_position_state.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
 import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import '../../../../../core/widget/table/view_record_count.dart';
-
 class OpenPositionDialog extends StatefulWidget {
   final bool isDarkMode;
   const OpenPositionDialog({Key? key, this.isDarkMode = false})
     : super(key: key);
-
   static void show({required BuildContext context, bool isDarkMode = false}) {
     showDialog(
       context: context,
@@ -26,14 +24,11 @@ class OpenPositionDialog extends StatefulWidget {
       ),
     );
   }
-
   @override
   State<OpenPositionDialog> createState() => _OpenPositionDialogState();
 }
-
 class _OpenPositionDialogState extends State<OpenPositionDialog> {
   String? _selectedUser;
-
   @override
   Widget build(BuildContext context) {
     return CommonDialog(
@@ -81,7 +76,6 @@ class _OpenPositionDialogState extends State<OpenPositionDialog> {
       ),
     );
   }
-
   Widget _buildBackRow() {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
@@ -109,7 +103,6 @@ class _OpenPositionDialogState extends State<OpenPositionDialog> {
       ),
     );
   }
-
   Widget _buildTable(List<NetPosition> positions) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 12.w),
@@ -133,7 +126,6 @@ class _OpenPositionDialogState extends State<OpenPositionDialog> {
       ),
     );
   }
-
   List<ViewTableColumn> _getColumns() {
     return const [
       ViewTableColumn(id: 'exchange', label: 'EXCH', width: 80),
@@ -179,7 +171,6 @@ class _OpenPositionDialogState extends State<OpenPositionDialog> {
       ViewTableColumn(id: 'days', label: 'DAYS', width: 60, isNumeric: true),
     ];
   }
-
   Widget _buildCell(NetPosition item, ViewTableColumn column) {
     switch (column.id) {
       case 'exchange':

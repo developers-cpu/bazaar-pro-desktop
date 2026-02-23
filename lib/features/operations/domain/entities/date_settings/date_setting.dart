@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 class DateSetting extends Equatable {
   final String id;
   final String exchange;
@@ -10,7 +9,6 @@ class DateSetting extends Equatable {
   final String cutDate;
   final String updatedOn;
   final String updatedBy;
-
   const DateSetting({
     required this.id,
     required this.exchange,
@@ -22,7 +20,6 @@ class DateSetting extends Equatable {
     required this.updatedOn,
     required this.updatedBy,
   });
-
   @override
   List<Object?> get props => [
     id,

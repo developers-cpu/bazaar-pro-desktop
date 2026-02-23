@@ -180,6 +180,12 @@ import 'features/operations/domain/usecases/server/update_server_status.dart';
 import 'features/operations/data/datasources/server/server_remote_data_source.dart';
 import 'features/operations/data/datasources/server/server_remote_data_source_impl.dart';
 import 'features/operations/data/repositories/server/server_repository_impl.dart';
+import 'features/operations/presentation/bloc/bill_comparison/bill_comparison_bloc.dart';
+import 'features/operations/domain/repositories/bill_comparison/bill_comparison_repository.dart';
+import 'features/operations/domain/usecases/bill_comparison/get_bill_comparison_data.dart';
+import 'features/operations/data/datasources/bill_comparison/bill_comparison_remote_data_source.dart';
+import 'features/operations/data/datasources/bill_comparison/bill_comparison_remote_data_source_impl.dart';
+import 'features/operations/data/repositories/bill_comparison/bill_comparison_repository_impl.dart';
 import 'features/users/presentation/bloc/nested_users/nested_users_bloc.dart';
 import 'features/users/domain/usecases/user/get_nested_users_usecase.dart';
 import 'features/users/domain/usecases/user_credit_transaction/get_user_credit_usecase.dart';
@@ -300,7 +306,6 @@ import 'features/tools/domain/repositories/my_profile_repository.dart';
 import 'features/tools/data/repositories/my_profile_repository_impl.dart';
 import 'features/tools/data/datasources/my_profile_remote_datasource.dart';
 import 'features/operations/presentation/bloc/group/group_bloc.dart';
-
 final sl = GetIt.instance;
 Future<void> init() async {
   sl.registerLazySingleton(() => ApiClient());
@@ -557,7 +562,6 @@ Future<void> init() async {
   sl.registerLazySingleton<IntradayHistoryRemoteDataSource>(
     () => IntradayHistoryRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
   );
-
   sl.registerFactory(() => BrokerListBloc(repository: sl()));
   sl.registerLazySingleton<BrokerRepository>(
     () => BrokerRepositoryImpl(remoteDataSource: sl()),
@@ -565,7 +569,6 @@ Future<void> init() async {
   sl.registerLazySingleton<BrokerRemoteDataSource>(
     () => BrokerRemoteDataSourceImpl(),
   );
-
   sl.registerFactory(
     () => UserListBloc(
       getUsers: sl(),
@@ -883,11 +886,9 @@ Future<void> init() async {
     () => MarketTimingRemoteDataSourceImpl(),
   );
   sl.registerFactory(() => ShortcutsBloc(getShortcuts: sl()));
-
   sl.registerFactory(() => GroupBloc(getGroups: sl(), addGroup: sl()));
   sl.registerLazySingleton(() => GetGroups(sl()));
   sl.registerLazySingleton(() => AddGroup(sl()));
-
   sl.registerFactory(
     () => ExchangeSettingsBloc(
       getExchangeSettings: sl(),
@@ -897,13 +898,11 @@ Future<void> init() async {
   );
   sl.registerLazySingleton(() => GetExchangeSettings(sl()));
   sl.registerLazySingleton(() => UpdateExchangeSettings(sl()));
-
   sl.registerFactory(
     () => TradeSettingsBloc(getTradeSettings: sl(), updateTradeSettings: sl()),
   );
   sl.registerLazySingleton(() => GetTradeSettings(sl()));
   sl.registerLazySingleton(() => UpdateTradeSettings(sl()));
-
   sl.registerLazySingleton(() => GetShortcutsUseCase(sl()));
   sl.registerLazySingleton<ShortcutsRepository>(
     () => ShortcutsRepositoryImpl(remoteDataSource: sl()),
@@ -911,7 +910,6 @@ Future<void> init() async {
   sl.registerLazySingleton<ShortcutsRemoteDataSource>(
     () => ShortcutsRemoteDataSourceImpl(),
   );
-
   sl.registerFactory(
     () => TotalVolumeBloc(getTotalVolume: sl(), getExchanges: sl()),
   );
@@ -922,7 +920,6 @@ Future<void> init() async {
   sl.registerLazySingleton<TotalVolumeRemoteDataSource>(
     () => TotalVolumeRemoteDataSourceImpl(),
   );
-
   sl.registerFactory(() => MyProfileBloc(getMyProfile: sl()));
   sl.registerLazySingleton(() => GetMyProfileUseCase(sl()));
   sl.registerLazySingleton<MyProfileRepository>(
@@ -949,7 +946,6 @@ Future<void> init() async {
   sl.registerLazySingleton<TradeSettingsRemoteDataSource>(
     () => TradeSettingsRemoteDataSourceImpl(),
   );
-
   sl.registerFactory(
     () => DateSettingsBloc(getDateSettings: sl(), updateDateSettings: sl()),
   );
@@ -961,7 +957,6 @@ Future<void> init() async {
   sl.registerLazySingleton<DateSettingsRemoteDataSource>(
     () => DateSettingsRemoteDataSourceImpl(),
   );
-
   sl.registerFactory(
     () =>
         ScriptSettingsBloc(getScriptSettings: sl(), updateScriptSettings: sl()),
@@ -974,7 +969,6 @@ Future<void> init() async {
   sl.registerLazySingleton<ScriptSettingsRemoteDataSource>(
     () => ScriptSettingsRemoteDataSourceImpl(),
   );
-
   sl.registerFactory(
     () => SurveillanceBloc(
       getSurveillanceData: sl(),
@@ -990,7 +984,6 @@ Future<void> init() async {
     () => SurveillanceRemoteDataSourceImpl(),
   );
   sl.registerFactory(() => OperationsMessageBloc());
-
   sl.registerFactory(
     () => ServerBloc(
       getServers: sl(),
@@ -1005,5 +998,13 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<ServerRemoteDataSource>(
     () => ServerRemoteDataSourceImpl(),
+  );
+  sl.registerFactory(() => BillComparisonBloc(getBillComparisonData: sl()));
+  sl.registerLazySingleton(() => GetBillComparisonData(sl()));
+  sl.registerLazySingleton<BillComparisonRepository>(
+    () => BillComparisonRepositoryImpl(remoteDataSource: sl()),
+  );
+  sl.registerLazySingleton<BillComparisonRemoteDataSource>(
+    () => BillComparisonRemoteDataSourceImpl(),
   );
 }

@@ -7,12 +7,9 @@ import '../../bloc/broker_list/broker_list_state.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
 import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import 'broker_client_dialog.dart';
-
 class BrokerListTable extends StatelessWidget {
   final bool isDarkMode;
-
   const BrokerListTable({Key? key, this.isDarkMode = false}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<BrokerListBloc, BrokerListState>(
@@ -23,7 +20,6 @@ class BrokerListTable extends StatelessWidget {
         if (state is BrokerListError) {
           return Center(child: Text(state.message));
         }
-
         List<Broker> brokers = [];
         if (state is BrokerListLoaded) {
           brokers = state.brokers;
@@ -32,7 +28,6 @@ class BrokerListTable extends StatelessWidget {
         } else {
           return const Center(child: Text('No data loaded'));
         }
-
         return ViewDataTable<Broker>(
           columns: _getColumns(),
           data: brokers,
@@ -45,7 +40,6 @@ class BrokerListTable extends StatelessWidget {
       },
     );
   }
-
   List<ViewTableColumn> _getColumns() {
     return const [
       ViewTableColumn(id: 'index', label: 'INDEX', width: 100),
@@ -61,7 +55,6 @@ class BrokerListTable extends StatelessWidget {
       ViewTableColumn(id: 'updatedOn', label: 'UPDATED ON', width: 200),
     ];
   }
-
   Widget _buildCell(BuildContext context, Broker item, ViewTableColumn column) {
     switch (column.id) {
       case 'index':

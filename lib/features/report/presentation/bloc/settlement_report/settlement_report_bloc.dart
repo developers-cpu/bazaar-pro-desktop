@@ -2,7 +2,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../domain/usecases/get_settlement_report.dart';
 import 'settlement_report_event.dart';
 import 'settlement_report_state.dart';
-
 class SettlementReportBloc
     extends Bloc<SettlementReportEvent, SettlementReportState> {
   final GetSettlementReport getSettlementReport;
@@ -36,7 +35,6 @@ class SettlementReportBloc
       },
     );
   }
-
   Future<void> _onSelectUserForDetail(
     SelectUserForDetail event,
     Emitter<SettlementReportState> emit,
@@ -63,7 +61,6 @@ class SettlementReportBloc
       );
     }
   }
-
   Future<void> _onClearSelectedUser(
     ClearSelectedUser event,
     Emitter<SettlementReportState> emit,

@@ -1,9 +1,7 @@
 import 'package:bazarpro/features/users/data/models/user_credit_transaction/user_credit_model.dart';
-
 abstract class UserCreditDataSource {
   Future<List<UserCreditTransactionModel>> getUserCreditHistory(String userId);
 }
-
 class UserCreditDataSourceImpl implements UserCreditDataSource {
   @override
   Future<List<UserCreditTransactionModel>> getUserCreditHistory(

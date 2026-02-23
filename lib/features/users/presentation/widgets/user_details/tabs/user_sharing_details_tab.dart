@@ -3,14 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../../core/constants/app_colors.dart';
-
 import '../../../../domain/entities/user.dart';
 import '../../../../domain/entities/user_sharing_info.dart';
 import '../../../bloc/user_sharing/user_sharing_bloc.dart';
 import '../../../bloc/user_sharing/user_sharing_event.dart';
 import '../../../bloc/user_sharing/user_sharing_state.dart';
 import '../../../../../../injection_container.dart';
-
 class UserSharingDetailsTab extends StatelessWidget {
   final User user;
   const UserSharingDetailsTab({super.key, required this.user});
@@ -23,7 +21,6 @@ class UserSharingDetailsTab extends StatelessWidget {
     );
   }
 }
-
 class UserSharingDetailsTabView extends StatelessWidget {
   const UserSharingDetailsTabView({super.key});
   @override
@@ -65,7 +62,6 @@ class UserSharingDetailsTabView extends StatelessWidget {
       },
     );
   }
-
   Widget _buildSharingCard(
     BuildContext context, {
     required String title,

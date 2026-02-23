@@ -3,7 +3,6 @@ import 'package:bazarpro/features/report/domain/usecases/get_trade_logs.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'trade_log_event.dart';
 import 'trade_log_state.dart';
-
 class TradeLogBloc extends Bloc<TradeLogEvent, TradeLogState> {
   final GetTradeLogsUseCase getTradeLogs;
   TradeLogBloc({required this.getTradeLogs}) : super(TradeLogInitial()) {
@@ -35,7 +34,6 @@ class TradeLogBloc extends Bloc<TradeLogEvent, TradeLogState> {
       );
     });
   }
-
   void _onFilterTradeLogs(
     FilterTradeLogsEvent event,
     Emitter<TradeLogState> emit,
@@ -63,7 +61,6 @@ class TradeLogBloc extends Bloc<TradeLogEvent, TradeLogState> {
       );
     }
   }
-
   void _onSortTradeLogs(SortTradeLogsEvent event, Emitter<TradeLogState> emit) {
     if (state is TradeLogLoaded) {
       final currentState = state as TradeLogLoaded;
@@ -103,7 +100,6 @@ class TradeLogBloc extends Bloc<TradeLogEvent, TradeLogState> {
       );
     }
   }
-
   void _onResetFilters(
     ResetTradeLogsFiltersEvent event,
     Emitter<TradeLogState> emit,

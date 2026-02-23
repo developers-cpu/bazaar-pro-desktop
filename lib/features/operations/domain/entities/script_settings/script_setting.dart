@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 class ScriptSetting extends Equatable {
   final String id;
   final String symbol;
@@ -7,7 +6,6 @@ class ScriptSetting extends Equatable {
   final String updatedBy;
   final bool isBanned;
   final String? cutDate;
-
   const ScriptSetting({
     required this.id,
     required this.symbol,
@@ -16,7 +14,6 @@ class ScriptSetting extends Equatable {
     this.isBanned = false,
     this.cutDate,
   });
-
   @override
   List<Object?> get props => [
     id,

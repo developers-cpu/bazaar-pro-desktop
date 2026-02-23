@@ -5,17 +5,14 @@ import '../../../../../core/widget/table/view_data_table.dart';
 import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import '../../../domain/entities/deals/deals.dart';
 import 'package:bazarpro/core/widget/common_dilog_box.dart';
-
 class OrderDurationDialog extends StatelessWidget {
   final List<Deal> relatedOrders;
   final bool isDarkMode;
-
   const OrderDurationDialog({
     Key? key,
     required this.relatedOrders,
     this.isDarkMode = false,
   }) : super(key: key);
-
   static void show({
     required BuildContext context,
     required List<Deal> relatedOrders,
@@ -30,7 +27,6 @@ class OrderDurationDialog extends StatelessWidget {
       ),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return CommonDialog(
@@ -45,7 +41,6 @@ class OrderDurationDialog extends StatelessWidget {
       content: _buildTable(),
     );
   }
-
   List<ViewTableColumn> _getColumns() {
     return const [
       ViewTableColumn(id: 'id', label: 'ID', width: 60),
@@ -62,7 +57,6 @@ class OrderDurationDialog extends StatelessWidget {
       ViewTableColumn(id: 'pl', label: 'P/L', width: 120, isNumeric: true),
     ];
   }
-
   Widget _buildCell(Deal item, ViewTableColumn column, bool isDark) {
     final index = relatedOrders.indexOf(item) + 1;
     switch (column.id) {
@@ -103,7 +97,6 @@ class OrderDurationDialog extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
-
   Widget _buildTable() {
     return ViewDataTable<Deal>(
       columns: _getColumns(),

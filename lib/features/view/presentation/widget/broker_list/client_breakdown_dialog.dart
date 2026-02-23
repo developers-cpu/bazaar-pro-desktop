@@ -6,19 +6,16 @@ import '../../../../../../core/widget/common_dilog_box.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
 import '../../../../../core/widget/table/view_data_table_footer.dart';
 import '../../../../../core/widget/table/view_table_cell_styles.dart';
-
 class ClientBreakdownDialog extends StatelessWidget {
   final String brokerId;
   final String clientName;
   final bool isDarkMode;
-
   const ClientBreakdownDialog({
     Key? key,
     required this.brokerId,
     required this.clientName,
     this.isDarkMode = false,
   }) : super(key: key);
-
   static void show({
     required BuildContext context,
     required String brokerId,
@@ -35,7 +32,6 @@ class ClientBreakdownDialog extends StatelessWidget {
       ),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return CommonDialog(
@@ -81,7 +77,6 @@ class ClientBreakdownDialog extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildHeader() {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
@@ -109,7 +104,6 @@ class ClientBreakdownDialog extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildSection(
     BuildContext context,
     String title,
@@ -131,7 +125,6 @@ class ClientBreakdownDialog extends StatelessWidget {
         isNumeric: true,
       ),
     ];
-
     return Column(
       children: [
         Container(
@@ -182,7 +175,6 @@ class ClientBreakdownDialog extends StatelessWidget {
       ],
     );
   }
-
   List<Map<String, dynamic>> _getNSEData() => [
     {"exchange": "NSE", "turnover": "100 CR", "brokerage": 2500},
   ];

@@ -6,7 +6,6 @@ import '../../../../../core/widget/table/view_reset_buttons.dart';
 import '../../bloc/profit_and_loss_report/profit_and_loss_report_bloc.dart';
 import '../../bloc/profit_and_loss_report/profit_and_loss_report_event.dart';
 import '../../bloc/profit_and_loss_report/profit_and_loss_report_state.dart';
-
 class ProfitAndLossFilterBar extends StatelessWidget {
   const ProfitAndLossFilterBar({super.key});
   @override

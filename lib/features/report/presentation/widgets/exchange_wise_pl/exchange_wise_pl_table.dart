@@ -7,7 +7,6 @@ import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import 'deals_dialog.dart';
 import 'exchange_trade_list_dialog.dart';
 import 'exchange_open_position_dialog.dart';
-
 class ExchangeWisePLTable extends StatelessWidget {
   final List<ExchangeWisePLReport> reports;
   final bool isDarkMode;
@@ -25,7 +24,6 @@ class ExchangeWisePLTable extends StatelessWidget {
       ViewTableColumn(id: 'total', label: 'TOTAL', width: 140),
     ];
   }
-
   Widget _buildClickableNumberCell(
     BuildContext context,
     double value,
@@ -54,7 +52,6 @@ class ExchangeWisePLTable extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildClickableTextCell(
     BuildContext context,
     String text,
@@ -75,7 +72,6 @@ class ExchangeWisePLTable extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildCell(
     BuildContext context,
     ExchangeWisePLReport item,
@@ -107,7 +103,6 @@ class ExchangeWisePLTable extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
-
   @override
   Widget build(BuildContext context) {
     double totalM2M = 0;

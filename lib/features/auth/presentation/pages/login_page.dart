@@ -12,13 +12,11 @@ import '../bloc/auth_state.dart';
 import '../widget/custom_button.dart';
 import '../widget/custom_dropdown_field.dart';
 import '../widget/custom_input_field.dart';
-
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
-
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final _usernameController = TextEditingController();
@@ -32,7 +30,6 @@ class _LoginPageState extends State<LoginPage> {
     _passwordController.dispose();
     super.dispose();
   }
-
   void _handleLogin() {
     if (_formKey.currentState!.validate()) {
       context.read<AuthBloc>().add(
@@ -44,7 +41,6 @@ class _LoginPageState extends State<LoginPage> {
       );
     }
   }
-
   void _handleDemoLogin() {
     showDialog(
       context: context,
@@ -64,7 +60,6 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-
   Widget _buildDemoOption(String role) {
     return ListTile(
       title: Text(
@@ -77,7 +72,6 @@ class _LoginPageState extends State<LoginPage> {
       },
     );
   }
-
   void _showSnackBar(String message, {Color? backgroundColor}) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -87,7 +81,6 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -110,11 +103,9 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-
   void _handleAuthStateChange(BuildContext context, AuthState state) {
     Navigator.of(context).pushReplacementNamed('/market-watch');
   }
-
   Widget _buildForm(BuildContext context, bool isLoading) {
     return Container(
       width: 500,
@@ -148,7 +139,6 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-
   BoxDecoration _buildBackgroundWithImage() {
     return BoxDecoration(
       image: DecorationImage(
@@ -160,7 +150,6 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-
   BoxDecoration _buildGradientBackground(BuildContext context) {
     final isDark = AppColors.isDarkMode(context);
     return BoxDecoration(
@@ -177,7 +166,6 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-
   Widget _buildLogo(BuildContext context) {
     return Center(
       child: SizedBox(
@@ -195,7 +183,6 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-
   Widget _buildFallbackLogo(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -220,7 +207,6 @@ class _LoginPageState extends State<LoginPage> {
       ],
     );
   }
-
   Widget _buildTitleSection(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -251,7 +237,6 @@ class _LoginPageState extends State<LoginPage> {
       ],
     );
   }
-
   Widget _buildServerDropdown(BuildContext context) {
     return CustomDropdownField(
       hintText: AuthConstants.selectServerLabel,
@@ -279,7 +264,6 @@ class _LoginPageState extends State<LoginPage> {
       onChanged: (value) => setState(() => _selectedServer = value!),
     );
   }
-
   Widget _buildUsernameField(BuildContext context) {
     return CustomInputField(
       hintText: AuthConstants.usernameLabel,
@@ -289,7 +273,6 @@ class _LoginPageState extends State<LoginPage> {
           value?.isEmpty ?? true ? AuthConstants.emptyUsernameError : null,
     );
   }
-
   Widget _buildPasswordField(BuildContext context) {
     return CustomInputField(
       hintText: AuthConstants.passwordLabel,
@@ -305,7 +288,6 @@ class _LoginPageState extends State<LoginPage> {
           value?.isEmpty ?? true ? AuthConstants.emptyPasswordError : null,
     );
   }
-
   Widget _buildLoginButton(BuildContext context, bool isLoading) {
     return CustomButton(
       text: AuthConstants.loginButtonText,
@@ -315,7 +297,6 @@ class _LoginPageState extends State<LoginPage> {
       borderColor: AppColors.primaryColor(context),
     );
   }
-
   Widget _buildFooterLinks(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -334,7 +315,6 @@ class _LoginPageState extends State<LoginPage> {
       ],
     );
   }
-
   Widget _buildFooterText(BuildContext context) {
     return Column(
       children: [
@@ -364,7 +344,6 @@ class _LoginPageState extends State<LoginPage> {
       ],
     );
   }
-
   Widget _buildLegalLinks(BuildContext context) {
     return Center(
       child: Column(
@@ -385,7 +364,6 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-
   Widget _buildTextLink(
     BuildContext context, {
     required String text,

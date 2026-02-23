@@ -10,13 +10,11 @@ import '../../../../../../core/widget/custom_input_field.dart';
 import '../../../bloc/user_form/user_form_bloc.dart';
 import '../../../bloc/user_form/user_form_event.dart';
 import '../../../bloc/user_form/user_form_state.dart';
-
 class ExchangeSettingStep extends StatefulWidget {
   const ExchangeSettingStep({super.key});
   @override
   State<ExchangeSettingStep> createState() => _ExchangeSettingStepState();
 }
-
 class _ExchangeSettingStepState extends State<ExchangeSettingStep> {
   late TextEditingController _squareOffTimingController;
   late TextEditingController _specificTimeController;
@@ -31,14 +29,12 @@ class _ExchangeSettingStepState extends State<ExchangeSettingStep> {
       text: state.specificTime ?? '',
     );
   }
-
   @override
   void dispose() {
     _squareOffTimingController.dispose();
     _specificTimeController.dispose();
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;

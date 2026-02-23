@@ -9,7 +9,6 @@ import '../../../../../../injection_container.dart';
 import '../../../../domain/entities/user.dart';
 import '../../../../domain/entities/user_group_settings/user_group_settings.dart';
 import '../../../bloc/user_group_settings/user_group_settings_bloc.dart';
-
 class UserGroupSettingsTab extends StatelessWidget {
   final User user;
   final Function(String groupName) onViewSettings;
@@ -27,7 +26,6 @@ class UserGroupSettingsTab extends StatelessWidget {
     );
   }
 }
-
 class UserGroupSettingsTabView extends StatelessWidget {
   final Function(String groupName) onViewSettings;
   const UserGroupSettingsTabView({super.key, required this.onViewSettings});

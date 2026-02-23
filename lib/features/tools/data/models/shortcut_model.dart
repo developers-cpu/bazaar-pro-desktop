@@ -1,5 +1,4 @@
 import '../../domain/entities/shortcut_entity.dart';
-
 class ShortcutModel extends ShortcutEntity {
   const ShortcutModel({
     required String title,

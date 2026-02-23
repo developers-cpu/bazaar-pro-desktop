@@ -1,6 +1,5 @@
 import 'group_remote_data_source.dart';
 import '../../models/group/group_model.dart';
-
 class GroupRemoteDataSourceImpl implements GroupRemoteDataSource {
   final List<GroupModel> _mockGroups = [
     GroupModel(
@@ -85,10 +84,8 @@ class GroupRemoteDataSourceImpl implements GroupRemoteDataSource {
       isDefault: false,
     ),
   ];
-
   @override
   Future<List<GroupModel>> getGroups() async => _mockGroups;
-
   @override
   Future<bool> addGroup({
     required String exchange,

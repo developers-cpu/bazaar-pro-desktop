@@ -13,7 +13,6 @@ import '../../../../../core/widget/table/view_record_count.dart';
 import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import '../../../../../core/widget/table/view_data_table_footer.dart';
 import '../../../../../core/constants/app_colors.dart';
-
 class UserWiseProfitAndLossReportTable extends StatelessWidget {
   final bool isDarkMode;
   const UserWiseProfitAndLossReportTable({super.key, this.isDarkMode = false});
@@ -40,7 +39,6 @@ class UserWiseProfitAndLossReportTable extends StatelessWidget {
       ViewTableColumn(id: 'createdDate', label: 'CREATE DATE', width: 150),
     ];
   }
-
   User _createDummyUser(UserWiseProfitAndLossReport item) {
     return User(
       id: item.id,
@@ -61,7 +59,6 @@ class UserWiseProfitAndLossReportTable extends StatelessWidget {
       status: 'Active',
     );
   }
-
   Widget _buildClickableNumberCell(
     BuildContext context,
     double value,
@@ -82,7 +79,6 @@ class UserWiseProfitAndLossReportTable extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildCell(
     BuildContext context,
     UserWiseProfitAndLossReport item,
@@ -271,7 +267,6 @@ class UserWiseProfitAndLossReportTable extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserWiseProfitAndLossBloc, UserWiseProfitAndLossState>(

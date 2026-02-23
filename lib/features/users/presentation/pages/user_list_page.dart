@@ -18,13 +18,11 @@ import '../widgets/create_user/leverage_update_dialog.dart';
 import '../widgets/create_user/change_password_dialog.dart';
 import '../widgets/create_user/update_access_dialog.dart';
 import '../widgets/user_details/user_details_dialog.dart';
-
 class UserListPage extends StatefulWidget {
   const UserListPage({super.key});
   @override
   State<UserListPage> createState() => _UserListPageState();
 }
-
 class _UserListPageState extends State<UserListPage> {
   String? _selectedUserType;
   String? _selectedUserStatus;
@@ -33,7 +31,6 @@ class _UserListPageState extends State<UserListPage> {
     super.initState();
     context.read<UserListBloc>().add(const LoadUsersEvent());
   }
-
   void _showEditUserDialog(User user) {
     final userData = {
       'name': user.name,
@@ -62,7 +59,6 @@ class _UserListPageState extends State<UserListPage> {
       );
     }
   }
-
   void _showLeverageDialog(User user) {
     LeverageUpdateDialog.show(
       context: context,
@@ -74,7 +70,6 @@ class _UserListPageState extends State<UserListPage> {
       },
     );
   }
-
   void _showChangePasswordDialog(User user) {
     ChangePasswordDialog.show(
       context: context,
@@ -88,7 +83,6 @@ class _UserListPageState extends State<UserListPage> {
       },
     );
   }
-
   void _showActionDialog(User user) {
     final currentSettings = {
       'bet': true,
@@ -113,7 +107,6 @@ class _UserListPageState extends State<UserListPage> {
       },
     );
   }
-
   void _showUserDetailsDialog(User user, {String? initialTab}) {
     UserDetailsDialog.show(
       context,
@@ -123,7 +116,6 @@ class _UserListPageState extends State<UserListPage> {
       onAction: (_) => _showActionDialog(user),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -136,7 +128,6 @@ class _UserListPageState extends State<UserListPage> {
       ),
     );
   }
-
   Widget _buildFilterBar() {
     return Container(
       padding: EdgeInsets.all(12.w),
@@ -211,7 +202,6 @@ class _UserListPageState extends State<UserListPage> {
       ),
     );
   }
-
   Widget _buildDataTable() {
     return BlocBuilder<UserListBloc, UserListState>(
       builder: (context, state) {
@@ -247,7 +237,6 @@ class _UserListPageState extends State<UserListPage> {
       },
     );
   }
-
   Widget _buildTable(UserListLoaded state) {
     final columns = _getColumns();
     final isDarkMode = AppColors.isDarkMode(context);
@@ -271,7 +260,6 @@ class _UserListPageState extends State<UserListPage> {
       emptyMessage: 'No users found',
     );
   }
-
   List<ViewTableColumn> _getColumns() {
     return [
       const ViewTableColumn(
@@ -352,7 +340,6 @@ class _UserListPageState extends State<UserListPage> {
       const ViewTableColumn(id: 'ipAddress', label: 'IP ADDRESS', width: 130),
     ];
   }
-
   Widget _buildCellContent(User user, String columnId) {
     switch (columnId) {
       case 'edit':
@@ -608,7 +595,6 @@ class _UserListPageState extends State<UserListPage> {
         return const SizedBox.shrink();
     }
   }
-
   String _formatNumber(double value) {
     if (value == 0) return '0';
     return NumberFormat('#,##0').format(value.toInt());

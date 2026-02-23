@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 class MyProfileEntity extends Equatable {
   final String userName;
   final String name;
@@ -11,7 +10,6 @@ class MyProfileEntity extends Equatable {
   final Map<String, dynamic> plSharing;
   final Map<String, dynamic> brkSharing;
   final List<String> exchanges;
-
   const MyProfileEntity({
     required this.userName,
     required this.name,
@@ -24,7 +22,6 @@ class MyProfileEntity extends Equatable {
     required this.brkSharing,
     required this.exchanges,
   });
-
   @override
   List<Object?> get props => [
     userName,

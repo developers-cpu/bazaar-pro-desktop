@@ -1,5 +1,4 @@
 import '../../../domain/entities/user_trade_margin/user_trade_margin_metadata.dart';
-
 class UserTradeMarginMetadataModel extends UserTradeMarginMetadata {
   const UserTradeMarginMetadataModel({
     required super.exchanges,

@@ -1,8 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'operations_message_event.dart';
 import 'operations_message_state.dart';
-
 class OperationsMessageBloc
     extends Bloc<OperationsMessageEvent, OperationsMessageState> {
   OperationsMessageBloc() : super(const OperationsMessageState()) {
@@ -10,7 +8,6 @@ class OperationsMessageBloc
     on<ChangeRollTypeEvent>(_onChangeRollType);
     on<UpdateMessageEvent>(_onUpdateMessage);
   }
-
   void _onChangeTab(
     ChangeMessageTabEvent event,
     Emitter<OperationsMessageState> emit,
@@ -22,7 +19,6 @@ class OperationsMessageBloc
       ),
     );
   }
-
   void _onChangeRollType(
     ChangeRollTypeEvent event,
     Emitter<OperationsMessageState> emit,
@@ -34,7 +30,6 @@ class OperationsMessageBloc
       ),
     );
   }
-
   Future<void> _onUpdateMessage(
     UpdateMessageEvent event,
     Emitter<OperationsMessageState> emit,

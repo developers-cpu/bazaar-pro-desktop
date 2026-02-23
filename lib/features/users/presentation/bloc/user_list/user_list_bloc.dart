@@ -9,7 +9,6 @@ import '../../../domain/usecases/user/export_users_to_pdf.dart';
 import '../../../domain/usecases/user/export_users_to_excel.dart';
 import 'user_list_event.dart';
 import 'user_list_state.dart';
-
 class UserListBloc extends Bloc<UserListEvent, UserListState> {
   final GetUsers getUsers;
   final GetUsersWithFilters getUsersWithFilters;
@@ -60,7 +59,6 @@ class UserListBloc extends Bloc<UserListEvent, UserListState> {
       emit(UserListError(e.toString()));
     }
   }
-
   Future<void> _onFilterByUserType(
     FilterByUserTypeEvent event,
     Emitter<UserListState> emit,
@@ -86,7 +84,6 @@ class UserListBloc extends Bloc<UserListEvent, UserListState> {
       );
     }
   }
-
   Future<void> _onFilterByUserStatus(
     FilterByUserStatusEvent event,
     Emitter<UserListState> emit,
@@ -113,7 +110,6 @@ class UserListBloc extends Bloc<UserListEvent, UserListState> {
       );
     }
   }
-
   Future<void> _onApplyFilters(
     ApplyFiltersEvent event,
     Emitter<UserListState> emit,
@@ -139,7 +135,6 @@ class UserListBloc extends Bloc<UserListEvent, UserListState> {
       );
     }
   }
-
   Future<void> _onResetFilters(
     ResetFiltersEvent event,
     Emitter<UserListState> emit,
@@ -161,7 +156,6 @@ class UserListBloc extends Bloc<UserListEvent, UserListState> {
       );
     }
   }
-
   void _onSortByColumn(SortByColumnEvent event, Emitter<UserListState> emit) {
     if (state is UserListLoaded) {
       final currentState = state as UserListLoaded;
@@ -234,7 +228,6 @@ class UserListBloc extends Bloc<UserListEvent, UserListState> {
       );
     }
   }
-
   Future<void> _onExportToPdf(
     ExportToPdfEvent event,
     Emitter<UserListState> emit,
@@ -262,7 +255,6 @@ class UserListBloc extends Bloc<UserListEvent, UserListState> {
       );
     }
   }
-
   Future<void> _onExportToExcel(
     ExportToExcelEvent event,
     Emitter<UserListState> emit,
@@ -290,7 +282,6 @@ class UserListBloc extends Bloc<UserListEvent, UserListState> {
       );
     }
   }
-
   void _onSelectUser(SelectUserEvent event, Emitter<UserListState> emit) {
     if (state is UserListLoaded) {
       final currentState = state as UserListLoaded;

@@ -8,7 +8,6 @@ import '../../bloc/intraday_history/intraday_history_state.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
 import '../../../../../core/widget/table/view_record_count.dart';
 import '../../../../../core/widget/table/view_table_cell_styles.dart';
-
 class IntradaySecondsTable extends StatelessWidget {
   const IntradaySecondsTable({Key? key}) : super(key: key);
   static final List<ViewTableColumn> _columns = [
@@ -86,7 +85,6 @@ class IntradaySecondsTable extends StatelessWidget {
       },
     );
   }
-
   Widget _buildCell(IntradayHistory history, ViewTableColumn column) {
     switch (column.id) {
       case 'timestamp':

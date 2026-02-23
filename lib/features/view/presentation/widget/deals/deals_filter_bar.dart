@@ -10,7 +10,6 @@ import '../../bloc/deals/deals_bloc.dart';
 import '../../bloc/deals/deals_event.dart';
 import '../../bloc/deals/deals_state.dart';
 import '../../../../../core/widget/table/view_reset_buttons.dart';
-
 class DealsFilterBar extends StatelessWidget {
   const DealsFilterBar({Key? key}) : super(key: key);
   @override
@@ -163,7 +162,6 @@ class DealsFilterBar extends StatelessWidget {
       },
     );
   }
-
   Widget _buildDateRangePicker(BuildContext context, DealsLoaded state) {
     final dateFormat = DateFormat('dd/MM/yyyy');
     String displayText = 'Select Date Range';

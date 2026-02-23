@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../../../../../core/constants/app_colors.dart';
-
 class CustomRichTextEditor extends StatelessWidget {
   final TextEditingController? controller;
   final String hintText;
   final double? height;
-
   const CustomRichTextEditor({
     super.key,
     this.controller,
     this.hintText = 'Type here',
     this.height,
   });
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -52,7 +48,6 @@ class CustomRichTextEditor extends StatelessWidget {
                   ],
                 ),
               ),
-
               Expanded(
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 12.w),
@@ -78,7 +73,6 @@ class CustomRichTextEditor extends StatelessWidget {
               ),
             ],
           ),
-
           Positioned(
             bottom: 2.h,
             right: 2.w,
@@ -92,7 +86,6 @@ class CustomRichTextEditor extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildIcon(IconData icon) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 4.w),

@@ -8,7 +8,6 @@ import '../../bloc/rejection_log/rejection_log_event.dart';
 import '../../bloc/rejection_log/rejection_log_state.dart';
 import '../../../../../core/widget/table/view_record_count.dart';
 import '../../../../../core/widget/table/view_table_cell_styles.dart';
-
 class RejectionLogTable extends StatelessWidget {
   const RejectionLogTable({Key? key}) : super(key: key);
   static final List<ViewTableColumn> _columns = [
@@ -74,7 +73,6 @@ class RejectionLogTable extends StatelessWidget {
       },
     );
   }
-
   Widget _buildCell(RejectionLog log, ViewTableColumn column) {
     switch (column.id) {
       case 'orderDateTime':

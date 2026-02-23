@@ -18,13 +18,10 @@ import '../../../../users/presentation/widgets/create_user/shared/brokerage_sett
 import '../../../../users/presentation/widgets/create_user/master_steps/pnl_sharing_step.dart';
 import '../../../../users/presentation/widgets/create_user/master_steps/exchange_setting_step.dart';
 import '../../../../users/presentation/widgets/create_user/master_steps/master_trigger_settings_step.dart';
-
 class MyProfileDialog extends StatelessWidget {
   final Map<String, dynamic>? userData;
   final VoidCallback? onComplete;
-
   const MyProfileDialog({super.key, this.userData, this.onComplete});
-
   static void show(BuildContext context) {
     CommonDialog.show(
       context: context,
@@ -43,7 +40,6 @@ class MyProfileDialog extends StatelessWidget {
       ),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocListener<MyProfileBloc, MyProfileState>(
@@ -62,7 +58,6 @@ class MyProfileDialog extends StatelessWidget {
             'brokerageSharing': _formatSharing(profile.brkSharing),
             'allowedDevice': 'All',
           };
-
           context.read<UserFormBloc>().add(
             InitializeFormEvent(
               isEditMode: true,
@@ -85,7 +80,6 @@ class MyProfileDialog extends StatelessWidget {
               child: Center(child: Text('Error: ${state.message}')),
             );
           }
-
           return BlocConsumer<UserFormBloc, UserFormState>(
             listener: (context, state) {
               if (state.isSuccess) {
@@ -119,30 +113,23 @@ class MyProfileDialog extends StatelessWidget {
                             _buildSectionHeader('Personal Details'),
                             const PersonalDetailsStep(),
                             _buildDivider(),
-
                             _buildSectionHeader('P&L Sharing Details'),
                             const PnlSharingStep(),
                             _buildDivider(),
-
                             _buildSectionHeader('Exchange Allowed'),
                             const MasterExchangeAllowStep(),
                             _buildDivider(),
-
                             _buildSectionHeader('Exchange Settings'),
                             const ExchangeSettingStep(),
                             _buildDivider(),
-
                             _buildSectionHeader('High/Low Between Trade Limit'),
                             const HighLowLimitStep(),
                             _buildDivider(),
-
                             _buildSectionHeader('Trigger Settings'),
                             const MasterTriggerSettingsStep(),
                             _buildDivider(),
-
                             _buildSectionHeader('Brokerage Settings'),
                             const BrokerageSettingStep(showUpdateButton: false),
-
                             SizedBox(height: 12.h),
                           ],
                         ),
@@ -157,14 +144,12 @@ class MyProfileDialog extends StatelessWidget {
       ),
     );
   }
-
   String _formatSharing(Map<String, dynamic> sharing) {
     if (sharing.containsKey('our')) {
       return sharing['our'].toString();
     }
     return sharing.toString();
   }
-
   Widget _buildSectionHeader(String title) {
     return Padding(
       padding: EdgeInsets.only(bottom: 12.h, top: 4.h),
@@ -178,7 +163,6 @@ class MyProfileDialog extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildDivider() {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8.h),

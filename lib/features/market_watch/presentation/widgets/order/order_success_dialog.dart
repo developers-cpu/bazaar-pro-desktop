@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../data/models/order_dialog_type.dart';
-
 class OrderSuccessDialog extends StatelessWidget {
   final OrderType orderType;
   final String? symbol;
@@ -42,7 +41,6 @@ class OrderSuccessDialog extends StatelessWidget {
       ),
     );
   }
-
   Color get _primaryColor => orderType == OrderType.buy
       ? const Color(0xFF0066FF)
       : const Color(0xFFFF0000);
@@ -165,7 +163,6 @@ class OrderSuccessDialog extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildDetailRow(String label, String value) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 4.h),

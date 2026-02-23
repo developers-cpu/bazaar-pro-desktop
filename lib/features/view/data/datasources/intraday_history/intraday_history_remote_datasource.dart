@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import '../../models/intraday_history/intraday_history_model.dart';
 import '../../../domain/entities/intraday_history/intraday_history.dart';
-
 abstract class IntradayHistoryRemoteDataSource {
   Future<List<IntradayHistoryModel>> getIntradayHistory({
     DateTime? date,
@@ -23,7 +22,6 @@ abstract class IntradayHistoryRemoteDataSource {
   Future<String> exportToPdf(List<IntradayHistoryModel> history);
   Future<String> exportToExcel(List<IntradayHistoryModel> history);
 }
-
 class IntradayHistoryRemoteDataSourceImpl
     implements IntradayHistoryRemoteDataSource {
   final Dio dio;
@@ -42,7 +40,6 @@ class IntradayHistoryRemoteDataSourceImpl
       throw Exception('Failed to fetch intraday history: $e');
     }
   }
-
   @override
   Future<List<IntradayHistoryModel>> getIntradayHistoryInSeconds({
     required DateTime date,
@@ -58,7 +55,6 @@ class IntradayHistoryRemoteDataSourceImpl
       throw Exception('Failed to fetch seconds data: $e');
     }
   }
-
   @override
   Future<List<String>> getExchanges() async {
     try {
@@ -77,7 +73,6 @@ class IntradayHistoryRemoteDataSourceImpl
       throw Exception('Failed to fetch exchanges: $e');
     }
   }
-
   @override
   Future<List<String>> getSymbols() async {
     try {
@@ -96,7 +91,6 @@ class IntradayHistoryRemoteDataSourceImpl
       throw Exception('Failed to fetch symbols: $e');
     }
   }
-
   @override
   Future<List<String>> getTimings() async {
     try {
@@ -106,7 +100,6 @@ class IntradayHistoryRemoteDataSourceImpl
       throw Exception('Failed to fetch timings: $e');
     }
   }
-
   @override
   Future<List<TimeSlot>> getAvailableTimeSlots(DateTime date) async {
     try {
@@ -129,7 +122,6 @@ class IntradayHistoryRemoteDataSourceImpl
       throw Exception('Failed to fetch time slots: $e');
     }
   }
-
   @override
   Future<String> exportToPdf(List<IntradayHistoryModel> history) async {
     try {
@@ -139,7 +131,6 @@ class IntradayHistoryRemoteDataSourceImpl
       throw Exception('Failed to export PDF: $e');
     }
   }
-
   @override
   Future<String> exportToExcel(List<IntradayHistoryModel> history) async {
     try {
@@ -149,7 +140,6 @@ class IntradayHistoryRemoteDataSourceImpl
       throw Exception('Failed to export Excel: $e');
     }
   }
-
   List<IntradayHistoryModel> _generateMockIntradayHistory() {
     final List<IntradayHistoryModel> history = [];
     final baseTime = DateTime(2025, 11, 4, 1, 25, 35);
@@ -234,7 +224,6 @@ class IntradayHistoryRemoteDataSourceImpl
     }
     return history;
   }
-
   List<IntradayHistoryModel> _generateMockSecondsData(
     DateTime startTime,
     DateTime endTime,

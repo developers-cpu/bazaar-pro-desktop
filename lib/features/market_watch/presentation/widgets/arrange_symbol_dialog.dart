@@ -9,7 +9,6 @@ import '../../../../core/widget/svg_icon.dart';
 import '../bloc/arrangesymbol/arrange_symbol_bloc.dart';
 import '../bloc/arrangesymbol/arrange_symbol_event.dart';
 import '../bloc/arrangesymbol/arrange_symbol_state.dart';
-
 class ArrangeSymbolDialog extends StatelessWidget {
   const ArrangeSymbolDialog({Key? key}) : super(key: key);
   static void show(BuildContext context) {
@@ -32,7 +31,6 @@ class ArrangeSymbolDialog extends StatelessWidget {
       contentPadding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return CommonDialog(
@@ -50,7 +48,6 @@ class ArrangeSymbolDialog extends StatelessWidget {
     );
   }
 }
-
 class _ArrangeSymbolContent extends StatelessWidget {
   const _ArrangeSymbolContent({Key? key}) : super(key: key);
   @override
@@ -60,7 +57,6 @@ class _ArrangeSymbolContent extends StatelessWidget {
       children: [_buildColumnList()],
     );
   }
-
   Widget _buildColumnList() {
     return BlocBuilder<ArrangeSymbolBloc, ArrangeSymbolState>(
       builder: (context, state) {
@@ -89,7 +85,6 @@ class _ArrangeSymbolContent extends StatelessWidget {
       },
     );
   }
-
   Widget _buildColumnItem({
     required Key key,
     required BuildContext context,
@@ -132,7 +127,6 @@ class _ArrangeSymbolContent extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildDragHandle() {
     return Container(
       width: 32.w,
@@ -145,7 +139,6 @@ class _ArrangeSymbolContent extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildToggleCheckbox(BuildContext context, ColumnItem column) {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,

@@ -1,5 +1,4 @@
 import '../../domain/entities/my_profile_entity.dart';
-
 class MyProfileModel extends MyProfileEntity {
   const MyProfileModel({
     required super.userName,
@@ -13,7 +12,6 @@ class MyProfileModel extends MyProfileEntity {
     required super.brkSharing,
     required super.exchanges,
   });
-
   factory MyProfileModel.fromJson(Map<String, dynamic> json) {
     return MyProfileModel(
       userName: json['userName'] ?? '',
@@ -32,7 +30,6 @@ class MyProfileModel extends MyProfileEntity {
           [],
     );
   }
-
   Map<String, dynamic> toJson() {
     return {
       'userName': userName,

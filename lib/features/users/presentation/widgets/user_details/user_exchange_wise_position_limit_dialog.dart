@@ -1,18 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import 'package:bazarpro/core/constants/app_colors.dart';
 import 'package:bazarpro/core/widget/common_dilog_box.dart';
 import 'package:bazarpro/features/users/domain/entities/user.dart';
-
 import 'package:bazarpro/core/widget/custom_input_field.dart';
-
 class UserExchangeWisePositionLimitDialog extends StatelessWidget {
   final User user;
-
   const UserExchangeWisePositionLimitDialog({super.key, required this.user});
-
   static void show(BuildContext context, User user) {
     showDialog(
       context: context,
@@ -20,7 +15,6 @@ class UserExchangeWisePositionLimitDialog extends StatelessWidget {
       builder: (context) => UserExchangeWisePositionLimitDialog(user: user),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return CommonDialog(
@@ -31,15 +25,12 @@ class UserExchangeWisePositionLimitDialog extends StatelessWidget {
     );
   }
 }
-
 class UserExchangeWisePositionLimitDialogContent extends StatefulWidget {
   const UserExchangeWisePositionLimitDialogContent({super.key});
-
   @override
   State<UserExchangeWisePositionLimitDialogContent> createState() =>
       _UserExchangeWisePositionLimitDialogContentState();
 }
-
 class _UserExchangeWisePositionLimitDialogContentState
     extends State<UserExchangeWisePositionLimitDialogContent> {
   final List<String> exchanges = [
@@ -53,7 +44,6 @@ class _UserExchangeWisePositionLimitDialogContentState
     'GIFY',
     'CRYPTO',
   ];
-
   @override
   Widget build(BuildContext context) {
     return GridView.builder(

@@ -7,7 +7,6 @@ import '../../../../../../core/constants/app_colors.dart';
 import '../../bloc/symbol_wise_pl/symbol_wise_pl_bloc.dart';
 import '../../bloc/symbol_wise_pl/symbol_wise_pl_event.dart';
 import '../../bloc/symbol_wise_pl/symbol_wise_pl_state.dart';
-
 class SymbolWisePLFilterBar extends StatelessWidget {
   const SymbolWisePLFilterBar({super.key});
   @override

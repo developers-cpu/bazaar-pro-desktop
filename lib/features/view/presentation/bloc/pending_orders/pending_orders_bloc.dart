@@ -6,7 +6,6 @@ import '../../../domain/usecases/pending_order/get_filter_data.dart';
 import '../../../domain/usecases/pending_order/get_pending_orders.dart';
 import 'pending_orders_event.dart';
 import 'pending_orders_state.dart';
-
 class PendingOrdersBloc extends Bloc<PendingOrdersEvent, PendingOrdersState> {
   final GetPendingOrders getPendingOrders;
   final GetPendingOrdersWithFilters getPendingOrdersWithFilters;
@@ -91,7 +90,6 @@ class PendingOrdersBloc extends Bloc<PendingOrdersEvent, PendingOrdersState> {
       emit(PendingOrdersError(e.toString()));
     }
   }
-
   Future<void> _onFilterByClient(
     FilterByClientEvent event,
     Emitter<PendingOrdersState> emit,
@@ -119,7 +117,6 @@ class PendingOrdersBloc extends Bloc<PendingOrdersEvent, PendingOrdersState> {
       );
     }
   }
-
   Future<void> _onFilterByExchange(
     FilterByExchangeEvent event,
     Emitter<PendingOrdersState> emit,
@@ -147,7 +144,6 @@ class PendingOrdersBloc extends Bloc<PendingOrdersEvent, PendingOrdersState> {
       );
     }
   }
-
   Future<void> _onFilterBySymbol(
     FilterBySymbolEvent event,
     Emitter<PendingOrdersState> emit,
@@ -175,7 +171,6 @@ class PendingOrdersBloc extends Bloc<PendingOrdersEvent, PendingOrdersState> {
       );
     }
   }
-
   Future<void> _onFilterByType(
     FilterByTypeEvent event,
     Emitter<PendingOrdersState> emit,
@@ -206,7 +201,6 @@ class PendingOrdersBloc extends Bloc<PendingOrdersEvent, PendingOrdersState> {
       );
     }
   }
-
   Future<void> _onApplyFilters(
     ApplyFiltersEvent event,
     Emitter<PendingOrdersState> emit,
@@ -236,7 +230,6 @@ class PendingOrdersBloc extends Bloc<PendingOrdersEvent, PendingOrdersState> {
       );
     }
   }
-
   Future<void> _onResetFilters(
     ResetFiltersEvent event,
     Emitter<PendingOrdersState> emit,
@@ -260,7 +253,6 @@ class PendingOrdersBloc extends Bloc<PendingOrdersEvent, PendingOrdersState> {
       );
     }
   }
-
   void _onSortByColumn(
     SortByColumnEvent event,
     Emitter<PendingOrdersState> emit,
@@ -322,7 +314,6 @@ class PendingOrdersBloc extends Bloc<PendingOrdersEvent, PendingOrdersState> {
       );
     }
   }
-
   Future<void> _onExportToPdf(
     ExportToPdfEvent event,
     Emitter<PendingOrdersState> emit,
@@ -350,7 +341,6 @@ class PendingOrdersBloc extends Bloc<PendingOrdersEvent, PendingOrdersState> {
       );
     }
   }
-
   Future<void> _onExportToExcel(
     ExportToExcelEvent event,
     Emitter<PendingOrdersState> emit,
@@ -378,7 +368,6 @@ class PendingOrdersBloc extends Bloc<PendingOrdersEvent, PendingOrdersState> {
       );
     }
   }
-
   void _onSelectOrder(
     SelectOrderEvent event,
     Emitter<PendingOrdersState> emit,

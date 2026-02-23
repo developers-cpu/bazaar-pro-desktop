@@ -4,26 +4,21 @@ import '../../../../../core/widget/app_dropdown.dart';
 import '../../../../../core/widget/app_date_picker.dart';
 import '../../../../../core/widget/custom_action_button.dart';
 import 'import_date_settings_dialog.dart';
-
 class DateSettingsHeaders extends StatefulWidget {
   final String selectedMonth;
   final ValueChanged<String> onMonthChanged;
-
   const DateSettingsHeaders({
     super.key,
     required this.selectedMonth,
     required this.onMonthChanged,
   });
-
   @override
   State<DateSettingsHeaders> createState() => _DateSettingsHeadersState();
 }
-
 class _DateSettingsHeadersState extends State<DateSettingsHeaders> {
   DateTime? _expiryDate;
   DateTime? _launchDate;
   DateTime? _closeDate;
-
   final _months = const [
     'January',
     'February',
@@ -38,7 +33,6 @@ class _DateSettingsHeadersState extends State<DateSettingsHeaders> {
     'November',
     'December',
   ];
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -113,7 +107,6 @@ class _DateSettingsHeadersState extends State<DateSettingsHeaders> {
       ],
     );
   }
-
   void _showImportDialog(BuildContext context) {
     showDialog(
       context: context,

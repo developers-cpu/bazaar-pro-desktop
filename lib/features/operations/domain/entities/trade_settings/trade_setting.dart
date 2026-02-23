@@ -1,25 +1,19 @@
 import 'package:equatable/equatable.dart';
-
 class TradeSetting extends Equatable {
   final String id;
   final String exchange;
-
   final String? marginType;
   final String? intMarginPercentage;
   final String? cfMarginPercentage;
   final String? intMarginAmt;
   final String? cfMarginAmt;
-
   final String? brokerageType;
   final String? turnoverWiseBrokerageRs;
   final String? lotWiseBrokerageAmt;
-
   final String? leverageMultiplier;
   final String? tradeSecondsLimit;
-
   final String updatedOn;
   final String updatedBy;
-
   const TradeSetting({
     required this.id,
     required this.exchange,
@@ -36,7 +30,6 @@ class TradeSetting extends Equatable {
     required this.updatedOn,
     required this.updatedBy,
   });
-
   @override
   List<Object?> get props => [
     id,

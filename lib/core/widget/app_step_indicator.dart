@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../constants/app_colors.dart';
-
 class AppStepIndicator extends StatelessWidget {
   final int currentStep;
   final int totalSteps;
@@ -41,7 +40,6 @@ class AppStepIndicator extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildStepItem(int stepIndex) {
     final isActive = stepIndex == currentStep;
     final isCompleted = stepIndex < currentStep;
@@ -75,7 +73,6 @@ class AppStepIndicator extends StatelessWidget {
       );
     }
   }
-
   Widget _buildConnectorLine(int beforeStepIndex) {
     final isCompleted = beforeStepIndex < currentStep;
     final effectiveCompletedColor = completedLineColor ?? AppColors.primaryBlue;

@@ -4,28 +4,23 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/common_dilog_box.dart';
 import '../../../../../core/widget/custom_input_field.dart';
-
 class PasswordDialog extends StatefulWidget {
   const PasswordDialog({super.key});
-
   @override
   State<PasswordDialog> createState() => _PasswordDialogState();
 }
-
 class _PasswordDialogState extends State<PasswordDialog> {
   final _passwordCtrl = TextEditingController();
   final _confirmCtrl = TextEditingController();
   bool _obscurePassword = true;
   bool _obscureConfirm = true;
   String? _error;
-
   @override
   void dispose() {
     _passwordCtrl.dispose();
     _confirmCtrl.dispose();
     super.dispose();
   }
-
   void _onConfirm() {
     if (_passwordCtrl.text.isEmpty) {
       setState(() => _error = 'Password cannot be empty');
@@ -37,7 +32,6 @@ class _PasswordDialogState extends State<PasswordDialog> {
     }
     Navigator.pop(context, true);
   }
-
   @override
   Widget build(BuildContext context) {
     return CommonDialog(

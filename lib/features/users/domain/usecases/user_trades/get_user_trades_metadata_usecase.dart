@@ -3,7 +3,6 @@ import 'package:bazarpro/core/usecases/usecase.dart';
 import 'package:bazarpro/features/users/domain/entities/user_trades/user_trades_metadata.dart';
 import 'package:bazarpro/features/users/domain/repositories/user_trades/user_trades_repository.dart';
 import 'package:dartz/dartz.dart';
-
 class GetUserTradesMetadata implements UseCase<UserTradesMetadata, NoParams> {
   final UserTradesRepository repository;
   GetUserTradesMetadata(this.repository);

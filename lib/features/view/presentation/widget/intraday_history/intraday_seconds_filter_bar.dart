@@ -8,14 +8,12 @@ import '../../../../../core/widget/table/view_reset_buttons.dart';
 import '../../bloc/intraday_history/intraday_history_bloc.dart';
 import '../../bloc/intraday_history/intraday_history_event.dart';
 import '../../bloc/intraday_history/intraday_history_state.dart';
-
 class IntradaySecondsFilterBar extends StatefulWidget {
   const IntradaySecondsFilterBar({Key? key}) : super(key: key);
   @override
   State<IntradaySecondsFilterBar> createState() =>
       _IntradaySecondsFilterBarState();
 }
-
 class _IntradaySecondsFilterBarState extends State<IntradaySecondsFilterBar> {
   String? _selectedExchange;
   String? _selectedSymbol;
@@ -131,7 +129,6 @@ class _IntradaySecondsFilterBarState extends State<IntradaySecondsFilterBar> {
       },
     );
   }
-
   Widget _buildBackButton(BuildContext context) {
     return Row(
       mainAxisSize: MainAxisSize.min,

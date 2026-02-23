@@ -1,5 +1,4 @@
 import '../../domain/entities/user.dart';
-
 class LoginUserModel extends User {
   const LoginUserModel({
     required super.id,
@@ -41,7 +40,6 @@ class LoginUserModel extends User {
       'role': role,
     };
   }
-
   factory LoginUserModel.fromEntity(User user) {
     return LoginUserModel(
       id: user.id,

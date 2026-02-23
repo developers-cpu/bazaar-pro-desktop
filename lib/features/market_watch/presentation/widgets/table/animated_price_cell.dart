@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/constants/app_colors.dart';
 import 'table_text_style_helper.dart';
-
 class AnimatedPriceCell extends StatefulWidget {
   final String text;
   final bool isDark;
@@ -12,7 +11,6 @@ class AnimatedPriceCell extends StatefulWidget {
   final double fontSize;
   final FontWeight fontWeight;
   final Color textColor;
-
   const AnimatedPriceCell({
     super.key,
     required this.text,
@@ -22,28 +20,23 @@ class AnimatedPriceCell extends StatefulWidget {
     required this.fontWeight,
     required this.textColor,
   });
-
   @override
   State<AnimatedPriceCell> createState() => _AnimatedPriceCellState();
 }
-
 class _AnimatedPriceCellState extends State<AnimatedPriceCell> {
   final Random _random = Random();
   Color? _bgColor;
   Timer? _timer;
-
   @override
   void initState() {
     super.initState();
     _scheduleNext();
   }
-
   @override
   void dispose() {
     _timer?.cancel();
     super.dispose();
   }
-
   void _scheduleNext() {
     final delayMs = 1500 + _random.nextInt(3000);
     _timer = Timer(Duration(milliseconds: delayMs), () {
@@ -62,7 +55,6 @@ class _AnimatedPriceCellState extends State<AnimatedPriceCell> {
       });
     });
   }
-
   @override
   Widget build(BuildContext context) {
     return SizedBox.expand(

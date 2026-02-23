@@ -8,7 +8,6 @@ import 'package:bazarpro/features/view/presentation/bloc/deals/deals_event.dart'
 import 'package:bazarpro/features/view/presentation/bloc/deals/deals_state.dart';
 import 'package:bazarpro/features/view/presentation/widget/deals/deals_filter_bar.dart';
 import 'package:bazarpro/features/view/presentation/widget/deals/deals_table.dart';
-
 class DealsDialog extends StatelessWidget {
   final String? exchange;
   const DealsDialog({Key? key, this.exchange}) : super(key: key);
@@ -22,7 +21,6 @@ class DealsDialog extends StatelessWidget {
       showButtons: false,
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

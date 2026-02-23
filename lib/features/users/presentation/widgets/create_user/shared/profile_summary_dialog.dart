@@ -7,10 +7,8 @@ import '../../../../../../core/widget/custom_action_button.dart';
 import '../../../bloc/user_form/user_form_bloc.dart';
 import '../../../bloc/user_form/user_form_event.dart';
 import '../../../bloc/user_form/user_form_state.dart';
-
 class ProfileSummaryDialog extends StatelessWidget {
   const ProfileSummaryDialog({super.key});
-
   static void show(BuildContext parentContext) {
     final bloc = parentContext.read<UserFormBloc>();
     showDialog(
@@ -21,7 +19,6 @@ class ProfileSummaryDialog extends StatelessWidget {
           BlocProvider.value(value: bloc, child: const ProfileSummaryDialog()),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserFormBloc, UserFormState>(
@@ -59,7 +56,6 @@ class ProfileSummaryDialog extends StatelessWidget {
       },
     );
   }
-
   Widget _buildHeader(BuildContext context, UserFormState state) {
     final title = state.isEditMode
         ? 'Edit ${state.userType}'
@@ -93,7 +89,6 @@ class ProfileSummaryDialog extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildContent(BuildContext context, UserFormState state) {
     return Container(
       padding: EdgeInsets.all(12.w),
@@ -118,7 +113,6 @@ class ProfileSummaryDialog extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildButtons(BuildContext context, UserFormState state) {
     return Container(
       padding: EdgeInsets.all(20.w),
@@ -150,65 +144,52 @@ class ProfileSummaryDialog extends StatelessWidget {
       ),
     );
   }
-
   List<Widget> _buildSections(BuildContext context, UserFormState state) {
     final sections = <Widget>[];
-
     sections.add(_buildSectionTitle('Personal Details'));
     sections.add(SizedBox(height: 6.h));
     sections.add(_buildPersonalDetails(context, state));
     sections.add(SizedBox(height: 12.h));
-
     if (state.userType == 'Master') {
       sections.add(_buildSectionTitle('Profit & Loss Sharing Details'));
       sections.add(SizedBox(height: 6.h));
       sections.add(_buildPnlSharing(context, state));
       sections.add(SizedBox(height: 12.h));
     }
-
     sections.add(_buildSectionTitle('Exchange Allowed'));
     sections.add(SizedBox(height: 6.h));
     sections.add(_buildExchangeAllowed(context, state));
     sections.add(SizedBox(height: 12.h));
-
     if (state.userType == 'Master') {
       sections.add(_buildSectionTitle('Exchange Setting'));
       sections.add(SizedBox(height: 6.h));
       sections.add(_buildExchangeSetting(context, state));
       sections.add(SizedBox(height: 12.h));
     }
-
     sections.add(_buildSectionTitle('High Low Between Trade Limit'));
     sections.add(SizedBox(height: 6.h));
     sections.add(_buildHighLowLimit(context, state));
     sections.add(SizedBox(height: 12.h));
-
     sections.add(_buildSectionTitle('Trigger Settings'));
     sections.add(SizedBox(height: 6.h));
     sections.add(_buildTriggerSettings(context, state));
     sections.add(SizedBox(height: 12.h));
-
     sections.add(_buildSectionTitle('Brokerage Settings'));
     sections.add(SizedBox(height: 6.h));
     sections.add(_buildBrokerageSettings(context, state));
-
     if (state.userType == 'Client') {
       sections.add(SizedBox(height: 12.h));
       sections.add(_buildSectionTitle('Broker Settings'));
       sections.add(SizedBox(height: 6.h));
       sections.add(_buildBrokerSettings(context, state));
     }
-
     return sections;
   }
-
   Widget _buildPersonalDetails(BuildContext context, UserFormState state) {
     final fields = <List<String>>[];
-
     if (state.userType == "Master's Client") {
       fields.add([state.selectedMaster ?? '-', '']);
     }
-
     fields.add([state.name, state.username]);
     fields.add([
       state.password.isNotEmpty ? '••••••••' : '-',
@@ -220,7 +201,6 @@ class ProfileSummaryDialog extends StatelessWidget {
       state.creditLimit.isNotEmpty ? state.creditLimit : '-',
       state.remark.isNotEmpty ? state.remark : '-',
     ]);
-
     return _buildSectionBox(
       child: Column(
         children: fields.asMap().entries.map((entry) {
@@ -244,7 +224,6 @@ class ProfileSummaryDialog extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildPnlSharing(BuildContext context, UserFormState state) {
     return _buildSectionBox(
       child: Row(
@@ -268,7 +247,6 @@ class ProfileSummaryDialog extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildExchangeAllowed(BuildContext context, UserFormState state) {
     return _buildSectionBox(
       child: Wrap(
@@ -299,7 +277,6 @@ class ProfileSummaryDialog extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildExchangeSetting(BuildContext context, UserFormState state) {
     return _buildSectionBox(
       child: Column(
@@ -336,7 +313,6 @@ class ProfileSummaryDialog extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildHighLowLimit(BuildContext context, UserFormState state) {
     return _buildSectionBox(
       child: Wrap(
@@ -367,7 +343,6 @@ class ProfileSummaryDialog extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildTriggerSettings(BuildContext context, UserFormState state) {
     return _buildSectionBox(
       child: Wrap(
@@ -397,7 +372,6 @@ class ProfileSummaryDialog extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildBrokerageSettings(BuildContext context, UserFormState state) {
     return _buildSectionBox(
       child: Column(
@@ -489,7 +463,6 @@ class ProfileSummaryDialog extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildBrokerSettings(BuildContext context, UserFormState state) {
     return _buildSectionBox(
       child: Text(
@@ -501,7 +474,6 @@ class ProfileSummaryDialog extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildSectionTitle(String title) {
     return Text(
       title,
@@ -512,7 +484,6 @@ class ProfileSummaryDialog extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildSectionBox({required Widget child}) {
     return Container(
       width: double.infinity,
@@ -524,7 +495,6 @@ class ProfileSummaryDialog extends StatelessWidget {
       child: child,
     );
   }
-
   Widget _buildFieldBox(BuildContext context, String text, {String? label}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

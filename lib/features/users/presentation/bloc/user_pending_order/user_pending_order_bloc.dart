@@ -5,7 +5,6 @@ import '../../../../../../core/usecases/usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'user_pending_order_event.dart';
 import 'user_pending_order_state.dart';
-
 class UserPendingOrderBloc
     extends Bloc<UserPendingOrderEvent, UserPendingOrderState> {
   final GetUserPendingOrders getUserPendingOrders;
@@ -46,7 +45,6 @@ class UserPendingOrderBloc
       },
     );
   }
-
   void _onFilterOrders(
     FilterUserPendingOrders event,
     Emitter<UserPendingOrderState> emit,

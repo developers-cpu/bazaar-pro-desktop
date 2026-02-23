@@ -4,20 +4,16 @@ import '../../../domain/entities/total_volume_entity.dart';
 import '../../../domain/usecases/get_total_volume_usecase.dart';
 import '../../../../users/domain/usecases/user/get_exchanges.dart'
     as user_exchanges;
-
 part 'total_volume_event.dart';
 part 'total_volume_state.dart';
-
 class TotalVolumeBloc extends Bloc<TotalVolumeEvent, TotalVolumeState> {
   final GetTotalVolumeUseCase getTotalVolume;
   final user_exchanges.GetExchanges getExchanges;
-
   TotalVolumeBloc({required this.getTotalVolume, required this.getExchanges})
     : super(const TotalVolumeState()) {
     on<GetTotalVolumeEvent>(_onGetTotalVolume);
     on<GetTotalVolumeExchangesEvent>(_onGetExchanges);
   }
-
   Future<void> _onGetExchanges(
     GetTotalVolumeExchangesEvent event,
     Emitter<TotalVolumeState> emit,
@@ -41,7 +37,6 @@ class TotalVolumeBloc extends Bloc<TotalVolumeEvent, TotalVolumeState> {
       },
     );
   }
-
   Future<void> _onGetTotalVolume(
     GetTotalVolumeEvent event,
     Emitter<TotalVolumeState> emit,

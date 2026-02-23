@@ -3,7 +3,6 @@ import 'package:bazarpro/features/users/data/datasources/user/user_remote_dataso
 import 'package:dartz/dartz.dart';
 import '../../../domain/entities/user.dart';
 import '../../../domain/repositories/user/user_repository.dart';
-
 class UserRepositoryImpl implements UserRepository {
   final UserRemoteDataSource remoteDataSource;
   UserRepositoryImpl({required this.remoteDataSource});
@@ -16,7 +15,6 @@ class UserRepositoryImpl implements UserRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
-
   @override
   Future<Either<Failure, List<User>>> getUsersWithFilters({
     String? userType,
@@ -32,17 +30,14 @@ class UserRepositoryImpl implements UserRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
-
   @override
   List<String> getUserTypes() {
     return ['Master', 'Client'];
   }
-
   @override
   List<String> getUserStatuses() {
     return ['Active', 'In-Active'];
   }
-
   @override
   Future<Either<Failure, String>> exportToPdf(List<User> users) async {
     try {
@@ -54,7 +49,6 @@ class UserRepositoryImpl implements UserRepository {
       return Left(ExportFailure('Failed to export PDF: $e'));
     }
   }
-
   @override
   Future<Either<Failure, String>> exportToExcel(List<User> users) async {
     try {
@@ -66,7 +60,6 @@ class UserRepositoryImpl implements UserRepository {
       return Left(ExportFailure('Failed to export Excel: $e'));
     }
   }
-
   @override
   Future<Either<Failure, List<String>>> getExchanges() async {
     try {
@@ -76,7 +69,6 @@ class UserRepositoryImpl implements UserRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
-
   @override
   Future<Either<Failure, List<String>>> getSymbols(String? exchange) async {
     try {
@@ -86,7 +78,6 @@ class UserRepositoryImpl implements UserRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
-
   @override
   Future<Either<Failure, List<User>>> getNestedUsers(
     String parentUserId,

@@ -1,5 +1,4 @@
 import 'package:bazarpro/features/operations/domain/entities/date_settings/date_setting.dart';
-
 class DateSettingModel extends DateSetting {
   const DateSettingModel({
     required super.id,
@@ -12,7 +11,6 @@ class DateSettingModel extends DateSetting {
     required super.updatedOn,
     required super.updatedBy,
   });
-
   factory DateSettingModel.fromJson(Map<String, dynamic> json) {
     return DateSettingModel(
       id: json['id'] as String,
@@ -26,7 +24,6 @@ class DateSettingModel extends DateSetting {
       updatedBy: json['updatedBy'] as String,
     );
   }
-
   Map<String, dynamic> toJson() {
     return {
       'id': id,

@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/app_switch.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
-
 class GroupDataTable extends StatelessWidget {
   final int viewLevel;
   final List<dynamic> groups;
@@ -16,7 +15,6 @@ class GroupDataTable extends StatelessWidget {
   final void Function(dynamic item) onGroupNameTap;
   final void Function(dynamic item) onActionTap;
   final void Function() onImportTap;
-
   const GroupDataTable({
     super.key,
     required this.viewLevel,
@@ -30,11 +28,9 @@ class GroupDataTable extends StatelessWidget {
     required this.onActionTap,
     required this.onImportTap,
   });
-
   @override
   Widget build(BuildContext context) {
     final columns = _buildColumns();
-
     return ViewDataTable<dynamic>(
       autoFit: true,
       columns: columns,
@@ -43,10 +39,8 @@ class GroupDataTable extends StatelessWidget {
       cellBuilder: (item, column) => _buildCell(item, column),
     );
   }
-
   List<ViewTableColumn> _buildColumns() {
     final List<ViewTableColumn> columns = [_checkboxColumn()];
-
     switch (viewLevel) {
       case 0:
         columns.addAll(_level0Columns());
@@ -57,10 +51,8 @@ class GroupDataTable extends StatelessWidget {
       default:
         columns.addAll(_level2Columns());
     }
-
     return columns;
   }
-
   ViewTableColumn _checkboxColumn() {
     return ViewTableColumn(
       id: 'checkbox',
@@ -81,7 +73,6 @@ class GroupDataTable extends StatelessWidget {
       ),
     );
   }
-
   List<ViewTableColumn> _level0Columns() => [
     ViewTableColumn(id: 'exchange', label: 'EXCHANGE', width: 120.w),
     ViewTableColumn(id: 'groups_summary', label: 'GROUP NAME', width: 350.w),
@@ -89,7 +80,6 @@ class GroupDataTable extends StatelessWidget {
     ViewTableColumn(id: 'updatedOn', label: 'UPDATED ON', width: 220.w),
     ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 150.w),
   ];
-
   List<ViewTableColumn> _level1Columns() => [
     ViewTableColumn(id: 'groupName', label: 'GROUP NAME', width: 150.w),
     ViewTableColumn(id: 'updatedOn', label: 'UPDATED ON', width: 180.w),
@@ -99,7 +89,6 @@ class GroupDataTable extends StatelessWidget {
     ViewTableColumn(id: 'hideGroup', label: 'HIDE GROUP', width: 120.w),
     ViewTableColumn(id: 'action', label: 'ACTION', width: 80.w),
   ];
-
   List<ViewTableColumn> _level2Columns() => [
     ViewTableColumn(id: 'groupName', label: 'GROUP NAME', width: 150.w),
     ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 200.w),
@@ -109,7 +98,6 @@ class GroupDataTable extends StatelessWidget {
     ViewTableColumn(id: 'updatedOn', label: 'UPDATED ON', width: 200.w),
     ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 120.w),
   ];
-
   Widget _buildCell(dynamic item, ViewTableColumn column) {
     if (column.id == 'checkbox') {
       return Checkbox(
@@ -127,7 +115,6 @@ class GroupDataTable extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.r)),
       );
     }
-
     switch (column.id) {
       case 'import':
         return _importCell();
@@ -136,7 +123,6 @@ class GroupDataTable extends StatelessWidget {
       case 'action':
         return _actionCell(item);
     }
-
     final cellInfo = _textCellInfo(item, column.id);
     return InkWell(
       onTap: cellInfo.onTap,
@@ -151,7 +137,6 @@ class GroupDataTable extends StatelessWidget {
       ),
     );
   }
-
   Widget _importCell() {
     return InkWell(
       onTap: onImportTap,
@@ -165,7 +150,6 @@ class GroupDataTable extends StatelessWidget {
       ),
     );
   }
-
   Widget _hideGroupCell(dynamic item) {
     final key = '${item.id}';
     final isHidden = hideGroupState[key] ?? false;
@@ -174,14 +158,12 @@ class GroupDataTable extends StatelessWidget {
       onChanged: (val) => onHideGroupChanged(MapEntry(key, val)),
     );
   }
-
   Widget _actionCell(dynamic item) {
     return IconButton(
       icon: Icon(Icons.edit, size: 18.sp, color: AppColors.primaryBlue),
       onPressed: () => onActionTap(item),
     );
   }
-
   _CellInfo _textCellInfo(dynamic item, String columnId) {
     switch (columnId) {
       case 'exchange':
@@ -222,11 +204,9 @@ class GroupDataTable extends StatelessWidget {
     }
   }
 }
-
 class _CellInfo {
   final String value;
   final bool underlined;
   final VoidCallback? onTap;
-
   _CellInfo({required this.value, this.underlined = false, this.onTap});
 }

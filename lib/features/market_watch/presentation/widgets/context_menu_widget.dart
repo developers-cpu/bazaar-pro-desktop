@@ -8,7 +8,6 @@ import '../../../../core/constants/app_strings.dart';
 import '../../../../core/widget/svg_icon.dart';
 import '../bloc/theme/theme_bloc.dart';
 import '../bloc/theme/theme_state.dart';
-
 class ContextMenuWidget extends StatelessWidget {
   final Offset position;
   final VoidCallback onViewChart;
@@ -210,7 +209,6 @@ class ContextMenuWidget extends StatelessWidget {
       },
     );
   }
-
   Widget _buildDivider(bool isDark) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8.h),
@@ -222,7 +220,6 @@ class ContextMenuWidget extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildMenuItem({
     required IconData icon,
     required String text,
@@ -291,7 +288,6 @@ class ContextMenuWidget extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildMenuItemSvg({
     required String icon,
     required String text,

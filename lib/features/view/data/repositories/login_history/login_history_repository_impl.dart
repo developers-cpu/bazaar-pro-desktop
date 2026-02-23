@@ -4,7 +4,6 @@ import '../../../domain/entities/login_history/login_history.dart';
 import '../../../domain/repositories/login_history/login_history_repository.dart';
 import '../../datasources/login_history/login_history_remote_datasource.dart';
 import '../../models/login_history/login_history_model.dart';
-
 class LoginHistoryRepositoryImpl implements LoginHistoryRepository {
   final LoginHistoryRemoteDataSource remoteDataSource;
   LoginHistoryRepositoryImpl({required this.remoteDataSource});
@@ -19,7 +18,6 @@ class LoginHistoryRepositoryImpl implements LoginHistoryRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
-
   @override
   Future<Either<Failure, List<String>>> getClients() async {
     try {
@@ -29,7 +27,6 @@ class LoginHistoryRepositoryImpl implements LoginHistoryRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
-
   @override
   Future<Either<Failure, String>> exportToPdf(
     List<LoginHistory> history,
@@ -44,7 +41,6 @@ class LoginHistoryRepositoryImpl implements LoginHistoryRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
-
   @override
   Future<Either<Failure, String>> exportToExcel(
     List<LoginHistory> history,

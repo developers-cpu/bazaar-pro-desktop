@@ -1,13 +1,11 @@
 import '../models/settlement_report_model.dart';
 import '../../../../../core/errors/exceptions.dart';
-
 abstract class SettlementReportRemoteDataSource {
   Future<SettlementReportModel> getSettlementReport({
     required String dateRange,
     String? userId,
   });
 }
-
 class SettlementReportRemoteDataSourceImpl
     implements SettlementReportRemoteDataSource {
   @override

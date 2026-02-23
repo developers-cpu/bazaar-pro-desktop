@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 class DummyPage extends StatelessWidget {
   final String title;
   final String description;
@@ -152,7 +151,6 @@ class DummyPage extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildInfoRow(String label, String value, Color color) {
     return Padding(
       padding: EdgeInsets.only(bottom: 12.h),
@@ -180,7 +178,6 @@ class DummyPage extends StatelessWidget {
     );
   }
 }
-
 class PendingOrdersPage extends StatelessWidget {
   const PendingOrdersPage({Key? key}) : super(key: key);
   @override
@@ -194,7 +191,6 @@ class PendingOrdersPage extends StatelessWidget {
     );
   }
 }
-
 class TradesPage extends StatelessWidget {
   const TradesPage({Key? key}) : super(key: key);
   @override
@@ -207,7 +203,6 @@ class TradesPage extends StatelessWidget {
     );
   }
 }
-
 class DealsPage extends StatelessWidget {
   const DealsPage({Key? key}) : super(key: key);
   @override
@@ -220,7 +215,6 @@ class DealsPage extends StatelessWidget {
     );
   }
 }
-
 class NetPositionPage extends StatelessWidget {
   const NetPositionPage({Key? key}) : super(key: key);
   @override
@@ -233,7 +227,6 @@ class NetPositionPage extends StatelessWidget {
     );
   }
 }
-
 class RejectionLogPage extends StatelessWidget {
   const RejectionLogPage({Key? key}) : super(key: key);
   @override
@@ -246,7 +239,6 @@ class RejectionLogPage extends StatelessWidget {
     );
   }
 }
-
 class LoginHistoryPage extends StatelessWidget {
   const LoginHistoryPage({Key? key}) : super(key: key);
   @override
@@ -259,7 +251,6 @@ class LoginHistoryPage extends StatelessWidget {
     );
   }
 }
-
 class IntradayHistoryPage extends StatelessWidget {
   const IntradayHistoryPage({Key? key}) : super(key: key);
   @override
@@ -272,7 +263,6 @@ class IntradayHistoryPage extends StatelessWidget {
     );
   }
 }
-
 class ScriptMasterPage extends StatelessWidget {
   const ScriptMasterPage({Key? key}) : super(key: key);
   @override
@@ -285,7 +275,6 @@ class ScriptMasterPage extends StatelessWidget {
     );
   }
 }
-
 class ScriptQuantityPage extends StatelessWidget {
   const ScriptQuantityPage({Key? key}) : super(key: key);
   @override
@@ -298,7 +287,6 @@ class ScriptQuantityPage extends StatelessWidget {
     );
   }
 }
-
 class BulkTradePage extends StatelessWidget {
   const BulkTradePage({Key? key}) : super(key: key);
   @override
@@ -311,7 +299,6 @@ class BulkTradePage extends StatelessWidget {
     );
   }
 }
-
 class TotalVolumePage extends StatelessWidget {
   const TotalVolumePage({Key? key}) : super(key: key);
   @override
@@ -324,7 +311,6 @@ class TotalVolumePage extends StatelessWidget {
     );
   }
 }
-
 class DeletedTradePage extends StatelessWidget {
   const DeletedTradePage({Key? key}) : super(key: key);
   @override
@@ -337,7 +323,6 @@ class DeletedTradePage extends StatelessWidget {
     );
   }
 }
-
 class ManualTradePage extends StatelessWidget {
   const ManualTradePage({Key? key}) : super(key: key);
   @override
@@ -350,7 +335,6 @@ class ManualTradePage extends StatelessWidget {
     );
   }
 }
-
 class CreateUserPage extends StatelessWidget {
   const CreateUserPage({Key? key}) : super(key: key);
   @override
@@ -363,7 +347,6 @@ class CreateUserPage extends StatelessWidget {
     );
   }
 }
-
 class InactiveUserPage extends StatelessWidget {
   const InactiveUserPage({Key? key}) : super(key: key);
   @override
@@ -376,7 +359,6 @@ class InactiveUserPage extends StatelessWidget {
     );
   }
 }
-
 class SearchUserPage extends StatelessWidget {
   const SearchUserPage({Key? key}) : super(key: key);
   @override
@@ -389,7 +371,6 @@ class SearchUserPage extends StatelessWidget {
     );
   }
 }
-
 class DailyReportPage extends StatelessWidget {
   const DailyReportPage({Key? key}) : super(key: key);
   @override
@@ -402,7 +383,6 @@ class DailyReportPage extends StatelessWidget {
     );
   }
 }
-
 class WeeklyReportPage extends StatelessWidget {
   const WeeklyReportPage({Key? key}) : super(key: key);
   @override
@@ -415,7 +395,6 @@ class WeeklyReportPage extends StatelessWidget {
     );
   }
 }
-
 class MonthlyReportPage extends StatelessWidget {
   const MonthlyReportPage({Key? key}) : super(key: key);
   @override
@@ -428,7 +407,6 @@ class MonthlyReportPage extends StatelessWidget {
     );
   }
 }
-
 class CustomReportPage extends StatelessWidget {
   const CustomReportPage({Key? key}) : super(key: key);
   @override

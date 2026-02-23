@@ -19,7 +19,6 @@ import 'table_cell_builder.dart';
 import 'table_column_helper.dart';
 import 'table_header_cell.dart';
 import 'table_text_style_helper.dart';
-
 class MarketDataTable extends StatefulWidget {
   final MarketWatchLoaded state;
   final Function(Offset) onRightClick;
@@ -31,7 +30,6 @@ class MarketDataTable extends StatefulWidget {
   @override
   State<MarketDataTable> createState() => _MarketDataTableState();
 }
-
 class _MarketDataTableState extends State<MarketDataTable> {
   int? _sortColumnIndex;
   bool _sortAscending = true;
@@ -80,7 +78,6 @@ class _MarketDataTableState extends State<MarketDataTable> {
       },
     );
   }
-
   Widget _buildEmptyState(bool isDark) {
     return Container(
       color: isDark
@@ -99,7 +96,6 @@ class _MarketDataTableState extends State<MarketDataTable> {
       ),
     );
   }
-
   Widget _buildTableContainer({
     required bool isDark,
     required bool showGrid,
@@ -142,7 +138,6 @@ class _MarketDataTableState extends State<MarketDataTable> {
       ),
     );
   }
-
   Widget _buildDataTable({
     required bool isDark,
     required bool showGrid,
@@ -193,7 +188,6 @@ class _MarketDataTableState extends State<MarketDataTable> {
       ),
     );
   }
-
   List<DataColumn2> _buildColumns({
     required List<ColumnItem> visibleColumns,
     required bool isDark,
@@ -223,14 +217,12 @@ class _MarketDataTableState extends State<MarketDataTable> {
       );
     }).toList();
   }
-
   void _onSort(int columnIndex, bool ascending) {
     setState(() {
       _sortColumnIndex = columnIndex;
       _sortAscending = ascending;
     });
   }
-
   List<DataRow2> _buildRows({
     required List<ColumnItem> visibleColumns,
     required bool isDark,
@@ -266,21 +258,17 @@ class _MarketDataTableState extends State<MarketDataTable> {
       );
     }).toList();
   }
-
   Offset? _lastTapPosition;
-
   void _onRowTap(String itemId) {
     context.read<MarketWatchBloc>().add(SelectMarketItemEvent(itemId: itemId));
     if (_lastTapPosition != null) {
       widget.onRightClick(_lastTapPosition!);
     }
   }
-
   void _onRowRightClick(TapDownDetails details, String itemId) {
     widget.onRightClick(details.globalPosition);
     context.read<MarketWatchBloc>().add(SelectMarketItemEvent(itemId: itemId));
   }
-
   List<DataCell> _buildCells({
     required List<ColumnItem> visibleColumns,
     required MarketItem item,

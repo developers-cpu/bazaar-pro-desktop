@@ -2,7 +2,6 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'market_depth_event.dart';
 import 'market_depth_state.dart';
-
 class MarketDepthBloc extends Bloc<MarketDepthEvent, MarketDepthState> {
   MarketDepthBloc() : super(const MarketDepthState()) {
     on<OpenMarketDepthEvent>(_onOpenMarketDepth);
@@ -50,14 +49,12 @@ class MarketDepthBloc extends Bloc<MarketDepthEvent, MarketDepthState> {
       ),
     );
   }
-
   void _onCloseMarketDepth(
     CloseMarketDepthEvent event,
     Emitter<MarketDepthState> emit,
   ) {
     emit(const MarketDepthState());
   }
-
   void _onUpdateExchange(
     UpdateExchangeEvent event,
     Emitter<MarketDepthState> emit,
@@ -65,7 +62,6 @@ class MarketDepthBloc extends Bloc<MarketDepthEvent, MarketDepthState> {
     emit(state.copyWith(exchange: event.exchange));
     add(const RefreshMarketDepthEvent());
   }
-
   void _onUpdateSymbol(
     UpdateSymbolEvent event,
     Emitter<MarketDepthState> emit,
@@ -73,7 +69,6 @@ class MarketDepthBloc extends Bloc<MarketDepthEvent, MarketDepthState> {
     emit(state.copyWith(symbol: event.symbol));
     add(const RefreshMarketDepthEvent());
   }
-
   void _onRefreshMarketDepth(
     RefreshMarketDepthEvent event,
     Emitter<MarketDepthState> emit,

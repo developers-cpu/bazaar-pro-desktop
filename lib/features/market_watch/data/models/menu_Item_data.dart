@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 class MenuItemData {
   final String title;
   final VoidCallback? onTap;
@@ -10,7 +9,6 @@ class MenuItemData {
     this.hasDivider = false,
   });
 }
-
 class AppBarTab {
   final String title;
   final List<MenuItemData>? dropdownItems;

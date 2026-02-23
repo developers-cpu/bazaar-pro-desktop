@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 class ExchangeSetting extends Equatable {
   final String id;
   final String exchange;
@@ -12,7 +11,6 @@ class ExchangeSetting extends Equatable {
   final String sequence;
   final String updatedOn;
   final String updatedBy;
-
   const ExchangeSetting({
     required this.id,
     required this.exchange,
@@ -26,7 +24,6 @@ class ExchangeSetting extends Equatable {
     required this.updatedOn,
     required this.updatedBy,
   });
-
   @override
   List<Object?> get props => [
     id,
@@ -42,7 +39,6 @@ class ExchangeSetting extends Equatable {
     updatedBy,
   ];
 }
-
 class DefaultSymbol extends Equatable {
   final String id;
   final String symbol;
@@ -50,7 +46,6 @@ class DefaultSymbol extends Equatable {
   final String updatedOn;
   final String updatedBy;
   final bool showInWatchlist;
-
   const DefaultSymbol({
     required this.id,
     required this.symbol,
@@ -59,7 +54,6 @@ class DefaultSymbol extends Equatable {
     required this.updatedBy,
     required this.showInWatchlist,
   });
-
   @override
   List<Object?> get props => [
     id,

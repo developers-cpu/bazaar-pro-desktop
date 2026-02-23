@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../../../../../core/constants/app_colors.dart';
 import '../../../../../../core/widget/app_dropdown.dart';
 import '../../../../../../core/widget/common_dilog_box.dart';
@@ -14,17 +13,14 @@ import '../../../../../core/widget/table/view_data_table.dart';
 import '../../../../../core/widget/table/view_record_count.dart';
 import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import 'client_breakdown_dialog.dart';
-
 class BrokerClientDialog extends StatelessWidget {
   final String brokerName;
   final bool isDarkMode;
-
   const BrokerClientDialog({
     Key? key,
     required this.brokerName,
     this.isDarkMode = false,
   }) : super(key: key);
-
   static void show({
     required BuildContext context,
     required String brokerName,
@@ -33,7 +29,6 @@ class BrokerClientDialog extends StatelessWidget {
     context.read<BrokerListBloc>().add(
       LoadBrokerClientsEvent(brokerName: brokerName),
     );
-
     showDialog(
       context: context,
       barrierColor: AppColors.black.withOpacity(0.54),
@@ -46,7 +41,6 @@ class BrokerClientDialog extends StatelessWidget {
       ),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return CommonDialog(
@@ -94,9 +88,7 @@ class BrokerClientDialog extends StatelessWidget {
                   if (state is! BrokerClientsLoaded) {
                     return const Center(child: Text('Loading clients...'));
                   }
-
                   final clients = state.clients;
-
                   return Column(
                     children: [
                       ViewRecordCount(count: clients.length),

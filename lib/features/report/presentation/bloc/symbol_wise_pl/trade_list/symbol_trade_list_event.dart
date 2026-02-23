@@ -1,12 +1,10 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-
 abstract class SymbolTradeListEvent extends Equatable {
   const SymbolTradeListEvent();
   @override
   List<Object?> get props => [];
 }
-
 class LoadSymbolTradeList extends SymbolTradeListEvent {
   final String? symbol;
   final String? exchange;
@@ -23,7 +21,6 @@ class LoadSymbolTradeList extends SymbolTradeListEvent {
   @override
   List<Object?> get props => [symbol, exchange, dateRange, user, type];
 }
-
 class FilterSymbolTradeList extends SymbolTradeListEvent {
   final String? user;
   final String? exchange;
@@ -40,7 +37,6 @@ class FilterSymbolTradeList extends SymbolTradeListEvent {
   @override
   List<Object?> get props => [user, exchange, symbol, type, dateRange];
 }
-
 class ResetSymbolTradeListFilters extends SymbolTradeListEvent {
   const ResetSymbolTradeListFilters();
 }

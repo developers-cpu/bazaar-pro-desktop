@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'package:bazarpro/core/constants/app_colors.dart';
 import 'package:bazarpro/core/widget/app_switch.dart';
 import 'package:bazarpro/core/widget/common_dilog_box.dart';
@@ -10,12 +9,9 @@ import 'package:bazarpro/features/users/domain/entities/user.dart';
 import 'package:bazarpro/features/users/presentation/bloc/user_intraday/user_intraday_bloc.dart';
 import 'package:bazarpro/features/users/presentation/bloc/user_intraday/user_intraday_event.dart';
 import 'package:bazarpro/features/users/presentation/bloc/user_intraday/user_intraday_state.dart';
-
 class UserIntradaySquareOffDialog extends StatelessWidget {
   final User user;
-
   const UserIntradaySquareOffDialog({super.key, required this.user});
-
   static void show(BuildContext context, User user) {
     showDialog(
       context: context,
@@ -23,7 +19,6 @@ class UserIntradaySquareOffDialog extends StatelessWidget {
       builder: (context) => UserIntradaySquareOffDialog(user: user),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -38,10 +33,8 @@ class UserIntradaySquareOffDialog extends StatelessWidget {
     );
   }
 }
-
 class UserIntradaySquareOffDialogContent extends StatelessWidget {
   const UserIntradaySquareOffDialogContent({super.key});
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserIntradayBloc, UserIntradayState>(

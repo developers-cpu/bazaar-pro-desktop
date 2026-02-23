@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 class ColumnItem extends Equatable {
   final String id;
   final String name;
@@ -16,11 +15,9 @@ class ColumnItem extends Equatable {
       isVisible: isVisible ?? this.isVisible,
     );
   }
-
   @override
   List<Object?> get props => [id, name, isVisible];
 }
-
 class ArrangeSymbolState extends Equatable {
   final List<ColumnItem> columns;
   final bool isLoading;
@@ -41,7 +38,6 @@ class ArrangeSymbolState extends Equatable {
       isSaved: isSaved ?? this.isSaved,
     );
   }
-
   @override
   List<Object?> get props => [columns, isLoading, isSaved];
 }

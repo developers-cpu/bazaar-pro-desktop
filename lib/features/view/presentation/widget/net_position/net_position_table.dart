@@ -12,7 +12,6 @@ import '../../../../../core/widget/table/view_data_table_footer.dart';
 import '../../../../../core/widget/table/view_record_count.dart';
 import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import 'open_postion_dilog.dart';
-
 class NetPositionTable extends StatelessWidget {
   final bool showDeviceInfo;
   final bool isDarkMode;
@@ -70,7 +69,6 @@ class NetPositionTable extends StatelessWidget {
       ),
     ];
   }
-
   Widget _buildCell(
     BuildContext context,
     NetPosition item,
@@ -126,7 +124,6 @@ class NetPositionTable extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
-
   Widget _buildNetQtyCell(BuildContext context, NetPosition item, bool isDark) {
     return GestureDetector(
       onTap: () {
@@ -148,7 +145,6 @@ class NetPositionTable extends StatelessWidget {
       ),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<NetPositionBloc, NetPositionState>(
@@ -200,7 +196,6 @@ class NetPositionTable extends StatelessWidget {
       },
     );
   }
-
   Widget _buildTotalsRow(
     List<ViewTableColumn> columns,
     List<NetPosition> positions,
@@ -210,13 +205,11 @@ class NetPositionTable extends StatelessWidget {
       0.0,
       (sum, item) => sum + item.ourPercentage,
     );
-
     final Map<String, String> values = {
       'exchange': 'TOTAL',
       'm2mAmount': totalM2M.toStringAsFixed(2),
       'ourPercentage': totalOurPercentage.toStringAsFixed(2),
     };
-
     return ViewDataTableFooter(
       columns: columns,
       values: values,
@@ -224,7 +217,6 @@ class NetPositionTable extends StatelessWidget {
       backgroundColor: const Color(0xFFD3E3EC),
     );
   }
-
   Widget _buildErrorState(BuildContext context, String message) {
     return Center(
       child: Column(

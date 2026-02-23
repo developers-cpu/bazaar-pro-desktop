@@ -4,7 +4,6 @@ import '../../../../core/constants/auth_constants.dart';
 import '../../domain/usecases/login_user.dart';
 import 'auth_event.dart';
 import 'auth_state.dart';
-
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final LoginUser loginUser;
   AuthBloc({required this.loginUser}) : super(const AuthInitial()) {
@@ -14,7 +13,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
   Future<void> _onLogin(LoginEvent event, Emitter<AuthState> emit) async {
     emit(const AuthLoading());
-
     User? dummyUser;
     if (event.username == AuthConstants.clientUsername &&
         event.password == AuthConstants.clientPassword) {
@@ -26,12 +24,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         event.password == AuthConstants.adminPassword) {
       dummyUser = _createDummyUser('Admin');
     }
-
     if (dummyUser != null) {
       emit(AuthAuthenticated(user: dummyUser));
       return;
     }
-
     final result = await loginUser(
       LoginParams(
         username: event.username,
@@ -44,17 +40,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       (user) => emit(AuthAuthenticated(user: user)),
     );
   }
-
   Future<void> _onDemoLogin(
     DemoLoginEvent event,
     Emitter<AuthState> emit,
   ) async {
     emit(const AuthLoading());
-
     final dummyUser = _createDummyUser(event.role);
     emit(AuthAuthenticated(user: dummyUser));
   }
-
   User _createDummyUser(String role) {
     return User(
       id: 0,
@@ -69,7 +62,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       role: role,
     );
   }
-
   Future<void> _onLogout(LogoutEvent event, Emitter<AuthState> emit) async {
     emit(const AuthUnauthenticated());
   }

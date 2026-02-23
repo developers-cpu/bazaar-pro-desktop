@@ -4,12 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/custom_action_button.dart';
 import '../../../../../core/widget/custom_input_field.dart';
-
 class BrokerFormDialog extends StatefulWidget {
   final VoidCallback? onComplete;
-
   const BrokerFormDialog({super.key, this.onComplete});
-
   static void showCreate({
     required BuildContext context,
     VoidCallback? onComplete,
@@ -21,20 +18,16 @@ class BrokerFormDialog extends StatefulWidget {
       builder: (_) => BrokerFormDialog(onComplete: onComplete),
     );
   }
-
   @override
   State<BrokerFormDialog> createState() => _BrokerFormDialogState();
 }
-
 class _BrokerFormDialogState extends State<BrokerFormDialog> {
   final _nameController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
-
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
   bool _isSubmitting = false;
-
   @override
   void dispose() {
     _nameController.dispose();
@@ -42,20 +35,16 @@ class _BrokerFormDialogState extends State<BrokerFormDialog> {
     _confirmPasswordController.dispose();
     super.dispose();
   }
-
   Future<void> _submit() async {
     setState(() {
       _isSubmitting = true;
     });
-
     await Future.delayed(const Duration(milliseconds: 500));
-
     if (mounted) {
       Navigator.pop(context);
       widget.onComplete?.call();
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -153,7 +142,6 @@ class _BrokerFormDialogState extends State<BrokerFormDialog> {
       ),
     );
   }
-
   Widget _buildHeader(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.only(

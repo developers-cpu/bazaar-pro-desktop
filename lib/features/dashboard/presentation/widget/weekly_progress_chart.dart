@@ -4,12 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../domain/entities/dashboard_entity.dart';
-
 class WeeklyProgressChart extends StatelessWidget {
   final List<WeeklyProgressData> data;
-
   const WeeklyProgressChart({Key? key, required this.data}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     if (data.isEmpty) {
@@ -23,14 +20,12 @@ class WeeklyProgressChart extends StatelessWidget {
         ),
       );
     }
-
     final maxVal = data.map((e) => e.value).reduce((a, b) => a > b ? a : b);
     final computedMaxY = maxVal <= 0 ? 100.0 : maxVal * 1.2;
     final yInterval = (computedMaxY / 5).ceilToDouble().clamp(
       1.0,
       double.maxFinite,
     );
-
     return LineChart(
       LineChartData(
         gridData: FlGridData(

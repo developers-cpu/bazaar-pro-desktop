@@ -1,13 +1,11 @@
 import '../../../../core/errors/exceptions.dart';
 import '../models/market_item_model.dart';
-
 abstract class MarketWatchLocalDataSource {
   Future<List<MarketItemModel>> getMarketItems();
   Future<MarketItemModel> addMarketItem(MarketItemModel item);
   Future<bool> deleteMarketItem(String id);
   Future<MarketItemModel> updateMarketItem(MarketItemModel item);
 }
-
 class MarketWatchLocalDataSourceImpl implements MarketWatchLocalDataSource {
   final List<MarketItemModel> _marketItems = _getDummyData();
   @override
@@ -19,7 +17,6 @@ class MarketWatchLocalDataSourceImpl implements MarketWatchLocalDataSource {
       throw CacheException('Failed to get market items from cache');
     }
   }
-
   @override
   Future<MarketItemModel> addMarketItem(MarketItemModel item) async {
     try {
@@ -30,7 +27,6 @@ class MarketWatchLocalDataSourceImpl implements MarketWatchLocalDataSource {
       throw CacheException('Failed to add market item to cache');
     }
   }
-
   @override
   Future<bool> deleteMarketItem(String id) async {
     try {
@@ -45,7 +41,6 @@ class MarketWatchLocalDataSourceImpl implements MarketWatchLocalDataSource {
       throw CacheException('Failed to delete market item from cache');
     }
   }
-
   @override
   Future<MarketItemModel> updateMarketItem(MarketItemModel item) async {
     try {
@@ -61,7 +56,6 @@ class MarketWatchLocalDataSourceImpl implements MarketWatchLocalDataSource {
       throw CacheException('Failed to update market item in cache');
     }
   }
-
   static List<MarketItemModel> _getDummyData() {
     return [
       MarketItemModel(

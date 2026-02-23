@@ -1,5 +1,4 @@
 import '../../../domain/entities/group/group.dart';
-
 class GroupModel extends Group {
   const GroupModel({
     required super.id,
@@ -10,7 +9,6 @@ class GroupModel extends Group {
     required super.updatedBy,
     required super.isDefault,
   });
-
   factory GroupModel.fromJson(Map<String, dynamic> json) {
     return GroupModel(
       id: json['id'] ?? '',
@@ -22,7 +20,6 @@ class GroupModel extends Group {
       isDefault: json['is_default'] ?? false,
     );
   }
-
   Map<String, dynamic> toJson() {
     return {
       'id': id,

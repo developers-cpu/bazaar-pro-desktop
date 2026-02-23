@@ -3,7 +3,6 @@ import 'package:dartz/dartz.dart';
 import '../../domain/entities/trade_log.dart';
 import '../../domain/repositories/trade_log_repository.dart';
 import '../datasources/trade_log/trade_log_remote_datasource.dart';
-
 class TradeLogRepositoryImpl implements TradeLogRepository {
   final TradeLogRemoteDataSource remoteDataSource;
   TradeLogRepositoryImpl({required this.remoteDataSource});

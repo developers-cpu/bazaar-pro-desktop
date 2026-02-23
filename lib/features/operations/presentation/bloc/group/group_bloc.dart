@@ -4,11 +4,9 @@ import '../../../domain/usecases/group/add_group.dart';
 import '../../../domain/usecases/group/get_groups.dart';
 import 'group_event.dart';
 import 'group_state.dart';
-
 class GroupBloc extends Bloc<GroupEvent, GroupState> {
   final GetGroups getGroups;
   final AddGroup addGroup;
-
   GroupBloc({required this.getGroups, required this.addGroup})
     : super(GroupInitial()) {
     on<LoadGroupsEvent>((event, emit) async {
@@ -19,7 +17,6 @@ class GroupBloc extends Bloc<GroupEvent, GroupState> {
         (groups) => emit(GroupsLoaded(groups)),
       );
     });
-
     on<AddGroupEvent>((event, emit) async {
       emit(GroupLoading());
       final failureOrSuccess = await addGroup(

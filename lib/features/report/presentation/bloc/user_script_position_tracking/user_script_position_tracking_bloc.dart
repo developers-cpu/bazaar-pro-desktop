@@ -6,7 +6,6 @@ import 'user_script_position_tracking_state.dart';
 import 'package:bazarpro/features/users/domain/usecases/user/get_exchanges.dart';
 import 'package:bazarpro/features/users/domain/usecases/user/get_symbols.dart'
     as user_symbols;
-
 class UserScriptPositionTrackingBloc
     extends
         Bloc<UserScriptPositionTrackingEvent, UserScriptPositionTrackingState> {
@@ -66,7 +65,6 @@ class UserScriptPositionTrackingBloc
       },
     );
   }
-
   Future<void> _onFilterUserScriptPositionTracking(
     FilterUserScriptPositionTracking event,
     Emitter<UserScriptPositionTrackingState> emit,
@@ -101,7 +99,6 @@ class UserScriptPositionTrackingBloc
       },
     );
   }
-
   Future<void> _onResetUserScriptPositionTrackingFilters(
     ResetUserScriptPositionTrackingFilters event,
     Emitter<UserScriptPositionTrackingState> emit,

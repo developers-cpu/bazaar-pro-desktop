@@ -1,10 +1,8 @@
 import '../../../../../core/constants/app_images.dart';
 import '../models/shortcut_model.dart';
-
 abstract class ShortcutsRemoteDataSource {
   Future<List<ShortcutModel>> getShortcuts();
 }
-
 class ShortcutsRemoteDataSourceImpl implements ShortcutsRemoteDataSource {
   @override
   Future<List<ShortcutModel>> getShortcuts() async {

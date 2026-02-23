@@ -35,7 +35,6 @@ import 'trade_margin/trade_margin_page.dart';
 import 'trades/trades_page.dart';
 import 'broker_list/broker_list_page.dart';
 import '../../../../../injection_container.dart' as di;
-
 class ViewPageWrapper extends StatelessWidget {
   final String pageTitle;
   final Widget child;
@@ -73,7 +72,6 @@ class ViewPageWrapper extends StatelessWidget {
     );
   }
 }
-
 class PendingOrdersPageWithAppBar extends StatelessWidget {
   const PendingOrdersPageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -97,7 +95,6 @@ class PendingOrdersPageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class TradesPageWithAppBar extends StatelessWidget {
   const TradesPageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -121,7 +118,6 @@ class TradesPageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class DealsPageWithAppBar extends StatelessWidget {
   const DealsPageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -145,7 +141,6 @@ class DealsPageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class NetPositionPageWithAppBar extends StatelessWidget {
   const NetPositionPageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -174,7 +169,6 @@ class NetPositionPageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class RejectionLogPageWithAppBar extends StatelessWidget {
   const RejectionLogPageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -203,7 +197,6 @@ class RejectionLogPageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class LoginHistoryPageWithAppBar extends StatelessWidget {
   const LoginHistoryPageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -232,7 +225,6 @@ class LoginHistoryPageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class IntradayHistoryPageWithAppBar extends StatelessWidget {
   const IntradayHistoryPageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -261,7 +253,6 @@ class IntradayHistoryPageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class ScriptMasterPageWithAppBar extends StatelessWidget {
   const ScriptMasterPageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -290,7 +281,6 @@ class ScriptMasterPageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class ScriptQuantityPageWithAppBar extends StatelessWidget {
   const ScriptQuantityPageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -309,7 +299,6 @@ class ScriptQuantityPageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class TradeMarginPageWithAppBar extends StatelessWidget {
   const TradeMarginPageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -322,7 +311,6 @@ class TradeMarginPageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class BulkTradePageWithAppBar extends StatelessWidget {
   const BulkTradePageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -335,7 +323,6 @@ class BulkTradePageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class TotalVolumePageWithAppBar extends StatelessWidget {
   const TotalVolumePageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -348,7 +335,6 @@ class TotalVolumePageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class DeletedTradePageWithAppBar extends StatelessWidget {
   const DeletedTradePageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -361,7 +347,6 @@ class DeletedTradePageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class ManualTradePageWithAppBar extends StatelessWidget {
   const ManualTradePageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -374,10 +359,8 @@ class ManualTradePageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class BrokerListPageWithAppBar extends StatelessWidget {
   const BrokerListPageWithAppBar({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -395,7 +378,6 @@ class BrokerListPageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class RejectedTradePageWithAppBar extends StatelessWidget {
   const RejectedTradePageWithAppBar({Key? key}) : super(key: key);
   @override

@@ -4,14 +4,12 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
 import '../../../domain/entities/trade_settings/trade_setting.dart';
-
 class TradeSettingsDataTable extends StatelessWidget {
   final List<dynamic> data;
   final Set<String> selectedIds;
   final ValueChanged<Set<String>> onSelectionChanged;
   final int activeTab;
   final ValueChanged<String>? onExchangeTap;
-
   const TradeSettingsDataTable({
     super.key,
     required this.data,
@@ -20,7 +18,6 @@ class TradeSettingsDataTable extends StatelessWidget {
     required this.activeTab,
     this.onExchangeTap,
   });
-
   @override
   Widget build(BuildContext context) {
     return ViewDataTable(
@@ -28,7 +25,6 @@ class TradeSettingsDataTable extends StatelessWidget {
       columns: _buildColumns(),
       cellBuilder: (item, column) {
         if (item is! TradeSetting) return const SizedBox.shrink();
-
         if (column.id == 'checkbox') {
           return Checkbox(
             value: selectedIds.contains(item.id),
@@ -47,11 +43,9 @@ class TradeSettingsDataTable extends StatelessWidget {
             ),
           );
         }
-
         if (column.id == 'exchange') {
           return _buildExchangeCell(item);
         }
-
         return _buildCell(item, column.id);
       },
       idExtractor: (item) {
@@ -73,13 +67,11 @@ class TradeSettingsDataTable extends StatelessWidget {
       autoFit: true,
     );
   }
-
   List<ViewTableColumn> _buildColumns() {
     final List<ViewTableColumn> columns = [_checkboxColumn()];
     columns.addAll(_columnsForTab());
     return columns;
   }
-
   ViewTableColumn _checkboxColumn() {
     return ViewTableColumn(
       id: 'checkbox',
@@ -102,7 +94,6 @@ class TradeSettingsDataTable extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildExchangeCell(TradeSetting item) {
     if (onExchangeTap != null) {
       return InkWell(
@@ -130,7 +121,6 @@ class TradeSettingsDataTable extends StatelessWidget {
       overflow: TextOverflow.ellipsis,
     );
   }
-
   List<ViewTableColumn> _columnsForTab() {
     switch (activeTab) {
       case 0:
@@ -211,7 +201,6 @@ class TradeSettingsDataTable extends StatelessWidget {
         ];
     }
   }
-
   Widget _buildCell(TradeSetting item, String colId) {
     String text = '';
     switch (colId) {

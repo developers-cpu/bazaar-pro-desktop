@@ -2,7 +2,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../domain/usecases/get_credit_history.dart';
 import 'credit_history_event.dart';
 import 'credit_history_state.dart';
-
 class CreditHistoryBloc extends Bloc<CreditHistoryEvent, CreditHistoryState> {
   final GetCreditHistoryUseCase getCreditHistory;
   CreditHistoryBloc({required this.getCreditHistory})
@@ -26,7 +25,6 @@ class CreditHistoryBloc extends Bloc<CreditHistoryEvent, CreditHistoryState> {
       },
     );
   }
-
   Future<void> _onFilterCreditHistory(
     FilterCreditHistory event,
     Emitter<CreditHistoryState> emit,
@@ -49,7 +47,6 @@ class CreditHistoryBloc extends Bloc<CreditHistoryEvent, CreditHistoryState> {
       );
     }
   }
-
   Future<void> _onResetCreditHistoryFilters(
     ResetCreditHistoryFilters event,
     Emitter<CreditHistoryState> emit,

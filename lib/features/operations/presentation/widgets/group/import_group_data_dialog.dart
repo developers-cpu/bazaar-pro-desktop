@@ -5,10 +5,8 @@ import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/common_dilog_box.dart';
 import '../../../../../core/widget/custom_action_button.dart';
 import '../../../../../core/widget/custom_input_field.dart';
-
 class ImportGroupDataDialog extends StatelessWidget {
   const ImportGroupDataDialog({super.key});
-
   @override
   Widget build(BuildContext context) {
     return CommonDialog(
@@ -27,7 +25,6 @@ class ImportGroupDataDialog extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildInstructions() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,7 +45,6 @@ class ImportGroupDataDialog extends StatelessWidget {
       ],
     );
   }
-
   Widget _buildInstructionItem(String text) {
     return Padding(
       padding: EdgeInsets.only(bottom: 3.h),
@@ -62,7 +58,6 @@ class ImportGroupDataDialog extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildImportSection() {
     return Row(
       children: [
@@ -84,7 +79,6 @@ class ImportGroupDataDialog extends StatelessWidget {
       ],
     );
   }
-
   Widget _buildUpdateButton(BuildContext context) {
     return Center(
       child: CustomActionButton(

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
-
 class OrderDropdownField extends StatefulWidget {
   final String label;
   final String? value;
@@ -26,7 +25,6 @@ class OrderDropdownField extends StatefulWidget {
   @override
   State<OrderDropdownField> createState() => _OrderDropdownFieldState();
 }
-
 class _OrderDropdownFieldState extends State<OrderDropdownField>
     with SingleTickerProviderStateMixin {
   final LayerLink _layerLink = LayerLink();
@@ -43,14 +41,12 @@ class _OrderDropdownFieldState extends State<OrderDropdownField>
     );
     _animation = CurvedAnimation(parent: _controller, curve: Curves.easeOut);
   }
-
   @override
   void dispose() {
     _removeOverlay();
     _controller.dispose();
     super.dispose();
   }
-
   void _toggle() => _isOpen ? _close() : _open();
   void _open() {
     _overlayEntry = _createOverlay();
@@ -58,20 +54,17 @@ class _OrderDropdownFieldState extends State<OrderDropdownField>
     setState(() => _isOpen = true);
     _controller.forward();
   }
-
   void _close() {
     _controller.reverse().then((_) {
       _removeOverlay();
       if (mounted) setState(() => _isOpen = false);
     });
   }
-
   void _removeOverlay() {
     _overlayEntry?.remove();
     _overlayEntry?.dispose();
     _overlayEntry = null;
   }
-
   Color get _borderColor => widget.borderColor ?? LightThemeColors.primaryColor;
   Color get _textColor => widget.isDarkMode
       ? DarkThemeColors.textColor
@@ -170,7 +163,6 @@ class _OrderDropdownFieldState extends State<OrderDropdownField>
       ),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return Column(

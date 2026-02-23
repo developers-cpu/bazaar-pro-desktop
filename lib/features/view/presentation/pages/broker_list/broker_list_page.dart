@@ -5,16 +5,12 @@ import '../../bloc/broker_list/broker_list_bloc.dart';
 import '../../bloc/broker_list/broker_list_event.dart';
 import '../../widget/broker_list/broker_list_filter_bar.dart';
 import '../../widget/broker_list/broker_list_table.dart';
-
 class BrokerListPage extends StatefulWidget {
   final bool isDarkMode;
-
   const BrokerListPage({Key? key, this.isDarkMode = false}) : super(key: key);
-
   @override
   State<BrokerListPage> createState() => _BrokerListPageState();
 }
-
 class _BrokerListPageState extends State<BrokerListPage> {
   @override
   void initState() {
@@ -23,7 +19,6 @@ class _BrokerListPageState extends State<BrokerListPage> {
       context.read<BrokerListBloc>().add(const LoadBrokersEvent());
     });
   }
-
   @override
   Widget build(BuildContext context) {
     return Container(

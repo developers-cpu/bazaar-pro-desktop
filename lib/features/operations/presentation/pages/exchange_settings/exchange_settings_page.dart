@@ -12,10 +12,8 @@ import '../../widgets/exchange_settings/exchange_settings_data_table.dart';
 import '../../widgets/exchange_settings/password_dialog.dart';
 import '../operations_page_wrapper.dart';
 import '../../../../../injection_container.dart';
-
 class ExchangeSettingsPageWithAppBar extends StatelessWidget {
   const ExchangeSettingsPageWithAppBar({super.key});
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -34,20 +32,16 @@ class ExchangeSettingsPageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class ExchangeSettingsPage extends StatefulWidget {
   const ExchangeSettingsPage({super.key});
-
   @override
   State<ExchangeSettingsPage> createState() => _ExchangeSettingsPageState();
 }
-
 class _ExchangeSettingsPageState extends State<ExchangeSettingsPage> {
   bool _authenticated = false;
   int _activeTab = 0;
   final _searchCtrl = TextEditingController();
   Set<String> _selectedIds = {};
-
   bool _tradeLimitYes = true;
   bool _autoTickYes = false;
   final _tickSizeCtrl = TextEditingController(text: '0.05');
@@ -59,7 +53,6 @@ class _ExchangeSettingsPageState extends State<ExchangeSettingsPage> {
   String? _selectedExchange;
   Map<String, TextEditingController> _seqControllers = {};
   Map<String, bool> _watchlistStates = {};
-
   final _exchanges = [
     'MCX',
     'NSE',
@@ -71,7 +64,6 @@ class _ExchangeSettingsPageState extends State<ExchangeSettingsPage> {
     'FOREX',
     'USSTOCK',
   ];
-
   final _tabs = const [
     'High Low Between Trade Limit',
     'Auto Tick Size',
@@ -82,13 +74,11 @@ class _ExchangeSettingsPageState extends State<ExchangeSettingsPage> {
     'Exch Sequence',
     'Default Symbol',
   ];
-
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) => _showPasswordDialog());
   }
-
   @override
   void dispose() {
     _searchCtrl.dispose();
@@ -98,7 +88,6 @@ class _ExchangeSettingsPageState extends State<ExchangeSettingsPage> {
     }
     super.dispose();
   }
-
   void _showPasswordDialog() async {
     final result = await showDialog<bool>(
       context: context,
@@ -109,13 +98,11 @@ class _ExchangeSettingsPageState extends State<ExchangeSettingsPage> {
       setState(() => _authenticated = true);
     }
   }
-
   @override
   Widget build(BuildContext context) {
     if (!_authenticated) {
       return const Center(child: Text(''));
     }
-
     return BlocConsumer<ExchangeSettingsBloc, ExchangeSettingsState>(
       listener: (ctx, state) {
         if (state is ExchangeSettingsUpdateSuccess) {
@@ -141,7 +128,6 @@ class _ExchangeSettingsPageState extends State<ExchangeSettingsPage> {
             : [];
         final isDefaultSymbolTab = _activeTab == 7;
         final displayData = isDefaultSymbolTab ? symbols : settings;
-
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
           child: Column(
@@ -197,7 +183,6 @@ class _ExchangeSettingsPageState extends State<ExchangeSettingsPage> {
       },
     );
   }
-
   void _initSeqControllers(List<dynamic> settings) {
     if (_seqControllers.isEmpty) {
       for (final s in settings) {
@@ -205,14 +190,12 @@ class _ExchangeSettingsPageState extends State<ExchangeSettingsPage> {
       }
     }
   }
-
   void _initWatchlistStates(List<dynamic> symbols) {
     _watchlistStates.clear();
     for (final s in symbols) {
       _watchlistStates[s.id] = s.showInWatchlist;
     }
   }
-
   Widget _buildBody(ExchangeSettingsState state, List<dynamic> displayData) {
     if (state is ExchangeSettingsLoading) {
       return const Center(child: CircularProgressIndicator());
@@ -223,7 +206,6 @@ class _ExchangeSettingsPageState extends State<ExchangeSettingsPage> {
     if (_activeTab == 7 && _selectedExchange == null) {
       return const SizedBox.shrink();
     }
-
     return ExchangeSettingsDataTable(
       data: displayData,
       selectedIds: _selectedIds,
@@ -239,7 +221,6 @@ class _ExchangeSettingsPageState extends State<ExchangeSettingsPage> {
       },
     );
   }
-
   List<ViewTableColumn> _columnsForTab() {
     switch (_activeTab) {
       case 0:

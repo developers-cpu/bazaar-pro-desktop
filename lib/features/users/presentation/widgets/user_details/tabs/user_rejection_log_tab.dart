@@ -16,7 +16,6 @@ import '../../../../domain/entities/user_rejection_log/user_rejection_log.dart';
 import '../../../bloc/user_rejection_log/user_rejection_log_bloc.dart';
 import '../../../bloc/user_rejection_log/user_rejection_log_event.dart';
 import '../../../bloc/user_rejection_log/user_rejection_log_state.dart';
-
 class UserRejectionLogTab extends StatelessWidget {
   final User user;
   const UserRejectionLogTab({super.key, required this.user});
@@ -29,7 +28,6 @@ class UserRejectionLogTab extends StatelessWidget {
     );
   }
 }
-
 class UserRejectionLogTabView extends StatelessWidget {
   const UserRejectionLogTabView({super.key});
   @override
@@ -42,7 +40,6 @@ class UserRejectionLogTabView extends StatelessWidget {
       ],
     );
   }
-
   Widget _buildFilterBar(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(12.w),
@@ -141,7 +138,6 @@ class UserRejectionLogTabView extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildRecordCount(BuildContext context) {
     return Container(
       color: AppColors.white,
@@ -157,7 +153,6 @@ class UserRejectionLogTabView extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildTable(BuildContext context) {
     return BlocBuilder<UserRejectionLogBloc, UserRejectionLogState>(
       builder: (context, state) {
@@ -226,7 +221,6 @@ class UserRejectionLogTabView extends StatelessWidget {
       },
     );
   }
-
   TextStyle _cellStyle({
     Color? color,
     bool isSymbol = false,

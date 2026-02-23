@@ -5,19 +5,16 @@ import '../../../../../../core/widget/app_switch.dart';
 import '../../../domain/entities/server/server_entity.dart';
 import '../../../../../../core/constants/app_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 class ServerDataTable extends StatelessWidget {
   final List<ServerEntity> data;
   final Function(String id, bool status) onToggleStatus;
   final Function(ServerEntity server) onEditServer;
-
   const ServerDataTable({
     super.key,
     required this.data,
     required this.onToggleStatus,
     required this.onEditServer,
   });
-
   @override
   Widget build(BuildContext context) {
     if (data.isEmpty) {
@@ -28,7 +25,6 @@ class ServerDataTable extends StatelessWidget {
         ),
       );
     }
-
     return ViewDataTable<ServerEntity>(
       data: data,
       columns: _buildColumns(),
@@ -39,7 +35,6 @@ class ServerDataTable extends StatelessWidget {
             onChanged: (val) => onToggleStatus(item.id, val),
           );
         }
-
         if (column.id == 'serverName') {
           return InkWell(
             onTap: () => onEditServer(item),
@@ -56,14 +51,12 @@ class ServerDataTable extends StatelessWidget {
             ),
           );
         }
-
         return _buildCell(item, column.id);
       },
       idExtractor: (item) => item.id,
       autoFit: true,
     );
   }
-
   List<ViewTableColumn> _buildColumns() {
     return [
       ViewTableColumn(id: 'index', label: 'INDEX', width: 80.w),
@@ -73,7 +66,6 @@ class ServerDataTable extends StatelessWidget {
       ViewTableColumn(id: 'status', label: 'STATUS', width: 120.w),
     ];
   }
-
   Widget _buildCell(ServerEntity item, String colId) {
     String text = '';
     switch (colId) {

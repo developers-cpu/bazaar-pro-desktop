@@ -1,5 +1,4 @@
 import '../../../domain/entities/surveillance/surveillance_bulk_order.dart';
-
 class SurveillanceBulkOrderModel extends SurveillanceBulkOrder {
   const SurveillanceBulkOrderModel({
     required super.id,
@@ -11,7 +10,6 @@ class SurveillanceBulkOrderModel extends SurveillanceBulkOrder {
     required super.updatedOn,
     required super.updatedBy,
   });
-
   factory SurveillanceBulkOrderModel.fromJson(Map<String, dynamic> json) {
     return SurveillanceBulkOrderModel(
       id: json['id'] ?? '',
@@ -24,7 +22,6 @@ class SurveillanceBulkOrderModel extends SurveillanceBulkOrder {
       updatedBy: json['updatedBy'] ?? '',
     );
   }
-
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -37,7 +34,6 @@ class SurveillanceBulkOrderModel extends SurveillanceBulkOrder {
       'updatedBy': updatedBy,
     };
   }
-
   factory SurveillanceBulkOrderModel.fromEntity(SurveillanceBulkOrder entity) {
     return SurveillanceBulkOrderModel(
       id: entity.id,

@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/app_switch.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
-
 class ExchangeSettingsDataTable extends StatelessWidget {
   final List<dynamic> data;
   final Set<String> selectedIds;
@@ -14,7 +13,6 @@ class ExchangeSettingsDataTable extends StatelessWidget {
   final Map<String, TextEditingController>? sequenceControllers;
   final Map<String, bool>? watchlistStates;
   final ValueChanged<String>? onWatchlistToggle;
-
   const ExchangeSettingsDataTable({
     super.key,
     required this.data,
@@ -26,11 +24,9 @@ class ExchangeSettingsDataTable extends StatelessWidget {
     this.watchlistStates,
     this.onWatchlistToggle,
   });
-
   @override
   Widget build(BuildContext context) {
     final allColumns = [_checkboxColumn(), ...columns];
-
     return ViewDataTable<dynamic>(
       autoFit: true,
       columns: allColumns,
@@ -39,7 +35,6 @@ class ExchangeSettingsDataTable extends StatelessWidget {
       cellBuilder: (item, column) => _buildCell(item, column),
     );
   }
-
   ViewTableColumn _checkboxColumn() {
     return ViewTableColumn(
       id: 'checkbox',
@@ -60,7 +55,6 @@ class ExchangeSettingsDataTable extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildCell(dynamic item, ViewTableColumn column) {
     if (column.id == 'checkbox') {
       return Checkbox(
@@ -78,7 +72,6 @@ class ExchangeSettingsDataTable extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.r)),
       );
     }
-
     if (column.id == 'sequence') {
       final ctrl = sequenceControllers?[item.id];
       return Padding(
@@ -112,7 +105,6 @@ class ExchangeSettingsDataTable extends StatelessWidget {
         ),
       );
     }
-
     if (column.id == 'showInWatchlist') {
       final isOn = watchlistStates?[item.id] ?? item.showInWatchlist ?? false;
       return AppSwitch(
@@ -120,7 +112,6 @@ class ExchangeSettingsDataTable extends StatelessWidget {
         onChanged: (val) => onWatchlistToggle?.call(item.id),
       );
     }
-
     String value = '';
     switch (column.id) {
       case 'exchange':
@@ -156,7 +147,6 @@ class ExchangeSettingsDataTable extends StatelessWidget {
       default:
         value = '';
     }
-
     return Text(
       value,
       style: GoogleFonts.openSans(

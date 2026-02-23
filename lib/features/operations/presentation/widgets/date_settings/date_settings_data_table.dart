@@ -4,19 +4,16 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
 import '../../../domain/entities/date_settings/date_setting.dart';
-
 class DateSettingsDataTable extends StatelessWidget {
   final List<dynamic> data;
   final Set<String> selectedIds;
   final ValueChanged<Set<String>> onSelectionChanged;
-
   const DateSettingsDataTable({
     super.key,
     required this.data,
     required this.selectedIds,
     required this.onSelectionChanged,
   });
-
   @override
   Widget build(BuildContext context) {
     return ViewDataTable(
@@ -24,7 +21,6 @@ class DateSettingsDataTable extends StatelessWidget {
       columns: _buildColumns(),
       cellBuilder: (item, column) {
         if (item is! DateSetting) return const SizedBox.shrink();
-
         if (column.id == 'checkbox') {
           return Checkbox(
             value: selectedIds.contains(item.id),
@@ -43,7 +39,6 @@ class DateSettingsDataTable extends StatelessWidget {
             ),
           );
         }
-
         return _buildCell(item, column.id);
       },
       idExtractor: (item) {
@@ -65,7 +60,6 @@ class DateSettingsDataTable extends StatelessWidget {
       autoFit: true,
     );
   }
-
   List<ViewTableColumn> _buildColumns() {
     return [
       ViewTableColumn(
@@ -100,7 +94,6 @@ class DateSettingsDataTable extends StatelessWidget {
       ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 120.w),
     ];
   }
-
   Widget _buildCell(DateSetting item, String colId) {
     String text = '';
     switch (colId) {

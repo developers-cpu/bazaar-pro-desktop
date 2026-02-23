@@ -1,5 +1,4 @@
 import 'package:bazarpro/features/operations/domain/entities/trade_settings/trade_setting.dart';
-
 class TradeSettingModel extends TradeSetting {
   const TradeSettingModel({
     required super.id,
@@ -17,7 +16,6 @@ class TradeSettingModel extends TradeSetting {
     required super.updatedOn,
     required super.updatedBy,
   });
-
   factory TradeSettingModel.fromJson(Map<String, dynamic> json) {
     return TradeSettingModel(
       id: json['id'] as String,
@@ -36,7 +34,6 @@ class TradeSettingModel extends TradeSetting {
       updatedBy: json['updatedBy'] as String,
     );
   }
-
   Map<String, dynamic> toJson() {
     return {
       'id': id,

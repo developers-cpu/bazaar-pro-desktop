@@ -1,23 +1,19 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'activity_detail_event.dart';
 import 'activity_detail_state.dart';
-
 class ActivityDetailBloc
     extends Bloc<ActivityDetailEvent, ActivityDetailState> {
   ActivityDetailBloc() : super(ActivityDetailInitial()) {
     on<FetchActivityDetails>(_onFetchActivityDetails);
   }
-
   void _onFetchActivityDetails(
     FetchActivityDetails event,
     Emitter<ActivityDetailState> emit,
   ) {
     emit(ActivityDetailLoading());
-
     try {
       List<Map<String, dynamic>> data = [];
       const int mockRecordCount = 12550;
-
       switch (event.activityName) {
         case 'Leverage':
           data = List.generate(
@@ -32,7 +28,6 @@ class ActivityDetailBloc
             },
           );
           break;
-
         case 'Brokerage':
         case 'Trade margin':
         case 'Profit Square off':
@@ -89,7 +84,6 @@ class ActivityDetailBloc
             }
           }).toList();
           break;
-
         case 'Bet':
           data = List.generate(
             8,
@@ -101,7 +95,6 @@ class ActivityDetailBloc
             },
           );
           break;
-
         case 'Exchange Group':
           data = [
             {
@@ -142,7 +135,6 @@ class ActivityDetailBloc
             },
           ];
           break;
-
         case 'Close Only':
         case 'View Only':
         case 'Status':
@@ -158,7 +150,6 @@ class ActivityDetailBloc
               'updatedBy': index % 2 == 0 ? 'Admin' : 'Super Admin',
             },
           );
-
           final type = event.valueType ?? 'allowed';
           for (var item in data) {
             if (type == 'onOff') {
@@ -177,11 +168,9 @@ class ActivityDetailBloc
             }
           }
           break;
-
         default:
           data = [];
       }
-
       emit(ActivityDetailLoaded(details: data, recordCount: mockRecordCount));
     } catch (e) {
       emit(ActivityDetailError(e.toString()));

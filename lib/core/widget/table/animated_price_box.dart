@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../constants/app_colors.dart';
-
 class AnimatedPriceBox extends StatefulWidget {
   final String price;
   final bool isDarkMode;
   final double? width;
   final double? height;
-
   const AnimatedPriceBox({
     Key? key,
     required this.price,
@@ -16,17 +14,14 @@ class AnimatedPriceBox extends StatefulWidget {
     this.width,
     this.height,
   }) : super(key: key);
-
   @override
   State<AnimatedPriceBox> createState() => _AnimatedPriceBoxState();
 }
-
 class _AnimatedPriceBoxState extends State<AnimatedPriceBox>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<Color?> _bgAnimation;
   late Animation<Color?> _textAnimation;
-
   @override
   void initState() {
     super.initState();
@@ -34,13 +29,11 @@ class _AnimatedPriceBoxState extends State<AnimatedPriceBox>
       vsync: this,
       duration: const Duration(milliseconds: 3600),
     )..repeat();
-
     final Color blue = const Color(0xFF0052FF);
     final Color red = AppColors.red;
     final Color blank = Colors.transparent;
     final Color textWhite = AppColors.white;
     final Color textDark = widget.isDarkMode ? Colors.white : AppColors.black;
-
     _bgAnimation = TweenSequence<Color?>([
       TweenSequenceItem(
         weight: 2,
@@ -75,7 +68,6 @@ class _AnimatedPriceBoxState extends State<AnimatedPriceBox>
         tween: ColorTween(begin: blank, end: blue),
       ),
     ]).animate(_controller);
-
     _textAnimation = TweenSequence<Color?>([
       TweenSequenceItem(
         weight: 2,
@@ -111,13 +103,11 @@ class _AnimatedPriceBoxState extends State<AnimatedPriceBox>
       ),
     ]).animate(_controller);
   }
-
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(

@@ -17,7 +17,6 @@ import '../../../bloc/user_trade_margin/user_trade_margin_bloc.dart';
 import '../../../bloc/user_trade_margin/user_trade_margin_event.dart';
 import '../../../bloc/user_trade_margin/user_trade_margin_state.dart';
 import '../../../../../../injection_container.dart';
-
 class UserTradeMarginTab extends StatelessWidget {
   final User user;
   const UserTradeMarginTab({super.key, required this.user});
@@ -30,13 +29,11 @@ class UserTradeMarginTab extends StatelessWidget {
     );
   }
 }
-
 class UserTradeMarginTabView extends StatefulWidget {
   const UserTradeMarginTabView({super.key});
   @override
   State<UserTradeMarginTabView> createState() => _UserTradeMarginTabViewState();
 }
-
 class _UserTradeMarginTabViewState extends State<UserTradeMarginTabView> {
   final TextEditingController _searchController = TextEditingController();
   final TextEditingController _intradayMarginController =
@@ -50,7 +47,6 @@ class _UserTradeMarginTabViewState extends State<UserTradeMarginTabView> {
     _carryForwardMarginController.dispose();
     super.dispose();
   }
-
   void _onUpdate(BuildContext context) {}
   @override
   Widget build(BuildContext context) {
@@ -62,7 +58,6 @@ class _UserTradeMarginTabViewState extends State<UserTradeMarginTabView> {
       ],
     );
   }
-
   Widget _buildFilterBar(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(12.w),
@@ -186,7 +181,6 @@ class _UserTradeMarginTabViewState extends State<UserTradeMarginTabView> {
       ),
     );
   }
-
   Widget _buildRecordCount(BuildContext context) {
     return Container(
       color: AppColors.white,
@@ -202,7 +196,6 @@ class _UserTradeMarginTabViewState extends State<UserTradeMarginTabView> {
       ),
     );
   }
-
   Widget _buildTable(BuildContext context) {
     return BlocBuilder<UserTradeMarginBloc, UserTradeMarginState>(
       builder: (context, state) {

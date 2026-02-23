@@ -7,10 +7,8 @@ import '../../../../../core/widget/app_dropdown.dart';
 import '../../../../../core/widget/table/success_dialog.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
 import '../../../../../core/widget/table/view_record_count.dart';
-
 class SquareOffDialog extends StatefulWidget {
   const SquareOffDialog({Key? key}) : super(key: key);
-
   static void show({required BuildContext context}) {
     showDialog(
       context: context,
@@ -18,16 +16,13 @@ class SquareOffDialog extends StatefulWidget {
       builder: (_) => const SquareOffDialog(),
     );
   }
-
   @override
   State<SquareOffDialog> createState() => _SquareOffDialogState();
 }
-
 class _SquareOffDialogState extends State<SquareOffDialog> {
   String _selectedExchange = 'Exchange';
   String _selectedSymbol = 'Symbol';
   final Color headerColor = const Color(0xFF2C5F7A);
-
   Set<int> _selectedIndices = {
     0,
     1,
@@ -46,7 +41,6 @@ class _SquareOffDialogState extends State<SquareOffDialog> {
     14,
   };
   bool _selectAll = true;
-
   void _toggleSelectAll() {
     setState(() {
       _selectAll = !_selectAll;
@@ -57,7 +51,6 @@ class _SquareOffDialogState extends State<SquareOffDialog> {
       }
     });
   }
-
   void _toggleSelection(int index) {
     setState(() {
       if (_selectedIndices.contains(index)) {
@@ -71,7 +64,6 @@ class _SquareOffDialogState extends State<SquareOffDialog> {
       }
     });
   }
-
   @override
   Widget build(BuildContext context) {
     return CommonDialog(
@@ -141,7 +133,6 @@ class _SquareOffDialogState extends State<SquareOffDialog> {
       ),
     );
   }
-
   Widget _buildTable() {
     return Column(
       children: [
@@ -158,7 +149,6 @@ class _SquareOffDialogState extends State<SquareOffDialog> {
       ],
     );
   }
-
   List<ViewTableColumn> _getColumns() {
     return [
       ViewTableColumn(
@@ -180,7 +170,6 @@ class _SquareOffDialogState extends State<SquareOffDialog> {
       ViewTableColumn(id: 'tPrice', label: 'T. PRICE', width: 100.w),
     ];
   }
-
   Widget _buildCell(int index, ViewTableColumn column) {
     switch (column.id) {
       case 'select':
@@ -208,7 +197,6 @@ class _SquareOffDialogState extends State<SquareOffDialog> {
         return const SizedBox.shrink();
     }
   }
-
   Widget _tableCell(String title, Color color, {bool bold = false}) {
     return Container(
       alignment: Alignment.center,
@@ -222,7 +210,6 @@ class _SquareOffDialogState extends State<SquareOffDialog> {
       ),
     );
   }
-
   Widget _buildCheckbox(bool value) {
     return Container(
       width: 18.w,
@@ -238,7 +225,6 @@ class _SquareOffDialogState extends State<SquareOffDialog> {
       child: value ? Icon(Icons.check, size: 14.sp, color: Colors.white) : null,
     );
   }
-
   Widget _buildFooter() {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
@@ -281,7 +267,6 @@ class _SquareOffDialogState extends State<SquareOffDialog> {
       ),
     );
   }
-
   Widget _buildConfirmationContent() {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 24.h, horizontal: 16.w),
@@ -306,7 +291,6 @@ class _SquareOffDialogState extends State<SquareOffDialog> {
       ),
     );
   }
-
   Widget _buildConfirmationActions() {
     return Row(
       children: [

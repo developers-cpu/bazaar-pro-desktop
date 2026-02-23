@@ -9,7 +9,6 @@ import '../../../../../core/widget/svg_icon.dart';
 import '../../../domain/entities/market_item.dart';
 import 'animated_price_cell.dart';
 import 'table_text_style_helper.dart';
-
 class TableCellBuilder extends StatelessWidget {
   final String columnId;
   final MarketItem item;
@@ -30,7 +29,6 @@ class TableCellBuilder extends StatelessWidget {
   Widget build(BuildContext context) {
     return _buildCellContent();
   }
-
   Widget _buildCellContent() {
     switch (columnId) {
       case 'exchange':
@@ -81,7 +79,6 @@ class TableCellBuilder extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
-
   Widget _buildExchangeWithArrowCell() {
     final isPositive = item.netChange > 0;
     final isNegative = item.netChange < 0;
@@ -129,7 +126,6 @@ class TableCellBuilder extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildAnimatedPriceCell(String text) {
     return AnimatedPriceCell(
       text: text,
@@ -140,7 +136,6 @@ class TableCellBuilder extends StatelessWidget {
       textColor: _getTextColor(),
     );
   }
-
   Widget _buildTextCell(String text, {bool isBold = false, Color? color}) {
     return Center(
       child: Text(
@@ -157,11 +152,9 @@ class TableCellBuilder extends StatelessWidget {
       ),
     );
   }
-
   Color _getTextColor() {
     return isDark ? DarkThemeColors.textColor : AppColors.black;
   }
-
   Color? _getChangeColor(double value) {
     if (value > 0) {
       return isDark

@@ -4,6 +4,10 @@ import '../../../../features/auth/presentation/bloc/auth_bloc.dart';
 import '../../../../features/auth/presentation/bloc/auth_state.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/widget/app_bar_section.dart';
+import '../../../../injection_container.dart';
+import '../bloc/date_settings/date_settings_bloc.dart';
+import '../bloc/date_settings/date_settings_event.dart';
+import 'date_settings/date_settings_page.dart';
 
 class OperationsPageWrapper extends StatelessWidget {
   final String pageTitle;
@@ -50,9 +54,16 @@ class DateSettingsPageWithAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const OperationsPageWrapper(
-      pageTitle: 'Date Settings',
-      child: Center(child: Text('Date Settings Page - Coming Soon')),
+    return BlocProvider(
+      create: (_) => sl<DateSettingsBloc>()..add(LoadDateSettingsEvent()),
+      child: Builder(
+        builder: (context) {
+          return const OperationsPageWrapper(
+            pageTitle: 'Date Settings',
+            child: DateSettingsPage(),
+          );
+        },
+      ),
     );
   }
 }

@@ -133,7 +133,7 @@ class TradeSettingsDataTable extends StatelessWidget {
 
   List<ViewTableColumn> _columnsForTab() {
     switch (activeTab) {
-      case 0: // Margin
+      case 0:
         return [
           ViewTableColumn(id: 'exchange', label: 'EXCHANGE', width: 120.w),
           ViewTableColumn(id: 'marginType', label: 'MARGIN TYPE', width: 150.w),
@@ -160,7 +160,7 @@ class TradeSettingsDataTable extends StatelessWidget {
           ViewTableColumn(id: 'updatedOn', label: 'UPDATED ON', width: 200.w),
           ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 100.w),
         ];
-      case 1: // Brokerage
+      case 1:
         return [
           ViewTableColumn(id: 'exchange', label: 'EXCHANGE', width: 120.w),
           ViewTableColumn(
@@ -181,7 +181,7 @@ class TradeSettingsDataTable extends StatelessWidget {
           ViewTableColumn(id: 'updatedOn', label: 'UPDATED ON', width: 200.w),
           ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 100.w),
         ];
-      case 2: // Leverage
+      case 2:
         return [
           ViewTableColumn(id: 'exchange', label: 'EXCHANGE', width: 120.w),
           ViewTableColumn(
@@ -192,7 +192,7 @@ class TradeSettingsDataTable extends StatelessWidget {
           ViewTableColumn(id: 'updatedOn', label: 'UPDATED ON', width: 200.w),
           ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 100.w),
         ];
-      case 3: // Trade Seconds
+      case 3:
         return [
           ViewTableColumn(id: 'exchange', label: 'EXCHANGE', width: 120.w),
           ViewTableColumn(

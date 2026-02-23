@@ -282,7 +282,7 @@ class _TradeSettingsPageState extends State<TradeSettingsPage> {
 
   List<ViewTableColumn> _detailColumnsForTab() {
     switch (_activeTab) {
-      case 0: // Margin detail - columns change based on radio
+      case 0:
         final cols = <ViewTableColumn>[
           ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 180.w),
           ViewTableColumn(id: 'marginType', label: 'MARGIN TYPE', width: 150.w),
@@ -320,7 +320,7 @@ class _TradeSettingsPageState extends State<TradeSettingsPage> {
           ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 100.w),
         ]);
         return cols;
-      case 1: // Brokerage detail - columns change based on radio
+      case 1:
         final bCols = <ViewTableColumn>[
           ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 180.w),
           ViewTableColumn(
@@ -352,7 +352,7 @@ class _TradeSettingsPageState extends State<TradeSettingsPage> {
           ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 100.w),
         ]);
         return bCols;
-      case 2: // Leverage detail
+      case 2:
         return [
           ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 180.w),
           ViewTableColumn(
@@ -363,7 +363,7 @@ class _TradeSettingsPageState extends State<TradeSettingsPage> {
           ViewTableColumn(id: 'updatedOn', label: 'UPDATED ON', width: 200.w),
           ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 100.w),
         ];
-      case 3: // Trade Seconds detail
+      case 3:
         return [
           ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 180.w),
           ViewTableColumn(

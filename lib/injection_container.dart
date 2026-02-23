@@ -7,6 +7,13 @@ import 'package:bazarpro/features/operations/data/repositories/group/group_repos
 import 'package:bazarpro/features/operations/data/datasources/group/group_remote_data_source.dart';
 import 'package:bazarpro/features/operations/data/datasources/group/group_remote_data_source_impl.dart';
 import 'package:bazarpro/features/operations/domain/usecases/exchange_settings/get_exchange_settings.dart';
+import 'package:bazarpro/features/operations/domain/repositories/date_settings/date_settings_repository.dart';
+import 'package:bazarpro/features/operations/data/repositories/date_settings/date_settings_repository_impl.dart';
+import 'package:bazarpro/features/operations/data/datasources/date_settings/date_settings_remote_data_source.dart';
+import 'package:bazarpro/features/operations/data/datasources/date_settings/date_settings_remote_data_source_impl.dart';
+import 'package:bazarpro/features/operations/domain/usecases/date_settings/get_date_settings.dart';
+import 'package:bazarpro/features/operations/domain/usecases/date_settings/update_date_settings.dart';
+import 'package:bazarpro/features/operations/presentation/bloc/date_settings/date_settings_bloc.dart';
 import 'package:bazarpro/features/operations/domain/usecases/exchange_settings/update_exchange_settings.dart';
 import 'package:bazarpro/features/operations/presentation/bloc/exchange_settings/exchange_settings_bloc.dart';
 import 'package:bazarpro/features/operations/presentation/bloc/trade_settings/trade_settings_bloc.dart';
@@ -919,5 +926,17 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<TradeSettingsRemoteDataSource>(
     () => TradeSettingsRemoteDataSourceImpl(),
+  );
+
+  sl.registerFactory(
+    () => DateSettingsBloc(getDateSettings: sl(), updateDateSettings: sl()),
+  );
+  sl.registerLazySingleton(() => GetDateSettings(sl()));
+  sl.registerLazySingleton(() => UpdateDateSettings(sl()));
+  sl.registerLazySingleton<DateSettingsRepository>(
+    () => DateSettingsRepositoryImpl(remoteDataSource: sl()),
+  );
+  sl.registerLazySingleton<DateSettingsRemoteDataSource>(
+    () => DateSettingsRemoteDataSourceImpl(),
   );
 }

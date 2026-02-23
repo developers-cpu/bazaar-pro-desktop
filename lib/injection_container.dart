@@ -173,6 +173,13 @@ import 'features/users/presentation/bloc/user_credit/user_credit_bloc.dart';
 import 'features/users/presentation/bloc/user_group_settings/user_group_settings_bloc.dart';
 import 'features/users/presentation/bloc/user_intraday/user_intraday_bloc.dart';
 import 'features/operations/presentation/bloc/message/operations_message_bloc.dart';
+import 'features/operations/presentation/bloc/server/server_bloc.dart';
+import 'features/operations/domain/repositories/server/server_repository.dart';
+import 'features/operations/domain/usecases/server/get_servers.dart';
+import 'features/operations/domain/usecases/server/update_server_status.dart';
+import 'features/operations/data/datasources/server/server_remote_data_source.dart';
+import 'features/operations/data/datasources/server/server_remote_data_source_impl.dart';
+import 'features/operations/data/repositories/server/server_repository_impl.dart';
 import 'features/users/presentation/bloc/nested_users/nested_users_bloc.dart';
 import 'features/users/domain/usecases/user/get_nested_users_usecase.dart';
 import 'features/users/domain/usecases/user_credit_transaction/get_user_credit_usecase.dart';
@@ -982,6 +989,21 @@ Future<void> init() async {
   sl.registerLazySingleton<SurveillanceRemoteDataSource>(
     () => SurveillanceRemoteDataSourceImpl(),
   );
-
   sl.registerFactory(() => OperationsMessageBloc());
+
+  sl.registerFactory(
+    () => ServerBloc(
+      getServers: sl(),
+      updateServerStatus: sl(),
+      repository: sl(),
+    ),
+  );
+  sl.registerLazySingleton(() => GetServers(sl()));
+  sl.registerLazySingleton(() => UpdateServerStatus(sl()));
+  sl.registerLazySingleton<ServerRepository>(
+    () => ServerRepositoryImpl(remoteDataSource: sl()),
+  );
+  sl.registerLazySingleton<ServerRemoteDataSource>(
+    () => ServerRemoteDataSourceImpl(),
+  );
 }

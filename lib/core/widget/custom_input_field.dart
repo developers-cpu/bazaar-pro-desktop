@@ -20,6 +20,8 @@ class CustomInputField extends StatelessWidget {
   final double? width;
   final String? prefixSvgPath;
   final bool showErrorBorder;
+  final bool readOnly;
+  final Color? borderColor;
   const CustomInputField({
     Key? key,
     required this.hintText,
@@ -37,6 +39,8 @@ class CustomInputField extends StatelessWidget {
     this.width,
     this.prefixSvgPath,
     this.showErrorBorder = true,
+    this.readOnly = false,
+    this.borderColor,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -49,6 +53,7 @@ class CustomInputField extends StatelessWidget {
         keyboardType: keyboardType,
         maxLines: 1,
         enabled: enabled,
+        readOnly: readOnly,
         style: GoogleFonts.openSans(
           fontSize: 12.sp,
           fontWeight: FontWeight.w600,
@@ -145,17 +150,17 @@ class CustomInputField extends StatelessWidget {
     bool isError = false,
     bool isDisabled = false,
   }) {
-    Color borderColor;
+    Color finalBorderColor;
     if (isError) {
-      borderColor = AppColors.errorColor;
+      finalBorderColor = AppColors.errorColor;
     } else if (isDisabled) {
-      borderColor = AppColors.greyBorder;
+      finalBorderColor = AppColors.greyBorder;
     } else {
-      borderColor = AppColors.primaryBlue;
+      finalBorderColor = borderColor ?? AppColors.primaryBlue;
     }
     return OutlineInputBorder(
       borderRadius: BorderRadius.circular(8.r),
-      borderSide: BorderSide(color: borderColor, width: 1.4),
+      borderSide: BorderSide(color: finalBorderColor, width: 1.4),
     );
   }
 }

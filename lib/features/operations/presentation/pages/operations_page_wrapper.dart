@@ -12,10 +12,12 @@ import '../bloc/script_settings/script_settings_event.dart';
 import '../bloc/surveillance/surveillance_bloc.dart';
 import '../bloc/surveillance/surveillance_event.dart';
 import '../bloc/message/operations_message_bloc.dart';
+import '../bloc/server/server_bloc.dart';
 import 'date_settings/date_settings_page.dart';
 import 'message/operations_message_page.dart';
 import 'script_settings/script_settings_page.dart';
 import 'surveillance/surveillance_page.dart';
+import 'server/server_page.dart';
 
 class OperationsPageWrapper extends StatelessWidget {
   final String pageTitle;
@@ -151,13 +153,16 @@ class SettlementProgressPageWithAppBar extends StatelessWidget {
 }
 
 class ServerPageWithAppBar extends StatelessWidget {
-  const ServerPageWithAppBar({Key? key}) : super(key: key);
+  const ServerPageWithAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const OperationsPageWrapper(
-      pageTitle: 'Server',
-      child: Center(child: Text('Server Page - Coming Soon')),
+    return BlocProvider(
+      create: (_) => sl<ServerBloc>(),
+      child: const OperationsPageWrapper(
+        pageTitle: 'Server',
+        child: ServerPage(),
+      ),
     );
   }
 }

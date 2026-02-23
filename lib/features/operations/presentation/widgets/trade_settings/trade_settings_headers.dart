@@ -354,8 +354,7 @@ class _TradeSettingsHeadersState extends State<TradeSettingsHeaders> {
       padding: EdgeInsets.only(top: 20.h),
       child: CustomActionButton(
         text: 'Update',
-        onPressed: () {
-        },
+        onPressed: () {},
         width: 100.w,
         height: 35.h,
         borderRadius: 8.r,

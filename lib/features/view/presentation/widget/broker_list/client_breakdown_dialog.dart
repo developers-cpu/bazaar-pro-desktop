@@ -7,8 +7,6 @@ import '../../../../../core/widget/table/view_data_table.dart';
 import '../../../../../core/widget/table/view_data_table_footer.dart';
 import '../../../../../core/widget/table/view_table_cell_styles.dart';
 
-
-
 class ClientBreakdownDialog extends StatelessWidget {
   final String brokerId;
   final String clientName;

@@ -4,6 +4,7 @@ import '../../../domain/entities/deals/deals.dart';
 import '../../../domain/usecases/deals/deals_usecases.dart';
 import 'deals_event.dart';
 import 'deals_state.dart';
+
 class DealsBloc extends Bloc<DealsEvent, DealsState> {
   final GetDeals getDeals;
   final GetDealsWithFilters getDealsWithFilters;
@@ -34,9 +35,9 @@ class DealsBloc extends Bloc<DealsEvent, DealsState> {
     on<ExportDealsToExcelEvent>(_onExportToExcel);
   }
   Future<void> _onLoadDeals(
-      LoadDealsEvent event,
-      Emitter<DealsState> emit,
-      ) async {
+    LoadDealsEvent event,
+    Emitter<DealsState> emit,
+  ) async {
     emit(const DealsLoading());
     try {
       final results = await Future.wait([
@@ -59,85 +60,106 @@ class DealsBloc extends Bloc<DealsEvent, DealsState> {
         return;
       }
       final deals = dealsResult.fold((l) => <Deal>[], (r) => r as List<Deal>);
-      final clients = clientsResult.fold((l) => <String>[], (r) => r as List<String>);
-      final exchanges = exchangesResult.fold((l) => <String>[], (r) => r as List<String>);
-      final symbols = symbolsResult.fold((l) => <String>[], (r) => r as List<String>);
-      final orderTypes = orderTypesResult.fold((l) => <String>[], (r) => r as List<String>);
-      final statuses = statusesResult.fold((l) => <String>[], (r) => r as List<String>);
-      emit(DealsLoaded(
-        deals: deals,
-        filteredDeals: deals,
-        totalRecords: deals.length,
-        clients: clients,
-        exchanges: exchanges,
-        symbols: symbols,
-        orderTypes: orderTypes,
-        statuses: statuses,
-      ));
+      final clients = clientsResult.fold(
+        (l) => <String>[],
+        (r) => r as List<String>,
+      );
+      final exchanges = exchangesResult.fold(
+        (l) => <String>[],
+        (r) => r as List<String>,
+      );
+      final symbols = symbolsResult.fold(
+        (l) => <String>[],
+        (r) => r as List<String>,
+      );
+      final orderTypes = orderTypesResult.fold(
+        (l) => <String>[],
+        (r) => r as List<String>,
+      );
+      final statuses = statusesResult.fold(
+        (l) => <String>[],
+        (r) => r as List<String>,
+      );
+      emit(
+        DealsLoaded(
+          deals: deals,
+          filteredDeals: deals,
+          totalRecords: deals.length,
+          clients: clients,
+          exchanges: exchanges,
+          symbols: symbols,
+          orderTypes: orderTypes,
+          statuses: statuses,
+        ),
+      );
     } catch (e) {
       emit(DealsError(e.toString()));
     }
   }
+
   Future<void> _onApplyFilters(
-      ApplyFiltersEvent event,
-      Emitter<DealsState> emit,
-      ) async {
+    ApplyFiltersEvent event,
+    Emitter<DealsState> emit,
+  ) async {
     if (state is! DealsLoaded) return;
     final currentState = state as DealsLoaded;
     emit(const DealsLoading());
-    final result = await getDealsWithFilters(DealsFilterParams(
-      startDate: event.startDate,
-      endDate: event.endDate,
-      client: event.client,
-      exchange: event.exchange,
-      symbol: event.symbol,
-      orderType: event.orderType,
-      status: event.status,
-    ));
-    result.fold(
-          (failure) => emit(DealsError(failure.message)),
-          (deals) => emit(currentState.copyWith(
-        filteredDeals: deals,
-        totalRecords: deals.length,
+    final result = await getDealsWithFilters(
+      DealsFilterParams(
         startDate: event.startDate,
         endDate: event.endDate,
-        selectedClient: event.client,
-        selectedExchange: event.exchange,
-        selectedSymbol: event.symbol,
-        selectedOrderType: event.orderType,
-        selectedStatus: event.status,
-      )),
+        client: event.client,
+        exchange: event.exchange,
+        symbol: event.symbol,
+        orderType: event.orderType,
+        status: event.status,
+      ),
+    );
+    result.fold(
+      (failure) => emit(DealsError(failure.message)),
+      (deals) => emit(
+        currentState.copyWith(
+          filteredDeals: deals,
+          totalRecords: deals.length,
+          startDate: event.startDate,
+          endDate: event.endDate,
+          selectedClient: event.client,
+          selectedExchange: event.exchange,
+          selectedSymbol: event.symbol,
+          selectedOrderType: event.orderType,
+          selectedStatus: event.status,
+        ),
+      ),
     );
   }
+
   Future<void> _onResetFilters(
-      ResetFiltersEvent event,
-      Emitter<DealsState> emit,
-      ) async {
+    ResetFiltersEvent event,
+    Emitter<DealsState> emit,
+  ) async {
     if (state is! DealsLoaded) return;
     final currentState = state as DealsLoaded;
-    emit(DealsLoaded(
-      deals: currentState.deals,
-      filteredDeals: currentState.deals,
-      totalRecords: currentState.deals.length,
-      clients: currentState.clients,
-      exchanges: currentState.exchanges,
-      symbols: currentState.symbols,
-      orderTypes: currentState.orderTypes,
-      statuses: currentState.statuses,
-    ));
+    emit(
+      DealsLoaded(
+        deals: currentState.deals,
+        filteredDeals: currentState.deals,
+        totalRecords: currentState.deals.length,
+        clients: currentState.clients,
+        exchanges: currentState.exchanges,
+        symbols: currentState.symbols,
+        orderTypes: currentState.orderTypes,
+        statuses: currentState.statuses,
+      ),
+    );
   }
-  void _onSelectDeal(
-      SelectDealEvent event,
-      Emitter<DealsState> emit,
-      ) {
+
+  void _onSelectDeal(SelectDealEvent event, Emitter<DealsState> emit) {
     if (state is! DealsLoaded) return;
     final currentState = state as DealsLoaded;
     emit(currentState.copyWith(selectedDealId: event.dealId));
   }
-  void _onSortByColumn(
-      SortDealsByColumnEvent event,
-      Emitter<DealsState> emit,
-      ) {
+
+  void _onSortByColumn(SortDealsByColumnEvent event, Emitter<DealsState> emit) {
     if (state is! DealsLoaded) return;
     final currentState = state as DealsLoaded;
     final sortedDeals = List<Deal>.from(currentState.filteredDeals);
@@ -194,46 +216,48 @@ class DealsBloc extends Bloc<DealsEvent, DealsState> {
       }
       return event.ascending ? comparison : -comparison;
     });
-    emit(currentState.copyWith(
-      filteredDeals: sortedDeals,
-      sortColumn: event.columnId,
-      sortAscending: event.ascending,
-    ));
+    emit(
+      currentState.copyWith(
+        filteredDeals: sortedDeals,
+        sortColumn: event.columnId,
+        sortAscending: event.ascending,
+      ),
+    );
   }
+
   Future<void> _onExportToPdf(
-      ExportDealsToPdfEvent event,
-      Emitter<DealsState> emit,
-      ) async {
+    ExportDealsToPdfEvent event,
+    Emitter<DealsState> emit,
+  ) async {
     if (state is! DealsLoaded) return;
     final currentState = state as DealsLoaded;
     final result = await exportToPdf(currentState.filteredDeals);
-    result.fold(
-          (failure) => emit(DealsError(failure.message)),
-          (path) {
-        emit(DealsExportSuccess(
+    result.fold((failure) => emit(DealsError(failure.message)), (path) {
+      emit(
+        DealsExportSuccess(
           message: 'PDF exported successfully',
           filePath: path,
-        ));
-        emit(currentState);
-      },
-    );
+        ),
+      );
+      emit(currentState);
+    });
   }
+
   Future<void> _onExportToExcel(
-      ExportDealsToExcelEvent event,
-      Emitter<DealsState> emit,
-      ) async {
+    ExportDealsToExcelEvent event,
+    Emitter<DealsState> emit,
+  ) async {
     if (state is! DealsLoaded) return;
     final currentState = state as DealsLoaded;
     final result = await exportToExcel(currentState.filteredDeals);
-    result.fold(
-          (failure) => emit(DealsError(failure.message)),
-          (path) {
-        emit(DealsExportSuccess(
+    result.fold((failure) => emit(DealsError(failure.message)), (path) {
+      emit(
+        DealsExportSuccess(
           message: 'Excel exported successfully',
           filePath: path,
-        ));
-        emit(currentState);
-      },
-    );
+        ),
+      );
+      emit(currentState);
+    });
   }
 }

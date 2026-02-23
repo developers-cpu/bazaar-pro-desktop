@@ -1,4 +1,5 @@
 import '../../domain/entities/market_item.dart';
+
 class MarketItemModel extends MarketItem {
   const MarketItemModel({
     required super.id,
@@ -60,6 +61,7 @@ class MarketItemModel extends MarketItem {
       'lut': lut.toIso8601String(),
     };
   }
+
   factory MarketItemModel.fromEntity(MarketItem entity) {
     return MarketItemModel(
       id: entity.id,

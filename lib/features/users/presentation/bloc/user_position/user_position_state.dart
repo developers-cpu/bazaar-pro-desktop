@@ -1,11 +1,15 @@
 part of 'user_position_bloc.dart';
+
 abstract class UserPositionState extends Equatable {
   const UserPositionState();
   @override
   List<Object?> get props => [];
 }
+
 class UserPositionInitial extends UserPositionState {}
+
 class UserPositionLoading extends UserPositionState {}
+
 class UserPositionLoaded extends UserPositionState {
   final List<UserPosition> allPositions;
   final List<UserPosition> filteredPositions;
@@ -38,6 +42,7 @@ class UserPositionLoaded extends UserPositionState {
       symbols: symbols ?? this.symbols,
     );
   }
+
   @override
   List<Object?> get props => [
     allPositions,
@@ -48,6 +53,7 @@ class UserPositionLoaded extends UserPositionState {
     symbols,
   ];
 }
+
 class UserPositionError extends UserPositionState {
   final String message;
   const UserPositionError(this.message);

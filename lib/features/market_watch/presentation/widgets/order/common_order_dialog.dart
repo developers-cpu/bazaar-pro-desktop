@@ -11,15 +11,12 @@ import '../../bloc/order/order_dialog_state.dart';
 import 'order_number_field.dart';
 import 'order_action_button.dart';
 import 'order_success_dialog.dart';
+
 class CommonOrderDialog extends StatelessWidget {
   final OrderDialogType type;
-  const CommonOrderDialog({
-    Key? key,
-    required this.type,
-  }) : super(key: key);
-  Color get _primaryColor => type == OrderDialogType.buy
-      ? AppColors.buyColor
-      : AppColors.sellColor;
+  const CommonOrderDialog({Key? key, required this.type}) : super(key: key);
+  Color get _primaryColor =>
+      type == OrderDialogType.buy ? AppColors.buyColor : AppColors.sellColor;
   Color get _backgroundColor => _primaryColor;
   String get _title => type == OrderDialogType.buy ? 'Buy Order' : 'Sell Order';
   String get _actionButtonText => type == OrderDialogType.buy ? 'Buy' : 'Sell';
@@ -33,6 +30,7 @@ class CommonOrderDialog extends StatelessWidget {
       builder: (context) => const CommonOrderDialog(type: OrderDialogType.buy),
     );
   }
+
   static Future<void> showSellOrder(BuildContext context) {
     context.read<OrderDialogBloc>().add(const OpenSellOrderEvent());
     return showDialog(
@@ -41,6 +39,7 @@ class CommonOrderDialog extends StatelessWidget {
       builder: (context) => const CommonOrderDialog(type: OrderDialogType.sell),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<OrderDialogBloc, OrderDialogState>(
@@ -72,16 +71,14 @@ class CommonOrderDialog extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildHeader(context),
-                _buildContent(context, state),
-              ],
+              children: [_buildHeader(context), _buildContent(context, state)],
             ),
           ),
         );
       },
     );
   }
+
   Widget _buildHeader(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(10.w),
@@ -98,7 +95,9 @@ class CommonOrderDialog extends StatelessWidget {
           ),
           IconButton(
             onPressed: () {
-              context.read<OrderDialogBloc>().add(const CloseOrderDialogEvent());
+              context.read<OrderDialogBloc>().add(
+                const CloseOrderDialogEvent(),
+              );
               Navigator.of(context).pop();
             },
             icon: Icon(
@@ -111,6 +110,7 @@ class CommonOrderDialog extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildContent(BuildContext context, OrderDialogState state) {
     return Container(
       margin: EdgeInsets.fromLTRB(10.w, 0, 10.w, 10.w),
@@ -128,6 +128,7 @@ class CommonOrderDialog extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildFirstRow(BuildContext context, OrderDialogState state) {
     return Row(
       children: [
@@ -143,7 +144,9 @@ class CommonOrderDialog extends StatelessWidget {
             borderColor: LightThemeColors.primaryColor,
             onChanged: (value) {
               if (value != null) {
-                context.read<OrderDialogBloc>().add(UpdateClientNameEvent(value));
+                context.read<OrderDialogBloc>().add(
+                  UpdateClientNameEvent(value),
+                );
               }
             },
           ),
@@ -161,7 +164,9 @@ class CommonOrderDialog extends StatelessWidget {
             borderColor: LightThemeColors.primaryColor,
             onChanged: (value) {
               if (value != null) {
-                context.read<OrderDialogBloc>().add(UpdateOrderTypeEvent(value));
+                context.read<OrderDialogBloc>().add(
+                  UpdateOrderTypeEvent(value),
+                );
               }
             },
           ),
@@ -201,13 +206,16 @@ class CommonOrderDialog extends StatelessWidget {
             labelColor: AppColors.white,
             borderColor: LightThemeColors.primaryColor,
             onChanged: (value) {
-              context.read<OrderDialogBloc>().add(UpdatePriceEvent(value.toDouble()));
+              context.read<OrderDialogBloc>().add(
+                UpdatePriceEvent(value.toDouble()),
+              );
             },
           ),
         ),
       ],
     );
   }
+
   Widget _buildSecondRow(BuildContext context, OrderDialogState state) {
     return Row(
       children: [
@@ -253,7 +261,9 @@ class CommonOrderDialog extends StatelessWidget {
             label: 'Cancel',
             borderColor: LightThemeColors.primaryColor,
             onPressed: () {
-              context.read<OrderDialogBloc>().add(const CloseOrderDialogEvent());
+              context.read<OrderDialogBloc>().add(
+                const CloseOrderDialogEvent(),
+              );
               Navigator.of(context).pop();
             },
           ),

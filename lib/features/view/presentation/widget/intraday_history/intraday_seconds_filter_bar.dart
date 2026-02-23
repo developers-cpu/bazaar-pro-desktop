@@ -9,7 +9,6 @@ import '../../bloc/intraday_history/intraday_history_bloc.dart';
 import '../../bloc/intraday_history/intraday_history_event.dart';
 import '../../bloc/intraday_history/intraday_history_state.dart';
 
-
 class IntradaySecondsFilterBar extends StatefulWidget {
   const IntradaySecondsFilterBar({Key? key}) : super(key: key);
   @override

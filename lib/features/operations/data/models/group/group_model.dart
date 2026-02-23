@@ -1,5 +1,3 @@
-
-
 import '../../../domain/entities/group/group.dart';
 
 class GroupModel extends Group {

@@ -6,6 +6,7 @@ import '../../../domain/usecases/pending_order/get_filter_data.dart';
 import '../../../domain/usecases/pending_order/get_pending_orders.dart';
 import 'pending_orders_event.dart';
 import 'pending_orders_state.dart';
+
 class PendingOrdersBloc extends Bloc<PendingOrdersEvent, PendingOrdersState> {
   final GetPendingOrders getPendingOrders;
   final GetPendingOrdersWithFilters getPendingOrdersWithFilters;
@@ -38,16 +39,16 @@ class PendingOrdersBloc extends Bloc<PendingOrdersEvent, PendingOrdersState> {
     on<SelectOrderEvent>(_onSelectOrder);
   }
   Future<void> _onLoadPendingOrders(
-      LoadPendingOrdersEvent event,
-      Emitter<PendingOrdersState> emit,
-      ) async {
+    LoadPendingOrdersEvent event,
+    Emitter<PendingOrdersState> emit,
+  ) async {
     emit(const PendingOrdersLoading());
     try {
       final results = await Future.wait([
-        getPendingOrders( NoParams()),
-        getClients( NoParams()),
-        getExchanges( NoParams()),
-        getSymbols( NoParams()),
+        getPendingOrders(NoParams()),
+        getClients(NoParams()),
+        getExchanges(NoParams()),
+        getSymbols(NoParams()),
       ]);
       final ordersResult = results[0];
       final clientsResult = results[1];
@@ -58,166 +59,212 @@ class PendingOrdersBloc extends Bloc<PendingOrdersEvent, PendingOrdersState> {
         emit(PendingOrdersError(failure?.message ?? 'Failed to load orders'));
         return;
       }
-      final orders = ordersResult.fold((l) => <PendingOrder>[], (r) => r as List<PendingOrder>);
-      final clients = clientsResult.fold((l) => <String>[], (r) => r as List<String>);
-      final exchanges = exchangesResult.fold((l) => <String>[], (r) => r as List<String>);
-      final symbols = symbolsResult.fold((l) => <String>[], (r) => r as List<String>);
+      final orders = ordersResult.fold(
+        (l) => <PendingOrder>[],
+        (r) => r as List<PendingOrder>,
+      );
+      final clients = clientsResult.fold(
+        (l) => <String>[],
+        (r) => r as List<String>,
+      );
+      final exchanges = exchangesResult.fold(
+        (l) => <String>[],
+        (r) => r as List<String>,
+      );
+      final symbols = symbolsResult.fold(
+        (l) => <String>[],
+        (r) => r as List<String>,
+      );
       final types = getOrderTypes();
-      emit(PendingOrdersLoaded(
-        allOrders: orders,
-        filteredOrders: orders,
-        clients: clients,
-        exchanges: exchanges,
-        symbols: symbols,
-        types: types,
-        totalRecords: orders.length,
-      ));
+      emit(
+        PendingOrdersLoaded(
+          allOrders: orders,
+          filteredOrders: orders,
+          clients: clients,
+          exchanges: exchanges,
+          symbols: symbols,
+          types: types,
+          totalRecords: orders.length,
+        ),
+      );
     } catch (e) {
       emit(PendingOrdersError(e.toString()));
     }
   }
+
   Future<void> _onFilterByClient(
-      FilterByClientEvent event,
-      Emitter<PendingOrdersState> emit,
-      ) async {
+    FilterByClientEvent event,
+    Emitter<PendingOrdersState> emit,
+  ) async {
     if (state is PendingOrdersLoaded) {
       final currentState = state as PendingOrdersLoaded;
-      final result = await getPendingOrdersWithFilters(FilterParams(
-        client: event.client,
-        exchange: currentState.selectedExchange,
-        symbol: currentState.selectedSymbol,
-        type: currentState.selectedType,
-      ));
+      final result = await getPendingOrdersWithFilters(
+        FilterParams(
+          client: event.client,
+          exchange: currentState.selectedExchange,
+          symbol: currentState.selectedSymbol,
+          type: currentState.selectedType,
+        ),
+      );
       result.fold(
-            (failure) => emit(PendingOrdersError(failure.message)),
-            (filtered) => emit(currentState.copyWith(
-          selectedClient: event.client,
-          filteredOrders: filtered,
-          totalRecords: filtered.length,
-          clearClient: event.client == null || event.client!.isEmpty,
-        )),
+        (failure) => emit(PendingOrdersError(failure.message)),
+        (filtered) => emit(
+          currentState.copyWith(
+            selectedClient: event.client,
+            filteredOrders: filtered,
+            totalRecords: filtered.length,
+            clearClient: event.client == null || event.client!.isEmpty,
+          ),
+        ),
       );
     }
   }
+
   Future<void> _onFilterByExchange(
-      FilterByExchangeEvent event,
-      Emitter<PendingOrdersState> emit,
-      ) async {
+    FilterByExchangeEvent event,
+    Emitter<PendingOrdersState> emit,
+  ) async {
     if (state is PendingOrdersLoaded) {
       final currentState = state as PendingOrdersLoaded;
-      final result = await getPendingOrdersWithFilters(FilterParams(
-        client: currentState.selectedClient,
-        exchange: event.exchange,
-        symbol: currentState.selectedSymbol,
-        type: currentState.selectedType,
-      ));
+      final result = await getPendingOrdersWithFilters(
+        FilterParams(
+          client: currentState.selectedClient,
+          exchange: event.exchange,
+          symbol: currentState.selectedSymbol,
+          type: currentState.selectedType,
+        ),
+      );
       result.fold(
-            (failure) => emit(PendingOrdersError(failure.message)),
-            (filtered) => emit(currentState.copyWith(
-          selectedExchange: event.exchange,
-          filteredOrders: filtered,
-          totalRecords: filtered.length,
-          clearExchange: event.exchange == null || event.exchange!.isEmpty,
-        )),
+        (failure) => emit(PendingOrdersError(failure.message)),
+        (filtered) => emit(
+          currentState.copyWith(
+            selectedExchange: event.exchange,
+            filteredOrders: filtered,
+            totalRecords: filtered.length,
+            clearExchange: event.exchange == null || event.exchange!.isEmpty,
+          ),
+        ),
       );
     }
   }
+
   Future<void> _onFilterBySymbol(
-      FilterBySymbolEvent event,
-      Emitter<PendingOrdersState> emit,
-      ) async {
+    FilterBySymbolEvent event,
+    Emitter<PendingOrdersState> emit,
+  ) async {
     if (state is PendingOrdersLoaded) {
       final currentState = state as PendingOrdersLoaded;
-      final result = await getPendingOrdersWithFilters(FilterParams(
-        client: currentState.selectedClient,
-        exchange: currentState.selectedExchange,
-        symbol: event.symbol,
-        type: currentState.selectedType,
-      ));
+      final result = await getPendingOrdersWithFilters(
+        FilterParams(
+          client: currentState.selectedClient,
+          exchange: currentState.selectedExchange,
+          symbol: event.symbol,
+          type: currentState.selectedType,
+        ),
+      );
       result.fold(
-            (failure) => emit(PendingOrdersError(failure.message)),
-            (filtered) => emit(currentState.copyWith(
-          selectedSymbol: event.symbol,
-          filteredOrders: filtered,
-          totalRecords: filtered.length,
-          clearSymbol: event.symbol == null || event.symbol!.isEmpty,
-        )),
+        (failure) => emit(PendingOrdersError(failure.message)),
+        (filtered) => emit(
+          currentState.copyWith(
+            selectedSymbol: event.symbol,
+            filteredOrders: filtered,
+            totalRecords: filtered.length,
+            clearSymbol: event.symbol == null || event.symbol!.isEmpty,
+          ),
+        ),
       );
     }
   }
+
   Future<void> _onFilterByType(
-      FilterByTypeEvent event,
-      Emitter<PendingOrdersState> emit,
-      ) async {
+    FilterByTypeEvent event,
+    Emitter<PendingOrdersState> emit,
+  ) async {
     if (state is PendingOrdersLoaded) {
       final currentState = state as PendingOrdersLoaded;
-      final result = await getPendingOrdersWithFilters(FilterParams(
-        client: currentState.selectedClient,
-        exchange: currentState.selectedExchange,
-        symbol: currentState.selectedSymbol,
-        type: event.type,
-      ));
+      final result = await getPendingOrdersWithFilters(
+        FilterParams(
+          client: currentState.selectedClient,
+          exchange: currentState.selectedExchange,
+          symbol: currentState.selectedSymbol,
+          type: event.type,
+        ),
+      );
       result.fold(
-            (failure) => emit(PendingOrdersError(failure.message)),
-            (filtered) => emit(currentState.copyWith(
-          selectedType: event.type,
-          filteredOrders: filtered,
-          totalRecords: filtered.length,
-          clearType: event.type == null || event.type!.isEmpty || event.type == 'All',
-        )),
+        (failure) => emit(PendingOrdersError(failure.message)),
+        (filtered) => emit(
+          currentState.copyWith(
+            selectedType: event.type,
+            filteredOrders: filtered,
+            totalRecords: filtered.length,
+            clearType:
+                event.type == null ||
+                event.type!.isEmpty ||
+                event.type == 'All',
+          ),
+        ),
       );
     }
   }
+
   Future<void> _onApplyFilters(
-      ApplyFiltersEvent event,
-      Emitter<PendingOrdersState> emit,
-      ) async {
+    ApplyFiltersEvent event,
+    Emitter<PendingOrdersState> emit,
+  ) async {
     if (state is PendingOrdersLoaded) {
       final currentState = state as PendingOrdersLoaded;
-      final result = await getPendingOrdersWithFilters(FilterParams(
-        client: event.client,
-        exchange: event.exchange,
-        symbol: event.symbol,
-        type: event.type,
-      ));
+      final result = await getPendingOrdersWithFilters(
+        FilterParams(
+          client: event.client,
+          exchange: event.exchange,
+          symbol: event.symbol,
+          type: event.type,
+        ),
+      );
       result.fold(
-            (failure) => emit(PendingOrdersError(failure.message)),
-            (filtered) => emit(currentState.copyWith(
-          selectedClient: event.client,
-          selectedExchange: event.exchange,
-          selectedSymbol: event.symbol,
-          selectedType: event.type,
-          filteredOrders: filtered,
-          totalRecords: filtered.length,
-        )),
+        (failure) => emit(PendingOrdersError(failure.message)),
+        (filtered) => emit(
+          currentState.copyWith(
+            selectedClient: event.client,
+            selectedExchange: event.exchange,
+            selectedSymbol: event.symbol,
+            selectedType: event.type,
+            filteredOrders: filtered,
+            totalRecords: filtered.length,
+          ),
+        ),
       );
     }
   }
+
   Future<void> _onResetFilters(
-      ResetFiltersEvent event,
-      Emitter<PendingOrdersState> emit,
-      ) async {
+    ResetFiltersEvent event,
+    Emitter<PendingOrdersState> emit,
+  ) async {
     if (state is PendingOrdersLoaded) {
       final currentState = state as PendingOrdersLoaded;
-      final result = await getPendingOrders( NoParams());
+      final result = await getPendingOrders(NoParams());
       result.fold(
-            (failure) => emit(PendingOrdersError(failure.message)),
-            (orders) => emit(PendingOrdersLoaded(
-          allOrders: orders,
-          filteredOrders: orders,
-          clients: currentState.clients,
-          exchanges: currentState.exchanges,
-          symbols: currentState.symbols,
-          types: currentState.types,
-          totalRecords: orders.length,
-        )),
+        (failure) => emit(PendingOrdersError(failure.message)),
+        (orders) => emit(
+          PendingOrdersLoaded(
+            allOrders: orders,
+            filteredOrders: orders,
+            clients: currentState.clients,
+            exchanges: currentState.exchanges,
+            symbols: currentState.symbols,
+            types: currentState.types,
+            totalRecords: orders.length,
+          ),
+        ),
       );
     }
   }
+
   void _onSortByColumn(
-      SortByColumnEvent event,
-      Emitter<PendingOrdersState> emit,
-      ) {
+    SortByColumnEvent event,
+    Emitter<PendingOrdersState> emit,
+  ) {
     if (state is PendingOrdersLoaded) {
       final currentState = state as PendingOrdersLoaded;
       final sorted = List<PendingOrder>.from(currentState.filteredOrders);
@@ -266,63 +313,76 @@ class PendingOrdersBloc extends Bloc<PendingOrdersEvent, PendingOrdersState> {
         }
         return event.ascending ? comparison : -comparison;
       });
-      emit(currentState.copyWith(
-        filteredOrders: sorted,
-        sortColumn: event.columnId,
-        sortAscending: event.ascending,
-      ));
+      emit(
+        currentState.copyWith(
+          filteredOrders: sorted,
+          sortColumn: event.columnId,
+          sortAscending: event.ascending,
+        ),
+      );
     }
   }
+
   Future<void> _onExportToPdf(
-      ExportToPdfEvent event,
-      Emitter<PendingOrdersState> emit,
-      ) async {
+    ExportToPdfEvent event,
+    Emitter<PendingOrdersState> emit,
+  ) async {
     if (state is PendingOrdersLoaded) {
       final currentState = state as PendingOrdersLoaded;
       emit(const PendingOrdersExporting('pdf'));
-      final result = await exportToPdf(ExportParams(orders: currentState.filteredOrders));
+      final result = await exportToPdf(
+        ExportParams(orders: currentState.filteredOrders),
+      );
       result.fold(
-            (failure) {
+        (failure) {
           emit(PendingOrdersError(failure.message));
           emit(currentState);
         },
-            (filePath) {
-          emit(PendingOrdersExportSuccess(
-            message: 'PDF exported successfully',
-            filePath: filePath,
-          ));
+        (filePath) {
+          emit(
+            PendingOrdersExportSuccess(
+              message: 'PDF exported successfully',
+              filePath: filePath,
+            ),
+          );
           emit(currentState);
         },
       );
     }
   }
+
   Future<void> _onExportToExcel(
-      ExportToExcelEvent event,
-      Emitter<PendingOrdersState> emit,
-      ) async {
+    ExportToExcelEvent event,
+    Emitter<PendingOrdersState> emit,
+  ) async {
     if (state is PendingOrdersLoaded) {
       final currentState = state as PendingOrdersLoaded;
       emit(const PendingOrdersExporting('excel'));
-      final result = await exportToExcel(ExportParams(orders: currentState.filteredOrders));
+      final result = await exportToExcel(
+        ExportParams(orders: currentState.filteredOrders),
+      );
       result.fold(
-            (failure) {
+        (failure) {
           emit(PendingOrdersError(failure.message));
           emit(currentState);
         },
-            (filePath) {
-          emit(PendingOrdersExportSuccess(
-            message: 'Excel exported successfully',
-            filePath: filePath,
-          ));
+        (filePath) {
+          emit(
+            PendingOrdersExportSuccess(
+              message: 'Excel exported successfully',
+              filePath: filePath,
+            ),
+          );
           emit(currentState);
         },
       );
     }
   }
+
   void _onSelectOrder(
-      SelectOrderEvent event,
-      Emitter<PendingOrdersState> emit,
-      ) {
+    SelectOrderEvent event,
+    Emitter<PendingOrdersState> emit,
+  ) {
     if (state is PendingOrdersLoaded) {
       final currentState = state as PendingOrdersLoaded;
       emit(currentState.copyWith(selectedOrderId: event.orderId));

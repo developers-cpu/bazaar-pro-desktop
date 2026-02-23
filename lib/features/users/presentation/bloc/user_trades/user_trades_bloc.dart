@@ -6,6 +6,7 @@ import '../../../domain/entities/user_trades/user_trade.dart';
 import '../../../../../core/usecases/usecase.dart';
 import 'user_trades_event.dart';
 import 'user_trades_state.dart';
+
 class UserTradesBloc extends Bloc<UserTradesEvent, UserTradesState> {
   final GetUserTrades getUserTrades;
   final GetUserTradesMetadata getUserTradesMetadata;
@@ -44,6 +45,7 @@ class UserTradesBloc extends Bloc<UserTradesEvent, UserTradesState> {
       );
     });
   }
+
   void _onFilterUserTrades(
     FilterUserTrades event,
     Emitter<UserTradesState> emit,

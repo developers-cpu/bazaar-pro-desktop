@@ -13,11 +13,31 @@ class IntradaySecondsTable extends StatelessWidget {
   const IntradaySecondsTable({Key? key}) : super(key: key);
   static final List<ViewTableColumn> _columns = [
     const ViewTableColumn(id: 'timestamp', label: 'TIME STAMP', width: 300),
-    const ViewTableColumn(id: 'open', label: 'OPEN', width: 250, isNumeric: true),
-    const ViewTableColumn(id: 'high', label: 'HIGH', width: 250, isNumeric: true),
+    const ViewTableColumn(
+      id: 'open',
+      label: 'OPEN',
+      width: 250,
+      isNumeric: true,
+    ),
+    const ViewTableColumn(
+      id: 'high',
+      label: 'HIGH',
+      width: 250,
+      isNumeric: true,
+    ),
     const ViewTableColumn(id: 'low', label: 'LOW', width: 250, isNumeric: true),
-    const ViewTableColumn(id: 'close', label: 'CLOSE', width: 250, isNumeric: true),
-    const ViewTableColumn(id: 'volume', label: 'VOLUME', width: 250, isNumeric: true),
+    const ViewTableColumn(
+      id: 'close',
+      label: 'CLOSE',
+      width: 250,
+      isNumeric: true,
+    ),
+    const ViewTableColumn(
+      id: 'volume',
+      label: 'VOLUME',
+      width: 250,
+      isNumeric: true,
+    ),
   ];
   @override
   Widget build(BuildContext context) {
@@ -25,9 +45,7 @@ class IntradaySecondsTable extends StatelessWidget {
       builder: (context, state) {
         if (state is IntradayHistoryLoading) {
           return const Center(
-            child: CircularProgressIndicator(
-              color: AppColors.primaryBlue,
-            ),
+            child: CircularProgressIndicator(color: AppColors.primaryBlue),
           );
         }
         if (state is IntradayHistoryError) {
@@ -68,6 +86,7 @@ class IntradaySecondsTable extends StatelessWidget {
       },
     );
   }
+
   Widget _buildCell(IntradayHistory history, ViewTableColumn column) {
     switch (column.id) {
       case 'timestamp':

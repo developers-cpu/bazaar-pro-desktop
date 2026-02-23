@@ -6,7 +6,6 @@ import 'package:bazarpro/core/constants/app_colors.dart';
 import 'package:bazarpro/core/widget/common_dilog_box.dart';
 import 'package:bazarpro/features/users/domain/entities/user.dart';
 
-
 import 'package:bazarpro/core/widget/custom_input_field.dart';
 
 class UserExchangeWisePositionLimitDialog extends StatelessWidget {
@@ -24,10 +23,9 @@ class UserExchangeWisePositionLimitDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     return CommonDialog(
       title: 'Exchange Wise Position Limit',
-      width: 500.w, 
+      width: 500.w,
       showButtons: false,
       content: const UserExchangeWisePositionLimitDialogContent(),
     );
@@ -44,7 +42,6 @@ class UserExchangeWisePositionLimitDialogContent extends StatefulWidget {
 
 class _UserExchangeWisePositionLimitDialogContentState
     extends State<UserExchangeWisePositionLimitDialogContent> {
-  
   final List<String> exchanges = [
     'MCX',
     'NSE',
@@ -94,9 +91,7 @@ class _UserExchangeWisePositionLimitDialogContentState
                 hintText: 'Type here',
                 height: 35.h,
                 width: double.infinity,
-                onChanged: (val) {
-                  
-                },
+                onChanged: (val) {},
               ),
             ],
           ),

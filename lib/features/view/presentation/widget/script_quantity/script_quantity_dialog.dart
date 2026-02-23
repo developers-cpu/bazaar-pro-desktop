@@ -5,7 +5,6 @@ import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
 import '../../../domain/entities/script_quantity/script_quantity.dart';
 
-
 class ScriptQuantityDialog extends StatefulWidget {
   final List<ScriptQuantity> quantities;
   final String exchange;

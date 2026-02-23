@@ -5,6 +5,7 @@ import 'package:bazarpro/core/usecases/usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'user_quantity_settings_event.dart';
 import 'user_quantity_settings_state.dart';
+
 class UserQuantitySettingsBloc
     extends Bloc<UserQuantitySettingsEvent, UserQuantitySettingsState> {
   final GetUserQuantitySettings getUserQuantitySettings;
@@ -45,6 +46,7 @@ class UserQuantitySettingsBloc
       },
     );
   }
+
   void _onFilterSettings(
     FilterUserQuantitySettings event,
     Emitter<UserQuantitySettingsState> emit,

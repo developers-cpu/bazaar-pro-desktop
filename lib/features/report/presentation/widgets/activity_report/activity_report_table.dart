@@ -33,7 +33,6 @@ class ActivityReportTable extends StatelessWidget {
           text: item.activityName,
           isDark: isDark,
           onTap: () {
-            
             _showDetailDialog(context, item);
           },
         );

@@ -8,6 +8,7 @@ import '../../../../core/constants/app_strings.dart';
 import '../../../../core/widget/svg_icon.dart';
 import '../bloc/theme/theme_bloc.dart';
 import '../bloc/theme/theme_state.dart';
+
 class ContextMenuWidget extends StatelessWidget {
   final Offset position;
   final VoidCallback onViewChart;
@@ -209,6 +210,7 @@ class ContextMenuWidget extends StatelessWidget {
       },
     );
   }
+
   Widget _buildDivider(bool isDark) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8.h),
@@ -220,6 +222,7 @@ class ContextMenuWidget extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildMenuItem({
     required IconData icon,
     required String text,
@@ -242,9 +245,7 @@ class ContextMenuWidget extends StatelessWidget {
       child: Container(
         height: 32.h,
         padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5.r),
-        ),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(5.r)),
         child: Row(
           children: [
             Icon(
@@ -290,6 +291,7 @@ class ContextMenuWidget extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildMenuItemSvg({
     required String icon,
     required String text,
@@ -310,16 +312,10 @@ class ContextMenuWidget extends StatelessWidget {
       child: Container(
         height: 29.h,
         padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5.r),
-        ),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(5.r)),
         child: Row(
           children: [
-            SvgIcon(
-              assetPath: icon,
-              isActive: enabled && isDark,
-              size: 18.w,
-            ),
+            SvgIcon(assetPath: icon, isActive: enabled && isDark, size: 18.w),
             SizedBox(width: 10.w),
             Expanded(
               child: Text(

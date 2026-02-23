@@ -15,7 +15,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<void> _onLogin(LoginEvent event, Emitter<AuthState> emit) async {
     emit(const AuthLoading());
 
-    
     User? dummyUser;
     if (event.username == AuthConstants.clientUsername &&
         event.password == AuthConstants.clientPassword) {
@@ -51,7 +50,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) async {
     emit(const AuthLoading());
-    
+
     final dummyUser = _createDummyUser(event.role);
     emit(AuthAuthenticated(user: dummyUser));
   }

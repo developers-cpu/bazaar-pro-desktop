@@ -1,16 +1,20 @@
 import 'package:equatable/equatable.dart';
 import '../../../domain/entities/intraday_history/intraday_history.dart';
+
 abstract class IntradayHistoryState extends Equatable {
   const IntradayHistoryState();
   @override
   List<Object?> get props => [];
 }
+
 class IntradayHistoryInitial extends IntradayHistoryState {
   const IntradayHistoryInitial();
 }
+
 class IntradayHistoryLoading extends IntradayHistoryState {
   const IntradayHistoryLoading();
 }
+
 class IntradayHistoryLoaded extends IntradayHistoryState {
   final List<IntradayHistory> history;
   final int totalRecords;
@@ -78,6 +82,7 @@ class IntradayHistoryLoaded extends IntradayHistoryState {
     );
   }
 }
+
 class IntradayHistorySecondsView extends IntradayHistoryState {
   final List<IntradayHistory> history;
   final int totalRecords;
@@ -135,12 +140,14 @@ class IntradayHistorySecondsView extends IntradayHistoryState {
     );
   }
 }
+
 class IntradayHistoryError extends IntradayHistoryState {
   final String message;
   const IntradayHistoryError(this.message);
   @override
   List<Object?> get props => [message];
 }
+
 class IntradayHistoryExportSuccess extends IntradayHistoryState {
   final String message;
   final String filePath;

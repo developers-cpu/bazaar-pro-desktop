@@ -61,7 +61,6 @@ class ActivityDetailDialog extends StatelessWidget {
   }
 
   Widget _buildContent(BuildContext context) {
-    
     switch (activity.activityName) {
       case 'Leverage':
         return LeverageDetailView(isDarkMode: isDarkMode);

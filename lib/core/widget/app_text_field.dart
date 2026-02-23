@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../constants/app_colors.dart';
+
 class AppTextField extends StatelessWidget {
   final TextEditingController? controller;
   final String? hintText;
@@ -93,6 +94,7 @@ class AppTextField extends StatelessWidget {
     );
   }
 }
+
 class AppPasswordField extends StatefulWidget {
   final TextEditingController? controller;
   final String? hintText;
@@ -108,6 +110,7 @@ class AppPasswordField extends StatefulWidget {
   @override
   State<AppPasswordField> createState() => _AppPasswordFieldState();
 }
+
 class _AppPasswordFieldState extends State<AppPasswordField> {
   bool _isVisible = false;
   @override
@@ -129,6 +132,7 @@ class _AppPasswordFieldState extends State<AppPasswordField> {
     );
   }
 }
+
 class AppLabeledTextField extends StatelessWidget {
   final String label;
   final TextEditingController? controller;

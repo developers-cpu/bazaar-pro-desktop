@@ -1,4 +1,5 @@
 import '../../domain/entities/rule_entity.dart';
+
 class RuleModel extends RuleEntity {
   const RuleModel({
     required String id,

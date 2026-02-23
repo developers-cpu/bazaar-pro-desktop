@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+
 class UserPendingOrder extends Equatable {
   final String id;
   final DateTime time;

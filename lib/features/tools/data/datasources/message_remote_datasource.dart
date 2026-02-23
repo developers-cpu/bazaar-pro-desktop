@@ -1,7 +1,9 @@
 import '../models/message_model.dart';
+
 abstract class MessageRemoteDataSource {
   Future<List<MessageModel>> getMessages();
 }
+
 class MessageRemoteDataSourceImpl implements MessageRemoteDataSource {
   @override
   Future<List<MessageModel>> getMessages() async {
@@ -40,9 +42,7 @@ class MessageRemoteDataSourceImpl implements MessageRemoteDataSource {
         title: 'Exciting news, traders!',
         body:
             'We\'ve rolled out a new update to make your trading experience faster, smoother, and more secure. Update now and enjoy enhanced performance with bug fixes and new features!',
-        timestamp: DateTime.now().add(
-          const Duration(hours: 12, minutes: 31),
-        ),
+        timestamp: DateTime.now().add(const Duration(hours: 12, minutes: 31)),
         isRead: false,
       ),
       MessageModel(
@@ -50,9 +50,7 @@ class MessageRemoteDataSourceImpl implements MessageRemoteDataSource {
         title: 'Exciting news, traders!',
         body:
             'We\'ve rolled out a new update to make your trading experience faster, smoother, and more secure. Update now and enjoy enhanced performance with bug fixes and new features!',
-        timestamp: DateTime.now().add(
-          const Duration(hours: 12, minutes: 31),
-        ),
+        timestamp: DateTime.now().add(const Duration(hours: 12, minutes: 31)),
         isRead: false,
       ),
     ];

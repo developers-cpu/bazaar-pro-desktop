@@ -5,6 +5,7 @@ import '../../../domain/entities/rule_entity.dart';
 import '../../../domain/usecases/get_rules_usecase.dart';
 part 'rules_event.dart';
 part 'rules_state.dart';
+
 class RulesBloc extends Bloc<RulesEvent, RulesState> {
   final GetRulesUseCase getRules;
   RulesBloc({required this.getRules}) : super(RulesLoading()) {

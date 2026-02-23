@@ -1,4 +1,5 @@
 import '../../domain/entities/dashboard_entity.dart';
+
 class TradeReportModel extends TradeReportData {
   const TradeReportModel({
     required super.date,
@@ -23,6 +24,7 @@ class TradeReportModel extends TradeReportData {
     };
   }
 }
+
 class SymbolReportModel extends SymbolReportData {
   const SymbolReportModel({
     required super.symbol,
@@ -39,13 +41,10 @@ class SymbolReportModel extends SymbolReportData {
     );
   }
   Map<String, dynamic> toJson() {
-    return {
-      'symbol': symbol,
-      'value': value,
-      'percentage': percentage,
-    };
+    return {'symbol': symbol, 'value': value, 'percentage': percentage};
   }
 }
+
 class DashboardSummaryModel extends DashboardSummary {
   const DashboardSummaryModel({
     required super.pnl,
@@ -62,11 +61,6 @@ class DashboardSummaryModel extends DashboardSummary {
     );
   }
   Map<String, dynamic> toJson() {
-    return {
-      'pnl': pnl,
-      'bk': bk,
-      'other': other,
-      'balance': balance,
-    };
+    return {'pnl': pnl, 'bk': bk, 'other': other, 'balance': balance};
   }
 }

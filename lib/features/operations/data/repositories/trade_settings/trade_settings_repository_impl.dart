@@ -25,9 +25,7 @@ class TradeSettingsRepositoryImpl implements TradeSettingsRepository {
     TradeSetting? details,
   }) async {
     try {
-      final result = await remoteDataSource.updateTradeSettings(
-        ids: ids,
-      );
+      final result = await remoteDataSource.updateTradeSettings(ids: ids);
       return Right(result);
     } catch (e) {
       return Left(ServerFailure());

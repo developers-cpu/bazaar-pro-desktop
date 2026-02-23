@@ -1,7 +1,9 @@
 import '../models/announcement_model.dart';
+
 abstract class AnnouncementRemoteDataSource {
   Future<List<AnnouncementModel>> getAnnouncements();
 }
+
 class AnnouncementRemoteDataSourceImpl implements AnnouncementRemoteDataSource {
   @override
   Future<List<AnnouncementModel>> getAnnouncements() async {
@@ -40,9 +42,7 @@ class AnnouncementRemoteDataSourceImpl implements AnnouncementRemoteDataSource {
         title: 'Exciting news, traders!',
         body:
             'We\'ve rolled out a new update to make your trading experience faster, smoother, and more secure. Update now and enjoy enhanced performance with bug fixes and new features!',
-        timestamp: DateTime.now().add(
-          const Duration(hours: 12, minutes: 31),
-        ),
+        timestamp: DateTime.now().add(const Duration(hours: 12, minutes: 31)),
         isRead: false,
       ),
       AnnouncementModel(
@@ -50,9 +50,7 @@ class AnnouncementRemoteDataSourceImpl implements AnnouncementRemoteDataSource {
         title: 'Exciting news, traders!',
         body:
             'We\'ve rolled out a new update to make your trading experience faster, smoother, and more secure. Update now and enjoy enhanced performance with bug fixes and new features!',
-        timestamp: DateTime.now().add(
-          const Duration(hours: 12, minutes: 31),
-        ),
+        timestamp: DateTime.now().add(const Duration(hours: 12, minutes: 31)),
         isRead: false,
       ),
     ];

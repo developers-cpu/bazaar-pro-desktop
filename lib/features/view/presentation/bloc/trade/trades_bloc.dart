@@ -4,6 +4,7 @@ import '../../../domain/entities/trades/trade.dart';
 import '../../../domain/usecases/trade/trades_usecases.dart';
 import 'trades_event.dart';
 import 'trades_state.dart';
+
 class TradesBloc extends Bloc<TradesEvent, TradesState> {
   final GetTrades getTrades;
   final GetTradesWithFilters getTradesWithFilters;
@@ -32,9 +33,9 @@ class TradesBloc extends Bloc<TradesEvent, TradesState> {
     on<ExportTradesToExcelEvent>(_onExportToExcel);
   }
   Future<void> _onLoadTrades(
-      LoadTradesEvent event,
-      Emitter<TradesState> emit,
-      ) async {
+    LoadTradesEvent event,
+    Emitter<TradesState> emit,
+  ) async {
     emit(const TradesLoading());
     try {
       final results = await Future.wait([
@@ -54,81 +55,105 @@ class TradesBloc extends Bloc<TradesEvent, TradesState> {
         emit(TradesError(failure?.message ?? 'Failed to load trades'));
         return;
       }
-      final trades = tradesResult.fold((l) => <Trade>[], (r) => r as List<Trade>);
-      final clients = clientsResult.fold((l) => <String>[], (r) => r as List<String>);
-      final exchanges = exchangesResult.fold((l) => <String>[], (r) => r as List<String>);
-      final symbols = symbolsResult.fold((l) => <String>[], (r) => r as List<String>);
-      final orderTypes = orderTypesResult.fold((l) => <String>[], (r) => r as List<String>);
-      emit(TradesLoaded(
-        trades: trades,
-        filteredTrades: trades,
-        totalRecords: trades.length,
-        clients: clients,
-        exchanges: exchanges,
-        symbols: symbols,
-        orderTypes: orderTypes,
-      ));
+      final trades = tradesResult.fold(
+        (l) => <Trade>[],
+        (r) => r as List<Trade>,
+      );
+      final clients = clientsResult.fold(
+        (l) => <String>[],
+        (r) => r as List<String>,
+      );
+      final exchanges = exchangesResult.fold(
+        (l) => <String>[],
+        (r) => r as List<String>,
+      );
+      final symbols = symbolsResult.fold(
+        (l) => <String>[],
+        (r) => r as List<String>,
+      );
+      final orderTypes = orderTypesResult.fold(
+        (l) => <String>[],
+        (r) => r as List<String>,
+      );
+      emit(
+        TradesLoaded(
+          trades: trades,
+          filteredTrades: trades,
+          totalRecords: trades.length,
+          clients: clients,
+          exchanges: exchanges,
+          symbols: symbols,
+          orderTypes: orderTypes,
+        ),
+      );
     } catch (e) {
       emit(TradesError(e.toString()));
     }
   }
+
   Future<void> _onApplyFilters(
-      ApplyFiltersEvent event,
-      Emitter<TradesState> emit,
-      ) async {
+    ApplyFiltersEvent event,
+    Emitter<TradesState> emit,
+  ) async {
     if (state is! TradesLoaded) return;
     final currentState = state as TradesLoaded;
     emit(const TradesLoading());
-    final result = await getTradesWithFilters(TradesFilterParams(
-      startDate: event.startDate,
-      endDate: event.endDate,
-      client: event.client,
-      exchange: event.exchange,
-      symbol: event.symbol,
-      orderType: event.orderType,
-    ));
-    result.fold(
-          (failure) => emit(TradesError(failure.message)),
-          (trades) => emit(currentState.copyWith(
-        filteredTrades: trades,
-        totalRecords: trades.length,
+    final result = await getTradesWithFilters(
+      TradesFilterParams(
         startDate: event.startDate,
         endDate: event.endDate,
-        selectedClient: event.client,
-        selectedExchange: event.exchange,
-        selectedSymbol: event.symbol,
-        selectedOrderType: event.orderType,
-      )),
+        client: event.client,
+        exchange: event.exchange,
+        symbol: event.symbol,
+        orderType: event.orderType,
+      ),
+    );
+    result.fold(
+      (failure) => emit(TradesError(failure.message)),
+      (trades) => emit(
+        currentState.copyWith(
+          filteredTrades: trades,
+          totalRecords: trades.length,
+          startDate: event.startDate,
+          endDate: event.endDate,
+          selectedClient: event.client,
+          selectedExchange: event.exchange,
+          selectedSymbol: event.symbol,
+          selectedOrderType: event.orderType,
+        ),
+      ),
     );
   }
+
   Future<void> _onResetFilters(
-      ResetFiltersEvent event,
-      Emitter<TradesState> emit,
-      ) async {
+    ResetFiltersEvent event,
+    Emitter<TradesState> emit,
+  ) async {
     if (state is! TradesLoaded) return;
     final currentState = state as TradesLoaded;
-    emit(TradesLoaded(
-      trades: currentState.trades,
-      filteredTrades: currentState.trades,
-      totalRecords: currentState.trades.length,
-      clients: currentState.clients,
-      exchanges: currentState.exchanges,
-      symbols: currentState.symbols,
-      orderTypes: currentState.orderTypes,
-    ));
+    emit(
+      TradesLoaded(
+        trades: currentState.trades,
+        filteredTrades: currentState.trades,
+        totalRecords: currentState.trades.length,
+        clients: currentState.clients,
+        exchanges: currentState.exchanges,
+        symbols: currentState.symbols,
+        orderTypes: currentState.orderTypes,
+      ),
+    );
   }
-  void _onSelectTrade(
-      SelectTradeEvent event,
-      Emitter<TradesState> emit,
-      ) {
+
+  void _onSelectTrade(SelectTradeEvent event, Emitter<TradesState> emit) {
     if (state is! TradesLoaded) return;
     final currentState = state as TradesLoaded;
     emit(currentState.copyWith(selectedTradeId: event.tradeId));
   }
+
   void _onSortByColumn(
-      SortTradesByColumnEvent event,
-      Emitter<TradesState> emit,
-      ) {
+    SortTradesByColumnEvent event,
+    Emitter<TradesState> emit,
+  ) {
     if (state is! TradesLoaded) return;
     final currentState = state as TradesLoaded;
     final sortedTrades = List<Trade>.from(currentState.filteredTrades);
@@ -179,46 +204,48 @@ class TradesBloc extends Bloc<TradesEvent, TradesState> {
       }
       return event.ascending ? comparison : -comparison;
     });
-    emit(currentState.copyWith(
-      filteredTrades: sortedTrades,
-      sortColumn: event.columnId,
-      sortAscending: event.ascending,
-    ));
+    emit(
+      currentState.copyWith(
+        filteredTrades: sortedTrades,
+        sortColumn: event.columnId,
+        sortAscending: event.ascending,
+      ),
+    );
   }
+
   Future<void> _onExportToPdf(
-      ExportTradesToPdfEvent event,
-      Emitter<TradesState> emit,
-      ) async {
+    ExportTradesToPdfEvent event,
+    Emitter<TradesState> emit,
+  ) async {
     if (state is! TradesLoaded) return;
     final currentState = state as TradesLoaded;
     final result = await exportToPdf(currentState.filteredTrades);
-    result.fold(
-          (failure) => emit(TradesError(failure.message)),
-          (path) {
-        emit(TradesExportSuccess(
+    result.fold((failure) => emit(TradesError(failure.message)), (path) {
+      emit(
+        TradesExportSuccess(
           message: 'PDF exported successfully',
           filePath: path,
-        ));
-        emit(currentState);
-      },
-    );
+        ),
+      );
+      emit(currentState);
+    });
   }
+
   Future<void> _onExportToExcel(
-      ExportTradesToExcelEvent event,
-      Emitter<TradesState> emit,
-      ) async {
+    ExportTradesToExcelEvent event,
+    Emitter<TradesState> emit,
+  ) async {
     if (state is! TradesLoaded) return;
     final currentState = state as TradesLoaded;
     final result = await exportToExcel(currentState.filteredTrades);
-    result.fold(
-          (failure) => emit(TradesError(failure.message)),
-          (path) {
-        emit(TradesExportSuccess(
+    result.fold((failure) => emit(TradesError(failure.message)), (path) {
+      emit(
+        TradesExportSuccess(
           message: 'Excel exported successfully',
           filePath: path,
-        ));
-        emit(currentState);
-      },
-    );
+        ),
+      );
+      emit(currentState);
+    });
   }
 }

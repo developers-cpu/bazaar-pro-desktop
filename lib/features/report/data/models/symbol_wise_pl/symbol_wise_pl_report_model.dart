@@ -1,4 +1,5 @@
 import '../../../domain/entities/symbol_wise_pl/symbol_wise_pl_report.dart';
+
 class SymbolWisePLReportModel extends SymbolWisePLReport {
   const SymbolWisePLReportModel({
     required String id,

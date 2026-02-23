@@ -1,4 +1,5 @@
 import '../../../domain/entities/user_quantity_setting/user_quantity_setting.dart';
+
 class UserQuantitySettingModel extends UserQuantitySetting {
   const UserQuantitySettingModel({
     required super.id,

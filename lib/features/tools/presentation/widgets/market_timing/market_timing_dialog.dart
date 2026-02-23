@@ -10,6 +10,7 @@ import 'package:bazarpro/features/tools/domain/entities/market_timing_entity.dar
 import '../../bloc/market_timing/market_timing_bloc.dart';
 import '../../bloc/market_timing/market_timing_event.dart';
 import '../../bloc/market_timing/market_timing_state.dart';
+
 class MarketTimingDialog extends StatefulWidget {
   final DateTime? initialDate;
   final String exchange;
@@ -29,9 +30,11 @@ class MarketTimingDialog extends StatefulWidget {
       ),
     );
   }
+
   @override
   State<MarketTimingDialog> createState() => _MarketTimingDialogState();
 }
+
 class _MarketTimingDialogState extends State<MarketTimingDialog> {
   DateTime? _selectedDate;
   @override
@@ -40,12 +43,14 @@ class _MarketTimingDialogState extends State<MarketTimingDialog> {
     _selectedDate = widget.initialDate ?? DateTime.now();
     _fetchMarketTiming();
   }
+
   void _onDateSelected(DateTime date) {
     setState(() {
       _selectedDate = date;
     });
     _fetchMarketTiming();
   }
+
   void _fetchMarketTiming() {
     if (_selectedDate != null) {
       context.read<MarketTimingBloc>().add(
@@ -53,6 +58,7 @@ class _MarketTimingDialogState extends State<MarketTimingDialog> {
       );
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -115,6 +121,7 @@ class _MarketTimingDialogState extends State<MarketTimingDialog> {
       ),
     );
   }
+
   Widget _buildStateFooter(MarketTimingState state) {
     if (state is MarketTimingLoading) {
       return SizedBox(
@@ -133,6 +140,7 @@ class _MarketTimingDialogState extends State<MarketTimingDialog> {
     }
     return SizedBox(height: 100.h);
   }
+
   Widget _buildHeader() {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
@@ -164,6 +172,7 @@ class _MarketTimingDialogState extends State<MarketTimingDialog> {
       ),
     );
   }
+
   Widget _buildFooterStatus(MarketTimingEntity data) {
     final dateFormat = DateFormat('dd MMM');
     final dateStr = dateFormat.format(_selectedDate!).toUpperCase();
@@ -233,6 +242,7 @@ class _MarketTimingDialogState extends State<MarketTimingDialog> {
       ),
     );
   }
+
   Widget _buildTimingRow(String start, String end) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,

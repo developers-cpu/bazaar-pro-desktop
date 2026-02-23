@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_dimensions.dart';
+
 class CustomButton extends StatelessWidget {
   final String text;
   final VoidCallback? onPressed;
@@ -35,7 +36,8 @@ class CustomButton extends StatelessWidget {
     final effectiveBackgroundColor = backgroundColor ?? AppColors.primaryBlue;
     final effectiveTextColor = textColor ?? AppColors.white;
     final effectiveBorderColor = borderColor ?? AppColors.primaryBlue;
-    final effectiveDisabledColor = disabledBackgroundColor ?? AppColors.greyBorder;
+    final effectiveDisabledColor =
+        disabledBackgroundColor ?? AppColors.greyBorder;
     return SizedBox(
       width: width ?? 500,
       height: height ?? 45,
@@ -58,23 +60,23 @@ class CustomButton extends StatelessWidget {
         ),
         child: isLoading
             ? SizedBox(
-          width: AppDimensions.iconSizeM,
-          height: AppDimensions.iconSizeM,
-          child: CircularProgressIndicator(
-            color: effectiveTextColor,
-            strokeWidth: AppDimensions.borderWidthMedium,
-          ),
-        )
+                width: AppDimensions.iconSizeM,
+                height: AppDimensions.iconSizeM,
+                child: CircularProgressIndicator(
+                  color: effectiveTextColor,
+                  strokeWidth: AppDimensions.borderWidthMedium,
+                ),
+              )
             : Text(
-          text,
-          style: GoogleFonts.openSans(
-            fontSize: fontSize ?? AppDimensions.fontSizeL,
-            fontWeight: fontWeight ?? FontWeight.w600,
-            color: effectiveTextColor,
-            letterSpacing: 0.1,
-            height: 1.0,
-          ),
-        ),
+                text,
+                style: GoogleFonts.openSans(
+                  fontSize: fontSize ?? AppDimensions.fontSizeL,
+                  fontWeight: fontWeight ?? FontWeight.w600,
+                  color: effectiveTextColor,
+                  letterSpacing: 0.1,
+                  height: 1.0,
+                ),
+              ),
       ),
     );
   }

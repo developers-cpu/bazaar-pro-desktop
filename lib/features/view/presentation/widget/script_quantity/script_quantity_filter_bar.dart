@@ -8,7 +8,6 @@ import '../../bloc/script_quantity/script_quantity_bloc.dart';
 import '../../bloc/script_quantity/script_quantity_event.dart';
 import '../../bloc/script_quantity/script_quantity_state.dart';
 
-
 class ScriptQuantityFilterBar extends StatefulWidget {
   const ScriptQuantityFilterBar({Key? key}) : super(key: key);
   @override

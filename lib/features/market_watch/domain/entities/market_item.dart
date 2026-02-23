@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+
 class MarketItem extends Equatable {
   final String id;
   final String exchange;
@@ -71,23 +72,24 @@ class MarketItem extends Equatable {
       lut: lut ?? this.lut,
     );
   }
+
   @override
   List<Object?> get props => [
-        id,
-        exchange,
-        symbol,
-        buyQty,
-        buyPrice,
-        sellPrice,
-        sellQty,
-        netChange,
-        high,
-        low,
-        open,
-        close,
-        ltp,
-        netChangePercent,
-        expiry,
-        lut,
-      ];
+    id,
+    exchange,
+    symbol,
+    buyQty,
+    buyPrice,
+    sellPrice,
+    sellQty,
+    netChange,
+    high,
+    low,
+    open,
+    close,
+    ltp,
+    netChangePercent,
+    expiry,
+    lut,
+  ];
 }

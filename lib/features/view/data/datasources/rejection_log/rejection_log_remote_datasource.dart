@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import '../../models/rejection_log/rejection_log_model.dart';
+
 abstract class RejectionLogRemoteDataSource {
   Future<List<RejectionLogModel>> getRejectionLogs();
   Future<List<RejectionLogModel>> getRejectionLogsWithFilters({
@@ -15,8 +16,8 @@ abstract class RejectionLogRemoteDataSource {
   Future<String> exportToPdf(List<RejectionLogModel> logs);
   Future<String> exportToExcel(List<RejectionLogModel> logs);
 }
-class RejectionLogRemoteDataSourceImpl
-    implements RejectionLogRemoteDataSource {
+
+class RejectionLogRemoteDataSourceImpl implements RejectionLogRemoteDataSource {
   final Dio dio;
   RejectionLogRemoteDataSourceImpl({required this.dio});
   @override
@@ -28,6 +29,7 @@ class RejectionLogRemoteDataSourceImpl
       throw Exception('Failed to fetch rejection logs: $e');
     }
   }
+
   @override
   Future<List<RejectionLogModel>> getRejectionLogsWithFilters({
     DateTime? startDate,
@@ -45,15 +47,14 @@ class RejectionLogRemoteDataSourceImpl
           matches = matches && log.orderDateTime.isAfter(startDate);
         }
         if (endDate != null) {
-          matches = matches &&
-              log.orderDateTime
-                  .isBefore(endDate.add(const Duration(days: 1)));
+          matches =
+              matches &&
+              log.orderDateTime.isBefore(endDate.add(const Duration(days: 1)));
         }
         if (client != null && client.isNotEmpty) {
           matches = matches && log.userName == client;
         }
-        if (exchange != null && exchange.isNotEmpty) {
-        }
+        if (exchange != null && exchange.isNotEmpty) {}
         if (symbol != null && symbol.isNotEmpty) {
           matches = matches && log.symbol == symbol;
         }
@@ -63,6 +64,7 @@ class RejectionLogRemoteDataSourceImpl
       throw Exception('Failed to fetch filtered rejection logs: $e');
     }
   }
+
   @override
   Future<List<String>> getClients() async {
     try {
@@ -72,6 +74,7 @@ class RejectionLogRemoteDataSourceImpl
       throw Exception('Failed to fetch clients: $e');
     }
   }
+
   @override
   Future<List<String>> getExchanges() async {
     try {
@@ -81,6 +84,7 @@ class RejectionLogRemoteDataSourceImpl
       throw Exception('Failed to fetch exchanges: $e');
     }
   }
+
   @override
   Future<List<String>> getSymbols() async {
     try {
@@ -97,6 +101,7 @@ class RejectionLogRemoteDataSourceImpl
       throw Exception('Failed to fetch symbols: $e');
     }
   }
+
   @override
   Future<String> exportToPdf(List<RejectionLogModel> logs) async {
     try {
@@ -106,6 +111,7 @@ class RejectionLogRemoteDataSourceImpl
       throw Exception('Failed to export PDF: $e');
     }
   }
+
   @override
   Future<String> exportToExcel(List<RejectionLogModel> logs) async {
     try {
@@ -115,6 +121,7 @@ class RejectionLogRemoteDataSourceImpl
       throw Exception('Failed to export Excel: $e');
     }
   }
+
   List<RejectionLogModel> _generateMockRejectionLogs() {
     final List<RejectionLogModel> logs = [];
     final symbols = [
@@ -133,21 +140,51 @@ class RejectionLogRemoteDataSourceImpl
     ];
     final baseDate = DateTime(2025, 4, 11, 1, 25, 35);
     for (int i = 0; i < 50; i++) {
-      logs.add(RejectionLogModel(
-        id: 'rejection_log_$i',
-        orderDateTime: baseDate,
-        userName: users[i % users.length],
-        symbol: symbols[i % symbols.length],
-        type: types[i % types.length],
-        qty: [95, 178, 50, 1000000, 125, 30003, 3000, 2000, 4000, 10000, 500,
-          75, 10000000, 645, 52][i % 15]
-            .toDouble(),
-        price: [15000, 5000, 4598, 6453, 50000, 30003, 3000, 2000, 4000, 10000,
-          1025006, 1025006, 0, 1025006, 0][i % 15]
-            .toDouble(),
-        comment: comments[i % comments.length],
-        date: baseDate,
-      ));
+      logs.add(
+        RejectionLogModel(
+          id: 'rejection_log_$i',
+          orderDateTime: baseDate,
+          userName: users[i % users.length],
+          symbol: symbols[i % symbols.length],
+          type: types[i % types.length],
+          qty: [
+            95,
+            178,
+            50,
+            1000000,
+            125,
+            30003,
+            3000,
+            2000,
+            4000,
+            10000,
+            500,
+            75,
+            10000000,
+            645,
+            52,
+          ][i % 15].toDouble(),
+          price: [
+            15000,
+            5000,
+            4598,
+            6453,
+            50000,
+            30003,
+            3000,
+            2000,
+            4000,
+            10000,
+            1025006,
+            1025006,
+            0,
+            1025006,
+            0,
+          ][i % 15].toDouble(),
+          comment: comments[i % comments.length],
+          date: baseDate,
+        ),
+      );
     }
     return logs;
   }

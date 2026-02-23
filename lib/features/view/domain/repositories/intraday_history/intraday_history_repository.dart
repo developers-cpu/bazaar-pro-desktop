@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import '../../../../../core/errors/failures.dart';
 import '../../entities/intraday_history/intraday_history.dart';
+
 abstract class IntradayHistoryRepository {
   Future<Either<Failure, List<IntradayHistory>>> getIntradayHistory({
     DateTime? date,

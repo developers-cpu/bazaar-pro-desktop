@@ -31,11 +31,12 @@ class TradeListFilterBar extends StatelessWidget {
                     height: 40.h,
                     selectedDateRange: state.selectedDateRange,
                     onTap: () async {
-                      final picked = await custom.CustomDateRangePickerDialog.show(
-                        context,
-                        initialStartDate: state.selectedDateRange?.start,
-                        initialEndDate: state.selectedDateRange?.end,
-                      );
+                      final picked =
+                          await custom.CustomDateRangePickerDialog.show(
+                            context,
+                            initialStartDate: state.selectedDateRange?.start,
+                            initialEndDate: state.selectedDateRange?.end,
+                          );
                       if (picked != null && context.mounted) {
                         context.read<SymbolTradeListBloc>().add(
                           FilterSymbolTradeList(dateRange: picked),

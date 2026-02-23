@@ -7,11 +7,13 @@ import '../../bloc/script_quantity/script_quantity_event.dart';
 import '../../bloc/script_quantity/script_quantity_state.dart';
 import '../../widget/script_quantity/script_quantity_dialog.dart';
 import '../../widget/script_quantity/script_quantity_filter_bar.dart';
+
 class ScriptQuantityPage extends StatefulWidget {
   const ScriptQuantityPage({Key? key}) : super(key: key);
   @override
   State<ScriptQuantityPage> createState() => _ScriptQuantityPageState();
 }
+
 class _ScriptQuantityPageState extends State<ScriptQuantityPage> {
   @override
   void initState() {
@@ -20,6 +22,7 @@ class _ScriptQuantityPageState extends State<ScriptQuantityPage> {
       context.read<ScriptQuantityBloc>().add(const LoadFiltersEvent());
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<ScriptQuantityBloc, ScriptQuantityState>(
@@ -28,7 +31,8 @@ class _ScriptQuantityPageState extends State<ScriptQuantityPage> {
         color: AppColors.white,
         child: Column(
           children: [
-            const ScriptQuantityFilterBar(),            Expanded(
+            const ScriptQuantityFilterBar(),
+            Expanded(
               child: Center(
                 child: Text(
                   'Select Exchange and Group, then click View to see script quantities',
@@ -44,6 +48,7 @@ class _ScriptQuantityPageState extends State<ScriptQuantityPage> {
       ),
     );
   }
+
   void _handleStateChange(BuildContext context, ScriptQuantityState state) {
     if (state is ScriptQuantityDataLoaded) {
       ScriptQuantityDialog.show(

@@ -5,16 +5,17 @@ import '../../domain/entities/market_item.dart';
 import '../../domain/repositories/market_watch_repository.dart';
 import '../datasources/market_watch_local_datasource.dart';
 import '../models/market_item_model.dart';
+
 class MarketWatchRepositoryImpl implements MarketWatchRepository {
   final MarketWatchLocalDataSource localDataSource;
-  MarketWatchRepositoryImpl({
-    required this.localDataSource,
-  });
+  MarketWatchRepositoryImpl({required this.localDataSource});
   @override
   Future<Either<Failure, List<MarketItem>>> getMarketItems() async {
     try {
       final marketItemModels = await localDataSource.getMarketItems();
-      final entities = marketItemModels.map((model) => model.toEntity()).toList();
+      final entities = marketItemModels
+          .map((model) => model.toEntity())
+          .toList();
       return Right(entities);
     } on CacheException catch (e) {
       return Left(CacheFailure(e.message));
@@ -22,9 +23,11 @@ class MarketWatchRepositoryImpl implements MarketWatchRepository {
       return Left(CacheFailure('Unexpected error occurred: ${e.toString()}'));
     }
   }
+
   @override
   Future<Either<Failure, List<MarketItem>>> getMarketItemsByExchange(
-      String exchange) async {
+    String exchange,
+  ) async {
     try {
       final marketItemModels = await localDataSource.getMarketItems();
       final filteredModels = marketItemModels
@@ -38,9 +41,11 @@ class MarketWatchRepositoryImpl implements MarketWatchRepository {
       return Left(CacheFailure('Unexpected error occurred: ${e.toString()}'));
     }
   }
+
   @override
   Future<Either<Failure, List<MarketItem>>> getMarketItemsBySymbol(
-      String symbol) async {
+    String symbol,
+  ) async {
     try {
       final marketItemModels = await localDataSource.getMarketItems();
       final filteredModels = marketItemModels
@@ -54,6 +59,7 @@ class MarketWatchRepositoryImpl implements MarketWatchRepository {
       return Left(CacheFailure('Unexpected error occurred: ${e.toString()}'));
     }
   }
+
   @override
   Future<Either<Failure, MarketItem>> addMarketItem(MarketItem item) async {
     try {
@@ -66,6 +72,7 @@ class MarketWatchRepositoryImpl implements MarketWatchRepository {
       return Left(CacheFailure('Unexpected error occurred: ${e.toString()}'));
     }
   }
+
   @override
   Future<Either<Failure, bool>> deleteMarketItem(String id) async {
     try {
@@ -77,6 +84,7 @@ class MarketWatchRepositoryImpl implements MarketWatchRepository {
       return Left(CacheFailure('Unexpected error occurred: ${e.toString()}'));
     }
   }
+
   @override
   Future<Either<Failure, MarketItem>> updateMarketItem(MarketItem item) async {
     try {

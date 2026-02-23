@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import '../../../../core/constants/auth_constants.dart';
 import '../models/login_request_model.dart';
 import '../models/user_model.dart';
+
 abstract class AuthRemoteDataSource {
   Future<LoginUserModel> login({
     required String username,
@@ -10,6 +11,7 @@ abstract class AuthRemoteDataSource {
   });
   Future<LoginUserModel> refreshToken({required String refreshToken});
 }
+
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final Dio dio;
   AuthRemoteDataSourceImpl({required this.dio});
@@ -28,11 +30,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       final response = await dio.post(
         AuthConstants.loginEndpoint,
         data: request.toJson(),
-        options: Options(
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        ),
+        options: Options(headers: {'Content-Type': 'application/json'}),
       );
       if (response.statusCode == 200) {
         return LoginUserModel.fromJson(response.data);
@@ -45,7 +43,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       }
     } on DioException catch (e) {
       if (e.response != null) {
-        throw Exception('Login failed: ${e.response?.data['message'] ?? 'Unknown error'}');
+        throw Exception(
+          'Login failed: ${e.response?.data['message'] ?? 'Unknown error'}',
+        );
       } else {
         throw Exception('Network error: ${e.message}');
       }
@@ -53,19 +53,14 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       throw Exception('Unexpected error: $e');
     }
   }
+
   @override
   Future<LoginUserModel> refreshToken({required String refreshToken}) async {
     try {
       final response = await dio.post(
         AuthConstants.refreshTokenEndpoint,
-        data: {
-          'refreshToken': refreshToken,
-        },
-        options: Options(
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        ),
+        data: {'refreshToken': refreshToken},
+        options: Options(headers: {'Content-Type': 'application/json'}),
       );
       if (response.statusCode == 200) {
         return LoginUserModel.fromJson(response.data);
@@ -78,7 +73,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       }
     } on DioException catch (e) {
       if (e.response != null) {
-        throw Exception('Token refresh failed: ${e.response?.data['message'] ?? 'Unknown error'}');
+        throw Exception(
+          'Token refresh failed: ${e.response?.data['message'] ?? 'Unknown error'}',
+        );
       } else {
         throw Exception('Network error: ${e.message}');
       }

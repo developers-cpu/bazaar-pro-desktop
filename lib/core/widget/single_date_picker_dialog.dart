@@ -3,27 +3,25 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import '../constants/app_colors.dart';
+
 class SingleDatePickerDialog extends StatefulWidget {
   final DateTime? initialDate;
-  const SingleDatePickerDialog({
-    Key? key,
-    this.initialDate,
-  }) : super(key: key);
+  const SingleDatePickerDialog({Key? key, this.initialDate}) : super(key: key);
   static Future<DateTime?> show(
-      BuildContext context, {
-        DateTime? initialDate,
-      }) async {
+    BuildContext context, {
+    DateTime? initialDate,
+  }) async {
     return await showDialog<DateTime>(
       context: context,
       barrierColor: AppColors.black.withOpacity(0.5),
-      builder: (context) => SingleDatePickerDialog(
-        initialDate: initialDate,
-      ),
+      builder: (context) => SingleDatePickerDialog(initialDate: initialDate),
     );
   }
+
   @override
   State<SingleDatePickerDialog> createState() => _SingleDatePickerDialogState();
 }
+
 class _SingleDatePickerDialogState extends State<SingleDatePickerDialog> {
   late DateTime _currentMonth;
   DateTime? _selectedDate;
@@ -33,6 +31,7 @@ class _SingleDatePickerDialogState extends State<SingleDatePickerDialog> {
     _selectedDate = widget.initialDate;
     _currentMonth = _selectedDate ?? DateTime.now();
   }
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -57,6 +56,7 @@ class _SingleDatePickerDialogState extends State<SingleDatePickerDialog> {
       ),
     );
   }
+
   Widget _buildHeader() {
     return Container(
       padding: EdgeInsets.all(16.w),
@@ -88,6 +88,7 @@ class _SingleDatePickerDialogState extends State<SingleDatePickerDialog> {
       ),
     );
   }
+
   Widget _buildMonthNavigation() {
     final monthFormat = DateFormat('MMMM yyyy');
     return Container(
@@ -99,11 +100,16 @@ class _SingleDatePickerDialogState extends State<SingleDatePickerDialog> {
             onPressed: () {
               setState(() {
                 _currentMonth = DateTime(
-                    _currentMonth.year, _currentMonth.month - 1);
+                  _currentMonth.year,
+                  _currentMonth.month - 1,
+                );
               });
             },
-            icon: Icon(Icons.chevron_left,
-                color: AppColors.primaryBlue, size: 28.sp),
+            icon: Icon(
+              Icons.chevron_left,
+              color: AppColors.primaryBlue,
+              size: 28.sp,
+            ),
           ),
           Text(
             monthFormat.format(_currentMonth),
@@ -117,16 +123,22 @@ class _SingleDatePickerDialogState extends State<SingleDatePickerDialog> {
             onPressed: () {
               setState(() {
                 _currentMonth = DateTime(
-                    _currentMonth.year, _currentMonth.month + 1);
+                  _currentMonth.year,
+                  _currentMonth.month + 1,
+                );
               });
             },
-            icon: Icon(Icons.chevron_right,
-                color: AppColors.primaryBlue, size: 28.sp),
+            icon: Icon(
+              Icons.chevron_right,
+              color: AppColors.primaryBlue,
+              size: 28.sp,
+            ),
           ),
         ],
       ),
     );
   }
+
   Widget _buildWeekdayHeaders() {
     const weekdays = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
     return Container(
@@ -153,30 +165,40 @@ class _SingleDatePickerDialogState extends State<SingleDatePickerDialog> {
       ),
     );
   }
+
   Widget _buildCalendarGrid() {
-    final firstDayOfMonth =
-    DateTime(_currentMonth.year, _currentMonth.month, 1);
-    final lastDayOfMonth =
-    DateTime(_currentMonth.year, _currentMonth.month + 1, 0);
+    final firstDayOfMonth = DateTime(
+      _currentMonth.year,
+      _currentMonth.month,
+      1,
+    );
+    final lastDayOfMonth = DateTime(
+      _currentMonth.year,
+      _currentMonth.month + 1,
+      0,
+    );
     final firstWeekday = firstDayOfMonth.weekday % 7;
     final List<Widget> rows = [];
     List<Widget> currentRow = [];
     for (int i = 0; i < firstWeekday; i++) {
-      final prevMonthDay =
-      firstDayOfMonth.subtract(Duration(days: firstWeekday - i));
+      final prevMonthDay = firstDayOfMonth.subtract(
+        Duration(days: firstWeekday - i),
+      );
       currentRow.add(_buildDayCell(prevMonthDay, isCurrentMonth: false));
     }
     for (int day = 1; day <= lastDayOfMonth.day; day++) {
       final date = DateTime(_currentMonth.year, _currentMonth.month, day);
       currentRow.add(_buildDayCell(date, isCurrentMonth: true));
       if (currentRow.length == 7) {
-        rows.add(Padding(
-          padding: EdgeInsets.symmetric(vertical: 2.h),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: currentRow,
+        rows.add(
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 2.h),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: currentRow,
+            ),
           ),
-        ));
+        );
         currentRow = [];
       }
     }
@@ -184,22 +206,28 @@ class _SingleDatePickerDialogState extends State<SingleDatePickerDialog> {
       int nextMonthDay = 1;
       while (currentRow.length < 7) {
         final nextDate = DateTime(
-            _currentMonth.year, _currentMonth.month + 1, nextMonthDay++);
+          _currentMonth.year,
+          _currentMonth.month + 1,
+          nextMonthDay++,
+        );
         currentRow.add(_buildDayCell(nextDate, isCurrentMonth: false));
       }
-      rows.add(Padding(
-        padding: EdgeInsets.symmetric(vertical: 2.h),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: currentRow,
+      rows.add(
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: 2.h),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: currentRow,
+          ),
         ),
-      ));
+      );
     }
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
       child: Column(children: rows),
     );
   }
+
   Widget _buildDayCell(DateTime date, {required bool isCurrentMonth}) {
     final isSelected =
         _selectedDate != null && _isSameDay(date, _selectedDate!);
@@ -240,14 +268,17 @@ class _SingleDatePickerDialogState extends State<SingleDatePickerDialog> {
       ),
     );
   }
+
   bool _isSameDay(DateTime a, DateTime b) {
     return a.year == b.year && a.month == b.month && a.day == b.day;
   }
+
   void _onDayTap(DateTime date) {
     setState(() {
       _selectedDate = date;
     });
   }
+
   Widget _buildSelectedDateDisplay() {
     final dateFormat = DateFormat('dd MMMM yyyy');
     return Container(
@@ -261,8 +292,7 @@ class _SingleDatePickerDialogState extends State<SingleDatePickerDialog> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.calendar_today,
-              size: 16.sp, color: AppColors.primaryBlue),
+          Icon(Icons.calendar_today, size: 16.sp, color: AppColors.primaryBlue),
           SizedBox(width: 8.w),
           Text(
             dateFormat.format(_selectedDate!),
@@ -276,6 +306,7 @@ class _SingleDatePickerDialogState extends State<SingleDatePickerDialog> {
       ),
     );
   }
+
   Widget _buildButtons() {
     return Padding(
       padding: EdgeInsets.all(16.w),
@@ -306,13 +337,12 @@ class _SingleDatePickerDialogState extends State<SingleDatePickerDialog> {
             child: ElevatedButton(
               onPressed: _selectedDate != null
                   ? () {
-                Navigator.pop(context, _selectedDate);
-              }
+                      Navigator.pop(context, _selectedDate);
+                    }
                   : null,
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primaryBlue,
-                disabledBackgroundColor:
-                AppColors.primaryBlue.withOpacity(0.5),
+                disabledBackgroundColor: AppColors.primaryBlue.withOpacity(0.5),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.r),
                 ),

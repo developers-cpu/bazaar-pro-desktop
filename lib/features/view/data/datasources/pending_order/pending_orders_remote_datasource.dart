@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import '../../models/pending_orders/pending_order_model.dart';
+
 abstract class PendingOrdersRemoteDataSource {
   Future<List<PendingOrderModel>> getPendingOrders();
   Future<List<PendingOrderModel>> getPendingOrdersWithFilters({
@@ -12,7 +13,9 @@ abstract class PendingOrdersRemoteDataSource {
   Future<List<String>> getExchanges();
   Future<List<String>> getSymbols();
 }
-class PendingOrdersRemoteDataSourceImpl implements PendingOrdersRemoteDataSource {
+
+class PendingOrdersRemoteDataSourceImpl
+    implements PendingOrdersRemoteDataSource {
   final Dio dio;
   PendingOrdersRemoteDataSourceImpl({required this.dio});
   @override
@@ -24,6 +27,7 @@ class PendingOrdersRemoteDataSourceImpl implements PendingOrdersRemoteDataSource
       throw Exception('Failed to fetch pending orders: $e');
     }
   }
+
   @override
   Future<List<PendingOrderModel>> getPendingOrdersWithFilters({
     String? client,
@@ -38,7 +42,9 @@ class PendingOrdersRemoteDataSourceImpl implements PendingOrdersRemoteDataSource
         if (client != null && client.isNotEmpty && order.userId != client) {
           return false;
         }
-        if (exchange != null && exchange.isNotEmpty && order.exchange != exchange) {
+        if (exchange != null &&
+            exchange.isNotEmpty &&
+            order.exchange != exchange) {
           return false;
         }
         if (symbol != null && symbol.isNotEmpty && order.symbol != symbol) {
@@ -55,6 +61,7 @@ class PendingOrdersRemoteDataSourceImpl implements PendingOrdersRemoteDataSource
       throw Exception('Failed to fetch filtered pending orders: $e');
     }
   }
+
   @override
   Future<List<String>> getClients() async {
     try {
@@ -64,15 +71,26 @@ class PendingOrdersRemoteDataSourceImpl implements PendingOrdersRemoteDataSource
       throw Exception('Failed to fetch clients: $e');
     }
   }
+
   @override
   Future<List<String>> getExchanges() async {
     try {
       await Future.delayed(const Duration(milliseconds: 200));
-      return ['NSE', 'MCX', 'CE/PE', 'OTHERS', 'COMEX', 'CRYPTO', 'GIFT', 'FOREX'];
+      return [
+        'NSE',
+        'MCX',
+        'CE/PE',
+        'OTHERS',
+        'COMEX',
+        'CRYPTO',
+        'GIFT',
+        'FOREX',
+      ];
     } catch (e) {
       throw Exception('Failed to fetch exchanges: $e');
     }
   }
+
   @override
   Future<List<String>> getSymbols() async {
     try {
@@ -94,6 +112,7 @@ class PendingOrdersRemoteDataSourceImpl implements PendingOrdersRemoteDataSource
       throw Exception('Failed to fetch symbols: $e');
     }
   }
+
   List<PendingOrderModel> _generateDummyOrders() {
     final List<String> users = ['PATIL', 'DEMO4', 'DEMO49', 'DEMO12', 'DEMO'];
     final List<String> uplines = ['DEMO', 'DEMO49', 'DEMO12'];
@@ -118,25 +137,29 @@ class PendingOrdersRemoteDataSourceImpl implements PendingOrdersRemoteDataSource
     final List<PendingOrderModel> orders = [];
     for (int i = 0; i < 50; i++) {
       final buySell = buySellTypes[i % buySellTypes.length];
-      final qty = buySell.startsWith('BUY') ? [100.0, 1000000.0, 100000.0][i % 3] : -500.0;
-      orders.add(PendingOrderModel(
-        id: 'order_$i',
-        userId: users[i % users.length],
-        upline: uplines[i % uplines.length],
-        exchange: exchanges[i % exchanges.length],
-        symbol: symbols[i % symbols.length],
-        buySell: buySell,
-        qty: qty,
-        lot: 1.00,
-        triggerPrice: buySell.startsWith('SELL') ? -256 : 124191.00,
-        orderDateTime: DateTime(2025, 11, 22, 3, 6, 34),
-        modifyOrderDateTime: DateTime(2025, 11, 4, 1, 25, 35),
-        orderType: 'Market',
-        cmp: 36200.00,
-        rPrice: 36200.00,
-        deviceId: 'E621E1F8-C36C-495A-93FC-0C247A3E6E5F',
-        ipAddress: '192.0.2.1',
-      ));
+      final qty = buySell.startsWith('BUY')
+          ? [100.0, 1000000.0, 100000.0][i % 3]
+          : -500.0;
+      orders.add(
+        PendingOrderModel(
+          id: 'order_$i',
+          userId: users[i % users.length],
+          upline: uplines[i % uplines.length],
+          exchange: exchanges[i % exchanges.length],
+          symbol: symbols[i % symbols.length],
+          buySell: buySell,
+          qty: qty,
+          lot: 1.00,
+          triggerPrice: buySell.startsWith('SELL') ? -256 : 124191.00,
+          orderDateTime: DateTime(2025, 11, 22, 3, 6, 34),
+          modifyOrderDateTime: DateTime(2025, 11, 4, 1, 25, 35),
+          orderType: 'Market',
+          cmp: 36200.00,
+          rPrice: 36200.00,
+          deviceId: 'E621E1F8-C36C-495A-93FC-0C247A3E6E5F',
+          ipAddress: '192.0.2.1',
+        ),
+      );
     }
     return orders;
   }

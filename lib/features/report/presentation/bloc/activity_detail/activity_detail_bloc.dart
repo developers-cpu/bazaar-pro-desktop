@@ -15,7 +15,6 @@ class ActivityDetailBloc
     emit(ActivityDetailLoading());
 
     try {
-      
       List<Map<String, dynamic>> data = [];
       const int mockRecordCount = 12550;
 
@@ -72,7 +71,6 @@ class ActivityDetailBloc
                 'updatedBy': 'Admin',
               };
             } else {
-              
               return {
                 'exchange': ex,
                 'oldDetails': event.valueType == 'time'

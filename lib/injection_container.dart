@@ -14,6 +14,13 @@ import 'package:bazarpro/features/operations/data/datasources/date_settings/date
 import 'package:bazarpro/features/operations/domain/usecases/date_settings/get_date_settings.dart';
 import 'package:bazarpro/features/operations/domain/usecases/date_settings/update_date_settings.dart';
 import 'package:bazarpro/features/operations/presentation/bloc/date_settings/date_settings_bloc.dart';
+import 'package:bazarpro/features/operations/domain/repositories/script_settings/script_settings_repository.dart';
+import 'package:bazarpro/features/operations/data/repositories/script_settings/script_settings_repository_impl.dart';
+import 'package:bazarpro/features/operations/data/datasources/script_settings/script_settings_remote_data_source.dart';
+import 'package:bazarpro/features/operations/data/datasources/script_settings/script_settings_remote_data_source_impl.dart';
+import 'package:bazarpro/features/operations/domain/usecases/script_settings/get_script_settings.dart';
+import 'package:bazarpro/features/operations/domain/usecases/script_settings/update_script_settings.dart';
+import 'package:bazarpro/features/operations/presentation/bloc/script_settings/script_settings_bloc.dart';
 import 'package:bazarpro/features/operations/domain/usecases/exchange_settings/update_exchange_settings.dart';
 import 'package:bazarpro/features/operations/presentation/bloc/exchange_settings/exchange_settings_bloc.dart';
 import 'package:bazarpro/features/operations/presentation/bloc/trade_settings/trade_settings_bloc.dart';
@@ -938,5 +945,18 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<DateSettingsRemoteDataSource>(
     () => DateSettingsRemoteDataSourceImpl(),
+  );
+
+  sl.registerFactory(
+    () =>
+        ScriptSettingsBloc(getScriptSettings: sl(), updateScriptSettings: sl()),
+  );
+  sl.registerLazySingleton(() => GetScriptSettings(sl()));
+  sl.registerLazySingleton(() => UpdateScriptSettings(sl()));
+  sl.registerLazySingleton<ScriptSettingsRepository>(
+    () => ScriptSettingsRepositoryImpl(remoteDataSource: sl()),
+  );
+  sl.registerLazySingleton<ScriptSettingsRemoteDataSource>(
+    () => ScriptSettingsRemoteDataSourceImpl(),
   );
 }

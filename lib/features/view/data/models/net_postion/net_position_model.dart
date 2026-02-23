@@ -1,4 +1,5 @@
 import '../../../domain/entities/net_postion/net_position.dart';
+
 class NetPositionModel extends NetPosition {
   const NetPositionModel({
     required super.id,
@@ -28,10 +29,12 @@ class NetPositionModel extends NetPosition {
       buyQty: (json['buyQty'] ?? json['buy_qty'] ?? 0).toDouble(),
       sellQty: (json['sellQty'] ?? json['sell_qty'] ?? 0).toDouble(),
       netQty: (json['netQty'] ?? json['net_qty'] ?? 0).toDouble(),
-      netAvgPrice: (json['netAvgPrice'] ?? json['net_avg_price'] ?? 0).toDouble(),
+      netAvgPrice: (json['netAvgPrice'] ?? json['net_avg_price'] ?? 0)
+          .toDouble(),
       cmp: (json['cmp'] ?? 0).toDouble(),
       m2mAmount: (json['m2mAmount'] ?? json['m2m_amt'] ?? 0).toDouble(),
-      ourPercentage: (json['ourPercentage'] ?? json['our_percentage'] ?? 0).toDouble(),
+      ourPercentage: (json['ourPercentage'] ?? json['our_percentage'] ?? 0)
+          .toDouble(),
       userCount: (json['userCount'] ?? json['user_count'] ?? 1).toInt(),
       days: (json['days'] ?? 1).toInt(),
       lastUpdated: json['lastUpdated'] != null
@@ -60,6 +63,7 @@ class NetPositionModel extends NetPosition {
       'status': status,
     };
   }
+
   factory NetPositionModel.fromEntity(NetPosition position) {
     return NetPositionModel(
       id: position.id,

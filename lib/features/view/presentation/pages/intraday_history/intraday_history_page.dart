@@ -9,11 +9,13 @@ import '../../widget/intraday_history/intraday_history_filter_bar.dart';
 import '../../widget/intraday_history/intraday_history_table.dart';
 import '../../widget/intraday_history/intraday_seconds_filter_bar.dart';
 import '../../widget/intraday_history/intraday_seconds_table.dart';
+
 class IntradayHistoryPage extends StatefulWidget {
   const IntradayHistoryPage({Key? key}) : super(key: key);
   @override
   State<IntradayHistoryPage> createState() => _IntradayHistoryPageState();
 }
+
 class _IntradayHistoryPageState extends State<IntradayHistoryPage> {
   @override
   void initState() {
@@ -22,6 +24,7 @@ class _IntradayHistoryPageState extends State<IntradayHistoryPage> {
       context.read<IntradayHistoryBloc>().add(const LoadIntradayHistoryEvent());
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<IntradayHistoryBloc, IntradayHistoryState>(
@@ -35,7 +38,8 @@ class _IntradayHistoryPageState extends State<IntradayHistoryPage> {
                 if (state is IntradayHistoryLoaded)
                   const IntradayHistoryFilterBar()
                 else if (state is IntradayHistorySecondsView)
-                  const IntradaySecondsFilterBar(),                Expanded(
+                  const IntradaySecondsFilterBar(),
+                Expanded(
                   child: state is IntradayHistorySecondsView
                       ? const IntradaySecondsTable()
                       : const IntradayHistoryTable(),
@@ -47,6 +51,7 @@ class _IntradayHistoryPageState extends State<IntradayHistoryPage> {
       ),
     );
   }
+
   void _handleStateChange(BuildContext context, IntradayHistoryState state) {
     if (state is IntradayHistoryExportSuccess) {
       ScaffoldMessenger.of(context).showSnackBar(

@@ -1,4 +1,5 @@
 import '../../../domain/entities/pending_orders/pending_order.dart';
+
 class PendingOrderModel extends PendingOrder {
   const PendingOrderModel({
     required super.id,
@@ -30,7 +31,9 @@ class PendingOrderModel extends PendingOrder {
       lot: _parseDouble(json['lot']),
       triggerPrice: _parseDouble(json['trigger_price'] ?? json['t_price']),
       orderDateTime: _parseDateTime(json['order_dt'] ?? json['orderDateTime']),
-      modifyOrderDateTime: _parseDateTime(json['modify_order_dt'] ?? json['modifyOrderDateTime']),
+      modifyOrderDateTime: _parseDateTime(
+        json['modify_order_dt'] ?? json['modifyOrderDateTime'],
+      ),
       orderType: json['order_type'] ?? json['type'] ?? 'Market',
       cmp: _parseDouble(json['cmp']),
       rPrice: _parseDouble(json['r_price'] ?? json['rPrice']),
@@ -58,6 +61,7 @@ class PendingOrderModel extends PendingOrder {
       'ip_address': ipAddress,
     };
   }
+
   factory PendingOrderModel.fromEntity(PendingOrder entity) {
     return PendingOrderModel(
       id: entity.id,
@@ -85,6 +89,7 @@ class PendingOrderModel extends PendingOrder {
     if (value is String) return double.tryParse(value) ?? 0.0;
     return 0.0;
   }
+
   static DateTime _parseDateTime(dynamic value) {
     if (value == null) return DateTime.now();
     if (value is DateTime) return value;

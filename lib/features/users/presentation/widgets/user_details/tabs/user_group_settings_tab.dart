@@ -27,6 +27,7 @@ class UserGroupSettingsTab extends StatelessWidget {
     );
   }
 }
+
 class UserGroupSettingsTabView extends StatelessWidget {
   final Function(String groupName) onViewSettings;
   const UserGroupSettingsTabView({super.key, required this.onViewSettings});

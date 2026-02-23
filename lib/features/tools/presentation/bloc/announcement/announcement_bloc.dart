@@ -5,6 +5,7 @@ import '../../../domain/entities/announcement_entity.dart';
 import '../../../domain/usecases/get_announcements_usecase.dart';
 part 'announcement_event.dart';
 part 'announcement_state.dart';
+
 class AnnouncementBloc extends Bloc<AnnouncementEvent, AnnouncementState> {
   final GetAnnouncementsUseCase getAnnouncements;
   AnnouncementBloc({required this.getAnnouncements})

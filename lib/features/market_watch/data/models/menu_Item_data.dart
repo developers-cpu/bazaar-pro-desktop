@@ -1,4 +1,5 @@
 import 'dart:ui';
+
 class MenuItemData {
   final String title;
   final VoidCallback? onTap;
@@ -9,14 +10,11 @@ class MenuItemData {
     this.hasDivider = false,
   });
 }
+
 class AppBarTab {
   final String title;
   final List<MenuItemData>? dropdownItems;
   final VoidCallback? onTap;
-  const AppBarTab({
-    required this.title,
-    this.dropdownItems,
-    this.onTap,
-  });
+  const AppBarTab({required this.title, this.dropdownItems, this.onTap});
   bool get hasDropdown => dropdownItems != null && dropdownItems!.isNotEmpty;
 }

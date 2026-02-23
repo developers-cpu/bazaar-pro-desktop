@@ -7,11 +7,13 @@ import '../../bloc/script_master/script_master_event.dart';
 import '../../bloc/script_master/script_master_state.dart';
 import '../../widget/script_master/script_master_filter_bar.dart';
 import '../../widget/script_master/script_master_table.dart';
+
 class ScriptMasterPage extends StatefulWidget {
   const ScriptMasterPage({Key? key}) : super(key: key);
   @override
   State<ScriptMasterPage> createState() => _ScriptMasterPageState();
 }
+
 class _ScriptMasterPageState extends State<ScriptMasterPage> {
   @override
   void initState() {
@@ -20,6 +22,7 @@ class _ScriptMasterPageState extends State<ScriptMasterPage> {
       context.read<ScriptMasterBloc>().add(const LoadScriptMastersEvent());
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<ScriptMasterBloc, ScriptMasterState>(
@@ -28,14 +31,14 @@ class _ScriptMasterPageState extends State<ScriptMasterPage> {
         color: AppColors.white,
         child: Column(
           children: [
-            const ScriptMasterFilterBar(),            const Expanded(
-              child: ScriptMasterTable(),
-            ),
+            const ScriptMasterFilterBar(),
+            const Expanded(child: ScriptMasterTable()),
           ],
         ),
       ),
     );
   }
+
   void _handleStateChange(BuildContext context, ScriptMasterState state) {
     if (state is ScriptMasterExportSuccess) {
       ScaffoldMessenger.of(context).showSnackBar(

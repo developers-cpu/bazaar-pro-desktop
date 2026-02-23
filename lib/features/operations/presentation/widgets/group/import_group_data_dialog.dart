@@ -76,8 +76,7 @@ class ImportGroupDataDialog extends StatelessWidget {
         SizedBox(width: 12.w),
         CustomActionButton(
           text: 'Import',
-          onPressed: () {
-          },
+          onPressed: () {},
           width: 100.w,
           height: 36.h,
           borderRadius: 8.r,

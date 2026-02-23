@@ -10,7 +10,7 @@ import '../../../bloc/activity_detail/activity_detail_state.dart';
 class SimpleToggleDetailView extends StatelessWidget {
   final String oldLabel;
   final String newLabel;
-  final String valueType; 
+  final String valueType;
   final bool isDarkMode;
 
   const SimpleToggleDetailView({

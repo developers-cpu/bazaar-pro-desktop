@@ -4,6 +4,7 @@ import '../../../domain/entities/script_master/script_master.dart';
 import '../../../domain/repositories/script_master/script_master_repository.dart';
 import '../../datasources/script_master/script_master_remote_datasource.dart';
 import '../../models/script_master/script_master.dart';
+
 class ScriptMasterRepositoryImpl implements ScriptMasterRepository {
   final ScriptMasterRemoteDataSource remoteDataSource;
   ScriptMasterRepositoryImpl({required this.remoteDataSource});
@@ -16,6 +17,7 @@ class ScriptMasterRepositoryImpl implements ScriptMasterRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
   @override
   Future<Either<Failure, List<ScriptMaster>>> getScriptMastersWithFilters({
     String? exchange,
@@ -31,6 +33,7 @@ class ScriptMasterRepositoryImpl implements ScriptMasterRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
   @override
   Future<Either<Failure, List<String>>> getExchanges() async {
     try {
@@ -40,6 +43,7 @@ class ScriptMasterRepositoryImpl implements ScriptMasterRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
   @override
   Future<Either<Failure, List<String>>> getSymbols() async {
     try {
@@ -49,20 +53,30 @@ class ScriptMasterRepositoryImpl implements ScriptMasterRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
   @override
-  Future<Either<Failure, String>> exportToPdf(List<ScriptMaster> scripts) async {
+  Future<Either<Failure, String>> exportToPdf(
+    List<ScriptMaster> scripts,
+  ) async {
     try {
-      final models = scripts.map((s) => ScriptMasterModel.fromEntity(s)).toList();
+      final models = scripts
+          .map((s) => ScriptMasterModel.fromEntity(s))
+          .toList();
       final path = await remoteDataSource.exportToPdf(models);
       return Right(path);
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }
   }
+
   @override
-  Future<Either<Failure, String>> exportToExcel(List<ScriptMaster> scripts) async {
+  Future<Either<Failure, String>> exportToExcel(
+    List<ScriptMaster> scripts,
+  ) async {
     try {
-      final models = scripts.map((s) => ScriptMasterModel.fromEntity(s)).toList();
+      final models = scripts
+          .map((s) => ScriptMasterModel.fromEntity(s))
+          .toList();
       final path = await remoteDataSource.exportToExcel(models);
       return Right(path);
     } catch (e) {

@@ -6,6 +6,7 @@ abstract class TradeMarginRemoteDataSource {
     String? search,
   });
 }
+
 class TradeMarginRemoteDataSourceImpl implements TradeMarginRemoteDataSource {
   @override
   Future<List<TradeMarginModel>> getTradeMargins({

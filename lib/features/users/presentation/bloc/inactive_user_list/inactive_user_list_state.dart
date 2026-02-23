@@ -1,16 +1,20 @@
 import 'package:equatable/equatable.dart';
 import '../../../domain/entities/user.dart';
+
 abstract class InactiveUserListState extends Equatable {
   const InactiveUserListState();
   @override
   List<Object?> get props => [];
 }
+
 class InactiveUserListInitial extends InactiveUserListState {
   const InactiveUserListInitial();
 }
+
 class InactiveUserListLoading extends InactiveUserListState {
   const InactiveUserListLoading();
 }
+
 class InactiveUserListLoaded extends InactiveUserListState {
   final List<User> allUsers;
   final List<User> filteredUsers;
@@ -65,6 +69,7 @@ class InactiveUserListLoaded extends InactiveUserListState {
       totalRecords: totalRecords ?? this.totalRecords,
     );
   }
+
   @override
   List<Object?> get props => [
     allUsers,
@@ -79,18 +84,21 @@ class InactiveUserListLoaded extends InactiveUserListState {
     totalRecords,
   ];
 }
+
 class InactiveUserListError extends InactiveUserListState {
   final String message;
   const InactiveUserListError(this.message);
   @override
   List<Object?> get props => [message];
 }
+
 class InactiveUserListExporting extends InactiveUserListState {
   final String exportType;
   const InactiveUserListExporting(this.exportType);
   @override
   List<Object?> get props => [exportType];
 }
+
 class InactiveUserListExportSuccess extends InactiveUserListState {
   final String message;
   final String filePath;

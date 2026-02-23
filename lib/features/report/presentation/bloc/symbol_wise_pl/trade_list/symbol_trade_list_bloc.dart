@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../domain/repositories/symbol_wise_pl/symbol_wise_pl_repository.dart';
 import 'symbol_trade_list_event.dart';
 import 'symbol_trade_list_state.dart';
+
 class SymbolTradeListBloc
     extends Bloc<SymbolTradeListEvent, SymbolTradeListState> {
   final SymbolWisePLRepository repository;
@@ -46,6 +47,7 @@ class SymbolTradeListBloc
       );
     });
   }
+
   Future<void> _onFilterSymbolTradeList(
     FilterSymbolTradeList event,
     Emitter<SymbolTradeListState> emit,
@@ -87,6 +89,7 @@ class SymbolTradeListBloc
       );
     }
   }
+
   Future<void> _onResetSymbolTradeListFilters(
     ResetSymbolTradeListFilters event,
     Emitter<SymbolTradeListState> emit,

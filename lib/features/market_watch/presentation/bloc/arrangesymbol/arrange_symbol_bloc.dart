@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'arrange_symbol_event.dart';
 import 'arrange_symbol_state.dart';
+
 class ArrangeSymbolBloc extends Bloc<ArrangeSymbolEvent, ArrangeSymbolState> {
   static const List<ColumnItem> _defaultColumns = [
     ColumnItem(id: 'exchange', name: 'EXCHANGE', isVisible: true),
@@ -27,14 +28,23 @@ class ArrangeSymbolBloc extends Bloc<ArrangeSymbolEvent, ArrangeSymbolState> {
     on<SaveColumnsEvent>(_onSaveColumns);
     on<ResetColumnsEvent>(_onResetColumns);
   }
-  void _onLoadColumns(LoadColumnsEvent event, Emitter<ArrangeSymbolState> emit) {
-    emit(state.copyWith(
-      columns: List.from(_savedColumns),
-      isLoading: false,
-      isSaved: false,
-    ));
+  void _onLoadColumns(
+    LoadColumnsEvent event,
+    Emitter<ArrangeSymbolState> emit,
+  ) {
+    emit(
+      state.copyWith(
+        columns: List.from(_savedColumns),
+        isLoading: false,
+        isSaved: false,
+      ),
+    );
   }
-  void _onToggleColumn(ToggleColumnEvent event, Emitter<ArrangeSymbolState> emit) {
+
+  void _onToggleColumn(
+    ToggleColumnEvent event,
+    Emitter<ArrangeSymbolState> emit,
+  ) {
     final updatedColumns = state.columns.map((column) {
       if (column.id == event.columnId) {
         return column.copyWith(isVisible: !column.isVisible);
@@ -47,7 +57,11 @@ class ArrangeSymbolBloc extends Bloc<ArrangeSymbolEvent, ArrangeSymbolState> {
     }
     emit(state.copyWith(columns: updatedColumns, isSaved: false));
   }
-  void _onReorderColumn(ReorderColumnEvent event, Emitter<ArrangeSymbolState> emit) {
+
+  void _onReorderColumn(
+    ReorderColumnEvent event,
+    Emitter<ArrangeSymbolState> emit,
+  ) {
     final columns = List<ColumnItem>.from(state.columns);
     final item = columns.removeAt(event.oldIndex);
     int newIndex = event.newIndex;
@@ -57,17 +71,23 @@ class ArrangeSymbolBloc extends Bloc<ArrangeSymbolEvent, ArrangeSymbolState> {
     columns.insert(newIndex, item);
     emit(state.copyWith(columns: columns, isSaved: false));
   }
-  void _onSaveColumns(SaveColumnsEvent event, Emitter<ArrangeSymbolState> emit) {
+
+  void _onSaveColumns(
+    SaveColumnsEvent event,
+    Emitter<ArrangeSymbolState> emit,
+  ) {
     _savedColumns = List.from(state.columns);
     emit(state.copyWith(isSaved: true));
   }
-  void _onResetColumns(ResetColumnsEvent event, Emitter<ArrangeSymbolState> emit) {
+
+  void _onResetColumns(
+    ResetColumnsEvent event,
+    Emitter<ArrangeSymbolState> emit,
+  ) {
     _savedColumns = List.from(_defaultColumns);
-    emit(state.copyWith(
-      columns: List.from(_defaultColumns),
-      isSaved: true,
-    ));
+    emit(state.copyWith(columns: List.from(_defaultColumns), isSaved: true));
   }
+
   List<ColumnItem> get visibleColumns {
     return _savedColumns.where((c) => c.isVisible).toList();
   }

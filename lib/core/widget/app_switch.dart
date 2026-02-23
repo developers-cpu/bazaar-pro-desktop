@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../constants/app_colors.dart';
+
 class AppSwitch extends StatelessWidget {
   final String? label;
   final Widget? icon;
@@ -54,6 +55,7 @@ class AppSwitch extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildSwitch(Color activeColor, Color inactiveColor) {
     return Container(
       width: 44.w,
@@ -85,6 +87,7 @@ class AppSwitch extends StatelessWidget {
     );
   }
 }
+
 class AppSwitchRow extends StatelessWidget {
   final String label;
   final Widget? icon;
@@ -103,8 +106,7 @@ class AppSwitchRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: enabled && onChanged != null ? () => onChanged!(!value) : null,
-      behavior: HitTestBehavior
-          .translucent,
+      behavior: HitTestBehavior.translucent,
       child: Row(
         children: [
           if (icon != null) ...[icon!, SizedBox(width: 8.w)],
@@ -119,8 +121,7 @@ class AppSwitchRow extends StatelessWidget {
             ),
           ),
           IgnorePointer(
-            ignoring:
-                true,
+            ignoring: true,
             child: AppSwitch(
               value: value,
               onChanged: onChanged,

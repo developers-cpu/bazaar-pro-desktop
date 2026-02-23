@@ -1,15 +1,19 @@
 import 'package:equatable/equatable.dart';
+
 abstract class NetPositionEvent extends Equatable {
   const NetPositionEvent();
   @override
   List<Object?> get props => [];
 }
+
 class LoadNetPositionsEvent extends NetPositionEvent {
   const LoadNetPositionsEvent();
 }
+
 class LoadFilterDataEvent extends NetPositionEvent {
   const LoadFilterDataEvent();
 }
+
 class ApplyFiltersEvent extends NetPositionEvent {
   final String? userType;
   final String? client;
@@ -22,22 +26,20 @@ class ApplyFiltersEvent extends NetPositionEvent {
     this.symbol,
   });
   @override
-  List<Object?> get props => [
-    userType,
-    client,
-    exchange,
-    symbol,
-  ];
+  List<Object?> get props => [userType, client, exchange, symbol];
 }
+
 class ResetFiltersEvent extends NetPositionEvent {
   const ResetFiltersEvent();
 }
+
 class SelectPositionEvent extends NetPositionEvent {
   final String positionId;
   const SelectPositionEvent(this.positionId);
   @override
   List<Object?> get props => [positionId];
 }
+
 class SortPositionsByColumnEvent extends NetPositionEvent {
   final String columnId;
   final bool ascending;
@@ -48,12 +50,15 @@ class SortPositionsByColumnEvent extends NetPositionEvent {
   @override
   List<Object?> get props => [columnId, ascending];
 }
+
 class ExportNetPositionsToPdfEvent extends NetPositionEvent {
   const ExportNetPositionsToPdfEvent();
 }
+
 class ExportNetPositionsToExcelEvent extends NetPositionEvent {
   const ExportNetPositionsToExcelEvent();
 }
+
 class LoadPositionDetailsEvent extends NetPositionEvent {
   final String symbol;
   final String userName;

@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import '../../../../../core/errors/failures.dart';
 import '../../entities/script_master/script_master.dart';
+
 abstract class ScriptMasterRepository {
   Future<Either<Failure, List<ScriptMaster>>> getScriptMasters();
   Future<Either<Failure, List<ScriptMaster>>> getScriptMastersWithFilters({

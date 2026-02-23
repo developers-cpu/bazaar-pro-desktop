@@ -5,6 +5,7 @@ import 'package:bazarpro/core/usecases/usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'user_rejection_log_event.dart';
 import 'user_rejection_log_state.dart';
+
 class UserRejectionLogBloc
     extends Bloc<UserRejectionLogEvent, UserRejectionLogState> {
   final GetUserRejectionLog getUserRejectionLog;
@@ -44,6 +45,7 @@ class UserRejectionLogBloc
       );
     });
   }
+
   void _onFilterLogs(
     FilterUserRejectionLogs event,
     Emitter<UserRejectionLogState> emit,

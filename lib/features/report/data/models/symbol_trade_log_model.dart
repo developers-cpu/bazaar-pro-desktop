@@ -1,4 +1,5 @@
 import '../../domain/entities/symbol_trade_log.dart';
+
 class SymbolTradeLogModel extends SymbolTradeLog {
   const SymbolTradeLogModel({
     required String sequence,

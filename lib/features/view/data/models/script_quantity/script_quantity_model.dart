@@ -1,4 +1,5 @@
 import '../../../domain/entities/script_quantity/script_quantity.dart';
+
 class ScriptQuantityModel extends ScriptQuantity {
   const ScriptQuantityModel({
     required super.id,
@@ -22,6 +23,7 @@ class ScriptQuantityModel extends ScriptQuantity {
       'maxQty': maxQty,
     };
   }
+
   factory ScriptQuantityModel.fromEntity(ScriptQuantity scriptQuantity) {
     return ScriptQuantityModel(
       id: scriptQuantity.id,

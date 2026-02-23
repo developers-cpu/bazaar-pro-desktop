@@ -13,6 +13,7 @@ import '../../../domain/entities/symbol_open_position.dart';
 import '../../bloc/symbol_wise_pl/open_postion/symbol_open_position_bloc.dart';
 import '../../bloc/symbol_wise_pl/open_postion/symbol_open_position_event.dart';
 import '../../bloc/symbol_wise_pl/open_postion/symbol_open_position_state.dart';
+
 class ExchangeOpenPositionDialog extends StatelessWidget {
   final String? symbol;
   final String? exchange;
@@ -28,6 +29,7 @@ class ExchangeOpenPositionDialog extends StatelessWidget {
       showButtons: false,
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -38,6 +40,7 @@ class ExchangeOpenPositionDialog extends StatelessWidget {
     );
   }
 }
+
 class _DialogContent extends StatefulWidget {
   final String? symbol;
   final String? exchange;
@@ -46,6 +49,7 @@ class _DialogContent extends StatefulWidget {
   @override
   State<_DialogContent> createState() => _DialogContentState();
 }
+
 class _DialogContentState extends State<_DialogContent> {
   String? selectedUser;
   @override
@@ -67,14 +71,10 @@ class _DialogContentState extends State<_DialogContent> {
                     AppDropdown(
                       width: 200.w,
                       height: 40.h,
-                      type: AppDropdownType
-                          .search,
+                      type: AppDropdownType.search,
                       hintText: 'User',
                       value: selectedUser,
-                      items: positions
-                          .map((e) => e.name)
-                          .toSet()
-                          .toList(),
+                      items: positions.map((e) => e.name).toSet().toList(),
                       onChanged: (value) {
                         setState(() {
                           selectedUser = value;
@@ -101,8 +101,7 @@ class _DialogContentState extends State<_DialogContent> {
                           ),
                         );
                       },
-                      onView: () {
-                      },
+                      onView: () {},
                     ),
                   ],
                 ),

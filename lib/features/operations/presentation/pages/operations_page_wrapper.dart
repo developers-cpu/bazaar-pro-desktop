@@ -7,7 +7,10 @@ import '../../../../core/widget/app_bar_section.dart';
 import '../../../../injection_container.dart';
 import '../bloc/date_settings/date_settings_bloc.dart';
 import '../bloc/date_settings/date_settings_event.dart';
+import '../bloc/script_settings/script_settings_bloc.dart';
+import '../bloc/script_settings/script_settings_event.dart';
 import 'date_settings/date_settings_page.dart';
+import 'script_settings/script_settings_page.dart';
 
 class OperationsPageWrapper extends StatelessWidget {
   final String pageTitle;
@@ -69,13 +72,20 @@ class DateSettingsPageWithAppBar extends StatelessWidget {
 }
 
 class ScriptSettingsPageWithAppBar extends StatelessWidget {
-  const ScriptSettingsPageWithAppBar({Key? key}) : super(key: key);
+  const ScriptSettingsPageWithAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const OperationsPageWrapper(
-      pageTitle: 'Script Settings',
-      child: Center(child: Text('Script Settings Page - Coming Soon')),
+    return BlocProvider(
+      create: (_) => sl<ScriptSettingsBloc>()..add(LoadScriptSettingsEvent()),
+      child: Builder(
+        builder: (context) {
+          return const OperationsPageWrapper(
+            pageTitle: 'Script Settings',
+            child: ScriptSettingsPage(),
+          );
+        },
+      ),
     );
   }
 }

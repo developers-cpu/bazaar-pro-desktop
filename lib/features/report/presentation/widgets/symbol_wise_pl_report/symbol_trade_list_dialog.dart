@@ -10,6 +10,7 @@ import '../../../domain/entities/symbol_trade_log.dart';
 import '../../bloc/symbol_wise_pl/trade_list/symbol_trade_list_bloc.dart';
 import '../../bloc/symbol_wise_pl/trade_list/symbol_trade_list_event.dart';
 import '../../bloc/symbol_wise_pl/trade_list/symbol_trade_list_state.dart';
+
 class SymbolTradeListDialog extends StatelessWidget {
   final String? symbol;
   final String? exchange;
@@ -25,6 +26,7 @@ class SymbolTradeListDialog extends StatelessWidget {
       showButtons: false,
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

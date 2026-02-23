@@ -7,6 +7,7 @@ import '../../../../core/widget/common_dilog_box.dart';
 import '../bloc/symbolfont/symbol_font_bloc.dart';
 import '../bloc/symbolfont/symbol_font_event.dart';
 import '../bloc/symbolfont/symbol_state.dart';
+
 class SymbolFontDialog extends StatelessWidget {
   const SymbolFontDialog({Key? key}) : super(key: key);
   static void show(BuildContext context) {
@@ -27,6 +28,7 @@ class SymbolFontDialog extends StatelessWidget {
       contentPadding: EdgeInsets.all(24.w),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return CommonDialog(
@@ -41,6 +43,7 @@ class SymbolFontDialog extends StatelessWidget {
     );
   }
 }
+
 class _SymbolFontContent extends StatelessWidget {
   const _SymbolFontContent({Key? key}) : super(key: key);
   @override
@@ -96,6 +99,7 @@ class _SymbolFontContent extends StatelessWidget {
       },
     );
   }
+
   Widget _buildSelectorColumn({
     required BuildContext context,
     required String title,
@@ -112,10 +116,7 @@ class _SymbolFontContent extends StatelessWidget {
           decoration: BoxDecoration(
             color: AppColors.white,
             borderRadius: BorderRadius.circular(12.r),
-            border: Border.all(
-              color: AppColors.primaryBlue,
-              width: 2,
-            ),
+            border: Border.all(color: AppColors.primaryBlue, width: 2),
           ),
           child: Text(
             title,
@@ -132,10 +133,7 @@ class _SymbolFontContent extends StatelessWidget {
           decoration: BoxDecoration(
             color: AppColors.white,
             borderRadius: BorderRadius.circular(12.r),
-            border: Border.all(
-              color: const Color(0xFF2C5F7B),
-              width: 2,
-            ),
+            border: Border.all(color: const Color(0xFF2C5F7B), width: 2),
           ),
           child: ListView.builder(
             padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 12.w),
@@ -147,18 +145,21 @@ class _SymbolFontContent extends StatelessWidget {
                 onTap: () => onSelect(item),
                 child: Container(
                   margin: EdgeInsets.only(bottom: 8.h),
-                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 16.w,
+                    vertical: 12.h,
+                  ),
                   decoration: BoxDecoration(
-                    color: isSelected
-                        ? AppColors.primaryBlue
-                        : AppColors.white,
+                    color: isSelected ? AppColors.primaryBlue : AppColors.white,
                     borderRadius: BorderRadius.circular(8.r),
                   ),
                   child: Text(
                     item,
                     style: GoogleFonts.openSans(
                       fontSize: 15.sp,
-                      fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                      fontWeight: isSelected
+                          ? FontWeight.w600
+                          : FontWeight.w500,
                       color: isSelected
                           ? AppColors.white
                           : AppColors.primaryBlue,

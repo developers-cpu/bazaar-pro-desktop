@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../data/models/order_dialog_type.dart';
+
 class OrderSuccessDialog extends StatelessWidget {
   final OrderType orderType;
   final String? symbol;
@@ -20,14 +21,14 @@ class OrderSuccessDialog extends StatelessWidget {
     this.isDarkMode = false,
   }) : super(key: key);
   static Future<void> show(
-      BuildContext context, {
-        required OrderType orderType,
-        String? symbol,
-        String? exchange,
-        int? quantity,
-        double? price,
-        bool isDarkMode = false,
-      }) {
+    BuildContext context, {
+    required OrderType orderType,
+    String? symbol,
+    String? exchange,
+    int? quantity,
+    double? price,
+    bool isDarkMode = false,
+  }) {
     return showDialog(
       context: context,
       barrierDismissible: true,
@@ -41,6 +42,7 @@ class OrderSuccessDialog extends StatelessWidget {
       ),
     );
   }
+
   Color get _primaryColor => orderType == OrderType.buy
       ? const Color(0xFF0066FF)
       : const Color(0xFFFF0000);
@@ -48,9 +50,8 @@ class OrderSuccessDialog extends StatelessWidget {
   Color get _bgColor => isDarkMode
       ? DarkThemeColors.cardBackground
       : LightThemeColors.cardBackground;
-  Color get _textColor => isDarkMode
-      ? DarkThemeColors.textColor
-      : LightThemeColors.textColor;
+  Color get _textColor =>
+      isDarkMode ? DarkThemeColors.textColor : LightThemeColors.textColor;
   Color get _supportiveTextColor => isDarkMode
       ? DarkThemeColors.supportiveTextColor
       : LightThemeColors.supportiveTextColor;
@@ -110,7 +111,10 @@ class OrderSuccessDialog extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 20.h),
-            if (symbol != null || exchange != null || quantity != null || price != null)
+            if (symbol != null ||
+                exchange != null ||
+                quantity != null ||
+                price != null)
               Container(
                 padding: EdgeInsets.all(16.w),
                 decoration: BoxDecoration(
@@ -161,6 +165,7 @@ class OrderSuccessDialog extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildDetailRow(String label, String value) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 4.h),

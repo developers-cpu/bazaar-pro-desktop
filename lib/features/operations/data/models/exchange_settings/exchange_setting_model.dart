@@ -1,5 +1,3 @@
-
-
 import '../../../domain/entities/exchange_settings/exchange_setting.dart';
 
 class ExchangeSettingModel extends ExchangeSetting {

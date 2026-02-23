@@ -7,6 +7,7 @@ import '../../../domain/usecases/delete_market_item.dart';
 import '../../../domain/usecases/get_market_items.dart';
 import 'market_watch_event.dart';
 import 'market_watch_state.dart';
+
 class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
   final GetMarketItems getMarketItems;
   final AddMarketItem addMarketItem;
@@ -33,40 +34,51 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
     on<ToggleGridEvent>(_onToggleGrid);
   }
   Future<void> _onLoadMarketItems(
-      LoadMarketItemsEvent event,
-      Emitter<MarketWatchState> emit,
-      ) async {
+    LoadMarketItemsEvent event,
+    Emitter<MarketWatchState> emit,
+  ) async {
     emit(const MarketWatchLoading());
     final result = await getMarketItems(NoParams());
     result.fold(
-          (failure) => emit(MarketWatchError(message: failure.message)),
-          (items) => emit(MarketWatchLoaded(items: items, filteredItems: items)),
+      (failure) => emit(MarketWatchError(message: failure.message)),
+      (items) => emit(MarketWatchLoaded(items: items, filteredItems: items)),
     );
   }
+
   void _onFilterByExchange(
-      FilterByExchangeEvent event,
-      Emitter<MarketWatchState> emit,
-      ) {
+    FilterByExchangeEvent event,
+    Emitter<MarketWatchState> emit,
+  ) {
     final currentState = _getLoadedState();
     if (currentState == null) return;
     var filtered = currentState.items.toList();
     if (event.exchange?.isNotEmpty == true) {
-      filtered = filtered.where((item) => item.exchange == event.exchange).toList();
+      filtered = filtered
+          .where((item) => item.exchange == event.exchange)
+          .toList();
     }
-    if (currentState.selectedSymbols != null && currentState.selectedSymbols!.isNotEmpty) {
-      filtered = filtered.where((item) => currentState.selectedSymbols!.contains(item.symbol)).toList();
+    if (currentState.selectedSymbols != null &&
+        currentState.selectedSymbols!.isNotEmpty) {
+      filtered = filtered
+          .where((item) => currentState.selectedSymbols!.contains(item.symbol))
+          .toList();
     } else if (currentState.selectedSymbol != null) {
-      filtered = filtered.where((item) => item.symbol == currentState.selectedSymbol).toList();
+      filtered = filtered
+          .where((item) => item.symbol == currentState.selectedSymbol)
+          .toList();
     }
-    emit(currentState.copyWith(
-      filteredItems: filtered,
-      selectedExchange: event.exchange,
-    ));
+    emit(
+      currentState.copyWith(
+        filteredItems: filtered,
+        selectedExchange: event.exchange,
+      ),
+    );
   }
+
   void _onFilterBySymbol(
-      FilterBySymbolEvent event,
-      Emitter<MarketWatchState> emit,
-      ) {
+    FilterBySymbolEvent event,
+    Emitter<MarketWatchState> emit,
+  ) {
     final currentState = _getLoadedState();
     if (currentState == null) return;
     var filtered = currentState.items.toList();
@@ -74,82 +86,103 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
       filtered = filtered.where((item) => item.symbol == event.symbol).toList();
     }
     if (currentState.selectedExchange != null) {
-      filtered = filtered.where((item) => item.exchange == currentState.selectedExchange).toList();
+      filtered = filtered
+          .where((item) => item.exchange == currentState.selectedExchange)
+          .toList();
     }
-    emit(currentState.copyWith(
-      filteredItems: filtered,
-      selectedSymbol: event.symbol,
-    ));
+    emit(
+      currentState.copyWith(
+        filteredItems: filtered,
+        selectedSymbol: event.symbol,
+      ),
+    );
   }
+
   void _onFilterBySymbols(
-      FilterBySymbolsEvent event,
-      Emitter<MarketWatchState> emit,
-      ) {
+    FilterBySymbolsEvent event,
+    Emitter<MarketWatchState> emit,
+  ) {
     final currentState = _getLoadedState();
     if (currentState == null) return;
     var filtered = currentState.items.toList();
     if (event.symbols.isNotEmpty) {
-      filtered = filtered.where((item) => event.symbols.contains(item.symbol)).toList();
+      filtered = filtered
+          .where((item) => event.symbols.contains(item.symbol))
+          .toList();
     }
     if (currentState.selectedExchange != null) {
-      filtered = filtered.where((item) => item.exchange == currentState.selectedExchange).toList();
+      filtered = filtered
+          .where((item) => item.exchange == currentState.selectedExchange)
+          .toList();
     }
-    emit(currentState.copyWith(
-      filteredItems: filtered,
-      selectedSymbols: event.symbols.isEmpty ? null : event.symbols,
-      clearSymbol: true,
-    ));
+    emit(
+      currentState.copyWith(
+        filteredItems: filtered,
+        selectedSymbols: event.symbols.isEmpty ? null : event.symbols,
+        clearSymbol: true,
+      ),
+    );
   }
+
   void _onFilterByUser(
-      FilterByUserEvent event,
-      Emitter<MarketWatchState> emit,
-      ) {
+    FilterByUserEvent event,
+    Emitter<MarketWatchState> emit,
+  ) {
     final currentState = _getLoadedState();
     if (currentState == null) return;
-    emit(currentState.copyWith(
-      selectedUser: event.user,
-    ));
+    emit(currentState.copyWith(selectedUser: event.user));
   }
+
   void _onSelectMarketItem(
-      SelectMarketItemEvent event,
-      Emitter<MarketWatchState> emit,
-      ) {
+    SelectMarketItemEvent event,
+    Emitter<MarketWatchState> emit,
+  ) {
     final currentState = _getLoadedState();
     if (currentState == null) return;
     emit(currentState.copyWith(selectedItemId: event.itemId));
   }
+
   Future<void> _onCopyMarketItem(
-      CopyMarketItemEvent event,
-      Emitter<MarketWatchState> emit,
-      ) async {
+    CopyMarketItemEvent event,
+    Emitter<MarketWatchState> emit,
+  ) async {
     final currentState = _getLoadedState();
     if (currentState == null) return;
     final newState = currentState.copyWith(
       clipboardItem: event.item,
       isClipboardCut: false,
     );
-    emit(MarketWatchSuccess(message: AppStrings.itemCopied, previousState: newState));
+    emit(
+      MarketWatchSuccess(
+        message: AppStrings.itemCopied,
+        previousState: newState,
+      ),
+    );
     await Future.delayed(const Duration(milliseconds: 100));
     emit(newState);
   }
+
   Future<void> _onCutMarketItem(
-      CutMarketItemEvent event,
-      Emitter<MarketWatchState> emit,
-      ) async {
+    CutMarketItemEvent event,
+    Emitter<MarketWatchState> emit,
+  ) async {
     final currentState = _getLoadedState();
     if (currentState == null) return;
     final newState = currentState.copyWith(
       clipboardItem: event.item,
       isClipboardCut: true,
     );
-    emit(MarketWatchSuccess(message: AppStrings.itemCut, previousState: newState));
+    emit(
+      MarketWatchSuccess(message: AppStrings.itemCut, previousState: newState),
+    );
     await Future.delayed(const Duration(milliseconds: 100));
     emit(newState);
   }
+
   Future<void> _onPasteMarketItem(
-      PasteMarketItemEvent event,
-      Emitter<MarketWatchState> emit,
-      ) async {
+    PasteMarketItemEvent event,
+    Emitter<MarketWatchState> emit,
+  ) async {
     final currentState = _getLoadedState();
     if (currentState == null) return;
     if (currentState.clipboardItem == null) {
@@ -175,35 +208,53 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
     final newState = currentState.copyWith(
       items: updatedItems,
       filteredItems: filteredItems,
-      clipboardItem: currentState.isClipboardCut ? null : currentState.clipboardItem,
+      clipboardItem: currentState.isClipboardCut
+          ? null
+          : currentState.clipboardItem,
       isClipboardCut: false,
       undoStack: newUndoStack,
       redoStack: [],
       clearClipboard: currentState.isClipboardCut,
     );
-    emit(MarketWatchSuccess(message: AppStrings.itemPasted, previousState: newState));
+    emit(
+      MarketWatchSuccess(
+        message: AppStrings.itemPasted,
+        previousState: newState,
+      ),
+    );
     await Future.delayed(const Duration(milliseconds: 100));
     emit(newState);
   }
+
   Future<void> _onDeleteMarketItem(
-      DeleteMarketItemEvent event,
-      Emitter<MarketWatchState> emit,
-      ) async {
+    DeleteMarketItemEvent event,
+    Emitter<MarketWatchState> emit,
+  ) async {
     final currentState = _getLoadedState();
     if (currentState == null) return;
-    final itemToDelete = currentState.items.firstWhere((item) => item.id == event.itemId);
+    final itemToDelete = currentState.items.firstWhere(
+      (item) => item.id == event.itemId,
+    );
     final itemIndex = currentState.items.indexOf(itemToDelete);
-    final result = await deleteMarketItem(DeleteMarketItemParams(id: event.itemId));
+    final result = await deleteMarketItem(
+      DeleteMarketItemParams(id: event.itemId),
+    );
     final failure = result.fold((l) => l, (r) => null);
     if (failure != null) {
       emit(MarketWatchError(message: failure.message));
       return;
     }
-    final updatedItems = currentState.items.where((item) => item.id != event.itemId).toList();
+    final updatedItems = currentState.items
+        .where((item) => item.id != event.itemId)
+        .toList();
     final filteredItems = _applyFilters(updatedItems, currentState);
     final newUndoStack = [
       ...currentState.undoStack,
-      MarketWatchAction(type: MarketWatchActionType.delete, item: itemToDelete, index: itemIndex),
+      MarketWatchAction(
+        type: MarketWatchActionType.delete,
+        item: itemToDelete,
+        index: itemIndex,
+      ),
     ];
     final newState = currentState.copyWith(
       items: updatedItems,
@@ -212,14 +263,20 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
       redoStack: [],
       clearSelectedItem: true,
     );
-    emit(MarketWatchSuccess(message: AppStrings.itemDeleted, previousState: newState));
+    emit(
+      MarketWatchSuccess(
+        message: AppStrings.itemDeleted,
+        previousState: newState,
+      ),
+    );
     await Future.delayed(const Duration(milliseconds: 100));
     emit(newState);
   }
+
   Future<void> _onUndoAction(
-      UndoActionEvent event,
-      Emitter<MarketWatchState> emit,
-      ) async {
+    UndoActionEvent event,
+    Emitter<MarketWatchState> emit,
+  ) async {
     final currentState = _getLoadedState();
     if (currentState == null) return;
     if (currentState.undoStack.isEmpty) {
@@ -227,12 +284,17 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
       return;
     }
     final lastAction = currentState.undoStack.last;
-    final newUndoStack = currentState.undoStack.sublist(0, currentState.undoStack.length - 1);
+    final newUndoStack = currentState.undoStack.sublist(
+      0,
+      currentState.undoStack.length - 1,
+    );
     List<MarketItem> updatedItems;
     switch (lastAction.type) {
       case MarketWatchActionType.add:
       case MarketWatchActionType.paste:
-        updatedItems = currentState.items.where((item) => item.id != lastAction.item!.id).toList();
+        updatedItems = currentState.items
+            .where((item) => item.id != lastAction.item!.id)
+            .toList();
         break;
       case MarketWatchActionType.delete:
         updatedItems = [...currentState.items];
@@ -252,14 +314,20 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
       undoStack: newUndoStack,
       redoStack: newRedoStack,
     );
-    emit(MarketWatchSuccess(message: AppStrings.actionUndone, previousState: newState));
+    emit(
+      MarketWatchSuccess(
+        message: AppStrings.actionUndone,
+        previousState: newState,
+      ),
+    );
     await Future.delayed(const Duration(milliseconds: 100));
     emit(newState);
   }
+
   Future<void> _onRedoAction(
-      RedoActionEvent event,
-      Emitter<MarketWatchState> emit,
-      ) async {
+    RedoActionEvent event,
+    Emitter<MarketWatchState> emit,
+  ) async {
     final currentState = _getLoadedState();
     if (currentState == null) return;
     if (currentState.redoStack.isEmpty) {
@@ -267,7 +335,10 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
       return;
     }
     final lastAction = currentState.redoStack.last;
-    final newRedoStack = currentState.redoStack.sublist(0, currentState.redoStack.length - 1);
+    final newRedoStack = currentState.redoStack.sublist(
+      0,
+      currentState.redoStack.length - 1,
+    );
     List<MarketItem> updatedItems;
     switch (lastAction.type) {
       case MarketWatchActionType.add:
@@ -275,7 +346,9 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
         updatedItems = [...currentState.items, lastAction.item!];
         break;
       case MarketWatchActionType.delete:
-        updatedItems = currentState.items.where((item) => item.id != lastAction.item!.id).toList();
+        updatedItems = currentState.items
+            .where((item) => item.id != lastAction.item!.id)
+            .toList();
         break;
     }
     final filteredItems = _applyFilters(updatedItems, currentState);
@@ -286,67 +359,85 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
       undoStack: newUndoStack,
       redoStack: newRedoStack,
     );
-    emit(MarketWatchSuccess(message: AppStrings.actionRedone, previousState: newState));
+    emit(
+      MarketWatchSuccess(
+        message: AppStrings.actionRedone,
+        previousState: newState,
+      ),
+    );
     await Future.delayed(const Duration(milliseconds: 100));
     emit(newState);
   }
+
   Future<void> _onAddMarketItem(
-      AddMarketItemEvent event,
-      Emitter<MarketWatchState> emit,
-      ) async {
+    AddMarketItemEvent event,
+    Emitter<MarketWatchState> emit,
+  ) async {
     final currentState = _getLoadedState();
     if (currentState == null) return;
     final result = await addMarketItem(AddMarketItemParams(item: event.item));
-    result.fold(
-          (failure) => emit(MarketWatchError(message: failure.message)),
-          (addedItem) {
-        final updatedItems = [...currentState.items, addedItem];
-        final filteredItems = _applyFilters(updatedItems, currentState);
-        final newUndoStack = [
-          ...currentState.undoStack,
-          MarketWatchAction(type: MarketWatchActionType.add, item: addedItem),
-        ];
-        emit(currentState.copyWith(
+    result.fold((failure) => emit(MarketWatchError(message: failure.message)), (
+      addedItem,
+    ) {
+      final updatedItems = [...currentState.items, addedItem];
+      final filteredItems = _applyFilters(updatedItems, currentState);
+      final newUndoStack = [
+        ...currentState.undoStack,
+        MarketWatchAction(type: MarketWatchActionType.add, item: addedItem),
+      ];
+      emit(
+        currentState.copyWith(
           items: updatedItems,
           filteredItems: filteredItems,
           undoStack: newUndoStack,
           redoStack: [],
-        ));
-      },
-    );
+        ),
+      );
+    });
   }
+
   void _onClearFilters(
-      ClearFiltersEvent event,
-      Emitter<MarketWatchState> emit,
-      ) {
+    ClearFiltersEvent event,
+    Emitter<MarketWatchState> emit,
+  ) {
     final currentState = _getLoadedState();
     if (currentState == null) return;
-    emit(currentState.copyWith(
-      filteredItems: currentState.items,
-      clearExchange: true,
-      clearSymbol: true,
-    ));
+    emit(
+      currentState.copyWith(
+        filteredItems: currentState.items,
+        clearExchange: true,
+        clearSymbol: true,
+      ),
+    );
   }
-  void _onToggleGrid(
-      ToggleGridEvent event,
-      Emitter<MarketWatchState> emit,
-      ) {
+
+  void _onToggleGrid(ToggleGridEvent event, Emitter<MarketWatchState> emit) {
     final currentState = _getLoadedState();
     if (currentState == null) return;
     emit(currentState.copyWith(showGrid: !currentState.showGrid));
   }
+
   MarketWatchLoaded? _getLoadedState() {
     if (state is MarketWatchLoaded) return state as MarketWatchLoaded;
-    if (state is MarketWatchSuccess) return (state as MarketWatchSuccess).previousState;
+    if (state is MarketWatchSuccess)
+      return (state as MarketWatchSuccess).previousState;
     return null;
   }
-  List<MarketItem> _applyFilters(List<MarketItem> items, MarketWatchLoaded currentState) {
+
+  List<MarketItem> _applyFilters(
+    List<MarketItem> items,
+    MarketWatchLoaded currentState,
+  ) {
     var filtered = items.toList();
     if (currentState.selectedExchange != null) {
-      filtered = filtered.where((item) => item.exchange == currentState.selectedExchange).toList();
+      filtered = filtered
+          .where((item) => item.exchange == currentState.selectedExchange)
+          .toList();
     }
     if (currentState.selectedSymbol != null) {
-      filtered = filtered.where((item) => item.symbol == currentState.selectedSymbol).toList();
+      filtered = filtered
+          .where((item) => item.symbol == currentState.selectedSymbol)
+          .toList();
     }
     return filtered;
   }

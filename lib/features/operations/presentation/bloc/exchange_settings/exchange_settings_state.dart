@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 import '../../../domain/entities/exchange_settings/exchange_setting.dart';
 
-
 abstract class ExchangeSettingsState extends Equatable {
   const ExchangeSettingsState();
 

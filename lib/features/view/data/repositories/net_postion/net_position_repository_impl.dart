@@ -4,6 +4,7 @@ import '../../../domain/entities/net_postion/net_position.dart';
 import '../../../domain/repositories/net_postion/net_position_repository.dart';
 import '../../datasources/net_position/net_position_remote_datasource.dart';
 import '../../models/net_postion/net_position_model.dart';
+
 class NetPositionRepositoryImpl implements NetPositionRepository {
   final NetPositionRemoteDataSource remoteDataSource;
   NetPositionRepositoryImpl({required this.remoteDataSource});
@@ -16,6 +17,7 @@ class NetPositionRepositoryImpl implements NetPositionRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
   @override
   Future<Either<Failure, List<NetPosition>>> getNetPositionsWithFilters({
     String? userType,
@@ -35,6 +37,7 @@ class NetPositionRepositoryImpl implements NetPositionRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
   @override
   Future<Either<Failure, List<String>>> getClients() async {
     try {
@@ -44,6 +47,7 @@ class NetPositionRepositoryImpl implements NetPositionRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
   @override
   Future<Either<Failure, List<String>>> getExchanges() async {
     try {
@@ -53,6 +57,7 @@ class NetPositionRepositoryImpl implements NetPositionRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
   @override
   Future<Either<Failure, List<String>>> getSymbols() async {
     try {
@@ -62,6 +67,7 @@ class NetPositionRepositoryImpl implements NetPositionRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
   @override
   Future<Either<Failure, List<String>>> getUserTypes() async {
     try {
@@ -71,26 +77,37 @@ class NetPositionRepositoryImpl implements NetPositionRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
   @override
-  Future<Either<Failure, String>> exportToPdf(List<NetPosition> positions) async {
+  Future<Either<Failure, String>> exportToPdf(
+    List<NetPosition> positions,
+  ) async {
     try {
-      final models = positions.map((p) => NetPositionModel.fromEntity(p)).toList();
+      final models = positions
+          .map((p) => NetPositionModel.fromEntity(p))
+          .toList();
       final path = await remoteDataSource.exportToPdf(models);
       return Right(path);
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }
   }
+
   @override
-  Future<Either<Failure, String>> exportToExcel(List<NetPosition> positions) async {
+  Future<Either<Failure, String>> exportToExcel(
+    List<NetPosition> positions,
+  ) async {
     try {
-      final models = positions.map((p) => NetPositionModel.fromEntity(p)).toList();
+      final models = positions
+          .map((p) => NetPositionModel.fromEntity(p))
+          .toList();
       final path = await remoteDataSource.exportToExcel(models);
       return Right(path);
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }
   }
+
   @override
   Future<Either<Failure, List<NetPosition>>> getPositionDetails({
     required String symbol,

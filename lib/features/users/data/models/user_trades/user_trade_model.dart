@@ -1,4 +1,5 @@
 import '../../../domain/entities/user_trades/user_trade.dart';
+
 class UserTradeModel extends UserTrade {
   const UserTradeModel({
     required super.id,

@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+
 class ExchangeWisePLReport extends Equatable {
   final String exchange;
   final double m2m;

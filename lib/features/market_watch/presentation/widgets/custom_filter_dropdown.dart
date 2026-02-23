@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
+
 class CustomFilterDropdown extends StatefulWidget {
   final String hintText;
   final String? value;
@@ -21,6 +22,7 @@ class CustomFilterDropdown extends StatefulWidget {
   @override
   State<CustomFilterDropdown> createState() => _CustomFilterDropdownState();
 }
+
 class _CustomFilterDropdownState extends State<CustomFilterDropdown>
     with SingleTickerProviderStateMixin {
   final LayerLink _layerLink = LayerLink();
@@ -37,12 +39,14 @@ class _CustomFilterDropdownState extends State<CustomFilterDropdown>
     );
     _animation = CurvedAnimation(parent: _controller, curve: Curves.easeOut);
   }
+
   @override
   void dispose() {
     _removeOverlay();
     _controller.dispose();
     super.dispose();
   }
+
   void _toggle() => _isOpen ? _close() : _open();
   void _open() {
     if (_overlayEntry != null) return;
@@ -51,6 +55,7 @@ class _CustomFilterDropdownState extends State<CustomFilterDropdown>
     _controller.forward();
     setState(() => _isOpen = true);
   }
+
   void _close() {
     if (!_isOpen) return;
     _controller.reverse().then((_) {
@@ -58,11 +63,13 @@ class _CustomFilterDropdownState extends State<CustomFilterDropdown>
       if (mounted) setState(() => _isOpen = false);
     });
   }
+
   void _removeOverlay() {
     _overlayEntry?.remove();
     _overlayEntry?.dispose();
     _overlayEntry = null;
   }
+
   TextStyle get _textStyle => GoogleFonts.openSans(
     fontSize: 16.sp,
     fontWeight: FontWeight.w600,
@@ -98,9 +105,7 @@ class _CustomFilterDropdownState extends State<CustomFilterDropdown>
                     elevation: 6,
                     borderRadius: BorderRadius.circular(10.r),
                     child: Container(
-                      constraints: BoxConstraints(
-                        maxHeight: calculatedHeight,
-                      ),
+                      constraints: BoxConstraints(maxHeight: calculatedHeight),
                       decoration: BoxDecoration(
                         color: AppColors.white,
                         borderRadius: BorderRadius.circular(10.r),
@@ -123,8 +128,7 @@ class _CustomFilterDropdownState extends State<CustomFilterDropdown>
                             },
                             child: Container(
                               height: itemHeight,
-                              padding:
-                              EdgeInsets.symmetric(horizontal: 14.w),
+                              padding: EdgeInsets.symmetric(horizontal: 14.w),
                               color: isSelected
                                   ? AppColors.primaryBgColor
                                   : Colors.transparent,
@@ -144,6 +148,7 @@ class _CustomFilterDropdownState extends State<CustomFilterDropdown>
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -158,10 +163,7 @@ class _CustomFilterDropdownState extends State<CustomFilterDropdown>
             decoration: BoxDecoration(
               color: AppColors.white,
               borderRadius: BorderRadius.circular(10.r),
-              border: Border.all(
-                color: AppColors.primaryBlue,
-                width: 2.w,
-              ),
+              border: Border.all(color: AppColors.primaryBlue, width: 2.w),
             ),
             child: Row(
               children: [
@@ -172,9 +174,7 @@ class _CustomFilterDropdownState extends State<CustomFilterDropdown>
                   ),
                 ),
                 Icon(
-                  _isOpen
-                      ? Icons.keyboard_arrow_up
-                      : Icons.keyboard_arrow_down,
+                  _isOpen ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
                   color: AppColors.primaryBlue,
                   size: 24.sp,
                 ),

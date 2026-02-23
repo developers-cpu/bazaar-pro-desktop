@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../constants/app_colors.dart';
 import '../../features/view/domain/entities/intraday_history/intraday_history.dart';
+
 class TimeSlotSelectionDialog extends StatefulWidget {
   final List<TimeSlot> timeSlots;
   final DateTime selectedDate;
@@ -12,10 +13,10 @@ class TimeSlotSelectionDialog extends StatefulWidget {
     required this.selectedDate,
   }) : super(key: key);
   static Future<TimeSlot?> show(
-      BuildContext context, {
-        required List<TimeSlot> timeSlots,
-        required DateTime selectedDate,
-      }) async {
+    BuildContext context, {
+    required List<TimeSlot> timeSlots,
+    required DateTime selectedDate,
+  }) async {
     return await showDialog<TimeSlot>(
       context: context,
       barrierColor: AppColors.black.withOpacity(0.5),
@@ -25,10 +26,12 @@ class TimeSlotSelectionDialog extends StatefulWidget {
       ),
     );
   }
+
   @override
   State<TimeSlotSelectionDialog> createState() =>
       _TimeSlotSelectionDialogState();
 }
+
 class _TimeSlotSelectionDialogState extends State<TimeSlotSelectionDialog> {
   TimeSlot? _selectedSlot;
   @override
@@ -54,6 +57,7 @@ class _TimeSlotSelectionDialogState extends State<TimeSlotSelectionDialog> {
       ),
     );
   }
+
   Widget _buildHeader() {
     return Container(
       padding: EdgeInsets.all(16.w),
@@ -85,11 +89,22 @@ class _TimeSlotSelectionDialogState extends State<TimeSlotSelectionDialog> {
       ),
     );
   }
+
   Widget _buildDateDisplay() {
     final day = widget.selectedDate.day.toString().padLeft(2, '0');
     final monthNames = [
-      'JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN',
-      'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'
+      'JAN',
+      'FEB',
+      'MAR',
+      'APR',
+      'MAY',
+      'JUN',
+      'JUL',
+      'AUG',
+      'SEP',
+      'OCT',
+      'NOV',
+      'DEC',
     ];
     final month = monthNames[widget.selectedDate.month - 1];
     return Container(
@@ -116,6 +131,7 @@ class _TimeSlotSelectionDialogState extends State<TimeSlotSelectionDialog> {
       ),
     );
   }
+
   Widget _buildTimeSlotsList() {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -178,6 +194,7 @@ class _TimeSlotSelectionDialogState extends State<TimeSlotSelectionDialog> {
       ),
     );
   }
+
   Widget _buildButtons() {
     return Padding(
       padding: EdgeInsets.all(16.w),
@@ -208,13 +225,12 @@ class _TimeSlotSelectionDialogState extends State<TimeSlotSelectionDialog> {
             child: ElevatedButton(
               onPressed: _selectedSlot != null
                   ? () {
-                Navigator.pop(context, _selectedSlot);
-              }
+                      Navigator.pop(context, _selectedSlot);
+                    }
                   : null,
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primaryBlue,
-                disabledBackgroundColor:
-                AppColors.primaryBlue.withOpacity(0.5),
+                disabledBackgroundColor: AppColors.primaryBlue.withOpacity(0.5),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.r),
                 ),

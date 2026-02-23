@@ -1,16 +1,20 @@
 import 'package:equatable/equatable.dart';
 import '../../../domain/entities/pending_orders/pending_order.dart';
+
 abstract class PendingOrdersState extends Equatable {
   const PendingOrdersState();
   @override
   List<Object?> get props => [];
 }
+
 class PendingOrdersInitial extends PendingOrdersState {
   const PendingOrdersInitial();
 }
+
 class PendingOrdersLoading extends PendingOrdersState {
   const PendingOrdersLoading();
 }
+
 class PendingOrdersLoaded extends PendingOrdersState {
   final List<PendingOrder> allOrders;
   final List<PendingOrder> filteredOrders;
@@ -69,9 +73,15 @@ class PendingOrdersLoaded extends PendingOrdersState {
       exchanges: exchanges ?? this.exchanges,
       symbols: symbols ?? this.symbols,
       types: types ?? this.types,
-      selectedClient: clearClient ? null : (selectedClient ?? this.selectedClient),
-      selectedExchange: clearExchange ? null : (selectedExchange ?? this.selectedExchange),
-      selectedSymbol: clearSymbol ? null : (selectedSymbol ?? this.selectedSymbol),
+      selectedClient: clearClient
+          ? null
+          : (selectedClient ?? this.selectedClient),
+      selectedExchange: clearExchange
+          ? null
+          : (selectedExchange ?? this.selectedExchange),
+      selectedSymbol: clearSymbol
+          ? null
+          : (selectedSymbol ?? this.selectedSymbol),
       selectedType: clearType ? null : (selectedType ?? this.selectedType),
       sortColumn: sortColumn ?? this.sortColumn,
       sortAscending: sortAscending ?? this.sortAscending,
@@ -79,6 +89,7 @@ class PendingOrdersLoaded extends PendingOrdersState {
       totalRecords: totalRecords ?? this.totalRecords,
     );
   }
+
   @override
   List<Object?> get props => [
     allOrders,
@@ -97,18 +108,21 @@ class PendingOrdersLoaded extends PendingOrdersState {
     totalRecords,
   ];
 }
+
 class PendingOrdersError extends PendingOrdersState {
   final String message;
   const PendingOrdersError(this.message);
   @override
   List<Object?> get props => [message];
 }
+
 class PendingOrdersExporting extends PendingOrdersState {
   final String exportType;
   const PendingOrdersExporting(this.exportType);
   @override
   List<Object?> get props => [exportType];
 }
+
 class PendingOrdersExportSuccess extends PendingOrdersState {
   final String message;
   final String filePath;

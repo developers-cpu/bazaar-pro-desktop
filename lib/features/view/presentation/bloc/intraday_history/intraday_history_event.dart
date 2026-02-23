@@ -1,13 +1,16 @@
 import 'package:equatable/equatable.dart';
 import '../../../domain/entities/intraday_history/intraday_history.dart';
+
 abstract class IntradayHistoryEvent extends Equatable {
   const IntradayHistoryEvent();
   @override
   List<Object?> get props => [];
 }
+
 class LoadIntradayHistoryEvent extends IntradayHistoryEvent {
   const LoadIntradayHistoryEvent();
 }
+
 class ApplyIntradayFiltersEvent extends IntradayHistoryEvent {
   final DateTime? date;
   final String? exchange;
@@ -22,9 +25,11 @@ class ApplyIntradayFiltersEvent extends IntradayHistoryEvent {
   @override
   List<Object?> get props => [date, exchange, symbol, timing];
 }
+
 class ResetIntradayFiltersEvent extends IntradayHistoryEvent {
   const ResetIntradayFiltersEvent();
 }
+
 class NavigateToSecondsViewEvent extends IntradayHistoryEvent {
   final DateTime date;
   final String exchange;
@@ -41,6 +46,7 @@ class NavigateToSecondsViewEvent extends IntradayHistoryEvent {
   @override
   List<Object?> get props => [date, exchange, symbol, startTime, endTime];
 }
+
 class LoadSecondsDataEvent extends IntradayHistoryEvent {
   final DateTime date;
   final String exchange;
@@ -57,9 +63,11 @@ class LoadSecondsDataEvent extends IntradayHistoryEvent {
   @override
   List<Object?> get props => [date, exchange, symbol, startTime, endTime];
 }
+
 class BackToListViewEvent extends IntradayHistoryEvent {
   const BackToListViewEvent();
 }
+
 class SortIntradayByColumnEvent extends IntradayHistoryEvent {
   final String columnId;
   final bool ascending;
@@ -70,9 +78,11 @@ class SortIntradayByColumnEvent extends IntradayHistoryEvent {
   @override
   List<Object?> get props => [columnId, ascending];
 }
+
 class ExportIntradayToPdfEvent extends IntradayHistoryEvent {
   const ExportIntradayToPdfEvent();
 }
+
 class ExportIntradayToExcelEvent extends IntradayHistoryEvent {
   const ExportIntradayToExcelEvent();
 }

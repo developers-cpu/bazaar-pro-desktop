@@ -1,12 +1,15 @@
 import 'package:equatable/equatable.dart';
+
 abstract class UserScriptPositionTrackingEvent extends Equatable {
   const UserScriptPositionTrackingEvent();
   @override
   List<Object?> get props => [];
 }
+
 class LoadUserScriptPositionTracking extends UserScriptPositionTrackingEvent {
   const LoadUserScriptPositionTracking();
 }
+
 class FilterUserScriptPositionTracking extends UserScriptPositionTrackingEvent {
   final String? startDate;
   final String? endDate;
@@ -23,6 +26,7 @@ class FilterUserScriptPositionTracking extends UserScriptPositionTrackingEvent {
   @override
   List<Object?> get props => [startDate, endDate, userId, exchange, symbol];
 }
+
 class ResetUserScriptPositionTrackingFilters
     extends UserScriptPositionTrackingEvent {
   const ResetUserScriptPositionTrackingFilters();

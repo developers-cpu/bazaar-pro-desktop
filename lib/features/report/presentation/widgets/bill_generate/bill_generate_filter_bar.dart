@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../../../core/constants/app_colors.dart';
 import '../../bloc/bill_generate/bill_generate_bloc.dart';
 import '../../bloc/bill_generate/bill_generate_event.dart';
+
 class BillGenerateFilterBar extends StatelessWidget {
   const BillGenerateFilterBar({super.key});
   @override

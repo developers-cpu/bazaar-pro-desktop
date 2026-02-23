@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'market_depth_dialog.dart';
 import 'order/common_order_dialog.dart';
+
 class KeyboardShortcutHandler extends StatelessWidget {
   final Widget child;
-  const KeyboardShortcutHandler({
-    Key? key,
-    required this.child,
-  }) : super(key: key);
+  const KeyboardShortcutHandler({Key? key, required this.child})
+    : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Shortcuts(
@@ -22,23 +21,24 @@ class KeyboardShortcutHandler extends StatelessWidget {
           SellOrderIntent: SellOrderAction(context),
           MarketDepthIntent: MarketDepthAction(context),
         },
-        child: Focus(
-          autofocus: true,
-          child: child,
-        ),
+        child: Focus(autofocus: true, child: child),
       ),
     );
   }
 }
+
 class BuyOrderIntent extends Intent {
   const BuyOrderIntent();
 }
+
 class SellOrderIntent extends Intent {
   const SellOrderIntent();
 }
+
 class MarketDepthIntent extends Intent {
   const MarketDepthIntent();
 }
+
 class BuyOrderAction extends Action<BuyOrderIntent> {
   final BuildContext context;
   BuyOrderAction(this.context);
@@ -48,6 +48,7 @@ class BuyOrderAction extends Action<BuyOrderIntent> {
     return null;
   }
 }
+
 class SellOrderAction extends Action<SellOrderIntent> {
   final BuildContext context;
   SellOrderAction(this.context);
@@ -57,6 +58,7 @@ class SellOrderAction extends Action<SellOrderIntent> {
     return null;
   }
 }
+
 class MarketDepthAction extends Action<MarketDepthIntent> {
   final BuildContext context;
   MarketDepthAction(this.context);
@@ -66,15 +68,16 @@ class MarketDepthAction extends Action<MarketDepthIntent> {
     return null;
   }
 }
+
 class KeyboardShortcutListener extends StatefulWidget {
   final Widget child;
-  const KeyboardShortcutListener({
-    Key? key,
-    required this.child,
-  }) : super(key: key);
+  const KeyboardShortcutListener({Key? key, required this.child})
+    : super(key: key);
   @override
-  State<KeyboardShortcutListener> createState() => _KeyboardShortcutListenerState();
+  State<KeyboardShortcutListener> createState() =>
+      _KeyboardShortcutListenerState();
 }
+
 class _KeyboardShortcutListenerState extends State<KeyboardShortcutListener> {
   final FocusNode _focusNode = FocusNode();
   @override
@@ -82,6 +85,7 @@ class _KeyboardShortcutListenerState extends State<KeyboardShortcutListener> {
     _focusNode.dispose();
     super.dispose();
   }
+
   void _handleKeyEvent(KeyEvent event) {
     if (event is KeyDownEvent) {
       if (event.logicalKey == LogicalKeyboardKey.f1) {
@@ -93,6 +97,7 @@ class _KeyboardShortcutListenerState extends State<KeyboardShortcutListener> {
       }
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return KeyboardListener(

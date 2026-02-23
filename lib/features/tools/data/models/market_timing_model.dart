@@ -1,4 +1,5 @@
 import '../../domain/entities/market_timing_entity.dart';
+
 class MarketTimingModel extends MarketTimingEntity {
   const MarketTimingModel({
     required String status,
@@ -22,6 +23,7 @@ class MarketTimingModel extends MarketTimingEntity {
     };
   }
 }
+
 class TimingSlotModel extends TimingSlot {
   const TimingSlotModel({required String start, required String end})
     : super(start: start, end: end);

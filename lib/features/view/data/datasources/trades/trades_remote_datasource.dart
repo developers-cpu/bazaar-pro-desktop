@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import '../../models/trades/trade_model.dart';
+
 abstract class TradesRemoteDataSource {
   Future<List<TradeModel>> getTrades();
   Future<List<TradeModel>> getTradesWithFilters({
@@ -17,6 +18,7 @@ abstract class TradesRemoteDataSource {
   Future<String> exportToPdf(List<TradeModel> trades);
   Future<String> exportToExcel(List<TradeModel> trades);
 }
+
 class TradesRemoteDataSourceImpl implements TradesRemoteDataSource {
   final Dio dio;
   TradesRemoteDataSourceImpl({required this.dio});
@@ -29,6 +31,7 @@ class TradesRemoteDataSourceImpl implements TradesRemoteDataSource {
       throw Exception('Failed to fetch trades: $e');
     }
   }
+
   @override
   Future<List<TradeModel>> getTradesWithFilters({
     DateTime? startDate,
@@ -47,7 +50,11 @@ class TradesRemoteDataSourceImpl implements TradesRemoteDataSource {
           matches = matches && trade.orderDateTime.isAfter(startDate);
         }
         if (endDate != null) {
-          matches = matches && trade.orderDateTime.isBefore(endDate.add(const Duration(days: 1)));
+          matches =
+              matches &&
+              trade.orderDateTime.isBefore(
+                endDate.add(const Duration(days: 1)),
+              );
         }
         if (client != null && client.isNotEmpty) {
           matches = matches && trade.userName == client;
@@ -59,7 +66,9 @@ class TradesRemoteDataSourceImpl implements TradesRemoteDataSource {
           matches = matches && trade.symbol == symbol;
         }
         if (orderType != null && orderType.isNotEmpty && orderType != 'All') {
-          matches = matches && trade.buySell.toLowerCase().startsWith(orderType.toLowerCase());
+          matches =
+              matches &&
+              trade.buySell.toLowerCase().startsWith(orderType.toLowerCase());
         }
         return matches;
       }).toList();
@@ -67,6 +76,7 @@ class TradesRemoteDataSourceImpl implements TradesRemoteDataSource {
       throw Exception('Failed to fetch filtered trades: $e');
     }
   }
+
   @override
   Future<List<String>> getClients() async {
     try {
@@ -76,15 +86,26 @@ class TradesRemoteDataSourceImpl implements TradesRemoteDataSource {
       throw Exception('Failed to fetch clients: $e');
     }
   }
+
   @override
   Future<List<String>> getExchanges() async {
     try {
       await Future.delayed(const Duration(milliseconds: 200));
-      return ['NSE', 'MCX', 'CE/PE', 'OTHERS', 'COMEX', 'CRYPTO', 'GIFT', 'FOREX'];
+      return [
+        'NSE',
+        'MCX',
+        'CE/PE',
+        'OTHERS',
+        'COMEX',
+        'CRYPTO',
+        'GIFT',
+        'FOREX',
+      ];
     } catch (e) {
       throw Exception('Failed to fetch exchanges: $e');
     }
   }
+
   @override
   Future<List<String>> getSymbols() async {
     try {
@@ -101,6 +122,7 @@ class TradesRemoteDataSourceImpl implements TradesRemoteDataSource {
       throw Exception('Failed to fetch symbols: $e');
     }
   }
+
   @override
   Future<List<String>> getOrderTypes() async {
     try {
@@ -110,6 +132,7 @@ class TradesRemoteDataSourceImpl implements TradesRemoteDataSource {
       throw Exception('Failed to fetch order types: $e');
     }
   }
+
   @override
   Future<String> exportToPdf(List<TradeModel> trades) async {
     try {
@@ -119,6 +142,7 @@ class TradesRemoteDataSourceImpl implements TradesRemoteDataSource {
       throw Exception('Failed to export PDF: $e');
     }
   }
+
   @override
   Future<String> exportToExcel(List<TradeModel> trades) async {
     try {
@@ -128,6 +152,7 @@ class TradesRemoteDataSourceImpl implements TradesRemoteDataSource {
       throw Exception('Failed to export Excel: $e');
     }
   }
+
   List<TradeModel> _generateMockTrades() {
     final List<TradeModel> trades = [];
     final symbols = ['GOLD05DEC', 'SILVER05DEC', 'CRUDE05DEC'];
@@ -152,25 +177,27 @@ class TradesRemoteDataSourceImpl implements TradesRemoteDataSource {
     ];
     for (int i = 0; i < 150; i++) {
       final isBuy = buySellOptions[i % buySellOptions.length].startsWith('BUY');
-      trades.add(TradeModel(
-        id: 'trade_$i',
-        userName: users[i % users.length],
-        pUser: pUsers[i % pUsers.length],
-        exchange: exchanges[i % exchanges.length],
-        symbol: symbols[i % symbols.length],
-        orderDateTime: DateTime(2025, 11, 22, 3, 6, 34),
-        buySell: buySellOptions[i % buySellOptions.length],
-        qty: isBuy ? [100.0, 1000000.0, 100000.0][i % 3] : -500.0,
-        lot: 1.0,
-        orderType: 'Market',
-        pl: 36200.0,
-        triggerPrice: isBuy ? 124191.0 : -256.0,
-        brokerage: 0.0,
-        rPrice: 0.0,
-        executionDateTime: DateTime(2025, 11, 22, 3, 6, 34),
-        deviceId: 'E621E1F8-C36C-495A-93FC-0C247A3E6E5F',
-        ipAddress: '192.0.2.1',
-      ));
+      trades.add(
+        TradeModel(
+          id: 'trade_$i',
+          userName: users[i % users.length],
+          pUser: pUsers[i % pUsers.length],
+          exchange: exchanges[i % exchanges.length],
+          symbol: symbols[i % symbols.length],
+          orderDateTime: DateTime(2025, 11, 22, 3, 6, 34),
+          buySell: buySellOptions[i % buySellOptions.length],
+          qty: isBuy ? [100.0, 1000000.0, 100000.0][i % 3] : -500.0,
+          lot: 1.0,
+          orderType: 'Market',
+          pl: 36200.0,
+          triggerPrice: isBuy ? 124191.0 : -256.0,
+          brokerage: 0.0,
+          rPrice: 0.0,
+          executionDateTime: DateTime(2025, 11, 22, 3, 6, 34),
+          deviceId: 'E621E1F8-C36C-495A-93FC-0C247A3E6E5F',
+          ipAddress: '192.0.2.1',
+        ),
+      );
     }
     return trades;
   }

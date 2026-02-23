@@ -4,15 +4,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../domain/entities/dashboard_entity.dart';
+
 class SymbolWiseChart extends StatefulWidget {
   final List<SymbolReportData> data;
-  const SymbolWiseChart({
-    Key? key,
-    required this.data,
-  }) : super(key: key);
+  const SymbolWiseChart({Key? key, required this.data}) : super(key: key);
   @override
   State<SymbolWiseChart> createState() => _SymbolWiseChartState();
 }
+
 class _SymbolWiseChartState extends State<SymbolWiseChart> {
   int? _touchedIndex;
   static const List<Color> _chartColors = [
@@ -47,7 +46,10 @@ class _SymbolWiseChartState extends State<SymbolWiseChart> {
         final availableHeight = constraints.maxHeight;
         final availableWidth = constraints.maxWidth;
         final minChartSize = 200.0;
-        final maxChartSize = math.min(availableWidth * 0.6, availableHeight * 0.9);
+        final maxChartSize = math.min(
+          availableWidth * 0.6,
+          availableHeight * 0.9,
+        );
         final chartSize = math.max(minChartSize, maxChartSize);
         final legendMinWidth = 180.0;
         final canFitSideBySide = availableWidth > (chartSize + legendMinWidth);
@@ -92,14 +94,13 @@ class _SymbolWiseChartState extends State<SymbolWiseChart> {
                 ),
               ),
             ),
-            Expanded(
-              child: _buildRightLegend(),
-            ),
+            Expanded(child: _buildRightLegend()),
           ],
         );
       },
     );
   }
+
   Widget _buildRightLegend() {
     final halfLength = (widget.data.length / 2).ceil();
     final firstColumn = widget.data.take(halfLength).toList();
@@ -113,7 +114,9 @@ class _SymbolWiseChartState extends State<SymbolWiseChart> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: firstColumn.map((item) => _buildLegendItem(item)).toList(),
+              children: firstColumn
+                  .map((item) => _buildLegendItem(item))
+                  .toList(),
             ),
           ),
           SizedBox(width: 10.w),
@@ -121,13 +124,16 @@ class _SymbolWiseChartState extends State<SymbolWiseChart> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: secondColumn.map((item) => _buildLegendItem(item)).toList(),
+              children: secondColumn
+                  .map((item) => _buildLegendItem(item))
+                  .toList(),
             ),
           ),
         ],
       ),
     );
   }
+
   Widget _buildHorizontalLegend() {
     return Wrap(
       spacing: 16.w,
@@ -136,6 +142,7 @@ class _SymbolWiseChartState extends State<SymbolWiseChart> {
       children: widget.data.map((item) => _buildLegendItem(item)).toList(),
     );
   }
+
   Widget _buildLegendItem(SymbolReportData item) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 4.h),
@@ -167,6 +174,7 @@ class _SymbolWiseChartState extends State<SymbolWiseChart> {
     );
   }
 }
+
 class _PieChartWithLabelsPainter extends CustomPainter {
   final List<SymbolReportData> data;
   final List<Color> colors;
@@ -180,11 +188,20 @@ class _PieChartWithLabelsPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final center = Offset(size.width / 2, size.height / 2);
     final pieRadius = math.min(size.width, size.height) * 0.25;
-    final totalPercentage = data.fold<double>(0, (sum, item) => sum + item.percentage);
+    final totalPercentage = data.fold<double>(
+      0,
+      (sum, item) => sum + item.percentage,
+    );
     _drawPieSections(canvas, center, pieRadius, totalPercentage);
     _drawLabelsWithConnectors(canvas, center, pieRadius, size, totalPercentage);
   }
-  void _drawPieSections(Canvas canvas, Offset center, double radius, double totalPercentage) {
+
+  void _drawPieSections(
+    Canvas canvas,
+    Offset center,
+    double radius,
+    double totalPercentage,
+  ) {
     double startAngle = -math.pi / 2;
     for (int i = 0; i < data.length; i++) {
       final item = data[i];
@@ -204,13 +221,14 @@ class _PieChartWithLabelsPainter extends CustomPainter {
       startAngle += sweepAngle;
     }
   }
+
   void _drawLabelsWithConnectors(
-      Canvas canvas,
-      Offset center,
-      double pieRadius,
-      Size size,
-      double totalPercentage,
-      ) {
+    Canvas canvas,
+    Offset center,
+    double pieRadius,
+    Size size,
+    double totalPercentage,
+  ) {
     double currentAngle = -math.pi / 2;
     for (int i = 0; i < data.length; i++) {
       final item = data[i];
@@ -225,7 +243,9 @@ class _PieChartWithLabelsPainter extends CustomPainter {
       final bendX = center.dx + bendRadius * math.cos(midAngle);
       final bendY = center.dy + bendRadius * math.sin(midAngle);
       final horizontalLength = math.min(size.width * 0.1, 30.0);
-      final labelX = isLeftSide ? bendX - horizontalLength : bendX + horizontalLength;
+      final labelX = isLeftSide
+          ? bendX - horizontalLength
+          : bendX + horizontalLength;
       final labelY = bendY;
       final linePaint = Paint()
         ..color = color
@@ -240,13 +260,14 @@ class _PieChartWithLabelsPainter extends CustomPainter {
       currentAngle += sweepAngle;
     }
   }
+
   void _drawLabel(
-      Canvas canvas,
-      SymbolReportData item,
-      Offset position,
-      bool isLeftSide,
-      Color color,
-      ) {
+    Canvas canvas,
+    SymbolReportData item,
+    Offset position,
+    bool isLeftSide,
+    Color color,
+  ) {
     final symbolPainter = TextPainter(
       text: TextSpan(
         text: item.symbol,
@@ -261,12 +282,9 @@ class _PieChartWithLabelsPainter extends CustomPainter {
     )..layout();
     final valuePainter = TextPainter(
       text: TextSpan(
-        text: '${item.value.toStringAsFixed(1)} ${item.percentage.toStringAsFixed(1)}%',
-        style: TextStyle(
-          fontFamily: 'OpenSans',
-          fontSize: 7,
-          color: color,
-        ),
+        text:
+            '${item.value.toStringAsFixed(1)} ${item.percentage.toStringAsFixed(1)}%',
+        style: TextStyle(fontFamily: 'OpenSans', fontSize: 7, color: color),
       ),
       textDirection: TextDirection.ltr,
     )..layout();
@@ -279,22 +297,22 @@ class _PieChartWithLabelsPainter extends CustomPainter {
       );
       valuePainter.paint(
         canvas,
-        Offset(position.dx - valuePainter.width, topOffset + symbolPainter.height + 2),
+        Offset(
+          position.dx - valuePainter.width,
+          topOffset + symbolPainter.height + 2,
+        ),
       );
     } else {
-      symbolPainter.paint(
-        canvas,
-        Offset(position.dx, topOffset),
-      );
+      symbolPainter.paint(canvas, Offset(position.dx, topOffset));
       valuePainter.paint(
         canvas,
         Offset(position.dx, topOffset + symbolPainter.height + 2),
       );
     }
   }
+
   @override
   bool shouldRepaint(_PieChartWithLabelsPainter oldDelegate) {
-    return oldDelegate.touchedIndex != touchedIndex ||
-        oldDelegate.data != data;
+    return oldDelegate.touchedIndex != touchedIndex || oldDelegate.data != data;
   }
 }

@@ -45,30 +45,6 @@ class OperationsPageWrapper extends StatelessWidget {
   }
 }
 
-class ExchangeSettingsPageWithAppBar extends StatelessWidget {
-  const ExchangeSettingsPageWithAppBar({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const OperationsPageWrapper(
-      pageTitle: 'Exchange Settings',
-      child: Center(child: Text('Exchange Settings Page - Coming Soon')),
-    );
-  }
-}
-
-class TradeSettingsPageWithAppBar extends StatelessWidget {
-  const TradeSettingsPageWithAppBar({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const OperationsPageWrapper(
-      pageTitle: 'Trade Settings',
-      child: Center(child: Text('Trade Settings Page - Coming Soon')),
-    );
-  }
-}
-
 class DateSettingsPageWithAppBar extends StatelessWidget {
   const DateSettingsPageWithAppBar({Key? key}) : super(key: key);
 

@@ -1,14 +1,16 @@
+import 'package:bazarpro/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../../../core/constants/app_colors.dart';
-import '../../../../core/widget/common_dilog_box.dart';
-import '../../../../core/widget/custom_action_button.dart';
-import '../../../../core/widget/custom_input_field.dart';
-import '../../../../core/widget/app_dropdown.dart';
-import '../bloc/group_bloc.dart';
-import '../bloc/group_event.dart';
+
+import '../../../../../core/widget/app_dropdown.dart';
+import '../../../../../core/widget/common_dilog_box.dart';
+import '../../../../../core/widget/custom_action_button.dart';
+import '../../../../../core/widget/custom_input_field.dart'
+    show CustomInputField;
+import '../../bloc/group/group_bloc.dart';
+import '../../bloc/group/group_event.dart';
 
 class AddGroupDialog extends StatefulWidget {
   final bool isEdit;

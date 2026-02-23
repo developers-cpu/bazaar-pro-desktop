@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../../../core/constants/app_colors.dart';
-import '../../../../core/widget/table/view_data_table.dart';
-import '../../../../core/widget/app_switch.dart';
+import '../../../../../core/constants/app_colors.dart';
+import '../../../../../core/widget/app_switch.dart';
+import '../../../../../core/widget/table/view_data_table.dart';
 
 class GroupDataTable extends StatelessWidget {
   final int viewLevel;

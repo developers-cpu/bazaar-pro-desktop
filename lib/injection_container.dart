@@ -1,3 +1,21 @@
+import 'package:bazarpro/features/operations/domain/repositories/exchange_settings/exchange_settings_repository.dart';
+import 'package:bazarpro/features/operations/data/repositories/exchange_settings/exchange_settings_repository_impl.dart';
+import 'package:bazarpro/features/operations/data/datasources/exchange_settings/exchange_settings_remote_data_source.dart';
+import 'package:bazarpro/features/operations/data/datasources/exchange_settings/exchange_settings_remote_data_source_impl.dart';
+import 'package:bazarpro/features/operations/domain/repositories/group/group_repository.dart';
+import 'package:bazarpro/features/operations/data/repositories/group/group_repository_impl.dart';
+import 'package:bazarpro/features/operations/data/datasources/group/group_remote_data_source.dart';
+import 'package:bazarpro/features/operations/data/datasources/group/group_remote_data_source_impl.dart';
+import 'package:bazarpro/features/operations/domain/usecases/exchange_settings/get_exchange_settings.dart';
+import 'package:bazarpro/features/operations/domain/usecases/exchange_settings/update_exchange_settings.dart';
+import 'package:bazarpro/features/operations/presentation/bloc/exchange_settings/exchange_settings_bloc.dart';
+import 'package:bazarpro/features/operations/presentation/bloc/trade_settings/trade_settings_bloc.dart';
+import 'package:bazarpro/features/operations/domain/repositories/trade_settings/trade_settings_repository.dart';
+import 'package:bazarpro/features/operations/data/repositories/trade_settings/trade_settings_repository_impl.dart';
+import 'package:bazarpro/features/operations/data/datasources/trade_settings/trade_settings_remote_data_source.dart';
+import 'package:bazarpro/features/operations/data/datasources/trade_settings/trade_settings_remote_data_source_impl.dart';
+import 'package:bazarpro/features/operations/domain/usecases/trade_settings/get_trade_settings.dart';
+import 'package:bazarpro/features/operations/domain/usecases/trade_settings/update_trade_settings.dart';
 import 'package:bazarpro/features/report/presentation/bloc/trade_log/trade_log_bloc.dart';
 import 'package:bazarpro/features/users/data/datasources/user/user_remote_datasource.dart';
 import 'package:bazarpro/features/users/data/datasources/user_brokerage_setting/user_brokerage_setting_datasource.dart';
@@ -32,6 +50,8 @@ import 'features/market_watch/presentation/bloc/order/order_dialog_bloc.dart';
 import 'features/market_watch/presentation/bloc/symbolfont/symbol_font_bloc.dart';
 import 'features/market_watch/presentation/bloc/theme/theme_bloc.dart';
 import 'features/market_watch/presentation/bloc/watchlist/watch_list_bloc.dart';
+import 'features/operations/domain/usecases/group/add_group.dart';
+import 'features/operations/domain/usecases/group/get_groups.dart';
 import 'features/users/domain/usecases/user/get_users_with_filters.dart';
 import 'features/view/data/datasources/deals/deals_remote_datasource.dart';
 import 'features/view/data/datasources/intraday_history/intraday_history_remote_datasource.dart';
@@ -250,13 +270,7 @@ import 'features/tools/domain/usecases/get_my_profile_usecase.dart';
 import 'features/tools/domain/repositories/my_profile_repository.dart';
 import 'features/tools/data/repositories/my_profile_repository_impl.dart';
 import 'features/tools/data/datasources/my_profile_remote_datasource.dart';
-import 'features/operations/presentation/bloc/group_bloc.dart';
-import 'features/operations/domain/usecases/get_groups.dart';
-import 'features/operations/domain/usecases/add_group.dart';
-import 'features/operations/domain/repositories/operation_repository.dart';
-import 'features/operations/data/repositories/operation_repository_impl.dart';
-import 'features/operations/data/datasources/operation_remote_data_source.dart';
-import 'features/operations/data/datasources/operation_remote_data_source_impl.dart';
+import 'features/operations/presentation/bloc/group/group_bloc.dart';
 
 final sl = GetIt.instance;
 Future<void> init() async {
@@ -278,7 +292,7 @@ Future<void> init() async {
     ),
   );
   sl.registerLazySingleton(() => ThemeBloc());
-  sl.registerFactory(() => WatchlistBloc());
+  sl.registerLazySingleton(() => WatchlistBloc());
   sl.registerLazySingleton(() => ArrangeSymbolBloc());
   sl.registerLazySingleton(() => SymbolFontBloc());
   sl.registerLazySingleton(() => OrderDialogBloc());
@@ -841,16 +855,26 @@ Future<void> init() async {
   );
   sl.registerFactory(() => ShortcutsBloc(getShortcuts: sl()));
 
-  // Operations
   sl.registerFactory(() => GroupBloc(getGroups: sl(), addGroup: sl()));
   sl.registerLazySingleton(() => GetGroups(sl()));
   sl.registerLazySingleton(() => AddGroup(sl()));
-  sl.registerLazySingleton<OperationRepository>(
-    () => OperationRepositoryImpl(remoteDataSource: sl()),
+
+  sl.registerFactory(
+    () => ExchangeSettingsBloc(
+      getExchangeSettings: sl(),
+      updateExchangeSettings: sl(),
+      repository: sl(),
+    ),
   );
-  sl.registerLazySingleton<OperationRemoteDataSource>(
-    () => OperationRemoteDataSourceImpl(),
+  sl.registerLazySingleton(() => GetExchangeSettings(sl()));
+  sl.registerLazySingleton(() => UpdateExchangeSettings(sl()));
+
+  sl.registerFactory(
+    () => TradeSettingsBloc(getTradeSettings: sl(), updateTradeSettings: sl()),
   );
+  sl.registerLazySingleton(() => GetTradeSettings(sl()));
+  sl.registerLazySingleton(() => UpdateTradeSettings(sl()));
+
   sl.registerLazySingleton(() => GetShortcutsUseCase(sl()));
   sl.registerLazySingleton<ShortcutsRepository>(
     () => ShortcutsRepositoryImpl(remoteDataSource: sl()),
@@ -877,5 +901,23 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<MyProfileRemoteDataSource>(
     () => MyProfileRemoteDataSourceImpl(),
+  );
+  sl.registerLazySingleton<GroupRepository>(
+    () => GroupRepositoryImpl(remoteDataSource: sl()),
+  );
+  sl.registerLazySingleton<GroupRemoteDataSource>(
+    () => GroupRemoteDataSourceImpl(),
+  );
+  sl.registerLazySingleton<ExchangeSettingsRepository>(
+    () => ExchangeSettingsRepositoryImpl(remoteDataSource: sl()),
+  );
+  sl.registerLazySingleton<ExchangeSettingsRemoteDataSource>(
+    () => ExchangeSettingsRemoteDataSourceImpl(),
+  );
+  sl.registerLazySingleton<TradeSettingsRepository>(
+    () => TradeSettingsRepositoryImpl(remoteDataSource: sl()),
+  );
+  sl.registerLazySingleton<TradeSettingsRemoteDataSource>(
+    () => TradeSettingsRemoteDataSourceImpl(),
   );
 }

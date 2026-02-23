@@ -1,8 +1,8 @@
-import '../models/group_model.dart';
-import 'operation_remote_data_source.dart';
+import 'group_remote_data_source.dart';
+import '../../models/group/group_model.dart';
 
-class OperationRemoteDataSourceImpl implements OperationRemoteDataSource {
-  List<GroupModel> _mockGroups = [
+class GroupRemoteDataSourceImpl implements GroupRemoteDataSource {
+  final List<GroupModel> _mockGroups = [
     GroupModel(
       id: '1',
       exchange: 'MCX',
@@ -87,9 +87,7 @@ class OperationRemoteDataSourceImpl implements OperationRemoteDataSource {
   ];
 
   @override
-  Future<List<GroupModel>> getGroups() async {
-    return _mockGroups;
-  }
+  Future<List<GroupModel>> getGroups() async => _mockGroups;
 
   @override
   Future<bool> addGroup({

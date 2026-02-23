@@ -7,7 +7,9 @@ import '../../features/users/presentation/pages/user_page_wrapper.dart';
 import '../../features/report/presentation/pages/report_page_wrapper.dart';
 import '../../features/tools/presentation/pages/tools_page_wrapper.dart';
 import '../../features/operations/presentation/pages/operations_page_wrapper.dart';
-import '../../features/operations/presentation/pages/group_page.dart';
+import '../../features/operations/presentation/pages/exchange_settings/exchange_settings_page.dart';
+import '../../features/operations/presentation/pages/trade_settings/trade_settings_page.dart';
+import '../../features/operations/presentation/pages/group/group_page.dart';
 
 class AppRoutes {
   static const String login = '/';

@@ -1,13 +1,13 @@
 import 'package:dartz/dartz.dart';
-import '../../../../core/errors/failures.dart';
-import '../../domain/entities/group.dart';
-import '../../domain/repositories/operation_repository.dart';
-import '../datasources/operation_remote_data_source.dart';
+import '../../../../../core/errors/failures.dart';
+import '../../../domain/entities/group/group.dart';
+import '../../../domain/repositories/group/group_repository.dart';
+import '../../datasources/group/group_remote_data_source.dart';
 
-class OperationRepositoryImpl implements OperationRepository {
-  final OperationRemoteDataSource remoteDataSource;
+class GroupRepositoryImpl implements GroupRepository {
+  final GroupRemoteDataSource remoteDataSource;
 
-  OperationRepositoryImpl({required this.remoteDataSource});
+  GroupRepositoryImpl({required this.remoteDataSource});
 
   @override
   Future<Either<Failure, List<Group>>> getGroups() async {

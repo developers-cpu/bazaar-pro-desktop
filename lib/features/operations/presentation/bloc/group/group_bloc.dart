@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../domain/usecases/get_groups.dart';
-import '../../domain/usecases/add_group.dart';
-import '../../../../core/usecases/usecase.dart';
+import '../../../../../core/usecases/usecase.dart';
+import '../../../domain/usecases/group/add_group.dart';
+import '../../../domain/usecases/group/get_groups.dart';
 import 'group_event.dart';
 import 'group_state.dart';
 
@@ -33,13 +33,12 @@ class GroupBloc extends Bloc<GroupEvent, GroupState> {
         (failure) => emit(const GroupError('Failed to add group')),
         (success) {
           emit(const GroupOperationSuccess('Group added successfully'));
-          add(LoadGroupsEvent()); // Reload list
+          add(LoadGroupsEvent());
         },
       );
     });
     on<ImportGroupEvent>((event, emit) async {
       emit(GroupLoading());
-      // Simulation of import logic
       await Future.delayed(const Duration(seconds: 1));
       emit(const GroupOperationSuccess('Data imported successfully'));
       add(LoadGroupsEvent());

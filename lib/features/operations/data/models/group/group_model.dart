@@ -1,4 +1,6 @@
-import '../../domain/entities/group.dart';
+
+
+import '../../../domain/entities/group/group.dart';
 
 class GroupModel extends Group {
   const GroupModel({

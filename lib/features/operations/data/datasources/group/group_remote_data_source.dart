@@ -1,6 +1,6 @@
-import '../models/group_model.dart';
+import '../../models/group/group_model.dart';
 
-abstract class OperationRemoteDataSource {
+abstract class GroupRemoteDataSource {
   Future<List<GroupModel>> getGroups();
   Future<bool> addGroup({
     required String exchange,

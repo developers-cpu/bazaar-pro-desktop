@@ -270,6 +270,13 @@ import 'features/report/domain/usecases/get_settlement_report.dart';
 import 'features/report/domain/repositories/settlement_report_repository.dart';
 import 'features/report/data/repositories/settlement_report_repository_impl.dart';
 import 'features/report/data/datasources/settlement_report_remote_datasource.dart';
+import 'features/report/presentation/bloc/users_bill_summary/users_bill_summary_bloc.dart';
+import 'features/report/domain/usecases/users_bill_summary/get_users.dart'
+    as bill_summary_users;
+import 'features/report/domain/usecases/users_bill_summary/get_bill_summary_data.dart';
+import 'features/report/domain/repositories/users_bill_summary/users_bill_summary_repository.dart';
+import 'features/report/data/repositories/users_bill_summary/users_bill_summary_repository_impl.dart';
+import 'features/report/data/datasources/users_bill_summary/users_bill_summary_remote_data_source.dart';
 import 'features/tools/data/datasources/message_remote_datasource.dart';
 import 'features/tools/data/repositories/message_repository_impl.dart';
 import 'features/tools/domain/repositories/message_repository.dart';
@@ -306,6 +313,7 @@ import 'features/tools/domain/repositories/my_profile_repository.dart';
 import 'features/tools/data/repositories/my_profile_repository_impl.dart';
 import 'features/tools/data/datasources/my_profile_remote_datasource.dart';
 import 'features/operations/presentation/bloc/group/group_bloc.dart';
+
 final sl = GetIt.instance;
 Future<void> init() async {
   sl.registerLazySingleton(() => ApiClient());
@@ -853,158 +861,16 @@ Future<void> init() async {
   sl.registerLazySingleton<SettlementReportRemoteDataSource>(
     () => SettlementReportRemoteDataSourceImpl(),
   );
-  sl.registerFactory(() => MessageBloc(getMessages: sl()));
-  sl.registerLazySingleton(() => GetMessagesUseCase(repository: sl()));
-  sl.registerLazySingleton<MessageRepository>(
-    () => MessageRepositoryImpl(remoteDataSource: sl()),
-  );
-  sl.registerLazySingleton<MessageRemoteDataSource>(
-    () => MessageRemoteDataSourceImpl(),
-  );
-  sl.registerFactory(() => AnnouncementBloc(getAnnouncements: sl()));
-  sl.registerLazySingleton(() => GetAnnouncementsUseCase(repository: sl()));
-  sl.registerLazySingleton<AnnouncementRepository>(
-    () => AnnouncementRepositoryImpl(remoteDataSource: sl()),
-  );
-  sl.registerLazySingleton<AnnouncementRemoteDataSource>(
-    () => AnnouncementRemoteDataSourceImpl(),
-  );
-  sl.registerFactory(() => RulesBloc(getRules: sl()));
-  sl.registerLazySingleton(() => GetRulesUseCase(repository: sl()));
-  sl.registerLazySingleton<RulesRepository>(
-    () => RulesRepositoryImpl(remoteDataSource: sl()),
-  );
-  sl.registerLazySingleton<RulesRemoteDataSource>(
-    () => RulesRemoteDataSourceImpl(),
-  );
-  sl.registerFactory(() => MarketTimingBloc(getMarketTiming: sl()));
-  sl.registerLazySingleton(() => GetMarketTimingUseCase(sl()));
-  sl.registerLazySingleton<MarketTimingRepository>(
-    () => MarketTimingRepositoryImpl(remoteDataSource: sl()),
-  );
-  sl.registerLazySingleton<MarketTimingRemoteDataSource>(
-    () => MarketTimingRemoteDataSourceImpl(),
-  );
-  sl.registerFactory(() => ShortcutsBloc(getShortcuts: sl()));
-  sl.registerFactory(() => GroupBloc(getGroups: sl(), addGroup: sl()));
-  sl.registerLazySingleton(() => GetGroups(sl()));
-  sl.registerLazySingleton(() => AddGroup(sl()));
+
   sl.registerFactory(
-    () => ExchangeSettingsBloc(
-      getExchangeSettings: sl(),
-      updateExchangeSettings: sl(),
-      repository: sl(),
-    ),
+    () => UsersBillSummaryBloc(getUsers: sl(), getBillSummaryData: sl()),
   );
-  sl.registerLazySingleton(() => GetExchangeSettings(sl()));
-  sl.registerLazySingleton(() => UpdateExchangeSettings(sl()));
-  sl.registerFactory(
-    () => TradeSettingsBloc(getTradeSettings: sl(), updateTradeSettings: sl()),
+  sl.registerLazySingleton(() => bill_summary_users.GetUsers(sl()));
+  sl.registerLazySingleton(() => GetBillSummaryData(sl()));
+  sl.registerLazySingleton<UsersBillSummaryRepository>(
+    () => UsersBillSummaryRepositoryImpl(sl()),
   );
-  sl.registerLazySingleton(() => GetTradeSettings(sl()));
-  sl.registerLazySingleton(() => UpdateTradeSettings(sl()));
-  sl.registerLazySingleton(() => GetShortcutsUseCase(sl()));
-  sl.registerLazySingleton<ShortcutsRepository>(
-    () => ShortcutsRepositoryImpl(remoteDataSource: sl()),
-  );
-  sl.registerLazySingleton<ShortcutsRemoteDataSource>(
-    () => ShortcutsRemoteDataSourceImpl(),
-  );
-  sl.registerFactory(
-    () => TotalVolumeBloc(getTotalVolume: sl(), getExchanges: sl()),
-  );
-  sl.registerLazySingleton(() => GetTotalVolumeUseCase(sl()));
-  sl.registerLazySingleton<TotalVolumeRepository>(
-    () => TotalVolumeRepositoryImpl(remoteDataSource: sl()),
-  );
-  sl.registerLazySingleton<TotalVolumeRemoteDataSource>(
-    () => TotalVolumeRemoteDataSourceImpl(),
-  );
-  sl.registerFactory(() => MyProfileBloc(getMyProfile: sl()));
-  sl.registerLazySingleton(() => GetMyProfileUseCase(sl()));
-  sl.registerLazySingleton<MyProfileRepository>(
-    () => MyProfileRepositoryImpl(remoteDataSource: sl()),
-  );
-  sl.registerLazySingleton<MyProfileRemoteDataSource>(
-    () => MyProfileRemoteDataSourceImpl(),
-  );
-  sl.registerLazySingleton<GroupRepository>(
-    () => GroupRepositoryImpl(remoteDataSource: sl()),
-  );
-  sl.registerLazySingleton<GroupRemoteDataSource>(
-    () => GroupRemoteDataSourceImpl(),
-  );
-  sl.registerLazySingleton<ExchangeSettingsRepository>(
-    () => ExchangeSettingsRepositoryImpl(remoteDataSource: sl()),
-  );
-  sl.registerLazySingleton<ExchangeSettingsRemoteDataSource>(
-    () => ExchangeSettingsRemoteDataSourceImpl(),
-  );
-  sl.registerLazySingleton<TradeSettingsRepository>(
-    () => TradeSettingsRepositoryImpl(remoteDataSource: sl()),
-  );
-  sl.registerLazySingleton<TradeSettingsRemoteDataSource>(
-    () => TradeSettingsRemoteDataSourceImpl(),
-  );
-  sl.registerFactory(
-    () => DateSettingsBloc(getDateSettings: sl(), updateDateSettings: sl()),
-  );
-  sl.registerLazySingleton(() => GetDateSettings(sl()));
-  sl.registerLazySingleton(() => UpdateDateSettings(sl()));
-  sl.registerLazySingleton<DateSettingsRepository>(
-    () => DateSettingsRepositoryImpl(remoteDataSource: sl()),
-  );
-  sl.registerLazySingleton<DateSettingsRemoteDataSource>(
-    () => DateSettingsRemoteDataSourceImpl(),
-  );
-  sl.registerFactory(
-    () =>
-        ScriptSettingsBloc(getScriptSettings: sl(), updateScriptSettings: sl()),
-  );
-  sl.registerLazySingleton(() => GetScriptSettings(sl()));
-  sl.registerLazySingleton(() => UpdateScriptSettings(sl()));
-  sl.registerLazySingleton<ScriptSettingsRepository>(
-    () => ScriptSettingsRepositoryImpl(remoteDataSource: sl()),
-  );
-  sl.registerLazySingleton<ScriptSettingsRemoteDataSource>(
-    () => ScriptSettingsRemoteDataSourceImpl(),
-  );
-  sl.registerFactory(
-    () => SurveillanceBloc(
-      getSurveillanceData: sl(),
-      updateSurveillanceData: sl(),
-    ),
-  );
-  sl.registerLazySingleton(() => GetSurveillanceData(sl()));
-  sl.registerLazySingleton(() => UpdateSurveillanceData(sl()));
-  sl.registerLazySingleton<SurveillanceRepository>(
-    () => SurveillanceRepositoryImpl(remoteDataSource: sl()),
-  );
-  sl.registerLazySingleton<SurveillanceRemoteDataSource>(
-    () => SurveillanceRemoteDataSourceImpl(),
-  );
-  sl.registerFactory(() => OperationsMessageBloc());
-  sl.registerFactory(
-    () => ServerBloc(
-      getServers: sl(),
-      updateServerStatus: sl(),
-      repository: sl(),
-    ),
-  );
-  sl.registerLazySingleton(() => GetServers(sl()));
-  sl.registerLazySingleton(() => UpdateServerStatus(sl()));
-  sl.registerLazySingleton<ServerRepository>(
-    () => ServerRepositoryImpl(remoteDataSource: sl()),
-  );
-  sl.registerLazySingleton<ServerRemoteDataSource>(
-    () => ServerRemoteDataSourceImpl(),
-  );
-  sl.registerFactory(() => BillComparisonBloc(getBillComparisonData: sl()));
-  sl.registerLazySingleton(() => GetBillComparisonData(sl()));
-  sl.registerLazySingleton<BillComparisonRepository>(
-    () => BillComparisonRepositoryImpl(remoteDataSource: sl()),
-  );
-  sl.registerLazySingleton<BillComparisonRemoteDataSource>(
-    () => BillComparisonRemoteDataSourceImpl(),
+  sl.registerLazySingleton<UsersBillSummaryRemoteDataSource>(
+    () => UsersBillSummaryRemoteDataSourceImpl(),
   );
 }

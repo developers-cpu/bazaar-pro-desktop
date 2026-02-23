@@ -10,6 +10,7 @@ import '../../features/operations/presentation/pages/operations_page_wrapper.dar
 import '../../features/operations/presentation/pages/exchange_settings/exchange_settings_page.dart';
 import '../../features/operations/presentation/pages/trade_settings/trade_settings_page.dart';
 import '../../features/operations/presentation/pages/group/group_page.dart';
+
 class AppRoutes {
   static const String login = '/';
   static const String marketWatch = '/market-watch';
@@ -44,7 +45,6 @@ class AppRoutes {
   static const String symbolWisePosition = '/symbol-wise-position';
   static const String symbolWisePL = '/symbol-wise-pl';
   static const String exchangeWiseReport = '/exchange-wise-report';
-  static const String usersBillSummary = '/users-bill-summary';
   static const String rejectedTrade = '/rejected-trade';
   static const String exchangeSettings = '/exchange-settings';
   static const String group = '/group';
@@ -114,7 +114,6 @@ class AppRoutes {
       server: (context) => const ServerPageWithAppBar(),
       billComparison: (context) => const BillComparisonPageWithAppBar(),
       operationsMessage: (context) => const OperationsMessagePageWithAppBar(),
-      usersBillSummary: (context) => const UsersBillSummaryPageWithAppBar(),
       tools: (context) => const AboutPageWithAppBar(),
       toolsAbout: (context) => const AboutPageWithAppBar(),
       toolsChangePassword: (context) => const ChangePasswordPageWithAppBar(),

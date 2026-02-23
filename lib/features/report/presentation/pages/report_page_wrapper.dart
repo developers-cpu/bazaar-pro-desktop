@@ -15,6 +15,7 @@ import 'symbol_wise_position_report_page.dart';
 import 'user_script_position_tracking_page.dart';
 import 'user_wise_profit_and_loss_page.dart';
 import 'exchange_wise_pl_report_page.dart';
+
 class ReportPageWrapper extends StatelessWidget {
   final String pageTitle;
   final Widget child;
@@ -52,6 +53,7 @@ class ReportPageWrapper extends StatelessWidget {
     );
   }
 }
+
 class TradeLogsPageWithAppBar extends StatelessWidget {
   const TradeLogsPageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -64,6 +66,7 @@ class TradeLogsPageWithAppBar extends StatelessWidget {
     );
   }
 }
+
 class SettlementPageWithAppBar extends StatelessWidget {
   const SettlementPageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -76,6 +79,7 @@ class SettlementPageWithAppBar extends StatelessWidget {
     );
   }
 }
+
 class CreditHistoryPageWithAppBar extends StatelessWidget {
   const CreditHistoryPageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -88,6 +92,7 @@ class CreditHistoryPageWithAppBar extends StatelessWidget {
     );
   }
 }
+
 class BillGeneratePageWithAppBar extends StatelessWidget {
   const BillGeneratePageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -100,6 +105,7 @@ class BillGeneratePageWithAppBar extends StatelessWidget {
     );
   }
 }
+
 class ActivityReportPageWithAppBar extends StatelessWidget {
   const ActivityReportPageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -112,6 +118,7 @@ class ActivityReportPageWithAppBar extends StatelessWidget {
     );
   }
 }
+
 class ProfitAndLossPageWithAppBar extends StatelessWidget {
   const ProfitAndLossPageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -124,6 +131,7 @@ class ProfitAndLossPageWithAppBar extends StatelessWidget {
     );
   }
 }
+
 class UserWisePLPageWithAppBar extends StatelessWidget {
   const UserWisePLPageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -136,6 +144,7 @@ class UserWisePLPageWithAppBar extends StatelessWidget {
     );
   }
 }
+
 class UserScriptPositionTrackingPageWithAppBar extends StatelessWidget {
   const UserScriptPositionTrackingPageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -148,6 +157,7 @@ class UserScriptPositionTrackingPageWithAppBar extends StatelessWidget {
     );
   }
 }
+
 class SymbolWisePositionReportPageWithAppBar extends StatelessWidget {
   const SymbolWisePositionReportPageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -160,6 +170,7 @@ class SymbolWisePositionReportPageWithAppBar extends StatelessWidget {
     );
   }
 }
+
 class SymbolWisePLPageWithAppBar extends StatelessWidget {
   const SymbolWisePLPageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -172,6 +183,7 @@ class SymbolWisePLPageWithAppBar extends StatelessWidget {
     );
   }
 }
+
 class ExchangeWiseReportPageWithAppBar extends StatelessWidget {
   const ExchangeWiseReportPageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -181,18 +193,6 @@ class ExchangeWiseReportPageWithAppBar extends StatelessWidget {
       onExportPdf: () {},
       onExportExcel: () {},
       child: const ExchangeWisePLReportPage(),
-    );
-  }
-}
-class UsersBillSummaryPageWithAppBar extends StatelessWidget {
-  const UsersBillSummaryPageWithAppBar({Key? key}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return ReportPageWrapper(
-      pageTitle: "User's Bill Summary",
-      child: const Center(
-        child: Text("User's Bill Summary Page - Coming Soon"),
-      ),
     );
   }
 }

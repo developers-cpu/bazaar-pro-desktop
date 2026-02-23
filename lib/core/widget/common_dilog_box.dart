@@ -143,7 +143,7 @@ class CommonDialog extends StatelessWidget {
         topRight: Radius.circular(16.r),
       ),
       child: Container(
-        height: 48.h,
+        height: 40.h,
         color: headerBgColor,
         padding: EdgeInsets.symmetric(horizontal: 20.w),
         child: Row(
@@ -152,8 +152,7 @@ class CommonDialog extends StatelessWidget {
               child: Text(
                 title,
                 style: GoogleFonts.openSans(
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.w600,
+                  fontSize: 14.sp,
                   color: AppColors.white,
                 ),
               ),
@@ -165,7 +164,7 @@ class CommonDialog extends StatelessWidget {
                 }
                 Navigator.pop(context);
               },
-              child: Icon(Icons.close, size: 22.sp, color: AppColors.white),
+              child: Icon(Icons.close, size: 18.sp, color: AppColors.white),
             ),
           ],
         ),

@@ -42,6 +42,7 @@ class CommonAppBar extends StatefulWidget implements PreferredSizeWidget {
 class _CommonAppBarState extends State<CommonAppBar>
     with SingleTickerProviderStateMixin {
   int? _hoveredDropdownIndex;
+  int? _hoveredTabIndex;
   OverlayEntry? _dropdownOverlay;
   final Map<int, GlobalKey> _tabKeys = {};
   bool _isExportExpanded = false;
@@ -208,62 +209,69 @@ class _CommonAppBarState extends State<CommonAppBar>
         isSelected ||
         (hasDropdown &&
             widget.selectedDropdownItems?.containsKey(index) == true);
-    final isHoveredOrOpen = isDropdownOpen;
-    return GestureDetector(
-      key: _tabKeys[index],
-      onTap: () {
-        if (hasDropdown) {
-          if (isDropdownOpen) {
-            _removeDropdown();
-            setState(() => _hoveredDropdownIndex = null);
+    final isHoveredOrOpen = isDropdownOpen || _hoveredTabIndex == index;
+    return MouseRegion(
+      onEnter: (_) => setState(() => _hoveredTabIndex = index),
+      onExit: (_) => setState(() => _hoveredTabIndex = null),
+      child: GestureDetector(
+        key: _tabKeys[index],
+        onTap: () {
+          if (hasDropdown) {
+            if (isDropdownOpen) {
+              _removeDropdown();
+              setState(() => _hoveredDropdownIndex = null);
+            } else {
+              _showDropdown(index);
+            }
           } else {
-            _showDropdown(index);
+            _removeDropdown();
+            setState(() {
+              _hoveredDropdownIndex = null;
+              _hoveredTabIndex = null;
+            });
+            widget.onTabSelected?.call(index);
+            tab.onTap?.call();
           }
-        } else {
-          _removeDropdown();
-          setState(() => _hoveredDropdownIndex = null);
-          widget.onTabSelected?.call(index);
-          tab.onTap?.call();
-        }
-      },
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        curve: Curves.easeInOut,
-        constraints: BoxConstraints(minWidth: 100.w),
-        padding: EdgeInsets.symmetric(horizontal: 10.w),
-        decoration: isActive
-            ? BoxDecoration(
-                color: AppColors.primaryBlue,
-                borderRadius: BorderRadius.circular(12.r),
-              )
-            : isHoveredOrOpen
-            ? BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    AppColors.primaryBlue.withOpacity(0.0),
-                    AppColors.primaryBlue.withOpacity(0.5),
-                  ],
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
+        },
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          curve: Curves.easeInOut,
+          constraints: BoxConstraints(minWidth: 100.w),
+          padding: EdgeInsets.symmetric(horizontal: 10.w),
+          decoration: isActive
+              ? BoxDecoration(
+                  color: AppColors.primaryBlue,
+                  borderRadius: BorderRadius.circular(12.r),
+                )
+              : isHoveredOrOpen
+              ? BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      AppColors.primaryBlue.withOpacity(0.0),
+                      AppColors.primaryBlue.withOpacity(0.5),
+                    ],
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                  ),
+                  borderRadius: BorderRadius.circular(4.r),
+                )
+              : BoxDecoration(
+                  color: AppColors.transparent,
+                  borderRadius: BorderRadius.circular(12.r),
                 ),
-                borderRadius: BorderRadius.circular(4.r),
-              )
-            : BoxDecoration(
-                color: AppColors.transparent,
-                borderRadius: BorderRadius.circular(12.r),
-              ),
-        alignment: Alignment.center,
-        child: Text(
-          displayTitle,
-          textAlign: TextAlign.center,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: GoogleFonts.openSans(
-            fontSize: 11.sp,
-            fontWeight: FontWeight.w600,
-            height: 1.0,
-            letterSpacing: 0.15,
-            color: isActive ? AppColors.white : AppColors.textDark,
+          alignment: Alignment.center,
+          child: Text(
+            displayTitle,
+            textAlign: TextAlign.center,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: GoogleFonts.openSans(
+              fontSize: 11.sp,
+              fontWeight: FontWeight.w600,
+              height: 1.0,
+              letterSpacing: 0.15,
+              color: isActive ? AppColors.white : AppColors.textDark,
+            ),
           ),
         ),
       ),

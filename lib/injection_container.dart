@@ -172,6 +172,7 @@ import 'features/users/data/repositories/user_sharing_details/user_sharing_detai
 import 'features/users/presentation/bloc/user_credit/user_credit_bloc.dart';
 import 'features/users/presentation/bloc/user_group_settings/user_group_settings_bloc.dart';
 import 'features/users/presentation/bloc/user_intraday/user_intraday_bloc.dart';
+import 'features/operations/presentation/bloc/message/operations_message_bloc.dart';
 import 'features/users/presentation/bloc/nested_users/nested_users_bloc.dart';
 import 'features/users/domain/usecases/user/get_nested_users_usecase.dart';
 import 'features/users/domain/usecases/user_credit_transaction/get_user_credit_usecase.dart';
@@ -981,4 +982,6 @@ Future<void> init() async {
   sl.registerLazySingleton<SurveillanceRemoteDataSource>(
     () => SurveillanceRemoteDataSourceImpl(),
   );
+
+  sl.registerFactory(() => OperationsMessageBloc());
 }

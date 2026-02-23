@@ -57,6 +57,7 @@ class AppRoutes {
   static const String server = '/server';
   static const String billComparison = '/bill-comparison';
   static const String inactivityManagement = '/inactivity-management';
+  static const String operationsMessage = '/operations-message';
   static const String tools = '/tools';
   static const String toolsAbout = '/tools/about';
   static const String toolsChangePassword = '/tools/change-password';
@@ -115,6 +116,7 @@ class AppRoutes {
       billComparison: (context) => const BillComparisonPageWithAppBar(),
       inactivityManagement: (context) =>
           const InactivityManagementPageWithAppBar(),
+      operationsMessage: (context) => const OperationsMessagePageWithAppBar(),
       usersBillSummary: (context) => const UsersBillSummaryPageWithAppBar(),
       tools: (context) => const AboutPageWithAppBar(),
       toolsAbout: (context) => const AboutPageWithAppBar(),

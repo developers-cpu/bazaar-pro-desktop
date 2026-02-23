@@ -192,15 +192,11 @@ class AppBarSectionState extends State<AppBarSection> {
       ),
       MenuItemData(
         title: 'Message',
-        onTap: () {
-          MessagesDialog.show(context);
-          final opsIndex = _getTabIndex('Operations');
-          if (opsIndex != -1) {
-            setState(() {
-              _selectedDropdownItems[opsIndex] = 'Message';
-            });
-          }
-        },
+        onTap: () => _navigateToPage(
+          _getTabIndex('Operations'),
+          'Message',
+          '/operations-message',
+        ),
       ),
       MenuItemData(
         title: 'Settlement Progress',

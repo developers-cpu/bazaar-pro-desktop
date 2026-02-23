@@ -11,7 +11,9 @@ import '../bloc/script_settings/script_settings_bloc.dart';
 import '../bloc/script_settings/script_settings_event.dart';
 import '../bloc/surveillance/surveillance_bloc.dart';
 import '../bloc/surveillance/surveillance_event.dart';
+import '../bloc/message/operations_message_bloc.dart';
 import 'date_settings/date_settings_page.dart';
+import 'message/operations_message_page.dart';
 import 'script_settings/script_settings_page.dart';
 import 'surveillance/surveillance_page.dart';
 
@@ -108,6 +110,30 @@ class SurveillancePageWithAppBar extends StatelessWidget {
           );
         },
       ),
+    );
+  }
+}
+
+class OperationsMessagePageWithAppBar extends StatelessWidget {
+  const OperationsMessagePageWithAppBar({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => sl<OperationsMessageBloc>(),
+      child: const OperationsMessagePageWrapper(),
+    );
+  }
+}
+
+class OperationsMessagePageWrapper extends StatelessWidget {
+  const OperationsMessagePageWrapper({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const OperationsPageWrapper(
+      pageTitle: 'Message',
+      child: OperationsMessagePage(),
     );
   }
 }

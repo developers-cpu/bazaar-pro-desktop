@@ -164,13 +164,3 @@ class BillComparisonPageWithAppBar extends StatelessWidget {
     );
   }
 }
-class InactivityManagementPageWithAppBar extends StatelessWidget {
-  const InactivityManagementPageWithAppBar({Key? key}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return const OperationsPageWrapper(
-      pageTitle: 'Inactivity Management',
-      child: Center(child: Text('Inactivity Management Page - Coming Soon')),
-    );
-  }
-}

@@ -113,8 +113,6 @@ class AppRoutes {
       settlementProgress: (context) => const SettlementProgressPageWithAppBar(),
       server: (context) => const ServerPageWithAppBar(),
       billComparison: (context) => const BillComparisonPageWithAppBar(),
-      inactivityManagement: (context) =>
-          const InactivityManagementPageWithAppBar(),
       operationsMessage: (context) => const OperationsMessagePageWithAppBar(),
       usersBillSummary: (context) => const UsersBillSummaryPageWithAppBar(),
       tools: (context) => const AboutPageWithAppBar(),

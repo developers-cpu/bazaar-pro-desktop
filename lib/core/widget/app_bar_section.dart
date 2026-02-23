@@ -11,6 +11,7 @@ import '../../features/tools/presentation/widgets/announcement/announcement_dial
 import '../../features/tools/presentation/widgets/shortcuts/shortcuts_dialog.dart';
 import '../../features/tools/presentation/widgets/total_volume/total_volume_dialog.dart';
 import '../../features/tools/presentation/widgets/my_profile/my_profile_dialog.dart';
+import '../../features/operations/presentation/widgets/inactivity_management/inactivity_management_dialog.dart';
 class AppBarSection extends StatefulWidget implements PreferredSizeWidget {
   final int selectedTabIndex;
   final String? userRole;
@@ -213,11 +214,9 @@ class AppBarSectionState extends State<AppBarSection> {
       ),
       MenuItemData(
         title: 'Inactivity Management',
-        onTap: () => _navigateToPage(
-          _getTabIndex('Operations'),
-          'Inactivity Management',
-          '/inactivity-management',
-        ),
+        onTap: () {
+          InactivityManagementDialog.show(context);
+        },
       ),
     ];
   }

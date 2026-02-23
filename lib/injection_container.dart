@@ -21,6 +21,13 @@ import 'package:bazarpro/features/operations/data/datasources/script_settings/sc
 import 'package:bazarpro/features/operations/domain/usecases/script_settings/get_script_settings.dart';
 import 'package:bazarpro/features/operations/domain/usecases/script_settings/update_script_settings.dart';
 import 'package:bazarpro/features/operations/presentation/bloc/script_settings/script_settings_bloc.dart';
+import 'package:bazarpro/features/operations/domain/repositories/surveillance/surveillance_repository.dart';
+import 'package:bazarpro/features/operations/data/repositories/surveillance/surveillance_repository_impl.dart';
+import 'package:bazarpro/features/operations/data/datasources/surveillance/surveillance_remote_data_source.dart';
+import 'package:bazarpro/features/operations/data/datasources/surveillance/surveillance_remote_data_source_impl.dart';
+import 'package:bazarpro/features/operations/domain/usecases/surveillance/get_surveillance_data.dart';
+import 'package:bazarpro/features/operations/domain/usecases/surveillance/update_surveillance_data.dart';
+import 'package:bazarpro/features/operations/presentation/bloc/surveillance/surveillance_bloc.dart';
 import 'package:bazarpro/features/operations/domain/usecases/exchange_settings/update_exchange_settings.dart';
 import 'package:bazarpro/features/operations/presentation/bloc/exchange_settings/exchange_settings_bloc.dart';
 import 'package:bazarpro/features/operations/presentation/bloc/trade_settings/trade_settings_bloc.dart';
@@ -958,5 +965,20 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<ScriptSettingsRemoteDataSource>(
     () => ScriptSettingsRemoteDataSourceImpl(),
+  );
+
+  sl.registerFactory(
+    () => SurveillanceBloc(
+      getSurveillanceData: sl(),
+      updateSurveillanceData: sl(),
+    ),
+  );
+  sl.registerLazySingleton(() => GetSurveillanceData(sl()));
+  sl.registerLazySingleton(() => UpdateSurveillanceData(sl()));
+  sl.registerLazySingleton<SurveillanceRepository>(
+    () => SurveillanceRepositoryImpl(remoteDataSource: sl()),
+  );
+  sl.registerLazySingleton<SurveillanceRemoteDataSource>(
+    () => SurveillanceRemoteDataSourceImpl(),
   );
 }

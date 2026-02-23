@@ -9,8 +9,11 @@ import '../bloc/date_settings/date_settings_bloc.dart';
 import '../bloc/date_settings/date_settings_event.dart';
 import '../bloc/script_settings/script_settings_bloc.dart';
 import '../bloc/script_settings/script_settings_event.dart';
+import '../bloc/surveillance/surveillance_bloc.dart';
+import '../bloc/surveillance/surveillance_event.dart';
 import 'date_settings/date_settings_page.dart';
 import 'script_settings/script_settings_page.dart';
+import 'surveillance/surveillance_page.dart';
 
 class OperationsPageWrapper extends StatelessWidget {
   final String pageTitle;
@@ -91,13 +94,20 @@ class ScriptSettingsPageWithAppBar extends StatelessWidget {
 }
 
 class SurveillancePageWithAppBar extends StatelessWidget {
-  const SurveillancePageWithAppBar({Key? key}) : super(key: key);
+  const SurveillancePageWithAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const OperationsPageWrapper(
-      pageTitle: 'Surveillance',
-      child: Center(child: Text('Surveillance Page - Coming Soon')),
+    return BlocProvider(
+      create: (_) => sl<SurveillanceBloc>()..add(LoadSurveillanceDataEvent()),
+      child: Builder(
+        builder: (context) {
+          return const OperationsPageWrapper(
+            pageTitle: 'Surveillance',
+            child: SurveillancePage(),
+          );
+        },
+      ),
     );
   }
 }

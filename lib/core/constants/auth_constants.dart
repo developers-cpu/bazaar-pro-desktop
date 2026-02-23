@@ -5,6 +5,12 @@ class AuthConstants {
   static const String refreshTokenEndpoint = '';
   static const String demoUsername = 'emilys';
   static const String demoPassword = 'emilyspass';
+  static const String clientUsername = 'client@bazarpro.com';
+  static const String clientPassword = 'client@bazarpro';
+  static const String masterUsername = 'master@bazarpro.com';
+  static const String masterPassword = 'master@bazarpro';
+  static const String adminUsername = 'admin@@bazarpro.com';
+  static const String adminPassword = 'admin@@bazarpro';
   static const int tokenExpiryMinutes = 30;
   static const String appName = 'BAZAAR';
   static const String loginTitle = 'Log In';

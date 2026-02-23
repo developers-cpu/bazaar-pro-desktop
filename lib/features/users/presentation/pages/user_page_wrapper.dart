@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../features/auth/presentation/bloc/auth_bloc.dart';
+import '../../../../features/auth/presentation/bloc/auth_state.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/routes/app_routes.dart';
 import '../../../../core/widget/app_bar_section.dart';
 import '../widgets/create_user/user_type_selection_dialog.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../injection_container.dart';
 import '../bloc/inactive_user_list/inactive_user_list_bloc.dart';
 import 'inactive_user_list_page.dart';
@@ -20,14 +22,23 @@ class UserPageWrapper extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.white,
-      appBar: AppBarSection(
-        selectedTabIndex: 3,
-        currentPageTitle: pageTitle,
-        onTabSelected: (_) {},
-      ),
-      body: child,
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, state) {
+        String? userRole;
+        if (state is AuthAuthenticated) {
+          userRole = state.user.role;
+        }
+        return Scaffold(
+          backgroundColor: AppColors.white,
+          appBar: AppBarSection(
+            selectedTabIndex: 3,
+            userRole: userRole,
+            currentPageTitle: pageTitle,
+            onTabSelected: (_) {},
+          ),
+          body: child,
+        );
+      },
     );
   }
 }

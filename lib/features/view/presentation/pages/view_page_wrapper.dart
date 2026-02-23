@@ -3,6 +3,8 @@ import 'package:bazarpro/features/view/presentation/pages/script_master/script_m
 import 'package:bazarpro/features/view/presentation/pages/script_quantity/script_quantity_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../features/auth/presentation/bloc/auth_bloc.dart';
+import '../../../../features/auth/presentation/bloc/auth_state.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../core/widget/app_bar_section.dart';
 import '../bloc/deals/deals_bloc.dart';
@@ -48,17 +50,26 @@ class ViewPageWrapper extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.white,
-      appBar: AppBarSection(
-        selectedTabIndex: 2,
-        currentPageTitle: pageTitle,
-        onTabSelected: (_) {},
-        onExportPdf: onExportPdf,
-        onExportExcel: onExportExcel,
-        showExportByDefault: true,
-      ),
-      body: child,
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, state) {
+        String? userRole;
+        if (state is AuthAuthenticated) {
+          userRole = state.user.role;
+        }
+        return Scaffold(
+          backgroundColor: AppColors.white,
+          appBar: AppBarSection(
+            selectedTabIndex: 2,
+            userRole: userRole,
+            currentPageTitle: pageTitle,
+            onTabSelected: (_) {},
+            onExportPdf: onExportPdf,
+            onExportExcel: onExportExcel,
+            showExportByDefault: true,
+          ),
+          body: child,
+        );
+      },
     );
   }
 }
@@ -299,8 +310,6 @@ class ScriptQuantityPageWithAppBar extends StatelessWidget {
   }
 }
 
-
-
 class TradeMarginPageWithAppBar extends StatelessWidget {
   const TradeMarginPageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -377,16 +386,23 @@ class BrokerListPageWithAppBar extends StatelessWidget {
         builder: (context) {
           return ViewPageWrapper(
             pageTitle: 'Broker List',
-            onExportPdf: () {
-
-            },
-            onExportExcel: () {
-
-            },
+            onExportPdf: () {},
+            onExportExcel: () {},
             child: const BrokerListPage(),
           );
         },
       ),
+    );
+  }
+}
+
+class RejectedTradePageWithAppBar extends StatelessWidget {
+  const RejectedTradePageWithAppBar({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return ViewPageWrapper(
+      pageTitle: 'Rejected Trade',
+      child: const Center(child: Text('Rejected Trade Page - Coming Soon')),
     );
   }
 }

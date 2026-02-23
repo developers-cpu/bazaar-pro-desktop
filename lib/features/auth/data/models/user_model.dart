@@ -1,4 +1,5 @@
 import '../../domain/entities/user.dart';
+
 class LoginUserModel extends User {
   const LoginUserModel({
     required super.id,
@@ -10,6 +11,7 @@ class LoginUserModel extends User {
     required super.image,
     required super.accessToken,
     required super.refreshToken,
+    required super.role,
   });
   factory LoginUserModel.fromJson(Map<String, dynamic> json) {
     return LoginUserModel(
@@ -22,6 +24,7 @@ class LoginUserModel extends User {
       image: json['image'] as String,
       accessToken: json['accessToken'] as String,
       refreshToken: json['refreshToken'] as String,
+      role: json['role'] as String? ?? 'client',
     );
   }
   Map<String, dynamic> toJson() {
@@ -35,8 +38,10 @@ class LoginUserModel extends User {
       'image': image,
       'accessToken': accessToken,
       'refreshToken': refreshToken,
+      'role': role,
     };
   }
+
   factory LoginUserModel.fromEntity(User user) {
     return LoginUserModel(
       id: user.id,
@@ -48,6 +53,7 @@ class LoginUserModel extends User {
       image: user.image,
       accessToken: user.accessToken,
       refreshToken: user.refreshToken,
+      role: user.role,
     );
   }
 }

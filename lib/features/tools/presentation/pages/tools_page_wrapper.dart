@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../features/auth/presentation/bloc/auth_bloc.dart';
+import '../../../../features/auth/presentation/bloc/auth_state.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../core/widget/app_bar_section.dart';
 import 'tools_sub_pages.dart';
 import 'rules_page.dart';
 import 'market_timing_page.dart';
+
 class ToolsPageWrapper extends StatelessWidget {
   final String pageTitle;
   final Widget child;
@@ -18,20 +22,30 @@ class ToolsPageWrapper extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.white,
-      appBar: AppBarSection(
-        selectedTabIndex: 5,
-        currentPageTitle: pageTitle,
-        onTabSelected: (_) {},
-        onExportPdf: onExportPdf,
-        onExportExcel: onExportExcel,
-        showExportByDefault: false,
-      ),
-      body: child,
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, state) {
+        String? userRole;
+        if (state is AuthAuthenticated) {
+          userRole = state.user.role;
+        }
+        return Scaffold(
+          backgroundColor: AppColors.white,
+          appBar: AppBarSection(
+            selectedTabIndex: userRole == 'Client' ? 4 : 5,
+            userRole: userRole,
+            currentPageTitle: pageTitle,
+            onTabSelected: (_) {},
+            onExportPdf: onExportPdf,
+            onExportExcel: onExportExcel,
+            showExportByDefault: false,
+          ),
+          body: child,
+        );
+      },
     );
   }
 }
+
 class AboutPageWithAppBar extends StatelessWidget {
   const AboutPageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -39,6 +53,7 @@ class AboutPageWithAppBar extends StatelessWidget {
     return const ToolsPageWrapper(pageTitle: 'About', child: AboutPage());
   }
 }
+
 class ChangePasswordPageWithAppBar extends StatelessWidget {
   const ChangePasswordPageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -49,6 +64,7 @@ class ChangePasswordPageWithAppBar extends StatelessWidget {
     );
   }
 }
+
 class MarketTimingPageWithAppBar extends StatelessWidget {
   const MarketTimingPageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -59,6 +75,7 @@ class MarketTimingPageWithAppBar extends StatelessWidget {
     );
   }
 }
+
 class MessagePageWithAppBar extends StatelessWidget {
   const MessagePageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -66,6 +83,7 @@ class MessagePageWithAppBar extends StatelessWidget {
     return const ToolsPageWrapper(pageTitle: 'Message', child: MessagePage());
   }
 }
+
 class AnnouncementPageWithAppBar extends StatelessWidget {
   const AnnouncementPageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -76,6 +94,7 @@ class AnnouncementPageWithAppBar extends StatelessWidget {
     );
   }
 }
+
 class RulesRegulationsPageWithAppBar extends StatelessWidget {
   const RulesRegulationsPageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -86,6 +105,7 @@ class RulesRegulationsPageWithAppBar extends StatelessWidget {
     );
   }
 }
+
 class ShortcutsPageWithAppBar extends StatelessWidget {
   const ShortcutsPageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -96,6 +116,7 @@ class ShortcutsPageWithAppBar extends StatelessWidget {
     );
   }
 }
+
 class MyProfilePageWithAppBar extends StatelessWidget {
   const MyProfilePageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -106,6 +127,7 @@ class MyProfilePageWithAppBar extends StatelessWidget {
     );
   }
 }
+
 class ToolsTotalVolumePageWithAppBar extends StatelessWidget {
   const ToolsTotalVolumePageWithAppBar({Key? key}) : super(key: key);
   @override

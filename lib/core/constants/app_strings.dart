@@ -7,6 +7,32 @@ class AppStrings {
   static const String view = 'View';
   static const String report = 'Report';
   static const String tools = 'Tools';
+  static const String operations = 'Operations';
+  static const String tradeLogs = 'Trade Logs';
+  static const String creditHistory = 'Credit History';
+  static const String billGenerate = 'Bill Generate';
+  static const String settlement = 'Settlement';
+  static const String profitLoss = 'Profit & Loss';
+  static const String userWisePL = 'User Wise Profit & Loss';
+  static const String symbolWisePositionReport = 'Symbol Wise Position Report';
+  static const String symbolWisePL = 'Symbol Wise PL';
+  static const String exchangeWiseReport = 'Exchange Wise Report';
+  static const String userScriptPositionTracking =
+      'User Script Position Tracking';
+  static const String activityReport = 'Activity Report';
+  static const String usersBillSummary = "User's Bill Summary";
+  static const String rejectedTrade = 'Rejected Trade';
+  static const String exchangeSettings = 'Exchange Settings';
+  static const String group = 'Group';
+  static const String tradeSettings = 'Trade Settings';
+  static const String dateSettings = 'Date Settings';
+  static const String scriptSettings = 'Script Settings';
+  static const String surveillance = 'Surveillance';
+  static const String message = 'Message';
+  static const String settlementProgress = 'Settlement Progress';
+  static const String server = 'Server';
+  static const String billComparison = 'Bill Comparision';
+  static const String inactivityManagement = 'Inactivity Management';
   static const String exchange = 'EXCHANGE';
   static const String symbol = 'SYMBOL';
   static const String buyQty = 'BUY QTY';
@@ -59,7 +85,8 @@ class AppStrings {
   static const String unknownPage = 'Unknown Page';
   static const String retry = 'Retry';
   static const String themeToggleClicked = 'Theme toggle clicked';
-  static const String atLeastOneWatchlistRequired = 'At least one watchlist is required';
+  static const String atLeastOneWatchlistRequired =
+      'At least one watchlist is required';
   static const String add = 'Add';
   static const String all = 'All';
   static const String watchlist = 'Watchlist';
@@ -70,6 +97,7 @@ class AppStrings {
   static const String defaultVersion = 'v1.1.0.0';
   static const String userInitialFallback = 'U';
   static const String logoFallback = 'B';
-  static const String banForTradeMessage = 'ies in Ban For Trade Date 27-OCT-25: 1 SAIL 2 SAMN';
+  static const String banForTradeMessage =
+      'ies in Ban For Trade Date 27-OCT-25: 1 SAIL 2 SAMN';
   static const String dashPlaceholder = '-';
 }

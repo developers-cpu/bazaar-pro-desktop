@@ -3,6 +3,9 @@ import 'package:bazarpro/features/report/presentation/pages/symbol_wise_pl_repor
 import 'package:bazarpro/features/report/presentation/pages/profit_and_loss_report_page.dart';
 import 'package:bazarpro/features/report/presentation/pages/settlement_report_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../features/auth/presentation/bloc/auth_bloc.dart';
+import '../../../../features/auth/presentation/bloc/auth_state.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../core/widget/app_bar_section.dart';
 import 'trade_logs_page.dart';
@@ -27,17 +30,26 @@ class ReportPageWrapper extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.white,
-      appBar: AppBarSection(
-        selectedTabIndex: 4,
-        currentPageTitle: pageTitle,
-        onTabSelected: (_) {},
-        onExportPdf: onExportPdf,
-        onExportExcel: onExportExcel,
-        showExportByDefault: true,
-      ),
-      body: child,
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, state) {
+        String? userRole;
+        if (state is AuthAuthenticated) {
+          userRole = state.user.role;
+        }
+        return Scaffold(
+          backgroundColor: AppColors.white,
+          appBar: AppBarSection(
+            selectedTabIndex: userRole == 'Client' ? 3 : 4,
+            userRole: userRole,
+            currentPageTitle: pageTitle,
+            onTabSelected: (_) {},
+            onExportPdf: onExportPdf,
+            onExportExcel: onExportExcel,
+            showExportByDefault: true,
+          ),
+          body: child,
+        );
+      },
     );
   }
 }
@@ -181,6 +193,19 @@ class ExchangeWiseReportPageWithAppBar extends StatelessWidget {
       onExportPdf: () {},
       onExportExcel: () {},
       child: const ExchangeWisePLReportPage(),
+    );
+  }
+}
+
+class UsersBillSummaryPageWithAppBar extends StatelessWidget {
+  const UsersBillSummaryPageWithAppBar({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return ReportPageWrapper(
+      pageTitle: "User's Bill Summary",
+      child: const Center(
+        child: Text("User's Bill Summary Page - Coming Soon"),
+      ),
     );
   }
 }

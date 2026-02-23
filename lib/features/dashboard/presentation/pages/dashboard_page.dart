@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
+import '../../../auth/presentation/bloc/auth_bloc.dart';
+import '../../../auth/presentation/bloc/auth_state.dart';
 import '../../../../core/widget/app_bar_section.dart';
 import '../bloc/dashboard_bloc.dart';
 import '../bloc/dashboard_event.dart';
@@ -35,14 +37,23 @@ class DashboardPageWithAppBar extends StatelessWidget {
   const DashboardPageWithAppBar({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.white,
-      appBar: AppBarSection(
-        selectedTabIndex: 1,
-        onTabSelected: (_) {},
-        showExportByDefault: false,
-      ),
-      body: const DashboardPage(),
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, state) {
+        String? userRole;
+        if (state is AuthAuthenticated) {
+          userRole = state.user.role;
+        }
+        return Scaffold(
+          backgroundColor: AppColors.white,
+          appBar: AppBarSection(
+            selectedTabIndex: 1,
+            userRole: userRole,
+            onTabSelected: (_) {},
+            showExportByDefault: false,
+          ),
+          body: const DashboardPage(),
+        );
+      },
     );
   }
 }

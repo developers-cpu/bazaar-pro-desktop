@@ -6,6 +6,8 @@ import '../../features/view/presentation/pages/view_page_wrapper.dart';
 import '../../features/users/presentation/pages/user_page_wrapper.dart';
 import '../../features/report/presentation/pages/report_page_wrapper.dart';
 import '../../features/tools/presentation/pages/tools_page_wrapper.dart';
+import '../../features/operations/presentation/pages/operations_page_wrapper.dart';
+import '../../features/operations/presentation/pages/group_page.dart';
 
 class AppRoutes {
   static const String login = '/';
@@ -41,6 +43,18 @@ class AppRoutes {
   static const String symbolWisePosition = '/symbol-wise-position';
   static const String symbolWisePL = '/symbol-wise-pl';
   static const String exchangeWiseReport = '/exchange-wise-report';
+  static const String usersBillSummary = '/users-bill-summary';
+  static const String rejectedTrade = '/rejected-trade';
+  static const String exchangeSettings = '/exchange-settings';
+  static const String group = '/group';
+  static const String tradeSettings = '/trade-settings';
+  static const String dateSettings = '/date-settings';
+  static const String scriptSettings = '/script-settings';
+  static const String surveillance = '/surveillance';
+  static const String settlementProgress = '/settlement-progress';
+  static const String server = '/server';
+  static const String billComparison = '/bill-comparison';
+  static const String inactivityManagement = '/inactivity-management';
   static const String tools = '/tools';
   static const String toolsAbout = '/tools/about';
   static const String toolsChangePassword = '/tools/change-password';
@@ -87,6 +101,19 @@ class AppRoutes {
           const SymbolWisePositionReportPageWithAppBar(),
       symbolWisePL: (context) => const SymbolWisePLPageWithAppBar(),
       exchangeWiseReport: (context) => const ExchangeWiseReportPageWithAppBar(),
+      rejectedTrade: (context) => const RejectedTradePageWithAppBar(),
+      exchangeSettings: (context) => const ExchangeSettingsPageWithAppBar(),
+      group: (context) => const GroupPageWithAppBar(),
+      tradeSettings: (context) => const TradeSettingsPageWithAppBar(),
+      dateSettings: (context) => const DateSettingsPageWithAppBar(),
+      scriptSettings: (context) => const ScriptSettingsPageWithAppBar(),
+      surveillance: (context) => const SurveillancePageWithAppBar(),
+      settlementProgress: (context) => const SettlementProgressPageWithAppBar(),
+      server: (context) => const ServerPageWithAppBar(),
+      billComparison: (context) => const BillComparisonPageWithAppBar(),
+      inactivityManagement: (context) =>
+          const InactivityManagementPageWithAppBar(),
+      usersBillSummary: (context) => const UsersBillSummaryPageWithAppBar(),
       tools: (context) => const AboutPageWithAppBar(),
       toolsAbout: (context) => const AboutPageWithAppBar(),
       toolsChangePassword: (context) => const ChangePasswordPageWithAppBar(),

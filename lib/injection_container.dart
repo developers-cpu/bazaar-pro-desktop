@@ -250,6 +250,13 @@ import 'features/tools/domain/usecases/get_my_profile_usecase.dart';
 import 'features/tools/domain/repositories/my_profile_repository.dart';
 import 'features/tools/data/repositories/my_profile_repository_impl.dart';
 import 'features/tools/data/datasources/my_profile_remote_datasource.dart';
+import 'features/operations/presentation/bloc/group_bloc.dart';
+import 'features/operations/domain/usecases/get_groups.dart';
+import 'features/operations/domain/usecases/add_group.dart';
+import 'features/operations/domain/repositories/operation_repository.dart';
+import 'features/operations/data/repositories/operation_repository_impl.dart';
+import 'features/operations/data/datasources/operation_remote_data_source.dart';
+import 'features/operations/data/datasources/operation_remote_data_source_impl.dart';
 
 final sl = GetIt.instance;
 Future<void> init() async {
@@ -833,6 +840,17 @@ Future<void> init() async {
     () => MarketTimingRemoteDataSourceImpl(),
   );
   sl.registerFactory(() => ShortcutsBloc(getShortcuts: sl()));
+
+  // Operations
+  sl.registerFactory(() => GroupBloc(getGroups: sl(), addGroup: sl()));
+  sl.registerLazySingleton(() => GetGroups(sl()));
+  sl.registerLazySingleton(() => AddGroup(sl()));
+  sl.registerLazySingleton<OperationRepository>(
+    () => OperationRepositoryImpl(remoteDataSource: sl()),
+  );
+  sl.registerLazySingleton<OperationRemoteDataSource>(
+    () => OperationRemoteDataSourceImpl(),
+  );
   sl.registerLazySingleton(() => GetShortcutsUseCase(sl()));
   sl.registerLazySingleton<ShortcutsRepository>(
     () => ShortcutsRepositoryImpl(remoteDataSource: sl()),

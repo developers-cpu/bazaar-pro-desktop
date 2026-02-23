@@ -6,6 +6,7 @@ import '../constants/app_colors.dart';
 import '../constants/app_images.dart';
 import '../constants/app_strings.dart';
 import 'svg_icon.dart';
+import '../routes/app_routes.dart';
 
 class CommonAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String username;
@@ -477,7 +478,10 @@ class _CommonAppBarState extends State<CommonAppBar>
 
   Widget _buildLogoutButton(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.of(context).pushReplacementNamed('/'),
+      behavior: HitTestBehavior.opaque,
+      onTap: () => Navigator.of(
+        context,
+      ).pushNamedAndRemoveUntil(AppRoutes.login, (route) => false),
       child: SizedBox(
         width: 32.w,
         height: 32.h,

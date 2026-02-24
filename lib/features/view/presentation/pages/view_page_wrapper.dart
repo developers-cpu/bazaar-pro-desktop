@@ -1,3 +1,4 @@
+import 'package:bazarpro/features/view/presentation/pages/deleted_trade/deleted_trade_page.dart';
 import 'package:bazarpro/features/view/presentation/pages/rejection_log/rejection_log_page.dart';
 import 'package:bazarpro/features/view/presentation/pages/script_master/script_master_page.dart';
 import 'package:bazarpro/features/view/presentation/pages/script_quantity/script_quantity_page.dart';
@@ -7,6 +8,8 @@ import '../../../../features/auth/presentation/bloc/auth_bloc.dart';
 import '../../../../features/auth/presentation/bloc/auth_state.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../core/widget/app_bar_section.dart';
+import '../bloc/deleted_trade/deleted_trade_bloc.dart';
+import '../bloc/deleted_trade/deleted_trade_event.dart';
 import '../bloc/deals/deals_bloc.dart';
 import '../bloc/deals/deals_event.dart';
 import '../bloc/intraday_history/intraday_history_bloc.dart';
@@ -35,6 +38,7 @@ import 'trade_margin/trade_margin_page.dart';
 import 'trades/trades_page.dart';
 import 'broker_list/broker_list_page.dart';
 import '../../../../../injection_container.dart' as di;
+
 class ViewPageWrapper extends StatelessWidget {
   final String pageTitle;
   final Widget child;
@@ -72,6 +76,7 @@ class ViewPageWrapper extends StatelessWidget {
     );
   }
 }
+
 class PendingOrdersPageWithAppBar extends StatelessWidget {
   const PendingOrdersPageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -95,6 +100,7 @@ class PendingOrdersPageWithAppBar extends StatelessWidget {
     );
   }
 }
+
 class TradesPageWithAppBar extends StatelessWidget {
   const TradesPageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -118,6 +124,7 @@ class TradesPageWithAppBar extends StatelessWidget {
     );
   }
 }
+
 class DealsPageWithAppBar extends StatelessWidget {
   const DealsPageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -141,6 +148,7 @@ class DealsPageWithAppBar extends StatelessWidget {
     );
   }
 }
+
 class NetPositionPageWithAppBar extends StatelessWidget {
   const NetPositionPageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -169,6 +177,7 @@ class NetPositionPageWithAppBar extends StatelessWidget {
     );
   }
 }
+
 class RejectionLogPageWithAppBar extends StatelessWidget {
   const RejectionLogPageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -197,6 +206,7 @@ class RejectionLogPageWithAppBar extends StatelessWidget {
     );
   }
 }
+
 class LoginHistoryPageWithAppBar extends StatelessWidget {
   const LoginHistoryPageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -225,6 +235,7 @@ class LoginHistoryPageWithAppBar extends StatelessWidget {
     );
   }
 }
+
 class IntradayHistoryPageWithAppBar extends StatelessWidget {
   const IntradayHistoryPageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -253,6 +264,7 @@ class IntradayHistoryPageWithAppBar extends StatelessWidget {
     );
   }
 }
+
 class ScriptMasterPageWithAppBar extends StatelessWidget {
   const ScriptMasterPageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -281,6 +293,7 @@ class ScriptMasterPageWithAppBar extends StatelessWidget {
     );
   }
 }
+
 class ScriptQuantityPageWithAppBar extends StatelessWidget {
   const ScriptQuantityPageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -299,6 +312,7 @@ class ScriptQuantityPageWithAppBar extends StatelessWidget {
     );
   }
 }
+
 class TradeMarginPageWithAppBar extends StatelessWidget {
   const TradeMarginPageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -311,6 +325,7 @@ class TradeMarginPageWithAppBar extends StatelessWidget {
     );
   }
 }
+
 class BulkTradePageWithAppBar extends StatelessWidget {
   const BulkTradePageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -323,6 +338,7 @@ class BulkTradePageWithAppBar extends StatelessWidget {
     );
   }
 }
+
 class TotalVolumePageWithAppBar extends StatelessWidget {
   const TotalVolumePageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -335,18 +351,36 @@ class TotalVolumePageWithAppBar extends StatelessWidget {
     );
   }
 }
+
 class DeletedTradePageWithAppBar extends StatelessWidget {
   const DeletedTradePageWithAppBar({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return ViewPageWrapper(
-      pageTitle: 'Deleted Trade',
-      onExportPdf: () {},
-      onExportExcel: () {},
-      child: const Center(child: Text('Deleted Trade Page - Coming Soon')),
+    return BlocProvider(
+      create: (context) =>
+          di.sl<DeletedTradeBloc>()..add(const LoadDeletedTradesEvent()),
+      child: Builder(
+        builder: (context) {
+          return ViewPageWrapper(
+            pageTitle: 'Deleted Trade',
+            onExportPdf: () {
+              context.read<DeletedTradeBloc>().add(
+                const ExportDeletedTradesToPdfEvent(),
+              );
+            },
+            onExportExcel: () {
+              context.read<DeletedTradeBloc>().add(
+                const ExportDeletedTradesToExcelEvent(),
+              );
+            },
+            child: const DeletedTradePage(),
+          );
+        },
+      ),
     );
   }
 }
+
 class ManualTradePageWithAppBar extends StatelessWidget {
   const ManualTradePageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -359,6 +393,7 @@ class ManualTradePageWithAppBar extends StatelessWidget {
     );
   }
 }
+
 class BrokerListPageWithAppBar extends StatelessWidget {
   const BrokerListPageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -378,6 +413,7 @@ class BrokerListPageWithAppBar extends StatelessWidget {
     );
   }
 }
+
 class RejectedTradePageWithAppBar extends StatelessWidget {
   const RejectedTradePageWithAppBar({Key? key}) : super(key: key);
   @override

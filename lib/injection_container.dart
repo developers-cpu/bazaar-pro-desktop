@@ -80,6 +80,7 @@ import 'features/view/data/datasources/login_history/login_history_remote_dataso
 import 'features/view/data/datasources/net_position/net_position_remote_datasource.dart';
 import 'features/view/data/datasources/pending_order/pending_orders_remote_datasource.dart';
 import 'features/view/data/datasources/rejection_log/rejection_log_remote_datasource.dart';
+import 'features/view/data/datasources/deleted_trade/deleted_trade_remote_datasource.dart';
 import 'features/view/data/datasources/script_master/script_master_remote_datasource.dart';
 import 'features/view/data/datasources/script_quantity/script_quantity_remote_datasource.dart';
 import 'features/view/data/datasources/trades/trades_remote_datasource.dart';
@@ -90,6 +91,7 @@ import 'features/view/data/repositories/login_history/login_history_repository_i
 import 'features/view/data/repositories/net_postion/net_position_repository_impl.dart';
 import 'features/view/data/repositories/pending_orders/pending_orders_repository_impl.dart';
 import 'features/view/data/repositories/rejection_log/rejection_log_repository_impl.dart';
+import 'features/view/data/repositories/deleted_trade/deleted_trade_repository_impl.dart';
 import 'features/view/data/repositories/script_master/script_master_repository_impl.dart';
 import 'features/view/data/repositories/script_quantity/script_quantity_repository_impl.dart';
 import 'features/view/data/repositories/trades/trades_repository_impl.dart';
@@ -100,11 +102,13 @@ import 'features/view/domain/repositories/login_history/login_history_repository
 import 'features/view/domain/repositories/net_postion/net_position_repository.dart';
 import 'features/view/domain/repositories/pending_orders/pending_orders_repository.dart';
 import 'features/view/domain/repositories/rejection_log/rejection_log_repository.dart';
+import 'features/view/domain/repositories/deleted_trade/deleted_trade_repository.dart';
 import 'features/view/domain/repositories/script_master/script_master_repository.dart';
 import 'features/view/domain/repositories/script_quantity/script_quantity_repository.dart';
 import 'features/view/domain/repositories/trades/trades_repository.dart';
 import 'features/view/domain/repositories/broker_list/broker_repository.dart';
 import 'features/view/domain/usecases/ rejection_log/rejection_log_usecases.dart';
+import 'features/view/domain/usecases/deleted_trade/deleted_trade_usecases.dart';
 import 'features/view/domain/usecases/deals/deals_usecases.dart';
 import 'features/view/domain/usecases/intraday_history/intraday_history_usecases.dart';
 import 'features/view/domain/usecases/login_history/login_history_usecases.dart';
@@ -121,6 +125,7 @@ import 'features/view/presentation/bloc/login_history/login_history_bloc.dart';
 import 'features/view/presentation/bloc/net_position/net_position_bloc.dart';
 import 'features/view/presentation/bloc/pending_orders/pending_orders_bloc.dart';
 import 'features/view/presentation/bloc/rejection_log/rejection_log_bloc.dart';
+import 'features/view/presentation/bloc/deleted_trade/deleted_trade_bloc.dart';
 import 'features/view/presentation/bloc/script_master/script_master_bloc.dart';
 import 'features/view/presentation/bloc/script_quantity/script_quantity_bloc.dart';
 import 'features/view/presentation/bloc/trade/trades_bloc.dart';
@@ -488,6 +493,32 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<RejectionLogRemoteDataSource>(
     () => RejectionLogRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
+  );
+  sl.registerFactory(
+    () => DeletedTradeBloc(
+      getDeletedTrades: sl(),
+      getDeletedTradesWithFilters: sl(),
+      getUserTypes: sl(),
+      getUsers: sl(),
+      getExchanges: sl(),
+      getSymbols: sl(),
+      exportToPdf: sl(),
+      exportToExcel: sl(),
+    ),
+  );
+  sl.registerLazySingleton(() => GetDeletedTrades(sl()));
+  sl.registerLazySingleton(() => GetDeletedTradesWithFilters(sl()));
+  sl.registerLazySingleton(() => GetDeletedTradeUserTypes(sl()));
+  sl.registerLazySingleton(() => GetDeletedTradeUsers(sl()));
+  sl.registerLazySingleton(() => GetDeletedTradeExchanges(sl()));
+  sl.registerLazySingleton(() => GetDeletedTradeSymbols(sl()));
+  sl.registerLazySingleton(() => ExportDeletedTradesToPdf(sl()));
+  sl.registerLazySingleton(() => ExportDeletedTradesToExcel(sl()));
+  sl.registerLazySingleton<DeletedTradeRepository>(
+    () => DeletedTradeRepositoryImpl(remoteDataSource: sl()),
+  );
+  sl.registerLazySingleton<DeletedTradeRemoteDataSource>(
+    () => DeletedTradeRemoteDataSourceImpl(dio: sl<ApiClient>().dio),
   );
   sl.registerFactory(
     () => LoginHistoryBloc(

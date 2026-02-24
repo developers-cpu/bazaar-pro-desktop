@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
+import '../../../../core/widget/app_dropdown.dart';
+import '../../../../core/widget/common_dilog_box.dart';
 import '../bloc/market_depth/market_depth_bloc.dart';
 import '../bloc/market_depth/market_depth_event.dart';
 import '../bloc/market_depth/market_depth_state.dart';
@@ -11,82 +13,22 @@ class MarketDepthDialog extends StatelessWidget {
   const MarketDepthDialog({Key? key}) : super(key: key);
   static Future<void> show(BuildContext context) async {
     context.read<MarketDepthBloc>().add(const OpenMarketDepthEvent());
-    return showDialog(
+    CommonDialog.show(
       context: context,
-      barrierDismissible: true,
-      barrierColor: AppColors.black.withOpacity(0.54),
-      builder: (dialogContext) => Dialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16.r),
-        ),
-        backgroundColor: Colors.transparent,
-        child: Container(
-          width: 550.w,
-          decoration: BoxDecoration(
-            color: AppColors.isDarkMode(context)
-                ? DarkThemeColors.cardBackground
-                : LightThemeColors.cardBackground,
-            borderRadius: BorderRadius.circular(16.r),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              _buildHeader(context),
-              Flexible(
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: EdgeInsets.all(20.w),
-                    child: const MarketDepthDialog(),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
+      title: 'Market Depth',
+      width: 350.w,
+      content: BlocProvider.value(
+        value: context.read<MarketDepthBloc>(),
+        child: const MarketDepthDialog(),
       ),
-    ).then((_) {
-      context.read<MarketDepthBloc>().add(const CloseMarketDepthEvent());
-    });
-  }
-
-  static Widget _buildHeader(BuildContext context) {
-    final isDarkMode = AppColors.isDarkMode(context);
-    final headerBgColor = isDarkMode
-        ? LightThemeColors.primaryColor
-        : AppColors.primaryBlue;
-    return ClipRRect(
-      borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(16.r),
-        topRight: Radius.circular(16.r),
-      ),
-      child: Container(
-        height: 60.h,
-        color: headerBgColor,
-        padding: EdgeInsets.symmetric(horizontal: 20.w),
-        child: Row(
-          children: [
-            Expanded(
-              child: Text(
-                'Market Depth',
-                style: GoogleFonts.openSans(
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.white,
-                ),
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                context.read<MarketDepthBloc>().add(
-                  const CloseMarketDepthEvent(),
-                );
-                Navigator.of(context).pop();
-              },
-              child: Icon(Icons.close, size: 22.sp, color: AppColors.white),
-            ),
-          ],
-        ),
-      ),
+      showButtons: false,
+      isDarkMode: true,
+      headerColor: AppColors.primaryBlue,
+      backgroundColor: AppColors.white,
+      contentPadding: EdgeInsets.all(8.w),
+      onCancel: () {
+        context.read<MarketDepthBloc>().add(const CloseMarketDepthEvent());
+      },
     );
   }
 
@@ -98,11 +40,11 @@ class MarketDepthDialog extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             _buildDropdowns(context, state),
-            SizedBox(height: 16.h),
+            SizedBox(height: 8.h),
             _buildSymbolInfo(context, state),
-            SizedBox(height: 16.h),
+            SizedBox(height: 8.h),
             _buildMarketDataCards(context, state),
-            SizedBox(height: 16.h),
+            SizedBox(height: 8.h),
             _buildBidAskTable(context, state),
           ],
         );
@@ -114,11 +56,12 @@ class MarketDepthDialog extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-          child: _buildThemedDropdown(
-            context: context,
+          child: AppDropdown(
+            type: AppDropdownType.simple,
             hintText: 'Exchange',
             value: state.exchange.isEmpty ? null : state.exchange,
             items: const ['NSE', 'BSE', 'MCX', 'NFO'],
+            height: 28.h,
             onChanged: (value) {
               if (value != null) {
                 context.read<MarketDepthBloc>().add(UpdateExchangeEvent(value));
@@ -126,13 +69,14 @@ class MarketDepthDialog extends StatelessWidget {
             },
           ),
         ),
-        SizedBox(width: 16.w),
+        SizedBox(width: 8.w),
         Expanded(
-          child: _buildThemedDropdown(
-            context: context,
+          child: AppDropdown(
+            type: AppDropdownType.simple,
             hintText: 'Symbol',
             value: state.symbol.isEmpty ? null : state.symbol,
             items: const ['NIFTY25NOV25', 'BANKNIFTY', 'RELIANCE', 'TCS'],
+            height: 28.h,
             onChanged: (value) {
               if (value != null) {
                 context.read<MarketDepthBloc>().add(UpdateSymbolEvent(value));
@@ -144,128 +88,27 @@ class MarketDepthDialog extends StatelessWidget {
     );
   }
 
-  Widget _buildThemedDropdown({
-    required BuildContext context,
-    required String hintText,
-    required String? value,
-    required List<String> items,
-    required ValueChanged<String?> onChanged,
-  }) {
-    final isDarkMode = AppColors.isDarkMode(context);
-    final borderColor = AppColors.primaryColor(context);
-    final textColor = AppColors.textColor(context);
-    final bgColor = AppColors.inputFieldBackground(context);
-    final dropdownBgColor = AppColors.cardBackground(context);
-    return Container(
-      height: 45.h,
-      decoration: BoxDecoration(
-        color: bgColor,
-        borderRadius: BorderRadius.circular(8.r),
-        border: Border.all(color: borderColor, width: 1.5),
-      ),
-      child: Theme(
-        data: Theme.of(context).copyWith(
-          canvasColor: dropdownBgColor,
-          shadowColor: Colors.transparent,
-        ),
-        child: DropdownButtonHideUnderline(
-          child: ButtonTheme(
-            alignedDropdown: true,
-            child: DropdownButton<String>(
-              value: value,
-              hint: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 12.w),
-                child: Text(
-                  hintText,
-                  style: GoogleFonts.openSans(
-                    fontSize: 14.sp,
-                    color: AppColors.supportiveTextColor(context),
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ),
-              isExpanded: true,
-              icon: Padding(
-                padding: EdgeInsets.only(right: 12.w),
-                child: Icon(
-                  Icons.keyboard_arrow_down,
-                  color: textColor,
-                  size: 20.sp,
-                ),
-              ),
-              style: GoogleFonts.openSans(
-                fontSize: 14.sp,
-                color: textColor,
-                fontWeight: FontWeight.w500,
-              ),
-              dropdownColor: dropdownBgColor,
-              borderRadius: BorderRadius.circular(8.r),
-              elevation: 8,
-              menuMaxHeight: 250.h,
-              padding: EdgeInsets.symmetric(horizontal: 12.w),
-              items: items.map((item) {
-                return DropdownMenuItem<String>(
-                  value: item,
-                  child: Container(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 8.h,
-                      horizontal: 4.w,
-                    ),
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                          color: AppColors.dividerColor(context),
-                          width: 0.5,
-                        ),
-                      ),
-                    ),
-                    child: Text(
-                      item,
-                      style: GoogleFonts.openSans(
-                        fontSize: 14.sp,
-                        color: textColor,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ),
-                );
-              }).toList(),
-              onChanged: onChanged,
-            ),
+  Widget _buildSymbolInfo(BuildContext context, MarketDepthState state) {
+    return Row(
+      children: [
+        Text(
+          state.exchange.isEmpty ? 'MCX' : state.exchange,
+          style: GoogleFonts.openSans(
+            fontSize: 11.sp,
+            fontWeight: FontWeight.w600,
+            color: AppColors.black,
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildSymbolInfo(BuildContext context, MarketDepthState state) {
-    final textColor = AppColors.textColor(context);
-    final positiveColor = AppColors.chipTextBlueColor(context);
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Row(
-          children: [
-            Text(
-              state.exchange.isEmpty ? 'MCX' : state.exchange,
-              style: GoogleFonts.openSans(
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w600,
-                color: textColor,
-              ),
-            ),
-            SizedBox(width: 8.w),
-            Icon(Icons.trending_up, size: 18.sp, color: positiveColor),
-            SizedBox(width: 8.w),
-            Text(
-              state.symbol.isEmpty ? 'NIFTY25NOV25' : state.symbol,
-              style: GoogleFonts.openSans(
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w600,
-                color: textColor,
-              ),
-            ),
-          ],
+        SizedBox(width: 4.w),
+        Icon(Icons.trending_up, size: 14.sp, color: AppColors.primaryBlue),
+        SizedBox(width: 4.w),
+        Text(
+          state.symbol.isEmpty ? 'NIFTY25NOV25' : state.symbol,
+          style: GoogleFonts.openSans(
+            fontSize: 11.sp,
+            fontWeight: FontWeight.w600,
+            color: AppColors.black,
+          ),
         ),
       ],
     );
@@ -273,79 +116,47 @@ class MarketDepthDialog extends StatelessWidget {
 
   Widget _buildMarketDataCards(BuildContext context, MarketDepthState state) {
     final data = state.marketDepthData;
-    final cardBgColor = AppColors.chipBgBlue(context).withOpacity(0.3);
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
           child: Container(
-            padding: EdgeInsets.all(12.w),
+            padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
             decoration: BoxDecoration(
-              color: cardBgColor,
-              borderRadius: BorderRadius.circular(8.r),
-              border: Border.all(
-                color: AppColors.cardBorderColor(context),
-                width: 0.5,
-              ),
+              color: AppColors.primaryBlue.withOpacity(0.05),
+              borderRadius: BorderRadius.circular(6.r),
+              border: Border.all(color: AppColors.greyBorder, width: 0.5),
             ),
             child: Column(
               children: [
+                _buildDataRow('Lot Size', data?.lotSize.toString() ?? '35'),
+                _buildDataRow('LTP', data?.ltp.toString() ?? '60013'),
+                _buildDataRow('Volume', data?.volume.toString() ?? '422590'),
                 _buildDataRow(
-                  context,
-                  'Lot Size',
-                  data?.lotSize.toString() ?? '35',
-                ),
-                _buildDataRow(context, 'LTP', data?.ltp.toString() ?? '60013'),
-                _buildDataRow(
-                  context,
-                  'Volume',
-                  data?.volume.toString() ?? '422590',
-                ),
-                _buildDataRow(
-                  context,
                   'Avg. Price',
                   data?.avgPrice.toString() ?? '52402',
                 ),
-                _buildDataRow(
-                  context,
-                  'L.CRKT',
-                  data?.lCrkt.toString() ?? '80254',
-                ),
+                _buildDataRow('L.CRKT', data?.lCrkt.toString() ?? '80254'),
               ],
             ),
           ),
         ),
-        SizedBox(width: 16.w),
+        SizedBox(width: 8.w),
         Expanded(
           child: Container(
-            padding: EdgeInsets.all(12.w),
+            padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
             decoration: BoxDecoration(
-              color: cardBgColor,
-              borderRadius: BorderRadius.circular(8.r),
-              border: Border.all(
-                color: AppColors.cardBorderColor(context),
-                width: 0.5,
-              ),
+              color: AppColors.primaryBlue.withOpacity(0.05),
+              borderRadius: BorderRadius.circular(6.r),
+              border: Border.all(color: AppColors.greyBorder, width: 0.5),
             ),
             child: Column(
               children: [
-                _buildDataRow(context, 'Open', data?.open.toString() ?? '35'),
-                _buildDataRow(
-                  context,
-                  'High',
-                  data?.high.toString() ?? '60013',
-                ),
-                _buildDataRow(context, 'Low', data?.low.toString() ?? '422590'),
-                _buildDataRow(
-                  context,
-                  'Close',
-                  data?.close.toString() ?? '52402',
-                ),
-                _buildDataRow(
-                  context,
-                  'U.CRKT',
-                  data?.uCrkt.toString() ?? '80254',
-                ),
+                _buildDataRow('Open', data?.open.toString() ?? '35'),
+                _buildDataRow('High', data?.high.toString() ?? '60013'),
+                _buildDataRow('Low', data?.low.toString() ?? '422590'),
+                _buildDataRow('Close', data?.close.toString() ?? '52402'),
+                _buildDataRow('U.CRKT', data?.uCrkt.toString() ?? '80254'),
               ],
             ),
           ),
@@ -354,27 +165,25 @@ class MarketDepthDialog extends StatelessWidget {
     );
   }
 
-  Widget _buildDataRow(BuildContext context, String label, String value) {
-    final textColor = AppColors.textColor(context);
-    final supportiveColor = AppColors.supportiveTextColor(context);
+  Widget _buildDataRow(String label, String value) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 4.h),
+      padding: EdgeInsets.symmetric(vertical: 2.h),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
             label,
             style: GoogleFonts.openSans(
-              fontSize: 12.sp,
-              color: supportiveColor,
+              fontSize: 10.sp,
+              color: AppColors.black.withOpacity(0.6),
             ),
           ),
           Text(
             value,
             style: GoogleFonts.openSans(
-              fontSize: 12.sp,
+              fontSize: 10.sp,
               fontWeight: FontWeight.w600,
-              color: textColor,
+              color: AppColors.black,
             ),
           ),
         ],
@@ -390,215 +199,51 @@ class MarketDepthDialog extends StatelessWidget {
         Expanded(
           child: Container(
             decoration: BoxDecoration(
-              color: AppColors.chipBgBlue(context).withOpacity(0.3),
-              borderRadius: BorderRadius.circular(8.r),
-              border: Border.all(
-                color: AppColors.cardBorderColor(context),
-                width: 0.5,
-              ),
+              color: AppColors.primaryBlue.withOpacity(0.05),
+              borderRadius: BorderRadius.circular(6.r),
+              border: Border.all(color: AppColors.greyBorder, width: 0.5),
             ),
             child: Column(
               children: [
-                Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 12.w,
-                    vertical: 8.h,
-                  ),
-                  decoration: BoxDecoration(
-                    color: AppColors.chipTextBlueColor(
-                      context,
-                    ).withOpacity(0.15),
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(8.r),
-                      topRight: Radius.circular(8.r),
-                    ),
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          'Bid',
-                          style: GoogleFonts.openSans(
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.chipTextBlueColor(context),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Text(
-                          'Orders',
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.openSans(
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.textColor(context),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Text(
-                          'Qty',
-                          textAlign: TextAlign.right,
-                          style: GoogleFonts.openSans(
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.textColor(context),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                _buildTableHeader(
+                  'Bid',
+                  'Orders',
+                  'Qty',
+                  AppColors.primaryBlue,
+                  AppColors.primaryBlue.withOpacity(0.1),
                 ),
-                ...?data?.bidRows.map((row) => _buildBidRow(context, row)),
-                Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 12.w,
-                    vertical: 8.h,
-                  ),
-                  decoration: BoxDecoration(
-                    border: Border(
-                      top: BorderSide(
-                        color: AppColors.cardBorderColor(context),
-                        width: 1,
-                      ),
-                    ),
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          'Total',
-                          style: GoogleFonts.openSans(
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.chipTextBlueColor(context),
-                          ),
-                        ),
-                      ),
-                      Expanded(child: Container()),
-                      Expanded(
-                        child: Text(
-                          data?.totalBidQty.toString() ?? '11',
-                          textAlign: TextAlign.right,
-                          style: GoogleFonts.openSans(
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.chipTextBlueColor(context),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                ...?data?.bidRows.map((row) => _buildBidRow(row)),
+                _buildTotalRow(
+                  'Total',
+                  data?.totalBidQty.toString() ?? '11',
+                  AppColors.primaryBlue,
                 ),
               ],
             ),
           ),
         ),
-        SizedBox(width: 16.w),
+        SizedBox(width: 8.w),
         Expanded(
           child: Container(
             decoration: BoxDecoration(
-              color: AppColors.chipBgRed(context).withOpacity(0.3),
-              borderRadius: BorderRadius.circular(8.r),
-              border: Border.all(
-                color: AppColors.cardBorderColor(context),
-                width: 0.5,
-              ),
+              color: Colors.red.withOpacity(0.03),
+              borderRadius: BorderRadius.circular(6.r),
+              border: Border.all(color: AppColors.greyBorder, width: 0.5),
             ),
             child: Column(
               children: [
-                Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 12.w,
-                    vertical: 8.h,
-                  ),
-                  decoration: BoxDecoration(
-                    color: AppColors.chipTextRedColor(
-                      context,
-                    ).withOpacity(0.15),
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(8.r),
-                      topRight: Radius.circular(8.r),
-                    ),
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          'Asked',
-                          style: GoogleFonts.openSans(
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.chipTextRedColor(context),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Text(
-                          'Orders',
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.openSans(
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.textColor(context),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Text(
-                          'Qty',
-                          textAlign: TextAlign.right,
-                          style: GoogleFonts.openSans(
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.textColor(context),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                _buildTableHeader(
+                  'Asked',
+                  'Orders',
+                  'Qty',
+                  Colors.red.shade700,
+                  Colors.red.withOpacity(0.08),
                 ),
-                ...?data?.askRows.map((row) => _buildAskRow(context, row)),
-                Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 12.w,
-                    vertical: 8.h,
-                  ),
-                  decoration: BoxDecoration(
-                    border: Border(
-                      top: BorderSide(
-                        color: AppColors.cardBorderColor(context),
-                        width: 1,
-                      ),
-                    ),
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          'Total',
-                          style: GoogleFonts.openSans(
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.chipTextRedColor(context),
-                          ),
-                        ),
-                      ),
-                      Expanded(child: Container()),
-                      Expanded(
-                        child: Text(
-                          data?.totalAskQty.toString() ?? '11',
-                          textAlign: TextAlign.right,
-                          style: GoogleFonts.openSans(
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.chipTextRedColor(context),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                ...?data?.askRows.map((row) => _buildAskRow(row)),
+                _buildTotalRow(
+                  'Total',
+                  data?.totalAskQty.toString() ?? '11',
+                  Colors.red.shade700,
                 ),
               ],
             ),
@@ -608,17 +253,109 @@ class MarketDepthDialog extends StatelessWidget {
     );
   }
 
-  Widget _buildBidRow(BuildContext context, MarketDepthRow row) {
+  Widget _buildTableHeader(
+    String col1,
+    String col2,
+    String col3,
+    Color accentColor,
+    Color bgColor,
+  ) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+      decoration: BoxDecoration(
+        color: bgColor,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(6.r),
+          topRight: Radius.circular(6.r),
+        ),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Text(
+              col1,
+              style: GoogleFonts.openSans(
+                fontSize: 10.sp,
+                fontWeight: FontWeight.w600,
+                color: accentColor,
+              ),
+            ),
+          ),
+          Expanded(
+            child: Text(
+              col2,
+              textAlign: TextAlign.center,
+              style: GoogleFonts.openSans(
+                fontSize: 10.sp,
+                fontWeight: FontWeight.w600,
+                color: AppColors.black,
+              ),
+            ),
+          ),
+          Expanded(
+            child: Text(
+              col3,
+              textAlign: TextAlign.right,
+              style: GoogleFonts.openSans(
+                fontSize: 10.sp,
+                fontWeight: FontWeight.w600,
+                color: AppColors.black,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTotalRow(String label, String value, Color accentColor) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+      decoration: BoxDecoration(
+        border: Border(
+          top: BorderSide(color: AppColors.greyBorder, width: 0.5),
+        ),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Text(
+              label,
+              style: GoogleFonts.openSans(
+                fontSize: 10.sp,
+                fontWeight: FontWeight.w600,
+                color: accentColor,
+              ),
+            ),
+          ),
+          Expanded(child: SizedBox()),
+          Expanded(
+            child: Text(
+              value,
+              textAlign: TextAlign.right,
+              style: GoogleFonts.openSans(
+                fontSize: 10.sp,
+                fontWeight: FontWeight.w600,
+                color: accentColor,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBidRow(MarketDepthRow row) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 3.h),
       child: Row(
         children: [
           Expanded(
             child: Text(
               row.price.toInt().toString(),
               style: GoogleFonts.openSans(
-                fontSize: 11.sp,
-                color: AppColors.chipTextBlueColor(context),
+                fontSize: 10.sp,
+                color: AppColors.primaryBlue,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -628,8 +365,8 @@ class MarketDepthDialog extends StatelessWidget {
               row.orders.toString(),
               textAlign: TextAlign.center,
               style: GoogleFonts.openSans(
-                fontSize: 11.sp,
-                color: AppColors.supportiveTextColor(context),
+                fontSize: 10.sp,
+                color: AppColors.black.withOpacity(0.6),
               ),
             ),
           ),
@@ -638,8 +375,8 @@ class MarketDepthDialog extends StatelessWidget {
               row.qty.toString(),
               textAlign: TextAlign.right,
               style: GoogleFonts.openSans(
-                fontSize: 11.sp,
-                color: AppColors.chipTextBlueColor(context),
+                fontSize: 10.sp,
+                color: AppColors.primaryBlue,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -649,17 +386,17 @@ class MarketDepthDialog extends StatelessWidget {
     );
   }
 
-  Widget _buildAskRow(BuildContext context, MarketDepthRow row) {
+  Widget _buildAskRow(MarketDepthRow row) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 3.h),
       child: Row(
         children: [
           Expanded(
             child: Text(
               row.price.toInt().toString(),
               style: GoogleFonts.openSans(
-                fontSize: 11.sp,
-                color: AppColors.chipTextRedColor(context),
+                fontSize: 10.sp,
+                color: Colors.red.shade700,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -669,8 +406,8 @@ class MarketDepthDialog extends StatelessWidget {
               row.orders.toString(),
               textAlign: TextAlign.center,
               style: GoogleFonts.openSans(
-                fontSize: 11.sp,
-                color: AppColors.supportiveTextColor(context),
+                fontSize: 10.sp,
+                color: AppColors.black.withOpacity(0.6),
               ),
             ),
           ),
@@ -679,8 +416,8 @@ class MarketDepthDialog extends StatelessWidget {
               row.qty.toString(),
               textAlign: TextAlign.right,
               style: GoogleFonts.openSans(
-                fontSize: 11.sp,
-                color: AppColors.chipTextRedColor(context),
+                fontSize: 10.sp,
+                color: Colors.red.shade700,
                 fontWeight: FontWeight.w500,
               ),
             ),

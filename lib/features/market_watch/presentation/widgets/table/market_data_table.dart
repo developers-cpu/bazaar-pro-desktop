@@ -58,7 +58,7 @@ class _MarketDataTableState extends State<MarketDataTable> {
                     : 'Open Sans';
                 final fontSize = fontState.selectedFontSize > 0
                     ? fontState.selectedFontSize.toDouble()
-                    : 13.0;
+                    : 11.0;
                 final fontWeight = TableTextStyleHelper.getFontWeight(
                   fontState.selectedFontStyle,
                 );

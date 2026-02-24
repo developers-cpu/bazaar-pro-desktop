@@ -12,21 +12,16 @@ import 'order_number_field.dart';
 import 'order_action_button.dart';
 import 'order_success_dialog.dart';
 
-class CommonOrderDialog extends StatelessWidget {
+class CommonOrderDialog extends StatefulWidget {
   final OrderDialogType type;
   const CommonOrderDialog({Key? key, required this.type}) : super(key: key);
-  Color get _primaryColor =>
-      type == OrderDialogType.buy ? AppColors.buyColor : AppColors.sellColor;
-  Color get _backgroundColor => _primaryColor;
-  String get _title => type == OrderDialogType.buy ? 'Buy Order' : 'Sell Order';
-  String get _actionButtonText => type == OrderDialogType.buy ? 'Buy' : 'Sell';
-  OrderType get _orderType =>
-      type == OrderDialogType.buy ? OrderType.buy : OrderType.sell;
+
   static Future<void> showBuyOrder(BuildContext context) {
     context.read<OrderDialogBloc>().add(const OpenBuyOrderEvent());
     return showDialog(
       context: context,
       barrierDismissible: true,
+      barrierColor: Colors.transparent,
       builder: (context) => const CommonOrderDialog(type: OrderDialogType.buy),
     );
   }
@@ -36,8 +31,42 @@ class CommonOrderDialog extends StatelessWidget {
     return showDialog(
       context: context,
       barrierDismissible: true,
+      barrierColor: Colors.transparent,
       builder: (context) => const CommonOrderDialog(type: OrderDialogType.sell),
     );
+  }
+
+  @override
+  State<CommonOrderDialog> createState() => _CommonOrderDialogState();
+}
+
+class _CommonOrderDialogState extends State<CommonOrderDialog> {
+  Offset? _position;
+  bool _isDragging = false;
+
+  Color get _primaryColor => widget.type == OrderDialogType.buy
+      ? AppColors.buyColor
+      : AppColors.sellColor;
+  Color get _backgroundColor => _primaryColor;
+  String get _title =>
+      widget.type == OrderDialogType.buy ? 'Buy Order' : 'Sell Order';
+  String get _actionButtonText =>
+      widget.type == OrderDialogType.buy ? 'Buy' : 'Sell';
+  OrderType get _orderType =>
+      widget.type == OrderDialogType.buy ? OrderType.buy : OrderType.sell;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_position == null) {
+      final screenSize = MediaQuery.of(context).size;
+      final dialogWidth = 600.0;
+      final dialogHeight = 140.0;
+      _position = Offset(
+        screenSize.width - dialogWidth - 20,
+        screenSize.height - dialogHeight - 40,
+      );
+    }
   }
 
   @override
@@ -58,71 +87,118 @@ class CommonOrderDialog extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        return Dialog(
-          backgroundColor: AppColors.transparent,
-          insetPadding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
-          child: Container(
-            width: 1100.w,
-            constraints: BoxConstraints(maxWidth: 1100.w),
-            decoration: BoxDecoration(
-              color: AppColors.white,
-              borderRadius: BorderRadius.circular(10.r),
+        return Stack(
+          children: [
+            GestureDetector(
+              onTap: () {
+                context.read<OrderDialogBloc>().add(
+                  const CloseOrderDialogEvent(),
+                );
+                Navigator.of(context).pop();
+              },
+              child: Container(color: Colors.transparent),
             ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [_buildHeader(context), _buildContent(context, state)],
+            Positioned(
+              left: _position!.dx,
+              top: _position!.dy,
+              child: GestureDetector(
+                onPanStart: (_) => _isDragging = true,
+                onPanUpdate: (details) {
+                  setState(() {
+                    _position = Offset(
+                      _position!.dx + details.delta.dx,
+                      _position!.dy + details.delta.dy,
+                    );
+                  });
+                },
+                onPanEnd: (_) => _isDragging = false,
+                child: Material(
+                  color: Colors.transparent,
+                  child: Container(
+                    width: 600,
+                    decoration: BoxDecoration(
+                      color: AppColors.white,
+                      borderRadius: BorderRadius.circular(8.r),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.black.withOpacity(0.2),
+                          blurRadius: 12,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildHeader(context),
+                        _buildContent(context, state),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             ),
-          ),
+          ],
         );
       },
     );
   }
 
   Widget _buildHeader(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(10.w),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            _title,
-            style: GoogleFonts.openSans(
-              fontSize: 22.sp,
-              fontWeight: FontWeight.w400,
-              color: _primaryColor,
+    return GestureDetector(
+      onPanUpdate: (details) {
+        setState(() {
+          _position = Offset(
+            _position!.dx + details.delta.dx,
+            _position!.dy + details.delta.dy,
+          );
+        });
+      },
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              _title,
+              style: GoogleFonts.openSans(
+                fontSize: 13.sp,
+                fontWeight: FontWeight.w500,
+                color: _primaryColor,
+              ),
             ),
-          ),
-          IconButton(
-            onPressed: () {
-              context.read<OrderDialogBloc>().add(
-                const CloseOrderDialogEvent(),
-              );
-              Navigator.of(context).pop();
-            },
-            icon: Icon(
-              Icons.close,
-              size: 24.sp,
-              color: LightThemeColors.textColor,
+            GestureDetector(
+              onTap: () {
+                context.read<OrderDialogBloc>().add(
+                  const CloseOrderDialogEvent(),
+                );
+                Navigator.of(context).pop();
+              },
+              child: Icon(
+                Icons.close,
+                size: 16.sp,
+                color: LightThemeColors.textColor,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildContent(BuildContext context, OrderDialogState state) {
     return Container(
-      margin: EdgeInsets.fromLTRB(10.w, 0, 10.w, 10.w),
-      padding: EdgeInsets.all(10.w),
+      margin: EdgeInsets.fromLTRB(6.w, 0, 6.w, 6.w),
+      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 6.h),
       decoration: BoxDecoration(
         color: _backgroundColor,
-        borderRadius: BorderRadius.circular(10.r),
+        borderRadius: BorderRadius.circular(6.r),
       ),
       child: Column(
         children: [
           _buildFirstRow(context, state),
-          SizedBox(height: 10.h),
+          SizedBox(height: 6.h),
           _buildSecondRow(context, state),
         ],
       ),
@@ -141,6 +217,7 @@ class CommonOrderDialog extends StatelessWidget {
             items: const ['Client 1', 'Client 2', 'Client 3'],
             label: 'Client Name',
             labelColor: AppColors.white,
+            height: 26.h,
             borderColor: LightThemeColors.primaryColor,
             onChanged: (value) {
               if (value != null) {
@@ -151,7 +228,7 @@ class CommonOrderDialog extends StatelessWidget {
             },
           ),
         ),
-        SizedBox(width: 10.w),
+        SizedBox(width: 6.w),
         Expanded(
           flex: 2,
           child: AppDropdown(
@@ -161,6 +238,7 @@ class CommonOrderDialog extends StatelessWidget {
             items: const ['Market', 'Limit', 'Stop Loss', 'Stop Limit'],
             label: 'Order Type',
             labelColor: AppColors.white,
+            height: 26.h,
             borderColor: LightThemeColors.primaryColor,
             onChanged: (value) {
               if (value != null) {
@@ -171,7 +249,7 @@ class CommonOrderDialog extends StatelessWidget {
             },
           ),
         ),
-        SizedBox(width: 10.w),
+        SizedBox(width: 6.w),
         Expanded(
           flex: 2,
           child: OrderNumberField(
@@ -184,7 +262,7 @@ class CommonOrderDialog extends StatelessWidget {
             },
           ),
         ),
-        SizedBox(width: 10.w),
+        SizedBox(width: 6.w),
         Expanded(
           flex: 2,
           child: OrderNumberField(
@@ -197,7 +275,7 @@ class CommonOrderDialog extends StatelessWidget {
             },
           ),
         ),
-        SizedBox(width: 10.w),
+        SizedBox(width: 6.w),
         Expanded(
           flex: 2,
           child: OrderNumberField(
@@ -228,6 +306,7 @@ class CommonOrderDialog extends StatelessWidget {
             items: const ['NSE', 'BSE', 'MCX', 'NFO'],
             label: 'Exchange',
             labelColor: AppColors.white,
+            height: 26.h,
             borderColor: LightThemeColors.primaryColor,
             onChanged: (value) {
               if (value != null) {
@@ -236,7 +315,7 @@ class CommonOrderDialog extends StatelessWidget {
             },
           ),
         ),
-        SizedBox(width: 10.w),
+        SizedBox(width: 6.w),
         Expanded(
           flex: 2,
           child: AppDropdown(
@@ -246,6 +325,7 @@ class CommonOrderDialog extends StatelessWidget {
             items: const ['NIFTY', 'BANKNIFTY', 'RELIANCE', 'TCS', 'INFY'],
             label: 'Symbol',
             labelColor: AppColors.white,
+            height: 26.h,
             borderColor: LightThemeColors.primaryColor,
             onChanged: (value) {
               if (value != null) {
@@ -254,7 +334,7 @@ class CommonOrderDialog extends StatelessWidget {
             },
           ),
         ),
-        SizedBox(width: 10.w),
+        SizedBox(width: 6.w),
         Expanded(
           flex: 3,
           child: OrderActionButton(
@@ -268,7 +348,7 @@ class CommonOrderDialog extends StatelessWidget {
             },
           ),
         ),
-        SizedBox(width: 10.w),
+        SizedBox(width: 6.w),
         Expanded(
           flex: 3,
           child: OrderActionButton(

@@ -26,9 +26,9 @@ class OrderActionButton extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (hasTopMargin) SizedBox(height: 19.h),
+        if (hasTopMargin) SizedBox(height: 14.h),
         SizedBox(
-          height: 45.h,
+          height: 30.h,
           width: double.infinity,
           child: ElevatedButton(
             onPressed: isLoading ? null : onPressed,
@@ -37,15 +37,15 @@ class OrderActionButton extends StatelessWidget {
               foregroundColor: _textColor,
               elevation: 0,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.r),
-                side: BorderSide(color: _borderColor, width: 2),
+                borderRadius: BorderRadius.circular(6.r),
+                side: BorderSide(color: _borderColor, width: 1.5),
               ),
               disabledBackgroundColor: AppColors.white.withOpacity(0.7),
             ),
             child: isLoading
                 ? SizedBox(
-                    width: 20.w,
-                    height: 20.h,
+                    width: 14.w,
+                    height: 14.h,
                     child: CircularProgressIndicator(
                       strokeWidth: 2,
                       valueColor: AlwaysStoppedAnimation<Color>(_textColor),
@@ -54,7 +54,7 @@ class OrderActionButton extends StatelessWidget {
                 : Text(
                     label,
                     style: GoogleFonts.openSans(
-                      fontSize: 16.sp,
+                      fontSize: 11.sp,
                       fontWeight: FontWeight.w500,
                       color: _textColor,
                     ),

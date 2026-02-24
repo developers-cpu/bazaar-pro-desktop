@@ -119,19 +119,19 @@ class _OrderNumberFieldState extends State<OrderNumberField> {
           Text(
             widget.label,
             style: GoogleFonts.openSans(
-              fontSize: 14.sp,
+              fontSize: 11.sp,
               fontWeight: FontWeight.w400,
               color: widget.labelColor ?? AppColors.white,
             ),
           ),
-          SizedBox(height: 5.h),
+          SizedBox(height: 3.h),
         ],
         Container(
-          height: 45.h,
+          height: 30.h,
           decoration: BoxDecoration(
             color: AppColors.white,
-            borderRadius: BorderRadius.circular(10.r),
-            border: Border.all(color: _borderColor, width: 2),
+            borderRadius: BorderRadius.circular(6.r),
+            border: Border.all(color: _borderColor, width: 1.5),
           ),
           child: Row(
             children: [
@@ -147,7 +147,7 @@ class _OrderNumberFieldState extends State<OrderNumberField> {
                     LengthLimitingTextInputFormatter(10),
                   ],
                   style: GoogleFonts.openSans(
-                    fontSize: 14.sp,
+                    fontSize: 11.sp,
                     color: _textColor,
                   ),
                   decoration: const InputDecoration(
@@ -180,13 +180,13 @@ class _OrderNumberFieldState extends State<OrderNumberField> {
           right: !isLeft ? Radius.circular(8.r) : Radius.zero,
         ),
         child: Container(
-          width: 40.w,
+          width: 28.w,
           height: double.infinity,
           alignment: Alignment.center,
           child: Text(
             icon,
             style: GoogleFonts.openSans(
-              fontSize: 20.sp,
+              fontSize: 14.sp,
               fontWeight: FontWeight.w600,
               color: _textColor,
             ),

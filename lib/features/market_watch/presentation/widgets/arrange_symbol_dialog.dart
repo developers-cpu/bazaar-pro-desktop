@@ -17,7 +17,7 @@ class ArrangeSymbolDialog extends StatelessWidget {
     CommonDialog.show(
       context: context,
       title: 'Market',
-      width: 420.w,
+      width: 250.w,
       content: BlocProvider.value(
         value: context.read<ArrangeSymbolBloc>(),
         child: const _ArrangeSymbolContent(),
@@ -27,9 +27,9 @@ class ArrangeSymbolDialog extends StatelessWidget {
       },
       backgroundColor: LightThemeColors.cardBackground,
       headerColor: AppColors.primaryBlue,
-      buttonWidth: 180.w,
-      buttonHeight: 45.h,
-      contentPadding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
+      buttonWidth: 110.w,
+      buttonHeight: 34.h,
+      contentPadding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
     );
   }
 
@@ -38,15 +38,15 @@ class ArrangeSymbolDialog extends StatelessWidget {
     return CommonDialog(
       title: 'Market',
       content: const _ArrangeSymbolContent(),
-      width: 420.w,
+      width: 250.w,
       onSave: () {
         context.read<ArrangeSymbolBloc>().add(const SaveColumnsEvent());
       },
       backgroundColor: LightThemeColors.cardBackground,
       headerColor: AppColors.primaryBlue,
-      buttonWidth: 180.w,
-      buttonHeight: 45.h,
-      contentPadding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
+      buttonWidth: 110.w,
+      buttonHeight: 34.h,
+      contentPadding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
     );
   }
 }
@@ -65,7 +65,7 @@ class _ArrangeSymbolContent extends StatelessWidget {
     return BlocBuilder<ArrangeSymbolBloc, ArrangeSymbolState>(
       builder: (context, state) {
         return Container(
-          constraints: BoxConstraints(maxHeight: 450.h),
+          constraints: BoxConstraints(maxHeight: 340.h),
           child: ReorderableListView.builder(
             shrinkWrap: true,
             buildDefaultDragHandles: false,
@@ -96,52 +96,58 @@ class _ArrangeSymbolContent extends StatelessWidget {
     required ColumnItem column,
     required int index,
   }) {
-    return Container(
+    return Material(
       key: key,
-      margin: EdgeInsets.only(bottom: 12.h),
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(12.r),
-        border: Border.all(color: const Color(0xFFE0E0E0), width: 1),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.04),
-            blurRadius: 4,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          ReorderableDragStartListener(index: index, child: _buildDragHandle()),
-          SizedBox(width: 16.w),
-          Expanded(
-            child: Text(
-              column.name,
-              style: GoogleFonts.openSans(
-                fontSize: 15.sp,
-                fontWeight: FontWeight.w600,
-                color: AppColors.primaryBlue,
-                letterSpacing: 0.2,
+      color: Colors.transparent,
+      child: Container(
+        margin: EdgeInsets.only(bottom: 4.h),
+        padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 5.h),
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          borderRadius: BorderRadius.circular(6.r),
+          border: Border.all(color: const Color(0xFFE0E0E0), width: 1),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.04),
+              blurRadius: 4,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            ReorderableDragStartListener(
+              index: index,
+              child: _buildDragHandle(),
+            ),
+            SizedBox(width: 8.w),
+            Expanded(
+              child: Text(
+                column.name,
+                style: GoogleFonts.openSans(
+                  fontSize: 11.sp,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.primaryBlue,
+                  letterSpacing: 0.2,
+                ),
               ),
             ),
-          ),
-          _buildToggleCheckbox(context, column),
-        ],
+            _buildToggleCheckbox(context, column),
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildDragHandle() {
     return Container(
-      width: 32.w,
-      height: 32.h,
+      width: 18.w,
+      height: 18.h,
       alignment: Alignment.center,
       child: SvgIcon(
         assetPath: AppImages.arrangeIcon,
         isActive: true,
-        size: 20.w,
+        size: 18.w,
       ),
     );
   }
@@ -150,22 +156,21 @@ class _ArrangeSymbolContent extends StatelessWidget {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
-        print('Checkbox tapped: ${column.id} -> ${!column.isVisible}');
         context.read<ArrangeSymbolBloc>().add(
           ToggleColumnEvent(columnId: column.id),
         );
       },
       child: Container(
-        width: 32.w,
-        height: 32.h,
+        width: 20.w,
+        height: 20.h,
         decoration: BoxDecoration(
           color: column.isVisible ? AppColors.primaryBlue : Colors.white,
-          borderRadius: BorderRadius.circular(6.r),
-          border: Border.all(color: AppColors.primaryBlue, width: 2),
+          borderRadius: BorderRadius.circular(4.r),
+          border: Border.all(color: AppColors.primaryBlue, width: 1.5),
         ),
         alignment: Alignment.center,
         child: column.isVisible
-            ? Icon(Icons.check, size: 24.sp, color: Colors.white)
+            ? Icon(Icons.check, size: 13.sp, color: Colors.white)
             : null,
       ),
     );

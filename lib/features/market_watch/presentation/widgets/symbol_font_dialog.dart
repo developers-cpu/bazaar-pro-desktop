@@ -15,7 +15,7 @@ class SymbolFontDialog extends StatelessWidget {
     CommonDialog.show(
       context: context,
       title: 'Symbol Font',
-      width: 1000.w,
+      width: 500.w,
       content: BlocProvider.value(
         value: context.read<SymbolFontBloc>(),
         child: const _SymbolFontContent(),
@@ -25,7 +25,8 @@ class SymbolFontDialog extends StatelessWidget {
       },
       isDarkMode: true,
       backgroundColor: AppColors.white,
-      contentPadding: EdgeInsets.all(24.w),
+      contentPadding: EdgeInsets.all(8.w),
+      buttonHeight: 30.h,
     );
   }
 
@@ -34,12 +35,13 @@ class SymbolFontDialog extends StatelessWidget {
     return CommonDialog(
       title: 'Symbol Font',
       content: const _SymbolFontContent(),
-      width: 1000.w,
+      width: 380.w,
       onSave: () {
         context.read<SymbolFontBloc>().add(const SaveFontSettingsEvent());
       },
       isDarkMode: true,
-      contentPadding: EdgeInsets.all(24.w),
+      contentPadding: EdgeInsets.all(8.w),
+      buttonHeight: 30.h,
     );
   }
 }
@@ -66,7 +68,7 @@ class _SymbolFontContent extends StatelessWidget {
                 },
               ),
             ),
-            SizedBox(width: 20.w),
+            SizedBox(width: 6.w),
             Expanded(
               child: _buildSelectorColumn(
                 context: context,
@@ -80,7 +82,7 @@ class _SymbolFontContent extends StatelessWidget {
                 },
               ),
             ),
-            SizedBox(width: 20.w),
+            SizedBox(width: 6.w),
             Expanded(
               child: _buildSelectorColumn(
                 context: context,
@@ -112,31 +114,31 @@ class _SymbolFontContent extends StatelessWidget {
       children: [
         Container(
           width: double.infinity,
-          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
+          padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 5.h),
           decoration: BoxDecoration(
             color: AppColors.white,
-            borderRadius: BorderRadius.circular(12.r),
-            border: Border.all(color: AppColors.primaryBlue, width: 2),
+            borderRadius: BorderRadius.circular(6.r),
+            border: Border.all(color: AppColors.primaryBlue, width: 1.5),
           ),
           child: Text(
             title,
             style: GoogleFonts.openSans(
-              fontSize: 16.sp,
+              fontSize: 11.sp,
               fontWeight: FontWeight.w600,
               color: AppColors.primaryBlue,
             ),
           ),
         ),
-        SizedBox(height: 12.h),
+        SizedBox(height: 4.h),
         Container(
-          height: 320.h,
+          height: 200.h,
           decoration: BoxDecoration(
             color: AppColors.white,
-            borderRadius: BorderRadius.circular(12.r),
-            border: Border.all(color: const Color(0xFF2C5F7B), width: 2),
+            borderRadius: BorderRadius.circular(6.r),
+            border: Border.all(color: const Color(0xFF2C5F7B), width: 1.5),
           ),
           child: ListView.builder(
-            padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 12.w),
+            padding: EdgeInsets.symmetric(vertical: 4.h, horizontal: 4.w),
             itemCount: items.length,
             itemBuilder: (context, index) {
               final item = items[index];
@@ -144,19 +146,16 @@ class _SymbolFontContent extends StatelessWidget {
               return GestureDetector(
                 onTap: () => onSelect(item),
                 child: Container(
-                  margin: EdgeInsets.only(bottom: 8.h),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 16.w,
-                    vertical: 12.h,
-                  ),
+                  margin: EdgeInsets.only(bottom: 2.h),
+                  padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
                   decoration: BoxDecoration(
                     color: isSelected ? AppColors.primaryBlue : AppColors.white,
-                    borderRadius: BorderRadius.circular(8.r),
+                    borderRadius: BorderRadius.circular(4.r),
                   ),
                   child: Text(
                     item,
                     style: GoogleFonts.openSans(
-                      fontSize: 15.sp,
+                      fontSize: 11.sp,
                       fontWeight: isSelected
                           ? FontWeight.w600
                           : FontWeight.w500,

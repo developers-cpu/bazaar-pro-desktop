@@ -101,35 +101,39 @@ class CommonDialog extends StatelessWidget {
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
       backgroundColor: Colors.transparent,
-      child: Container(
+      insetPadding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 24.h),
+      child: SizedBox(
         width: width ?? 400.w,
         height: height,
-        decoration: BoxDecoration(
-          color: bgColor,
-          borderRadius: BorderRadius.circular(16.r),
-        ),
-        child: Column(
-          mainAxisSize: height != null ? MainAxisSize.max : MainAxisSize.min,
-          children: [
-            _buildHeader(context, headerBgColor),
-            Flexible(
-              child: scrollable
-                  ? SingleChildScrollView(
-                      child: Padding(
+        child: Container(
+          clipBehavior: Clip.antiAlias,
+          decoration: BoxDecoration(
+            color: bgColor,
+            borderRadius: BorderRadius.circular(16.r),
+          ),
+          child: Column(
+            mainAxisSize: height != null ? MainAxisSize.max : MainAxisSize.min,
+            children: [
+              _buildHeader(context, headerBgColor),
+              Flexible(
+                child: scrollable
+                    ? SingleChildScrollView(
+                        child: Padding(
+                          padding: contentPadding ?? EdgeInsets.all(20.w),
+                          child: content,
+                        ),
+                      )
+                    : Padding(
                         padding: contentPadding ?? EdgeInsets.all(20.w),
                         child: content,
                       ),
-                    )
-                  : Padding(
-                      padding: contentPadding ?? EdgeInsets.all(20.w),
-                      child: content,
-                    ),
-            ),
-            if (showButtons) ...[
-              _buildButtons(context),
-              SizedBox(height: 20.h),
+              ),
+              if (showButtons) ...[
+                _buildButtons(context),
+                SizedBox(height: 10.h),
+              ],
             ],
-          ],
+          ),
         ),
       ),
     );
@@ -197,7 +201,7 @@ class CommonDialog extends StatelessWidget {
               borderColor: primaryColor,
               textColor: primaryColor,
               borderRadius: 10.r,
-              fontSize: 16.sp,
+              fontSize: 13.sp,
             ),
           ),
           SizedBox(width: 16.w),
@@ -215,7 +219,7 @@ class CommonDialog extends StatelessWidget {
               height: btnHeight,
               backgroundColor: primaryColor,
               borderRadius: 10.r,
-              fontSize: 16.sp,
+              fontSize: 13.sp,
             ),
           ),
         ],

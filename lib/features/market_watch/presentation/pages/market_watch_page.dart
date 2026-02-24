@@ -271,6 +271,17 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
             orElse: () => state.filteredItems.first,
           )
         : state.filteredItems.first;
+    final screenSize = MediaQuery.of(context).size;
+    const menuWidth = 160.0;
+    const menuHeight = 480.0;
+    final clampedX = _contextMenuPosition!.dx.clamp(
+      10.0,
+      screenSize.width - menuWidth - 10,
+    );
+    final clampedY = _contextMenuPosition!.dy.clamp(
+      10.0,
+      screenSize.height - menuHeight - 10,
+    );
     return GestureDetector(
       onTap: _closeContextMenu,
       behavior: HitTestBehavior.opaque,
@@ -279,81 +290,97 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
         child: Stack(
           children: [
             Positioned(
-              left: _contextMenuPosition!.dx,
-              top: _contextMenuPosition!.dy,
-              child: ContextMenuWidget(
-                position: Offset.zero,
-                canPaste: state.clipboardItem != null,
-                canUndo: state.undoStack.isNotEmpty,
-                canRedo: state.redoStack.isNotEmpty,
-                onBuyOrder: () {
-                  _closeContextMenu();
-                  _openBuyOrderDialog();
+              left: clampedX,
+              top: clampedY,
+              child: GestureDetector(
+                onPanUpdate: (details) {
+                  setState(() {
+                    _contextMenuPosition = Offset(
+                      _contextMenuPosition!.dx + details.delta.dx,
+                      _contextMenuPosition!.dy + details.delta.dy,
+                    );
+                  });
                 },
-                onSellOrder: () {
-                  _closeContextMenu();
-                  _openSellOrderDialog();
-                },
-                onMarketDepth: () {
-                  _closeContextMenu();
-                  _openMarketDepthDialog();
-                },
-                onViewChart: () {
-                  _closeContextMenu();
-                  _showMessage(AppStrings.viewChart);
-                },
-                onArrangeSymbol: () {
-                  _closeContextMenu();
-                  ArrangeSymbolDialog.show(context);
-                },
-                onSetSymbolFont: () {
-                  _closeContextMenu();
-                  SymbolFontDialog.show(context);
-                },
-                onFitToSize: () {
-                  _closeContextMenu();
-                  _onFitToSize();
-                },
-                onSymbolInfo: () {
-                  _closeContextMenu();
-                  SymbolInfoDialog.show(context, selectedItem);
-                },
-                onGrid: () {
-                  _closeContextMenu();
-                  context.read<MarketWatchBloc>().add(const ToggleGridEvent());
-                },
-                onCut: () {
-                  _closeContextMenu();
-                  context.read<MarketWatchBloc>().add(
-                    CutMarketItemEvent(item: selectedItem),
-                  );
-                },
-                onCopy: () {
-                  _closeContextMenu();
-                  context.read<MarketWatchBloc>().add(
-                    CopyMarketItemEvent(item: selectedItem),
-                  );
-                },
-                onPaste: () {
-                  _closeContextMenu();
-                  context.read<MarketWatchBloc>().add(
-                    const PasteMarketItemEvent(),
-                  );
-                },
-                onUndo: () {
-                  _closeContextMenu();
-                  context.read<MarketWatchBloc>().add(const UndoActionEvent());
-                },
-                onRedo: () {
-                  _closeContextMenu();
-                  context.read<MarketWatchBloc>().add(const RedoActionEvent());
-                },
-                onDelete: () {
-                  _closeContextMenu();
-                  context.read<MarketWatchBloc>().add(
-                    DeleteMarketItemEvent(itemId: selectedItem.id),
-                  );
-                },
+                child: ContextMenuWidget(
+                  position: Offset.zero,
+                  canPaste: state.clipboardItem != null,
+                  canUndo: state.undoStack.isNotEmpty,
+                  canRedo: state.redoStack.isNotEmpty,
+                  onBuyOrder: () {
+                    _closeContextMenu();
+                    _openBuyOrderDialog();
+                  },
+                  onSellOrder: () {
+                    _closeContextMenu();
+                    _openSellOrderDialog();
+                  },
+                  onMarketDepth: () {
+                    _closeContextMenu();
+                    _openMarketDepthDialog();
+                  },
+                  onViewChart: () {
+                    _closeContextMenu();
+                    _showMessage(AppStrings.viewChart);
+                  },
+                  onArrangeSymbol: () {
+                    _closeContextMenu();
+                    ArrangeSymbolDialog.show(context);
+                  },
+                  onSetSymbolFont: () {
+                    _closeContextMenu();
+                    SymbolFontDialog.show(context);
+                  },
+                  onFitToSize: () {
+                    _closeContextMenu();
+                    _onFitToSize();
+                  },
+                  onSymbolInfo: () {
+                    _closeContextMenu();
+                    SymbolInfoDialog.show(context, selectedItem);
+                  },
+                  onGrid: () {
+                    _closeContextMenu();
+                    context.read<MarketWatchBloc>().add(
+                      const ToggleGridEvent(),
+                    );
+                  },
+                  onCut: () {
+                    _closeContextMenu();
+                    context.read<MarketWatchBloc>().add(
+                      CutMarketItemEvent(item: selectedItem),
+                    );
+                  },
+                  onCopy: () {
+                    _closeContextMenu();
+                    context.read<MarketWatchBloc>().add(
+                      CopyMarketItemEvent(item: selectedItem),
+                    );
+                  },
+                  onPaste: () {
+                    _closeContextMenu();
+                    context.read<MarketWatchBloc>().add(
+                      const PasteMarketItemEvent(),
+                    );
+                  },
+                  onUndo: () {
+                    _closeContextMenu();
+                    context.read<MarketWatchBloc>().add(
+                      const UndoActionEvent(),
+                    );
+                  },
+                  onRedo: () {
+                    _closeContextMenu();
+                    context.read<MarketWatchBloc>().add(
+                      const RedoActionEvent(),
+                    );
+                  },
+                  onDelete: () {
+                    _closeContextMenu();
+                    context.read<MarketWatchBloc>().add(
+                      DeleteMarketItemEvent(itemId: selectedItem.id),
+                    );
+                  },
+                ),
               ),
             ),
           ],

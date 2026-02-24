@@ -14,7 +14,7 @@ class SymbolFontState extends Equatable {
     this.fontSizes = const [],
     this.selectedFontFamily = 'Inter',
     this.selectedFontStyle = 'Regular',
-    this.selectedFontSize = 14,
+    this.selectedFontSize = 11,
     this.isSaved = false,
   });
   SymbolFontState copyWith({

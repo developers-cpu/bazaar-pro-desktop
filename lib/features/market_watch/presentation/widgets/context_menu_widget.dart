@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_images.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/widget/svg_icon.dart';
-import '../bloc/theme/theme_bloc.dart';
-import '../bloc/theme/theme_state.dart';
 
 class ContextMenuWidget extends StatelessWidget {
   final Offset position;
@@ -53,173 +50,118 @@ class ContextMenuWidget extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ThemeBloc, ThemeState>(
-      builder: (context, themeState) {
-        final isDark = themeState.isDarkMode;
-        return Material(
-          elevation: 8,
-          borderRadius: BorderRadius.circular(10.r),
-          color: isDark
-              ? DarkThemeColors.contextMenuBackground
-              : LightThemeColors.contextMenuBackground,
-          child: Container(
-            width: 220.w,
-            constraints: BoxConstraints(maxHeight: 550.h),
-            padding: EdgeInsets.all(10.w),
-            decoration: BoxDecoration(
-              color: isDark
-                  ? DarkThemeColors.contextMenuBackground
-                  : LightThemeColors.contextMenuBackground,
-              borderRadius: BorderRadius.circular(10.r),
-              border: Border.all(
-                color: isDark
-                    ? DarkThemeColors.cardBorderColor
-                    : LightThemeColors.cardBorderColor,
-                width: 1,
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: AppColors.black.withOpacity(isDark ? 0.3 : 0.1),
-                  blurRadius: 10,
-                  offset: const Offset(0, 4),
-                ),
-              ],
+    return Material(
+      elevation: 6,
+      borderRadius: BorderRadius.circular(8.r),
+      color: AppColors.white,
+      child: Container(
+        width: 160.w,
+        padding: EdgeInsets.symmetric(vertical: 4.h, horizontal: 4.w),
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          borderRadius: BorderRadius.circular(8.r),
+          border: Border.all(color: AppColors.greyBorder, width: 0.5),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.black.withOpacity(0.08),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
             ),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  _buildMenuItem(
-                    icon: Icons.shopping_cart,
-                    text: 'Buy Order',
-                    shortcut: 'F1',
-                    onTap: onBuyOrder,
-                    isDark: isDark,
-                    iconColor: const Color(0xFF0066FF),
-                  ),
-                  SizedBox(height: 5.h),
-                  _buildMenuItem(
-                    icon: Icons.sell,
-                    text: 'Sell Order',
-                    shortcut: 'F2',
-                    onTap: onSellOrder,
-                    isDark: isDark,
-                    iconColor: const Color(0xFFFF0000),
-                  ),
-                  SizedBox(height: 5.h),
-                  _buildMenuItem(
-                    icon: Icons.analytics,
-                    text: 'Market Depth',
-                    shortcut: 'F5',
-                    onTap: onMarketDepth,
-                    isDark: isDark,
-                    iconColor: const Color(0xFF2C5766),
-                  ),
-                  _buildDivider(isDark),
-                  _buildMenuItemSvg(
-                    icon: AppImages.menu1Icon,
-                    text: AppStrings.viewChart,
-                    onTap: onViewChart,
-                    isDark: isDark,
-                  ),
-                  SizedBox(height: 5.h),
-                  _buildMenuItemSvg(
-                    icon: AppImages.menu2con,
-                    text: AppStrings.arrangeSymbol,
-                    onTap: onArrangeSymbol,
-                    isDark: isDark,
-                  ),
-                  SizedBox(height: 5.h),
-                  _buildMenuItemSvg(
-                    icon: AppImages.menu3Icon,
-                    text: AppStrings.setSymbolFont,
-                    onTap: onSetSymbolFont,
-                    isDark: isDark,
-                  ),
-                  SizedBox(height: 5.h),
-                  _buildMenuItemSvg(
-                    icon: AppImages.menu10Icon,
-                    text: AppStrings.fitToSize,
-                    onTap: onFitToSize,
-                    isDark: isDark,
-                  ),
-                  SizedBox(height: 5.h),
-                  _buildMenuItemSvg(
-                    icon: AppImages.menu4Icon,
-                    text: AppStrings.symbolInfo,
-                    onTap: onSymbolInfo,
-                    isDark: isDark,
-                  ),
-                  SizedBox(height: 5.h),
-                  _buildMenuItemSvg(
-                    icon: AppImages.menu5Icon,
-                    text: AppStrings.grid,
-                    onTap: onGrid,
-                    isDark: isDark,
-                  ),
-                  _buildDivider(isDark),
-                  _buildMenuItemSvg(
-                    icon: AppImages.menu6Icon,
-                    text: AppStrings.cut,
-                    onTap: onCut,
-                    isDark: isDark,
-                  ),
-                  SizedBox(height: 5.h),
-                  _buildMenuItemSvg(
-                    icon: AppImages.menu6Icon,
-                    text: AppStrings.copy,
-                    onTap: onCopy,
-                    isDark: isDark,
-                  ),
-                  SizedBox(height: 5.h),
-                  _buildMenuItemSvg(
-                    icon: AppImages.menu7Icon,
-                    text: AppStrings.paste,
-                    onTap: onPaste,
-                    enabled: canPaste,
-                    isDark: isDark,
-                  ),
-                  SizedBox(height: 5.h),
-                  _buildMenuItemSvg(
-                    icon: AppImages.menu8Icon,
-                    text: AppStrings.undo,
-                    onTap: onUndo,
-                    enabled: canUndo,
-                    isDark: isDark,
-                  ),
-                  SizedBox(height: 5.h),
-                  _buildMenuItemSvg(
-                    icon: AppImages.menu8Icon,
-                    text: AppStrings.redo,
-                    onTap: onRedo,
-                    enabled: canRedo,
-                    isDark: isDark,
-                  ),
-                  SizedBox(height: 5.h),
-                  _buildMenuItemSvg(
-                    icon: AppImages.menu9Icon,
-                    text: AppStrings.delete,
-                    onTap: onDelete,
-                    isDark: isDark,
-                  ),
-                ],
-              ),
+          ],
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _buildMenuItem(
+              icon: Icons.shopping_cart,
+              text: 'Buy Order',
+              shortcut: 'F1',
+              onTap: onBuyOrder,
+              iconColor: const Color(0xFF0066FF),
             ),
-          ),
-        );
-      },
+            _buildMenuItem(
+              icon: Icons.sell,
+              text: 'Sell Order',
+              shortcut: 'F2',
+              onTap: onSellOrder,
+              iconColor: const Color(0xFFFF0000),
+            ),
+            _buildMenuItem(
+              icon: Icons.analytics,
+              text: 'Market Depth',
+              shortcut: 'F5',
+              onTap: onMarketDepth,
+              iconColor: const Color(0xFF2C5766),
+            ),
+            _buildDivider(),
+            _buildMenuItemSvg(
+              icon: AppImages.menu1Icon,
+              text: AppStrings.viewChart,
+              onTap: onViewChart,
+            ),
+            _buildMenuItemSvg(
+              icon: AppImages.menu2con,
+              text: AppStrings.arrangeSymbol,
+              onTap: onArrangeSymbol,
+            ),
+            _buildMenuItemSvg(
+              icon: AppImages.menu3Icon,
+              text: AppStrings.setSymbolFont,
+              onTap: onSetSymbolFont,
+            ),
+            _buildMenuItemSvg(
+              icon: AppImages.menu10Icon,
+              text: AppStrings.fitToSize,
+              onTap: onFitToSize,
+            ),
+            _buildMenuItemSvg(
+              icon: AppImages.menu4Icon,
+              text: AppStrings.symbolInfo,
+              onTap: onSymbolInfo,
+            ),
+            _buildMenuItemSvg(
+              icon: AppImages.menu5Icon,
+              text: AppStrings.grid,
+              onTap: onGrid,
+            ),
+            _buildMenuItemSvg(
+              icon: AppImages.menu6Icon,
+              text: AppStrings.cut,
+              onTap: onCut,
+            ),
+            _buildMenuItemSvg(
+              icon: AppImages.menu7Icon,
+              text: AppStrings.paste,
+              onTap: onPaste,
+              enabled: canPaste,
+            ),
+            _buildMenuItemSvg(
+              icon: AppImages.menu8Icon,
+              text: AppStrings.undo,
+              onTap: onUndo,
+              enabled: canUndo,
+            ),
+            _buildMenuItemSvg(
+              icon: AppImages.menu8Icon,
+              text: AppStrings.redo,
+              onTap: onRedo,
+              enabled: canRedo,
+            ),
+            _buildMenuItemSvg(
+              icon: AppImages.menu9Icon,
+              text: AppStrings.delete,
+              onTap: onDelete,
+            ),
+          ],
+        ),
+      ),
     );
   }
 
-  Widget _buildDivider(bool isDark) {
+  Widget _buildDivider() {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 8.h),
-      child: Divider(
-        height: 1,
-        color: isDark
-            ? DarkThemeColors.dividerColor
-            : LightThemeColors.dividerColor,
-      ),
+      padding: EdgeInsets.symmetric(vertical: 2.h),
+      child: Divider(height: 1, color: AppColors.greyBorder),
     );
   }
 
@@ -227,60 +169,51 @@ class ContextMenuWidget extends StatelessWidget {
     required IconData icon,
     required String text,
     required VoidCallback onTap,
-    required bool isDark,
     String? shortcut,
     Color? iconColor,
     bool enabled = true,
   }) {
-    final textColor = isDark
-        ? DarkThemeColors.textColor
-        : LightThemeColors.textColor;
-    final hoverColor = isDark
-        ? DarkThemeColors.contextMenuHover
-        : LightThemeColors.contextMenuHover;
+    final textColor = AppColors.primaryBlue;
     return InkWell(
       onTap: enabled ? onTap : null,
-      borderRadius: BorderRadius.circular(5.r),
-      hoverColor: hoverColor,
+      borderRadius: BorderRadius.circular(4.r),
+      hoverColor: AppColors.primaryBlue.withOpacity(0.06),
       child: Container(
-        height: 32.h,
-        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(5.r)),
+        height: 24.h,
+        padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(4.r)),
         child: Row(
           children: [
             Icon(
               icon,
-              size: 18.w,
+              size: 14.w,
               color: enabled
                   ? (iconColor ?? textColor)
                   : textColor.withOpacity(0.4),
             ),
-            SizedBox(width: 10.w),
+            SizedBox(width: 6.w),
             Expanded(
               child: Text(
                 text,
                 style: GoogleFonts.openSans(
                   fontWeight: FontWeight.w400,
-                  fontSize: 14.sp,
+                  fontSize: 11.sp,
                   color: enabled ? textColor : textColor.withOpacity(0.4),
-                  letterSpacing: 0.25,
                   height: 1.0,
                 ),
               ),
             ),
             if (shortcut != null)
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
+                padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.h),
                 decoration: BoxDecoration(
-                  color: isDark
-                      ? Colors.white.withOpacity(0.1)
-                      : Colors.black.withOpacity(0.05),
-                  borderRadius: BorderRadius.circular(4.r),
+                  color: Colors.black.withOpacity(0.05),
+                  borderRadius: BorderRadius.circular(3.r),
                 ),
                 child: Text(
                   shortcut,
                   style: GoogleFonts.openSans(
-                    fontSize: 11.sp,
+                    fontSize: 9.sp,
                     fontWeight: FontWeight.w500,
                     color: textColor.withOpacity(0.6),
                   ),
@@ -296,35 +229,28 @@ class ContextMenuWidget extends StatelessWidget {
     required String icon,
     required String text,
     required VoidCallback onTap,
-    required bool isDark,
     bool enabled = true,
   }) {
-    final textColor = isDark
-        ? DarkThemeColors.textColor
-        : LightThemeColors.textColor;
-    final hoverColor = isDark
-        ? DarkThemeColors.contextMenuHover
-        : LightThemeColors.contextMenuHover;
+    final textColor = AppColors.primaryBlue;
     return InkWell(
       onTap: enabled ? onTap : null,
-      borderRadius: BorderRadius.circular(5.r),
-      hoverColor: hoverColor,
+      borderRadius: BorderRadius.circular(4.r),
+      hoverColor: AppColors.primaryBlue.withOpacity(0.06),
       child: Container(
-        height: 29.h,
-        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(5.r)),
+        height: 24.h,
+        padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(4.r)),
         child: Row(
           children: [
-            SvgIcon(assetPath: icon, isActive: enabled && isDark, size: 18.w),
-            SizedBox(width: 10.w),
+            SvgIcon(assetPath: icon, isActive: false, size: 14.w),
+            SizedBox(width: 6.w),
             Expanded(
               child: Text(
                 text,
                 style: GoogleFonts.openSans(
                   fontWeight: FontWeight.w400,
-                  fontSize: 14.sp,
+                  fontSize: 11.sp,
                   color: enabled ? textColor : textColor.withOpacity(0.4),
-                  letterSpacing: 0.25,
                   height: 1.0,
                 ),
               ),

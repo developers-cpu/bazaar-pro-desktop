@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'activity_detail_event.dart';
 import 'activity_detail_state.dart';
+
 class ActivityDetailBloc
     extends Bloc<ActivityDetailEvent, ActivityDetailState> {
   ActivityDetailBloc() : super(ActivityDetailInitial()) {

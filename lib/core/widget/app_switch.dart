@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../constants/app_colors.dart';
+
 class AppSwitch extends StatelessWidget {
   final String? label;
   final Widget? icon;
@@ -11,6 +12,9 @@ class AppSwitch extends StatelessWidget {
   final Color? inactiveColor;
   final Color? labelColor;
   final bool enabled;
+  final double width;
+  final double height;
+  final double thumbSize;
   const AppSwitch({
     super.key,
     this.label,
@@ -21,6 +25,9 @@ class AppSwitch extends StatelessWidget {
     this.inactiveColor,
     this.labelColor,
     this.enabled = true,
+    this.width = 44,
+    this.height = 24,
+    this.thumbSize = 20,
   });
   @override
   Widget build(BuildContext context) {
@@ -54,20 +61,21 @@ class AppSwitch extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildSwitch(Color activeColor, Color inactiveColor) {
     return Container(
-      width: 44.w,
-      height: 24.h,
+      width: width.w,
+      height: height.h,
       decoration: BoxDecoration(
         color: value ? activeColor : inactiveColor,
-        borderRadius: BorderRadius.circular(12.r),
+        borderRadius: BorderRadius.circular(height.r / 2),
       ),
       child: AnimatedAlign(
         duration: const Duration(milliseconds: 150),
         alignment: value ? Alignment.centerRight : Alignment.centerLeft,
         child: Container(
-          width: 20.w,
-          height: 20.h,
+          width: thumbSize.w,
+          height: thumbSize.h,
           margin: EdgeInsets.symmetric(horizontal: 2.w),
           decoration: BoxDecoration(
             color: AppColors.white,
@@ -85,6 +93,7 @@ class AppSwitch extends StatelessWidget {
     );
   }
 }
+
 class AppSwitchRow extends StatelessWidget {
   final String label;
   final Widget? icon;

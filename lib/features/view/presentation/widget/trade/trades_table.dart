@@ -10,6 +10,7 @@ import '../../bloc/trade/trades_state.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
 import '../../../../../core/widget/table/view_record_count.dart';
 import '../../../../../core/widget/table/view_table_cell_styles.dart';
+
 class TradesTable extends StatelessWidget {
   final bool showDeviceInfo;
   final bool isDarkMode;
@@ -81,6 +82,7 @@ class TradesTable extends StatelessWidget {
     }
     return columns;
   }
+
   Widget _buildCell(Trade item, ViewTableColumn column, bool isDark) {
     switch (column.id) {
       case 'userName':
@@ -144,6 +146,7 @@ class TradesTable extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TradesBloc, TradesState>(
@@ -190,6 +193,7 @@ class TradesTable extends StatelessWidget {
       },
     );
   }
+
   Widget _buildErrorState(BuildContext context, String message) {
     return Center(
       child: Column(

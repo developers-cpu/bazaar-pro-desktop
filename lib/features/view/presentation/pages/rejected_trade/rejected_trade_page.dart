@@ -9,7 +9,6 @@ import '../../widget/rejected_trade/rejected_trade_table.dart';
 
 class RejectedTradePage extends StatefulWidget {
   const RejectedTradePage({Key? key}) : super(key: key);
-
   @override
   State<RejectedTradePage> createState() => _RejectedTradePageState();
 }

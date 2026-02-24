@@ -3,6 +3,7 @@ import '../../../../../core/usecases/usecase.dart';
 import '../../../domain/usecases/get_my_profile_usecase.dart';
 import 'my_profile_event.dart';
 import 'my_profile_state.dart';
+
 class MyProfileBloc extends Bloc<MyProfileEvent, MyProfileState> {
   final GetMyProfileUseCase getMyProfile;
   MyProfileBloc({required this.getMyProfile}) : super(MyProfileInitial()) {

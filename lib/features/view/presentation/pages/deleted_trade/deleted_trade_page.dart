@@ -9,7 +9,6 @@ import '../../widget/deleted_trade/deleted_trade_table.dart';
 
 class DeletedTradePage extends StatefulWidget {
   const DeletedTradePage({Key? key}) : super(key: key);
-
   @override
   State<DeletedTradePage> createState() => _DeletedTradePageState();
 }

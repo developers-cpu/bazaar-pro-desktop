@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import '../../models/rejection_log/rejection_log_model.dart';
+
 abstract class RejectionLogRemoteDataSource {
   Future<List<RejectionLogModel>> getRejectionLogs();
   Future<List<RejectionLogModel>> getRejectionLogsWithFilters({
@@ -15,6 +16,7 @@ abstract class RejectionLogRemoteDataSource {
   Future<String> exportToPdf(List<RejectionLogModel> logs);
   Future<String> exportToExcel(List<RejectionLogModel> logs);
 }
+
 class RejectionLogRemoteDataSourceImpl implements RejectionLogRemoteDataSource {
   final Dio dio;
   RejectionLogRemoteDataSourceImpl({required this.dio});
@@ -27,6 +29,7 @@ class RejectionLogRemoteDataSourceImpl implements RejectionLogRemoteDataSource {
       throw Exception('Failed to fetch rejection logs: $e');
     }
   }
+
   @override
   Future<List<RejectionLogModel>> getRejectionLogsWithFilters({
     DateTime? startDate,
@@ -61,15 +64,17 @@ class RejectionLogRemoteDataSourceImpl implements RejectionLogRemoteDataSource {
       throw Exception('Failed to fetch filtered rejection logs: $e');
     }
   }
+
   @override
   Future<List<String>> getClients() async {
     try {
       await Future.delayed(const Duration(milliseconds: 200));
-      return ['Client 1', 'Client 2', 'Client 3'];
+      return ['DEMO03'];
     } catch (e) {
       throw Exception('Failed to fetch clients: $e');
     }
   }
+
   @override
   Future<List<String>> getExchanges() async {
     try {
@@ -79,6 +84,7 @@ class RejectionLogRemoteDataSourceImpl implements RejectionLogRemoteDataSource {
       throw Exception('Failed to fetch exchanges: $e');
     }
   }
+
   @override
   Future<List<String>> getSymbols() async {
     try {
@@ -95,6 +101,7 @@ class RejectionLogRemoteDataSourceImpl implements RejectionLogRemoteDataSource {
       throw Exception('Failed to fetch symbols: $e');
     }
   }
+
   @override
   Future<String> exportToPdf(List<RejectionLogModel> logs) async {
     try {
@@ -104,6 +111,7 @@ class RejectionLogRemoteDataSourceImpl implements RejectionLogRemoteDataSource {
       throw Exception('Failed to export PDF: $e');
     }
   }
+
   @override
   Future<String> exportToExcel(List<RejectionLogModel> logs) async {
     try {
@@ -113,6 +121,7 @@ class RejectionLogRemoteDataSourceImpl implements RejectionLogRemoteDataSource {
       throw Exception('Failed to export Excel: $e');
     }
   }
+
   List<RejectionLogModel> _generateMockRejectionLogs() {
     final List<RejectionLogModel> logs = [];
     final symbols = [
@@ -126,15 +135,17 @@ class RejectionLogRemoteDataSourceImpl implements RejectionLogRemoteDataSource {
     final users = ['DEMO03'];
     final types = ['BUY', 'SELL'];
     final comments = [
-      'SYMBOL BLOCKED IF YOU HAVE POSITION ',
-      'SCRIPT BLOCKED IF YOU HAVE POSITION ',
+      'SYMBOL BLOCKED IF YOU HAVE POSITION ONLY CLOSED BY MARKET',
+      'SCRIPT BLOCKED IF YOU HAVE POSITION ONLY CLOSED BY MARKET',
     ];
     final baseDate = DateTime(2025, 4, 11, 1, 25, 35);
+    final deviceId = 'E621E1F8-C36C-495A-93FC-0C247A3E6E5F';
     for (int i = 0; i < 50; i++) {
       logs.add(
         RejectionLogModel(
           id: 'rejection_log_$i',
           orderDateTime: baseDate,
+          status: 'rejected',
           userName: users[i % users.length],
           symbol: symbols[i % symbols.length],
           type: types[i % types.length],
@@ -173,6 +184,10 @@ class RejectionLogRemoteDataSourceImpl implements RejectionLogRemoteDataSource {
             0,
           ][i % 15].toDouble(),
           comment: comments[i % comments.length],
+          deviceId: deviceId,
+          device: 'IOS',
+          city: 'Abu Dabhi',
+          ipAddress: '192.0.2.1',
           date: baseDate,
         ),
       );

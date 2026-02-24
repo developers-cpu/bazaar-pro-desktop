@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import '../../../../../core/errors/failures.dart';
 import '../../models/trade_log_model.dart';
+
 abstract class TradeLogRemoteDataSource {
   Future<Either<Failure, List<TradeLogModel>>> getTradeLogs({
     String? dateRange,
@@ -9,6 +10,7 @@ abstract class TradeLogRemoteDataSource {
     String? symbol,
   });
 }
+
 class TradeLogRemoteDataSourceImpl implements TradeLogRemoteDataSource {
   @override
   Future<Either<Failure, List<TradeLogModel>>> getTradeLogs({

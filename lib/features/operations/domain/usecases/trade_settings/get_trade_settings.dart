@@ -3,6 +3,7 @@ import 'package:bazarpro/features/operations/domain/entities/trade_settings/trad
 import 'package:dartz/dartz.dart';
 import '../../../../../core/errors/failures.dart';
 import '../../repositories/trade_settings/trade_settings_repository.dart';
+
 class GetTradeSettings implements UseCase<List<TradeSetting>, NoParams> {
   final TradeSettingsRepository repository;
   GetTradeSettings(this.repository);

@@ -20,7 +20,6 @@ class DeletedTrade extends Equatable {
   final String city;
   final String device;
   final String ipAddress;
-
   const DeletedTrade({
     required this.id,
     required this.userName,
@@ -42,7 +41,6 @@ class DeletedTrade extends Equatable {
     required this.device,
     required this.ipAddress,
   });
-
   @override
   List<Object?> get props => [
     id,
@@ -65,7 +63,6 @@ class DeletedTrade extends Equatable {
     device,
     ipAddress,
   ];
-
   DeletedTrade copyWith({
     String? id,
     String? userName,

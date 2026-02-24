@@ -3,7 +3,6 @@ import '../../../domain/entities/rejected_trade/rejected_trade.dart';
 
 abstract class RejectedTradeState extends Equatable {
   const RejectedTradeState();
-
   @override
   List<Object?> get props => [];
 }
@@ -30,7 +29,6 @@ class RejectedTradeLoaded extends RejectedTradeState {
   final List<String> users;
   final List<String> exchanges;
   final List<String> symbols;
-
   const RejectedTradeLoaded({
     required this.trades,
     required this.filteredTrades,
@@ -46,7 +44,6 @@ class RejectedTradeLoaded extends RejectedTradeState {
     this.exchanges = const [],
     this.symbols = const [],
   });
-
   @override
   List<Object?> get props => [
     trades,
@@ -63,7 +60,6 @@ class RejectedTradeLoaded extends RejectedTradeState {
     exchanges,
     symbols,
   ];
-
   RejectedTradeLoaded copyWith({
     List<RejectedTrade>? trades,
     List<RejectedTrade>? filteredTrades,
@@ -99,9 +95,7 @@ class RejectedTradeLoaded extends RejectedTradeState {
 
 class RejectedTradeError extends RejectedTradeState {
   final String message;
-
   const RejectedTradeError(this.message);
-
   @override
   List<Object?> get props => [message];
 }
@@ -109,12 +103,10 @@ class RejectedTradeError extends RejectedTradeState {
 class RejectedTradeExportSuccess extends RejectedTradeState {
   final String message;
   final String filePath;
-
   const RejectedTradeExportSuccess({
     required this.message,
     required this.filePath,
   });
-
   @override
   List<Object?> get props => [message, filePath];
 }

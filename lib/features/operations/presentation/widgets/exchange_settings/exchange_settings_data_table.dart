@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/app_switch.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
+
 class ExchangeSettingsDataTable extends StatelessWidget {
   final List<dynamic> data;
   final Set<String> selectedIds;
@@ -35,6 +36,7 @@ class ExchangeSettingsDataTable extends StatelessWidget {
       cellBuilder: (item, column) => _buildCell(item, column),
     );
   }
+
   ViewTableColumn _checkboxColumn() {
     return ViewTableColumn(
       id: 'checkbox',
@@ -55,6 +57,7 @@ class ExchangeSettingsDataTable extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildCell(dynamic item, ViewTableColumn column) {
     if (column.id == 'checkbox') {
       return Checkbox(

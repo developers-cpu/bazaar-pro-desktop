@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+
 class SymbolWisePLReport extends Equatable {
   final String id;
   final String exchange;

@@ -1,7 +1,9 @@
 import '../models/message_model.dart';
+
 abstract class MessageRemoteDataSource {
   Future<List<MessageModel>> getMessages();
 }
+
 class MessageRemoteDataSourceImpl implements MessageRemoteDataSource {
   @override
   Future<List<MessageModel>> getMessages() async {

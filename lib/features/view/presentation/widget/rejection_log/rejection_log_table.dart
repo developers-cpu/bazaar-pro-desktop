@@ -8,10 +8,12 @@ import '../../bloc/rejection_log/rejection_log_event.dart';
 import '../../bloc/rejection_log/rejection_log_state.dart';
 import '../../../../../core/widget/table/view_record_count.dart';
 import '../../../../../core/widget/table/view_table_cell_styles.dart';
+
 class RejectionLogTable extends StatelessWidget {
   const RejectionLogTable({Key? key}) : super(key: key);
   static final List<ViewTableColumn> _columns = [
-    const ViewTableColumn(id: 'orderDateTime', label: 'ORDER D/T', width: 140),
+    const ViewTableColumn(id: 'orderDateTime', label: 'ORDER D/T', width: 170),
+    const ViewTableColumn(id: 'status', label: 'STATUS', width: 80),
     const ViewTableColumn(id: 'userName', label: 'U.NAME', width: 100),
     const ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 170),
     const ViewTableColumn(id: 'type', label: 'TYPE', width: 80),
@@ -22,8 +24,12 @@ class RejectionLogTable extends StatelessWidget {
       width: 100,
       isNumeric: true,
     ),
-    const ViewTableColumn(id: 'comment', label: 'COMMENT', width: 300),
-    const ViewTableColumn(id: 'date', label: 'DATE', width: 150),
+    const ViewTableColumn(id: 'comment', label: 'COMMENT', width: 400),
+    const ViewTableColumn(id: 'deviceId', label: 'DEVICE ID', width: 280),
+    const ViewTableColumn(id: 'device', label: 'DEVICE', width: 80),
+    const ViewTableColumn(id: 'city', label: 'CITY', width: 100),
+    const ViewTableColumn(id: 'ipAddress', label: 'IP ADDRESS', width: 120),
+    const ViewTableColumn(id: 'date', label: 'DATE', width: 170),
   ];
   @override
   Widget build(BuildContext context) {
@@ -73,10 +79,13 @@ class RejectionLogTable extends StatelessWidget {
       },
     );
   }
+
   Widget _buildCell(RejectionLog log, ViewTableColumn column) {
     switch (column.id) {
       case 'orderDateTime':
         return ViewDateTimeCell(dateTime: log.orderDateTime);
+      case 'status':
+        return ViewTextCell(text: log.status);
       case 'userName':
         return ViewTextCell(text: log.userName);
       case 'symbol':
@@ -89,8 +98,16 @@ class RejectionLogTable extends StatelessWidget {
         return ViewNumberCell(value: log.price, colorByValue: false);
       case 'comment':
         return ViewTextCell(text: log.comment);
+      case 'deviceId':
+        return ViewTextCell(text: log.deviceId);
+      case 'device':
+        return ViewTextCell(text: log.device);
+      case 'city':
+        return ViewTextCell(text: log.city);
+      case 'ipAddress':
+        return ViewTextCell(text: log.ipAddress);
       case 'date':
-        return ViewDateTimeCell(dateTime: log.date, format: 'dd/MM/yy');
+        return ViewDateTimeCell(dateTime: log.date);
       default:
         return const ViewTextCell(text: '-');
     }

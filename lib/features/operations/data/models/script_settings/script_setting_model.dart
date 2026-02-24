@@ -1,4 +1,5 @@
 import '../../../domain/entities/script_settings/script_setting.dart';
+
 class ScriptSettingModel extends ScriptSetting {
   const ScriptSettingModel({
     required super.id,

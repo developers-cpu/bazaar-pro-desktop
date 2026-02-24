@@ -15,6 +15,7 @@ import '../../../bloc/user_quantity_settings/user_quantity_settings_bloc.dart';
 import '../../../bloc/user_quantity_settings/user_quantity_settings_event.dart';
 import '../../../bloc/user_quantity_settings/user_quantity_settings_state.dart';
 import '../../../../../../injection_container.dart';
+
 class UserQuantitySettingsTab extends StatelessWidget {
   final User user;
   final String? groupName;
@@ -33,6 +34,7 @@ class UserQuantitySettingsTab extends StatelessWidget {
     );
   }
 }
+
 class UserQuantitySettingsTabView extends StatefulWidget {
   final String? groupName;
   const UserQuantitySettingsTabView({super.key, this.groupName});
@@ -40,6 +42,7 @@ class UserQuantitySettingsTabView extends StatefulWidget {
   State<UserQuantitySettingsTabView> createState() =>
       _UserQuantitySettingsTabViewState();
 }
+
 class _UserQuantitySettingsTabViewState
     extends State<UserQuantitySettingsTabView> {
   final TextEditingController _maxQtyController = TextEditingController();
@@ -56,6 +59,7 @@ class _UserQuantitySettingsTabViewState
     _breakupLotController.dispose();
     super.dispose();
   }
+
   void _onSelectAll(bool? value, List<UserQuantitySetting> allSettings) {
     setState(() {
       _isAllSelected = value ?? false;
@@ -66,6 +70,7 @@ class _UserQuantitySettingsTabViewState
       }
     });
   }
+
   void _onRowSelect(bool? value, String id) {
     setState(() {
       if (value == true) {
@@ -76,6 +81,7 @@ class _UserQuantitySettingsTabViewState
       }
     });
   }
+
   void _onUpdate() {
     if (_selectedIds.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -99,6 +105,7 @@ class _UserQuantitySettingsTabViewState
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -110,6 +117,7 @@ class _UserQuantitySettingsTabViewState
       ],
     );
   }
+
   Widget _buildFilterBar(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(12.w),
@@ -206,6 +214,7 @@ class _UserQuantitySettingsTabViewState
       ),
     );
   }
+
   Widget _buildGroupHeader(BuildContext context) {
     return Container(
       width: double.infinity,
@@ -236,6 +245,7 @@ class _UserQuantitySettingsTabViewState
       ),
     );
   }
+
   Widget _buildRecordCount(BuildContext context) {
     return Container(
       color: AppColors.white,
@@ -251,6 +261,7 @@ class _UserQuantitySettingsTabViewState
       ),
     );
   }
+
   Widget _buildTable(BuildContext context) {
     return BlocBuilder<UserQuantitySettingsBloc, UserQuantitySettingsState>(
       builder: (context, state) {
@@ -346,6 +357,7 @@ class _UserQuantitySettingsTabViewState
       },
     );
   }
+
   TextStyle _cellStyle({bool isBold = false}) {
     return GoogleFonts.openSans(
       fontSize: 9.sp,

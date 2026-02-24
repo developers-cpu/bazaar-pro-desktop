@@ -8,6 +8,7 @@ import '../../../../core/widget/common_dilog_box.dart';
 import '../../domain/entities/market_item.dart';
 import '../bloc/theme/theme_bloc.dart';
 import '../bloc/theme/theme_state.dart' show ThemeState;
+
 class SymbolInfoDialog extends StatelessWidget {
   final MarketItem item;
   const SymbolInfoDialog({Key? key, required this.item}) : super(key: key);
@@ -28,6 +29,7 @@ class SymbolInfoDialog extends StatelessWidget {
       contentPadding: EdgeInsets.zero,
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ThemeBloc, ThemeState>(
@@ -49,6 +51,7 @@ class SymbolInfoDialog extends StatelessWidget {
     );
   }
 }
+
 class _SymbolInfoContent extends StatelessWidget {
   final MarketItem item;
   final bool isDark;
@@ -61,6 +64,7 @@ class _SymbolInfoContent extends StatelessWidget {
       children: [_buildDivider(), _buildInfoList()],
     );
   }
+
   Widget _buildDivider() {
     return Container(
       height: 1.h,
@@ -69,6 +73,7 @@ class _SymbolInfoContent extends StatelessWidget {
           : LightThemeColors.dividerColor,
     );
   }
+
   Widget _buildInfoList() {
     final infoItems = [
       {'label': 'Exchange Name', 'value': item.exchange},
@@ -100,6 +105,7 @@ class _SymbolInfoContent extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildInfoRow(String label, String value) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
@@ -140,6 +146,7 @@ class _SymbolInfoContent extends StatelessWidget {
       ),
     );
   }
+
   String _formatQuantity(int value) {
     return NumberFormat('#,###').format(value);
   }

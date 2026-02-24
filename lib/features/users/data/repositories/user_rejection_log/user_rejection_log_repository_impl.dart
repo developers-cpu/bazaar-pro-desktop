@@ -4,6 +4,7 @@ import '../../../domain/entities/user_rejection_log/user_rejection_log.dart';
 import '../../../domain/entities/user_rejection_log/user_rejection_log_metadata.dart';
 import '../../../domain/repositories/user_rejection_log/user_rejection_log_repository.dart';
 import '../../datasources/user_rejection_log/user_rejection_log_datasource.dart';
+
 class UserRejectionLogRepositoryImpl implements UserRejectionLogRepository {
   final UserRejectionLogDataSource dataSource;
   UserRejectionLogRepositoryImpl({required this.dataSource});
@@ -18,6 +19,7 @@ class UserRejectionLogRepositoryImpl implements UserRejectionLogRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
   @override
   Future<Either<Failure, UserRejectionLogMetadata>>
   getRejectionLogMetadata() async {

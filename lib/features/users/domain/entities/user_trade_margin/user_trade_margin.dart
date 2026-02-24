@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+
 class UserTradeMargin extends Equatable {
   final String id;
   final String exchange;
@@ -35,6 +36,7 @@ class UserTradeMargin extends Equatable {
       isSelected: isSelected ?? this.isSelected,
     );
   }
+
   @override
   List<Object?> get props => [
     id,

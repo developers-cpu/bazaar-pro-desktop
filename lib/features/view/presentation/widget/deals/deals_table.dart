@@ -11,6 +11,7 @@ import '../../../../../core/widget/table/view_data_table.dart';
 import '../../../../../core/widget/table/view_record_count.dart';
 import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import 'order_duration_dialog.dart';
+
 class DealsTable extends StatelessWidget {
   final bool showDeviceInfo;
   final bool isDarkMode;
@@ -87,6 +88,7 @@ class DealsTable extends StatelessWidget {
     }
     return columns;
   }
+
   Widget _buildCell(
     BuildContext context,
     Deal item,
@@ -157,6 +159,7 @@ class DealsTable extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
+
   Widget _buildOrderDurationCell(BuildContext context, Deal item, bool isDark) {
     return GestureDetector(
       onTap: () {
@@ -192,6 +195,7 @@ class DealsTable extends StatelessWidget {
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<DealsBloc, DealsState>(
@@ -238,6 +242,7 @@ class DealsTable extends StatelessWidget {
       },
     );
   }
+
   Widget _buildErrorState(BuildContext context, String message) {
     return Center(
       child: Column(

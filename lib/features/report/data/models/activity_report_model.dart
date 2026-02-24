@@ -1,4 +1,5 @@
 import '../../domain/entities/activity_report.dart';
+
 class ActivityReportModel extends ActivityReport {
   const ActivityReportModel({
     required super.id,

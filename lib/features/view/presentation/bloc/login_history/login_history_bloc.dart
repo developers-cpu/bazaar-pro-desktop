@@ -4,6 +4,7 @@ import '../../../domain/entities/login_history/login_history.dart';
 import '../../../domain/usecases/login_history/login_history_usecases.dart';
 import 'login_history_event.dart';
 import 'login_history_state.dart';
+
 class LoginHistoryBloc extends Bloc<LoginHistoryEvent, LoginHistoryState> {
   final GetLoginHistory getLoginHistory;
   final GetLoginHistoryClients getClients;
@@ -35,6 +36,7 @@ class LoginHistoryBloc extends Bloc<LoginHistoryEvent, LoginHistoryState> {
       emit(LoginHistoryError(e.toString()));
     }
   }
+
   Future<void> _onSelectClient(
     SelectClientEvent event,
     Emitter<LoginHistoryState> emit,
@@ -59,6 +61,7 @@ class LoginHistoryBloc extends Bloc<LoginHistoryEvent, LoginHistoryState> {
       emit(LoginHistoryError(e.toString()));
     }
   }
+
   void _onSortByColumn(
     SortLoginHistoryByColumnEvent event,
     Emitter<LoginHistoryState> emit,
@@ -100,6 +103,7 @@ class LoginHistoryBloc extends Bloc<LoginHistoryEvent, LoginHistoryState> {
       ),
     );
   }
+
   Future<void> _onExportToPdf(
     ExportLoginHistoryToPdfEvent event,
     Emitter<LoginHistoryState> emit,
@@ -117,6 +121,7 @@ class LoginHistoryBloc extends Bloc<LoginHistoryEvent, LoginHistoryState> {
       emit(currentState);
     });
   }
+
   Future<void> _onExportToExcel(
     ExportLoginHistoryToExcelEvent event,
     Emitter<LoginHistoryState> emit,

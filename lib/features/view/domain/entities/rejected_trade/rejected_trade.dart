@@ -20,7 +20,6 @@ class RejectedTrade extends Equatable {
   final String city;
   final String device;
   final String ipAddress;
-
   const RejectedTrade({
     required this.id,
     required this.userName,
@@ -42,7 +41,6 @@ class RejectedTrade extends Equatable {
     required this.device,
     required this.ipAddress,
   });
-
   @override
   List<Object?> get props => [
     id,
@@ -65,7 +63,6 @@ class RejectedTrade extends Equatable {
     device,
     ipAddress,
   ];
-
   RejectedTrade copyWith({
     String? id,
     String? userName,

@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 import '../../../../../core/errors/failures.dart';
 import '../../../domain/entities/user_brokerage_setting/user_brokerage_setting.dart';
 import '../../../domain/repositories/user_brokerage_setting/user_brokerage_setting_repository.dart';
+
 class UserBrokerageSettingRepositoryImpl
     implements UserBrokerageSettingRepository {
   final UserBrokerageSettingDataSource dataSource;
@@ -19,6 +20,7 @@ class UserBrokerageSettingRepositoryImpl
       return Left(ServerFailure(e.toString()));
     }
   }
+
   @override
   Future<Either<Failure, void>> updateBrokerageSettings({
     required List<String> selectedIds,

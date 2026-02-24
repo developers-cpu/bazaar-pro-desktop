@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../domain/usecases/user_intraday_square_off/get_user_intraday_square_off_usecase.dart';
 import 'user_intraday_event.dart';
 import 'user_intraday_state.dart';
+
 class UserIntradayBloc extends Bloc<UserIntradayEvent, UserIntradayState> {
   final GetUserIntradaySquareOff getUserIntradaySquareOff;
   UserIntradayBloc({required this.getUserIntradaySquareOff})
@@ -20,6 +21,7 @@ class UserIntradayBloc extends Bloc<UserIntradayEvent, UserIntradayState> {
       (settings) => emit(UserIntradayLoaded(settings: settings)),
     );
   }
+
   void _onToggleSetting(
     ToggleIntradaySetting event,
     Emitter<UserIntradayState> emit,

@@ -6,6 +6,7 @@ import '../../bloc/rejection_log/rejection_log_bloc.dart';
 import '../../bloc/rejection_log/rejection_log_event.dart';
 import '../../bloc/rejection_log/rejection_log_state.dart';
 import '../../../../../core/widget/table/view_reset_buttons.dart';
+
 class RejectionLogFilterBar extends StatelessWidget {
   const RejectionLogFilterBar({Key? key}) : super(key: key);
   @override
@@ -23,14 +24,12 @@ class RejectionLogFilterBar extends StatelessWidget {
                 width: 200.w,
                 child: AppDropdown(
                   type: AppDropdownType.search,
-                  hintText: 'Client',
+                  hintText: 'User',
                   value: state.selectedClient,
                   items: state.clients,
                   onChanged: (value) {
                     context.read<RejectionLogBloc>().add(
                       ApplyRejectionLogFiltersEvent(
-                        startDate: state.startDate,
-                        endDate: state.endDate,
                         client: value,
                         exchange: state.selectedExchange,
                         symbol: state.selectedSymbol,
@@ -50,8 +49,6 @@ class RejectionLogFilterBar extends StatelessWidget {
                   onChanged: (value) {
                     context.read<RejectionLogBloc>().add(
                       ApplyRejectionLogFiltersEvent(
-                        startDate: state.startDate,
-                        endDate: state.endDate,
                         client: state.selectedClient,
                         exchange: value,
                         symbol: state.selectedSymbol,
@@ -71,8 +68,6 @@ class RejectionLogFilterBar extends StatelessWidget {
                   onChanged: (value) {
                     context.read<RejectionLogBloc>().add(
                       ApplyRejectionLogFiltersEvent(
-                        startDate: state.startDate,
-                        endDate: state.endDate,
                         client: state.selectedClient,
                         exchange: state.selectedExchange,
                         symbol: value,
@@ -91,8 +86,6 @@ class RejectionLogFilterBar extends StatelessWidget {
                 onView: () {
                   context.read<RejectionLogBloc>().add(
                     ApplyRejectionLogFiltersEvent(
-                      startDate: state.startDate,
-                      endDate: state.endDate,
                       client: state.selectedClient,
                       exchange: state.selectedExchange,
                       symbol: state.selectedSymbol,

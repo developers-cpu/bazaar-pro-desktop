@@ -5,6 +5,7 @@ import '../../../domain/usecases/get_messages_usecase.dart';
 import '../../../../../core/usecases/usecase.dart';
 part 'message_event.dart';
 part 'message_state.dart';
+
 class MessageBloc extends Bloc<MessageEvent, MessageState> {
   final GetMessagesUseCase getMessages;
   MessageBloc({required this.getMessages}) : super(MessageLoading()) {

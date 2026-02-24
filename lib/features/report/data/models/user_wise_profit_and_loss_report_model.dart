@@ -1,4 +1,5 @@
 import '../../domain/entities/user_wise_profit_and_loss_report.dart';
+
 class UserWiseProfitAndLossReportModel extends UserWiseProfitAndLossReport {
   const UserWiseProfitAndLossReportModel({
     required super.id,

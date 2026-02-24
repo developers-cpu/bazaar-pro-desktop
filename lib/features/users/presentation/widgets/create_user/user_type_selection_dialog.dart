@@ -6,6 +6,7 @@ import 'master_form_dialog.dart';
 import 'client_form_dialog.dart';
 import 'masters_client_form_dialog.dart';
 import 'broker_form_dialog.dart';
+
 class UserTypeSelectionDialog extends StatefulWidget {
   final VoidCallback? onUserCreated;
   const UserTypeSelectionDialog({super.key, this.onUserCreated});
@@ -13,6 +14,7 @@ class UserTypeSelectionDialog extends StatefulWidget {
   State<UserTypeSelectionDialog> createState() =>
       _UserTypeSelectionDialogState();
 }
+
 class _UserTypeSelectionDialogState extends State<UserTypeSelectionDialog> {
   String? _selectedUserType;
   @override
@@ -99,6 +101,7 @@ class _UserTypeSelectionDialogState extends State<UserTypeSelectionDialog> {
       ),
     );
   }
+
   Widget _buildHeader() {
     return ClipRRect(
       borderRadius: BorderRadius.only(
@@ -126,6 +129,7 @@ class _UserTypeSelectionDialogState extends State<UserTypeSelectionDialog> {
       ),
     );
   }
+
   Widget _buildRadioOption(String value) {
     return GestureDetector(
       onTap: () {
@@ -169,6 +173,7 @@ class _UserTypeSelectionDialogState extends State<UserTypeSelectionDialog> {
       ),
     );
   }
+
   void _onCreatePressed() {
     Navigator.pop(context);
     if (_selectedUserType == 'Master') {

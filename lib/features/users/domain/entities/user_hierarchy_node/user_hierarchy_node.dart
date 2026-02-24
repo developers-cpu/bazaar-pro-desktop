@@ -1,5 +1,6 @@
 import 'package:bazarpro/features/users/domain/entities/user.dart';
 import 'package:equatable/equatable.dart';
+
 class UserHierarchyNode extends Equatable {
   final User user;
   final List<UserHierarchyNode> children;
@@ -24,6 +25,7 @@ class UserHierarchyNode extends Equatable {
       isVisible: isVisible ?? this.isVisible,
     );
   }
+
   @override
   List<Object?> get props => [user, children, isExpanded, isVisible];
 }

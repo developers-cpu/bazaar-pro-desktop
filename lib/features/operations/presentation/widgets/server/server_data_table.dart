@@ -5,6 +5,7 @@ import '../../../../../../core/widget/app_switch.dart';
 import '../../../domain/entities/server/server_entity.dart';
 import '../../../../../../core/constants/app_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 class ServerDataTable extends StatelessWidget {
   final List<ServerEntity> data;
   final Function(String id, bool status) onToggleStatus;
@@ -57,6 +58,7 @@ class ServerDataTable extends StatelessWidget {
       autoFit: true,
     );
   }
+
   List<ViewTableColumn> _buildColumns() {
     return [
       ViewTableColumn(id: 'index', label: 'INDEX', width: 80.w),
@@ -66,6 +68,7 @@ class ServerDataTable extends StatelessWidget {
       ViewTableColumn(id: 'status', label: 'STATUS', width: 120.w),
     ];
   }
+
   Widget _buildCell(ServerEntity item, String colId) {
     String text = '';
     switch (colId) {

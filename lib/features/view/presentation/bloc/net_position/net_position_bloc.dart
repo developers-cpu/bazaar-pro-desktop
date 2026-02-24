@@ -4,6 +4,7 @@ import '../../../domain/entities/net_postion/net_position.dart';
 import '../../../domain/usecases/netposition/net_position_usecases.dart';
 import 'net_position_event.dart';
 import 'net_position_state.dart';
+
 class NetPositionBloc extends Bloc<NetPositionEvent, NetPositionState> {
   final GetNetPositions getNetPositions;
   final GetNetPositionsWithFilters getNetPositionsWithFilters;
@@ -94,6 +95,7 @@ class NetPositionBloc extends Bloc<NetPositionEvent, NetPositionState> {
       emit(NetPositionError(e.toString()));
     }
   }
+
   Future<void> _onApplyFilters(
     ApplyFiltersEvent event,
     Emitter<NetPositionState> emit,
@@ -123,6 +125,7 @@ class NetPositionBloc extends Bloc<NetPositionEvent, NetPositionState> {
       ),
     );
   }
+
   Future<void> _onResetFilters(
     ResetFiltersEvent event,
     Emitter<NetPositionState> emit,
@@ -141,6 +144,7 @@ class NetPositionBloc extends Bloc<NetPositionEvent, NetPositionState> {
       ),
     );
   }
+
   void _onSelectPosition(
     SelectPositionEvent event,
     Emitter<NetPositionState> emit,
@@ -149,6 +153,7 @@ class NetPositionBloc extends Bloc<NetPositionEvent, NetPositionState> {
     final currentState = state as NetPositionLoaded;
     emit(currentState.copyWith(selectedPositionId: event.positionId));
   }
+
   void _onSortByColumn(
     SortPositionsByColumnEvent event,
     Emitter<NetPositionState> emit,
@@ -210,6 +215,7 @@ class NetPositionBloc extends Bloc<NetPositionEvent, NetPositionState> {
       ),
     );
   }
+
   Future<void> _onExportToPdf(
     ExportNetPositionsToPdfEvent event,
     Emitter<NetPositionState> emit,
@@ -227,6 +233,7 @@ class NetPositionBloc extends Bloc<NetPositionEvent, NetPositionState> {
       emit(currentState);
     });
   }
+
   Future<void> _onExportToExcel(
     ExportNetPositionsToExcelEvent event,
     Emitter<NetPositionState> emit,
@@ -244,6 +251,7 @@ class NetPositionBloc extends Bloc<NetPositionEvent, NetPositionState> {
       emit(currentState);
     });
   }
+
   Future<void> _onLoadPositionDetails(
     LoadPositionDetailsEvent event,
     Emitter<NetPositionState> emit,

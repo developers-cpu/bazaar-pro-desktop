@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+
 class BrokerClient extends Equatable {
   final String name;
   final double brokerage;

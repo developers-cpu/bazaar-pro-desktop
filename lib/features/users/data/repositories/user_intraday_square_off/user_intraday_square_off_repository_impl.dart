@@ -3,6 +3,7 @@ import '../../../../../core/errors/failures.dart';
 import '../../../domain/entities/user_intraday_square_off/user_intraday_square_off.dart';
 import '../../../domain/repositories/user_intraday_square_off/user_intraday_square_off_repository.dart';
 import '../../datasources/user_intraday_square_off/user_intraday_square_off_datasource.dart';
+
 class UserIntradaySquareOffRepositoryImpl
     implements UserIntradaySquareOffRepository {
   final UserIntradaySquareOffDataSource dataSource;

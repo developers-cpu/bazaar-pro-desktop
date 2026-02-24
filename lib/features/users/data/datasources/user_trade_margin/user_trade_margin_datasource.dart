@@ -1,9 +1,11 @@
 import 'package:bazarpro/features/users/data/models/user_trade_margin/user_trade_margin_metadata_model.dart';
 import 'package:bazarpro/features/users/data/models/user_trade_margin/user_trade_margin_model.dart';
+
 abstract class UserTradeMarginDataSource {
   Future<List<UserTradeMarginModel>> getUserTradeMargin(String userId);
   Future<UserTradeMarginMetadataModel> getTradeMarginMetadata();
 }
+
 class UserTradeMarginDataSourceImpl implements UserTradeMarginDataSource {
   @override
   Future<List<UserTradeMarginModel>> getUserTradeMargin(String userId) async {
@@ -29,6 +31,7 @@ class UserTradeMarginDataSourceImpl implements UserTradeMarginDataSource {
       ),
     ];
   }
+
   @override
   Future<UserTradeMarginMetadataModel> getTradeMarginMetadata() async {
     await Future.delayed(const Duration(milliseconds: 500));

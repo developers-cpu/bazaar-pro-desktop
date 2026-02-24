@@ -12,6 +12,7 @@ import '../../../../../../core/widget/table/view_data_table.dart';
 import '../../../../../../core/widget/table/view_record_count.dart';
 import '../../../../domain/entities/user.dart';
 import '../user_details_dialog.dart';
+
 class UserListTab extends StatelessWidget {
   final User user;
   const UserListTab({super.key, required this.user});
@@ -23,6 +24,7 @@ class UserListTab extends StatelessWidget {
     );
   }
 }
+
 class UserListTabView extends StatelessWidget {
   const UserListTabView({super.key});
   @override
@@ -70,6 +72,7 @@ class UserListTabView extends StatelessWidget {
       ],
     );
   }
+
   List<ViewTableColumn> _getColumns() {
     return [
       ViewTableColumn(id: 'userName', label: 'USER NAME', width: 120.w),
@@ -105,6 +108,7 @@ class UserListTabView extends StatelessWidget {
       ViewTableColumn(id: 'ipAddress', label: 'IP ADDRESS', width: 130.w),
     ];
   }
+
   Widget _buildCellContent(BuildContext context, User user, String columnId) {
     switch (columnId) {
       case 'userName':
@@ -165,12 +169,14 @@ class UserListTabView extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
+
   TextStyle _textStyle(BuildContext context) {
     return GoogleFonts.openSans(
       fontSize: 9.sp,
       color: AppColors.textColor(context),
     );
   }
+
   void _showUserDetailsDialog(
     BuildContext context,
     User user, {

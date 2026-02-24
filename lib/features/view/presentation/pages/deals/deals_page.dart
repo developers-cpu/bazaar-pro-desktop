@@ -7,11 +7,13 @@ import '../../bloc/deals/deals_event.dart';
 import '../../bloc/deals/deals_state.dart';
 import '../../widget/deals/deals_filter_bar.dart';
 import '../../widget/deals/deals_table.dart';
+
 class DealsPage extends StatefulWidget {
   const DealsPage({Key? key}) : super(key: key);
   @override
   State<DealsPage> createState() => _DealsPageState();
 }
+
 class _DealsPageState extends State<DealsPage> {
   @override
   void initState() {
@@ -20,6 +22,7 @@ class _DealsPageState extends State<DealsPage> {
       context.read<DealsBloc>().add(const LoadDealsEvent());
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<DealsBloc, DealsState>(
@@ -35,6 +38,7 @@ class _DealsPageState extends State<DealsPage> {
       ),
     );
   }
+
   void _handleStateChange(BuildContext context, DealsState state) {
     if (state is DealsExportSuccess) {
       ScaffoldMessenger.of(context).showSnackBar(

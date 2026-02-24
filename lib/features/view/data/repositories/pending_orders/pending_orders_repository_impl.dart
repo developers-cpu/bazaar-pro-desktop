@@ -3,6 +3,7 @@ import '../../../../../core/errors/failures.dart';
 import '../../../domain/entities/pending_orders/pending_order.dart';
 import '../../../domain/repositories/pending_orders/pending_orders_repository.dart';
 import '../../datasources/pending_order/pending_orders_remote_datasource.dart';
+
 class PendingOrdersRepositoryImpl implements PendingOrdersRepository {
   final PendingOrdersRemoteDataSource remoteDataSource;
   PendingOrdersRepositoryImpl({required this.remoteDataSource});
@@ -15,6 +16,7 @@ class PendingOrdersRepositoryImpl implements PendingOrdersRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
   @override
   Future<Either<Failure, List<PendingOrder>>> getPendingOrdersWithFilters({
     String? client,
@@ -34,6 +36,7 @@ class PendingOrdersRepositoryImpl implements PendingOrdersRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
   @override
   Future<Either<Failure, List<String>>> getClients() async {
     try {
@@ -43,6 +46,7 @@ class PendingOrdersRepositoryImpl implements PendingOrdersRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
   @override
   Future<Either<Failure, List<String>>> getExchanges() async {
     try {
@@ -52,6 +56,7 @@ class PendingOrdersRepositoryImpl implements PendingOrdersRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
   @override
   Future<Either<Failure, List<String>>> getSymbols() async {
     try {
@@ -61,6 +66,7 @@ class PendingOrdersRepositoryImpl implements PendingOrdersRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
   @override
   List<String> getOrderTypes() {
     return [
@@ -73,6 +79,7 @@ class PendingOrdersRepositoryImpl implements PendingOrdersRepository {
       'Sell Stop',
     ];
   }
+
   @override
   Future<Either<Failure, String>> exportToPdf(List<PendingOrder> orders) async {
     try {
@@ -84,6 +91,7 @@ class PendingOrdersRepositoryImpl implements PendingOrdersRepository {
       return Left(ExportFailure('Failed to export PDF: $e'));
     }
   }
+
   @override
   Future<Either<Failure, String>> exportToExcel(
     List<PendingOrder> orders,

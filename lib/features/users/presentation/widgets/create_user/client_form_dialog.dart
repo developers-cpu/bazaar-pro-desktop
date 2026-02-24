@@ -16,6 +16,7 @@ import 'shared/brokerage_setting_step.dart';
 import 'client_steps/client_trigger_settings_step.dart';
 import 'client_steps/client_broker_setting_step.dart';
 import 'shared/profile_summary_dialog.dart';
+
 class ClientFormDialog extends StatelessWidget {
   final bool isEditMode;
   final Map<String, dynamic>? userData;
@@ -43,6 +44,7 @@ class ClientFormDialog extends StatelessWidget {
       ),
     );
   }
+
   static void showEdit({
     required BuildContext context,
     required Map<String, dynamic> userData,
@@ -69,6 +71,7 @@ class ClientFormDialog extends StatelessWidget {
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<UserFormBloc, UserFormState>(
@@ -118,6 +121,7 @@ class ClientFormDialog extends StatelessWidget {
       },
     );
   }
+
   Widget _buildHeader(BuildContext context, UserFormState state) {
     final title = state.isEditMode ? 'Edit Client' : 'Create Client';
     return ClipRRect(
@@ -149,6 +153,7 @@ class ClientFormDialog extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildStepIndicator(UserFormState state) {
     return AppStepIndicator(
       currentStep: state.currentStep,
@@ -156,6 +161,7 @@ class ClientFormDialog extends StatelessWidget {
       stepTitles: UserFormState.clientStepTitles,
     );
   }
+
   Widget _buildStepContent(UserFormState state) {
     switch (state.currentStep) {
       case 0:
@@ -174,6 +180,7 @@ class ClientFormDialog extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
+
   Widget _buildNavigationButtons(BuildContext context, UserFormState state) {
     final isLastStep = state.currentStep == 5;
     final isFirstStep = state.currentStep == 0;

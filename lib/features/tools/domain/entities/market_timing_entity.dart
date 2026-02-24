@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+
 class MarketTimingEntity extends Equatable {
   final String status;
   final bool isOpen;
@@ -11,6 +12,7 @@ class MarketTimingEntity extends Equatable {
   @override
   List<Object?> get props => [status, isOpen, timings];
 }
+
 class TimingSlot extends Equatable {
   final String start;
   final String end;

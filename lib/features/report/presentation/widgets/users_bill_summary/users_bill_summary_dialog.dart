@@ -15,7 +15,6 @@ import '../../../../../injection_container.dart';
 
 class UsersBillSummaryDialog extends StatelessWidget {
   const UsersBillSummaryDialog({Key? key}) : super(key: key);
-
   static void show(BuildContext context) {
     showDialog(
       context: context,
@@ -40,7 +39,6 @@ class UsersBillSummaryDialog extends StatelessWidget {
           List<UsersBillSummaryEntity> summaryData = [];
           String? selectedUser;
           bool isLoading = state is UsersBillSummaryLoading;
-
           if (state is UsersBillSummaryUsersLoaded) {
             users = state.users;
           } else if (state is UsersBillSummaryDataLoaded) {
@@ -50,7 +48,6 @@ class UsersBillSummaryDialog extends StatelessWidget {
           } else if (state is UsersBillSummaryLoading) {
             users = state.users;
           }
-
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -136,11 +133,9 @@ class UsersBillSummaryDialog extends StatelessWidget {
         ),
       );
     }
-
     String text = "";
     if (column.id == 'puName') text = item.puName;
     if (column.id == 'uName') text = item.uName;
-
     return Text(
       text,
       style: GoogleFonts.openSans(
@@ -159,17 +154,14 @@ class UsersBillSummaryDialog extends StatelessWidget {
     for (var item in data) {
       totalPL += item.netPL;
     }
-
     final values = {
       'puName': 'TOTAL',
       'uName': '',
       'netPL': totalPL.toStringAsFixed(2),
     };
-
     final columnColors = {
       'netPL': totalPL < 0 ? AppColors.errorColor : AppColors.primaryBlue,
     };
-
     return ViewDataTableFooter(
       columns: columns,
       values: values,

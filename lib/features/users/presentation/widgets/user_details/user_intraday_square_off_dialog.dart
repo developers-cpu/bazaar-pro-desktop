@@ -9,6 +9,7 @@ import 'package:bazarpro/features/users/domain/entities/user.dart';
 import 'package:bazarpro/features/users/presentation/bloc/user_intraday/user_intraday_bloc.dart';
 import 'package:bazarpro/features/users/presentation/bloc/user_intraday/user_intraday_event.dart';
 import 'package:bazarpro/features/users/presentation/bloc/user_intraday/user_intraday_state.dart';
+
 class UserIntradaySquareOffDialog extends StatelessWidget {
   final User user;
   const UserIntradaySquareOffDialog({super.key, required this.user});
@@ -19,6 +20,7 @@ class UserIntradaySquareOffDialog extends StatelessWidget {
       builder: (context) => UserIntradaySquareOffDialog(user: user),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -33,6 +35,7 @@ class UserIntradaySquareOffDialog extends StatelessWidget {
     );
   }
 }
+
 class UserIntradaySquareOffDialogContent extends StatelessWidget {
   const UserIntradaySquareOffDialogContent({super.key});
   @override

@@ -1,9 +1,11 @@
 import 'package:equatable/equatable.dart';
+
 abstract class SettlementReportEvent extends Equatable {
   const SettlementReportEvent();
   @override
   List<Object?> get props => [];
 }
+
 class LoadSettlementReport extends SettlementReportEvent {
   final String dateRange;
   final String? userId;
@@ -11,6 +13,7 @@ class LoadSettlementReport extends SettlementReportEvent {
   @override
   List<Object?> get props => [dateRange, userId];
 }
+
 class SelectUserForDetail extends SettlementReportEvent {
   final String userId;
   final String username;
@@ -18,4 +21,5 @@ class SelectUserForDetail extends SettlementReportEvent {
   @override
   List<Object?> get props => [userId, username];
 }
+
 class ClearSelectedUser extends SettlementReportEvent {}

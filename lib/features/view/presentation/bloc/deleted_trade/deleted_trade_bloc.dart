@@ -14,7 +14,6 @@ class DeletedTradeBloc extends Bloc<DeletedTradeEvent, DeletedTradeState> {
   final GetDeletedTradeSymbols getSymbols;
   final ExportDeletedTradesToPdf exportToPdf;
   final ExportDeletedTradesToExcel exportToExcel;
-
   DeletedTradeBloc({
     required this.getDeletedTrades,
     required this.getDeletedTradesWithFilters,
@@ -32,7 +31,6 @@ class DeletedTradeBloc extends Bloc<DeletedTradeEvent, DeletedTradeState> {
     on<ExportDeletedTradesToPdfEvent>(_onExportToPdf);
     on<ExportDeletedTradesToExcelEvent>(_onExportToExcel);
   }
-
   Future<void> _onLoadDeletedTrades(
     LoadDeletedTradesEvent event,
     Emitter<DeletedTradeState> emit,
@@ -46,19 +44,16 @@ class DeletedTradeBloc extends Bloc<DeletedTradeEvent, DeletedTradeState> {
         getExchanges(NoParams()),
         getSymbols(NoParams()),
       ]);
-
       final tradesResult = results[0];
       final userTypesResult = results[1];
       final usersResult = results[2];
       final exchangesResult = results[3];
       final symbolsResult = results[4];
-
       if (tradesResult.isLeft()) {
         final failure = tradesResult.fold((l) => l, (r) => null);
         emit(DeletedTradeError(failure?.message ?? 'Failed to load trades'));
         return;
       }
-
       final trades = tradesResult.fold(
         (l) => <DeletedTrade>[],
         (r) => r as List<DeletedTrade>,
@@ -79,7 +74,6 @@ class DeletedTradeBloc extends Bloc<DeletedTradeEvent, DeletedTradeState> {
         (l) => <String>[],
         (r) => r as List<String>,
       );
-
       emit(
         DeletedTradeLoaded(
           trades: trades,
@@ -102,9 +96,7 @@ class DeletedTradeBloc extends Bloc<DeletedTradeEvent, DeletedTradeState> {
   ) async {
     if (state is! DeletedTradeLoaded) return;
     final currentState = state as DeletedTradeLoaded;
-
     emit(const DeletedTradeLoading());
-
     final result = await getDeletedTradesWithFilters(
       DeletedTradeFilterParams(
         userType: event.userType,
@@ -113,7 +105,6 @@ class DeletedTradeBloc extends Bloc<DeletedTradeEvent, DeletedTradeState> {
         symbol: event.symbol,
       ),
     );
-
     result.fold(
       (failure) => emit(DeletedTradeError(failure.message)),
       (trades) => emit(
@@ -135,7 +126,6 @@ class DeletedTradeBloc extends Bloc<DeletedTradeEvent, DeletedTradeState> {
   ) async {
     if (state is! DeletedTradeLoaded) return;
     final currentState = state as DeletedTradeLoaded;
-
     emit(
       DeletedTradeLoaded(
         trades: currentState.trades,
@@ -155,7 +145,6 @@ class DeletedTradeBloc extends Bloc<DeletedTradeEvent, DeletedTradeState> {
   ) {
     if (state is! DeletedTradeLoaded) return;
     final currentState = state as DeletedTradeLoaded;
-
     final sortedTrades = List<DeletedTrade>.from(currentState.filteredTrades);
     sortedTrades.sort((a, b) {
       int comparison = 0;
@@ -219,7 +208,6 @@ class DeletedTradeBloc extends Bloc<DeletedTradeEvent, DeletedTradeState> {
       }
       return event.ascending ? comparison : -comparison;
     });
-
     emit(
       currentState.copyWith(
         filteredTrades: sortedTrades,
@@ -235,7 +223,6 @@ class DeletedTradeBloc extends Bloc<DeletedTradeEvent, DeletedTradeState> {
   ) async {
     if (state is! DeletedTradeLoaded) return;
     final currentState = state as DeletedTradeLoaded;
-
     final result = await exportToPdf(currentState.filteredTrades);
     result.fold((failure) => emit(DeletedTradeError(failure.message)), (path) {
       emit(
@@ -254,7 +241,6 @@ class DeletedTradeBloc extends Bloc<DeletedTradeEvent, DeletedTradeState> {
   ) async {
     if (state is! DeletedTradeLoaded) return;
     final currentState = state as DeletedTradeLoaded;
-
     final result = await exportToExcel(currentState.filteredTrades);
     result.fold((failure) => emit(DeletedTradeError(failure.message)), (path) {
       emit(

@@ -1,7 +1,9 @@
 import '../models/announcement_model.dart';
+
 abstract class AnnouncementRemoteDataSource {
   Future<List<AnnouncementModel>> getAnnouncements();
 }
+
 class AnnouncementRemoteDataSourceImpl implements AnnouncementRemoteDataSource {
   @override
   Future<List<AnnouncementModel>> getAnnouncements() async {

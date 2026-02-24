@@ -11,7 +11,6 @@ import '../../../../../core/widget/table/view_table_cell_styles.dart';
 
 class DeletedTradeTable extends StatelessWidget {
   const DeletedTradeTable({Key? key}) : super(key: key);
-
   static final List<ViewTableColumn> _columns = [
     const ViewTableColumn(id: 'userName', label: 'U. NAME', width: 100),
     const ViewTableColumn(id: 'parentUser', label: 'P USER', width: 100),
@@ -51,7 +50,6 @@ class DeletedTradeTable extends StatelessWidget {
     const ViewTableColumn(id: 'device', label: 'DEVICE', width: 80),
     const ViewTableColumn(id: 'ipAddress', label: 'IP ADDRESS', width: 120),
   ];
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<DeletedTradeBloc, DeletedTradeState>(
@@ -61,7 +59,6 @@ class DeletedTradeTable extends StatelessWidget {
             child: CircularProgressIndicator(color: AppColors.primaryBlue),
           );
         }
-
         if (state is DeletedTradeError) {
           return Center(
             child: Text(
@@ -70,7 +67,6 @@ class DeletedTradeTable extends StatelessWidget {
             ),
           );
         }
-
         if (state is DeletedTradeLoaded) {
           return Column(
             children: [
@@ -98,7 +94,6 @@ class DeletedTradeTable extends StatelessWidget {
             ],
           );
         }
-
         return const SizedBox.shrink();
       },
     );

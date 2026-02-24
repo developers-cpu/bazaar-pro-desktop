@@ -4,6 +4,7 @@ import 'package:bazarpro/core/widget/svg_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 class ViewTableColumn {
   final String id;
   final String label;
@@ -20,6 +21,7 @@ class ViewTableColumn {
     this.customHeaderWidget,
   });
 }
+
 class ViewDataTable<T> extends StatefulWidget {
   final List<ViewTableColumn> columns;
   final List<T> data;
@@ -56,11 +58,12 @@ class ViewDataTable<T> extends StatefulWidget {
     this.footerBuilder,
     this.autoFit = false,
     this.headerBgColor,
-    this.shrinkWrap = false, 
+    this.shrinkWrap = false,
   }) : super(key: key);
   @override
   State<ViewDataTable<T>> createState() => _ViewDataTableState<T>();
 }
+
 class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
   final ScrollController _horizontalScrollController = ScrollController();
   final ScrollController _verticalScrollController = ScrollController();
@@ -70,9 +73,11 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
     _verticalScrollController.dispose();
     super.dispose();
   }
+
   double get _totalFixedScaleWidth {
     return widget.columns.fold<double>(0, (sum, col) => sum + col.width);
   }
+
   Color get _headerBgColor =>
       widget.headerBgColor ??
       (widget.isDarkMode
@@ -131,6 +136,7 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
       ),
     );
   }
+
   Widget _buildExpandedContent(
     double headerHeight,
     double rowHeight,
@@ -167,6 +173,7 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
       ],
     );
   }
+
   Widget _buildShrinkWrapContent(
     double headerHeight,
     double rowHeight,
@@ -191,6 +198,7 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
       ),
     );
   }
+
   Widget _buildEmptyState() {
     return Center(
       child: Text(
@@ -204,6 +212,7 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
       ),
     );
   }
+
   Widget _buildHeaderRow(double headerHeight, double scale) {
     return Container(
       height: headerHeight,
@@ -221,6 +230,7 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
       ),
     );
   }
+
   Widget _buildHeaderCell(ViewTableColumn column, bool isLast, double scale) {
     final isSorted = widget.sortColumn == column.id;
     final cellWidth = column.width * scale;
@@ -272,6 +282,7 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
       ),
     );
   }
+
   Widget _buildDataRows(double rowHeight, double scale) {
     return Scrollbar(
       controller: widget.shrinkWrap ? null : _verticalScrollController,
@@ -301,6 +312,7 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
       ),
     );
   }
+
   Widget _buildDataRow(
     T item,
     int index,
@@ -336,6 +348,7 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
       ),
     );
   }
+
   Widget _buildFooterRow(double rowHeight, double scale) {
     final scaledColumns = widget.columns
         .map(

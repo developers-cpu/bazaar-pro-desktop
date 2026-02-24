@@ -7,12 +7,14 @@ import '../../../../../core/widget/table/view_reset_buttons.dart';
 import '../../bloc/script_quantity/script_quantity_bloc.dart';
 import '../../bloc/script_quantity/script_quantity_event.dart';
 import '../../bloc/script_quantity/script_quantity_state.dart';
+
 class ScriptQuantityFilterBar extends StatefulWidget {
   const ScriptQuantityFilterBar({Key? key}) : super(key: key);
   @override
   State<ScriptQuantityFilterBar> createState() =>
       _ScriptQuantityFilterBarState();
 }
+
 class _ScriptQuantityFilterBarState extends State<ScriptQuantityFilterBar> {
   String? _tempSelectedGroup;
   @override

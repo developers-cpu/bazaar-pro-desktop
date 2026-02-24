@@ -1,10 +1,12 @@
 import 'package:bazarpro/features/report/data/models/credit_history_model.dart';
+
 abstract class CreditHistoryRemoteDataSource {
   Future<List<CreditHistoryModel>> getCreditHistory({
     String? type,
     String? search,
   });
 }
+
 class CreditHistoryRemoteDataSourceImpl
     implements CreditHistoryRemoteDataSource {
   @override

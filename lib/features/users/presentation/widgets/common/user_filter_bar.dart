@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/widget/table/view_record_count.dart';
 import '../../../data/models/user/user_filter_dropdown.dart';
+
 class UserFilterBar extends StatelessWidget {
   final List<UserFilterDropdown> filters;
   final Widget? trailing;
@@ -66,6 +67,7 @@ class UserFilterBar extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildActionButton({
     required String label,
     required VoidCallback? onPressed,

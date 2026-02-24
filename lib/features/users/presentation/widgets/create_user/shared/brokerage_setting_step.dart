@@ -13,12 +13,14 @@ import '../../../bloc/user_form/user_form_event.dart';
 import '../../../bloc/user_form/user_form_state.dart';
 import '../../../../../../core/widget/table/view_data_table.dart';
 import '../../../../../../core/widget/table/view_record_count.dart';
+
 class BrokerageSettingStep extends StatefulWidget {
   final bool showUpdateButton;
   const BrokerageSettingStep({super.key, this.showUpdateButton = true});
   @override
   State<BrokerageSettingStep> createState() => _BrokerageSettingStepState();
 }
+
 class _BrokerageSettingStepState extends State<BrokerageSettingStep> {
   late TextEditingController _exchangeWiseBrkController;
   late TextEditingController _symbolWiseBrkController;
@@ -31,12 +33,14 @@ class _BrokerageSettingStepState extends State<BrokerageSettingStep> {
     );
     _symbolWiseBrkController = TextEditingController(text: state.symbolWiseBrk);
   }
+
   @override
   void dispose() {
     _exchangeWiseBrkController.dispose();
     _symbolWiseBrkController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserFormBloc, UserFormState>(
@@ -100,6 +104,7 @@ class _BrokerageSettingStepState extends State<BrokerageSettingStep> {
       },
     );
   }
+
   Widget _buildExchangeWiseInputs(UserFormState state) {
     return Row(
       children: [
@@ -150,6 +155,7 @@ class _BrokerageSettingStepState extends State<BrokerageSettingStep> {
       ],
     );
   }
+
   Widget _buildSymbolWiseInputs(UserFormState state) {
     return Row(
       children: [
@@ -188,6 +194,7 @@ class _BrokerageSettingStepState extends State<BrokerageSettingStep> {
       ],
     );
   }
+
   List<ViewTableColumn> _getColumns(BuildContext context, UserFormState state) {
     final isAllSelected =
         state.selectedBrokerageExchanges.length ==
@@ -227,6 +234,7 @@ class _BrokerageSettingStepState extends State<BrokerageSettingStep> {
       ),
     ];
   }
+
   Widget _buildCell(
     BuildContext context,
     UserFormState state,

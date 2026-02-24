@@ -10,6 +10,7 @@ import '../../bloc/search_user/search_user_state.dart';
 import '../../../../../../core/constants/app_images.dart';
 import '../search/user_tree_view.dart';
 import '../../../../../../core/widget/custom_input_field.dart';
+
 class UserSearchDialog extends StatelessWidget {
   const UserSearchDialog({super.key});
   static void show(BuildContext context) {
@@ -18,6 +19,7 @@ class UserSearchDialog extends StatelessWidget {
       builder: (context) => const UserSearchDialog(),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -27,6 +29,7 @@ class UserSearchDialog extends StatelessWidget {
     );
   }
 }
+
 class UserSearchDialogContent extends StatelessWidget {
   const UserSearchDialogContent({super.key});
   @override
@@ -42,6 +45,7 @@ class UserSearchDialogContent extends StatelessWidget {
     );
   }
 }
+
 class UserSearchView extends StatelessWidget {
   const UserSearchView({super.key});
   @override

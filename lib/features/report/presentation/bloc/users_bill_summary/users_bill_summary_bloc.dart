@@ -8,7 +8,6 @@ class UsersBillSummaryBloc
     extends Bloc<UsersBillSummaryEvent, UsersBillSummaryState> {
   final GetUsers getUsers;
   final GetBillSummaryData getBillSummaryData;
-
   UsersBillSummaryBloc({
     required this.getUsers,
     required this.getBillSummaryData,
@@ -16,7 +15,6 @@ class UsersBillSummaryBloc
     on<GetUsersListEvent>(_onGetUsersList);
     on<GetUserBillSummaryEvent>(_onGetUserBillSummary);
   }
-
   Future<void> _onGetUsersList(
     GetUsersListEvent event,
     Emitter<UsersBillSummaryState> emit,
@@ -40,13 +38,11 @@ class UsersBillSummaryBloc
   ) async {
     final currentState = state;
     List<String> users = [];
-
     if (currentState is UsersBillSummaryUsersLoaded) {
       users = currentState.users;
     } else if (currentState is UsersBillSummaryDataLoaded) {
       users = currentState.users;
     }
-
     emit(UsersBillSummaryLoading(users: users));
     final result = await getBillSummaryData(event.userId);
     result.fold(

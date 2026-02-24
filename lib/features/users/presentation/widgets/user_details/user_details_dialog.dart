@@ -19,6 +19,7 @@ import 'user_exchange_wise_position_limit_dialog.dart';
 import 'tabs/user_trade_margin_tab.dart';
 import 'tabs/user_pending_orders_tab.dart';
 import '../create_user/change_password_dialog.dart';
+
 class UserDetailsDialog extends StatefulWidget {
   final User user;
   final String? initialTab;
@@ -49,9 +50,11 @@ class UserDetailsDialog extends StatefulWidget {
       ),
     );
   }
+
   @override
   State<UserDetailsDialog> createState() => _UserDetailsDialogState();
 }
+
 class _UserDetailsDialogState extends State<UserDetailsDialog>
     with TickerProviderStateMixin {
   late TabController _tabController;
@@ -88,6 +91,7 @@ class _UserDetailsDialogState extends State<UserDetailsDialog>
     }
     _initTabController(initialIndex: initialIndex);
   }
+
   void _initTabController({int initialIndex = 0}) {
     _tabController = TabController(
       length: _currentTabs.length,
@@ -96,6 +100,7 @@ class _UserDetailsDialogState extends State<UserDetailsDialog>
     );
     _tabController.addListener(_handleTabSelection);
   }
+
   void _handleTabSelection() {
     if (_tabController.indexIsChanging) {
       return;
@@ -117,11 +122,13 @@ class _UserDetailsDialogState extends State<UserDetailsDialog>
       });
     }
   }
+
   @override
   void dispose() {
     _tabController.dispose();
     super.dispose();
   }
+
   void _onViewSettings(String groupName) {
     setState(() {
       _selectedQuantityGroup = groupName;
@@ -139,6 +146,7 @@ class _UserDetailsDialogState extends State<UserDetailsDialog>
       _initTabController(initialIndex: qtyIndex);
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return CommonDialog(
@@ -204,6 +212,7 @@ class _UserDetailsDialogState extends State<UserDetailsDialog>
       ),
     );
   }
+
   Widget _buildHeader() {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
@@ -254,6 +263,7 @@ class _UserDetailsDialogState extends State<UserDetailsDialog>
       ),
     );
   }
+
   Widget _buildActionButton(
     IconData icon,
     String label,
@@ -297,6 +307,7 @@ class _UserDetailsDialogState extends State<UserDetailsDialog>
       ),
     );
   }
+
   Widget _buildTabBar() {
     return Container(
       color: AppColors.white,

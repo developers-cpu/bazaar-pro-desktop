@@ -1,10 +1,12 @@
 import '../../models/symbol_wise_position_report_model.dart';
+
 abstract class SymbolWisePositionReportRemoteDataSource {
   Future<List<SymbolWisePositionReportModel>> getSymbolWisePositionReport({
     String? exchange,
     String? symbol,
   });
 }
+
 class SymbolWisePositionReportRemoteDataSourceImpl
     implements SymbolWisePositionReportRemoteDataSource {
   @override

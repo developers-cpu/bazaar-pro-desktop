@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import '../constants/auth_constants.dart';
+
 class ApiClient {
   static final ApiClient _instance = ApiClient._internal();
   late final Dio dio;

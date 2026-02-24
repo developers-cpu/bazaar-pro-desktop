@@ -9,6 +9,7 @@ import '../../bloc/pending_orders/pending_orders_event.dart';
 import '../../bloc/pending_orders/pending_orders_state.dart';
 import '../../../../../core/widget/table/view_reset_buttons.dart';
 import 'cancel_all_orders_dialog.dart';
+
 class PendingOrdersFilterBar extends StatelessWidget {
   const PendingOrdersFilterBar({Key? key}) : super(key: key);
   @override

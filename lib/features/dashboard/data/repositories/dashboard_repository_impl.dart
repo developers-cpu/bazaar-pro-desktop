@@ -1,6 +1,7 @@
 import '../../domain/entities/dashboard_entity.dart';
 import '../../domain/repositories/dashboard_repository.dart';
 import '../datasources/dashboard_datasource.dart';
+
 class DashboardRepositoryImpl implements DashboardRepository {
   final DashboardDataSource _dataSource;
   DashboardRepositoryImpl({required DashboardDataSource dataSource})
@@ -17,6 +18,7 @@ class DashboardRepositoryImpl implements DashboardRepository {
       exchanges: exchanges,
     );
   }
+
   @override
   Future<List<SymbolReportData>> getSymbolReports({
     String? clientId,
@@ -31,10 +33,12 @@ class DashboardRepositoryImpl implements DashboardRepository {
       topCount: topCount,
     );
   }
+
   @override
   Future<DashboardSummary> getDashboardSummary() async {
     return await _dataSource.getDashboardSummary();
   }
+
   @override
   Future<DashboardData> getDashboardData({
     String? clientId,

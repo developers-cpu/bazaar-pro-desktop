@@ -7,6 +7,7 @@ import '../../../../../../core/widget/custom_action_button.dart';
 import '../../../bloc/user_form/user_form_bloc.dart';
 import '../../../bloc/user_form/user_form_event.dart';
 import '../../../bloc/user_form/user_form_state.dart';
+
 class ProfileSummaryDialog extends StatelessWidget {
   const ProfileSummaryDialog({super.key});
   static void show(BuildContext parentContext) {
@@ -19,6 +20,7 @@ class ProfileSummaryDialog extends StatelessWidget {
           BlocProvider.value(value: bloc, child: const ProfileSummaryDialog()),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserFormBloc, UserFormState>(
@@ -56,6 +58,7 @@ class ProfileSummaryDialog extends StatelessWidget {
       },
     );
   }
+
   Widget _buildHeader(BuildContext context, UserFormState state) {
     final title = state.isEditMode
         ? 'Edit ${state.userType}'
@@ -89,6 +92,7 @@ class ProfileSummaryDialog extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildContent(BuildContext context, UserFormState state) {
     return Container(
       padding: EdgeInsets.all(12.w),
@@ -113,6 +117,7 @@ class ProfileSummaryDialog extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildButtons(BuildContext context, UserFormState state) {
     return Container(
       padding: EdgeInsets.all(20.w),
@@ -144,6 +149,7 @@ class ProfileSummaryDialog extends StatelessWidget {
       ),
     );
   }
+
   List<Widget> _buildSections(BuildContext context, UserFormState state) {
     final sections = <Widget>[];
     sections.add(_buildSectionTitle('Personal Details'));
@@ -185,6 +191,7 @@ class ProfileSummaryDialog extends StatelessWidget {
     }
     return sections;
   }
+
   Widget _buildPersonalDetails(BuildContext context, UserFormState state) {
     final fields = <List<String>>[];
     if (state.userType == "Master's Client") {
@@ -224,6 +231,7 @@ class ProfileSummaryDialog extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildPnlSharing(BuildContext context, UserFormState state) {
     return _buildSectionBox(
       child: Row(
@@ -247,6 +255,7 @@ class ProfileSummaryDialog extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildExchangeAllowed(BuildContext context, UserFormState state) {
     return _buildSectionBox(
       child: Wrap(
@@ -277,6 +286,7 @@ class ProfileSummaryDialog extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildExchangeSetting(BuildContext context, UserFormState state) {
     return _buildSectionBox(
       child: Column(
@@ -313,6 +323,7 @@ class ProfileSummaryDialog extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildHighLowLimit(BuildContext context, UserFormState state) {
     return _buildSectionBox(
       child: Wrap(
@@ -343,6 +354,7 @@ class ProfileSummaryDialog extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildTriggerSettings(BuildContext context, UserFormState state) {
     return _buildSectionBox(
       child: Wrap(
@@ -372,6 +384,7 @@ class ProfileSummaryDialog extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildBrokerageSettings(BuildContext context, UserFormState state) {
     return _buildSectionBox(
       child: Column(
@@ -463,6 +476,7 @@ class ProfileSummaryDialog extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildBrokerSettings(BuildContext context, UserFormState state) {
     return _buildSectionBox(
       child: Text(
@@ -474,6 +488,7 @@ class ProfileSummaryDialog extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildSectionTitle(String title) {
     return Text(
       title,
@@ -484,6 +499,7 @@ class ProfileSummaryDialog extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildSectionBox({required Widget child}) {
     return Container(
       width: double.infinity,
@@ -495,6 +511,7 @@ class ProfileSummaryDialog extends StatelessWidget {
       child: child,
     );
   }
+
   Widget _buildFieldBox(BuildContext context, String text, {String? label}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

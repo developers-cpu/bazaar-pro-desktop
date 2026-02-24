@@ -7,6 +7,7 @@ import '../../bloc/trade_margin/trade_margin_bloc.dart';
 import '../../bloc/trade_margin/trade_margin_state.dart';
 import 'trade_margin_filter_bar.dart';
 import 'trade_margin_table.dart';
+
 class TradeMarginDialog extends StatelessWidget {
   const TradeMarginDialog({super.key});
   static Future<void> show(BuildContext context) {
@@ -19,6 +20,7 @@ class TradeMarginDialog extends StatelessWidget {
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     final bgColor = AppColors.cardBackground(context);
@@ -61,6 +63,7 @@ class TradeMarginDialog extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildHeader(BuildContext context, Color headerBgColor) {
     return Container(
       width: double.infinity,

@@ -8,6 +8,7 @@ import '../../../domain/usecases/user/export_users_to_pdf.dart';
 import '../../../domain/usecases/user/export_users_to_excel.dart';
 import 'inactive_user_list_event.dart';
 import 'inactive_user_list_state.dart';
+
 class InactiveUserListBloc
     extends Bloc<InactiveUserListEvent, InactiveUserListState> {
   final GetUsers getUsers;
@@ -62,6 +63,7 @@ class InactiveUserListBloc
       emit(InactiveUserListError(e.toString()));
     }
   }
+
   Future<void> _onFilterByUserType(
     FilterInactiveByUserTypeEvent event,
     Emitter<InactiveUserListState> emit,
@@ -87,6 +89,7 @@ class InactiveUserListBloc
       );
     }
   }
+
   Future<void> _onFilterByUserStatus(
     FilterInactiveByUserStatusEvent event,
     Emitter<InactiveUserListState> emit,
@@ -113,6 +116,7 @@ class InactiveUserListBloc
       );
     }
   }
+
   Future<void> _onApplyFilters(
     ApplyInactiveFiltersEvent event,
     Emitter<InactiveUserListState> emit,
@@ -138,6 +142,7 @@ class InactiveUserListBloc
       );
     }
   }
+
   Future<void> _onResetFilters(
     ResetInactiveFiltersEvent event,
     Emitter<InactiveUserListState> emit,
@@ -162,6 +167,7 @@ class InactiveUserListBloc
       );
     }
   }
+
   void _onSortByColumn(
     SortInactiveByColumnEvent event,
     Emitter<InactiveUserListState> emit,
@@ -237,6 +243,7 @@ class InactiveUserListBloc
       );
     }
   }
+
   Future<void> _onExportToPdf(
     ExportInactiveToPdfEvent event,
     Emitter<InactiveUserListState> emit,
@@ -264,6 +271,7 @@ class InactiveUserListBloc
       );
     }
   }
+
   Future<void> _onExportToExcel(
     ExportInactiveToExcelEvent event,
     Emitter<InactiveUserListState> emit,
@@ -291,6 +299,7 @@ class InactiveUserListBloc
       );
     }
   }
+
   void _onSelectUser(
     SelectInactiveUserEvent event,
     Emitter<InactiveUserListState> emit,

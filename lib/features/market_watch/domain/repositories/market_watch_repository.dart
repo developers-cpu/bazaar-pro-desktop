@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import '../../../../core/errors/failures.dart';
 import '../entities/market_item.dart';
+
 abstract class MarketWatchRepository {
   Future<Either<Failure, List<MarketItem>>> getMarketItems();
   Future<Either<Failure, List<MarketItem>>> getMarketItemsByExchange(

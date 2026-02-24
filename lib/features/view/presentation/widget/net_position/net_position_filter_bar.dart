@@ -6,6 +6,7 @@ import '../../../../../core/widget/table/view_reset_buttons.dart';
 import '../../bloc/net_position/net_position_bloc.dart';
 import '../../bloc/net_position/net_position_event.dart';
 import '../../bloc/net_position/net_position_state.dart';
+
 class NetPositionFilterBar extends StatelessWidget {
   const NetPositionFilterBar({Key? key}) : super(key: key);
   @override

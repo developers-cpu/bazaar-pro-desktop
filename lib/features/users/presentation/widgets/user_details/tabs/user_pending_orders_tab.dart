@@ -16,6 +16,7 @@ import '../../../bloc/user_pending_order/user_pending_order_bloc.dart';
 import '../../../bloc/user_pending_order/user_pending_order_event.dart';
 import '../../../bloc/user_pending_order/user_pending_order_state.dart';
 import '../../../../../../injection_container.dart';
+
 class UserPendingOrdersTab extends StatelessWidget {
   final User user;
   const UserPendingOrdersTab({super.key, required this.user});
@@ -28,6 +29,7 @@ class UserPendingOrdersTab extends StatelessWidget {
     );
   }
 }
+
 class UserPendingOrdersTabView extends StatelessWidget {
   const UserPendingOrdersTabView({super.key});
   @override
@@ -40,6 +42,7 @@ class UserPendingOrdersTabView extends StatelessWidget {
       ],
     );
   }
+
   Widget _buildFilterBar(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(12.w),
@@ -137,6 +140,7 @@ class UserPendingOrdersTabView extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildRecordCount(BuildContext context) {
     return Container(
       color: AppColors.white,
@@ -152,6 +156,7 @@ class UserPendingOrdersTabView extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildContent(BuildContext context) {
     return BlocBuilder<UserPendingOrderBloc, UserPendingOrderState>(
       builder: (context, state) {

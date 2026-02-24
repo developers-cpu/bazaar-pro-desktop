@@ -7,6 +7,7 @@ import '../constants/app_images.dart';
 import '../constants/app_strings.dart';
 import 'svg_icon.dart';
 import '../routes/app_routes.dart';
+
 class CommonAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String username;
   final String version;
@@ -38,6 +39,7 @@ class CommonAppBar extends StatefulWidget implements PreferredSizeWidget {
   @override
   State<CommonAppBar> createState() => _CommonAppBarState();
 }
+
 class _CommonAppBarState extends State<CommonAppBar>
     with SingleTickerProviderStateMixin {
   int? _hoveredDropdownIndex;
@@ -52,6 +54,7 @@ class _CommonAppBarState extends State<CommonAppBar>
       _tabKeys[i] = GlobalKey();
     }
   }
+
   @override
   void didUpdateWidget(CommonAppBar oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -65,15 +68,18 @@ class _CommonAppBarState extends State<CommonAppBar>
       _isExportExpanded = false;
     }
   }
+
   @override
   void dispose() {
     _removeDropdown();
     super.dispose();
   }
+
   void _removeDropdown() {
     _dropdownOverlay?.remove();
     _dropdownOverlay = null;
   }
+
   void _showDropdown(int index) {
     if (!widget.tabs[index].hasDropdown) return;
     _removeDropdown();
@@ -99,16 +105,19 @@ class _CommonAppBarState extends State<CommonAppBar>
     Overlay.of(context).insert(_dropdownOverlay!);
     setState(() => _hoveredDropdownIndex = index);
   }
+
   void _toggleExportButtons() {
     setState(() {
       _isExportExpanded = !_isExportExpanded;
     });
   }
+
   void _closeExportButtons() {
     setState(() {
       _isExportExpanded = false;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -126,6 +135,7 @@ class _CommonAppBarState extends State<CommonAppBar>
       ),
     );
   }
+
   Widget _buildLogo() {
     return ClipRRect(
       borderRadius: BorderRadius.circular(10.r),
@@ -157,6 +167,7 @@ class _CommonAppBarState extends State<CommonAppBar>
       ),
     );
   }
+
   Widget _buildMenuBar() {
     return Container(
       height: 44.h,
@@ -186,6 +197,7 @@ class _CommonAppBarState extends State<CommonAppBar>
       ),
     );
   }
+
   Widget _buildNavTab(int index, AppBarTab tab, {required bool isSelected}) {
     final hasDropdown = tab.hasDropdown;
     final isDropdownOpen = _hoveredDropdownIndex == index;
@@ -266,6 +278,7 @@ class _CommonAppBarState extends State<CommonAppBar>
       ),
     );
   }
+
   Widget _buildRightSection(BuildContext context) {
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -288,6 +301,7 @@ class _CommonAppBarState extends State<CommonAppBar>
       ],
     );
   }
+
   Widget _buildCollapsedExportButton() {
     return GestureDetector(
       onTap: _toggleExportButtons,
@@ -310,6 +324,7 @@ class _CommonAppBarState extends State<CommonAppBar>
       ),
     );
   }
+
   Widget _buildExpandedExportButtons() {
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -371,6 +386,7 @@ class _CommonAppBarState extends State<CommonAppBar>
       ],
     );
   }
+
   Widget _buildReloadButton(BuildContext context) {
     return GestureDetector(
       onTap: widget.onReload,
@@ -381,6 +397,7 @@ class _CommonAppBarState extends State<CommonAppBar>
       ),
     );
   }
+
   Widget _buildUserInfoSection(BuildContext context) {
     return Container(
       height: 44.h,
@@ -401,6 +418,7 @@ class _CommonAppBarState extends State<CommonAppBar>
       ),
     );
   }
+
   Widget _buildUserInitial() {
     return Container(
       width: 26.w,
@@ -427,6 +445,7 @@ class _CommonAppBarState extends State<CommonAppBar>
       ),
     );
   }
+
   Widget _buildUserDetails() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -456,6 +475,7 @@ class _CommonAppBarState extends State<CommonAppBar>
       ],
     );
   }
+
   Widget _buildLogoutButton(BuildContext context) {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
@@ -476,6 +496,7 @@ class _CommonAppBarState extends State<CommonAppBar>
     );
   }
 }
+
 class _ExportButton extends StatelessWidget {
   final String icon;
   final String label;
@@ -517,6 +538,7 @@ class _ExportButton extends StatelessWidget {
     );
   }
 }
+
 class _DropdownMenu extends StatelessWidget {
   final List<MenuItemData> items;
   final VoidCallback onDismiss;
@@ -568,6 +590,7 @@ class _DropdownMenu extends StatelessWidget {
     );
   }
 }
+
 class _DropdownMenuItem extends StatefulWidget {
   final String title;
   final VoidCallback? onTap;
@@ -580,6 +603,7 @@ class _DropdownMenuItem extends StatefulWidget {
   @override
   State<_DropdownMenuItem> createState() => _DropdownMenuItemState();
 }
+
 class _DropdownMenuItemState extends State<_DropdownMenuItem> {
   bool _isHovered = false;
   @override

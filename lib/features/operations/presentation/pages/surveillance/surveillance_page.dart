@@ -15,11 +15,13 @@ import '../../widgets/surveillance/bulk_order_data_table.dart';
 import '../../widgets/surveillance/vpn_restriction_view.dart';
 import '../../widgets/surveillance/import_surveillance_dialog.dart';
 import '../../../domain/entities/surveillance/surveillance_data.dart';
+
 class SurveillancePage extends StatefulWidget {
   const SurveillancePage({super.key});
   @override
   State<SurveillancePage> createState() => _SurveillancePageState();
 }
+
 class _SurveillancePageState extends State<SurveillancePage> {
   int _activeTab = 0;
   final _searchCtrl = TextEditingController();
@@ -47,12 +49,14 @@ class _SurveillancePageState extends State<SurveillancePage> {
     _tradeSlLimitCtrl.dispose();
     super.dispose();
   }
+
   void _showImportDialog() {
     showDialog(
       context: context,
       builder: (_) => const ImportSurveillanceDialog(),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<SurveillanceBloc, SurveillanceState>(
@@ -102,6 +106,7 @@ class _SurveillancePageState extends State<SurveillancePage> {
       },
     );
   }
+
   List<Widget> _buildBulkOrderHeader(SurveillanceData? data) {
     return [
       Row(
@@ -153,6 +158,7 @@ class _SurveillancePageState extends State<SurveillancePage> {
       ),
     ];
   }
+
   List<Widget> _buildBulkOrderSearchAndTable(
     SurveillanceState state,
     SurveillanceData? data,
@@ -194,6 +200,7 @@ class _SurveillancePageState extends State<SurveillancePage> {
       ),
     ];
   }
+
   Widget _buildLabeledInput(
     String label,
     TextEditingController controller, {

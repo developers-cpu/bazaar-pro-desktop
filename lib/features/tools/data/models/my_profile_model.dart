@@ -1,4 +1,5 @@
 import '../../domain/entities/my_profile_entity.dart';
+
 class MyProfileModel extends MyProfileEntity {
   const MyProfileModel({
     required super.userName,

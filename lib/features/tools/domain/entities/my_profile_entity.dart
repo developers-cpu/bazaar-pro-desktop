@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+
 class MyProfileEntity extends Equatable {
   final String userName;
   final String name;

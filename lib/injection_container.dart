@@ -923,7 +923,6 @@ Future<void> init() async {
   sl.registerLazySingleton<SettlementReportRemoteDataSource>(
     () => SettlementReportRemoteDataSourceImpl(),
   );
-
   sl.registerFactory(
     () => UsersBillSummaryBloc(getUsers: sl(), getBillSummaryData: sl()),
   );

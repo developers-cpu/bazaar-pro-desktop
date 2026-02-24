@@ -4,6 +4,7 @@ import '../../../domain/entities/trades/trade.dart';
 import '../../../domain/usecases/trade/trades_usecases.dart';
 import 'trades_event.dart';
 import 'trades_state.dart';
+
 class TradesBloc extends Bloc<TradesEvent, TradesState> {
   final GetTrades getTrades;
   final GetTradesWithFilters getTradesWithFilters;
@@ -89,6 +90,7 @@ class TradesBloc extends Bloc<TradesEvent, TradesState> {
       emit(TradesError(e.toString()));
     }
   }
+
   Future<void> _onApplyFilters(
     ApplyFiltersEvent event,
     Emitter<TradesState> emit,
@@ -122,6 +124,7 @@ class TradesBloc extends Bloc<TradesEvent, TradesState> {
       ),
     );
   }
+
   Future<void> _onResetFilters(
     ResetFiltersEvent event,
     Emitter<TradesState> emit,
@@ -140,11 +143,13 @@ class TradesBloc extends Bloc<TradesEvent, TradesState> {
       ),
     );
   }
+
   void _onSelectTrade(SelectTradeEvent event, Emitter<TradesState> emit) {
     if (state is! TradesLoaded) return;
     final currentState = state as TradesLoaded;
     emit(currentState.copyWith(selectedTradeId: event.tradeId));
   }
+
   void _onSortByColumn(
     SortTradesByColumnEvent event,
     Emitter<TradesState> emit,
@@ -207,6 +212,7 @@ class TradesBloc extends Bloc<TradesEvent, TradesState> {
       ),
     );
   }
+
   Future<void> _onExportToPdf(
     ExportTradesToPdfEvent event,
     Emitter<TradesState> emit,
@@ -224,6 +230,7 @@ class TradesBloc extends Bloc<TradesEvent, TradesState> {
       emit(currentState);
     });
   }
+
   Future<void> _onExportToExcel(
     ExportTradesToExcelEvent event,
     Emitter<TradesState> emit,

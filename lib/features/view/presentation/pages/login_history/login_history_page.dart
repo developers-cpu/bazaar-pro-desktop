@@ -7,11 +7,13 @@ import '../../bloc/login_history/login_history_event.dart';
 import '../../bloc/login_history/login_history_state.dart';
 import '../../widget/login_history/login_history_filter_bar.dart';
 import '../../widget/login_history/login_history_table.dart';
+
 class LoginHistoryPage extends StatefulWidget {
   const LoginHistoryPage({Key? key}) : super(key: key);
   @override
   State<LoginHistoryPage> createState() => _LoginHistoryPageState();
 }
+
 class _LoginHistoryPageState extends State<LoginHistoryPage> {
   @override
   void initState() {
@@ -20,6 +22,7 @@ class _LoginHistoryPageState extends State<LoginHistoryPage> {
       context.read<LoginHistoryBloc>().add(const LoadClientsEvent());
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<LoginHistoryBloc, LoginHistoryState>(
@@ -35,6 +38,7 @@ class _LoginHistoryPageState extends State<LoginHistoryPage> {
       ),
     );
   }
+
   void _handleStateChange(BuildContext context, LoginHistoryState state) {
     if (state is LoginHistoryExportSuccess) {
       ScaffoldMessenger.of(context).showSnackBar(

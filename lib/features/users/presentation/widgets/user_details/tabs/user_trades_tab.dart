@@ -16,6 +16,7 @@ import '../../../../domain/entities/user.dart';
 import '../../../bloc/user_trades/user_trades_bloc.dart';
 import '../../../bloc/user_trades/user_trades_event.dart';
 import '../../../bloc/user_trades/user_trades_state.dart';
+
 class UserTradesTab extends StatelessWidget {
   final User user;
   const UserTradesTab({super.key, required this.user});
@@ -27,6 +28,7 @@ class UserTradesTab extends StatelessWidget {
     );
   }
 }
+
 class UserTradesTabView extends StatelessWidget {
   const UserTradesTabView({super.key});
   @override
@@ -39,6 +41,7 @@ class UserTradesTabView extends StatelessWidget {
       ],
     );
   }
+
   Widget _buildFilterBar(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(12.w),
@@ -164,6 +167,7 @@ class UserTradesTabView extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildRecordCount(BuildContext context) {
     return Container(
       color: AppColors.white,
@@ -179,6 +183,7 @@ class UserTradesTabView extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildTable(BuildContext context) {
     return BlocBuilder<UserTradesBloc, UserTradesState>(
       builder: (context, state) {
@@ -348,6 +353,7 @@ class UserTradesTabView extends StatelessWidget {
       },
     );
   }
+
   TextStyle _cellStyle({
     Color? color,
     bool isSymbol = false,

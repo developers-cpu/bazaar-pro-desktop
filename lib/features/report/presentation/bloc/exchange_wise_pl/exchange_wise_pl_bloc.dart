@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../../core/usecases/usecase.dart';
 import 'exchange_wise_pl_event.dart';
 import 'exchange_wise_pl_state.dart';
+
 class ExchangeWisePLBloc
     extends Bloc<ExchangeWisePLEvent, ExchangeWisePLState> {
   final GetExchangeWisePLReport getExchangeWisePLReport;

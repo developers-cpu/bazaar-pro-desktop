@@ -5,8 +5,9 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/widget/common_dilog_box.dart';
 import '../../../../market_watch/presentation/widgets/order/order_number_field.dart';
 import '../../../domain/entities/pending_orders/pending_order.dart';
-import '../../../../../core/widget/custom_toggle_switch.dart';
+import '../../../../../core/widget/app_switch.dart';
 import '../../../../../core/widget/table/animated_price_box.dart';
+
 class ModifyOrderDialog extends StatefulWidget {
   final PendingOrder order;
   final bool isDarkMode;
@@ -26,9 +27,11 @@ class ModifyOrderDialog extends StatefulWidget {
       builder: (_) => ModifyOrderDialog(order: order, isDarkMode: isDarkMode),
     );
   }
+
   @override
   State<ModifyOrderDialog> createState() => _ModifyOrderDialogState();
 }
+
 class _ModifyOrderDialogState extends State<ModifyOrderDialog> {
   static const _depthData = [
     {'price': '25639', 'orders': '2', 'qty': '2'},
@@ -46,6 +49,7 @@ class _ModifyOrderDialogState extends State<ModifyOrderDialog> {
     _price = widget.order.triggerPrice.toInt();
     _lot = widget.order.lot.toInt();
   }
+
   @override
   Widget build(BuildContext context) {
     return CommonDialog(
@@ -79,6 +83,7 @@ class _ModifyOrderDialogState extends State<ModifyOrderDialog> {
       ),
     );
   }
+
   Widget _buildSymbolRow() {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
@@ -119,6 +124,7 @@ class _ModifyOrderDialogState extends State<ModifyOrderDialog> {
       ),
     );
   }
+
   Widget _buildUserIdField() {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
@@ -136,17 +142,39 @@ class _ModifyOrderDialogState extends State<ModifyOrderDialog> {
       ),
     );
   }
+
   Widget _buildOrderControls() {
     return Container(
       padding: EdgeInsets.all(16.w),
       child: Column(
         children: [
-          CustomToggleSwitch(
-            leftLabel: 'Limit',
-            rightLabel: 'SL',
-            isLeftSelected: _isLimit,
-            onChanged: (val) => setState(() => _isLimit = val),
-            activeColor: AppColors.primaryBlue,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Limit',
+                style: GoogleFonts.openSans(
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w600,
+                  color: _isLimit ? AppColors.primaryBlue : AppColors.grey,
+                ),
+              ),
+              SizedBox(width: 8.w),
+              AppSwitch(
+                value: !_isLimit,
+                onChanged: (val) => setState(() => _isLimit = !val),
+                activeColor: AppColors.primaryBlue,
+              ),
+              SizedBox(width: 8.w),
+              Text(
+                'SL',
+                style: GoogleFonts.openSans(
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w600,
+                  color: !_isLimit ? AppColors.primaryBlue : AppColors.grey,
+                ),
+              ),
+            ],
           ),
           SizedBox(height: 16.h),
           _buildStepperRow(
@@ -160,6 +188,7 @@ class _ModifyOrderDialogState extends State<ModifyOrderDialog> {
       ),
     );
   }
+
   Widget _buildActionButtons() {
     return Row(
       children: [
@@ -177,6 +206,7 @@ class _ModifyOrderDialogState extends State<ModifyOrderDialog> {
       ],
     );
   }
+
   Widget _buildOrderButton({
     required String label,
     required String price,
@@ -218,6 +248,7 @@ class _ModifyOrderDialogState extends State<ModifyOrderDialog> {
       ),
     );
   }
+
   Widget _buildPositionInfo() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -241,6 +272,7 @@ class _ModifyOrderDialogState extends State<ModifyOrderDialog> {
       ],
     );
   }
+
   Widget _buildInfoCards() {
     return Row(
       children: [
@@ -266,6 +298,7 @@ class _ModifyOrderDialogState extends State<ModifyOrderDialog> {
       ],
     );
   }
+
   Widget _buildDepthCards() {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -288,6 +321,7 @@ class _ModifyOrderDialogState extends State<ModifyOrderDialog> {
       ],
     );
   }
+
   Widget _buildDepthSection({
     required String title,
     required Color bgColor,
@@ -331,6 +365,7 @@ class _ModifyOrderDialogState extends State<ModifyOrderDialog> {
       ),
     );
   }
+
   Widget _buildDepthRow(
     String price,
     String orders,
@@ -384,6 +419,7 @@ class _ModifyOrderDialogState extends State<ModifyOrderDialog> {
       ),
     );
   }
+
   Widget _buildInfoCard(Map<String, String> items) {
     return Container(
       padding: EdgeInsets.all(12.w),
@@ -423,6 +459,7 @@ class _ModifyOrderDialogState extends State<ModifyOrderDialog> {
       ),
     );
   }
+
   Widget _buildStepperRow(
     String label,
     int value,

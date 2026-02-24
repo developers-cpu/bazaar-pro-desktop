@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
 import '../../../domain/entities/bill_comparison/bill_comparison_entity.dart';
+
 class BillComparisonDataTable extends StatelessWidget {
   final List<BillComparisonEntity> data;
   const BillComparisonDataTable({super.key, required this.data});
@@ -85,6 +86,7 @@ class BillComparisonDataTable extends StatelessWidget {
       },
     );
   }
+
   Widget _buildText(String text) {
     return Text(
       text,
@@ -95,6 +97,7 @@ class BillComparisonDataTable extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildHighlightedText(String text, bool isMismatch) {
     return Text(
       text,
@@ -105,6 +108,7 @@ class BillComparisonDataTable extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildTypeCell(String type) {
     bool isMismatch =
         type.toLowerCase().contains('mistmatch') ||

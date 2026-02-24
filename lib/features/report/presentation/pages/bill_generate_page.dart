@@ -6,6 +6,7 @@ import '../bloc/bill_generate/bill_generate_event.dart';
 import '../bloc/bill_generate/bill_generate_state.dart';
 import '../widgets/bill_generate/bill_generate_filter_bar.dart';
 import '../widgets/bill_generate/bill_generate_view.dart';
+
 class BillGeneratePage extends StatelessWidget {
   const BillGeneratePage({super.key});
   @override

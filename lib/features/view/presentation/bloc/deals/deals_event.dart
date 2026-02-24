@@ -1,15 +1,19 @@
 import 'package:equatable/equatable.dart';
+
 abstract class DealsEvent extends Equatable {
   const DealsEvent();
   @override
   List<Object?> get props => [];
 }
+
 class LoadDealsEvent extends DealsEvent {
   const LoadDealsEvent();
 }
+
 class LoadFilterDataEvent extends DealsEvent {
   const LoadFilterDataEvent();
 }
+
 class ApplyFiltersEvent extends DealsEvent {
   final DateTime? startDate;
   final DateTime? endDate;
@@ -38,15 +42,18 @@ class ApplyFiltersEvent extends DealsEvent {
     status,
   ];
 }
+
 class ResetFiltersEvent extends DealsEvent {
   const ResetFiltersEvent();
 }
+
 class SelectDealEvent extends DealsEvent {
   final String dealId;
   const SelectDealEvent(this.dealId);
   @override
   List<Object?> get props => [dealId];
 }
+
 class SortDealsByColumnEvent extends DealsEvent {
   final String columnId;
   final bool ascending;
@@ -57,12 +64,15 @@ class SortDealsByColumnEvent extends DealsEvent {
   @override
   List<Object?> get props => [columnId, ascending];
 }
+
 class ExportDealsToPdfEvent extends DealsEvent {
   const ExportDealsToPdfEvent();
 }
+
 class ExportDealsToExcelEvent extends DealsEvent {
   const ExportDealsToExcelEvent();
 }
+
 class UpdateDateRangeEvent extends DealsEvent {
   final DateTime? startDate;
   final DateTime? endDate;

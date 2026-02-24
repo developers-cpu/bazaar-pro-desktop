@@ -3,6 +3,7 @@ import '../../../../../core/errors/failures.dart';
 import '../../../../../core/usecases/usecase.dart';
 import '../../entities/intraday_history/intraday_history.dart';
 import '../../repositories/intraday_history/intraday_history_repository.dart';
+
 class GetIntradayHistory
     implements UseCase<List<IntradayHistory>, IntradayHistoryParams> {
   final IntradayHistoryRepository repository;
@@ -19,6 +20,7 @@ class GetIntradayHistory
     );
   }
 }
+
 class IntradayHistoryParams {
   final DateTime? date;
   final String? exchange;
@@ -31,6 +33,7 @@ class IntradayHistoryParams {
     this.timing,
   });
 }
+
 class GetIntradayHistoryInSeconds
     implements UseCase<List<IntradayHistory>, IntradayHistorySecondsParams> {
   final IntradayHistoryRepository repository;
@@ -48,6 +51,7 @@ class GetIntradayHistoryInSeconds
     );
   }
 }
+
 class IntradayHistorySecondsParams {
   final DateTime date;
   final String exchange;
@@ -62,6 +66,7 @@ class IntradayHistorySecondsParams {
     required this.endTime,
   });
 }
+
 class GetIntradayExchanges implements UseCase<List<String>, NoParams> {
   final IntradayHistoryRepository repository;
   GetIntradayExchanges(this.repository);
@@ -70,6 +75,7 @@ class GetIntradayExchanges implements UseCase<List<String>, NoParams> {
     return repository.getExchanges();
   }
 }
+
 class GetIntradaySymbols implements UseCase<List<String>, NoParams> {
   final IntradayHistoryRepository repository;
   GetIntradaySymbols(this.repository);
@@ -78,6 +84,7 @@ class GetIntradaySymbols implements UseCase<List<String>, NoParams> {
     return repository.getSymbols();
   }
 }
+
 class GetIntradayTimings implements UseCase<List<String>, NoParams> {
   final IntradayHistoryRepository repository;
   GetIntradayTimings(this.repository);
@@ -86,6 +93,7 @@ class GetIntradayTimings implements UseCase<List<String>, NoParams> {
     return repository.getTimings();
   }
 }
+
 class GetAvailableTimeSlots implements UseCase<List<TimeSlot>, DateTime> {
   final IntradayHistoryRepository repository;
   GetAvailableTimeSlots(this.repository);
@@ -94,6 +102,7 @@ class GetAvailableTimeSlots implements UseCase<List<TimeSlot>, DateTime> {
     return repository.getAvailableTimeSlots(date);
   }
 }
+
 class ExportIntradayToPdf implements UseCase<String, List<IntradayHistory>> {
   final IntradayHistoryRepository repository;
   ExportIntradayToPdf(this.repository);
@@ -102,6 +111,7 @@ class ExportIntradayToPdf implements UseCase<String, List<IntradayHistory>> {
     return repository.exportToPdf(history);
   }
 }
+
 class ExportIntradayToExcel implements UseCase<String, List<IntradayHistory>> {
   final IntradayHistoryRepository repository;
   ExportIntradayToExcel(this.repository);

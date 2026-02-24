@@ -27,13 +27,11 @@ class UsersBillSummaryDataLoaded extends UsersBillSummaryState {
   final List<String> users;
   final List<UsersBillSummaryEntity> summaryData;
   final String? selectedUser;
-
   const UsersBillSummaryDataLoaded({
     required this.users,
     required this.summaryData,
     this.selectedUser,
   });
-
   @override
   List<Object?> get props => [users, summaryData, selectedUser];
 }

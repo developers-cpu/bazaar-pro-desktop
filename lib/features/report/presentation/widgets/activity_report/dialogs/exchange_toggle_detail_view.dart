@@ -6,6 +6,7 @@ import '../../../../../../core/widget/table/view_record_count.dart';
 import '../../../../../../core/widget/table/view_table_cell_styles.dart';
 import '../../../bloc/activity_detail/activity_detail_bloc.dart';
 import '../../../bloc/activity_detail/activity_detail_state.dart';
+
 class ExchangeToggleDetailView extends StatelessWidget {
   final String oldLabel;
   final String newLabel;

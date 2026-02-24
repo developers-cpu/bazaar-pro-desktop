@@ -1,10 +1,13 @@
 import 'package:equatable/equatable.dart';
+
 abstract class GroupEvent extends Equatable {
   const GroupEvent();
   @override
   List<Object?> get props => [];
 }
+
 class LoadGroupsEvent extends GroupEvent {}
+
 class AddGroupEvent extends GroupEvent {
   final String exchange;
   final String groupName;
@@ -17,6 +20,7 @@ class AddGroupEvent extends GroupEvent {
   @override
   List<Object?> get props => [exchange, groupName, isDefault];
 }
+
 class ImportGroupEvent extends GroupEvent {
   final String filePath;
   const ImportGroupEvent({required this.filePath});

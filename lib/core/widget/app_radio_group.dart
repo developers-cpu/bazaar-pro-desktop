@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../constants/app_colors.dart';
+
 class AppRadioGroup<T> extends StatelessWidget {
   final List<RadioOption<T>> options;
   final T? value;
@@ -41,6 +42,7 @@ class AppRadioGroup<T> extends StatelessWidget {
       }).toList(),
     );
   }
+
   Widget _buildRadioOption(
     BuildContext context,
     RadioOption<T> option,
@@ -94,6 +96,7 @@ class AppRadioGroup<T> extends StatelessWidget {
     );
   }
 }
+
 class RadioOption<T> {
   final T value;
   final String label;

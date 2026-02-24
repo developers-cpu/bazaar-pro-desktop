@@ -1,9 +1,11 @@
 import 'package:bazarpro/features/users/data/models/user_intraday_square_off/user_intraday_square_off_model.dart';
+
 abstract class UserIntradaySquareOffDataSource {
   Future<List<UserIntradaySquareOffModel>> getUserIntradaySquareOff(
     String userId,
   );
 }
+
 class UserIntradaySquareOffDataSourceImpl
     implements UserIntradaySquareOffDataSource {
   static const List<String> _exchangeKeys = [
@@ -35,6 +37,7 @@ class UserIntradaySquareOffDataSourceImpl
       );
     }).toList();
   }
+
   String _getDefaultTime(String exchange) {
     switch (exchange) {
       case 'NSE':

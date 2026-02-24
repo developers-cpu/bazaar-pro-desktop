@@ -6,7 +6,6 @@ class UsersBillSummaryModel extends UsersBillSummaryEntity {
     required String uName,
     required double netPL,
   }) : super(puName: puName, uName: uName, netPL: netPL);
-
   factory UsersBillSummaryModel.fromJson(Map<String, dynamic> json) {
     return UsersBillSummaryModel(
       puName: json['puName'] ?? '',
@@ -14,7 +13,6 @@ class UsersBillSummaryModel extends UsersBillSummaryEntity {
       netPL: (json['netPL'] ?? 0.0).toDouble(),
     );
   }
-
   Map<String, dynamic> toJson() {
     return {'puName': puName, 'uName': uName, 'netPL': netPL};
   }

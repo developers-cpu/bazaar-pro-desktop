@@ -3,6 +3,7 @@ import 'package:bazarpro/features/operations/domain/entities/date_settings/date_
 import 'package:dartz/dartz.dart';
 import '../../../../../core/errors/failures.dart';
 import '../../repositories/date_settings/date_settings_repository.dart';
+
 class GetDateSettings implements UseCase<List<DateSetting>, NoParams> {
   final DateSettingsRepository repository;
   GetDateSettings(this.repository);

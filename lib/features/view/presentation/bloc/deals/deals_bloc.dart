@@ -4,6 +4,7 @@ import '../../../domain/entities/deals/deals.dart';
 import '../../../domain/usecases/deals/deals_usecases.dart';
 import 'deals_event.dart';
 import 'deals_state.dart';
+
 class DealsBloc extends Bloc<DealsEvent, DealsState> {
   final GetDeals getDeals;
   final GetDealsWithFilters getDealsWithFilters;
@@ -95,6 +96,7 @@ class DealsBloc extends Bloc<DealsEvent, DealsState> {
       emit(DealsError(e.toString()));
     }
   }
+
   Future<void> _onApplyFilters(
     ApplyFiltersEvent event,
     Emitter<DealsState> emit,
@@ -130,6 +132,7 @@ class DealsBloc extends Bloc<DealsEvent, DealsState> {
       ),
     );
   }
+
   Future<void> _onResetFilters(
     ResetFiltersEvent event,
     Emitter<DealsState> emit,
@@ -149,11 +152,13 @@ class DealsBloc extends Bloc<DealsEvent, DealsState> {
       ),
     );
   }
+
   void _onSelectDeal(SelectDealEvent event, Emitter<DealsState> emit) {
     if (state is! DealsLoaded) return;
     final currentState = state as DealsLoaded;
     emit(currentState.copyWith(selectedDealId: event.dealId));
   }
+
   void _onSortByColumn(SortDealsByColumnEvent event, Emitter<DealsState> emit) {
     if (state is! DealsLoaded) return;
     final currentState = state as DealsLoaded;
@@ -219,6 +224,7 @@ class DealsBloc extends Bloc<DealsEvent, DealsState> {
       ),
     );
   }
+
   Future<void> _onExportToPdf(
     ExportDealsToPdfEvent event,
     Emitter<DealsState> emit,
@@ -236,6 +242,7 @@ class DealsBloc extends Bloc<DealsEvent, DealsState> {
       emit(currentState);
     });
   }
+
   Future<void> _onExportToExcel(
     ExportDealsToExcelEvent event,
     Emitter<DealsState> emit,

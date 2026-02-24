@@ -1,6 +1,7 @@
 import '../../../domain/entities/surveillance/surveillance_data.dart';
 import 'surveillance_bulk_order_model.dart';
 import 'surveillance_vpn_model.dart';
+
 class SurveillanceDataModel extends SurveillanceData {
   const SurveillanceDataModel({
     required super.bulkOrders,
@@ -26,6 +27,7 @@ class SurveillanceDataModel extends SurveillanceData {
       'vpnRestriction': (vpnRestriction as SurveillanceVpnModel).toJson(),
     };
   }
+
   factory SurveillanceDataModel.fromEntity(SurveillanceData entity) {
     return SurveillanceDataModel(
       bulkOrders: entity.bulkOrders

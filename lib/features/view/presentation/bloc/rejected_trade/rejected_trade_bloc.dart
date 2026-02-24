@@ -14,7 +14,6 @@ class RejectedTradeBloc extends Bloc<RejectedTradeEvent, RejectedTradeState> {
   final GetRejectedTradeSymbols getSymbols;
   final ExportRejectedTradesToPdf exportToPdf;
   final ExportRejectedTradesToExcel exportToExcel;
-
   RejectedTradeBloc({
     required this.getRejectedTrades,
     required this.getRejectedTradesWithFilters,
@@ -32,7 +31,6 @@ class RejectedTradeBloc extends Bloc<RejectedTradeEvent, RejectedTradeState> {
     on<ExportRejectedTradesToPdfEvent>(_onExportToPdf);
     on<ExportRejectedTradesToExcelEvent>(_onExportToExcel);
   }
-
   Future<void> _onLoadRejectedTrades(
     LoadRejectedTradesEvent event,
     Emitter<RejectedTradeState> emit,
@@ -46,19 +44,16 @@ class RejectedTradeBloc extends Bloc<RejectedTradeEvent, RejectedTradeState> {
         getExchanges(NoParams()),
         getSymbols(NoParams()),
       ]);
-
       final tradesResult = results[0];
       final userTypesResult = results[1];
       final usersResult = results[2];
       final exchangesResult = results[3];
       final symbolsResult = results[4];
-
       if (tradesResult.isLeft()) {
         final failure = tradesResult.fold((l) => l, (r) => null);
         emit(RejectedTradeError(failure?.message ?? 'Failed to load trades'));
         return;
       }
-
       final trades = tradesResult.fold(
         (l) => <RejectedTrade>[],
         (r) => r as List<RejectedTrade>,
@@ -79,7 +74,6 @@ class RejectedTradeBloc extends Bloc<RejectedTradeEvent, RejectedTradeState> {
         (l) => <String>[],
         (r) => r as List<String>,
       );
-
       emit(
         RejectedTradeLoaded(
           trades: trades,
@@ -102,9 +96,7 @@ class RejectedTradeBloc extends Bloc<RejectedTradeEvent, RejectedTradeState> {
   ) async {
     if (state is! RejectedTradeLoaded) return;
     final currentState = state as RejectedTradeLoaded;
-
     emit(const RejectedTradeLoading());
-
     final result = await getRejectedTradesWithFilters(
       RejectedTradeFilterParams(
         userType: event.userType,
@@ -113,7 +105,6 @@ class RejectedTradeBloc extends Bloc<RejectedTradeEvent, RejectedTradeState> {
         symbol: event.symbol,
       ),
     );
-
     result.fold(
       (failure) => emit(RejectedTradeError(failure.message)),
       (trades) => emit(
@@ -135,7 +126,6 @@ class RejectedTradeBloc extends Bloc<RejectedTradeEvent, RejectedTradeState> {
   ) async {
     if (state is! RejectedTradeLoaded) return;
     final currentState = state as RejectedTradeLoaded;
-
     emit(
       RejectedTradeLoaded(
         trades: currentState.trades,
@@ -155,7 +145,6 @@ class RejectedTradeBloc extends Bloc<RejectedTradeEvent, RejectedTradeState> {
   ) {
     if (state is! RejectedTradeLoaded) return;
     final currentState = state as RejectedTradeLoaded;
-
     final sortedTrades = List<RejectedTrade>.from(currentState.filteredTrades);
     sortedTrades.sort((a, b) {
       int comparison = 0;
@@ -219,7 +208,6 @@ class RejectedTradeBloc extends Bloc<RejectedTradeEvent, RejectedTradeState> {
       }
       return event.ascending ? comparison : -comparison;
     });
-
     emit(
       currentState.copyWith(
         filteredTrades: sortedTrades,
@@ -235,7 +223,6 @@ class RejectedTradeBloc extends Bloc<RejectedTradeEvent, RejectedTradeState> {
   ) async {
     if (state is! RejectedTradeLoaded) return;
     final currentState = state as RejectedTradeLoaded;
-
     final result = await exportToPdf(currentState.filteredTrades);
     result.fold((failure) => emit(RejectedTradeError(failure.message)), (path) {
       emit(
@@ -254,7 +241,6 @@ class RejectedTradeBloc extends Bloc<RejectedTradeEvent, RejectedTradeState> {
   ) async {
     if (state is! RejectedTradeLoaded) return;
     final currentState = state as RejectedTradeLoaded;
-
     final result = await exportToExcel(currentState.filteredTrades);
     result.fold((failure) => emit(RejectedTradeError(failure.message)), (path) {
       emit(

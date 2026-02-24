@@ -13,6 +13,7 @@ import '../../../../../core/widget/table/view_data_table.dart';
 import '../../../../../core/widget/table/view_record_count.dart';
 import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import 'client_breakdown_dialog.dart';
+
 class BrokerClientDialog extends StatelessWidget {
   final String brokerName;
   final bool isDarkMode;
@@ -41,6 +42,7 @@ class BrokerClientDialog extends StatelessWidget {
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return CommonDialog(

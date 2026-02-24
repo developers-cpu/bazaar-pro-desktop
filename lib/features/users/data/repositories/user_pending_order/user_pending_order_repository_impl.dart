@@ -4,6 +4,7 @@ import '../../../domain/entities/user_pending_order/user_pending_order.dart';
 import '../../../domain/entities/user_pending_order/user_pending_order_metadata.dart';
 import '../../../domain/repositories/user_pending_order/user_pending_order_repository.dart';
 import '../../datasources/user_pending_order/user_pending_order_datasource.dart';
+
 class UserPendingOrderRepositoryImpl implements UserPendingOrderRepository {
   final UserPendingOrderDataSource dataSource;
   UserPendingOrderRepositoryImpl({required this.dataSource});
@@ -18,6 +19,7 @@ class UserPendingOrderRepositoryImpl implements UserPendingOrderRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
   @override
   Future<Either<Failure, UserPendingOrderMetadata>>
   getPendingOrderMetadata() async {

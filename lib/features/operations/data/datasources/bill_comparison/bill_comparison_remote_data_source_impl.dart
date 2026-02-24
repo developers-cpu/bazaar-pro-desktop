@@ -1,5 +1,6 @@
 import '../../models/bill_comparison/bill_comparison_model.dart';
 import 'bill_comparison_remote_data_source.dart';
+
 class BillComparisonRemoteDataSourceImpl
     implements BillComparisonRemoteDataSource {
   @override
@@ -59,7 +60,7 @@ class BillComparisonRemoteDataSourceImpl
         billTotal: '350000000',
         billBrokerage: '5500',
         billNetTotal: '5500',
-        settlementTotal: '250000000', 
+        settlementTotal: '250000000',
         settlementBrokerage: '5500',
         settlementNetTotal: '5500',
         type: 'Mistmatch',
@@ -71,7 +72,7 @@ class BillComparisonRemoteDataSourceImpl
         billBrokerage: '5500',
         billNetTotal: '5500',
         settlementTotal: '350000000',
-        settlementBrokerage: '500', 
+        settlementBrokerage: '500',
         settlementNetTotal: '5500',
         type: 'Mistmatch',
       ),
@@ -105,7 +106,7 @@ class BillComparisonRemoteDataSourceImpl
         billNetTotal: '5500',
         settlementTotal: '350000000',
         settlementBrokerage: '5500',
-        settlementNetTotal: '200', 
+        settlementNetTotal: '200',
         type: 'Mistmatch',
       ),
     ];

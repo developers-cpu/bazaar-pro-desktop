@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
 import '../../../domain/entities/server/server_entity.dart';
+
 enum ServerStatus { initial, loading, success, failure }
+
 class ServerState extends Equatable {
   final List<ServerEntity> servers;
   final List<ServerEntity> filteredServers;
@@ -29,6 +31,7 @@ class ServerState extends Equatable {
       searchQuery: searchQuery ?? this.searchQuery,
     );
   }
+
   @override
   List<Object?> get props => [
     servers,

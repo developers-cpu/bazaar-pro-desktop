@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'arrange_symbol_event.dart';
 import 'arrange_symbol_state.dart';
+
 class ArrangeSymbolBloc extends Bloc<ArrangeSymbolEvent, ArrangeSymbolState> {
   static const List<ColumnItem> _defaultColumns = [
     ColumnItem(id: 'exchange', name: 'EXCHANGE', isVisible: true),
@@ -39,6 +40,7 @@ class ArrangeSymbolBloc extends Bloc<ArrangeSymbolEvent, ArrangeSymbolState> {
       ),
     );
   }
+
   void _onToggleColumn(
     ToggleColumnEvent event,
     Emitter<ArrangeSymbolState> emit,
@@ -55,6 +57,7 @@ class ArrangeSymbolBloc extends Bloc<ArrangeSymbolEvent, ArrangeSymbolState> {
     }
     emit(state.copyWith(columns: updatedColumns, isSaved: false));
   }
+
   void _onReorderColumn(
     ReorderColumnEvent event,
     Emitter<ArrangeSymbolState> emit,
@@ -68,6 +71,7 @@ class ArrangeSymbolBloc extends Bloc<ArrangeSymbolEvent, ArrangeSymbolState> {
     columns.insert(newIndex, item);
     emit(state.copyWith(columns: columns, isSaved: false));
   }
+
   void _onSaveColumns(
     SaveColumnsEvent event,
     Emitter<ArrangeSymbolState> emit,
@@ -75,6 +79,7 @@ class ArrangeSymbolBloc extends Bloc<ArrangeSymbolEvent, ArrangeSymbolState> {
     _savedColumns = List.from(state.columns);
     emit(state.copyWith(isSaved: true));
   }
+
   void _onResetColumns(
     ResetColumnsEvent event,
     Emitter<ArrangeSymbolState> emit,
@@ -82,6 +87,7 @@ class ArrangeSymbolBloc extends Bloc<ArrangeSymbolEvent, ArrangeSymbolState> {
     _savedColumns = List.from(_defaultColumns);
     emit(state.copyWith(columns: List.from(_defaultColumns), isSaved: true));
   }
+
   List<ColumnItem> get visibleColumns {
     return _savedColumns.where((c) => c.isVisible).toList();
   }

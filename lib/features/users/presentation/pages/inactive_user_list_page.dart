@@ -19,11 +19,13 @@ import '../widgets/create_user/leverage_update_dialog.dart';
 import '../widgets/create_user/change_password_dialog.dart';
 import '../widgets/create_user/update_access_dialog.dart';
 import '../widgets/user_details/user_details_dialog.dart';
+
 class InactiveUserListPage extends StatefulWidget {
   const InactiveUserListPage({super.key});
   @override
   State<InactiveUserListPage> createState() => _InactiveUserListPageState();
 }
+
 class _InactiveUserListPageState extends State<InactiveUserListPage> {
   String? _selectedUserType;
   String? _selectedUserStatus;
@@ -32,6 +34,7 @@ class _InactiveUserListPageState extends State<InactiveUserListPage> {
     super.initState();
     context.read<InactiveUserListBloc>().add(const LoadInactiveUsersEvent());
   }
+
   void _showEditUserDialog(User user) {
     final userData = {
       'name': user.name,
@@ -64,6 +67,7 @@ class _InactiveUserListPageState extends State<InactiveUserListPage> {
       );
     }
   }
+
   void _showLeverageDialog(User user) {
     LeverageUpdateDialog.show(
       context: context,
@@ -77,6 +81,7 @@ class _InactiveUserListPageState extends State<InactiveUserListPage> {
       },
     );
   }
+
   void _showChangePasswordDialog(User user) {
     ChangePasswordDialog.show(
       context: context,
@@ -90,6 +95,7 @@ class _InactiveUserListPageState extends State<InactiveUserListPage> {
       },
     );
   }
+
   void _showActionDialog(User user) {
     final currentSettings = {
       'bet': true,
@@ -114,6 +120,7 @@ class _InactiveUserListPageState extends State<InactiveUserListPage> {
       },
     );
   }
+
   void _showUserDetailsDialog(User user, {String? initialTab}) {
     UserDetailsDialog.show(
       context,
@@ -123,6 +130,7 @@ class _InactiveUserListPageState extends State<InactiveUserListPage> {
       onAction: (_) => _showActionDialog(user),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -135,6 +143,7 @@ class _InactiveUserListPageState extends State<InactiveUserListPage> {
       ),
     );
   }
+
   Widget _buildFilterBar() {
     return Container(
       padding: EdgeInsets.all(12.w),
@@ -209,6 +218,7 @@ class _InactiveUserListPageState extends State<InactiveUserListPage> {
       ),
     );
   }
+
   Widget _buildDataTable() {
     return BlocBuilder<InactiveUserListBloc, InactiveUserListState>(
       builder: (context, state) {
@@ -246,6 +256,7 @@ class _InactiveUserListPageState extends State<InactiveUserListPage> {
       },
     );
   }
+
   Widget _buildTable(InactiveUserListLoaded state) {
     final columns = _getColumns();
     final isDarkMode = AppColors.isDarkMode(context);
@@ -271,6 +282,7 @@ class _InactiveUserListPageState extends State<InactiveUserListPage> {
       emptyMessage: 'No inactive users found',
     );
   }
+
   List<ViewTableColumn> _getColumns() {
     return [
       const ViewTableColumn(
@@ -351,6 +363,7 @@ class _InactiveUserListPageState extends State<InactiveUserListPage> {
       const ViewTableColumn(id: 'ipAddress', label: 'IP ADDRESS', width: 130),
     ];
   }
+
   Widget _buildCellContent(User user, String columnId) {
     switch (columnId) {
       case 'edit':
@@ -606,6 +619,7 @@ class _InactiveUserListPageState extends State<InactiveUserListPage> {
         return const SizedBox.shrink();
     }
   }
+
   String _formatNumber(double value) {
     if (value == 0) return '0';
     return NumberFormat('#,##0').format(value.toInt());

@@ -1,4 +1,5 @@
 import '../../../domain/entities/intraday_history/intraday_history.dart';
+
 class IntradayHistoryModel extends IntradayHistory {
   const IntradayHistoryModel({
     required super.id,
@@ -33,6 +34,7 @@ class IntradayHistoryModel extends IntradayHistory {
       'volume': volume,
     };
   }
+
   factory IntradayHistoryModel.fromEntity(IntradayHistory history) {
     return IntradayHistoryModel(
       id: history.id,

@@ -4,6 +4,7 @@ import '../../../domain/usecases/surveillance/get_surveillance_data.dart';
 import '../../../domain/usecases/surveillance/update_surveillance_data.dart';
 import 'surveillance_event.dart';
 import 'surveillance_state.dart';
+
 class SurveillanceBloc extends Bloc<SurveillanceEvent, SurveillanceState> {
   final GetSurveillanceData getSurveillanceData;
   final UpdateSurveillanceData updateSurveillanceData;
@@ -30,6 +31,7 @@ class SurveillanceBloc extends Bloc<SurveillanceEvent, SurveillanceState> {
       },
     );
   }
+
   void _onUpdateVpnRestriction(
     UpdateVpnRestrictionEvent event,
     Emitter<SurveillanceState> emit,
@@ -43,6 +45,7 @@ class SurveillanceBloc extends Bloc<SurveillanceEvent, SurveillanceState> {
       emit(SurveillanceLoaded(data: _currentData!));
     }
   }
+
   Future<void> _onSaveSurveillanceData(
     SaveSurveillanceDataEvent event,
     Emitter<SurveillanceState> emit,

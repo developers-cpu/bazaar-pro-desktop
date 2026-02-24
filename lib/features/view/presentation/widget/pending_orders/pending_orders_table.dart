@@ -11,6 +11,7 @@ import '../../bloc/pending_orders/pending_orders_bloc.dart';
 import '../../bloc/pending_orders/pending_orders_event.dart';
 import '../../bloc/pending_orders/pending_orders_state.dart';
 import 'trade_details_dialog.dart';
+
 class PendingOrdersTable extends StatelessWidget {
   final bool showDeviceInfo;
   final bool isDarkMode;
@@ -67,11 +68,12 @@ class PendingOrdersTable extends StatelessWidget {
         width: 120,
         isNumeric: true,
       ),
-      const ViewTableColumn(id: 'deviceId', label: 'DEVICE ID', width: 1200),
+      const ViewTableColumn(id: 'deviceId', label: 'DEVICE ID', width: 280),
       const ViewTableColumn(id: 'ipAddress', label: 'IP ADDRESS', width: 160),
     ];
     return columns;
   }
+
   Widget _buildCell(PendingOrder item, ViewTableColumn column, bool isDark) {
     switch (column.id) {
       case 'userId':
@@ -127,6 +129,7 @@ class PendingOrdersTable extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<PendingOrdersBloc, PendingOrdersState>(
@@ -177,6 +180,7 @@ class PendingOrdersTable extends StatelessWidget {
       },
     );
   }
+
   Widget _buildErrorState(BuildContext context, String message) {
     return Center(
       child: Column(

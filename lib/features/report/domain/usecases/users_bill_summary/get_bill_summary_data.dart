@@ -5,9 +5,7 @@ import '../../repositories/users_bill_summary/users_bill_summary_repository.dart
 
 class GetBillSummaryData {
   final UsersBillSummaryRepository repository;
-
   GetBillSummaryData(this.repository);
-
   Future<Either<Failure, List<UsersBillSummaryEntity>>> call(
     String userId,
   ) async {

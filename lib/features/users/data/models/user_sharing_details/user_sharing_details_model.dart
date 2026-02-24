@@ -1,5 +1,6 @@
 import '../../../domain/entities/user_sharing_details/user_sharing_details.dart';
 import '../../../domain/entities/user_sharing_info.dart';
+
 class UserSharingDetailsModel extends UserSharingDetails {
   const UserSharingDetailsModel({
     required super.plSharing,
@@ -30,6 +31,7 @@ class UserSharingDetailsModel extends UserSharingDetails {
     };
   }
 }
+
 class UserSharingInfoModel extends UserSharingInfo {
   const UserSharingInfoModel({required super.person, required super.share});
   factory UserSharingInfoModel.fromJson(Map<String, dynamic> json) {

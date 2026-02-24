@@ -1,5 +1,6 @@
 import 'package:bazarpro/features/report/data/models/bill_generate_report_model.dart';
 import '../../../../../core/errors/exceptions.dart';
+
 abstract class BillGenerateRemoteDataSource {
   Future<BillGenerateReportModel> getBillGenerateReport({
     required String userId,
@@ -7,6 +8,7 @@ abstract class BillGenerateRemoteDataSource {
     required String billType,
   });
 }
+
 class BillGenerateRemoteDataSourceImpl implements BillGenerateRemoteDataSource {
   @override
   Future<BillGenerateReportModel> getBillGenerateReport({

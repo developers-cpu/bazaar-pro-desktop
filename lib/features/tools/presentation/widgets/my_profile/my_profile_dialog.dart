@@ -18,6 +18,7 @@ import '../../../../users/presentation/widgets/create_user/shared/brokerage_sett
 import '../../../../users/presentation/widgets/create_user/master_steps/pnl_sharing_step.dart';
 import '../../../../users/presentation/widgets/create_user/master_steps/exchange_setting_step.dart';
 import '../../../../users/presentation/widgets/create_user/master_steps/master_trigger_settings_step.dart';
+
 class MyProfileDialog extends StatelessWidget {
   final Map<String, dynamic>? userData;
   final VoidCallback? onComplete;
@@ -40,6 +41,7 @@ class MyProfileDialog extends StatelessWidget {
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<MyProfileBloc, MyProfileState>(
@@ -144,12 +146,14 @@ class MyProfileDialog extends StatelessWidget {
       ),
     );
   }
+
   String _formatSharing(Map<String, dynamic> sharing) {
     if (sharing.containsKey('our')) {
       return sharing['our'].toString();
     }
     return sharing.toString();
   }
+
   Widget _buildSectionHeader(String title) {
     return Padding(
       padding: EdgeInsets.only(bottom: 12.h, top: 4.h),
@@ -163,6 +167,7 @@ class MyProfileDialog extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildDivider() {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8.h),

@@ -7,9 +7,7 @@ import '../../models/rejected_trade/rejected_trade_model.dart';
 
 class RejectedTradeRepositoryImpl implements RejectedTradeRepository {
   final RejectedTradeRemoteDataSource remoteDataSource;
-
   RejectedTradeRepositoryImpl({required this.remoteDataSource});
-
   @override
   Future<Either<Failure, List<RejectedTrade>>> getRejectedTrades() async {
     try {

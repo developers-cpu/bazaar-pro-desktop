@@ -7,6 +7,7 @@ import '../../../domain/entities/activity_report.dart';
 import '../../bloc/activity_report/activity_report_bloc.dart';
 import '../../bloc/activity_report/activity_report_state.dart';
 import 'activity_detail_dialogs.dart';
+
 class ActivityReportTable extends StatelessWidget {
   final bool isDarkMode;
   const ActivityReportTable({super.key, this.isDarkMode = false});
@@ -19,6 +20,7 @@ class ActivityReportTable extends StatelessWidget {
       ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 150),
     ];
   }
+
   Widget _buildCell(
     BuildContext context,
     ActivityReport item,
@@ -46,9 +48,11 @@ class ActivityReportTable extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
+
   void _showDetailDialog(BuildContext context, ActivityReport item) {
     ActivityDetailDialog.show(context, item);
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ActivityReportBloc, ActivityReportState>(

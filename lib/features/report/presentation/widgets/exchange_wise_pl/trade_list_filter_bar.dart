@@ -8,6 +8,7 @@ import '../../../../../core/widget/table/view_reset_buttons.dart';
 import '../../bloc/symbol_wise_pl/trade_list/symbol_trade_list_bloc.dart';
 import '../../bloc/symbol_wise_pl/trade_list/symbol_trade_list_event.dart';
 import '../../bloc/symbol_wise_pl/trade_list/symbol_trade_list_state.dart';
+
 class TradeListFilterBar extends StatelessWidget {
   const TradeListFilterBar({super.key});
   @override

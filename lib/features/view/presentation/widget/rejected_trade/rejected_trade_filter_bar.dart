@@ -9,7 +9,6 @@ import '../../../../../core/widget/table/view_reset_buttons.dart';
 
 class RejectedTradeFilterBar extends StatelessWidget {
   const RejectedTradeFilterBar({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<RejectedTradeBloc, RejectedTradeState>(

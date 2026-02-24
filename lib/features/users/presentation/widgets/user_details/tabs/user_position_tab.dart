@@ -12,6 +12,7 @@ import '../../../../../../core/widget/app_dropdown.dart';
 import '../../../../domain/entities/user.dart';
 import '../../../../domain/entities/user_position/user_position.dart';
 import '../../../bloc/user_position/user_position_bloc.dart';
+
 class UserPositionTab extends StatelessWidget {
   final User user;
   const UserPositionTab({super.key, required this.user});
@@ -24,6 +25,7 @@ class UserPositionTab extends StatelessWidget {
     );
   }
 }
+
 class UserPositionTabView extends StatelessWidget {
   const UserPositionTabView({super.key});
   @override
@@ -37,6 +39,7 @@ class UserPositionTabView extends StatelessWidget {
       ],
     );
   }
+
   Widget _buildFilterBar(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(12.w),
@@ -107,6 +110,7 @@ class UserPositionTabView extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildRecordCount(BuildContext context) {
     return Container(
       color: AppColors.white,
@@ -122,6 +126,7 @@ class UserPositionTabView extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildTable(BuildContext context) {
     return BlocBuilder<UserPositionBloc, UserPositionState>(
       builder: (context, state) {
@@ -234,6 +239,7 @@ class UserPositionTabView extends StatelessWidget {
       },
     );
   }
+
   TextStyle _cellStyle({Color? color, bool isSymbol = false}) {
     return GoogleFonts.openSans(
       fontSize: 9.sp,
@@ -241,6 +247,7 @@ class UserPositionTabView extends StatelessWidget {
       color: color ?? AppColors.primaryBlue,
     );
   }
+
   Widget _buildFooter(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(12.w),
@@ -297,6 +304,7 @@ class UserPositionTabView extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildVerticalDivider() {
     return Container(
       height: 20.h,
@@ -305,6 +313,7 @@ class UserPositionTabView extends StatelessWidget {
       margin: EdgeInsets.symmetric(horizontal: 12.w),
     );
   }
+
   Widget _buildFooterItem(String label, String value) {
     return Row(
       children: [
@@ -327,6 +336,7 @@ class UserPositionTabView extends StatelessWidget {
       ],
     );
   }
+
   Widget _buildSummaryItem(String label, String value) {
     return Row(
       children: [

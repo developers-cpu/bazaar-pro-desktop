@@ -3,6 +3,7 @@ import 'package:bazarpro/features/operations/domain/entities/exchange_settings/e
 import 'package:dartz/dartz.dart';
 import '../../../../../core/usecases/usecase.dart';
 import '../../repositories/exchange_settings/exchange_settings_repository.dart';
+
 class GetExchangeSettings implements UseCase<List<ExchangeSetting>, NoParams> {
   final ExchangeSettingsRepository repository;
   GetExchangeSettings(this.repository);

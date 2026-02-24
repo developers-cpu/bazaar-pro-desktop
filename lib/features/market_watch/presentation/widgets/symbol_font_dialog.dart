@@ -7,6 +7,7 @@ import '../../../../core/widget/common_dilog_box.dart';
 import '../bloc/symbolfont/symbol_font_bloc.dart';
 import '../bloc/symbolfont/symbol_font_event.dart';
 import '../bloc/symbolfont/symbol_state.dart';
+
 class SymbolFontDialog extends StatelessWidget {
   const SymbolFontDialog({Key? key}) : super(key: key);
   static void show(BuildContext context) {
@@ -27,6 +28,7 @@ class SymbolFontDialog extends StatelessWidget {
       contentPadding: EdgeInsets.all(24.w),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return CommonDialog(
@@ -41,6 +43,7 @@ class SymbolFontDialog extends StatelessWidget {
     );
   }
 }
+
 class _SymbolFontContent extends StatelessWidget {
   const _SymbolFontContent({Key? key}) : super(key: key);
   @override
@@ -96,6 +99,7 @@ class _SymbolFontContent extends StatelessWidget {
       },
     );
   }
+
   Widget _buildSelectorColumn({
     required BuildContext context,
     required String title,

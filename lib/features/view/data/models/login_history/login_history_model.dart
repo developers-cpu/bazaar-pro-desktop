@@ -1,4 +1,5 @@
 import '../../../domain/entities/login_history/login_history.dart';
+
 class LoginHistoryModel extends LoginHistory {
   const LoginHistoryModel({
     required super.id,
@@ -44,6 +45,7 @@ class LoginHistoryModel extends LoginHistory {
       'city': city,
     };
   }
+
   factory LoginHistoryModel.fromEntity(LoginHistory history) {
     return LoginHistoryModel(
       id: history.id,

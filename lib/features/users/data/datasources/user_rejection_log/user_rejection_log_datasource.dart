@@ -1,9 +1,11 @@
 import 'package:bazarpro/features/users/data/models/user_rejection_log/user_rejection_log_metadata_model.dart';
 import 'package:bazarpro/features/users/data/models/user_rejection_log/user_rejection_log_model.dart';
+
 abstract class UserRejectionLogDataSource {
   Future<List<UserRejectionLogModel>> getUserRejectionLogs(String userId);
   Future<UserRejectionLogMetadataModel> getRejectionLogMetadata();
 }
+
 class UserRejectionLogDataSourceImpl implements UserRejectionLogDataSource {
   @override
   Future<List<UserRejectionLogModel>> getUserRejectionLogs(
@@ -37,6 +39,7 @@ class UserRejectionLogDataSourceImpl implements UserRejectionLogDataSource {
       ),
     ];
   }
+
   @override
   Future<UserRejectionLogMetadataModel> getRejectionLogMetadata() async {
     await Future.delayed(const Duration(milliseconds: 500));

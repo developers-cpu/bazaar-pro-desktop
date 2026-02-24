@@ -1,4 +1,5 @@
 import '../../../domain/entities/script_master/script_master.dart';
+
 class ScriptMasterModel extends ScriptMaster {
   const ScriptMasterModel({
     required super.id,
@@ -35,6 +36,7 @@ class ScriptMasterModel extends ScriptMaster {
       'lastUpdated': lastUpdated.toIso8601String(),
     };
   }
+
   factory ScriptMasterModel.fromEntity(ScriptMaster script) {
     return ScriptMasterModel(
       id: script.id,

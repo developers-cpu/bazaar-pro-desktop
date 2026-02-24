@@ -2,6 +2,7 @@ import 'package:bazarpro/features/report/domain/usecases/symbol_wise_pl/get_symb
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'symbol_wise_pl_event.dart';
 import 'symbol_wise_pl_state.dart';
+
 class SymbolWisePLBloc extends Bloc<SymbolWisePLEvent, SymbolWisePLState> {
   final GetSymbolWisePLReport getSymbolWisePLReport;
   SymbolWisePLBloc({required this.getSymbolWisePLReport})
@@ -33,6 +34,7 @@ class SymbolWisePLBloc extends Bloc<SymbolWisePLEvent, SymbolWisePLState> {
       },
     );
   }
+
   Future<void> _onFilterSymbolWisePL(
     FilterSymbolWisePL event,
     Emitter<SymbolWisePLState> emit,

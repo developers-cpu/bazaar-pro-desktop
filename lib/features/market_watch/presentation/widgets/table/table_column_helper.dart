@@ -1,4 +1,5 @@
 import '../../bloc/arrangesymbol/arrange_symbol_state.dart';
+
 class TableColumnConfig {
   final double baseWidth;
   final bool isNumeric;
@@ -13,6 +14,7 @@ class TableColumnConfig {
     return baseWidth * scaleFactor;
   }
 }
+
 class TableColumnHelper {
   TableColumnHelper._();
   static const Map<String, TableColumnConfig> columnConfigs = {
@@ -87,6 +89,7 @@ class TableColumnHelper {
       ColumnItem(id: 'lut', name: 'LUT', isVisible: true),
     ];
   }
+
   static double calculateMinWidth(
     List<ColumnItem> visibleColumns,
     double fontSize,
@@ -100,12 +103,15 @@ class TableColumnHelper {
     }
     return totalWidth;
   }
+
   static TableColumnConfig? getConfig(String columnId) {
     return columnConfigs[columnId];
   }
+
   static String getLabel(String columnId) {
     return columnConfigs[columnId]?.label ?? '';
   }
+
   static bool isNumeric(String columnId) {
     return columnConfigs[columnId]?.isNumeric ?? false;
   }

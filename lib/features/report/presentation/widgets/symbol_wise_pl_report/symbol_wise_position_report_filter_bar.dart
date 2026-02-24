@@ -6,6 +6,7 @@ import '../../../../../core/widget/table/view_reset_buttons.dart';
 import '../../bloc/symbol_wise_position_report/symbol_wise_position_report_bloc.dart';
 import '../../bloc/symbol_wise_position_report/symbol_wise_position_report_event.dart';
 import '../../bloc/symbol_wise_position_report/symbol_wise_position_report_state.dart';
+
 class SymbolWisePositionReportFilterBar extends StatelessWidget {
   const SymbolWisePositionReportFilterBar({super.key});
   @override

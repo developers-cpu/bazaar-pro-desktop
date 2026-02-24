@@ -2,6 +2,7 @@ import 'package:bazarpro/features/view/domain/usecases/trade_margin/get_trade_ma
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'trade_margin_event.dart';
 import 'trade_margin_state.dart';
+
 class TradeMarginBloc extends Bloc<TradeMarginEvent, TradeMarginState> {
   final GetTradeMarginsUseCase getTradeMargins;
   TradeMarginBloc({required this.getTradeMargins})
@@ -22,6 +23,7 @@ class TradeMarginBloc extends Bloc<TradeMarginEvent, TradeMarginState> {
       (data) => emit(TradeMarginLoaded(tradeMargins: data)),
     );
   }
+
   Future<void> _onUpdateTradeMarginFilters(
     UpdateTradeMarginFilters event,
     Emitter<TradeMarginState> emit,
@@ -39,6 +41,7 @@ class TradeMarginBloc extends Bloc<TradeMarginEvent, TradeMarginState> {
       );
     }
   }
+
   Future<void> _onViewTradeMargins(
     ViewTradeMargins event,
     Emitter<TradeMarginState> emit,
@@ -58,6 +61,7 @@ class TradeMarginBloc extends Bloc<TradeMarginEvent, TradeMarginState> {
       );
     }
   }
+
   Future<void> _onResetTradeMarginFilters(
     ResetTradeMarginFilters event,
     Emitter<TradeMarginState> emit,

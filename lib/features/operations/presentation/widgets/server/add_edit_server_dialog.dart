@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../../core/widget/custom_action_button.dart';
 import '../../../../../../core/widget/custom_input_field.dart';
 import '../../../../../../core/widget/common_dilog_box.dart';
+
 class AddEditServerDialog extends StatefulWidget {
   final String title;
   final String buttonText;
@@ -18,6 +19,7 @@ class AddEditServerDialog extends StatefulWidget {
   @override
   State<AddEditServerDialog> createState() => _AddEditServerDialogState();
 }
+
 class _AddEditServerDialogState extends State<AddEditServerDialog> {
   late TextEditingController _serverNameCtrl;
   final TextEditingController _logoFileCtrl = TextEditingController();
@@ -27,12 +29,14 @@ class _AddEditServerDialogState extends State<AddEditServerDialog> {
     _serverNameCtrl = TextEditingController(text: widget.initialServerName);
     _logoFileCtrl.text = 'Browse File (Server Logo)';
   }
+
   @override
   void dispose() {
     _serverNameCtrl.dispose();
     _logoFileCtrl.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return CommonDialog(
@@ -65,12 +69,7 @@ class _AddEditServerDialogState extends State<AddEditServerDialog> {
                         hintText: 'Browse File (Server Logo)',
                         height: 35.h,
                       ),
-                      Positioned.fill(
-                        child: InkWell(
-                          onTap: () {
-                          },
-                        ),
-                      ),
+                      Positioned.fill(child: InkWell(onTap: () {})),
                     ],
                   ),
                 ),

@@ -3,7 +3,6 @@ import '../../../domain/entities/deleted_trade/deleted_trade.dart';
 
 abstract class DeletedTradeState extends Equatable {
   const DeletedTradeState();
-
   @override
   List<Object?> get props => [];
 }
@@ -30,7 +29,6 @@ class DeletedTradeLoaded extends DeletedTradeState {
   final List<String> users;
   final List<String> exchanges;
   final List<String> symbols;
-
   const DeletedTradeLoaded({
     required this.trades,
     required this.filteredTrades,
@@ -46,7 +44,6 @@ class DeletedTradeLoaded extends DeletedTradeState {
     this.exchanges = const [],
     this.symbols = const [],
   });
-
   @override
   List<Object?> get props => [
     trades,
@@ -63,7 +60,6 @@ class DeletedTradeLoaded extends DeletedTradeState {
     exchanges,
     symbols,
   ];
-
   DeletedTradeLoaded copyWith({
     List<DeletedTrade>? trades,
     List<DeletedTrade>? filteredTrades,
@@ -99,9 +95,7 @@ class DeletedTradeLoaded extends DeletedTradeState {
 
 class DeletedTradeError extends DeletedTradeState {
   final String message;
-
   const DeletedTradeError(this.message);
-
   @override
   List<Object?> get props => [message];
 }
@@ -109,12 +103,10 @@ class DeletedTradeError extends DeletedTradeState {
 class DeletedTradeExportSuccess extends DeletedTradeState {
   final String message;
   final String filePath;
-
   const DeletedTradeExportSuccess({
     required this.message,
     required this.filePath,
   });
-
   @override
   List<Object?> get props => [message, filePath];
 }

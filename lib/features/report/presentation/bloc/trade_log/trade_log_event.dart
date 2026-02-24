@@ -1,13 +1,16 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+
 abstract class TradeLogEvent extends Equatable {
   const TradeLogEvent();
   @override
   List<Object?> get props => [];
 }
+
 class LoadTradeLogsEvent extends TradeLogEvent {
   const LoadTradeLogsEvent();
 }
+
 class FilterTradeLogsEvent extends TradeLogEvent {
   final DateTimeRange? dateRange;
   final String? user;
@@ -22,6 +25,7 @@ class FilterTradeLogsEvent extends TradeLogEvent {
   @override
   List<Object?> get props => [dateRange, user, exchange, symbol];
 }
+
 class SortTradeLogsEvent extends TradeLogEvent {
   final String columnId;
   final bool ascending;
@@ -29,6 +33,7 @@ class SortTradeLogsEvent extends TradeLogEvent {
   @override
   List<Object?> get props => [columnId, ascending];
 }
+
 class ResetTradeLogsFiltersEvent extends TradeLogEvent {
   const ResetTradeLogsFiltersEvent();
 }

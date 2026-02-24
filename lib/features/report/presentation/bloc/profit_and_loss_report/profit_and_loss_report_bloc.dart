@@ -3,6 +3,7 @@ import 'package:bazarpro/features/report/domain/usecases/get_profit_and_loss_rep
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'profit_and_loss_report_event.dart';
 import 'profit_and_loss_report_state.dart';
+
 class ProfitAndLossReportBloc
     extends Bloc<ProfitAndLossReportEvent, ProfitAndLossReportState> {
   final GetProfitAndLossReportUseCase getProfitAndLossReport;
@@ -29,6 +30,7 @@ class ProfitAndLossReportBloc
       },
     );
   }
+
   Future<void> _onFilterProfitAndLossReport(
     FilterProfitAndLossReport event,
     Emitter<ProfitAndLossReportState> emit,
@@ -53,6 +55,7 @@ class ProfitAndLossReportBloc
       );
     }
   }
+
   Future<void> _onResetProfitAndLossReportFilters(
     ResetProfitAndLossReportFilters event,
     Emitter<ProfitAndLossReportState> emit,

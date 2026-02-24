@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../constants/app_colors.dart';
 import '../../features/view/domain/entities/intraday_history/intraday_history.dart';
+
 class TimeSlotSelectionDialog extends StatefulWidget {
   final List<TimeSlot> timeSlots;
   final DateTime selectedDate;
@@ -25,10 +26,12 @@ class TimeSlotSelectionDialog extends StatefulWidget {
       ),
     );
   }
+
   @override
   State<TimeSlotSelectionDialog> createState() =>
       _TimeSlotSelectionDialogState();
 }
+
 class _TimeSlotSelectionDialogState extends State<TimeSlotSelectionDialog> {
   TimeSlot? _selectedSlot;
   @override
@@ -54,6 +57,7 @@ class _TimeSlotSelectionDialogState extends State<TimeSlotSelectionDialog> {
       ),
     );
   }
+
   Widget _buildHeader() {
     return Container(
       padding: EdgeInsets.all(16.w),
@@ -85,6 +89,7 @@ class _TimeSlotSelectionDialogState extends State<TimeSlotSelectionDialog> {
       ),
     );
   }
+
   Widget _buildDateDisplay() {
     final day = widget.selectedDate.day.toString().padLeft(2, '0');
     final monthNames = [
@@ -126,6 +131,7 @@ class _TimeSlotSelectionDialogState extends State<TimeSlotSelectionDialog> {
       ),
     );
   }
+
   Widget _buildTimeSlotsList() {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -188,6 +194,7 @@ class _TimeSlotSelectionDialogState extends State<TimeSlotSelectionDialog> {
       ),
     );
   }
+
   Widget _buildButtons() {
     return Padding(
       padding: EdgeInsets.all(16.w),

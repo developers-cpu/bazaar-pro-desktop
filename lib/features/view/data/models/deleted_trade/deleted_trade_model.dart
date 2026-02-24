@@ -22,7 +22,6 @@ class DeletedTradeModel extends DeletedTrade {
     required super.device,
     required super.ipAddress,
   });
-
   factory DeletedTradeModel.fromJson(Map<String, dynamic> json) {
     return DeletedTradeModel(
       id: json['id']?.toString() ?? '',
@@ -50,7 +49,6 @@ class DeletedTradeModel extends DeletedTrade {
       ipAddress: json['ipAddress'] ?? json['ip_address'] ?? '',
     );
   }
-
   Map<String, dynamic> toJson() {
     return {
       'id': id,

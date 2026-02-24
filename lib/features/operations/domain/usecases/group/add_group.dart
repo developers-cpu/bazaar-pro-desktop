@@ -3,6 +3,7 @@ import 'package:bazarpro/core/usecases/usecase.dart';
 import 'package:bazarpro/features/operations/domain/repositories/group/group_repository.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
+
 class AddGroup implements UseCase<bool, AddGroupParams> {
   final GroupRepository repository;
   AddGroup(this.repository);
@@ -15,6 +16,7 @@ class AddGroup implements UseCase<bool, AddGroupParams> {
     );
   }
 }
+
 class AddGroupParams extends Equatable {
   final String exchange;
   final String groupName;

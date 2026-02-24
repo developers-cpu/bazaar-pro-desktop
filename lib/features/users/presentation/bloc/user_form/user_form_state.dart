@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+
 class UserFormState extends Equatable {
   final bool isEditMode;
   final String userType;
@@ -206,15 +207,18 @@ class UserFormState extends Equatable {
   static List<TriggerSetting> getTriggerSettings(String userType) {
     return userType == 'Master' ? masterTriggerSettings : clientTriggerSettings;
   }
+
   static List<String> getStepTitles(String userType) {
     if (userType == 'Master') return masterStepTitles;
     if (userType == "Master's Client") return mastersClientStepTitles;
     return clientStepTitles;
   }
+
   static int getTotalSteps(String userType) {
     if (userType == 'Master') return 7;
     return 5;
   }
+
   static const List<TriggerSetting> availableTriggerSettings =
       masterTriggerSettings;
   static Map<String, bool> get defaultTriggerSettings => {
@@ -322,6 +326,7 @@ class UserFormState extends Equatable {
       masterOptions: masterOptions ?? this.masterOptions,
     );
   }
+
   @override
   List<Object?> get props => [
     isEditMode,
@@ -365,6 +370,7 @@ class UserFormState extends Equatable {
     masterOptions,
   ];
 }
+
 class TriggerSetting {
   final String key;
   final String label;
@@ -375,6 +381,7 @@ class TriggerSetting {
     required this.icon,
   });
 }
+
 class BrokerageData extends Equatable {
   final String exchange;
   final String turnoverWise;
@@ -395,6 +402,7 @@ class BrokerageData extends Equatable {
       symbolWiseBrk: symbolWiseBrk ?? this.symbolWiseBrk,
     );
   }
+
   @override
   List<Object?> get props => [exchange, turnoverWise, symbolWiseBrk];
 }

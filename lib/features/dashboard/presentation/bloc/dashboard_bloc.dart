@@ -3,6 +3,7 @@ import '../../domain/repositories/dashboard_repository.dart';
 import '../../domain/usecases/dashboard_usecases.dart';
 import 'dashboard_event.dart';
 import 'dashboard_state.dart';
+
 class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
   final DashboardRepository _repository;
   late final GetDashboardDataUseCase _getDashboardData;
@@ -65,6 +66,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
       emit(DashboardError(message: e.toString()));
     }
   }
+
   Future<void> _onFilterTradeReportsByClient(
     FilterTradeReportsByClientEvent event,
     Emitter<DashboardState> emit,
@@ -86,6 +88,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
       );
     } catch (e) {}
   }
+
   Future<void> _onFilterTradeReportsByPeriod(
     FilterTradeReportsByPeriodEvent event,
     Emitter<DashboardState> emit,
@@ -106,6 +109,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
       );
     } catch (e) {}
   }
+
   void _onToggleTradeReportExchange(
     ToggleTradeReportExchangeEvent event,
     Emitter<DashboardState> emit,
@@ -122,6 +126,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     }
     emit(currentState.copyWith(tradeReportSelectedExchanges: newExchanges));
   }
+
   Future<void> _onFilterSymbolReportsByClient(
     FilterSymbolReportsByClientEvent event,
     Emitter<DashboardState> emit,
@@ -144,6 +149,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
       );
     } catch (e) {}
   }
+
   Future<void> _onFilterSymbolReportsByPeriod(
     FilterSymbolReportsByPeriodEvent event,
     Emitter<DashboardState> emit,
@@ -165,6 +171,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
       );
     } catch (e) {}
   }
+
   void _onToggleSymbolReportExchange(
     ToggleSymbolReportExchangeEvent event,
     Emitter<DashboardState> emit,
@@ -181,6 +188,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     }
     emit(currentState.copyWith(symbolReportSelectedExchanges: newExchanges));
   }
+
   Future<void> _onChangeSymbolReportTopCount(
     ChangeSymbolReportTopCountEvent event,
     Emitter<DashboardState> emit,
@@ -202,6 +210,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
       );
     } catch (e) {}
   }
+
   void _onFilterWeeklyProgressByClient(
     FilterWeeklyProgressByClientEvent event,
     Emitter<DashboardState> emit,
@@ -216,6 +225,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
       ),
     );
   }
+
   void _onFilterWeeklyProgressByPeriod(
     FilterWeeklyProgressByPeriodEvent event,
     Emitter<DashboardState> emit,
@@ -224,6 +234,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     if (currentState is! DashboardLoaded) return;
     emit(currentState.copyWith(weeklyProgressPeriod: event.period));
   }
+
   void _onToggleWeeklyProgressExchange(
     ToggleWeeklyProgressExchangeEvent event,
     Emitter<DashboardState> emit,
@@ -240,6 +251,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     }
     emit(currentState.copyWith(weeklyProgressSelectedExchanges: newExchanges));
   }
+
   Future<void> _onRefreshDashboard(
     RefreshDashboardEvent event,
     Emitter<DashboardState> emit,

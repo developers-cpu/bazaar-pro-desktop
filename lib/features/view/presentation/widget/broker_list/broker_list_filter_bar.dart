@@ -7,6 +7,7 @@ import '../../bloc/broker_list/broker_list_event.dart';
 import '../../bloc/broker_list/broker_list_state.dart';
 import '../../../../../core/widget/table/view_reset_buttons.dart';
 import '../../../../../core/widget/table/view_record_count.dart';
+
 class BrokerListFilterBar extends StatelessWidget {
   const BrokerListFilterBar({Key? key}) : super(key: key);
   @override

@@ -10,11 +10,13 @@ import '../../widget/net_position/net_position_table.dart';
 import '../../widget/net_position/select_user_dialog.dart';
 import '../../widget/net_position/used_margin_dialog.dart';
 import '../../../../../../core/widget/custom_action_button.dart';
+
 class NetPositionPage extends StatefulWidget {
   const NetPositionPage({Key? key}) : super(key: key);
   @override
   State<NetPositionPage> createState() => _NetPositionPageState();
 }
+
 class _NetPositionPageState extends State<NetPositionPage> {
   @override
   void initState() {
@@ -23,6 +25,7 @@ class _NetPositionPageState extends State<NetPositionPage> {
       context.read<NetPositionBloc>().add(const LoadNetPositionsEvent());
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<NetPositionBloc, NetPositionState>(
@@ -39,6 +42,7 @@ class _NetPositionPageState extends State<NetPositionPage> {
       ),
     );
   }
+
   void _handleStateChange(BuildContext context, NetPositionState state) {
     if (state is NetPositionExportSuccess) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -59,6 +63,7 @@ class _NetPositionPageState extends State<NetPositionPage> {
       );
     }
   }
+
   Widget _buildFooter(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),

@@ -1,7 +1,9 @@
 import '../models/total_volume_model.dart';
+
 abstract class TotalVolumeRemoteDataSource {
   Future<TotalVolumeModel> getTotalVolume(String exchange);
 }
+
 class TotalVolumeRemoteDataSourceImpl implements TotalVolumeRemoteDataSource {
   @override
   Future<TotalVolumeModel> getTotalVolume(String exchange) async {

@@ -7,7 +7,6 @@ import '../../repositories/rejected_trade/rejected_trade_repository.dart';
 class GetRejectedTrades implements UseCase<List<RejectedTrade>, NoParams> {
   final RejectedTradeRepository repository;
   GetRejectedTrades(this.repository);
-
   @override
   Future<Either<Failure, List<RejectedTrade>>> call(NoParams params) {
     return repository.getRejectedTrades();
@@ -18,7 +17,6 @@ class GetRejectedTradesWithFilters
     implements UseCase<List<RejectedTrade>, RejectedTradeFilterParams> {
   final RejectedTradeRepository repository;
   GetRejectedTradesWithFilters(this.repository);
-
   @override
   Future<Either<Failure, List<RejectedTrade>>> call(
     RejectedTradeFilterParams params,
@@ -37,7 +35,6 @@ class RejectedTradeFilterParams {
   final String? user;
   final String? exchange;
   final String? symbol;
-
   const RejectedTradeFilterParams({
     this.userType,
     this.user,
@@ -49,7 +46,6 @@ class RejectedTradeFilterParams {
 class GetRejectedTradeUserTypes implements UseCase<List<String>, NoParams> {
   final RejectedTradeRepository repository;
   GetRejectedTradeUserTypes(this.repository);
-
   @override
   Future<Either<Failure, List<String>>> call(NoParams params) {
     return repository.getUserTypes();
@@ -59,7 +55,6 @@ class GetRejectedTradeUserTypes implements UseCase<List<String>, NoParams> {
 class GetRejectedTradeUsers implements UseCase<List<String>, NoParams> {
   final RejectedTradeRepository repository;
   GetRejectedTradeUsers(this.repository);
-
   @override
   Future<Either<Failure, List<String>>> call(NoParams params) {
     return repository.getUsers();
@@ -69,7 +64,6 @@ class GetRejectedTradeUsers implements UseCase<List<String>, NoParams> {
 class GetRejectedTradeExchanges implements UseCase<List<String>, NoParams> {
   final RejectedTradeRepository repository;
   GetRejectedTradeExchanges(this.repository);
-
   @override
   Future<Either<Failure, List<String>>> call(NoParams params) {
     return repository.getExchanges();
@@ -79,7 +73,6 @@ class GetRejectedTradeExchanges implements UseCase<List<String>, NoParams> {
 class GetRejectedTradeSymbols implements UseCase<List<String>, NoParams> {
   final RejectedTradeRepository repository;
   GetRejectedTradeSymbols(this.repository);
-
   @override
   Future<Either<Failure, List<String>>> call(NoParams params) {
     return repository.getSymbols();
@@ -90,7 +83,6 @@ class ExportRejectedTradesToPdf
     implements UseCase<String, List<RejectedTrade>> {
   final RejectedTradeRepository repository;
   ExportRejectedTradesToPdf(this.repository);
-
   @override
   Future<Either<Failure, String>> call(List<RejectedTrade> trades) {
     return repository.exportToPdf(trades);
@@ -101,7 +93,6 @@ class ExportRejectedTradesToExcel
     implements UseCase<String, List<RejectedTrade>> {
   final RejectedTradeRepository repository;
   ExportRejectedTradesToExcel(this.repository);
-
   @override
   Future<Either<Failure, String>> call(List<RejectedTrade> trades) {
     return repository.exportToExcel(trades);

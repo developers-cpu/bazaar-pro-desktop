@@ -20,9 +20,7 @@ abstract class RejectedTradeRemoteDataSource {
 class RejectedTradeRemoteDataSourceImpl
     implements RejectedTradeRemoteDataSource {
   final Dio dio;
-
   RejectedTradeRemoteDataSourceImpl({required this.dio});
-
   @override
   Future<List<RejectedTradeModel>> getRejectedTrades() async {
     try {
@@ -159,10 +157,8 @@ class RejectedTradeRemoteDataSourceImpl
       -500.0,
       100.0,
     ];
-
     final baseDate = DateTime(2025, 11, 22, 15, 6, 34);
     final deviceId = 'E621E1F8-C36C-495A-93FC-0C247A3E6E5F';
-
     for (int i = 0; i < 50; i++) {
       trades.add(
         RejectedTradeModel(

@@ -4,6 +4,7 @@ import '../../../domain/entities/script_master/script_master.dart';
 import '../../../domain/usecases/script_master/script_master_usecases.dart';
 import 'script_master_event.dart';
 import 'script_master_state.dart';
+
 class ScriptMasterBloc extends Bloc<ScriptMasterEvent, ScriptMasterState> {
   final GetScriptMasters getScriptMasters;
   final GetScriptMastersWithFilters getScriptMastersWithFilters;
@@ -75,6 +76,7 @@ class ScriptMasterBloc extends Bloc<ScriptMasterEvent, ScriptMasterState> {
       emit(ScriptMasterError(e.toString()));
     }
   }
+
   Future<void> _onApplyFilters(
     ApplyFiltersEvent event,
     Emitter<ScriptMasterState> emit,
@@ -97,6 +99,7 @@ class ScriptMasterBloc extends Bloc<ScriptMasterEvent, ScriptMasterState> {
       ),
     );
   }
+
   Future<void> _onResetFilters(
     ResetFiltersEvent event,
     Emitter<ScriptMasterState> emit,
@@ -113,6 +116,7 @@ class ScriptMasterBloc extends Bloc<ScriptMasterEvent, ScriptMasterState> {
       ),
     );
   }
+
   void _onSelectScript(
     SelectScriptEvent event,
     Emitter<ScriptMasterState> emit,
@@ -121,6 +125,7 @@ class ScriptMasterBloc extends Bloc<ScriptMasterEvent, ScriptMasterState> {
     final currentState = state as ScriptMasterLoaded;
     emit(currentState.copyWith(selectedScriptId: event.scriptId));
   }
+
   void _onSortByColumn(
     SortScriptsByColumnEvent event,
     Emitter<ScriptMasterState> emit,
@@ -161,6 +166,7 @@ class ScriptMasterBloc extends Bloc<ScriptMasterEvent, ScriptMasterState> {
       ),
     );
   }
+
   Future<void> _onExportToPdf(
     ExportScriptMastersToPdfEvent event,
     Emitter<ScriptMasterState> emit,
@@ -178,6 +184,7 @@ class ScriptMasterBloc extends Bloc<ScriptMasterEvent, ScriptMasterState> {
       emit(currentState);
     });
   }
+
   Future<void> _onExportToExcel(
     ExportScriptMastersToExcelEvent event,
     Emitter<ScriptMasterState> emit,

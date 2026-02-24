@@ -19,9 +19,7 @@ abstract class DeletedTradeRemoteDataSource {
 
 class DeletedTradeRemoteDataSourceImpl implements DeletedTradeRemoteDataSource {
   final Dio dio;
-
   DeletedTradeRemoteDataSourceImpl({required this.dio});
-
   @override
   Future<List<DeletedTradeModel>> getDeletedTrades() async {
     try {
@@ -175,10 +173,8 @@ class DeletedTradeRemoteDataSourceImpl implements DeletedTradeRemoteDataSource {
       36200.0,
       36200.0,
     ];
-
     final baseDate = DateTime(2025, 11, 22, 15, 6, 34);
     final deviceId = 'E621E1F8-C36C-495A-93FC-0C247A3E6E5F';
-
     for (int i = 0; i < 50; i++) {
       trades.add(
         DeletedTradeModel(

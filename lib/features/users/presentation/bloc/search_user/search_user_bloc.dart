@@ -5,6 +5,7 @@ import '../../../domain/entities/user_hierarchy_node/user_hierarchy_node.dart';
 import '../../../domain/usecases/user/get_users.dart';
 import 'search_user_event.dart';
 import 'search_user_state.dart';
+
 class SearchUserBloc extends Bloc<SearchUserEvent, SearchUserState> {
   final GetUsers getUsers;
   SearchUserBloc({required this.getUsers}) : super(const SearchUserInitial()) {
@@ -23,6 +24,7 @@ class SearchUserBloc extends Bloc<SearchUserEvent, SearchUserState> {
       emit(SearchUserLoaded(nodes: nodes));
     });
   }
+
   List<UserHierarchyNode> _buildHierarchy(List<User> users) {
     final childrenMap = <String, List<User>>{};
     for (var user in users) {
@@ -37,6 +39,7 @@ class SearchUserBloc extends Bloc<SearchUserEvent, SearchUserState> {
         .toList();
     return rootUsers.map((user) => _mapUserToNode(user, childrenMap)).toList();
   }
+
   UserHierarchyNode _mapUserToNode(
     User user,
     Map<String, List<User>> childrenMap, {
@@ -62,6 +65,7 @@ class SearchUserBloc extends Bloc<SearchUserEvent, SearchUserState> {
           .toList(),
     );
   }
+
   void _onToggleExpansion(
     ToggleNodeExpansionEvent event,
     Emitter<SearchUserState> emit,
@@ -72,6 +76,7 @@ class SearchUserBloc extends Bloc<SearchUserEvent, SearchUserState> {
       emit(currentState.copyWith(nodes: newNodes));
     }
   }
+
   List<UserHierarchyNode> _toggleNodeRecursive(
     List<UserHierarchyNode> nodes,
     String userId,
@@ -85,6 +90,7 @@ class SearchUserBloc extends Bloc<SearchUserEvent, SearchUserState> {
       );
     }).toList();
   }
+
   void _onSearchQuery(
     SearchUserQueryEvent event,
     Emitter<SearchUserState> emit,
@@ -98,6 +104,7 @@ class SearchUserBloc extends Bloc<SearchUserEvent, SearchUserState> {
       emit(currentState.copyWith(nodes: newNodes, searchQuery: event.query));
     }
   }
+
   List<UserHierarchyNode> _filterNodes(
     List<UserHierarchyNode> nodes,
     String query,
@@ -132,6 +139,7 @@ class SearchUserBloc extends Bloc<SearchUserEvent, SearchUserState> {
     }
     return processedNodes;
   }
+
   List<UserHierarchyNode> _resetVisibility(List<UserHierarchyNode> nodes) {
     return nodes.map((n) {
       return n.copyWith(

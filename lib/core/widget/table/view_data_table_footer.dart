@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'view_data_table.dart';
 import 'view_table_cell_styles.dart';
+
 class ViewDataTableFooter extends StatelessWidget {
   final List<ViewTableColumn> columns;
   final Map<String, String> values;

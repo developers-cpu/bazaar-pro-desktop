@@ -10,6 +10,7 @@ import '../bloc/theme/theme_bloc.dart';
 import '../bloc/theme/theme_event.dart';
 import '../bloc/theme/theme_state.dart';
 import '../../../../core/widget/app_dropdown.dart';
+
 class MarketFilters extends StatelessWidget {
   final MarketWatchLoaded state;
   const MarketFilters({Key? key, required this.state}) : super(key: key);
@@ -100,6 +101,7 @@ class MarketFilters extends StatelessWidget {
       },
     );
   }
+
   Widget _buildThemeToggle(BuildContext context) {
     return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (context, themeState) {

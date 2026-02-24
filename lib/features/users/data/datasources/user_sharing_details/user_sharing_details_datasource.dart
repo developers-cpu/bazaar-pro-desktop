@@ -1,7 +1,9 @@
 import 'package:bazarpro/features/users/data/models/user_sharing_details/user_sharing_details_model.dart';
+
 abstract class UserSharingDetailsDataSource {
   Future<UserSharingDetailsModel> getUserSharingDetails(String userId);
 }
+
 class UserSharingDetailsDataSourceImpl implements UserSharingDetailsDataSource {
   @override
   Future<UserSharingDetailsModel> getUserSharingDetails(String userId) async {

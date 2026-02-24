@@ -1,4 +1,5 @@
 import '../../../domain/entities/group/group.dart';
+
 class GroupModel extends Group {
   const GroupModel({
     required super.id,

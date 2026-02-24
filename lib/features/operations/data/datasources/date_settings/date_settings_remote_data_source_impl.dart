@@ -1,5 +1,6 @@
 import 'date_settings_remote_data_source.dart';
 import '../../models/date_settings/date_setting_model.dart';
+
 class DateSettingsRemoteDataSourceImpl implements DateSettingsRemoteDataSource {
   final List<DateSettingModel> _mockDateSettings = _generateMockData();
   static List<DateSettingModel> _generateMockData() {
@@ -69,11 +70,13 @@ class DateSettingsRemoteDataSourceImpl implements DateSettingsRemoteDataSource {
     }
     return result;
   }
+
   @override
   Future<List<DateSettingModel>> getDateSettings() async {
     await Future.delayed(const Duration(milliseconds: 300));
     return _mockDateSettings;
   }
+
   @override
   Future<bool> updateDateSettings({
     required List<String> ids,

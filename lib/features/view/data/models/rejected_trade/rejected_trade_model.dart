@@ -22,7 +22,6 @@ class RejectedTradeModel extends RejectedTrade {
     required super.device,
     required super.ipAddress,
   });
-
   factory RejectedTradeModel.fromJson(Map<String, dynamic> json) {
     return RejectedTradeModel(
       id: json['id']?.toString() ?? '',
@@ -50,7 +49,6 @@ class RejectedTradeModel extends RejectedTrade {
       ipAddress: json['ipAddress'] ?? json['ip_address'] ?? '',
     );
   }
-
   Map<String, dynamic> toJson() {
     return {
       'id': id,

@@ -7,9 +7,7 @@ import '../../models/deleted_trade/deleted_trade_model.dart';
 
 class DeletedTradeRepositoryImpl implements DeletedTradeRepository {
   final DeletedTradeRemoteDataSource remoteDataSource;
-
   DeletedTradeRepositoryImpl({required this.remoteDataSource});
-
   @override
   Future<Either<Failure, List<DeletedTrade>>> getDeletedTrades() async {
     try {

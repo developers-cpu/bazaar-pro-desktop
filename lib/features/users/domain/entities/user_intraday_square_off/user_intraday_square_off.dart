@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+
 class UserIntradaySquareOff extends Equatable {
   final String id;
   final String exchange;
@@ -23,6 +24,7 @@ class UserIntradaySquareOff extends Equatable {
       isEnabled: isEnabled ?? this.isEnabled,
     );
   }
+
   @override
   List<Object?> get props => [id, exchange, time, isEnabled];
 }

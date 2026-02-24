@@ -3,6 +3,7 @@ import '../../../../../core/usecases/usecase.dart';
 import '../../../domain/usecases/script_quantity/script_quantity_usecases.dart';
 import 'script_quantity_event.dart';
 import 'script_quantity_state.dart';
+
 class ScriptQuantityBloc
     extends Bloc<ScriptQuantityEvent, ScriptQuantityState> {
   final GetScriptQuantityExchanges getExchanges;
@@ -29,6 +30,7 @@ class ScriptQuantityBloc
       (exchanges) => emit(ScriptQuantityFiltersLoaded(exchanges: exchanges)),
     );
   }
+
   Future<void> _onLoadGroups(
     LoadGroupsEvent event,
     Emitter<ScriptQuantityState> emit,
@@ -48,6 +50,7 @@ class ScriptQuantityBloc
       ),
     );
   }
+
   Future<void> _onLoadScriptQuantities(
     LoadScriptQuantitiesEvent event,
     Emitter<ScriptQuantityState> emit,
@@ -68,6 +71,7 @@ class ScriptQuantityBloc
       ),
     );
   }
+
   Future<void> _onResetFilters(
     ResetFiltersEvent event,
     Emitter<ScriptQuantityState> emit,

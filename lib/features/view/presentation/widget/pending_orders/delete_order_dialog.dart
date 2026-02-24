@@ -8,6 +8,7 @@ import '../../../../../core/widget/custom_outlined_button.dart';
 import '../../../domain/entities/pending_orders/pending_order.dart';
 import '../../../../../core/widget/table/animated_price_box.dart';
 import '../../../../../core/widget/table/success_dialog.dart';
+
 class DeleteOrderDialog extends StatelessWidget {
   final PendingOrder order;
   final bool isDarkMode;
@@ -27,6 +28,7 @@ class DeleteOrderDialog extends StatelessWidget {
       builder: (_) => DeleteOrderDialog(order: order, isDarkMode: isDarkMode),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return CommonDialog(

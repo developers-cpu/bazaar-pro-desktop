@@ -4,6 +4,7 @@ import '../../../domain/entities/intraday_history/intraday_history.dart';
 import '../../../domain/usecases/intraday_history/intraday_history_usecases.dart';
 import 'intraday_history_event.dart';
 import 'intraday_history_state.dart';
+
 class IntradayHistoryBloc
     extends Bloc<IntradayHistoryEvent, IntradayHistoryState> {
   final GetIntradayHistory getIntradayHistory;
@@ -86,6 +87,7 @@ class IntradayHistoryBloc
       emit(IntradayHistoryError(e.toString()));
     }
   }
+
   Future<void> _onApplyFilters(
     ApplyIntradayFiltersEvent event,
     Emitter<IntradayHistoryState> emit,
@@ -115,6 +117,7 @@ class IntradayHistoryBloc
       ),
     );
   }
+
   Future<void> _onResetFilters(
     ResetIntradayFiltersEvent event,
     Emitter<IntradayHistoryState> emit,
@@ -135,6 +138,7 @@ class IntradayHistoryBloc
       ),
     );
   }
+
   Future<void> _onNavigateToSecondsView(
     NavigateToSecondsViewEvent event,
     Emitter<IntradayHistoryState> emit,
@@ -151,6 +155,7 @@ class IntradayHistoryBloc
       ),
     );
   }
+
   Future<void> _onLoadSecondsData(
     LoadSecondsDataEvent event,
     Emitter<IntradayHistoryState> emit,
@@ -180,12 +185,14 @@ class IntradayHistoryBloc
       ),
     );
   }
+
   Future<void> _onBackToListView(
     BackToListViewEvent event,
     Emitter<IntradayHistoryState> emit,
   ) async {
     add(const LoadIntradayHistoryEvent());
   }
+
   void _onSortByColumn(
     SortIntradayByColumnEvent event,
     Emitter<IntradayHistoryState> emit,
@@ -264,6 +271,7 @@ class IntradayHistoryBloc
       );
     }
   }
+
   Future<void> _onExportToPdf(
     ExportIntradayToPdfEvent event,
     Emitter<IntradayHistoryState> emit,
@@ -290,6 +298,7 @@ class IntradayHistoryBloc
       emit(currentState);
     });
   }
+
   Future<void> _onExportToExcel(
     ExportIntradayToExcelEvent event,
     Emitter<IntradayHistoryState> emit,

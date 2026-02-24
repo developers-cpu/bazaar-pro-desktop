@@ -10,6 +10,7 @@ import '../../../../../core/widget/table/success_dialog.dart';
 import 'trade_details_dialog.dart';
 import '../../../../../core/widget/custom_action_button.dart';
 import '../../../../../core/widget/custom_outlined_button.dart';
+
 class CancelAllOrdersDialog extends StatefulWidget {
   final List<PendingOrder> pendingOrders;
   final bool isDarkMode;
@@ -32,9 +33,11 @@ class CancelAllOrdersDialog extends StatefulWidget {
       ),
     );
   }
+
   @override
   State<CancelAllOrdersDialog> createState() => _CancelAllOrdersDialogState();
 }
+
 class _CancelAllOrdersDialogState extends State<CancelAllOrdersDialog> {
   final Set<String> _selectedOrderIds = {};
   String? _selectedUser;
@@ -44,6 +47,7 @@ class _CancelAllOrdersDialogState extends State<CancelAllOrdersDialog> {
     super.initState();
     _users.addAll(widget.pendingOrders.map((o) => o.userId).toSet().toList());
   }
+
   List<PendingOrder> get _filteredOrders {
     if (_selectedUser == null || _selectedUser == 'All Users') {
       return widget.pendingOrders;
@@ -52,6 +56,7 @@ class _CancelAllOrdersDialogState extends State<CancelAllOrdersDialog> {
         .where((o) => o.userId == _selectedUser)
         .toList();
   }
+
   @override
   Widget build(BuildContext context) {
     return CommonDialog(
@@ -96,6 +101,7 @@ class _CancelAllOrdersDialogState extends State<CancelAllOrdersDialog> {
       ),
     );
   }
+
   Widget _buildFilterBar() {
     return Padding(
       padding: EdgeInsets.all(16.w),
@@ -121,6 +127,7 @@ class _CancelAllOrdersDialogState extends State<CancelAllOrdersDialog> {
       ),
     );
   }
+
   Widget _buildActionButtons(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -178,6 +185,7 @@ class _CancelAllOrdersDialogState extends State<CancelAllOrdersDialog> {
       ),
     );
   }
+
   List<ViewTableColumn> _getColumns() {
     final allSelected =
         _filteredOrders.isNotEmpty &&
@@ -221,6 +229,7 @@ class _CancelAllOrdersDialogState extends State<CancelAllOrdersDialog> {
       ViewTableColumn(id: 'cmp', label: 'CMP', width: 120, isNumeric: true),
     ];
   }
+
   Widget _buildCell(PendingOrder item, ViewTableColumn column, bool isDark) {
     switch (column.id) {
       case 'checkbox':
@@ -294,6 +303,7 @@ class _CancelAllOrdersDialogState extends State<CancelAllOrdersDialog> {
         return const SizedBox.shrink();
     }
   }
+
   Widget _buildTable() {
     final data = _filteredOrders;
     return ViewDataTable<PendingOrder>(

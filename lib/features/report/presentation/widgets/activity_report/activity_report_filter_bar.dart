@@ -8,6 +8,7 @@ import '../../../../../core/widget/date_range_picker_dialog.dart' as custom;
 import '../../bloc/activity_report/activity_report_bloc.dart';
 import '../../bloc/activity_report/activity_report_event.dart';
 import '../../bloc/activity_report/activity_report_state.dart';
+
 class ActivityReportFilterBar extends StatelessWidget {
   const ActivityReportFilterBar({super.key});
   @override

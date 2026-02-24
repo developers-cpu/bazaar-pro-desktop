@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
 import '../../../domain/entities/trade_settings/trade_setting.dart';
+
 class TradeSettingsDataTable extends StatelessWidget {
   final List<dynamic> data;
   final Set<String> selectedIds;
@@ -67,11 +68,13 @@ class TradeSettingsDataTable extends StatelessWidget {
       autoFit: true,
     );
   }
+
   List<ViewTableColumn> _buildColumns() {
     final List<ViewTableColumn> columns = [_checkboxColumn()];
     columns.addAll(_columnsForTab());
     return columns;
   }
+
   ViewTableColumn _checkboxColumn() {
     return ViewTableColumn(
       id: 'checkbox',
@@ -94,6 +97,7 @@ class TradeSettingsDataTable extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildExchangeCell(TradeSetting item) {
     if (onExchangeTap != null) {
       return InkWell(
@@ -121,6 +125,7 @@ class TradeSettingsDataTable extends StatelessWidget {
       overflow: TextOverflow.ellipsis,
     );
   }
+
   List<ViewTableColumn> _columnsForTab() {
     switch (activeTab) {
       case 0:
@@ -201,6 +206,7 @@ class TradeSettingsDataTable extends StatelessWidget {
         ];
     }
   }
+
   Widget _buildCell(TradeSetting item, String colId) {
     String text = '';
     switch (colId) {

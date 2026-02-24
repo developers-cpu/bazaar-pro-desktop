@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../constants/app_colors.dart';
+
 class SuccessDialog extends StatefulWidget {
   final String title;
   final String subtitle;
@@ -19,9 +20,11 @@ class SuccessDialog extends StatefulWidget {
       builder: (_) => SuccessDialog(title: title, subtitle: subtitle),
     );
   }
+
   @override
   State<SuccessDialog> createState() => _SuccessDialogState();
 }
+
 class _SuccessDialogState extends State<SuccessDialog> {
   @override
   void initState() {
@@ -32,6 +35,7 @@ class _SuccessDialogState extends State<SuccessDialog> {
       }
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Dialog(

@@ -40,6 +40,7 @@ import 'pending_orders/pending_orders_page.dart';
 import 'trade_margin/trade_margin_page.dart';
 import 'trades/trades_page.dart';
 import 'broker_list/broker_list_page.dart';
+import '../widget/manual_trade/manual_trade_dialog.dart' as import_manual_trade;
 import '../../../../../injection_container.dart' as di;
 
 class ViewPageWrapper extends StatelessWidget {

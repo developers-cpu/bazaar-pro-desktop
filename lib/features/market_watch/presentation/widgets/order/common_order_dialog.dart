@@ -11,6 +11,7 @@ import '../../bloc/order/order_dialog_state.dart';
 import 'order_number_field.dart';
 import 'order_action_button.dart';
 import 'order_success_dialog.dart';
+
 class CommonOrderDialog extends StatelessWidget {
   final OrderDialogType type;
   const CommonOrderDialog({Key? key, required this.type}) : super(key: key);
@@ -29,6 +30,7 @@ class CommonOrderDialog extends StatelessWidget {
       builder: (context) => const CommonOrderDialog(type: OrderDialogType.buy),
     );
   }
+
   static Future<void> showSellOrder(BuildContext context) {
     context.read<OrderDialogBloc>().add(const OpenSellOrderEvent());
     return showDialog(
@@ -37,6 +39,7 @@ class CommonOrderDialog extends StatelessWidget {
       builder: (context) => const CommonOrderDialog(type: OrderDialogType.sell),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<OrderDialogBloc, OrderDialogState>(
@@ -75,6 +78,7 @@ class CommonOrderDialog extends StatelessWidget {
       },
     );
   }
+
   Widget _buildHeader(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(10.w),
@@ -106,6 +110,7 @@ class CommonOrderDialog extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildContent(BuildContext context, OrderDialogState state) {
     return Container(
       margin: EdgeInsets.fromLTRB(10.w, 0, 10.w, 10.w),
@@ -123,6 +128,7 @@ class CommonOrderDialog extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildFirstRow(BuildContext context, OrderDialogState state) {
     return Row(
       children: [
@@ -209,6 +215,7 @@ class CommonOrderDialog extends StatelessWidget {
       ],
     );
   }
+
   Widget _buildSecondRow(BuildContext context, OrderDialogState state) {
     return Row(
       children: [

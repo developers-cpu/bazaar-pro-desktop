@@ -4,12 +4,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../domain/entities/dashboard_entity.dart';
+
 class TradeReportsChart extends StatefulWidget {
   final List<TradeReportData> data;
   const TradeReportsChart({Key? key, required this.data}) : super(key: key);
   @override
   State<TradeReportsChart> createState() => _TradeReportsChartState();
 }
+
 class _TradeReportsChartState extends State<TradeReportsChart> {
   int? _touchedGroupIndex;
   int? _touchedRodIndex;
@@ -231,6 +233,7 @@ class _TradeReportsChartState extends State<TradeReportsChart> {
       },
     );
   }
+
   List<BarChartGroupData> _buildBarGroups(
     BoxConstraints constraints,
     double barWidth,
@@ -270,6 +273,7 @@ class _TradeReportsChartState extends State<TradeReportsChart> {
       );
     }).toList();
   }
+
   BarChartRodData _buildBarRod(
     double value,
     Color color,
@@ -296,6 +300,7 @@ class _TradeReportsChartState extends State<TradeReportsChart> {
       ),
     );
   }
+
   Widget _buildLegend() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -308,6 +313,7 @@ class _TradeReportsChartState extends State<TradeReportsChart> {
       ],
     );
   }
+
   Widget _buildLegendItem(String label, Color color) {
     return Row(
       mainAxisSize: MainAxisSize.min,

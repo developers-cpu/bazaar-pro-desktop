@@ -1,8 +1,9 @@
 import 'package:equatable/equatable.dart';
 import '../../../domain/entities/bill_comparison/bill_comparison_entity.dart';
+
 class BillComparisonState extends Equatable {
   final bool isLoading;
-  final bool hasLoadedInitialData; 
+  final bool hasLoadedInitialData;
   final List<BillComparisonEntity> allData;
   final List<BillComparisonEntity> filteredData;
   final String error;
@@ -40,6 +41,7 @@ class BillComparisonState extends Equatable {
       endDate: endDate ?? this.endDate,
     );
   }
+
   @override
   List<Object?> get props => [
     isLoading,

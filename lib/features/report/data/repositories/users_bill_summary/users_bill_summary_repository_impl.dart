@@ -7,9 +7,7 @@ import '../../datasources/users_bill_summary/users_bill_summary_remote_data_sour
 
 class UsersBillSummaryRepositoryImpl implements UsersBillSummaryRepository {
   final UsersBillSummaryRemoteDataSource remoteDataSource;
-
   UsersBillSummaryRepositoryImpl(this.remoteDataSource);
-
   @override
   Future<Either<Failure, List<UsersBillSummaryEntity>>> getBillSummary(
     String userId,

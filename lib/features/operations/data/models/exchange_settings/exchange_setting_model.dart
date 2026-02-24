@@ -1,4 +1,5 @@
 import '../../../domain/entities/exchange_settings/exchange_setting.dart';
+
 class ExchangeSettingModel extends ExchangeSetting {
   const ExchangeSettingModel({
     required super.id,
@@ -44,6 +45,7 @@ class ExchangeSettingModel extends ExchangeSetting {
     };
   }
 }
+
 class DefaultSymbolModel extends DefaultSymbol {
   const DefaultSymbolModel({
     required super.id,

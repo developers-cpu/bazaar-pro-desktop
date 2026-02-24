@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
+
 class CommonDialog extends StatelessWidget {
   final String title;
   final Widget content;
@@ -84,6 +85,7 @@ class CommonDialog extends StatelessWidget {
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     final bgColor =
@@ -131,6 +133,7 @@ class CommonDialog extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildHeader(BuildContext context, Color headerBgColor) {
     return ClipRRect(
       borderRadius: BorderRadius.only(
@@ -166,6 +169,7 @@ class CommonDialog extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildButtons(BuildContext context) {
     final primaryColor = isDarkMode
         ? const Color(0xFF1F4A66)

@@ -98,7 +98,7 @@ class DashboardDataSource {
         colorIndex: 7,
       ),
       const SymbolReportModel(
-        symbol: 'NATURALGAS',
+        symbol: 'NATURAL',
         value: 91.77,
         percentage: 5.37,
         colorIndex: 8,

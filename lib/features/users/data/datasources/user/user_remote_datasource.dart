@@ -185,7 +185,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
     if (exchange == 'NSE') {
       return ['NIFTY Oct 28', 'BANKNIFTY Oct 28', 'RELIANCE', 'TATASTEEL'];
     } else if (exchange == 'MCX') {
-      return ['GOLD05DEC', 'SILVER05DEC', 'CRUDEOIL', 'NATURALGAS'];
+      return ['GOLD05DEC', 'SILVER05DEC', 'CRUDEOIL', 'NATURAL'];
     }
     return [
       'NIFTY Oct 28',

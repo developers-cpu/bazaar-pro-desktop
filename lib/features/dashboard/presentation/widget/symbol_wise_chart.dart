@@ -162,8 +162,8 @@ class _SymbolWiseChartState extends State<SymbolWiseChart> {
             child: Text(
               item.symbol,
               style: GoogleFonts.openSans(
-                fontSize: 11.sp,
-                fontWeight: FontWeight.w500,
+                fontSize: 9.sp,
+                fontWeight: FontWeight.w600,
                 color: LightThemeColors.textColor,
               ),
               overflow: TextOverflow.ellipsis,
@@ -187,7 +187,7 @@ class _PieChartWithLabelsPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final center = Offset(size.width / 2, size.height / 2);
-    final pieRadius = math.min(size.width, size.height) * 0.25;
+    final pieRadius = math.min(size.width, size.height) * 0.45;
     final totalPercentage = data.fold<double>(
       0,
       (sum, item) => sum + item.percentage,
@@ -239,10 +239,10 @@ class _PieChartWithLabelsPainter extends CustomPainter {
       final pieEdgeX = center.dx + pieRadius * math.cos(midAngle);
       final pieEdgeY = center.dy + pieRadius * math.sin(midAngle);
       final isLeftSide = midAngle < -math.pi / 2 || midAngle > math.pi / 2;
-      final bendRadius = pieRadius * 1.25;
+      final bendRadius = pieRadius * 1.15;
       final bendX = center.dx + bendRadius * math.cos(midAngle);
       final bendY = center.dy + bendRadius * math.sin(midAngle);
-      final horizontalLength = math.min(size.width * 0.1, 30.0);
+      final horizontalLength = math.min(size.width * 0.15, 45.0);
       final labelX = isLeftSide
           ? bendX - horizontalLength
           : bendX + horizontalLength;
@@ -271,11 +271,11 @@ class _PieChartWithLabelsPainter extends CustomPainter {
     final symbolPainter = TextPainter(
       text: TextSpan(
         text: item.symbol,
-        style: const TextStyle(
+        style:  TextStyle(
           fontFamily: 'OpenSans',
-          fontSize: 8,
+          fontSize: 9.sp,
           color: AppColors.black,
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w500,
         ),
       ),
       textDirection: TextDirection.ltr,
@@ -284,7 +284,7 @@ class _PieChartWithLabelsPainter extends CustomPainter {
       text: TextSpan(
         text:
             '${item.value.toStringAsFixed(1)} ${item.percentage.toStringAsFixed(1)}%',
-        style: TextStyle(fontFamily: 'OpenSans', fontSize: 7, color: color),
+        style: TextStyle(fontFamily: 'OpenSans', fontSize: 9.sp, color: color),
       ),
       textDirection: TextDirection.ltr,
     )..layout();

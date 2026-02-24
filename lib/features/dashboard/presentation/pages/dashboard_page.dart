@@ -196,7 +196,12 @@ class _DashboardView extends StatelessWidget {
                         FilterWeeklyProgressByClientEvent(clientId: client),
                       );
                     },
-                    periods: const ['This Week', 'Last Week'],
+                    periods: const [
+                      'This Week',
+                      'Previous Week',
+                      'This Month',
+                      'Previous Month',
+                    ],
                     selectedPeriod: state.weeklyProgressPeriod,
                     onPeriodChanged: (period) {
                       if (period != null) {

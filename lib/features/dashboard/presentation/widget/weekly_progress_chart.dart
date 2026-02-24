@@ -29,6 +29,29 @@ class WeeklyProgressChart extends StatelessWidget {
     );
     return LineChart(
       LineChartData(
+        lineTouchData: LineTouchData(
+          touchTooltipData: LineTouchTooltipData(
+            getTooltipColor: (_) => AppColors.primaryBlue,
+            tooltipBorderRadius: BorderRadius.circular(8.r),
+            tooltipPadding: EdgeInsets.symmetric(
+              horizontal: 8.w,
+              vertical: 4.h,
+            ),
+            fitInsideHorizontally: true,
+            getTooltipItems: (touchedSpots) {
+              return touchedSpots.map((spot) {
+                return LineTooltipItem(
+                  spot.y.toStringAsFixed(1),
+                  GoogleFonts.openSans(
+                    fontSize: 11.sp,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                );
+              }).toList();
+            },
+          ),
+        ),
         gridData: FlGridData(
           show: true,
           drawVerticalLine: true,
@@ -53,17 +76,19 @@ class WeeklyProgressChart extends StatelessWidget {
           bottomTitles: AxisTitles(
             sideTitles: SideTitles(
               showTitles: true,
-              reservedSize: 30,
+              reservedSize: 34,
               interval: 1,
               getTitlesWidget: (value, meta) {
                 final index = value.toInt();
-                if (index >= 0 && index < data.length) {
+                if (value == index.toDouble() &&
+                    index >= 0 &&
+                    index < data.length) {
                   return Padding(
                     padding: const EdgeInsets.only(top: 8.0),
                     child: Text(
                       data[index].label,
                       style: GoogleFonts.openSans(
-                        fontSize: 10.sp,
+                        fontSize: 12.sp,
                         color: LightThemeColors.textColor,
                       ),
                     ),
@@ -77,7 +102,7 @@ class WeeklyProgressChart extends StatelessWidget {
             sideTitles: SideTitles(
               showTitles: true,
               interval: yInterval,
-              reservedSize: 42,
+              reservedSize: 45,
               getTitlesWidget: (value, meta) {
                 return Text(
                   value.toInt().toString(),
@@ -91,9 +116,9 @@ class WeeklyProgressChart extends StatelessWidget {
           ),
         ),
         borderData: FlBorderData(show: false),
-        clipData: const FlClipData.all(),
-        minX: 0,
-        maxX: data.length.toDouble() + 1,
+        clipData: const FlClipData.none(),
+        minX: -0.5,
+        maxX: data.length.toDouble() + 2.5,
         minY: 0,
         maxY: computedMaxY,
         lineBarsData: [
@@ -104,17 +129,17 @@ class WeeklyProgressChart extends StatelessWidget {
                 .map((e) => FlSpot(e.key.toDouble(), e.value.value))
                 .toList(),
             isCurved: false,
-            color: const Color(0xFF5D7E8E),
-            barWidth: 1.5,
+            color: AppColors.primaryBlue,
+            barWidth: 1.0,
             isStrokeCapRound: true,
             dotData: FlDotData(
               show: true,
               getDotPainter: (spot, percent, barData, index) {
                 return FlDotCirclePainter(
-                  radius: 3,
+                  radius: 2,
                   color: AppColors.white,
-                  strokeWidth: 1.5,
-                  strokeColor: const Color(0xFF5D7E8E),
+                  strokeWidth: 1.0,
+                  strokeColor: AppColors.primaryBlue,
                 );
               },
             ),

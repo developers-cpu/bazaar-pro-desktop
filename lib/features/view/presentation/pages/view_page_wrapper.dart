@@ -1,4 +1,5 @@
 import 'package:bazarpro/features/view/presentation/pages/deleted_trade/deleted_trade_page.dart';
+import 'package:bazarpro/features/view/presentation/pages/rejected_trade/rejected_trade_page.dart';
 import 'package:bazarpro/features/view/presentation/pages/rejection_log/rejection_log_page.dart';
 import 'package:bazarpro/features/view/presentation/pages/script_master/script_master_page.dart';
 import 'package:bazarpro/features/view/presentation/pages/script_quantity/script_quantity_page.dart';
@@ -10,6 +11,8 @@ import '../../../../../core/constants/app_colors.dart';
 import '../../../../core/widget/app_bar_section.dart';
 import '../bloc/deleted_trade/deleted_trade_bloc.dart';
 import '../bloc/deleted_trade/deleted_trade_event.dart';
+import '../bloc/rejected_trade/rejected_trade_bloc.dart';
+import '../bloc/rejected_trade/rejected_trade_event.dart';
 import '../bloc/deals/deals_bloc.dart';
 import '../bloc/deals/deals_event.dart';
 import '../bloc/intraday_history/intraday_history_bloc.dart';
@@ -418,9 +421,27 @@ class RejectedTradePageWithAppBar extends StatelessWidget {
   const RejectedTradePageWithAppBar({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return ViewPageWrapper(
-      pageTitle: 'Rejected Trade',
-      child: const Center(child: Text('Rejected Trade Page - Coming Soon')),
+    return BlocProvider(
+      create: (context) =>
+          di.sl<RejectedTradeBloc>()..add(const LoadRejectedTradesEvent()),
+      child: Builder(
+        builder: (context) {
+          return ViewPageWrapper(
+            pageTitle: 'Rejected Trade',
+            onExportPdf: () {
+              context.read<RejectedTradeBloc>().add(
+                const ExportRejectedTradesToPdfEvent(),
+              );
+            },
+            onExportExcel: () {
+              context.read<RejectedTradeBloc>().add(
+                const ExportRejectedTradesToExcelEvent(),
+              );
+            },
+            child: const RejectedTradePage(),
+          );
+        },
+      ),
     );
   }
 }

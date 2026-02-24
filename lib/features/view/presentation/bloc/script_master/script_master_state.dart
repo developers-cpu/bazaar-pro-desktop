@@ -26,6 +26,7 @@ class ScriptMasterLoaded extends ScriptMasterState {
   final String? selectedSymbol;
   final List<String> exchanges;
   final List<String> symbols;
+  final bool showTable;
   const ScriptMasterLoaded({
     required this.scripts,
     required this.filteredScripts,
@@ -37,6 +38,7 @@ class ScriptMasterLoaded extends ScriptMasterState {
     this.selectedSymbol,
     this.exchanges = const [],
     this.symbols = const [],
+    this.showTable = false,
   });
   @override
   List<Object?> get props => [
@@ -50,6 +52,7 @@ class ScriptMasterLoaded extends ScriptMasterState {
     selectedSymbol,
     exchanges,
     symbols,
+    showTable,
   ];
   ScriptMasterLoaded copyWith({
     List<ScriptMaster>? scripts,
@@ -62,6 +65,7 @@ class ScriptMasterLoaded extends ScriptMasterState {
     String? selectedSymbol,
     List<String>? exchanges,
     List<String>? symbols,
+    bool? showTable,
   }) {
     return ScriptMasterLoaded(
       scripts: scripts ?? this.scripts,
@@ -74,6 +78,7 @@ class ScriptMasterLoaded extends ScriptMasterState {
       selectedSymbol: selectedSymbol ?? this.selectedSymbol,
       exchanges: exchanges ?? this.exchanges,
       symbols: symbols ?? this.symbols,
+      showTable: showTable ?? this.showTable,
     );
   }
 }

@@ -106,13 +106,13 @@ class IntradayHistoryTable extends StatelessWidget {
         return GestureDetector(
           onTap: () => _onViewTap(context, history, state),
           child: Container(
-            width: 22.w,
-            height: 22.w,
+            width: 16.w,
+            height: 16.w,
             decoration: BoxDecoration(
               color: AppColors.primaryBlue,
               shape: BoxShape.circle,
             ),
-            child: Icon(Icons.add, color: AppColors.white, size: 14.sp),
+            child: Icon(Icons.add, color: AppColors.white, size: 12.sp),
           ),
         );
       case 'timestamp':

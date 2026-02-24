@@ -37,7 +37,7 @@ class TradeMarginTable extends StatelessWidget {
       case 'exchange':
         return ViewTextCell(text: item.exchange, isDark: isDark);
       case 'symbol':
-        return ViewLinkCell(text: item.symbol, isDark: isDark);
+        return ViewTextCell(text: item.symbol, isDark: isDark);
       case 'expiryDate':
         return ViewDateTimeCell(dateTime: item.expiryDate, isDark: isDark);
       case 'marginPct':

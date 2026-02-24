@@ -32,7 +32,23 @@ class _ScriptMasterPageState extends State<ScriptMasterPage> {
         child: Column(
           children: [
             const ScriptMasterFilterBar(),
-            const Expanded(child: ScriptMasterTable()),
+            Expanded(
+              child: BlocBuilder<ScriptMasterBloc, ScriptMasterState>(
+                builder: (context, state) {
+                  if (state is ScriptMasterLoading) {
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        color: AppColors.primaryBlue,
+                      ),
+                    );
+                  }
+                  if (state is ScriptMasterLoaded && state.showTable) {
+                    return const ScriptMasterTable();
+                  }
+                  return const SizedBox.shrink();
+                },
+              ),
+            ),
           ],
         ),
       ),

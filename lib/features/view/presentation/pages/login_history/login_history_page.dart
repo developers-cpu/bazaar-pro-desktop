@@ -32,7 +32,23 @@ class _LoginHistoryPageState extends State<LoginHistoryPage> {
         child: Column(
           children: [
             const LoginHistoryFilterBar(),
-            const Expanded(child: LoginHistoryTable()),
+            BlocBuilder<LoginHistoryBloc, LoginHistoryState>(
+              builder: (context, state) {
+                if (state is LoginHistoryLoading) {
+                  return const Expanded(
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        color: AppColors.primaryBlue,
+                      ),
+                    ),
+                  );
+                }
+                if (state is LoginHistoryLoaded && state.showTable) {
+                  return const Expanded(child: LoginHistoryTable());
+                }
+                return const Spacer();
+              },
+            ),
           ],
         ),
       ),

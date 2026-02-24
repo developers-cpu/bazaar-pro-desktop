@@ -116,7 +116,10 @@ class ManualTradeDialog extends StatelessWidget {
                       Container(
                         height: 28.h,
                         decoration: BoxDecoration(
-                          border: Border.all(color: AppColors.primaryBlue),
+                          border: Border.all(
+                            color: AppColors.primaryBlue,
+                            width: 1.4,
+                          ),
                           borderRadius: BorderRadius.circular(8.r),
                         ),
                         child: Row(
@@ -203,6 +206,46 @@ class ManualTradeDialog extends StatelessWidget {
                 final TimeOfDay? time = await showTimePicker(
                   context: context,
                   initialTime: state.selectedTime ?? TimeOfDay.now(),
+                  builder: (context, child) {
+                    return Theme(
+                      data: Theme.of(context).copyWith(
+                        colorScheme: const ColorScheme.light(
+                          primary: AppColors.primaryBlue,
+                          onPrimary: Colors.white,
+                          onSurface: AppColors.black,
+                        ),
+                        textButtonTheme: TextButtonThemeData(
+                          style: TextButton.styleFrom(
+                            foregroundColor: AppColors.primaryBlue,
+                          ),
+                        ),
+                        timePickerTheme: TimePickerThemeData(
+                          dialHandColor: AppColors.primaryBlue,
+                          hourMinuteColor: MaterialStateColor.resolveWith(
+                            (states) => states.contains(MaterialState.selected)
+                                ? AppColors.primaryBlue
+                                : AppColors.primaryBlue.withOpacity(0.1),
+                          ),
+                          hourMinuteTextColor: MaterialStateColor.resolveWith(
+                            (states) => states.contains(MaterialState.selected)
+                                ? Colors.white
+                                : AppColors.primaryBlue,
+                          ),
+                          dayPeriodColor: MaterialStateColor.resolveWith(
+                            (states) => states.contains(MaterialState.selected)
+                                ? AppColors.primaryBlue
+                                : AppColors.primaryBlue.withOpacity(0.1),
+                          ),
+                          dayPeriodTextColor: MaterialStateColor.resolveWith(
+                            (states) => states.contains(MaterialState.selected)
+                                ? Colors.white
+                                : AppColors.primaryBlue,
+                          ),
+                        ),
+                      ),
+                      child: child!,
+                    );
+                  },
                 );
                 if (time != null) {
                   _updateField(context, 'selectedTime', time);
@@ -212,7 +255,7 @@ class ManualTradeDialog extends StatelessWidget {
                 height: 28.h,
                 padding: EdgeInsets.symmetric(horizontal: 12.w),
                 decoration: BoxDecoration(
-                  border: Border.all(color: AppColors.primaryBlue),
+                  border: Border.all(color: AppColors.primaryBlue, width: 1.4),
                   borderRadius: BorderRadius.circular(8.r),
                 ),
                 child: Row(
@@ -242,6 +285,23 @@ class ManualTradeDialog extends StatelessWidget {
                   initialDate: state.selectedDate ?? DateTime.now(),
                   firstDate: DateTime(2000),
                   lastDate: DateTime(2100),
+                  builder: (context, child) {
+                    return Theme(
+                      data: Theme.of(context).copyWith(
+                        colorScheme: const ColorScheme.light(
+                          primary: AppColors.primaryBlue,
+                          onPrimary: Colors.white,
+                          onSurface: AppColors.black,
+                        ),
+                        textButtonTheme: TextButtonThemeData(
+                          style: TextButton.styleFrom(
+                            foregroundColor: AppColors.primaryBlue,
+                          ),
+                        ),
+                      ),
+                      child: child!,
+                    );
+                  },
                 );
                 if (date != null) {
                   _updateField(context, 'selectedDate', date);
@@ -251,7 +311,7 @@ class ManualTradeDialog extends StatelessWidget {
                 height: 28.h,
                 padding: EdgeInsets.symmetric(horizontal: 12.w),
                 decoration: BoxDecoration(
-                  border: Border.all(color: AppColors.primaryBlue),
+                  border: Border.all(color: AppColors.primaryBlue, width: 1.4),
                   borderRadius: BorderRadius.circular(8.r),
                 ),
                 child: Row(
@@ -362,9 +422,11 @@ class ManualTradeDialog extends StatelessWidget {
 
   TextStyle _valueStyle() {
     return GoogleFonts.openSans(
-      fontSize: 14.sp,
+      fontSize: 12.sp,
       fontWeight: FontWeight.w600,
-      color: AppColors.black,
+      color: AppColors.primaryBlue,
+      height: 1.0,
+      letterSpacing: 0.15,
     );
   }
 }

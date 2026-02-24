@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/widget/app_dropdown.dart';
+import '../../../../../core/widget/table/view_reset_buttons.dart';
 import '../../bloc/login_history/login_history_bloc.dart';
 import '../../bloc/login_history/login_history_event.dart';
 import '../../bloc/login_history/login_history_state.dart';
@@ -17,7 +18,9 @@ class LoginHistoryFilterBar extends StatelessWidget {
             : state is LoginHistoryLoaded
             ? state.clients
             : <String>[];
-        final selectedClient = state is LoginHistoryLoaded
+        final selectedClient = state is LoginHistoryInitial
+            ? state.selectedClient
+            : state is LoginHistoryLoaded
             ? state.selectedClient
             : null;
         return Container(
@@ -51,6 +54,18 @@ class LoginHistoryFilterBar extends StatelessWidget {
                 ),
               ),
               const Spacer(),
+              ViewResetButtons(
+                onReset: () {
+                  context.read<LoginHistoryBloc>().add(
+                    const ResetLoginHistoryEvent(),
+                  );
+                },
+                onView: () {
+                  context.read<LoginHistoryBloc>().add(
+                    const ViewLoginHistoryEvent(),
+                  );
+                },
+              ),
             ],
           ),
         );

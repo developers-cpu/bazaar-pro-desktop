@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/app_dropdown.dart';
+import '../../../../../core/widget/app_date_picker.dart';
 import '../../../../../core/widget/table/view_reset_buttons.dart';
 import '../../bloc/intraday_history/intraday_history_bloc.dart';
 import '../../bloc/intraday_history/intraday_history_event.dart';
@@ -17,6 +18,7 @@ class IntradaySecondsFilterBar extends StatefulWidget {
 }
 
 class _IntradaySecondsFilterBarState extends State<IntradaySecondsFilterBar> {
+  DateTime? _selectedDate;
   String? _selectedExchange;
   String? _selectedSymbol;
   final List<String> _exchanges = [
@@ -46,6 +48,7 @@ class _IntradaySecondsFilterBarState extends State<IntradaySecondsFilterBar> {
         if (state is! IntradayHistorySecondsView) {
           return const SizedBox.shrink();
         }
+        _selectedDate ??= state.date;
         _selectedExchange ??= state.exchange.isNotEmpty ? state.exchange : null;
         _selectedSymbol ??= state.symbol.isNotEmpty ? state.symbol : null;
         return Container(
@@ -56,6 +59,18 @@ class _IntradaySecondsFilterBarState extends State<IntradaySecondsFilterBar> {
               SizedBox(height: 12.h),
               Row(
                 children: [
+                  AppDatePicker(
+                    label: '',
+                    value: _selectedDate,
+                    onChanged: (value) {
+                      setState(() {
+                        _selectedDate = value;
+                      });
+                    },
+                    width: 200.w,
+                    height: 35.h,
+                  ),
+                  SizedBox(width: 12.w),
                   SizedBox(
                     width: 200.w,
                     child: AppDropdown(

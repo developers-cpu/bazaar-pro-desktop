@@ -18,6 +18,8 @@ class LoginHistoryBloc extends Bloc<LoginHistoryEvent, LoginHistoryState> {
   }) : super(const LoginHistoryInitial()) {
     on<LoadClientsEvent>(_onLoadClients);
     on<SelectClientEvent>(_onSelectClient);
+    on<ViewLoginHistoryEvent>(_onViewHistory);
+    on<ResetLoginHistoryEvent>(_onResetHistory);
     on<SortLoginHistoryByColumnEvent>(_onSortByColumn);
     on<ExportLoginHistoryToPdfEvent>(_onExportToPdf);
     on<ExportLoginHistoryToExcelEvent>(_onExportToExcel);
@@ -37,29 +39,76 @@ class LoginHistoryBloc extends Bloc<LoginHistoryEvent, LoginHistoryState> {
     }
   }
 
-  Future<void> _onSelectClient(
+  void _onSelectClient(
     SelectClientEvent event,
     Emitter<LoginHistoryState> emit,
+  ) {
+    if (state is LoginHistoryInitial) {
+      final currentState = state as LoginHistoryInitial;
+      emit(
+        LoginHistoryInitial(
+          clients: currentState.clients,
+          selectedClient: event.client,
+        ),
+      );
+    } else if (state is LoginHistoryLoaded) {
+      final currentState = state as LoginHistoryLoaded;
+      emit(
+        currentState.copyWith(selectedClient: event.client, showTable: false),
+      );
+    }
+  }
+
+  Future<void> _onViewHistory(
+    ViewLoginHistoryEvent event,
+    Emitter<LoginHistoryState> emit,
   ) async {
+    String? clientToFetch;
+    List<String> clients = [];
+
+    if (state is LoginHistoryInitial) {
+      clientToFetch = (state as LoginHistoryInitial).selectedClient;
+      clients = (state as LoginHistoryInitial).clients;
+    } else if (state is LoginHistoryLoaded) {
+      clientToFetch = (state as LoginHistoryLoaded).selectedClient;
+      clients = (state as LoginHistoryLoaded).clients;
+    }
+
+    if (clientToFetch == null || clientToFetch.isEmpty) {
+      return;
+    }
+
     emit(const LoginHistoryLoading());
     try {
-      final clientsResult = await getClients(NoParams());
-      final historyResult = await getLoginHistory(event.client);
-      final clients = clientsResult.fold((l) => <String>[], (r) => r);
+      final historyResult = await getLoginHistory(clientToFetch);
       historyResult.fold(
         (failure) => emit(LoginHistoryError(failure.message)),
         (history) => emit(
           LoginHistoryLoaded(
             history: history,
-            selectedClient: event.client,
+            selectedClient: clientToFetch!,
             totalRecords: history.length,
             clients: clients,
+            showTable: true,
           ),
         ),
       );
     } catch (e) {
       emit(LoginHistoryError(e.toString()));
     }
+  }
+
+  void _onResetHistory(
+    ResetLoginHistoryEvent event,
+    Emitter<LoginHistoryState> emit,
+  ) {
+    List<String> clients = [];
+    if (state is LoginHistoryInitial) {
+      clients = (state as LoginHistoryInitial).clients;
+    } else if (state is LoginHistoryLoaded) {
+      clients = (state as LoginHistoryLoaded).clients;
+    }
+    emit(LoginHistoryInitial(clients: clients, selectedClient: null));
   }
 
   void _onSortByColumn(

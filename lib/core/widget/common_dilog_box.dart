@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:bazarpro/core/widget/custom_action_button.dart';
+import 'package:bazarpro/core/widget/custom_outlined_button.dart';
 import '../../../../core/constants/app_colors.dart';
 
 class CommonDialog extends StatelessWidget {
@@ -124,7 +126,6 @@ class CommonDialog extends StatelessWidget {
                     ),
             ),
             if (showButtons) ...[
-              SizedBox(height: 20.h),
               _buildButtons(context),
               SizedBox(height: 20.h),
             ],
@@ -174,17 +175,16 @@ class CommonDialog extends StatelessWidget {
     final primaryColor = isDarkMode
         ? const Color(0xFF1F4A66)
         : (headerColor ?? AppColors.primaryBlue);
-    final btnWidth = buttonWidth ?? 150.w;
     final btnHeight = buttonHeight ?? 45.h;
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.w),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SizedBox(
-            width: btnWidth,
-            height: btnHeight,
-            child: OutlinedButton(
+          Expanded(
+            child: CustomOutlinedActionButton(
+              text: cancelText,
               onPressed: () {
                 if (onCancel != null) {
                   onCancel!();
@@ -193,29 +193,17 @@ class CommonDialog extends StatelessWidget {
                   Navigator.pop(context);
                 }
               },
-              style: OutlinedButton.styleFrom(
-                padding: EdgeInsets.symmetric(vertical: 12.h),
-                side: BorderSide(color: primaryColor, width: 1.5),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.r),
-                ),
-                backgroundColor: Colors.transparent,
-              ),
-              child: Text(
-                cancelText,
-                style: GoogleFonts.openSans(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w600,
-                  color: primaryColor,
-                ),
-              ),
+              height: btnHeight,
+              borderColor: primaryColor,
+              textColor: primaryColor,
+              borderRadius: 10.r,
+              fontSize: 16.sp,
             ),
           ),
           SizedBox(width: 16.w),
-          SizedBox(
-            width: btnWidth,
-            height: btnHeight,
-            child: ElevatedButton(
+          Expanded(
+            child: CustomActionButton(
+              text: saveText,
               onPressed: () {
                 if (onSave != null) {
                   onSave!();
@@ -224,22 +212,10 @@ class CommonDialog extends StatelessWidget {
                   Navigator.pop(context);
                 }
               },
-              style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(vertical: 12.h),
-                backgroundColor: primaryColor,
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.r),
-                ),
-              ),
-              child: Text(
-                saveText,
-                style: GoogleFonts.openSans(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white,
-                ),
-              ),
+              height: btnHeight,
+              backgroundColor: primaryColor,
+              borderRadius: 10.r,
+              fontSize: 16.sp,
             ),
           ),
         ],

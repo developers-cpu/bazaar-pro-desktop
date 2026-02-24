@@ -20,39 +20,37 @@ class ScriptMasterFilterBar extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Row(
             children: [
-              Expanded(
-                child: AppDropdown(
-                  type: AppDropdownType.simple,
-                  hintText: 'Exchange',
-                  value: state.selectedExchange,
-                  items: state.exchanges,
-                  showAllOption: false,
-                  onChanged: (value) {
-                    context.read<ScriptMasterBloc>().add(
-                      ApplyFiltersEvent(
-                        exchange: value,
-                        symbol: state.selectedSymbol,
-                      ),
-                    );
-                  },
-                ),
+              AppDropdown(
+                width: 200.w,
+                type: AppDropdownType.simple,
+                hintText: 'Exchange',
+                value: state.selectedExchange,
+                items: state.exchanges,
+                showAllOption: false,
+                onChanged: (value) {
+                  context.read<ScriptMasterBloc>().add(
+                    ApplyFiltersEvent(
+                      exchange: value,
+                      symbol: state.selectedSymbol,
+                    ),
+                  );
+                },
               ),
               SizedBox(width: 12.w),
-              Expanded(
-                child: AppDropdown(
-                  type: AppDropdownType.search,
-                  hintText: 'Symbol',
-                  value: state.selectedSymbol,
-                  items: state.symbols,
-                  onChanged: (value) {
-                    context.read<ScriptMasterBloc>().add(
-                      ApplyFiltersEvent(
-                        exchange: state.selectedExchange,
-                        symbol: value,
-                      ),
-                    );
-                  },
-                ),
+              AppDropdown(
+                width: 200.w,
+                type: AppDropdownType.search,
+                hintText: 'Symbol',
+                value: state.selectedSymbol,
+                items: state.symbols,
+                onChanged: (value) {
+                  context.read<ScriptMasterBloc>().add(
+                    ApplyFiltersEvent(
+                      exchange: state.selectedExchange,
+                      symbol: value,
+                    ),
+                  );
+                },
               ),
               const Spacer(),
               ViewResetButtons(

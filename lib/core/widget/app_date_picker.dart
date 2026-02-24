@@ -325,15 +325,17 @@ class _AppDatePickerState extends State<AppDatePicker>
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(
-          widget.label,
-          style: GoogleFonts.openSans(
-            fontSize: 12.sp,
-            fontWeight: FontWeight.w600,
-            color: AppColors.primaryBlue,
+        if (widget.label.isNotEmpty) ...[
+          Text(
+            widget.label,
+            style: GoogleFonts.openSans(
+              fontSize: 12.sp,
+              fontWeight: FontWeight.w600,
+              color: AppColors.primaryBlue,
+            ),
           ),
-        ),
-        SizedBox(height: 5.h),
+          SizedBox(height: 5.h),
+        ],
         CompositedTransformTarget(
           link: _layerLink,
           child: GestureDetector(

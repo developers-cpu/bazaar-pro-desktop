@@ -4,8 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/common_dilog_box.dart';
-import '../../../../../core/widget/custom_action_button.dart';
-import '../../../../../core/widget/custom_outlined_button.dart';
 import 'package:intl/intl.dart';
 import '../../bloc/manual_trade/manual_trade_bloc.dart';
 import '../../bloc/manual_trade/manual_trade_event.dart';
@@ -21,7 +19,15 @@ class ConfirmOrderDialog extends StatelessWidget {
     CommonDialog.show(
       context: context,
       title: 'Confirm Order',
-      showButtons: false,
+      showButtons: true,
+      buttonHeight: 35.h,
+      buttonWidth: 140.w,
+      cancelText: 'No',
+      saveText: 'Yes',
+      onSave: () {
+        manualTradeBloc.add(const ConfirmManualTradeEvent());
+        Navigator.pop(context);
+      },
       content: BlocProvider.value(
         value: manualTradeBloc,
         child: ConfirmOrderDialog(data: data, isBuy: isBuy),
@@ -83,36 +89,6 @@ class ConfirmOrderDialog extends StatelessWidget {
               _buildInfoRow('IP Address', data.ipAddress),
             ],
           ),
-        ),
-        SizedBox(height: 20.h),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Expanded(
-              child: CustomOutlinedActionButton(
-                text: 'No',
-                height: 30.h,
-                borderRadius: 8.r,
-                onPressed: () => Navigator.pop(context),
-              ),
-            ),
-            SizedBox(width: 12.w),
-            Expanded(
-              child: CustomActionButton(
-                text: 'Yes',
-                height: 30.h,
-                borderRadius: 8.r,
-                backgroundColor: AppColors.primaryBlue,
-                onPressed: () {
-                  context.read<ManualTradeBloc>().add(
-                    const ConfirmManualTradeEvent(),
-                  );
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                },
-              ),
-            ),
-          ],
         ),
       ],
     );

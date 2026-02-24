@@ -95,6 +95,7 @@ class ScriptMasterBloc extends Bloc<ScriptMasterEvent, ScriptMasterState> {
           totalRecords: scripts.length,
           selectedExchange: event.exchange,
           selectedSymbol: event.symbol,
+          showTable: true,
         ),
       ),
     );
@@ -113,6 +114,7 @@ class ScriptMasterBloc extends Bloc<ScriptMasterEvent, ScriptMasterState> {
         totalRecords: currentState.scripts.length,
         exchanges: currentState.exchanges,
         symbols: currentState.symbols,
+        showTable: false,
       ),
     );
   }

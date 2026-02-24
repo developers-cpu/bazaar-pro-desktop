@@ -72,12 +72,6 @@ class _ScriptQuantityFilterBarState extends State<ScriptQuantityFilterBar> {
                         setState(() {
                           _tempSelectedGroup = value;
                         });
-                        context.read<ScriptQuantityBloc>().add(
-                          LoadScriptQuantitiesEvent(
-                            exchange: state.selectedExchange!,
-                            group: value,
-                          ),
-                        );
                       }
                     },
                   ),

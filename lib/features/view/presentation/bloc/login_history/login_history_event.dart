@@ -35,3 +35,11 @@ class ExportLoginHistoryToPdfEvent extends LoginHistoryEvent {
 class ExportLoginHistoryToExcelEvent extends LoginHistoryEvent {
   const ExportLoginHistoryToExcelEvent();
 }
+
+class ViewLoginHistoryEvent extends LoginHistoryEvent {
+  const ViewLoginHistoryEvent();
+}
+
+class ResetLoginHistoryEvent extends LoginHistoryEvent {
+  const ResetLoginHistoryEvent();
+}

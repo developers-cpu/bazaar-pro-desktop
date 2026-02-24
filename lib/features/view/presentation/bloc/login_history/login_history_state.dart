@@ -9,9 +9,10 @@ abstract class LoginHistoryState extends Equatable {
 
 class LoginHistoryInitial extends LoginHistoryState {
   final List<String> clients;
-  const LoginHistoryInitial({this.clients = const []});
+  final String? selectedClient;
+  const LoginHistoryInitial({this.clients = const [], this.selectedClient});
   @override
-  List<Object?> get props => [clients];
+  List<Object?> get props => [clients, selectedClient];
 }
 
 class LoginHistoryLoading extends LoginHistoryState {
@@ -25,6 +26,7 @@ class LoginHistoryLoaded extends LoginHistoryState {
   final String? sortColumn;
   final bool sortAscending;
   final List<String> clients;
+  final bool showTable;
   const LoginHistoryLoaded({
     required this.history,
     required this.selectedClient,
@@ -32,6 +34,7 @@ class LoginHistoryLoaded extends LoginHistoryState {
     this.sortColumn,
     this.sortAscending = true,
     this.clients = const [],
+    this.showTable = true,
   });
   @override
   List<Object?> get props => [
@@ -41,6 +44,7 @@ class LoginHistoryLoaded extends LoginHistoryState {
     sortColumn,
     sortAscending,
     clients,
+    showTable,
   ];
   LoginHistoryLoaded copyWith({
     List<LoginHistory>? history,
@@ -49,6 +53,7 @@ class LoginHistoryLoaded extends LoginHistoryState {
     String? sortColumn,
     bool? sortAscending,
     List<String>? clients,
+    bool? showTable,
   }) {
     return LoginHistoryLoaded(
       history: history ?? this.history,
@@ -57,6 +62,7 @@ class LoginHistoryLoaded extends LoginHistoryState {
       sortColumn: sortColumn ?? this.sortColumn,
       sortAscending: sortAscending ?? this.sortAscending,
       clients: clients ?? this.clients,
+      showTable: showTable ?? this.showTable,
     );
   }
 }

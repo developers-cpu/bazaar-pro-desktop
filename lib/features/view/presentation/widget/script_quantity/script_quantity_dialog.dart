@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
+import '../../../../../core/widget/common_dilog_box.dart';
 import '../../../domain/entities/script_quantity/script_quantity.dart';
 
 class ScriptQuantityDialog extends StatefulWidget {
@@ -63,56 +64,48 @@ class _ScriptQuantityDialogState extends State<ScriptQuantityDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final bgColor = AppColors.cardBackground(context);
-    final headerBgColor = AppColors.primaryColor(context);
-    return Dialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
-      backgroundColor: Colors.transparent,
-      insetPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 24.h),
-      child: Container(
-        width: 700.w,
-        height: 750.h,
-        decoration: BoxDecoration(
-          color: bgColor,
-          borderRadius: BorderRadius.circular(12.r),
-        ),
-        child: Column(
-          children: [
-            _buildHeader(context, headerBgColor),
-            SizedBox(height: 16.h),
-            _buildFilterInfo(context),
-            SizedBox(height: 8.h),
-            Padding(
-              padding: EdgeInsets.only(right: 16.w),
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: Text(
-                  'RECORD : ${widget.totalRecords}',
-                  style: GoogleFonts.openSans(
-                    fontSize: 13.sp,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.primaryColor(context),
-                  ),
+    return CommonDialog(
+      title: 'Script Quantity',
+      width: 700.w,
+      height: 750.h,
+      showButtons: false,
+      scrollable: false,
+      contentPadding: EdgeInsets.zero,
+      content: Column(
+        children: [
+          SizedBox(height: 16.h),
+          _buildFilterInfo(context),
+          SizedBox(height: 8.h),
+          Padding(
+            padding: EdgeInsets.only(right: 16.w),
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: Text(
+                'RECORD : ${widget.totalRecords}',
+                style: GoogleFonts.openSans(
+                  fontSize: 13.sp,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.primaryColor(context),
                 ),
               ),
             ),
-            SizedBox(height: 8.h),
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.w),
-                child: ViewDataTable<ScriptQuantity>(
-                  columns: _columns,
-                  data: widget.quantities,
-                  cellBuilder: _buildCell,
-                  idExtractor: (item) => item.symbol,
-                  emptyMessage: 'No script quantities found',
-                  autoFit: true,
-                ),
+          ),
+          SizedBox(height: 8.h),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              child: ViewDataTable<ScriptQuantity>(
+                columns: _columns,
+                data: widget.quantities,
+                cellBuilder: _buildCell,
+                idExtractor: (item) => item.symbol,
+                emptyMessage: 'No script quantities found',
+                autoFit: true,
               ),
             ),
-            SizedBox(height: 16.h),
-          ],
-        ),
+          ),
+          SizedBox(height: 16.h),
+        ],
       ),
     );
   }
@@ -161,39 +154,6 @@ class _ScriptQuantityDialogState extends State<ScriptQuantityDialog> {
       default:
         return const SizedBox.shrink();
     }
-  }
-
-  Widget _buildHeader(BuildContext context, Color headerBgColor) {
-    return Container(
-      width: double.infinity,
-      height: 50.h,
-      decoration: BoxDecoration(
-        color: headerBgColor,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(12.r),
-          topRight: Radius.circular(12.r),
-        ),
-      ),
-      padding: EdgeInsets.symmetric(horizontal: 20.w),
-      child: Row(
-        children: [
-          Expanded(
-            child: Text(
-              'Script Quantity',
-              style: GoogleFonts.openSans(
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w600,
-                color: AppColors.white,
-              ),
-            ),
-          ),
-          GestureDetector(
-            onTap: () => Navigator.pop(context),
-            child: Icon(Icons.close, size: 20.sp, color: AppColors.white),
-          ),
-        ],
-      ),
-    );
   }
 
   Widget _buildFilterInfo(BuildContext context) {

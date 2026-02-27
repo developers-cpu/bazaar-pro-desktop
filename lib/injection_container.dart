@@ -934,4 +934,12 @@ Future<void> init() async {
   sl.registerLazySingleton<UsersBillSummaryRemoteDataSource>(
     () => UsersBillSummaryRemoteDataSourceImpl(),
   );
+  sl.registerFactory(() => MarketTimingBloc(getMarketTiming: sl()));
+  sl.registerLazySingleton(() => GetMarketTimingUseCase(sl()));
+  sl.registerLazySingleton<MarketTimingRepository>(
+    () => MarketTimingRepositoryImpl(remoteDataSource: sl()),
+  );
+  sl.registerLazySingleton<MarketTimingRemoteDataSource>(
+    () => MarketTimingRemoteDataSourceImpl(),
+  );
 }

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
+import '../../../../../core/constants/app_images.dart';
+import '../../../../../core/widget/svg_icon.dart';
 import '../../../domain/entities/settlement_report.dart';
 
 class SettlementReportView extends StatelessWidget {
@@ -21,28 +23,22 @@ class SettlementReportView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: _buildTable(
-                  title: 'PROFIT',
-                  headerColor: AppColors.buyColor,
-                  entries: report.profitList,
-                  total: report.profitTotal,
-                  isProfitSection: true,
-                ),
+              child: _buildTable(
+                title: 'PROFIT',
+                headerColor: AppColors.buyColor,
+                entries: report.profitList,
+                total: report.profitTotal,
+                isProfitSection: true,
               ),
             ),
-            SizedBox(width: 16.w),
+            const SizedBox(width: 2),
             Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: _buildTable(
-                  title: 'LOSS',
-                  headerColor: AppColors.sellColor,
-                  entries: report.lossList,
-                  total: report.lossTotal,
-                  isProfitSection: false,
-                ),
+              child: _buildTable(
+                title: 'LOSS',
+                headerColor: AppColors.sellColor,
+                entries: report.lossList,
+                total: report.lossTotal,
+                isProfitSection: false,
               ),
             ),
           ],
@@ -185,16 +181,24 @@ class SettlementReportView extends StatelessWidget {
     bool alignLeft = false,
     bool alignRight = false,
   }) {
-    return Text(
-      text,
-      textAlign: alignLeft
-          ? TextAlign.left
-          : (alignRight ? TextAlign.right : TextAlign.center),
-      style: GoogleFonts.openSans(
-        color: AppColors.billTableHeaderText,
-        fontWeight: FontWeight.w600,
-        fontSize: 12.sp,
-      ),
+    MainAxisAlignment alignment = MainAxisAlignment.center;
+    if (alignLeft) alignment = MainAxisAlignment.start;
+    if (alignRight) alignment = MainAxisAlignment.end;
+    return Row(
+      mainAxisAlignment: alignment,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          text,
+          style: GoogleFonts.openSans(
+            color: AppColors.billTableHeaderText,
+            fontWeight: FontWeight.w600,
+            fontSize: 12.sp,
+          ),
+        ),
+        SizedBox(width: 4.w),
+        SvgIcon(assetPath: AppImages.sortIcon, isActive: false, size: 12.sp),
+      ],
     );
   }
 

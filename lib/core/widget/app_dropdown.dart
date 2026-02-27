@@ -65,9 +65,9 @@ class _AppDropdownState extends State<AppDropdown>
   late AnimationController _controller;
   late Animation<double> _animation;
   static const int _maxVisibleItems = 6;
-  static double get _itemHeight => 32.h;
-  static double get _searchFieldHeight => 38.h;
-  static double get _selectAllHeight => 32.h;
+  static double get _itemHeight => 26.h;
+  static double get _searchFieldHeight => 32.h;
+  static double get _selectAllHeight => 26.h;
   @override
   void initState() {
     super.initState();
@@ -327,8 +327,8 @@ class _AppDropdownState extends State<AppDropdown>
 
   Widget _buildSearchField() {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 6.w, vertical: 5.h),
-      height: 28.h,
+      margin: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
+      height: 26.h,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(6.r),
         border: Border.all(color: AppColors.primaryBlue, width: 1.0),

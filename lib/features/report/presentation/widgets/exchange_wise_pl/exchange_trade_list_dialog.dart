@@ -47,7 +47,8 @@ class ExchangeTradeListDialog extends StatelessWidget {
                 children: [
                   const TradeListFilterBar(),
                   ViewRecordCount(count: state.tradeLogs.length),
-                  Expanded(
+                  Flexible(
+                    fit: FlexFit.loose,
                     child: ViewDataTable<SymbolTradeLog>(
                       columns: const [
                         ViewTableColumn(

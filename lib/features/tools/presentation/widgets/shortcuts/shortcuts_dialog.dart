@@ -29,32 +29,34 @@ class ShortcutsDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 400.h,
-      child: BlocBuilder<ShortcutsBloc, ShortcutsState>(
-        builder: (context, state) {
-          if (state is ShortcutsLoading) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (state is ShortcutsLoaded) {
-            return GridView.builder(
+    return BlocBuilder<ShortcutsBloc, ShortcutsState>(
+      builder: (context, state) {
+        if (state is ShortcutsLoading) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (state is ShortcutsLoaded) {
+          return SizedBox(
+            width: double.maxFinite,
+            child: GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                childAspectRatio: 5,
+                childAspectRatio: 7.5,
                 crossAxisSpacing: 12.w,
-                mainAxisSpacing: 10.h,
+                mainAxisSpacing: 8.h,
               ),
               itemCount: state.shortcuts.length,
               itemBuilder: (context, index) {
                 final item = state.shortcuts[index];
                 return _buildShortcutItem(item);
               },
-            );
-          } else if (state is ShortcutsError) {
-            return Center(child: Text(state.message));
-          }
-          return const SizedBox.shrink();
-        },
-      ),
+            ),
+          );
+        } else if (state is ShortcutsError) {
+          return Center(child: Text(state.message));
+        }
+        return const SizedBox.shrink();
+      },
     );
   }
 

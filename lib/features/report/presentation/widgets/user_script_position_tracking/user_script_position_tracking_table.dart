@@ -129,7 +129,8 @@ class UserScriptPositionTrackingTable extends StatelessWidget {
         return Column(
           children: [
             ViewRecordCount(count: state.reports.length),
-            Expanded(
+            Flexible(
+              fit: FlexFit.loose,
               child: ViewDataTable<UserScriptPositionTracking>(
                 columns: _getColumns(),
                 data: state.reports,

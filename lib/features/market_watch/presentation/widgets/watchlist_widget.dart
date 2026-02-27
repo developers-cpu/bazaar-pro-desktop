@@ -56,14 +56,14 @@ class WatchlistWidget extends StatelessWidget {
 
   Widget _buildLoadedState(BuildContext context, WatchlistLoaded state) {
     return Container(
-      height: 40.h,
-      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
+      height: 34.h,
+      padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 3.h),
       color: AppColors.white,
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: [
           _buildAddButton(context),
-          SizedBox(width: 6.w),
+          SizedBox(width: 4.w),
           _buildWatchlistButton(
             context: context,
             label: AppStrings.all,
@@ -71,10 +71,10 @@ class WatchlistWidget extends StatelessWidget {
             isSelected: state.selectedIndex == -1,
             showCloseIcon: false,
           ),
-          SizedBox(width: 6.w),
+          SizedBox(width: 4.w),
           ...List.generate(state.watchlists.length, (index) {
             return Padding(
-              padding: EdgeInsets.only(right: 6.w),
+              padding: EdgeInsets.only(right: 4.w),
               child: _buildWatchlistButton(
                 context: context,
                 label: state.watchlists[index],
@@ -96,34 +96,34 @@ class WatchlistWidget extends StatelessWidget {
       },
       borderRadius: BorderRadius.circular(15.r),
       child: Container(
-        width: 135.w,
-        height: 32.h,
-        padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 6.h),
+        width: 95.w,
+        height: 26.h,
+        padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 4.h),
         decoration: BoxDecoration(
           color: AppColors.primaryBlue,
-          borderRadius: BorderRadius.circular(10.r),
+          borderRadius: BorderRadius.circular(8.r),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              width: 16.w,
-              height: 16.h,
+              width: 13.w,
+              height: 13.h,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                border: Border.all(color: AppColors.white, width: 1.2.w),
+                border: Border.all(color: AppColors.white, width: 1.w),
               ),
               child: Center(
-                child: Icon(Icons.add, size: 12.sp, color: AppColors.white),
+                child: Icon(Icons.add, size: 9.sp, color: AppColors.white),
               ),
             ),
-            SizedBox(width: 6.w),
+            SizedBox(width: 4.w),
             Text(
               AppStrings.add,
               style: TextStyle(
                 fontFamily: 'Open Sans',
                 fontWeight: FontWeight.w600,
-                fontSize: 13.sp,
+                fontSize: 11.sp,
                 color: AppColors.white,
                 letterSpacing: 0.15,
                 height: 1.0,
@@ -148,17 +148,17 @@ class WatchlistWidget extends StatelessWidget {
       },
       borderRadius: BorderRadius.circular(10.r),
       child: Container(
-        width: 135.w,
-        height: 32.h,
+        width: 95.w,
+        height: 26.h,
         padding: EdgeInsets.only(
-          top: 6.h,
-          bottom: 6.h,
-          left: 8.w,
-          right: showCloseIcon ? 4.w : 8.w,
+          top: 4.h,
+          bottom: 4.h,
+          left: 6.w,
+          right: showCloseIcon ? 3.w : 6.w,
         ),
         decoration: BoxDecoration(
           color: AppColors.transparent,
-          borderRadius: BorderRadius.circular(10.r),
+          borderRadius: BorderRadius.circular(8.r),
           border: Border.all(
             color: AppColors.primaryBlue,
             width: isSelected ? 1.5.w : 1.w,
@@ -174,7 +174,7 @@ class WatchlistWidget extends StatelessWidget {
                 style: TextStyle(
                   fontFamily: 'Open Sans',
                   fontWeight: FontWeight.w600,
-                  fontSize: 13.sp,
+                  fontSize: 11.sp,
                   color: AppColors.primaryBlue,
                   letterSpacing: 0.15,
                   height: 1.0,
@@ -183,17 +183,17 @@ class WatchlistWidget extends StatelessWidget {
               ),
             ),
             if (showCloseIcon) ...[
-              SizedBox(width: 4.w),
+              SizedBox(width: 3.w),
               InkWell(
                 onTap: () {
                   context.read<WatchlistBloc>().add(
                     RemoveWatchlistEvent(index: index),
                   );
                 },
-                borderRadius: BorderRadius.circular(9.r),
+                borderRadius: BorderRadius.circular(7.r),
                 child: Container(
-                  width: 16.w,
-                  height: 16.h,
+                  width: 13.w,
+                  height: 13.h,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     border: Border.all(
@@ -204,7 +204,7 @@ class WatchlistWidget extends StatelessWidget {
                   child: Center(
                     child: Icon(
                       Icons.close,
-                      size: 12.sp,
+                      size: 9.sp,
                       color: AppColors.primaryBlue,
                     ),
                   ),

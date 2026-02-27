@@ -219,7 +219,6 @@ class NetPositionTable extends StatelessWidget {
       columns: columns,
       values: values,
       isDarkMode: isDarkMode,
-      backgroundColor: const Color(0xFFD3E3EC),
     );
   }
 

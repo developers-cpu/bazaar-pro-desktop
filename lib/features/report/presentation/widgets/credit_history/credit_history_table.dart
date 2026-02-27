@@ -94,7 +94,8 @@ class CreditHistoryTable extends StatelessWidget {
         return Column(
           children: [
             ViewRecordCount(count: state.creditHistory.length),
-            Expanded(
+            Flexible(
+              fit: FlexFit.loose,
               child: ViewDataTable<CreditHistory>(
                 columns: _getColumns(),
                 data: state.creditHistory,

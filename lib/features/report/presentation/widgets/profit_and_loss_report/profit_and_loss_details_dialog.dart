@@ -239,7 +239,8 @@ class ProfitAndLossDetailsDialog extends StatelessWidget {
               ),
             ),
             ViewRecordCount(count: reports.length),
-            Expanded(
+            Flexible(
+              fit: FlexFit.loose,
               child: ViewDataTable<ProfitAndLossReport>(
                 columns: _getColumns(),
                 data: reports,

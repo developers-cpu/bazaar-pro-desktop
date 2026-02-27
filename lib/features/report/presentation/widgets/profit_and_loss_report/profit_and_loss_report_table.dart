@@ -186,7 +186,8 @@ class ProfitAndLossReportTable extends StatelessWidget {
         return Column(
           children: [
             ViewRecordCount(count: state.reports.length),
-            Expanded(
+            Flexible(
+              fit: FlexFit.loose,
               child: ViewDataTable<ProfitAndLossReport>(
                 columns: _getColumns(),
                 data: state.reports,

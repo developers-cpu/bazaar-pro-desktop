@@ -112,7 +112,8 @@ class SymbolWisePLTable extends StatelessWidget {
         return Column(
           children: [
             ViewRecordCount(count: state.reports.length),
-            Expanded(
+            Flexible(
+              fit: FlexFit.loose,
               child: ViewDataTable<SymbolWisePLReport>(
                 columns: _getColumns(),
                 data: state.reports,

@@ -34,8 +34,8 @@ class BetDetailView extends StatelessWidget {
           children: [
             ViewRecordCount(count: state.recordCount),
             SizedBox(height: 10.h),
-            SizedBox(
-              height: 450.h,
+            Container(
+              constraints: BoxConstraints(maxHeight: 450.h),
               child: ViewDataTable<Map<String, dynamic>>(
                 columns: columns,
                 data: state.details,

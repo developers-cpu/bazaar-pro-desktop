@@ -49,9 +49,19 @@ class _LoginPageState extends State<LoginPage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
+        backgroundColor: AppColors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppDimensions.borderRadiusM),
+        ),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+        titlePadding: const EdgeInsets.fromLTRB(16, 14, 16, 4),
         title: Text(
           'Select Demo Account',
-          style: GoogleFonts.openSans(fontWeight: FontWeight.bold),
+          style: GoogleFonts.openSans(
+            fontWeight: FontWeight.bold,
+            fontSize: 15,
+            color: AppColors.primaryBlue,
+          ),
         ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
@@ -67,9 +77,19 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _buildDemoOption(String role) {
     return ListTile(
+      dense: true,
+      visualDensity: VisualDensity.compact,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(AppDimensions.borderRadiusS),
+      ),
+      hoverColor: AppColors.primaryBlue.withOpacity(0.15),
       title: Text(
         role,
-        style: GoogleFonts.openSans(fontWeight: FontWeight.w600),
+        style: GoogleFonts.openSans(
+          fontWeight: FontWeight.w600,
+          fontSize: 13,
+          color: AppColors.primaryBlue,
+        ),
       ),
       onTap: () {
         Navigator.pop(context);
@@ -117,8 +137,8 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _buildForm(BuildContext context, bool isLoading) {
     return Container(
-      width: 500,
-      padding: const EdgeInsets.all(AppDimensions.paddingXXL),
+      width: 420,
+      padding: const EdgeInsets.all(AppDimensions.paddingXL),
       child: Form(
         key: _formKey,
         child: Column(
@@ -127,21 +147,19 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisSize: MainAxisSize.min,
           children: [
             _buildLogo(context),
-            const SizedBox(height: AppDimensions.marginXL * 2),
+            const SizedBox(height: AppDimensions.marginXL),
             _buildTitleSection(context),
-            const SizedBox(height: AppDimensions.paddingXXL),
+            const SizedBox(height: AppDimensions.paddingL),
             _buildServerDropdown(context),
-            const SizedBox(height: AppDimensions.paddingL),
+            const SizedBox(height: AppDimensions.paddingM),
             _buildUsernameField(context),
-            const SizedBox(height: AppDimensions.paddingL),
+            const SizedBox(height: AppDimensions.paddingM),
             _buildPasswordField(context),
-            const SizedBox(height: AppDimensions.paddingXXL),
+            const SizedBox(height: AppDimensions.paddingXL),
             _buildLoginButton(context, isLoading),
-            const SizedBox(height: AppDimensions.paddingL),
+            const SizedBox(height: AppDimensions.paddingM),
             _buildFooterLinks(context),
-            const SizedBox(
-              height: AppDimensions.marginXL + AppDimensions.marginM,
-            ),
+            const SizedBox(height: AppDimensions.paddingXL),
             _buildFooterText(context),
           ],
         ),
@@ -181,10 +199,10 @@ class _LoginPageState extends State<LoginPage> {
   Widget _buildLogo(BuildContext context) {
     return Center(
       child: SizedBox(
-        width: 140,
-        height: 140,
+        width: 100,
+        height: 100,
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(AppDimensions.marginXL),
+          borderRadius: BorderRadius.circular(AppDimensions.marginL),
           child: Image.asset(
             AppImages.appLogo,
             fit: BoxFit.contain,
@@ -229,7 +247,7 @@ class _LoginPageState extends State<LoginPage> {
           AuthConstants.loginTitle,
           textAlign: TextAlign.center,
           style: GoogleFonts.openSans(
-            fontSize: 32,
+            fontSize: 26,
             fontWeight: FontWeight.w700,
             height: 1.0,
             letterSpacing: 0,
@@ -241,7 +259,7 @@ class _LoginPageState extends State<LoginPage> {
           AuthConstants.loginSubtitle,
           textAlign: TextAlign.center,
           style: GoogleFonts.openSans(
-            fontSize: AppDimensions.fontSizeM,
+            fontSize: AppDimensions.fontSizeS,
             fontWeight: FontWeight.w400,
             height: 1.0,
             letterSpacing: 0.25,

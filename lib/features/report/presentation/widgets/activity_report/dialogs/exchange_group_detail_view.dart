@@ -49,8 +49,8 @@ class ExchangeGroupDetailView extends StatelessWidget {
               ],
             ),
             SizedBox(height: 10.h),
-            SizedBox(
-              height: 420.h,
+            Container(
+              constraints: BoxConstraints(maxHeight: 420.h),
               child: ViewDataTable<Map<String, dynamic>>(
                 columns: columns,
                 data: state.details,

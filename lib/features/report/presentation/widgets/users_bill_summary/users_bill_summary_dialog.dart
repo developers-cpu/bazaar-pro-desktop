@@ -88,8 +88,8 @@ class UsersBillSummaryDialog extends StatelessWidget {
                   ),
                 )
               else
-                SizedBox(
-                  height: 480.h,
+                Container(
+                  constraints: BoxConstraints(maxHeight: 480.h),
                   child: ViewDataTable<UsersBillSummaryEntity>(
                     columns: _getColumns(),
                     data: summaryData,
@@ -166,7 +166,6 @@ class UsersBillSummaryDialog extends StatelessWidget {
       columns: columns,
       values: values,
       columnColors: columnColors,
-      backgroundColor: AppColors.primaryBlue.withOpacity(0.1),
     );
   }
 }

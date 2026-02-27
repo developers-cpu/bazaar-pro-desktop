@@ -86,7 +86,7 @@ class _OrderDropdownFieldState extends State<OrderDropdownField>
     final renderBox = context.findRenderObject() as RenderBox;
     final size = renderBox.size;
     final offset = renderBox.localToGlobal(Offset.zero);
-    final itemHeight = 40.h;
+    final itemHeight = 32.h;
     final maxVisibleItems = 6;
     final visibleItems = widget.items.length > maxVisibleItems
         ? maxVisibleItems
@@ -127,7 +127,7 @@ class _OrderDropdownFieldState extends State<OrderDropdownField>
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(8.r),
                     child: ListView.builder(
-                      padding: EdgeInsets.symmetric(vertical: 8.h),
+                      padding: EdgeInsets.symmetric(vertical: 4.h),
                       shrinkWrap: true,
                       itemCount: widget.items.length,
                       itemBuilder: (context, index) {

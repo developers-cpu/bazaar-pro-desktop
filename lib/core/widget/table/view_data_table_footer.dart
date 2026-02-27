@@ -30,7 +30,10 @@ class ViewDataTableFooter extends StatelessWidget {
   Widget build(BuildContext context) {
     Color dividerColor = isDarkMode
         ? DarkThemeColors.dividerColor.withOpacity(0.5)
-        : AppColors.dividerColor(context);
+        : AppColors.white.withOpacity(0.8);
+    Color defaultTextColor = isDarkMode
+        ? DarkThemeColors.textColor
+        : LightThemeColors.textColor;
     return Container(
       decoration: BoxDecoration(
         color: backgroundColor,
@@ -44,30 +47,23 @@ class ViewDataTableFooter extends StatelessWidget {
           final isLast = index == columns.length - 1;
           return Container(
             width: column.width,
-            alignment: textAlign == null
-                ? (column.isNumeric
-                      ? Alignment.centerRight
-                      : Alignment.centerLeft)
-                : Alignment.center,
-            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+            alignment: Alignment.center,
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
             decoration: BoxDecoration(
               border: (isLast || !showDividers)
                   ? null
-                  : Border(right: BorderSide(color: dividerColor, width: 0.5)),
+                  : Border(right: BorderSide(color: dividerColor, width: 1)),
             ),
             child: Text(
               value,
               style: ViewTableCellStyles.getTextStyle(
                 isDark: isDarkMode,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w500,
+                fontSize: 12.sp,
                 color:
-                    columnColors?[column.id] ??
-                    textColor ??
-                    AppColors.primaryBlue,
+                    columnColors?[column.id] ?? textColor ?? defaultTextColor,
               ),
-              textAlign:
-                  textAlign ??
-                  (column.isNumeric ? TextAlign.right : TextAlign.left),
+              textAlign: textAlign ?? TextAlign.center,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),

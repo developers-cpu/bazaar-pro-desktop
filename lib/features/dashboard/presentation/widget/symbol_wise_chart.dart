@@ -271,7 +271,7 @@ class _PieChartWithLabelsPainter extends CustomPainter {
     final symbolPainter = TextPainter(
       text: TextSpan(
         text: item.symbol,
-        style:  TextStyle(
+        style: TextStyle(
           fontFamily: 'OpenSans',
           fontSize: 9.sp,
           color: AppColors.black,

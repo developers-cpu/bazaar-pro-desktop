@@ -80,7 +80,7 @@ class _CustomFilterDropdownState extends State<CustomFilterDropdown>
   OverlayEntry _createOverlay() {
     final renderBox = context.findRenderObject() as RenderBox;
     final size = renderBox.size;
-    final itemHeight = 40.h;
+    final itemHeight = 32.h;
     final maxVisibleItems = 8;
     final visibleItems = widget.items.length > maxVisibleItems
         ? maxVisibleItems
@@ -115,7 +115,7 @@ class _CustomFilterDropdownState extends State<CustomFilterDropdown>
                         ),
                       ),
                       child: ListView.builder(
-                        padding: EdgeInsets.symmetric(vertical: 8.h),
+                        padding: EdgeInsets.symmetric(vertical: 4.h),
                         shrinkWrap: true,
                         itemCount: widget.items.length,
                         itemBuilder: (context, index) {

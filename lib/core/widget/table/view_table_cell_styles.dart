@@ -12,7 +12,7 @@ class ViewTableCellStyles {
     double? fontSize,
   }) {
     return GoogleFonts.openSans(
-      fontSize: fontSize ?? 12.sp,
+      fontSize: fontSize ?? 11.sp,
       fontWeight: fontWeight ?? FontWeight.w500,
       color:
           color ??

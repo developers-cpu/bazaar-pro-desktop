@@ -123,7 +123,8 @@ class ExchangeWisePLTable extends StatelessWidget {
     return Column(
       children: [
         ViewRecordCount(count: reports.length),
-        Expanded(
+        Flexible(
+          fit: FlexFit.loose,
           child: ViewDataTable<ExchangeWisePLReport>(
             columns: _getColumns(),
             data: reports,

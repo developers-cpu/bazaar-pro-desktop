@@ -114,7 +114,8 @@ class _DialogContentState extends State<_DialogContent> {
                 Expanded(child: Center(child: Text('Error: ${state.message}')))
               else ...[
                 ViewRecordCount(count: positions.length),
-                Expanded(
+                Flexible(
+                  fit: FlexFit.loose,
                   child: ViewDataTable<SymbolOpenPosition>(
                     columns: const [
                       ViewTableColumn(id: 'name', label: 'U.NAME', width: 120),

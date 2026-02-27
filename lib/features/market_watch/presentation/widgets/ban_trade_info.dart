@@ -23,7 +23,7 @@ class BanForTradeNotice extends StatelessWidget {
             child: SvgIcon(
               assetPath: AppImages.banIcon,
               isActive: true,
-              size: 14.w,
+              size: 12.w,
             ),
           ),
           SizedBox(width: 8.w),
@@ -32,8 +32,8 @@ class BanForTradeNotice extends StatelessWidget {
               message,
               style: TextStyle(
                 fontFamily: 'Open Sans',
-                fontWeight: FontWeight.w600,
-                fontSize: 14.sp,
+                fontWeight: FontWeight.w500,
+                fontSize: 11.sp,
                 color: AppColors.red,
                 letterSpacing: 0.15,
                 height: 1.0,

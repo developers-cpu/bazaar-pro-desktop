@@ -312,7 +312,8 @@ class UserWiseProfitAndLossReportTable extends StatelessWidget {
         return Column(
           children: [
             ViewRecordCount(count: state.reports.length),
-            Expanded(
+            Flexible(
+              fit: FlexFit.loose,
               child: ViewDataTable<UserWiseProfitAndLossReport>(
                 columns: _getColumns(),
                 data: state.reports,

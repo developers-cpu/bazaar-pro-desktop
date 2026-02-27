@@ -144,8 +144,10 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
     double scale,
   ) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
-        Expanded(
+        Flexible(
+          fit: FlexFit.loose,
           child: Scrollbar(
             controller: _horizontalScrollController,
             thumbVisibility: true,
@@ -155,9 +157,11 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
               child: SizedBox(
                 width: totalWidth,
                 child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     _buildHeaderRow(headerHeight, scale),
-                    Expanded(
+                    Flexible(
+                      fit: FlexFit.loose,
                       child: widget.data.isEmpty
                           ? _buildEmptyState()
                           : _buildDataRows(rowHeight, scale),
@@ -257,8 +261,8 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
                   child: Text(
                     column.label,
                     style: GoogleFonts.openSans(
-                      fontSize: 10.sp,
-                      fontWeight: FontWeight.w600,
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w500,
                       color: _textColor,
                     ),
                     textAlign: TextAlign.center,
@@ -290,10 +294,10 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
       child: ListView.builder(
         controller: widget.shrinkWrap ? null : _verticalScrollController,
         padding: EdgeInsets.zero,
-        shrinkWrap: widget.shrinkWrap,
+        shrinkWrap: true,
         physics: widget.shrinkWrap
             ? const NeverScrollableScrollPhysics()
-            : null,
+            : const ClampingScrollPhysics(),
         itemCount: widget.data.length,
         itemBuilder: (context, index) {
           final item = widget.data[index];

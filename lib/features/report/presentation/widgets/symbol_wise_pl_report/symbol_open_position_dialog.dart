@@ -46,7 +46,8 @@ class SymbolOpenPositionDialog extends StatelessWidget {
               child: Column(
                 children: [
                   ViewRecordCount(count: state.positions.length),
-                  Expanded(
+                  Flexible(
+                    fit: FlexFit.loose,
                     child: ViewDataTable<SymbolOpenPosition>(
                       columns: const [
                         ViewTableColumn(

@@ -16,10 +16,12 @@ import '../bloc/server/server_bloc.dart';
 import 'date_settings/date_settings_page.dart';
 import 'message/operations_message_page.dart';
 import 'script_settings/script_settings_page.dart';
-import 'surveillance/surveillance_page.dart';
 import 'server/server_page.dart';
 import '../bloc/bill_comparison/bill_comparison_bloc.dart';
 import 'bill_comparison/bill_comparison_page.dart';
+import '../bloc/settlement_progress/settlement_progress_bloc.dart';
+import 'settlement_progress/settlement_progress_page.dart';
+import 'surveillance/surveillance_page.dart';
 
 class OperationsPageWrapper extends StatelessWidget {
   final String pageTitle;
@@ -139,9 +141,12 @@ class SettlementProgressPageWithAppBar extends StatelessWidget {
   const SettlementProgressPageWithAppBar({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return const OperationsPageWrapper(
-      pageTitle: 'Settlement Progress',
-      child: Center(child: Text('Settlement Progress Page - Coming Soon')),
+    return BlocProvider(
+      create: (_) => sl<SettlementProgressBloc>(),
+      child: const OperationsPageWrapper(
+        pageTitle: 'Settlement Progress',
+        child: SettlementProgressPage(),
+      ),
     );
   }
 }

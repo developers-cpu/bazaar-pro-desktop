@@ -37,6 +37,14 @@ import 'package:bazarpro/features/operations/data/datasources/trade_settings/tra
 import 'package:bazarpro/features/operations/data/datasources/trade_settings/trade_settings_remote_data_source_impl.dart';
 import 'package:bazarpro/features/operations/domain/usecases/trade_settings/get_trade_settings.dart';
 import 'package:bazarpro/features/operations/domain/usecases/trade_settings/update_trade_settings.dart';
+import 'package:bazarpro/features/operations/domain/repositories/settlement_progress/settlement_progress_repository.dart';
+import 'package:bazarpro/features/operations/data/repositories/settlement_progress/settlement_progress_repository_impl.dart';
+import 'package:bazarpro/features/operations/data/datasources/settlement_progress/settlement_progress_remote_data_source.dart';
+import 'package:bazarpro/features/operations/data/datasources/settlement_progress/settlement_progress_remote_data_source_impl.dart';
+import 'package:bazarpro/features/operations/domain/usecases/settlement_progress/get_settlement_data_usecase.dart';
+import 'package:bazarpro/features/operations/domain/usecases/settlement_progress/import_bhav_copy_usecase.dart';
+import 'package:bazarpro/features/operations/domain/usecases/settlement_progress/submit_bhav_copy_usecase.dart';
+import 'package:bazarpro/features/operations/presentation/bloc/settlement_progress/settlement_progress_bloc.dart';
 import 'package:bazarpro/features/report/presentation/bloc/trade_log/trade_log_bloc.dart';
 import 'package:bazarpro/features/users/data/datasources/user/user_remote_datasource.dart';
 import 'package:bazarpro/features/users/data/datasources/user_brokerage_setting/user_brokerage_setting_datasource.dart';
@@ -1040,6 +1048,23 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<TradeSettingsRemoteDataSource>(
     () => TradeSettingsRemoteDataSourceImpl(),
+  );
+
+  sl.registerFactory(
+    () => SettlementProgressBloc(
+      importBhavCopy: sl(),
+      submitBhavCopy: sl(),
+      getSettlementData: sl(),
+    ),
+  );
+  sl.registerLazySingleton(() => ImportBhavCopyUseCase(sl()));
+  sl.registerLazySingleton(() => SubmitBhavCopyUseCase(sl()));
+  sl.registerLazySingleton(() => GetSettlementDataUseCase(sl()));
+  sl.registerLazySingleton<SettlementProgressRepository>(
+    () => SettlementProgressRepositoryImpl(remoteDataSource: sl()),
+  );
+  sl.registerLazySingleton<SettlementProgressRemoteDataSource>(
+    () => SettlementProgressRemoteDataSourceImpl(),
   );
 
   sl.registerFactory(

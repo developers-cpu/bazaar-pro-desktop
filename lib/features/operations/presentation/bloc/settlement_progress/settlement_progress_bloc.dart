@@ -36,7 +36,6 @@ class SettlementProgressBloc
     ImportFileEvent event,
     Emitter<SettlementProgressState> emit,
   ) async {
-    
     emit(const SettlementProgressLoading(message: 'Parsing file...'));
 
     final result = await importBhavCopy(event.filePath);
@@ -51,7 +50,6 @@ class SettlementProgressBloc
     SubmitBhavCopyEvent event,
     Emitter<SettlementProgressState> emit,
   ) async {
-    
     emit(SettlementProgressUpdating());
 
     final result = await submitBhavCopy(event.data);
@@ -59,7 +57,6 @@ class SettlementProgressBloc
     result.fold((failure) => emit(SettlementProgressError(failure.message)), (
       _,
     ) {
-      
       emit(SettlementCompleted());
     });
   }

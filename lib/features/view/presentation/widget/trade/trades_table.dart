@@ -4,6 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../domain/entities/trades/trade.dart';
+import '../../../../auth/presentation/bloc/auth_bloc.dart';
+import '../../../../auth/presentation/bloc/auth_state.dart';
 import '../../bloc/trade/trades_bloc.dart';
 import '../../bloc/trade/trades_event.dart';
 import '../../bloc/trade/trades_state.dart';
@@ -14,12 +16,51 @@ import '../../../../../core/widget/table/view_table_cell_styles.dart';
 class TradesTable extends StatelessWidget {
   final bool showDeviceInfo;
   final bool isDarkMode;
+  final bool isClient;
   const TradesTable({
     Key? key,
     this.showDeviceInfo = true,
     this.isDarkMode = false,
+    this.isClient = false,
   }) : super(key: key);
-  List<ViewTableColumn> _getColumns() {
+  List<ViewTableColumn> _getColumns(bool isClient) {
+    if (isClient) {
+      return const [
+        ViewTableColumn(id: 'userName', label: 'USER NAME', width: 120),
+        ViewTableColumn(id: 'exchange', label: 'EXCH', width: 100),
+        ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 150),
+        ViewTableColumn(id: 'qty', label: 'QTY', width: 120, isNumeric: true),
+        ViewTableColumn(id: 'lot', label: 'Lot', width: 100, isNumeric: true),
+        ViewTableColumn(
+          id: 'triggerPrice',
+          label: 'T. PRICE',
+          width: 130,
+          isNumeric: true,
+        ),
+        ViewTableColumn(id: 'buySell', label: 'B/S', width: 280),
+        ViewTableColumn(id: 'orderDateTime', label: 'Order D/T', width: 220),
+        ViewTableColumn(id: 'orderType', label: 'Type', width: 100),
+        ViewTableColumn(id: 'pl', label: 'P/L', width: 120, isNumeric: true),
+        ViewTableColumn(
+          id: 'brokerage',
+          label: 'Brk',
+          width: 100,
+          isNumeric: true,
+        ),
+        ViewTableColumn(
+          id: 'executionDateTime',
+          label: 'Execution D/T',
+          width: 220,
+        ),
+        ViewTableColumn(
+          id: 'rPrice',
+          label: 'R. PRICE',
+          width: 120,
+          isNumeric: true,
+        ),
+      ];
+    }
+
     final columns = <ViewTableColumn>[
       const ViewTableColumn(id: 'userName', label: 'U. NAME', width: 120),
       const ViewTableColumn(id: 'pUser', label: 'P USER', width: 120),
@@ -83,7 +124,12 @@ class TradesTable extends StatelessWidget {
     return columns;
   }
 
-  Widget _buildCell(Trade item, ViewTableColumn column, bool isDark) {
+  Widget _buildCell(
+    Trade item,
+    ViewTableColumn column,
+    bool isDark,
+    bool isClient,
+  ) {
     switch (column.id) {
       case 'userName':
         return ViewTextCell(text: item.userName, isDark: isDark);
@@ -92,7 +138,20 @@ class TradesTable extends StatelessWidget {
       case 'exchange':
         return ViewTextCell(text: item.exchange, isDark: isDark);
       case 'symbol':
-        return ViewLinkCell(text: item.symbol, isDark: isDark);
+        final symbolColor = ViewTableCellStyles.getValueColor(
+          item.qty,
+          isDark: isDark,
+        );
+        return Text(
+          item.symbol,
+          style: ViewTableCellStyles.getTextStyle(
+            isDark: isDark,
+            color: symbolColor,
+          ),
+          textAlign: TextAlign.center,
+          maxLines: 1,
+          softWrap: false,
+        );
       case 'orderDateTime':
         return ViewDateTimeCell(dateTime: item.orderDateTime, isDark: isDark);
       case 'buySell':
@@ -149,6 +208,11 @@ class TradesTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authState = context.read<AuthBloc>().state;
+    final isClient =
+        authState is AuthAuthenticated &&
+        authState.user.role.toLowerCase() == 'client';
+
     return BlocBuilder<TradesBloc, TradesState>(
       builder: (context, state) {
         if (state is TradesLoading) {
@@ -165,7 +229,8 @@ class TradesTable extends StatelessWidget {
             ViewRecordCount(count: state.totalRecords),
             Expanded(
               child: ViewDataTable<Trade>(
-                columns: _getColumns(),
+                autoFit: true,
+                columns: _getColumns(isClient),
                 data: state.filteredTrades,
                 idExtractor: (item) => item.id,
                 selectedId: state.selectedTradeId,
@@ -174,7 +239,7 @@ class TradesTable extends StatelessWidget {
                 isDarkMode: isDarkMode,
                 emptyMessage: 'No trades found',
                 cellBuilder: (item, column) =>
-                    _buildCell(item, column, isDarkMode),
+                    _buildCell(item, column, isDarkMode, isClient),
                 onRowTap: (item) {
                   context.read<TradesBloc>().add(SelectTradeEvent(item.id));
                 },

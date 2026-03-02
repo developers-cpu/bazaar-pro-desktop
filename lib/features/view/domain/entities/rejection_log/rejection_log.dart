@@ -6,6 +6,7 @@ class RejectionLog extends Equatable {
   final String status;
   final String userName;
   final String symbol;
+  final String exchange;
   final String type;
   final double qty;
   final double price;
@@ -21,6 +22,7 @@ class RejectionLog extends Equatable {
     required this.status,
     required this.userName,
     required this.symbol,
+    required this.exchange,
     required this.type,
     required this.qty,
     required this.price,
@@ -38,6 +40,7 @@ class RejectionLog extends Equatable {
     status,
     userName,
     symbol,
+    exchange,
     type,
     qty,
     price,
@@ -54,6 +57,7 @@ class RejectionLog extends Equatable {
     String? status,
     String? userName,
     String? symbol,
+    String? exchange,
     String? type,
     double? qty,
     double? price,
@@ -70,6 +74,7 @@ class RejectionLog extends Equatable {
       status: status ?? this.status,
       userName: userName ?? this.userName,
       symbol: symbol ?? this.symbol,
+      exchange: exchange ?? this.exchange,
       type: type ?? this.type,
       qty: qty ?? this.qty,
       price: price ?? this.price,

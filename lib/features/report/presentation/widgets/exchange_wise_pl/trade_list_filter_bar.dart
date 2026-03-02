@@ -8,6 +8,8 @@ import '../../../../../core/widget/table/view_reset_buttons.dart';
 import '../../bloc/symbol_wise_pl/trade_list/symbol_trade_list_bloc.dart';
 import '../../bloc/symbol_wise_pl/trade_list/symbol_trade_list_event.dart';
 import '../../bloc/symbol_wise_pl/trade_list/symbol_trade_list_state.dart';
+import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
 
 class TradeListFilterBar extends StatelessWidget {
   const TradeListFilterBar({super.key});
@@ -18,6 +20,11 @@ class TradeListFilterBar extends StatelessWidget {
         if (state is! SymbolTradeListLoaded) {
           return const SizedBox.shrink();
         }
+        final authState = context.read<AuthBloc>().state;
+        final isClient =
+            authState is AuthAuthenticated &&
+            authState.user.role.toLowerCase() == 'client';
+
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Column(
@@ -107,24 +114,26 @@ class TradeListFilterBar extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  ViewResetButtons(
-                    onReset: () {
-                      context.read<SymbolTradeListBloc>().add(
-                        const ResetSymbolTradeListFilters(),
-                      );
-                    },
-                    onView: () {
-                      context.read<SymbolTradeListBloc>().add(
-                        FilterSymbolTradeList(
-                          user: state.selectedUser,
-                          exchange: state.selectedExchange,
-                          symbol: state.selectedSymbol,
-                          type: state.selectedType,
-                          dateRange: state.selectedDateRange,
-                        ),
-                      );
-                    },
-                  ),
+                  if (!isClient) ...[
+                    ViewResetButtons(
+                      onReset: () {
+                        context.read<SymbolTradeListBloc>().add(
+                          const ResetSymbolTradeListFilters(),
+                        );
+                      },
+                      onView: () {
+                        context.read<SymbolTradeListBloc>().add(
+                          FilterSymbolTradeList(
+                            user: state.selectedUser,
+                            exchange: state.selectedExchange,
+                            symbol: state.selectedSymbol,
+                            type: state.selectedType,
+                            dateRange: state.selectedDateRange,
+                          ),
+                        );
+                      },
+                    ),
+                  ],
                 ],
               ),
             ],

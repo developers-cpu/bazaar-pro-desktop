@@ -8,6 +8,8 @@ import '../../../../../core/widget/table/view_reset_buttons.dart';
 import '../../bloc/trade_margin/trade_margin_bloc.dart';
 import '../../bloc/trade_margin/trade_margin_event.dart';
 import '../../bloc/trade_margin/trade_margin_state.dart';
+import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
 
 class TradeMarginFilterBar extends StatelessWidget {
   const TradeMarginFilterBar({super.key});
@@ -18,6 +20,11 @@ class TradeMarginFilterBar extends StatelessWidget {
         if (state is! TradeMarginLoaded) {
           return const SizedBox.shrink();
         }
+        final authState = context.read<AuthBloc>().state;
+        final isClient =
+            authState is AuthAuthenticated &&
+            authState.user.role.toLowerCase() == 'client';
+
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Row(
@@ -48,17 +55,21 @@ class TradeMarginFilterBar extends StatelessWidget {
                   );
                 },
               ),
-              const Spacer(),
-              ViewResetButtons(
-                onReset: () {
-                  context.read<TradeMarginBloc>().add(
-                    const ResetTradeMarginFilters(),
-                  );
-                },
-                onView: () {
-                  context.read<TradeMarginBloc>().add(const ViewTradeMargins());
-                },
-              ),
+              if (!isClient) ...[
+                const Spacer(),
+                ViewResetButtons(
+                  onReset: () {
+                    context.read<TradeMarginBloc>().add(
+                      const ResetTradeMarginFilters(),
+                    );
+                  },
+                  onView: () {
+                    context.read<TradeMarginBloc>().add(
+                      const ViewTradeMargins(),
+                    );
+                  },
+                ),
+              ],
             ],
           ),
         );

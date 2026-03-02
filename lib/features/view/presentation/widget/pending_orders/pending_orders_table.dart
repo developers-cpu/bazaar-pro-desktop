@@ -6,6 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
+import '../../../../auth/presentation/bloc/auth_bloc.dart';
+import '../../../../auth/presentation/bloc/auth_state.dart';
 import '../../../domain/entities/pending_orders/pending_order.dart';
 import '../../bloc/pending_orders/pending_orders_bloc.dart';
 import '../../bloc/pending_orders/pending_orders_event.dart';
@@ -20,7 +22,31 @@ class PendingOrdersTable extends StatelessWidget {
     this.showDeviceInfo = false,
     this.isDarkMode = false,
   }) : super(key: key);
-  List<ViewTableColumn> _getColumns() {
+
+  List<ViewTableColumn> _getColumns(bool isClient) {
+    if (isClient) {
+      return const [
+        ViewTableColumn(id: 'exchange', label: 'EXCH', width: 100),
+        ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 150),
+        ViewTableColumn(id: 'buySell', label: 'B/S', width: 280),
+        ViewTableColumn(id: 'qty', label: 'QTY', width: 120, isNumeric: true),
+        ViewTableColumn(id: 'lot', label: 'LOT', width: 100, isNumeric: true),
+        ViewTableColumn(
+          id: 'triggerPrice',
+          label: 'PRICE',
+          width: 130,
+          isNumeric: true,
+        ),
+        ViewTableColumn(id: 'orderDateTime', label: 'ORDER D/T', width: 220),
+        ViewTableColumn(
+          id: 'modifyOrderDateTime',
+          label: 'MODIFY ORDER',
+          width: 240,
+        ),
+        ViewTableColumn(id: 'cmp', label: 'CMP', width: 120, isNumeric: true),
+      ];
+    }
+
     final columns = <ViewTableColumn>[
       const ViewTableColumn(id: 'userId', label: 'USER ID', width: 120),
       const ViewTableColumn(id: 'upline', label: 'UPLINE', width: 120),
@@ -83,7 +109,20 @@ class PendingOrdersTable extends StatelessWidget {
       case 'exchange':
         return ViewTextCell(text: item.exchange, isDark: isDark);
       case 'symbol':
-        return ViewLinkCell(text: item.symbol, isDark: isDark);
+        final symbolColor = ViewTableCellStyles.getValueColor(
+          item.qty,
+          isDark: isDark,
+        );
+        return Text(
+          item.symbol,
+          style: ViewTableCellStyles.getTextStyle(
+            isDark: isDark,
+            color: symbolColor,
+          ),
+          textAlign: TextAlign.center,
+          maxLines: 1,
+          softWrap: false,
+        );
       case 'buySell':
         return ViewBuySellCell(text: item.buySell, isDark: isDark);
       case 'qty':
@@ -132,6 +171,11 @@ class PendingOrdersTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authState = context.read<AuthBloc>().state;
+    final isClient =
+        authState is AuthAuthenticated &&
+        authState.user.role.toLowerCase() == 'client';
+
     return BlocBuilder<PendingOrdersBloc, PendingOrdersState>(
       builder: (context, state) {
         if (state is PendingOrdersLoading) {
@@ -148,7 +192,8 @@ class PendingOrdersTable extends StatelessWidget {
             ViewRecordCount(count: state.totalRecords),
             Expanded(
               child: ViewDataTable<PendingOrder>(
-                columns: _getColumns(),
+                autoFit: true,
+                columns: _getColumns(isClient),
                 data: state.filteredOrders,
                 idExtractor: (item) => item.id,
                 selectedId: state.selectedOrderId,

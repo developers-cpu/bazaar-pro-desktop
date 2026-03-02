@@ -8,6 +8,8 @@ import '../../../presentation/bloc/trade_log/trade_log_bloc.dart';
 import '../../../presentation/bloc/trade_log/trade_log_event.dart';
 import '../../../presentation/bloc/trade_log/trade_log_state.dart';
 import '../../../../../core/widget/table/view_reset_buttons.dart';
+import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
 
 class TradeLogFilterBar extends StatelessWidget {
   const TradeLogFilterBar({super.key});
@@ -18,6 +20,11 @@ class TradeLogFilterBar extends StatelessWidget {
         if (state is! TradeLogLoaded) {
           return const SizedBox.shrink();
         }
+        final authState = context.read<AuthBloc>().state;
+        final isClient =
+            authState is AuthAuthenticated &&
+            authState.user.role.toLowerCase() == 'client';
+
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Row(
@@ -41,20 +48,22 @@ class TradeLogFilterBar extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 12.w),
-              Expanded(
-                child: AppDropdown(
-                  type: AppDropdownType.search,
-                  hintText: 'User',
-                  value: state.selectedUser,
-                  items: state.users,
-                  onChanged: (value) {
-                    context.read<TradeLogBloc>().add(
-                      FilterTradeLogsEvent(user: value),
-                    );
-                  },
+              if (!isClient) ...[
+                Expanded(
+                  child: AppDropdown(
+                    type: AppDropdownType.search,
+                    hintText: 'User',
+                    value: state.selectedUser,
+                    items: state.users,
+                    onChanged: (value) {
+                      context.read<TradeLogBloc>().add(
+                        FilterTradeLogsEvent(user: value),
+                      );
+                    },
+                  ),
                 ),
-              ),
-              SizedBox(width: 12.w),
+                SizedBox(width: 12.w),
+              ],
               Expanded(
                 child: AppDropdown(
                   type: AppDropdownType.simple,
@@ -83,24 +92,26 @@ class TradeLogFilterBar extends StatelessWidget {
                   },
                 ),
               ),
-              const Spacer(),
-              ViewResetButtons(
-                onReset: () {
-                  context.read<TradeLogBloc>().add(
-                    const ResetTradeLogsFiltersEvent(),
-                  );
-                },
-                onView: () {
-                  context.read<TradeLogBloc>().add(
-                    FilterTradeLogsEvent(
-                      user: state.selectedUser,
-                      exchange: state.selectedExchange,
-                      symbol: state.selectedSymbol,
-                      dateRange: state.selectedDateRange,
-                    ),
-                  );
-                },
-              ),
+              if (!isClient) ...[
+                const Spacer(),
+                ViewResetButtons(
+                  onReset: () {
+                    context.read<TradeLogBloc>().add(
+                      const ResetTradeLogsFiltersEvent(),
+                    );
+                  },
+                  onView: () {
+                    context.read<TradeLogBloc>().add(
+                      FilterTradeLogsEvent(
+                        user: state.selectedUser,
+                        exchange: state.selectedExchange,
+                        symbol: state.selectedSymbol,
+                        dateRange: state.selectedDateRange,
+                      ),
+                    );
+                  },
+                ),
+              ],
             ],
           ),
         );

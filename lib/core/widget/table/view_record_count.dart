@@ -1,5 +1,8 @@
 import 'package:bazarpro/core/constants/app_colors.dart';
+import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -10,6 +13,17 @@ class ViewRecordCount extends StatelessWidget {
     : super(key: key);
   @override
   Widget build(BuildContext context) {
+    try {
+      final authState = context.read<AuthBloc>().state;
+      final isClient =
+          authState is AuthAuthenticated &&
+          authState.user.role.toLowerCase() == 'client';
+
+      if (isClient) {
+        return const SizedBox.shrink();
+      }
+    } catch (_) {}
+
     return Align(
       alignment: Alignment.centerRight,
       child: Container(

@@ -6,6 +6,8 @@ import '../../bloc/rejected_trade/rejected_trade_bloc.dart';
 import '../../bloc/rejected_trade/rejected_trade_event.dart';
 import '../../bloc/rejected_trade/rejected_trade_state.dart';
 import '../../../../../core/widget/table/view_reset_buttons.dart';
+import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
 
 class RejectedTradeFilterBar extends StatelessWidget {
   const RejectedTradeFilterBar({Key? key}) : super(key: key);
@@ -16,6 +18,11 @@ class RejectedTradeFilterBar extends StatelessWidget {
         if (state is! RejectedTradeLoaded) {
           return const SizedBox.shrink();
         }
+        final authState = context.read<AuthBloc>().state;
+        final isClient =
+            authState is AuthAuthenticated &&
+            authState.user.role.toLowerCase() == 'client';
+
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Row(
@@ -99,24 +106,26 @@ class RejectedTradeFilterBar extends StatelessWidget {
                   },
                 ),
               ),
-              const Spacer(),
-              ViewResetButtons(
-                onReset: () {
-                  context.read<RejectedTradeBloc>().add(
-                    const ResetRejectedTradeFiltersEvent(),
-                  );
-                },
-                onView: () {
-                  context.read<RejectedTradeBloc>().add(
-                    ApplyRejectedTradeFiltersEvent(
-                      userType: state.selectedUserType,
-                      user: state.selectedUser,
-                      exchange: state.selectedExchange,
-                      symbol: state.selectedSymbol,
-                    ),
-                  );
-                },
-              ),
+              if (!isClient) ...[
+                const Spacer(),
+                ViewResetButtons(
+                  onReset: () {
+                    context.read<RejectedTradeBloc>().add(
+                      const ResetRejectedTradeFiltersEvent(),
+                    );
+                  },
+                  onView: () {
+                    context.read<RejectedTradeBloc>().add(
+                      ApplyRejectedTradeFiltersEvent(
+                        userType: state.selectedUserType,
+                        user: state.selectedUser,
+                        exchange: state.selectedExchange,
+                        symbol: state.selectedSymbol,
+                      ),
+                    );
+                  },
+                ),
+              ],
             ],
           ),
         );

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,7 +14,9 @@ import '../../../../core/widget/app_dropdown.dart';
 
 class MarketFilters extends StatelessWidget {
   final MarketWatchLoaded state;
-  const MarketFilters({Key? key, required this.state}) : super(key: key);
+  final String? userRole;
+  const MarketFilters({Key? key, required this.state, this.userRole})
+    : super(key: key);
   @override
   Widget build(BuildContext context) {
     final availableSymbols =
@@ -77,20 +80,23 @@ class MarketFilters extends StatelessWidget {
               ),
               Row(
                 children: [
-                  AppDropdown(
-                    type: AppDropdownType.search,
-                    hintText: 'Search User',
-                    value: state.selectedUser,
-                    items: users,
-                    width: 200.w,
-                    dropdownHeight: 280.h,
-                    searchHint: 'Search & Add',
-                    onChanged: (user) {
-                      context.read<MarketWatchBloc>().add(
-                        FilterByUserEvent(user: user),
-                      );
-                    },
-                  ),
+                  if (userRole?.toLowerCase() == 'client')
+                    const ClientProfitLossWidget()
+                  else
+                    AppDropdown(
+                      type: AppDropdownType.search,
+                      hintText: 'Search User',
+                      value: state.selectedUser,
+                      items: users,
+                      width: 200.w,
+                      dropdownHeight: 280.h,
+                      searchHint: 'Search & Add',
+                      onChanged: (user) {
+                        context.read<MarketWatchBloc>().add(
+                          FilterByUserEvent(user: user),
+                        );
+                      },
+                    ),
                   SizedBox(width: 10.w),
                   _buildThemeToggle(context),
                 ],
@@ -129,6 +135,72 @@ class MarketFilters extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class ClientProfitLossWidget extends StatefulWidget {
+  const ClientProfitLossWidget({Key? key}) : super(key: key);
+
+  @override
+  State<ClientProfitLossWidget> createState() => _ClientProfitLossWidgetState();
+}
+
+class _ClientProfitLossWidgetState extends State<ClientProfitLossWidget> {
+  double _profitLoss = 81400.00;
+  Timer? _timer;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _timer = Timer.periodic(const Duration(seconds: 3), (timer) {
+      if (mounted) {
+        setState(() {
+          final isPositive = (DateTime.now().second % 2 == 0);
+          final mockChange = 500.0 + (DateTime.now().millisecond % 2000);
+          if (isPositive) {
+            _profitLoss = _profitLoss.abs() + mockChange;
+          } else {
+            _profitLoss = -(_profitLoss.abs() - mockChange);
+          }
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final isPositive = _profitLoss >= 0;
+    final color = isPositive ? AppColors.buyColor : AppColors.sellColor;
+
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text('💰', style: TextStyle(fontSize: 20.sp)),
+        SizedBox(width: 8.w),
+        AnimatedSwitcher(
+          duration: const Duration(milliseconds: 300),
+          transitionBuilder: (Widget child, Animation<double> animation) {
+            return FadeTransition(opacity: animation, child: child);
+          },
+          child: Text(
+            'P/L : ${_profitLoss.toStringAsFixed(2)}',
+            key: ValueKey<double>(_profitLoss),
+            style: TextStyle(
+              fontSize: 12.sp,
+              fontWeight: FontWeight.bold,
+              color: color,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

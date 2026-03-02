@@ -146,7 +146,7 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
                   onReportAction: _handleReportAction,
                   showExportByDefault: false,
                 ),
-                body: _buildBodyContent(),
+                body: _buildBodyContent(userRole),
               ),
             ),
           ),
@@ -155,12 +155,13 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
     );
   }
 
-  Widget _buildBodyContent() {
+  Widget _buildBodyContent(String? userRole) {
     switch (_selectedTabIndex) {
       case 0:
         return BlocConsumer<MarketWatchBloc, MarketWatchState>(
           listener: _handleStateChange,
-          builder: _buildMarketWatchBody,
+          builder: (context, state) =>
+              _buildMarketWatchBody(context, state, userRole),
         );
       case 1:
         return const DashboardPage();
@@ -203,7 +204,11 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
     }
   }
 
-  Widget _buildMarketWatchBody(BuildContext context, MarketWatchState state) {
+  Widget _buildMarketWatchBody(
+    BuildContext context,
+    MarketWatchState state,
+    String? userRole,
+  ) {
     if (state is MarketWatchInitial || state is MarketWatchLoading) {
       return const Center(child: CircularProgressIndicator());
     }
@@ -215,7 +220,7 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
       children: [
         Column(
           children: [
-            MarketFilters(state: loadedState),
+            MarketFilters(state: loadedState, userRole: userRole),
             Expanded(
               child: MarketDataTable(
                 state: loadedState,

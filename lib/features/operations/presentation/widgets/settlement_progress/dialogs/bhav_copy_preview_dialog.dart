@@ -58,14 +58,14 @@ class _BhavCopyPreviewDialogState extends State<BhavCopyPreviewDialog> {
     context.read<SettlementProgressBloc>().add(
       SubmitBhavCopyEvent(widget.data),
     );
-    Navigator.of(context).pop(); 
+    Navigator.of(context).pop();
   }
 
   @override
   Widget build(BuildContext context) {
     return CommonDialog(
       title: 'Bhav Copy',
-      width: 1000.w, 
+      width: 1000.w,
       height: 600.h,
       showButtons: false,
       scrollable: false,

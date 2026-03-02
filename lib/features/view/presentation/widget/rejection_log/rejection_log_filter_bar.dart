@@ -8,6 +8,8 @@ import '../../../../../core/widget/table/view_reset_buttons.dart';
 import '../../bloc/rejection_log/rejection_log_bloc.dart';
 import '../../bloc/rejection_log/rejection_log_event.dart';
 import '../../bloc/rejection_log/rejection_log_state.dart';
+import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
 
 class RejectionLogFilterBar extends StatelessWidget {
   const RejectionLogFilterBar({Key? key}) : super(key: key);
@@ -18,80 +20,87 @@ class RejectionLogFilterBar extends StatelessWidget {
         if (state is! RejectionLogLoaded) {
           return const SizedBox.shrink();
         }
+        final authState = context.read<AuthBloc>().state;
+        final isClient =
+            authState is AuthAuthenticated &&
+            authState.user.role.toLowerCase() == 'client';
+
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Row(
             children: [
-              DateRangePickerButton(
-                width: 200.w,
-                selectedDateRange:
-                    state.startDate != null && state.endDate != null
-                    ? DateTimeRange(
-                        start: state.startDate!,
-                        end: state.endDate!,
-                      )
-                    : null,
-                onTap: () async {
-                  final DateTimeRange? picked = await showDateRangePicker(
-                    context: context,
-                    firstDate: DateTime(2000),
-                    lastDate: DateTime(2101),
-                    initialDateRange:
-                        state.startDate != null && state.endDate != null
-                        ? DateTimeRange(
-                            start: state.startDate!,
-                            end: state.endDate!,
-                          )
-                        : null,
-                    builder: (context, child) {
-                      return Theme(
-                        data: Theme.of(context).copyWith(
-                          colorScheme: const ColorScheme.light(
-                            primary: AppColors.primaryBlue,
-                            onPrimary: Colors.white,
-                            onSurface: Colors.black,
+              if (!isClient) ...[
+                DateRangePickerButton(
+                  width: 200.w,
+                  selectedDateRange:
+                      state.startDate != null && state.endDate != null
+                      ? DateTimeRange(
+                          start: state.startDate!,
+                          end: state.endDate!,
+                        )
+                      : null,
+                  onTap: () async {
+                    final DateTimeRange? picked = await showDateRangePicker(
+                      context: context,
+                      firstDate: DateTime(2000),
+                      lastDate: DateTime(2101),
+                      initialDateRange:
+                          state.startDate != null && state.endDate != null
+                          ? DateTimeRange(
+                              start: state.startDate!,
+                              end: state.endDate!,
+                            )
+                          : null,
+                      builder: (context, child) {
+                        return Theme(
+                          data: Theme.of(context).copyWith(
+                            colorScheme: const ColorScheme.light(
+                              primary: AppColors.primaryBlue,
+                              onPrimary: Colors.white,
+                              onSurface: Colors.black,
+                            ),
                           ),
-                        ),
-                        child: child!,
-                      );
-                    },
-                  );
+                          child: child!,
+                        );
+                      },
+                    );
 
-                  if (picked != null && context.mounted) {
-                    context.read<RejectionLogBloc>().add(
-                      ApplyRejectionLogFiltersEvent(
-                        startDate: picked.start,
-                        endDate: picked.end,
-                        client: state.selectedClient,
-                        exchange: state.selectedExchange,
-                        symbol: state.selectedSymbol,
-                      ),
-                    );
-                  }
-                },
-              ),
-              SizedBox(width: 12.w),
-              SizedBox(
-                width: 200.w,
-                child: AppDropdown(
-                  type: AppDropdownType.search,
-                  hintText: 'User',
-                  value: state.selectedClient,
-                  items: state.clients,
-                  onChanged: (value) {
-                    context.read<RejectionLogBloc>().add(
-                      ApplyRejectionLogFiltersEvent(
-                        startDate: state.startDate,
-                        endDate: state.endDate,
-                        client: value,
-                        exchange: state.selectedExchange,
-                        symbol: state.selectedSymbol,
-                      ),
-                    );
+                    if (picked != null && context.mounted) {
+                      context.read<RejectionLogBloc>().add(
+                        ApplyRejectionLogFiltersEvent(
+                          startDate: picked.start,
+                          endDate: picked.end,
+                          client: state.selectedClient,
+                          exchange: state.selectedExchange,
+                          symbol: state.selectedSymbol,
+                        ),
+                      );
+                    }
                   },
                 ),
-              ),
-              SizedBox(width: 12.w),
+                SizedBox(width: 12.w),
+                SizedBox(
+                  width: 200.w,
+                  child: AppDropdown(
+                    type: AppDropdownType.search,
+                    hintText: 'User',
+                    value: state.selectedClient,
+                    items: state.clients,
+                    onChanged: (value) {
+                      context.read<RejectionLogBloc>().add(
+                        ApplyRejectionLogFiltersEvent(
+                          startDate: state.startDate,
+                          endDate: state.endDate,
+                          client: value,
+                          exchange: state.selectedExchange,
+                          symbol: state.selectedSymbol,
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                SizedBox(width: 12.w),
+              ],
               SizedBox(
                 width: 200.w,
                 child: AppDropdown(
@@ -133,25 +142,27 @@ class RejectionLogFilterBar extends StatelessWidget {
                   },
                 ),
               ),
-              const Spacer(),
-              ViewResetButtons(
-                onReset: () {
-                  context.read<RejectionLogBloc>().add(
-                    const ResetRejectionLogFiltersEvent(),
-                  );
-                },
-                onView: () {
-                  context.read<RejectionLogBloc>().add(
-                    ApplyRejectionLogFiltersEvent(
-                      startDate: state.startDate,
-                      endDate: state.endDate,
-                      client: state.selectedClient,
-                      exchange: state.selectedExchange,
-                      symbol: state.selectedSymbol,
-                    ),
-                  );
-                },
-              ),
+              if (!isClient) ...[
+                const Spacer(),
+                ViewResetButtons(
+                  onReset: () {
+                    context.read<RejectionLogBloc>().add(
+                      const ResetRejectionLogFiltersEvent(),
+                    );
+                  },
+                  onView: () {
+                    context.read<RejectionLogBloc>().add(
+                      ApplyRejectionLogFiltersEvent(
+                        startDate: state.startDate,
+                        endDate: state.endDate,
+                        client: state.selectedClient,
+                        exchange: state.selectedExchange,
+                        symbol: state.selectedSymbol,
+                      ),
+                    );
+                  },
+                ),
+              ],
             ],
           ),
         );

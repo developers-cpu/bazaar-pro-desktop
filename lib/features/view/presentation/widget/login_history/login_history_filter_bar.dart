@@ -6,11 +6,18 @@ import '../../../../../core/widget/table/view_reset_buttons.dart';
 import '../../bloc/login_history/login_history_bloc.dart';
 import '../../bloc/login_history/login_history_event.dart';
 import '../../bloc/login_history/login_history_state.dart';
+import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
 
 class LoginHistoryFilterBar extends StatelessWidget {
   const LoginHistoryFilterBar({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final authState = context.read<AuthBloc>().state;
+    final isClient =
+        authState is AuthAuthenticated &&
+        authState.user.role.toLowerCase() == 'client';
+
     return BlocBuilder<LoginHistoryBloc, LoginHistoryState>(
       builder: (context, state) {
         final clients = state is LoginHistoryInitial
@@ -53,19 +60,21 @@ class LoginHistoryFilterBar extends StatelessWidget {
                   },
                 ),
               ),
-              const Spacer(),
-              ViewResetButtons(
-                onReset: () {
-                  context.read<LoginHistoryBloc>().add(
-                    const ResetLoginHistoryEvent(),
-                  );
-                },
-                onView: () {
-                  context.read<LoginHistoryBloc>().add(
-                    const ViewLoginHistoryEvent(),
-                  );
-                },
-              ),
+              if (!isClient) ...[
+                const Spacer(),
+                ViewResetButtons(
+                  onReset: () {
+                    context.read<LoginHistoryBloc>().add(
+                      const ResetLoginHistoryEvent(),
+                    );
+                  },
+                  onView: () {
+                    context.read<LoginHistoryBloc>().add(
+                      const ViewLoginHistoryEvent(),
+                    );
+                  },
+                ),
+              ],
             ],
           ),
         );

@@ -148,6 +148,7 @@ class RejectionLogRemoteDataSourceImpl implements RejectionLogRemoteDataSource {
           status: 'rejected',
           userName: users[i % users.length],
           symbol: symbols[i % symbols.length],
+          exchange: 'MCX',
           type: types[i % types.length],
           qty: [
             95,

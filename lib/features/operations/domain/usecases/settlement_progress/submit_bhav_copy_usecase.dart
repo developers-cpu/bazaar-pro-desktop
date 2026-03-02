@@ -5,7 +5,6 @@ import '../../../../../core/usecases/usecase.dart';
 import '../../entities/settlement_progress/bhav_copy_entity.dart';
 import '../../repositories/settlement_progress/settlement_progress_repository.dart';
 
-
 class SubmitBhavCopyUseCase implements UseCase<void, List<BhavCopyEntity>> {
   final SettlementProgressRepository repository;
 

@@ -7,11 +7,18 @@ import '../../bloc/broker_list/broker_list_event.dart';
 import '../../bloc/broker_list/broker_list_state.dart';
 import '../../../../../core/widget/table/view_reset_buttons.dart';
 import '../../../../../core/widget/table/view_record_count.dart';
+import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
 
 class BrokerListFilterBar extends StatelessWidget {
   const BrokerListFilterBar({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final authState = context.read<AuthBloc>().state;
+    final isClient =
+        authState is AuthAuthenticated &&
+        authState.user.role.toLowerCase() == 'client';
+
     return BlocBuilder<BrokerListBloc, BrokerListState>(
       builder: (context, state) {
         return Container(
@@ -36,15 +43,17 @@ class BrokerListFilterBar extends StatelessWidget {
                       onChanged: (value) {},
                     ),
                   ),
-                  const Spacer(),
-                  ViewResetButtons(
-                    onReset: () {
-                      context.read<BrokerListBloc>().add(
-                        const LoadBrokersEvent(),
-                      );
-                    },
-                    onView: () {},
-                  ),
+                  if (!isClient) ...[
+                    const Spacer(),
+                    ViewResetButtons(
+                      onReset: () {
+                        context.read<BrokerListBloc>().add(
+                          const LoadBrokersEvent(),
+                        );
+                      },
+                      onView: () {},
+                    ),
+                  ],
                 ],
               ),
               ViewRecordCount(

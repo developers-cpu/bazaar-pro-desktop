@@ -81,9 +81,7 @@ class SettlementProgressIndicatorDialog extends StatelessWidget {
                   height: 40.h,
                 )
               else
-                SizedBox(
-                  height: 40.h,
-                ), 
+                SizedBox(height: 40.h),
             ],
           );
         },

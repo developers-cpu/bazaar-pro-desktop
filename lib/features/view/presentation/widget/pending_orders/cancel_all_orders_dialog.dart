@@ -7,7 +7,10 @@ import '../../../domain/entities/pending_orders/pending_order.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
 import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import '../../../../../core/widget/table/success_dialog.dart';
+import '../../../../auth/presentation/bloc/auth_bloc.dart';
+import '../../../../auth/presentation/bloc/auth_state.dart';
 import 'trade_details_dialog.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/widget/custom_action_button.dart';
 import '../../../../../core/widget/custom_outlined_button.dart';
 
@@ -59,6 +62,14 @@ class _CancelAllOrdersDialogState extends State<CancelAllOrdersDialog> {
 
   @override
   Widget build(BuildContext context) {
+    bool isClient = false;
+    try {
+      final authState = context.read<AuthBloc>().state;
+      isClient =
+          authState is AuthAuthenticated &&
+          authState.user.role.toLowerCase() == 'client';
+    } catch (_) {}
+
     return CommonDialog(
       title: 'Cancel Order',
       isDarkMode: widget.isDarkMode,
@@ -92,8 +103,8 @@ class _CancelAllOrdersDialogState extends State<CancelAllOrdersDialog> {
       contentPadding: EdgeInsets.zero,
       content: Column(
         children: [
-          _buildFilterBar(),
-          Expanded(child: _buildTable()),
+          _buildFilterBar(isClient),
+          Expanded(child: _buildTable(isClient)),
           SizedBox(height: 8.h),
           _buildActionButtons(context),
           SizedBox(height: 8.h),
@@ -102,7 +113,9 @@ class _CancelAllOrdersDialogState extends State<CancelAllOrdersDialog> {
     );
   }
 
-  Widget _buildFilterBar() {
+  Widget _buildFilterBar(bool isClient) {
+    if (isClient) return const SizedBox.shrink();
+
     return Padding(
       padding: EdgeInsets.all(16.w),
       child: Row(
@@ -186,7 +199,30 @@ class _CancelAllOrdersDialogState extends State<CancelAllOrdersDialog> {
     );
   }
 
-  List<ViewTableColumn> _getColumns() {
+  List<ViewTableColumn> _getColumns(bool isClient) {
+    if (isClient) {
+      return const [
+        ViewTableColumn(id: 'exchange', label: 'EXCH', width: 100),
+        ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 150),
+        ViewTableColumn(id: 'buySell', label: 'B/S', width: 280),
+        ViewTableColumn(id: 'qty', label: 'QTY', width: 120, isNumeric: true),
+        ViewTableColumn(id: 'lot', label: 'LOT', width: 100, isNumeric: true),
+        ViewTableColumn(
+          id: 'price',
+          label: 'PRICE',
+          width: 130,
+          isNumeric: true,
+        ),
+        ViewTableColumn(id: 'orderDateTime', label: 'ORDER D/T', width: 220),
+        ViewTableColumn(
+          id: 'modifyOrderDateTime',
+          label: 'MODIFY ORDER D/T',
+          width: 240,
+        ),
+        ViewTableColumn(id: 'cmp', label: 'CMP', width: 120, isNumeric: true),
+      ];
+    }
+
     final allSelected =
         _filteredOrders.isNotEmpty &&
         _filteredOrders.every((o) => _selectedOrderIds.contains(o.id));
@@ -255,7 +291,20 @@ class _CancelAllOrdersDialogState extends State<CancelAllOrdersDialog> {
       case 'exchange':
         return ViewTextCell(text: item.exchange, isDark: isDark);
       case 'symbol':
-        return ViewLinkCell(text: item.symbol, isDark: isDark);
+        final symbolColor = ViewTableCellStyles.getValueColor(
+          item.qty,
+          isDark: isDark,
+        );
+        return Text(
+          item.symbol,
+          style: ViewTableCellStyles.getTextStyle(
+            isDark: isDark,
+            color: symbolColor,
+          ),
+          textAlign: TextAlign.center,
+          maxLines: 1,
+          softWrap: false,
+        );
       case 'buySell':
         return ViewTextCell(
           text: item.buySell,
@@ -304,10 +353,10 @@ class _CancelAllOrdersDialogState extends State<CancelAllOrdersDialog> {
     }
   }
 
-  Widget _buildTable() {
+  Widget _buildTable(bool isClient) {
     final data = _filteredOrders;
     return ViewDataTable<PendingOrder>(
-      columns: _getColumns(),
+      columns: _getColumns(isClient),
       data: data,
       idExtractor: (item) => item.id,
       isDarkMode: widget.isDarkMode,

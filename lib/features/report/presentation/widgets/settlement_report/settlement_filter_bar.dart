@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import '../../../../../../core/constants/app_colors.dart';
 import '../../../../../../core/widget/date_range_picker_dialog.dart';
+import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
 
 class SettlementFilterBar extends StatefulWidget {
   final String selectedDateRange;
@@ -241,6 +244,11 @@ class _SettlementFilterBarState extends State<SettlementFilterBar> {
 
   @override
   Widget build(BuildContext context) {
+    final authState = context.read<AuthBloc>().state;
+    final isClient =
+        authState is AuthAuthenticated &&
+        authState.user.role.toLowerCase() == 'client';
+
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
       child: Row(

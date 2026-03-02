@@ -6,11 +6,18 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../../../core/constants/app_colors.dart';
 import '../../bloc/bill_generate/bill_generate_bloc.dart';
 import '../../bloc/bill_generate/bill_generate_event.dart';
+import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
 
 class BillGenerateFilterBar extends StatelessWidget {
   const BillGenerateFilterBar({super.key});
   @override
   Widget build(BuildContext context) {
+    final authState = context.read<AuthBloc>().state;
+    final isClient =
+        authState is AuthAuthenticated &&
+        authState.user.role.toLowerCase() == 'client';
+
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
       width: double.infinity,
@@ -34,30 +41,34 @@ class BillGenerateFilterBar extends StatelessWidget {
             ),
           ),
           SizedBox(width: 16.w),
-          Expanded(
-            child: AppDropdown(
-              hintText: 'User Type',
-              items: const ['Master', 'Client'],
-              onChanged: (value) {},
-              height: 40.h,
+          if (!isClient) ...[
+            Expanded(
+              child: AppDropdown(
+                hintText: 'User Type',
+                items: const ['Master', 'Client'],
+                onChanged: (value) {},
+                height: 40.h,
+              ),
             ),
-          ),
-          SizedBox(width: 16.w),
-          Expanded(
-            child: AppDropdown(
-              hintText: 'User',
-              items: const ['User 1', 'User 2', 'User 3'],
-              type: AppDropdownType.search,
-              searchHint: 'Search & Add',
-              onChanged: (value) {
-                context.read<BillGenerateBloc>().add(
-                  FilterBillGenerateReport(userId: value),
-                );
-              },
-              height: 40.h,
+            SizedBox(width: 16.w),
+          ],
+          if (!isClient) ...[
+            Expanded(
+              child: AppDropdown(
+                hintText: 'User',
+                items: const ['User 1', 'User 2', 'User 3'],
+                type: AppDropdownType.search,
+                searchHint: 'Search & Add',
+                onChanged: (value) {
+                  context.read<BillGenerateBloc>().add(
+                    FilterBillGenerateReport(userId: value),
+                  );
+                },
+                height: 40.h,
+              ),
             ),
-          ),
-          SizedBox(width: 16.w),
+            SizedBox(width: 16.w),
+          ],
           Expanded(
             child: AppDropdown(
               hintText: 'Bill Format',

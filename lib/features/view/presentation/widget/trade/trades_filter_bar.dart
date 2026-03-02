@@ -9,6 +9,9 @@ import '../../bloc/trade/trades_bloc.dart';
 import '../../bloc/trade/trades_event.dart';
 import '../../bloc/trade/trades_state.dart';
 
+import '../../../../auth/presentation/bloc/auth_bloc.dart';
+import '../../../../auth/presentation/bloc/auth_state.dart';
+
 class TradesFilterBar extends StatelessWidget {
   const TradesFilterBar({Key? key}) : super(key: key);
   @override
@@ -18,12 +21,21 @@ class TradesFilterBar extends StatelessWidget {
         if (state is! TradesLoaded) {
           return const SizedBox.shrink();
         }
+        final authState = context.read<AuthBloc>().state;
+        final isClient =
+            authState is AuthAuthenticated &&
+            authState.user.role.toLowerCase() == 'client';
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-          child: Row(
-            children: [
-              Expanded(
-                child: DateRangePickerButton(
+          alignment: Alignment.centerLeft,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                DateRangePickerButton(
+                  width: 200.w,
                   selectedDateRange:
                       state.startDate != null && state.endDate != null
                       ? DateTimeRange(
@@ -51,31 +63,31 @@ class TradesFilterBar extends StatelessWidget {
                     }
                   },
                 ),
-              ),
-              SizedBox(width: 12.w),
-              Expanded(
-                child: AppDropdown(
-                  type: AppDropdownType.search,
-                  hintText: 'Client',
-                  value: state.selectedClient,
-                  items: state.clients,
-                  onChanged: (value) {
-                    context.read<TradesBloc>().add(
-                      ApplyFiltersEvent(
-                        startDate: state.startDate,
-                        endDate: state.endDate,
-                        client: value,
-                        exchange: state.selectedExchange,
-                        symbol: state.selectedSymbol,
-                        orderType: state.selectedOrderType,
-                      ),
-                    );
-                  },
-                ),
-              ),
-              SizedBox(width: 12.w),
-              Expanded(
-                child: AppDropdown(
+                if (!isClient) ...[
+                  SizedBox(width: 12.w),
+                  AppDropdown(
+                    width: 200.w,
+                    type: AppDropdownType.search,
+                    hintText: 'Client',
+                    value: state.selectedClient,
+                    items: state.clients,
+                    onChanged: (value) {
+                      context.read<TradesBloc>().add(
+                        ApplyFiltersEvent(
+                          startDate: state.startDate,
+                          endDate: state.endDate,
+                          client: value,
+                          exchange: state.selectedExchange,
+                          symbol: state.selectedSymbol,
+                          orderType: state.selectedOrderType,
+                        ),
+                      );
+                    },
+                  ),
+                ],
+                SizedBox(width: 12.w),
+                AppDropdown(
+                  width: 200.w,
                   type: AppDropdownType.simple,
                   hintText: 'Exchange',
                   value: state.selectedExchange,
@@ -94,10 +106,9 @@ class TradesFilterBar extends StatelessWidget {
                     );
                   },
                 ),
-              ),
-              SizedBox(width: 12.w),
-              Expanded(
-                child: AppDropdown(
+                SizedBox(width: 12.w),
+                AppDropdown(
+                  width: 200.w,
                   type: AppDropdownType.search,
                   hintText: 'Symbol',
                   value: state.selectedSymbol,
@@ -115,10 +126,9 @@ class TradesFilterBar extends StatelessWidget {
                     );
                   },
                 ),
-              ),
-              SizedBox(width: 12.w),
-              Expanded(
-                child: AppDropdown(
+                SizedBox(width: 12.w),
+                AppDropdown(
+                  width: 200.w,
                   type: AppDropdownType.simple,
                   hintText: 'Select Type',
                   value: state.selectedOrderType,
@@ -137,26 +147,28 @@ class TradesFilterBar extends StatelessWidget {
                     );
                   },
                 ),
-              ),
-              const Spacer(),
-              ViewResetButtons(
-                onReset: () {
-                  context.read<TradesBloc>().add(const ResetFiltersEvent());
-                },
-                onView: () {
-                  context.read<TradesBloc>().add(
-                    ApplyFiltersEvent(
-                      startDate: state.startDate,
-                      endDate: state.endDate,
-                      client: state.selectedClient,
-                      exchange: state.selectedExchange,
-                      symbol: state.selectedSymbol,
-                      orderType: state.selectedOrderType,
-                    ),
-                  );
-                },
-              ),
-            ],
+                if (!isClient) ...[
+                  SizedBox(width: 12.w),
+                  ViewResetButtons(
+                    onReset: () {
+                      context.read<TradesBloc>().add(const ResetFiltersEvent());
+                    },
+                    onView: () {
+                      context.read<TradesBloc>().add(
+                        ApplyFiltersEvent(
+                          startDate: state.startDate,
+                          endDate: state.endDate,
+                          client: state.selectedClient,
+                          exchange: state.selectedExchange,
+                          symbol: state.selectedSymbol,
+                          orderType: state.selectedOrderType,
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ],
+            ),
           ),
         );
       },

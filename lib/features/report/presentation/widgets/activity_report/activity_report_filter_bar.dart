@@ -8,6 +8,8 @@ import '../../../../../core/widget/date_range_picker_dialog.dart' as custom;
 import '../../bloc/activity_report/activity_report_bloc.dart';
 import '../../bloc/activity_report/activity_report_event.dart';
 import '../../bloc/activity_report/activity_report_state.dart';
+import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
 
 class ActivityReportFilterBar extends StatelessWidget {
   const ActivityReportFilterBar({super.key});
@@ -18,39 +20,48 @@ class ActivityReportFilterBar extends StatelessWidget {
         if (state is! ActivityReportLoaded) {
           return const SizedBox.shrink();
         }
+        final authState = context.read<AuthBloc>().state;
+        final isClient =
+            authState is AuthAuthenticated &&
+            authState.user.role.toLowerCase() == 'client';
+
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Row(
             children: [
-              Expanded(
-                child: AppDropdown(
-                  type: AppDropdownType.simple,
-                  hintText: 'User Type',
-                  value: state.selectedUserType,
-                  items: const ['Master', 'Client'],
-                  onChanged: (value) {
-                    context.read<ActivityReportBloc>().add(
-                      FilterActivityReport(userType: value),
-                    );
-                  },
+              if (!isClient) ...[
+                Expanded(
+                  child: AppDropdown(
+                    type: AppDropdownType.simple,
+                    hintText: 'User Type',
+                    value: state.selectedUserType,
+                    items: const ['Master', 'Client'],
+                    onChanged: (value) {
+                      context.read<ActivityReportBloc>().add(
+                        FilterActivityReport(userType: value),
+                      );
+                    },
+                  ),
                 ),
-              ),
-              SizedBox(width: 12.w),
-              Expanded(
-                child: AppDropdown(
-                  type: AppDropdownType.search,
-                  hintText: 'User',
-                  searchHint: 'Search & Add',
-                  value: state.selectedUser,
-                  items: state.users,
-                  onChanged: (value) {
-                    context.read<ActivityReportBloc>().add(
-                      FilterActivityReport(user: value),
-                    );
-                  },
+                SizedBox(width: 12.w),
+              ],
+              if (!isClient) ...[
+                Expanded(
+                  child: AppDropdown(
+                    type: AppDropdownType.search,
+                    hintText: 'User',
+                    searchHint: 'Search & Add',
+                    value: state.selectedUser,
+                    items: state.users,
+                    onChanged: (value) {
+                      context.read<ActivityReportBloc>().add(
+                        FilterActivityReport(user: value),
+                      );
+                    },
+                  ),
                 ),
-              ),
-              SizedBox(width: 12.w),
+                SizedBox(width: 12.w),
+              ],
               Expanded(
                 child: DateRangePickerButton(
                   selectedDateRange: state.selectedDateRange,
@@ -69,23 +80,25 @@ class ActivityReportFilterBar extends StatelessWidget {
                   },
                 ),
               ),
-              const Spacer(),
-              ViewResetButtons(
-                onReset: () {
-                  context.read<ActivityReportBloc>().add(
-                    const ResetActivityReportFilters(),
-                  );
-                },
-                onView: () {
-                  context.read<ActivityReportBloc>().add(
-                    FilterActivityReport(
-                      userType: state.selectedUserType,
-                      user: state.selectedUser,
-                      dateRange: state.selectedDateRange,
-                    ),
-                  );
-                },
-              ),
+              if (!isClient) ...[
+                const Spacer(),
+                ViewResetButtons(
+                  onReset: () {
+                    context.read<ActivityReportBloc>().add(
+                      const ResetActivityReportFilters(),
+                    );
+                  },
+                  onView: () {
+                    context.read<ActivityReportBloc>().add(
+                      FilterActivityReport(
+                        userType: state.selectedUserType,
+                        user: state.selectedUser,
+                        dateRange: state.selectedDateRange,
+                      ),
+                    );
+                  },
+                ),
+              ],
             ],
           ),
         );

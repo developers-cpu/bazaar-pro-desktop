@@ -8,31 +8,57 @@ import '../../bloc/rejection_log/rejection_log_event.dart';
 import '../../bloc/rejection_log/rejection_log_state.dart';
 import '../../../../../core/widget/table/view_record_count.dart';
 import '../../../../../core/widget/table/view_table_cell_styles.dart';
+import '../../../../auth/presentation/bloc/auth_bloc.dart';
+import '../../../../auth/presentation/bloc/auth_state.dart';
 
 class RejectionLogTable extends StatelessWidget {
   const RejectionLogTable({Key? key}) : super(key: key);
-  static final List<ViewTableColumn> _columns = [
-    const ViewTableColumn(id: 'orderDateTime', label: 'ORDER D/T', width: 170),
-    const ViewTableColumn(id: 'status', label: 'STATUS', width: 80),
-    const ViewTableColumn(id: 'userName', label: 'U.NAME', width: 100),
-    const ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 170),
-    const ViewTableColumn(id: 'type', label: 'TYPE', width: 80),
-    const ViewTableColumn(id: 'qty', label: 'QTY', width: 100, isNumeric: true),
-    const ViewTableColumn(
-      id: 'price',
-      label: 'PRICE',
-      width: 100,
-      isNumeric: true,
-    ),
-    const ViewTableColumn(id: 'comment', label: 'COMMENT', width: 400),
-    const ViewTableColumn(id: 'deviceId', label: 'DEVICE ID', width: 280),
-    const ViewTableColumn(id: 'device', label: 'DEVICE', width: 80),
-    const ViewTableColumn(id: 'city', label: 'CITY', width: 100),
-    const ViewTableColumn(id: 'ipAddress', label: 'IP ADDRESS', width: 120),
-    const ViewTableColumn(id: 'date', label: 'DATE', width: 170),
-  ];
+
+  List<ViewTableColumn> _getColumns(bool isClient) {
+    if (isClient) {
+      return const [
+        ViewTableColumn(id: 'orderDateTime', label: 'ORDER D/T', width: 170),
+        ViewTableColumn(id: 'exchange', label: 'EXCH', width: 100),
+        ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 170),
+        ViewTableColumn(id: 'type', label: 'B/S', width: 80),
+        ViewTableColumn(id: 'qty', label: 'QTY', width: 100, isNumeric: true),
+        ViewTableColumn(
+          id: 'price',
+          label: 'PRICE',
+          width: 100,
+          isNumeric: true,
+        ),
+        ViewTableColumn(id: 'comment', label: 'COMMENT', width: 400),
+      ];
+    }
+
+    return const [
+      ViewTableColumn(id: 'orderDateTime', label: 'ORDER D/T', width: 170),
+      ViewTableColumn(id: 'status', label: 'STATUS', width: 80),
+      ViewTableColumn(id: 'userName', label: 'U.NAME', width: 100),
+      ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 170),
+      ViewTableColumn(id: 'type', label: 'TYPE', width: 80),
+      ViewTableColumn(id: 'qty', label: 'QTY', width: 100, isNumeric: true),
+      ViewTableColumn(id: 'price', label: 'PRICE', width: 100, isNumeric: true),
+      ViewTableColumn(id: 'comment', label: 'COMMENT', width: 400),
+      ViewTableColumn(id: 'deviceId', label: 'DEVICE ID', width: 280),
+      ViewTableColumn(id: 'device', label: 'DEVICE', width: 80),
+      ViewTableColumn(id: 'city', label: 'CITY', width: 100),
+      ViewTableColumn(id: 'ipAddress', label: 'IP ADDRESS', width: 120),
+      ViewTableColumn(id: 'date', label: 'DATE', width: 170),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
+    bool isClient = false;
+    try {
+      final authState = context.read<AuthBloc>().state;
+      isClient =
+          authState is AuthAuthenticated &&
+          authState.user.role.toLowerCase() == 'client';
+    } catch (_) {}
+
     return BlocBuilder<RejectionLogBloc, RejectionLogState>(
       builder: (context, state) {
         if (state is RejectionLogLoading) {
@@ -54,7 +80,7 @@ class RejectionLogTable extends StatelessWidget {
               ViewRecordCount(count: state.totalRecords),
               Expanded(
                 child: ViewDataTable<RejectionLog>(
-                  columns: _columns,
+                  columns: _getColumns(isClient),
                   data: state.filteredLogs,
                   cellBuilder: _buildCell,
                   idExtractor: (log) => log.id,
@@ -84,6 +110,8 @@ class RejectionLogTable extends StatelessWidget {
     switch (column.id) {
       case 'orderDateTime':
         return ViewDateTimeCell(dateTime: log.orderDateTime);
+      case 'exchange':
+        return ViewTextCell(text: log.exchange);
       case 'status':
         return ViewTextCell(text: log.status);
       case 'userName':

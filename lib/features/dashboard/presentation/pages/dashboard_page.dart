@@ -73,7 +73,12 @@ class _DashboardView extends StatelessWidget {
             return _buildError(state.message);
           }
           if (state is DashboardLoaded) {
-            return _buildContent(context, state);
+            final authState = context.read<AuthBloc>().state;
+            String? userRole;
+            if (authState is AuthAuthenticated) {
+              userRole = authState.user.role;
+            }
+            return _buildContent(context, state, userRole);
           }
           return _buildLoading();
         },
@@ -129,7 +134,11 @@ class _DashboardView extends StatelessWidget {
     );
   }
 
-  Widget _buildContent(BuildContext context, DashboardLoaded state) {
+  Widget _buildContent(
+    BuildContext context,
+    DashboardLoaded state,
+    String? userRole,
+  ) {
     return LayoutBuilder(
       builder: (context, constraints) {
         final isWide = constraints.maxWidth > 800;
@@ -157,9 +166,17 @@ class _DashboardView extends StatelessWidget {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Expanded(child: _buildTradeReportsCard(context, state)),
+                        Expanded(
+                          child: _buildTradeReportsCard(
+                            context,
+                            state,
+                            userRole,
+                          ),
+                        ),
                         SizedBox(width: 10.w),
-                        Expanded(child: _buildSymbolWiseCard(context, state)),
+                        Expanded(
+                          child: _buildSymbolWiseCard(context, state, userRole),
+                        ),
                       ],
                     ),
                   ),
@@ -169,7 +186,7 @@ class _DashboardView extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 14.w),
                   child: SizedBox(
                     height: topCardHeight,
-                    child: _buildTradeReportsCard(context, state),
+                    child: _buildTradeReportsCard(context, state, userRole),
                   ),
                 ),
                 SizedBox(height: 10.h),
@@ -177,7 +194,7 @@ class _DashboardView extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 14.w),
                   child: SizedBox(
                     height: topCardHeight,
-                    child: _buildSymbolWiseCard(context, state),
+                    child: _buildSymbolWiseCard(context, state, userRole),
                   ),
                 ),
               ],
@@ -187,6 +204,7 @@ class _DashboardView extends StatelessWidget {
                 child: SizedBox(
                   height: weeklyCardHeight.clamp(220.0, 350.0),
                   child: ReportCard(
+                    userRole: userRole,
                     title: 'Weekly Progress Report',
                     chart: WeeklyProgressChart(data: state.weeklyProgress),
                     clients: state.clients,
@@ -228,8 +246,13 @@ class _DashboardView extends StatelessWidget {
     );
   }
 
-  Widget _buildTradeReportsCard(BuildContext context, DashboardLoaded state) {
+  Widget _buildTradeReportsCard(
+    BuildContext context,
+    DashboardLoaded state,
+    String? userRole,
+  ) {
     return ReportCard(
+      userRole: userRole,
       title: 'Trade Reports',
       chart: TradeReportsChart(data: state.tradeReports),
       clients: state.clients,
@@ -258,8 +281,13 @@ class _DashboardView extends StatelessWidget {
     );
   }
 
-  Widget _buildSymbolWiseCard(BuildContext context, DashboardLoaded state) {
+  Widget _buildSymbolWiseCard(
+    BuildContext context,
+    DashboardLoaded state,
+    String? userRole,
+  ) {
     return ReportCard(
+      userRole: userRole,
       title: 'Symbol Wise Report',
       chart: SymbolWiseChart(data: state.symbolReports),
       clients: state.clients,

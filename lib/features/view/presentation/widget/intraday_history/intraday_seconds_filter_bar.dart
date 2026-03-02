@@ -9,6 +9,8 @@ import '../../../../../core/widget/table/view_reset_buttons.dart';
 import '../../bloc/intraday_history/intraday_history_bloc.dart';
 import '../../bloc/intraday_history/intraday_history_event.dart';
 import '../../bloc/intraday_history/intraday_history_state.dart';
+import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
 
 class IntradaySecondsFilterBar extends StatefulWidget {
   const IntradaySecondsFilterBar({Key? key}) : super(key: key);
@@ -48,6 +50,11 @@ class _IntradaySecondsFilterBarState extends State<IntradaySecondsFilterBar> {
         if (state is! IntradayHistorySecondsView) {
           return const SizedBox.shrink();
         }
+        final authState = context.read<AuthBloc>().state;
+        final isClient =
+            authState is AuthAuthenticated &&
+            authState.user.role.toLowerCase() == 'client';
+
         _selectedDate ??= state.date;
         _selectedExchange ??= state.exchange.isNotEmpty ? state.exchange : null;
         _selectedSymbol ??= state.symbol.isNotEmpty ? state.symbol : null;
@@ -100,44 +107,47 @@ class _IntradaySecondsFilterBarState extends State<IntradaySecondsFilterBar> {
                       },
                     ),
                   ),
-                  const Spacer(),
-                  ViewResetButtons(
-                    onReset: () {
-                      context.read<IntradayHistoryBloc>().add(
-                        const BackToListViewEvent(),
-                      );
-                    },
-                    onView: () {
-                      if (_selectedExchange == null ||
-                          _selectedExchange!.isEmpty) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Please select an Exchange'),
-                            backgroundColor: AppColors.errorColor,
+                  if (!isClient) ...[
+                    const Spacer(),
+                    ViewResetButtons(
+                      onReset: () {
+                        context.read<IntradayHistoryBloc>().add(
+                          const BackToListViewEvent(),
+                        );
+                      },
+                      onView: () {
+                        if (_selectedExchange == null ||
+                            _selectedExchange!.isEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Please select an Exchange'),
+                              backgroundColor: AppColors.errorColor,
+                            ),
+                          );
+                          return;
+                        }
+                        if (_selectedSymbol == null ||
+                            _selectedSymbol!.isEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Please select a Symbol'),
+                              backgroundColor: AppColors.errorColor,
+                            ),
+                          );
+                          return;
+                        }
+                        context.read<IntradayHistoryBloc>().add(
+                          LoadSecondsDataEvent(
+                            date: state.date,
+                            exchange: _selectedExchange!,
+                            symbol: _selectedSymbol!,
+                            startTime: state.startTime,
+                            endTime: state.endTime,
                           ),
                         );
-                        return;
-                      }
-                      if (_selectedSymbol == null || _selectedSymbol!.isEmpty) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Please select a Symbol'),
-                            backgroundColor: AppColors.errorColor,
-                          ),
-                        );
-                        return;
-                      }
-                      context.read<IntradayHistoryBloc>().add(
-                        LoadSecondsDataEvent(
-                          date: state.date,
-                          exchange: _selectedExchange!,
-                          symbol: _selectedSymbol!,
-                          startTime: state.startTime,
-                          endTime: state.endTime,
-                        ),
-                      );
-                    },
-                  ),
+                      },
+                    ),
+                  ],
                 ],
               ),
             ],

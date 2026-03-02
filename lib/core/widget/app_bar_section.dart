@@ -759,12 +759,20 @@ class AppBarSectionState extends State<AppBarSection> {
 
   @override
   Widget build(BuildContext context) {
+    final isClient = widget.userRole?.toLowerCase() == 'client';
+    final isViewOrReport =
+        widget.selectedTabIndex == _getTabIndex(AppStrings.view) ||
+        widget.selectedTabIndex == _getTabIndex(AppStrings.report);
+    final shouldShowExport = (isClient && isViewOrReport)
+        ? false
+        : widget.showExportByDefault;
+
     return CommonAppBar(
       tabs: _tabs,
       selectedIndex: widget.selectedTabIndex,
       onTabSelected: _onTabSelected,
       showReloadIcon: _shouldShowReloadIcon,
-      showExportIcon: widget.showExportByDefault,
+      showExportIcon: shouldShowExport,
       onReload: widget.onReload,
       onExportPdf: widget.onExportPdf,
       onExportExcel: widget.onExportExcel,

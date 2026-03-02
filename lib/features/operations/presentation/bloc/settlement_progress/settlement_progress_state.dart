@@ -26,7 +26,6 @@ class SettlementProgressError extends SettlementProgressState {
   List<Object?> get props => [message];
 }
 
-
 class BhavCopyPreviewReady extends SettlementProgressState {
   final List<BhavCopyEntity> previewData;
   const BhavCopyPreviewReady(this.previewData);
@@ -35,14 +34,9 @@ class BhavCopyPreviewReady extends SettlementProgressState {
   List<Object?> get props => [previewData];
 }
 
-
-class SettlementProgressUpdating extends SettlementProgressState {
-  
-}
-
+class SettlementProgressUpdating extends SettlementProgressState {}
 
 class SettlementCompleted extends SettlementProgressState {}
-
 
 class SettlementDataLoaded extends SettlementProgressState {
   final List<BhavCopyEntity> settlementData;

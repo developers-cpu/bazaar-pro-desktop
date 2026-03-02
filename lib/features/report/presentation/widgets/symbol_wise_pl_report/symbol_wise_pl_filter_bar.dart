@@ -7,11 +7,18 @@ import '../../../../../../core/constants/app_colors.dart';
 import '../../bloc/symbol_wise_pl/symbol_wise_pl_bloc.dart';
 import '../../bloc/symbol_wise_pl/symbol_wise_pl_event.dart';
 import '../../bloc/symbol_wise_pl/symbol_wise_pl_state.dart';
+import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
 
 class SymbolWisePLFilterBar extends StatelessWidget {
   const SymbolWisePLFilterBar({super.key});
   @override
   Widget build(BuildContext context) {
+    final authState = context.read<AuthBloc>().state;
+    final isClient =
+        authState is AuthAuthenticated &&
+        authState.user.role.toLowerCase() == 'client';
+
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
       child: BlocBuilder<SymbolWisePLBloc, SymbolWisePLState>(

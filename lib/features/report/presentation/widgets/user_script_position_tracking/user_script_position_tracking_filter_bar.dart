@@ -8,11 +8,18 @@ import '../../bloc/user_script_position_tracking/user_script_position_tracking_b
 import '../../bloc/user_script_position_tracking/user_script_position_tracking_event.dart';
 import '../../bloc/user_script_position_tracking/user_script_position_tracking_state.dart';
 import '../../../../../core/widget/table/view_reset_buttons.dart';
+import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
 
 class UserScriptPositionTrackingFilterBar extends StatelessWidget {
   const UserScriptPositionTrackingFilterBar({super.key});
   @override
   Widget build(BuildContext context) {
+    final authState = context.read<AuthBloc>().state;
+    final isClient =
+        authState is AuthAuthenticated &&
+        authState.user.role.toLowerCase() == 'client';
+
     return BlocBuilder<
       UserScriptPositionTrackingBloc,
       UserScriptPositionTrackingState
@@ -132,29 +139,31 @@ class UserScriptPositionTrackingFilterBar extends StatelessWidget {
                   );
                 },
               ),
-              const Spacer(),
-              ViewResetButtons(
-                onReset: () {
-                  context.read<UserScriptPositionTrackingBloc>().add(
-                    const ResetUserScriptPositionTrackingFilters(),
-                  );
-                },
-                onView: () {
-                  context.read<UserScriptPositionTrackingBloc>().add(
-                    FilterUserScriptPositionTracking(
-                      startDate: state is UserScriptPositionTrackingLoaded
-                          ? state.startDate
-                          : null,
-                      endDate: state is UserScriptPositionTrackingLoaded
-                          ? state.endDate
-                          : null,
-                      userId: selectedUser,
-                      exchange: selectedExchange,
-                      symbol: selectedSymbol,
-                    ),
-                  );
-                },
-              ),
+              if (!isClient) ...[
+                const Spacer(),
+                ViewResetButtons(
+                  onReset: () {
+                    context.read<UserScriptPositionTrackingBloc>().add(
+                      const ResetUserScriptPositionTrackingFilters(),
+                    );
+                  },
+                  onView: () {
+                    context.read<UserScriptPositionTrackingBloc>().add(
+                      FilterUserScriptPositionTracking(
+                        startDate: state is UserScriptPositionTrackingLoaded
+                            ? state.startDate
+                            : null,
+                        endDate: state is UserScriptPositionTrackingLoaded
+                            ? state.endDate
+                            : null,
+                        userId: selectedUser,
+                        exchange: selectedExchange,
+                        symbol: selectedSymbol,
+                      ),
+                    );
+                  },
+                ),
+              ],
             ],
           ),
         );

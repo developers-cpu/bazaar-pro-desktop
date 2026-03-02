@@ -9,6 +9,8 @@ import '../../bloc/pending_orders/pending_orders_event.dart';
 import '../../bloc/pending_orders/pending_orders_state.dart';
 import '../../../../../core/widget/table/view_reset_buttons.dart';
 import 'cancel_all_orders_dialog.dart';
+import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
 
 class PendingOrdersFilterBar extends StatelessWidget {
   const PendingOrdersFilterBar({Key? key}) : super(key: key);
@@ -19,86 +21,95 @@ class PendingOrdersFilterBar extends StatelessWidget {
         if (state is! PendingOrdersLoaded) {
           return const SizedBox.shrink();
         }
+        final authState = context.read<AuthBloc>().state;
+        final isClient =
+            authState is AuthAuthenticated &&
+            authState.user.role.toLowerCase() == 'client';
+
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Row(
             children: [
-              Expanded(
-                child: AppDropdown(
-                  type: AppDropdownType.search,
-                  hintText: 'Client',
-                  value: state.selectedClient,
-                  items: state.clients,
-                  onChanged: (value) {
+              if (!isClient) ...[
+                Expanded(
+                  child: AppDropdown(
+                    type: AppDropdownType.search,
+                    hintText: 'Client',
+                    value: state.selectedClient,
+                    items: state.clients,
+                    onChanged: (value) {
+                      context.read<PendingOrdersBloc>().add(
+                        FilterByClientEvent(value),
+                      );
+                    },
+                  ),
+                ),
+                SizedBox(width: 12.w),
+                Expanded(
+                  child: AppDropdown(
+                    type: AppDropdownType.simple,
+                    hintText: 'Exchange',
+                    value: state.selectedExchange,
+                    items: state.exchanges,
+                    showAllOption: true,
+                    onChanged: (value) {
+                      context.read<PendingOrdersBloc>().add(
+                        FilterByExchangeEvent(value),
+                      );
+                    },
+                  ),
+                ),
+                SizedBox(width: 12.w),
+                Expanded(
+                  child: AppDropdown(
+                    type: AppDropdownType.search,
+                    hintText: 'Symbol',
+                    value: state.selectedSymbol,
+                    items: state.symbols,
+                    onChanged: (value) {
+                      context.read<PendingOrdersBloc>().add(
+                        FilterBySymbolEvent(value),
+                      );
+                    },
+                  ),
+                ),
+                SizedBox(width: 12.w),
+                Expanded(
+                  child: AppDropdown(
+                    type: AppDropdownType.simple,
+                    hintText: 'Type',
+                    value: state.selectedType,
+                    items: state.types,
+                    showAllOption: true,
+                    onChanged: (value) {
+                      context.read<PendingOrdersBloc>().add(
+                        FilterByTypeEvent(value),
+                      );
+                    },
+                  ),
+                ),
+                const Spacer(),
+                ViewResetButtons(
+                  onReset: () {
                     context.read<PendingOrdersBloc>().add(
-                      FilterByClientEvent(value),
+                      const ResetFiltersEvent(),
+                    );
+                  },
+                  onView: () {
+                    context.read<PendingOrdersBloc>().add(
+                      ApplyFiltersEvent(
+                        client: state.selectedClient,
+                        exchange: state.selectedExchange,
+                        symbol: state.selectedSymbol,
+                        type: state.selectedType,
+                      ),
                     );
                   },
                 ),
-              ),
-              SizedBox(width: 12.w),
-              Expanded(
-                child: AppDropdown(
-                  type: AppDropdownType.simple,
-                  hintText: 'Exchange',
-                  value: state.selectedExchange,
-                  items: state.exchanges,
-                  showAllOption: true,
-                  onChanged: (value) {
-                    context.read<PendingOrdersBloc>().add(
-                      FilterByExchangeEvent(value),
-                    );
-                  },
-                ),
-              ),
-              SizedBox(width: 12.w),
-              Expanded(
-                child: AppDropdown(
-                  type: AppDropdownType.search,
-                  hintText: 'Symbol',
-                  value: state.selectedSymbol,
-                  items: state.symbols,
-                  onChanged: (value) {
-                    context.read<PendingOrdersBloc>().add(
-                      FilterBySymbolEvent(value),
-                    );
-                  },
-                ),
-              ),
-              SizedBox(width: 12.w),
-              Expanded(
-                child: AppDropdown(
-                  type: AppDropdownType.simple,
-                  hintText: 'Type',
-                  value: state.selectedType,
-                  items: state.types,
-                  showAllOption: true,
-                  onChanged: (value) {
-                    context.read<PendingOrdersBloc>().add(
-                      FilterByTypeEvent(value),
-                    );
-                  },
-                ),
-              ),
-              const Spacer(),
-              ViewResetButtons(
-                onReset: () {
-                  context.read<PendingOrdersBloc>().add(
-                    const ResetFiltersEvent(),
-                  );
-                },
-                onView: () {
-                  context.read<PendingOrdersBloc>().add(
-                    ApplyFiltersEvent(
-                      client: state.selectedClient,
-                      exchange: state.selectedExchange,
-                      symbol: state.selectedSymbol,
-                      type: state.selectedType,
-                    ),
-                  );
-                },
-              ),
-              SizedBox(width: 8.w),
+                SizedBox(width: 8.w),
+              ] else ...[
+                const Spacer(),
+              ],
               SizedBox(
                 height: 35.h,
                 child: ElevatedButton(

@@ -92,7 +92,6 @@ class _SettlementProgressPageState extends State<SettlementProgressPage> {
         }
       },
       builder: (context, state) {
-        
         List<BhavCopyEntity> displayData = [];
         if (state is SettlementDataLoaded) {
           displayData = state.settlementData;
@@ -188,13 +187,10 @@ class _SettlementProgressPageState extends State<SettlementProgressPage> {
       );
     }
 
-    
-    
     if (state is SettlementDataLoaded) {
       return SettlementProgressDataTable(data: displayData);
     }
 
-    
     return const SizedBox.shrink();
   }
 }

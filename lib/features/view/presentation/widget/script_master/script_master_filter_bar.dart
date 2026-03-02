@@ -6,6 +6,8 @@ import '../../../../../core/widget/table/view_reset_buttons.dart';
 import '../../bloc/script_master/script_master_bloc.dart';
 import '../../bloc/script_master/script_master_event.dart';
 import '../../bloc/script_master/script_master_state.dart';
+import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
 
 class ScriptMasterFilterBar extends StatelessWidget {
   const ScriptMasterFilterBar({Key? key}) : super(key: key);
@@ -16,6 +18,11 @@ class ScriptMasterFilterBar extends StatelessWidget {
         if (state is! ScriptMasterLoaded) {
           return const SizedBox.shrink();
         }
+        final authState = context.read<AuthBloc>().state;
+        final isClient =
+            authState is AuthAuthenticated &&
+            authState.user.role.toLowerCase() == 'client';
+
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Row(
@@ -52,22 +59,24 @@ class ScriptMasterFilterBar extends StatelessWidget {
                   );
                 },
               ),
-              const Spacer(),
-              ViewResetButtons(
-                onReset: () {
-                  context.read<ScriptMasterBloc>().add(
-                    const ResetFiltersEvent(),
-                  );
-                },
-                onView: () {
-                  context.read<ScriptMasterBloc>().add(
-                    ApplyFiltersEvent(
-                      exchange: state.selectedExchange,
-                      symbol: state.selectedSymbol,
-                    ),
-                  );
-                },
-              ),
+              if (!isClient) ...[
+                const Spacer(),
+                ViewResetButtons(
+                  onReset: () {
+                    context.read<ScriptMasterBloc>().add(
+                      const ResetFiltersEvent(),
+                    );
+                  },
+                  onView: () {
+                    context.read<ScriptMasterBloc>().add(
+                      ApplyFiltersEvent(
+                        exchange: state.selectedExchange,
+                        symbol: state.selectedSymbol,
+                      ),
+                    );
+                  },
+                ),
+              ],
             ],
           ),
         );

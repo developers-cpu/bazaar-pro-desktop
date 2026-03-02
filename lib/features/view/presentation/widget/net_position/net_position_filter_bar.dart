@@ -6,6 +6,8 @@ import '../../../../../core/widget/table/view_reset_buttons.dart';
 import '../../bloc/net_position/net_position_bloc.dart';
 import '../../bloc/net_position/net_position_event.dart';
 import '../../bloc/net_position/net_position_state.dart';
+import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
 
 class NetPositionFilterBar extends StatelessWidget {
   const NetPositionFilterBar({Key? key}) : super(key: key);
@@ -16,6 +18,11 @@ class NetPositionFilterBar extends StatelessWidget {
         if (state is! NetPositionLoaded) {
           return const SizedBox.shrink();
         }
+        final authState = context.read<AuthBloc>().state;
+        final isClient =
+            authState is AuthAuthenticated &&
+            authState.user.role.toLowerCase() == 'client';
+
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Row(
@@ -40,25 +47,27 @@ class NetPositionFilterBar extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 12.w),
-              Expanded(
-                child: AppDropdown(
-                  type: AppDropdownType.search,
-                  hintText: 'Client',
-                  value: state.selectedClient,
-                  items: state.clients,
-                  onChanged: (value) {
-                    context.read<NetPositionBloc>().add(
-                      ApplyFiltersEvent(
-                        userType: state.selectedUserType,
-                        client: value,
-                        exchange: state.selectedExchange,
-                        symbol: state.selectedSymbol,
-                      ),
-                    );
-                  },
+              if (!isClient) ...[
+                Expanded(
+                  child: AppDropdown(
+                    type: AppDropdownType.search,
+                    hintText: 'Client',
+                    value: state.selectedClient,
+                    items: state.clients,
+                    onChanged: (value) {
+                      context.read<NetPositionBloc>().add(
+                        ApplyFiltersEvent(
+                          userType: state.selectedUserType,
+                          client: value,
+                          exchange: state.selectedExchange,
+                          symbol: state.selectedSymbol,
+                        ),
+                      );
+                    },
+                  ),
                 ),
-              ),
-              SizedBox(width: 12.w),
+                SizedBox(width: 12.w),
+              ],
               Expanded(
                 child: AppDropdown(
                   type: AppDropdownType.simple,
@@ -97,24 +106,26 @@ class NetPositionFilterBar extends StatelessWidget {
                   },
                 ),
               ),
-              const Spacer(),
-              ViewResetButtons(
-                onReset: () {
-                  context.read<NetPositionBloc>().add(
-                    const ResetFiltersEvent(),
-                  );
-                },
-                onView: () {
-                  context.read<NetPositionBloc>().add(
-                    ApplyFiltersEvent(
-                      userType: state.selectedUserType,
-                      client: state.selectedClient,
-                      exchange: state.selectedExchange,
-                      symbol: state.selectedSymbol,
-                    ),
-                  );
-                },
-              ),
+              if (!isClient) ...[
+                const Spacer(),
+                ViewResetButtons(
+                  onReset: () {
+                    context.read<NetPositionBloc>().add(
+                      const ResetFiltersEvent(),
+                    );
+                  },
+                  onView: () {
+                    context.read<NetPositionBloc>().add(
+                      ApplyFiltersEvent(
+                        userType: state.selectedUserType,
+                        client: state.selectedClient,
+                        exchange: state.selectedExchange,
+                        symbol: state.selectedSymbol,
+                      ),
+                    );
+                  },
+                ),
+              ],
             ],
           ),
         );

@@ -16,13 +16,10 @@ class ChangeExchangeEvent extends SettlementProgressEvent {
   List<Object?> get props => [exchange];
 }
 
-class SelectFileEvent extends SettlementProgressEvent {
-  
-  
-}
+class SelectFileEvent extends SettlementProgressEvent {}
 
 class ImportFileEvent extends SettlementProgressEvent {
-  final String filePath; 
+  final String filePath;
   const ImportFileEvent(this.filePath);
 
   @override

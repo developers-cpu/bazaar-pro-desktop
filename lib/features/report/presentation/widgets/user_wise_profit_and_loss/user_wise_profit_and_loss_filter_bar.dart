@@ -8,11 +8,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../bloc/user_wise_profit_and_loss/user_wise_profit_and_loss_bloc.dart';
 import '../../bloc/user_wise_profit_and_loss/user_wise_profit_and_loss_event.dart';
 import '../../bloc/user_wise_profit_and_loss/user_wise_profit_and_loss_state.dart';
+import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
 
 class UserWiseProfitAndLossFilterBar extends StatelessWidget {
   const UserWiseProfitAndLossFilterBar({super.key});
   @override
   Widget build(BuildContext context) {
+    final authState = context.read<AuthBloc>().state;
+    final isClient =
+        authState is AuthAuthenticated &&
+        authState.user.role.toLowerCase() == 'client';
+
     return BlocBuilder<UserWiseProfitAndLossBloc, UserWiseProfitAndLossState>(
       builder: (context, state) {
         String? selectedUser;
@@ -76,23 +83,25 @@ class UserWiseProfitAndLossFilterBar extends StatelessWidget {
                   }
                 },
               ),
-              const Spacer(),
-              ViewResetButtons(
-                onReset: () {
-                  context.read<UserWiseProfitAndLossBloc>().add(
-                    const ResetUserWiseProfitAndLossFilters(),
-                  );
-                },
-                onView: () {
-                  context.read<UserWiseProfitAndLossBloc>().add(
-                    FilterUserWiseProfitAndLoss(
-                      userId: selectedUser,
-                      startDate: selectedDateRange?.start.toIso8601String(),
-                      endDate: selectedDateRange?.end.toIso8601String(),
-                    ),
-                  );
-                },
-              ),
+              if (!isClient) ...[
+                const Spacer(),
+                ViewResetButtons(
+                  onReset: () {
+                    context.read<UserWiseProfitAndLossBloc>().add(
+                      const ResetUserWiseProfitAndLossFilters(),
+                    );
+                  },
+                  onView: () {
+                    context.read<UserWiseProfitAndLossBloc>().add(
+                      FilterUserWiseProfitAndLoss(
+                        userId: selectedUser,
+                        startDate: selectedDateRange?.start.toIso8601String(),
+                        endDate: selectedDateRange?.end.toIso8601String(),
+                      ),
+                    );
+                  },
+                ),
+              ],
             ],
           ),
         );

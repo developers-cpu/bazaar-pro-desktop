@@ -10,6 +10,8 @@ import '../../bloc/deals/deals_state.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
 import '../../../../../core/widget/table/view_record_count.dart';
 import '../../../../../core/widget/table/view_table_cell_styles.dart';
+import '../../../../auth/presentation/bloc/auth_bloc.dart';
+import '../../../../auth/presentation/bloc/auth_state.dart';
 import 'order_duration_dialog.dart';
 
 class DealsTable extends StatelessWidget {
@@ -20,7 +22,49 @@ class DealsTable extends StatelessWidget {
     this.showDeviceInfo = true,
     this.isDarkMode = false,
   }) : super(key: key);
-  List<ViewTableColumn> _getColumns() {
+
+  List<ViewTableColumn> _getColumns(bool isClient) {
+    if (isClient) {
+      return const [
+        ViewTableColumn(id: 'exchange', label: 'EXCH', width: 100),
+        ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 150),
+        ViewTableColumn(id: 'orderDateTime', label: 'Order D/T', width: 220),
+        ViewTableColumn(id: 'buySell', label: 'B/S', width: 280),
+        ViewTableColumn(id: 'qty', label: 'QTY', width: 120, isNumeric: true),
+        ViewTableColumn(id: 'lot', label: 'Lot', width: 100, isNumeric: true),
+        ViewTableColumn(id: 'orderType', label: 'Type', width: 100),
+        ViewTableColumn(id: 'pl', label: 'P/L', width: 120, isNumeric: true),
+        ViewTableColumn(
+          id: 'triggerPrice',
+          label: 'T. PRICE',
+          width: 130,
+          isNumeric: true,
+        ),
+        ViewTableColumn(
+          id: 'brokerage',
+          label: 'Brk',
+          width: 100,
+          isNumeric: true,
+        ),
+        ViewTableColumn(
+          id: 'executionDateTime',
+          label: 'Execution D/T',
+          width: 220,
+        ),
+        ViewTableColumn(
+          id: 'rPrice',
+          label: 'R. PRICE',
+          width: 120,
+          isNumeric: true,
+        ),
+        ViewTableColumn(
+          id: 'orderDuration',
+          label: 'ORDER DURATION',
+          width: 180,
+        ),
+      ];
+    }
+
     final columns = <ViewTableColumn>[
       const ViewTableColumn(id: 'userName', label: 'U. NAME', width: 120),
       const ViewTableColumn(id: 'pUser', label: 'P USER', width: 120),
@@ -103,7 +147,20 @@ class DealsTable extends StatelessWidget {
       case 'exchange':
         return ViewTextCell(text: item.exchange, isDark: isDark);
       case 'symbol':
-        return ViewLinkCell(text: item.symbol, isDark: isDark);
+        final symbolColor = ViewTableCellStyles.getValueColor(
+          item.qty,
+          isDark: isDark,
+        );
+        return Text(
+          item.symbol,
+          style: ViewTableCellStyles.getTextStyle(
+            isDark: isDark,
+            color: symbolColor,
+          ),
+          textAlign: TextAlign.center,
+          maxLines: 1,
+          softWrap: false,
+        );
       case 'orderDateTime':
         return ViewDateTimeCell(dateTime: item.orderDateTime, isDark: isDark);
       case 'buySell':
@@ -183,14 +240,15 @@ class DealsTable extends StatelessWidget {
         alignment: Alignment.centerLeft,
         child: Text(
           item.orderDuration,
-          style: GoogleFonts.openSans(
-            fontSize: 14.sp,
-            fontWeight: FontWeight.w600,
-            color: const Color(0xFF2C5F7A),
-            decoration: TextDecoration.underline,
-            decorationColor: const Color(0xFF2C5F7A),
-            decorationThickness: 1.5,
-          ),
+          style:
+              ViewTableCellStyles.getTextStyle(
+                isDark: isDark,
+                color: const Color(0xFF2C5F7A),
+              ).copyWith(
+                decoration: TextDecoration.underline,
+                decorationColor: const Color(0xFF2C5F7A),
+                decorationThickness: 1.5,
+              ),
         ),
       ),
     );
@@ -198,6 +256,11 @@ class DealsTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authState = context.read<AuthBloc>().state;
+    final isClient =
+        authState is AuthAuthenticated &&
+        authState.user.role.toLowerCase() == 'client';
+
     return BlocBuilder<DealsBloc, DealsState>(
       builder: (context, state) {
         if (state is DealsLoading) {
@@ -214,7 +277,8 @@ class DealsTable extends StatelessWidget {
             ViewRecordCount(count: state.totalRecords),
             Expanded(
               child: ViewDataTable<Deal>(
-                columns: _getColumns(),
+                autoFit: true,
+                columns: _getColumns(isClient),
                 data: state.filteredDeals,
                 idExtractor: (item) => item.id,
                 selectedId: state.selectedDealId,

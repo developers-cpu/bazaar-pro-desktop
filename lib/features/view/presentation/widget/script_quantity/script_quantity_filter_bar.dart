@@ -7,6 +7,8 @@ import '../../../../../core/widget/table/view_reset_buttons.dart';
 import '../../bloc/script_quantity/script_quantity_bloc.dart';
 import '../../bloc/script_quantity/script_quantity_event.dart';
 import '../../bloc/script_quantity/script_quantity_state.dart';
+import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
 
 class ScriptQuantityFilterBar extends StatefulWidget {
   const ScriptQuantityFilterBar({Key? key}) : super(key: key);
@@ -30,6 +32,11 @@ class _ScriptQuantityFilterBarState extends State<ScriptQuantityFilterBar> {
         if (state is! ScriptQuantityFiltersLoaded) {
           return const SizedBox.shrink();
         }
+        final authState = context.read<AuthBloc>().state;
+        final isClient =
+            authState is AuthAuthenticated &&
+            authState.user.role.toLowerCase() == 'client';
+
         final bool isExchangeSelected = state.selectedExchange != null;
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
@@ -77,38 +84,40 @@ class _ScriptQuantityFilterBarState extends State<ScriptQuantityFilterBar> {
                   ),
                 ),
               ),
-              const Spacer(),
-              ViewResetButtons(
-                onReset: () {
-                  setState(() {
-                    _tempSelectedGroup = null;
-                  });
-                  context.read<ScriptQuantityBloc>().add(
-                    const ResetFiltersEvent(),
-                  );
-                },
-                onView: () {
-                  if (state.selectedExchange != null &&
-                      _tempSelectedGroup != null) {
+              if (!isClient) ...[
+                const Spacer(),
+                ViewResetButtons(
+                  onReset: () {
+                    setState(() {
+                      _tempSelectedGroup = null;
+                    });
                     context.read<ScriptQuantityBloc>().add(
-                      LoadScriptQuantitiesEvent(
-                        exchange: state.selectedExchange!,
-                        group: _tempSelectedGroup!,
-                      ),
+                      const ResetFiltersEvent(),
                     );
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: const Text(
-                          'Please select both Exchange and Group',
+                  },
+                  onView: () {
+                    if (state.selectedExchange != null &&
+                        _tempSelectedGroup != null) {
+                      context.read<ScriptQuantityBloc>().add(
+                        LoadScriptQuantitiesEvent(
+                          exchange: state.selectedExchange!,
+                          group: _tempSelectedGroup!,
                         ),
-                        backgroundColor: AppColors.errorColor,
-                        duration: const Duration(seconds: 2),
-                      ),
-                    );
-                  }
-                },
-              ),
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: const Text(
+                            'Please select both Exchange and Group',
+                          ),
+                          backgroundColor: AppColors.errorColor,
+                          duration: const Duration(seconds: 2),
+                        ),
+                      );
+                    }
+                  },
+                ),
+              ],
             ],
           ),
         );

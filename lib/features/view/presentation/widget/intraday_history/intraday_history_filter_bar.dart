@@ -7,6 +7,8 @@ import '../../../../../core/widget/table/view_reset_buttons.dart';
 import '../../bloc/intraday_history/intraday_history_bloc.dart';
 import '../../bloc/intraday_history/intraday_history_event.dart';
 import '../../bloc/intraday_history/intraday_history_state.dart';
+import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
 
 class IntradayHistoryFilterBar extends StatelessWidget {
   const IntradayHistoryFilterBar({Key? key}) : super(key: key);
@@ -17,6 +19,11 @@ class IntradayHistoryFilterBar extends StatelessWidget {
         if (state is! IntradayHistoryLoaded) {
           return const SizedBox.shrink();
         }
+        final authState = context.read<AuthBloc>().state;
+        final isClient =
+            authState is AuthAuthenticated &&
+            authState.user.role.toLowerCase() == 'client';
+
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Row(
@@ -97,24 +104,26 @@ class IntradayHistoryFilterBar extends StatelessWidget {
                   },
                 ),
               ),
-              const Spacer(),
-              ViewResetButtons(
-                onReset: () {
-                  context.read<IntradayHistoryBloc>().add(
-                    const ResetIntradayFiltersEvent(),
-                  );
-                },
-                onView: () {
-                  context.read<IntradayHistoryBloc>().add(
-                    ApplyIntradayFiltersEvent(
-                      date: state.selectedDate,
-                      exchange: state.selectedExchange,
-                      symbol: state.selectedSymbol,
-                      timing: state.selectedTiming,
-                    ),
-                  );
-                },
-              ),
+              if (!isClient) ...[
+                const Spacer(),
+                ViewResetButtons(
+                  onReset: () {
+                    context.read<IntradayHistoryBloc>().add(
+                      const ResetIntradayFiltersEvent(),
+                    );
+                  },
+                  onView: () {
+                    context.read<IntradayHistoryBloc>().add(
+                      ApplyIntradayFiltersEvent(
+                        date: state.selectedDate,
+                        exchange: state.selectedExchange,
+                        symbol: state.selectedSymbol,
+                        timing: state.selectedTiming,
+                      ),
+                    );
+                  },
+                ),
+              ],
             ],
           ),
         );

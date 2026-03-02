@@ -6,8 +6,6 @@ import '../../../domain/repositories/settlement_progress/settlement_progress_rep
 import '../../datasources/settlement_progress/settlement_progress_remote_data_source.dart';
 import '../../models/bhav_copy_model.dart';
 
-
-
 class SettlementProgressRepositoryImpl implements SettlementProgressRepository {
   final SettlementProgressRemoteDataSource remoteDataSource;
 
@@ -21,9 +19,9 @@ class SettlementProgressRepositoryImpl implements SettlementProgressRepository {
       final result = await remoteDataSource.importBhavCopy(filePath);
       return Right(result);
     } on ServerException catch (e) {
-      return Left(ServerFailure( e.message));
+      return Left(ServerFailure(e.message));
     } catch (e) {
-      return Left(ServerFailure( e.toString()));
+      return Left(ServerFailure(e.toString()));
     }
   }
 
@@ -32,7 +30,6 @@ class SettlementProgressRepositoryImpl implements SettlementProgressRepository {
     List<BhavCopyEntity> data,
   ) async {
     try {
-      
       final models = data
           .map(
             (e) => BhavCopyModel(
@@ -49,9 +46,9 @@ class SettlementProgressRepositoryImpl implements SettlementProgressRepository {
       await remoteDataSource.submitBhavCopy(models);
       return const Right(null);
     } on ServerException catch (e) {
-      return Left(ServerFailure( e.message));
+      return Left(ServerFailure(e.message));
     } catch (e) {
-      return Left(ServerFailure( e.toString()));
+      return Left(ServerFailure(e.toString()));
     }
   }
 
@@ -63,9 +60,9 @@ class SettlementProgressRepositoryImpl implements SettlementProgressRepository {
       final result = await remoteDataSource.getSettlementData(exchange);
       return Right(result);
     } on ServerException catch (e) {
-      return Left(ServerFailure( e.message));
+      return Left(ServerFailure(e.message));
     } catch (e) {
-      return Left(ServerFailure( e.toString()));
+      return Left(ServerFailure(e.toString()));
     }
   }
 }

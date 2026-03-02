@@ -28,7 +28,7 @@ class _ImportFileDialogState extends State<ImportFileDialog> {
       context.read<SettlementProgressBloc>().add(
         ImportFileEvent(_fileController.text),
       );
-      Navigator.of(context).pop(); 
+      Navigator.of(context).pop();
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Please choose a file or enter a path')),

@@ -20,6 +20,7 @@ class ReportCard extends StatelessWidget {
   final List<int>? topCounts;
   final int? selectedTopCount;
   final ValueChanged<String?>? onTopCountChanged;
+  final String? userRole;
   const ReportCard({
     Key? key,
     required this.title,
@@ -36,6 +37,7 @@ class ReportCard extends StatelessWidget {
     this.topCounts,
     this.selectedTopCount,
     this.onTopCountChanged,
+    this.userRole,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -125,16 +127,18 @@ class ReportCard extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        AppDropdown(
-          type: AppDropdownType.search,
-          hintText: 'User',
-          value: selectedClient,
-          items: clients,
-          width: dropdownWidth,
-          searchHint: 'Search & Add',
-          onChanged: onClientChanged,
-        ),
-        SizedBox(width: 12.w),
+        if (userRole?.toLowerCase() != 'client') ...[
+          AppDropdown(
+            type: AppDropdownType.search,
+            hintText: 'User',
+            value: selectedClient,
+            items: clients,
+            width: dropdownWidth,
+            searchHint: 'Search & Add',
+            onChanged: onClientChanged,
+          ),
+          SizedBox(width: 12.w),
+        ],
         AppDropdown(
           type: AppDropdownType.simple,
           hintText: 'Show',

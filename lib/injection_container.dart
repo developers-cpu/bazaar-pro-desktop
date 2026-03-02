@@ -331,6 +331,10 @@ import 'features/tools/domain/repositories/my_profile_repository.dart';
 import 'features/tools/data/repositories/my_profile_repository_impl.dart';
 import 'features/tools/data/datasources/my_profile_remote_datasource.dart';
 import 'features/operations/presentation/bloc/group/group_bloc.dart';
+import 'features/view/presentation/bloc/brokerage/brokerage_bloc.dart';
+import 'features/view/domain/repositories/brokerage/brokerage_repository.dart';
+import 'features/view/data/repositories/brokerage/brokerage_repository_impl.dart';
+import 'features/view/data/datasources/brokerage/brokerage_remote_datasource.dart';
 
 final sl = GetIt.instance;
 Future<void> init() async {
@@ -646,6 +650,13 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<BrokerRemoteDataSource>(
     () => BrokerRemoteDataSourceImpl(),
+  );
+  sl.registerFactory(() => BrokerageBloc(repository: sl()));
+  sl.registerLazySingleton<BrokerageRepository>(
+    () => BrokerageRepositoryImpl(dataSource: sl()),
+  );
+  sl.registerLazySingleton<BrokerageRemoteDataSource>(
+    () => BrokerageRemoteDataSourceImpl(),
   );
   sl.registerFactory(
     () => UserListBloc(

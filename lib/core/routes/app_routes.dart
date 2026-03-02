@@ -29,6 +29,7 @@ class AppRoutes {
   static const String deletedTrade = '/deleted-trade';
   static const String manualTrade = '/manual-trade';
   static const String brokerList = '/broker-list';
+  static const String brokerage = '/brokerage';
   static const String createUser = '/create-user';
   static const String inactiveUser = '/inactive-user';
   static const String searchUser = '/search-user';
@@ -86,6 +87,7 @@ class AppRoutes {
       deletedTrade: (context) => const DeletedTradePageWithAppBar(),
       manualTrade: (context) => const ManualTradePageWithAppBar(),
       brokerList: (context) => const BrokerListPageWithAppBar(),
+      brokerage: (context) => const BrokeragePageWithAppBar(),
       createUser: (context) => const CreateUserPageWithAppBar(),
       inactiveUser: (context) => const InactiveUserPageWithAppBar(),
       userList: (context) => const UserListPageWithAppBar(),

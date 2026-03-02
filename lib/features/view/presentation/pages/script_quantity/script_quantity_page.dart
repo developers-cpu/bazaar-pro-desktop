@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../../core/constants/app_colors.dart';
+import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
 import '../../bloc/script_quantity/script_quantity_bloc.dart';
 import '../../bloc/script_quantity/script_quantity_event.dart';
 import '../../bloc/script_quantity/script_quantity_state.dart';
@@ -33,14 +35,24 @@ class _ScriptQuantityPageState extends State<ScriptQuantityPage> {
           children: [
             const ScriptQuantityFilterBar(),
             Expanded(
-              child: Center(
-                child: Text(
-                  'Select Exchange and Group, then click View to see script quantities',
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    color: AppColors.primaryBlue,
-                  ),
-                ),
+              child: Builder(
+                builder: (context) {
+                  final authState = context.read<AuthBloc>().state;
+                  final isClient =
+                      authState is AuthAuthenticated &&
+                      authState.user.role.toLowerCase() == 'client';
+                  return Center(
+                    child: Text(
+                      isClient
+                          ? 'Select Exchange to see script quantities'
+                          : 'Select Exchange and Group, then click View to see script quantities',
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        color: AppColors.primaryBlue,
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
           ],
@@ -51,12 +63,17 @@ class _ScriptQuantityPageState extends State<ScriptQuantityPage> {
 
   void _handleStateChange(BuildContext context, ScriptQuantityState state) {
     if (state is ScriptQuantityDataLoaded) {
+      final authState = context.read<AuthBloc>().state;
+      final isClient =
+          authState is AuthAuthenticated &&
+          authState.user.role.toLowerCase() == 'client';
       ScriptQuantityDialog.show(
         context: context,
         quantities: state.quantities,
         exchange: state.exchange,
         group: state.group,
         totalRecords: state.totalRecords,
+        isClient: isClient,
       );
       Future.delayed(const Duration(milliseconds: 100), () {
         if (mounted) {

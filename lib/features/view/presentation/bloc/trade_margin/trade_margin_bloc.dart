@@ -48,16 +48,20 @@ class TradeMarginBloc extends Bloc<TradeMarginEvent, TradeMarginState> {
   ) async {
     final currentState = state;
     if (currentState is TradeMarginLoaded) {
+      final exchange = event.exchange ?? currentState.selectedExchange;
+      final search = event.search ?? currentState.searchQuery;
       emit(TradeMarginLoading());
-      final result = await getTradeMargins(
-        exchange: currentState.selectedExchange,
-        search: currentState.searchQuery,
-      );
+      final result = await getTradeMargins(exchange: exchange, search: search);
       result.fold(
         (failure) =>
             emit(const TradeMarginError(message: 'Failed to fetch data')),
-        (data) =>
-            emit(currentState.copyWith(tradeMargins: data, showDialog: true)),
+        (data) => emit(
+          currentState.copyWith(
+            tradeMargins: data,
+            showDialog: true,
+            selectedExchange: exchange,
+          ),
+        ),
       );
     }
   }

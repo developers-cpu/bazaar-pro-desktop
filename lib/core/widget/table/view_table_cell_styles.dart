@@ -170,17 +170,19 @@ class ViewDateTimeCell extends StatelessWidget {
   final DateTime dateTime;
   final String format;
   final bool isDark;
+  final Color? color;
   const ViewDateTimeCell({
     Key? key,
     required this.dateTime,
     this.format = 'dd/MM/yy hh:mm:ss a',
     this.isDark = false,
+    this.color,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Text(
       _formatDateTime(),
-      style: ViewTableCellStyles.getTextStyle(isDark: isDark),
+      style: ViewTableCellStyles.getTextStyle(isDark: isDark, color: color),
       textAlign: TextAlign.center,
       maxLines: 1,
       softWrap: false,

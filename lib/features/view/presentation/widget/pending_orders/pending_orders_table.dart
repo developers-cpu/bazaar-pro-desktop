@@ -207,11 +207,13 @@ class PendingOrdersTable extends StatelessWidget {
                   context.read<PendingOrdersBloc>().add(
                     SelectOrderEvent(item.id),
                   );
-                  TradeDetailsDialog.show(
-                    context: context,
-                    order: item,
-                    isDarkMode: isDarkMode,
-                  );
+                  if (!isClient) {
+                    TradeDetailsDialog.show(
+                      context: context,
+                      order: item,
+                      isDarkMode: isDarkMode,
+                    );
+                  }
                 },
                 onSort: (columnId, ascending) {
                   context.read<PendingOrdersBloc>().add(

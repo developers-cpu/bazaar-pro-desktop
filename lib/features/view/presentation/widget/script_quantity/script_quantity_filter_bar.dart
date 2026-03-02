@@ -19,6 +19,7 @@ class ScriptQuantityFilterBar extends StatefulWidget {
 
 class _ScriptQuantityFilterBarState extends State<ScriptQuantityFilterBar> {
   String? _tempSelectedGroup;
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ScriptQuantityBloc, ScriptQuantityState>(
@@ -38,6 +39,7 @@ class _ScriptQuantityFilterBarState extends State<ScriptQuantityFilterBar> {
             authState.user.role.toLowerCase() == 'client';
 
         final bool isExchangeSelected = state.selectedExchange != null;
+
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Row(
@@ -52,38 +54,50 @@ class _ScriptQuantityFilterBarState extends State<ScriptQuantityFilterBar> {
                   showAllOption: false,
                   onChanged: (value) {
                     if (value != null && value.isNotEmpty) {
-                      setState(() {
-                        _tempSelectedGroup = null;
-                      });
-                      context.read<ScriptQuantityBloc>().add(
-                        LoadGroupsEvent(value),
-                      );
+                      if (isClient) {
+                        final defaultGroup = '${value}_X';
+                        context.read<ScriptQuantityBloc>().add(
+                          LoadScriptQuantitiesEvent(
+                            exchange: value,
+                            group: defaultGroup,
+                          ),
+                        );
+                      } else {
+                        setState(() {
+                          _tempSelectedGroup = null;
+                        });
+                        context.read<ScriptQuantityBloc>().add(
+                          LoadGroupsEvent(value),
+                        );
+                      }
                     }
                   },
                 ),
               ),
-              SizedBox(width: 12.w),
-              SizedBox(
-                width: 230.w,
-                child: IgnorePointer(
-                  ignoring: !isExchangeSelected,
-                  child: AppDropdown(
-                    type: AppDropdownType.search,
-                    hintText: 'Symbol',
-                    value: _tempSelectedGroup ?? state.selectedGroup,
-                    items: isExchangeSelected ? state.groups : [],
-                    onChanged: (value) {
-                      if (value != null &&
-                          value.isNotEmpty &&
-                          state.selectedExchange != null) {
-                        setState(() {
-                          _tempSelectedGroup = value;
-                        });
-                      }
-                    },
+              if (!isClient) ...[
+                SizedBox(width: 12.w),
+                SizedBox(
+                  width: 230.w,
+                  child: IgnorePointer(
+                    ignoring: !isExchangeSelected,
+                    child: AppDropdown(
+                      type: AppDropdownType.search,
+                      hintText: 'Symbol',
+                      value: _tempSelectedGroup ?? state.selectedGroup,
+                      items: isExchangeSelected ? state.groups : [],
+                      onChanged: (value) {
+                        if (value != null &&
+                            value.isNotEmpty &&
+                            state.selectedExchange != null) {
+                          setState(() {
+                            _tempSelectedGroup = value;
+                          });
+                        }
+                      },
+                    ),
                   ),
                 ),
-              ),
+              ],
               if (!isClient) ...[
                 const Spacer(),
                 ViewResetButtons(

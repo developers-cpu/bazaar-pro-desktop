@@ -3,19 +3,26 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../../core/constants/app_colors.dart';
 import '../../../../../../core/widget/common_dilog_box.dart';
+import '../../../../../../injection_container.dart';
 import '../../bloc/trade_margin/trade_margin_bloc.dart';
+import '../../bloc/trade_margin/trade_margin_event.dart';
 import '../../bloc/trade_margin/trade_margin_state.dart';
 import 'trade_margin_filter_bar.dart';
 import 'trade_margin_table.dart';
 
 class TradeMarginDialog extends StatelessWidget {
   const TradeMarginDialog({super.key});
+
   static Future<void> show(BuildContext context) {
     return showDialog(
       context: context,
       barrierColor: AppColors.black.withOpacity(0.54),
-      builder: (_) => BlocProvider.value(
-        value: BlocProvider.of<TradeMarginBloc>(context),
+      builder: (_) => BlocProvider(
+        create: (_) {
+          final bloc = sl<TradeMarginBloc>();
+          bloc.add(const LoadTradeMargins());
+          return bloc;
+        },
         child: const TradeMarginDialog(),
       ),
     );

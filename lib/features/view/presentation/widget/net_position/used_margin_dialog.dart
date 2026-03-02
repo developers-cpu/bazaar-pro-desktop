@@ -4,6 +4,11 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/common_dilog_box.dart';
 import '../../../../../core/widget/app_dropdown.dart';
+import '../../../../../core/widget/table/view_data_table.dart';
+import '../../../../../core/widget/table/view_data_table_footer.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
 
 class UsedMarginDialog extends StatefulWidget {
   const UsedMarginDialog({Key? key}) : super(key: key);
@@ -27,12 +32,16 @@ class _UsedMarginDialogState extends State<UsedMarginDialog> {
   final Color headerColor = const Color(0xFF2C5F7A);
   @override
   Widget build(BuildContext context) {
+    final authState = context.read<AuthBloc>().state;
+    final isClient =
+        authState is AuthAuthenticated &&
+        authState.user.role.toLowerCase() == 'client';
+
     return CommonDialog(
       title: 'Used Margin',
       width: 700.w,
       height: 600.h,
       showButtons: false,
-      headerColor: headerColor,
       contentPadding: EdgeInsets.zero,
       scrollable: false,
       content: Column(
@@ -41,49 +50,77 @@ class _UsedMarginDialogState extends State<UsedMarginDialog> {
             padding: EdgeInsets.all(16.w),
             child: Row(
               children: [
-                Expanded(
-                  child: AppDropdown(
-                    value: _selectedUserType,
-                    hintText: 'User Type',
-                    items: const ['User Type', 'Client', 'Master'],
-                    onChanged: (val) {
-                      if (val != null) setState(() => _selectedUserType = val);
-                    },
+                if (!isClient) ...[
+                  Expanded(
+                    child: AppDropdown(
+                      width: 200.w,
+                      value: _selectedUserType,
+                      hintText: 'User Type',
+                      items: const ['User Type', 'Client', 'Master'],
+                      onChanged: (val) {
+                        if (val != null)
+                          setState(() => _selectedUserType = val);
+                      },
+                    ),
                   ),
-                ),
-                SizedBox(width: 8.w),
-                Expanded(
-                  child: AppDropdown(
-                    value: _selectedUser,
-                    hintText: 'User',
-                    items: const ['User', 'John Doe', 'Jane Doe'],
-                    onChanged: (val) {
-                      if (val != null) setState(() => _selectedUser = val);
-                    },
+                  SizedBox(width: 8.w),
+                  Expanded(
+                    child: AppDropdown(
+                      width: 200.w,
+                      value: _selectedUser,
+                      hintText: 'User',
+                      items: const ['User', 'John Doe', 'Jane Doe'],
+                      onChanged: (val) {
+                        if (val != null) setState(() => _selectedUser = val);
+                      },
+                    ),
                   ),
-                ),
-                SizedBox(width: 8.w),
-                Expanded(
-                  child: AppDropdown(
+                  SizedBox(width: 8.w),
+                  Expanded(
+                    child: AppDropdown(
+                      value: _selectedExchange,
+                      width: 200.w,
+                      hintText: 'Exchange',
+                      items: const ['Exchange', 'MCX', 'NSE'],
+                      onChanged: (val) {
+                        if (val != null)
+                          setState(() => _selectedExchange = val);
+                      },
+                    ),
+                  ),
+                  SizedBox(width: 8.w),
+                  Expanded(
+                    child: AppDropdown(
+                      value: _selectedSymbol,
+                      width: 200.w,
+                      hintText: 'Symbol',
+                      items: const ['Symbol', 'GOLD05DEC', 'SILVER'],
+                      onChanged: (val) {
+                        if (val != null) setState(() => _selectedSymbol = val);
+                      },
+                    ),
+                  ),
+                ] else ...[
+                  AppDropdown(
                     value: _selectedExchange,
+                    width: 200.w,
                     hintText: 'Exchange',
                     items: const ['Exchange', 'MCX', 'NSE'],
                     onChanged: (val) {
                       if (val != null) setState(() => _selectedExchange = val);
                     },
                   ),
-                ),
-                SizedBox(width: 8.w),
-                Expanded(
-                  child: AppDropdown(
+                  SizedBox(width: 8.w),
+                  AppDropdown(
                     value: _selectedSymbol,
+                    width: 200.w,
                     hintText: 'Symbol',
                     items: const ['Symbol', 'GOLD05DEC', 'SILVER'],
                     onChanged: (val) {
                       if (val != null) setState(() => _selectedSymbol = val);
                     },
                   ),
-                ),
+                ],
               ],
             ),
           ),
@@ -97,112 +134,82 @@ class _UsedMarginDialogState extends State<UsedMarginDialog> {
   Widget _buildTable() {
     return Column(
       children: [
-        _buildTableHeader(),
         Expanded(
-          child: ListView.builder(
-            itemCount: 15,
-            itemBuilder: (context, index) {
-              return _buildTableRow(index);
-            },
+          child: ViewDataTable<int>(
+            columns: _getColumns(),
+            data: List.generate(15, (index) => index),
+            idExtractor: (item) => item.toString(),
+            cellBuilder: (item, column) => _buildCell(item, column),
+            isDarkMode: false,
+            autoFit: true,
+            footerBuilder: (columns) => _buildTotalsRow(columns),
           ),
         ),
-        _buildTableFooter(),
       ],
     );
   }
 
-  Widget _buildTableHeader() {
-    return Container(
-      height: 40.h,
-      color: const Color(0xFFC6DBE8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Expanded(child: _headerCell('EXCH ⇅')),
-          Expanded(flex: 2, child: _headerCell('SYMBOL ⇅')),
-          Expanded(child: _headerCell('NET. QTY ⇅')),
-          Expanded(child: _headerCell('USED MARGIN ⇅')),
-        ],
+  List<ViewTableColumn> _getColumns() {
+    return [
+      ViewTableColumn(id: 'exchange', label: 'EXCH', width: 100.w),
+      ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 180.w),
+      ViewTableColumn(
+        id: 'netQty',
+        label: 'NET. QTY',
+        width: 140.w,
+        isNumeric: true,
       ),
-    );
+      ViewTableColumn(
+        id: 'usedMargin',
+        label: 'USED MARGIN',
+        width: 140.w,
+        isNumeric: true,
+      ),
+    ];
   }
 
-  Widget _headerCell(String title) {
-    return Center(
-      child: Text(
-        title,
-        style: GoogleFonts.openSans(
-          fontSize: 12.sp,
-          fontWeight: FontWeight.bold,
-          color: headerColor,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTableRow(int index) {
+  Widget _buildCell(int index, ViewTableColumn column) {
     bool isEven = index % 2 == 0;
-    String qty = index % 3 == 0 ? '1000' : (index % 2 == 0 ? '1.00' : '-1.00');
+    String qty = index % 3 == 0 ? '1000' : (isEven ? '1.00' : '-1.00');
     Color qtyColor = qty.startsWith('-') ? AppColors.red : AppColors.blue;
-    return Container(
-      height: 40.h,
-      decoration: BoxDecoration(
-        color: isEven ? AppColors.white : Colors.grey.shade100,
-        border: Border(bottom: BorderSide(color: AppColors.greyBorder)),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Expanded(child: _cell('MCX', headerColor)),
-          Expanded(flex: 2, child: _cell('GOLD05DEC', headerColor)),
-          Expanded(child: _cell(qty, qtyColor, bold: true)),
-          Expanded(child: _cell('50000', AppColors.blue, bold: true)),
-        ],
-      ),
-    );
+
+    switch (column.id) {
+      case 'exchange':
+        return _tableCell('MCX', headerColor);
+      case 'symbol':
+        return _tableCell('GOLD05DEC', headerColor);
+      case 'netQty':
+        return _tableCell(qty, qtyColor, bold: true);
+      case 'usedMargin':
+        return _tableCell('50000', AppColors.blue, bold: true);
+      default:
+        return const SizedBox.shrink();
+    }
   }
 
-  Widget _cell(String title, Color color, {bool bold = false}) {
-    return Center(
+  Widget _tableCell(String title, Color color, {bool bold = false}) {
+    return Container(
+      alignment: Alignment.center,
       child: Text(
         title,
         style: GoogleFonts.openSans(
           fontSize: 13.sp,
-          fontWeight: bold ? FontWeight.bold : FontWeight.normal,
+          fontWeight: bold ? FontWeight.w600 : FontWeight.normal,
           color: color,
         ),
       ),
     );
   }
 
-  Widget _buildTableFooter() {
-    return Container(
-      height: 40.h,
-      color: const Color(0xFFC6DBE8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.only(left: 32.w),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'TOTAL',
-                  style: GoogleFonts.openSans(
-                    fontSize: 13.sp,
-                    fontWeight: FontWeight.w700,
-                    color: headerColor,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Expanded(flex: 2, child: const SizedBox()),
-          Expanded(child: const SizedBox()),
-          Expanded(child: _cell('7856023', AppColors.blue, bold: true)),
-        ],
-      ),
+  Widget _buildTotalsRow(List<ViewTableColumn> columns) {
+    final Map<String, String> values = {
+      'exchange': 'TOTAL',
+      'usedMargin': '7856023',
+    };
+    return ViewDataTableFooter(
+      columns: columns,
+      values: values,
+      isDarkMode: false,
     );
   }
 }

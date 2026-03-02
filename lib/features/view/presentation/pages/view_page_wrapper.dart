@@ -30,6 +30,7 @@ import '../bloc/script_master/script_master_event.dart';
 import '../bloc/script_quantity/script_quantity_bloc.dart';
 import '../bloc/script_quantity/script_quantity_event.dart';
 import '../bloc/broker_list/broker_list_bloc.dart';
+import '../bloc/brokerage/brokerage_bloc.dart';
 import '../bloc/trade/trades_bloc.dart';
 import '../bloc/trade/trades_event.dart';
 import 'deals/deals_page.dart';
@@ -40,6 +41,7 @@ import 'pending_orders/pending_orders_page.dart';
 import 'trade_margin/trade_margin_page.dart';
 import 'trades/trades_page.dart';
 import 'broker_list/broker_list_page.dart';
+import 'package:bazarpro/features/view/presentation/pages/brokerage/brokerage_page.dart';
 import '../widget/manual_trade/manual_trade_dialog.dart' as import_manual_trade;
 import '../../../../../injection_container.dart' as di;
 
@@ -411,6 +413,24 @@ class BrokerListPageWithAppBar extends StatelessWidget {
             onExportPdf: () {},
             onExportExcel: () {},
             child: const BrokerListPage(),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class BrokeragePageWithAppBar extends StatelessWidget {
+  const BrokeragePageWithAppBar({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => di.sl<BrokerageBloc>(),
+      child: Builder(
+        builder: (context) {
+          return ViewPageWrapper(
+            pageTitle: 'Brokerage',
+            child: const BrokeragePage(),
           );
         },
       ),

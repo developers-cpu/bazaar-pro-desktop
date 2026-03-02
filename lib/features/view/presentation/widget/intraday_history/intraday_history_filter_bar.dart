@@ -28,23 +28,25 @@ class IntradayHistoryFilterBar extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Row(
             children: [
-              AppDatePicker(
-                label: '',
-                value: state.selectedDate,
-                onChanged: (value) {
-                  context.read<IntradayHistoryBloc>().add(
-                    ApplyIntradayFiltersEvent(
-                      date: value,
-                      exchange: state.selectedExchange,
-                      symbol: state.selectedSymbol,
-                      timing: state.selectedTiming,
-                    ),
-                  );
-                },
-                width: 200.w,
-                height: 35.h,
-              ),
-              SizedBox(width: 12.w),
+              if (!isClient) ...[
+                AppDatePicker(
+                  label: '',
+                  value: state.selectedDate,
+                  onChanged: (value) {
+                    context.read<IntradayHistoryBloc>().add(
+                      ApplyIntradayFiltersEvent(
+                        date: value,
+                        exchange: state.selectedExchange,
+                        symbol: state.selectedSymbol,
+                        timing: state.selectedTiming,
+                      ),
+                    );
+                  },
+                  width: 200.w,
+                  height: 35.h,
+                ),
+                SizedBox(width: 12.w),
+              ],
               SizedBox(
                 width: 200.w,
                 child: AppDropdown(
@@ -84,6 +86,7 @@ class IntradayHistoryFilterBar extends StatelessWidget {
                   },
                 ),
               ),
+
               SizedBox(width: 12.w),
               SizedBox(
                 width: 200.w,

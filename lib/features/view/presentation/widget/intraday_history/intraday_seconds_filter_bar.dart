@@ -66,18 +66,20 @@ class _IntradaySecondsFilterBarState extends State<IntradaySecondsFilterBar> {
               SizedBox(height: 12.h),
               Row(
                 children: [
-                  AppDatePicker(
-                    label: '',
-                    value: _selectedDate,
-                    onChanged: (value) {
-                      setState(() {
-                        _selectedDate = value;
-                      });
-                    },
-                    width: 200.w,
-                    height: 35.h,
-                  ),
-                  SizedBox(width: 12.w),
+                  if (!isClient) ...[
+                    AppDatePicker(
+                      label: '',
+                      value: _selectedDate,
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedDate = value;
+                        });
+                      },
+                      width: 200.w,
+                      height: 35.h,
+                    ),
+                    SizedBox(width: 12.w),
+                  ],
                   SizedBox(
                     width: 200.w,
                     child: AppDropdown(

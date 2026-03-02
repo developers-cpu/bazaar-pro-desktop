@@ -10,27 +10,47 @@ import '../../bloc/login_history/login_history_state.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
 import '../../../../../core/widget/table/view_record_count.dart';
 import '../../../../../core/widget/table/view_table_cell_styles.dart';
+import '../../../../auth/presentation/bloc/auth_bloc.dart';
+import '../../../../auth/presentation/bloc/auth_state.dart';
 
 class LoginHistoryTable extends StatelessWidget {
   const LoginHistoryTable({Key? key}) : super(key: key);
-  static final List<ViewTableColumn> _columns = [
-    const ViewTableColumn(
-      id: 'index',
-      label: 'INDEX',
-      width: 60,
-      isNumeric: true,
-    ),
-    const ViewTableColumn(id: 'loginTime', label: 'LOGIN TIME', width: 160),
-    const ViewTableColumn(id: 'logoutTime', label: 'LOGOUT TIME', width: 160),
-    const ViewTableColumn(id: 'userName', label: 'USER NAME', width: 120),
-    const ViewTableColumn(id: 'userType', label: 'USER TYPE', width: 120),
-    const ViewTableColumn(id: 'ipAddress', label: 'IP ADDRESS', width: 120),
-    const ViewTableColumn(id: 'deviceId', label: 'DEVICE ID', width: 280),
-    const ViewTableColumn(id: 'device', label: 'DEVICE', width: 80),
-    const ViewTableColumn(id: 'city', label: 'City', width: 100),
-  ];
+
+  List<ViewTableColumn> _getColumns(bool isClient) {
+    if (isClient) {
+      return const [
+        ViewTableColumn(id: 'loginTime', label: 'LOGIN TIME', width: 200),
+        ViewTableColumn(id: 'logoutTime', label: 'LOGOUT TIME', width: 200),
+      ];
+    }
+    return const [
+      const ViewTableColumn(
+        id: 'index',
+        label: 'INDEX',
+        width: 60,
+        isNumeric: true,
+      ),
+      const ViewTableColumn(id: 'loginTime', label: 'LOGIN TIME', width: 160),
+      const ViewTableColumn(id: 'logoutTime', label: 'LOGOUT TIME', width: 160),
+      const ViewTableColumn(id: 'userName', label: 'USER NAME', width: 120),
+      const ViewTableColumn(id: 'userType', label: 'USER TYPE', width: 120),
+      const ViewTableColumn(id: 'ipAddress', label: 'IP ADDRESS', width: 120),
+      const ViewTableColumn(id: 'deviceId', label: 'DEVICE ID', width: 280),
+      const ViewTableColumn(id: 'device', label: 'DEVICE', width: 80),
+      const ViewTableColumn(id: 'city', label: 'City', width: 100),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
+    bool isClient = false;
+    try {
+      final authState = context.read<AuthBloc>().state;
+      isClient =
+          authState is AuthAuthenticated &&
+          authState.user.role.toLowerCase() == 'client';
+    } catch (_) {}
+
     return BlocBuilder<LoginHistoryBloc, LoginHistoryState>(
       builder: (context, state) {
         if (state is LoginHistoryInitial) {
@@ -63,9 +83,10 @@ class LoginHistoryTable extends StatelessWidget {
               ViewRecordCount(count: state.totalRecords),
               Expanded(
                 child: ViewDataTable<LoginHistory>(
-                  columns: _columns,
+                  columns: _getColumns(isClient),
                   data: state.history,
-                  cellBuilder: _buildCell,
+                  cellBuilder: (history, column) =>
+                      _buildCell(history, column, isClient),
                   idExtractor: (history) => history.id,
                   onSort: (columnId, ascending) {
                     context.read<LoginHistoryBloc>().add(
@@ -89,14 +110,28 @@ class LoginHistoryTable extends StatelessWidget {
     );
   }
 
-  Widget _buildCell(LoginHistory history, ViewTableColumn column) {
+  Widget _buildCell(
+    LoginHistory history,
+    ViewTableColumn column,
+    bool isClient,
+  ) {
     switch (column.id) {
       case 'index':
         return ViewTextCell(text: history.index.toString());
       case 'loginTime':
-        return ViewDateTimeCell(dateTime: history.loginTime);
+        return isClient
+            ? ViewDateTimeCell(
+                dateTime: history.loginTime,
+                color: AppColors.buyColor,
+              )
+            : ViewDateTimeCell(dateTime: history.loginTime);
       case 'logoutTime':
-        return ViewDateTimeCell(dateTime: history.logoutTime);
+        return isClient
+            ? ViewDateTimeCell(
+                dateTime: history.logoutTime,
+                color: AppColors.sellColor,
+              )
+            : ViewDateTimeCell(dateTime: history.logoutTime);
       case 'userName':
         return ViewTextCell(text: history.userName);
       case 'userType':

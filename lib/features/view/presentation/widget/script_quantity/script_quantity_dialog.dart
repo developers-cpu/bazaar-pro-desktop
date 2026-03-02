@@ -11,12 +11,14 @@ class ScriptQuantityDialog extends StatefulWidget {
   final String exchange;
   final String group;
   final int totalRecords;
+  final bool isClient;
   const ScriptQuantityDialog({
     Key? key,
     required this.quantities,
     required this.exchange,
     required this.group,
     required this.totalRecords,
+    this.isClient = false,
   }) : super(key: key);
   static void show({
     required BuildContext context,
@@ -24,6 +26,7 @@ class ScriptQuantityDialog extends StatefulWidget {
     required String exchange,
     required String group,
     required int totalRecords,
+    bool isClient = false,
   }) {
     showDialog(
       context: context,
@@ -33,6 +36,7 @@ class ScriptQuantityDialog extends StatefulWidget {
         exchange: exchange,
         group: group,
         totalRecords: totalRecords,
+        isClient: isClient,
       ),
     );
   }
@@ -76,21 +80,23 @@ class _ScriptQuantityDialogState extends State<ScriptQuantityDialog> {
           SizedBox(height: 16.h),
           _buildFilterInfo(context),
           SizedBox(height: 8.h),
-          Padding(
-            padding: EdgeInsets.only(right: 16.w),
-            child: Align(
-              alignment: Alignment.centerRight,
-              child: Text(
-                'RECORD : ${widget.totalRecords}',
-                style: GoogleFonts.openSans(
-                  fontSize: 13.sp,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.primaryColor(context),
+          if (!widget.isClient) ...[
+            Padding(
+              padding: EdgeInsets.only(right: 16.w),
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: Text(
+                  'RECORD : ${widget.totalRecords}',
+                  style: GoogleFonts.openSans(
+                    fontSize: 13.sp,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.primaryColor(context),
+                  ),
                 ),
               ),
             ),
-          ),
-          SizedBox(height: 8.h),
+            SizedBox(height: 8.h),
+          ],
           Expanded(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -163,7 +169,13 @@ class _ScriptQuantityDialogState extends State<ScriptQuantityDialog> {
         children: [
           Expanded(child: _buildInfoBox(context, 'Exchange', widget.exchange)),
           SizedBox(width: 12.w),
-          Expanded(child: _buildInfoBox(context, 'Group', widget.group)),
+          Expanded(
+            child: _buildInfoBox(
+              context,
+              'Group',
+              widget.group.isEmpty ? '${widget.exchange}_X' : widget.group,
+            ),
+          ),
         ],
       ),
     );
@@ -174,7 +186,7 @@ class _ScriptQuantityDialogState extends State<ScriptQuantityDialog> {
       height: 48.h,
       padding: EdgeInsets.symmetric(horizontal: 16.w),
       decoration: BoxDecoration(
-        color: AppColors.tableColumnHeadColor(context),
+        color: const Color(0xFFD3E3EC),
         borderRadius: BorderRadius.circular(6.r),
       ),
       alignment: Alignment.centerLeft,
@@ -185,9 +197,9 @@ class _ScriptQuantityDialogState extends State<ScriptQuantityDialog> {
           Text(
             label,
             style: GoogleFonts.openSans(
-              fontSize: 11.sp,
+              fontSize: 10.sp,
               fontWeight: FontWeight.w400,
-              color: AppColors.primaryColor(context).withOpacity(0.8),
+              color: Colors.grey[700],
               height: 1.2,
             ),
           ),
@@ -195,8 +207,8 @@ class _ScriptQuantityDialogState extends State<ScriptQuantityDialog> {
           Text(
             value,
             style: GoogleFonts.openSans(
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w600,
+              fontSize: 10.sp,
+              fontWeight: FontWeight.w500,
               color: AppColors.primaryColor(context),
               height: 1.2,
             ),

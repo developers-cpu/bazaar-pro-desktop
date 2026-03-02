@@ -12,6 +12,8 @@ import '../../../../../core/widget/table/view_data_table_footer.dart';
 import '../../../../../core/widget/table/view_record_count.dart';
 import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import 'open_postion_dilog.dart';
+import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
 
 class NetPositionTable extends StatelessWidget {
   final bool showDeviceInfo;
@@ -21,7 +23,46 @@ class NetPositionTable extends StatelessWidget {
     this.showDeviceInfo = true,
     this.isDarkMode = false,
   }) : super(key: key);
-  List<ViewTableColumn> _getColumns() {
+
+  List<ViewTableColumn> _getColumns(bool isClient) {
+    if (isClient) {
+      return const [
+        ViewTableColumn(id: 'exchange', label: 'EXCH', width: 70),
+        ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 140),
+        ViewTableColumn(
+          id: 'buyQty',
+          label: 'BUY QTY',
+          width: 90,
+          isNumeric: true,
+        ),
+        ViewTableColumn(
+          id: 'sellQty',
+          label: 'SELL QTY',
+          width: 90,
+          isNumeric: true,
+        ),
+        ViewTableColumn(
+          id: 'netQty',
+          label: 'NET QTY',
+          width: 90,
+          isNumeric: true,
+        ),
+        ViewTableColumn(
+          id: 'netAvgPrice',
+          label: 'NET AVG.PRICE',
+          width: 130,
+          isNumeric: true,
+        ),
+        ViewTableColumn(id: 'cmp', label: 'CMP', width: 100, isNumeric: true),
+        ViewTableColumn(
+          id: 'm2mAmount',
+          label: 'M2M',
+          width: 110,
+          isNumeric: true,
+        ),
+        ViewTableColumn(id: 'days', label: 'DAY', width: 50, isNumeric: true),
+      ];
+    }
     return const [
       ViewTableColumn(id: 'exchange', label: 'EXCH', width: 110),
       ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 160),
@@ -76,12 +117,19 @@ class NetPositionTable extends StatelessWidget {
     NetPosition item,
     ViewTableColumn column,
     bool isDark,
+    bool isClient,
   ) {
     switch (column.id) {
       case 'exchange':
         return ViewTextCell(text: item.exchange, isDark: isDark);
       case 'symbol':
-        return ViewLinkCell(text: item.symbol, isDark: isDark);
+        return isClient
+            ? ViewTextCell(
+                text: item.symbol,
+                isDark: isDark,
+                color: AppColors.primaryBlue,
+              )
+            : ViewLinkCell(text: item.symbol, isDark: isDark);
       case 'buyQty':
         return ViewNumberCell(
           value: item.buyQty,
@@ -99,9 +147,15 @@ class NetPositionTable extends StatelessWidget {
           isDark: isDark,
         );
       case 'netQty':
-        return _buildNetQtyCell(context, item, isDark);
+        return _buildNetQtyCell(context, item, isDark, isClient);
       case 'netAvgPrice':
-        return ViewNumberCell(value: item.netAvgPrice, isDark: isDark);
+        return ViewNumberCell(
+          value: item.netAvgPrice,
+          fixedColor: item.netAvgPrice >= 0
+              ? AppColors.primaryBlue
+              : AppColors.red,
+          isDark: isDark,
+        );
       case 'cmp':
         return ViewNumberCell(
           value: item.cmp,
@@ -111,7 +165,7 @@ class NetPositionTable extends StatelessWidget {
       case 'm2mAmount':
         return ViewNumberCell(
           value: item.m2mAmount,
-          colorByValue: true,
+          fixedColor: item.m2mAmount >= 0 ? AppColors.blue : AppColors.red,
           isDark: isDark,
         );
       case 'ourPercentage':
@@ -122,14 +176,32 @@ class NetPositionTable extends StatelessWidget {
         );
       case 'userCount':
         return ViewTextCell(text: item.userCount.toString(), isDark: isDark);
+      case 'days':
+        return ViewTextCell(text: item.days.toString(), isDark: isDark);
       default:
         return const SizedBox.shrink();
     }
   }
 
-  Widget _buildNetQtyCell(BuildContext context, NetPosition item, bool isDark) {
+  Widget _buildNetQtyCell(
+    BuildContext context,
+    NetPosition item,
+    bool isDark,
+    bool isClient,
+  ) {
+    final color = item.netQty > 0 ? AppColors.blue : AppColors.red;
+
+    if (isClient) {
+      return ViewNumberCell(
+        value: item.netQty,
+        fixedColor: color,
+        isDark: isDark,
+      );
+    }
+
     return GestureDetector(
       onTap: () {
+        context.read<NetPositionBloc>().add(SelectPositionEvent(item.id));
         OpenPositionDialog.show(context: context, isDarkMode: isDark);
       },
       child: Container(
@@ -137,11 +209,11 @@ class NetPositionTable extends StatelessWidget {
         child: Text(
           item.netQty.toStringAsFixed(2),
           style: GoogleFonts.openSans(
-            fontSize: 14.sp,
+            fontSize: 13.sp,
             fontWeight: FontWeight.w600,
-            color: item.netQty > 0 ? AppColors.blue : AppColors.red,
+            color: color,
             decoration: TextDecoration.underline,
-            decorationColor: item.netQty > 0 ? AppColors.blue : AppColors.red,
+            decorationColor: color,
             decorationThickness: 1.5,
           ),
         ),
@@ -151,6 +223,11 @@ class NetPositionTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authState = context.read<AuthBloc>().state;
+    final isClient =
+        authState is AuthAuthenticated &&
+        authState.user.role.toLowerCase() == 'client';
+
     return BlocBuilder<NetPositionBloc, NetPositionState>(
       builder: (context, state) {
         if (state is NetPositionLoading) {
@@ -164,10 +241,10 @@ class NetPositionTable extends StatelessWidget {
         }
         return Column(
           children: [
-            ViewRecordCount(count: state.totalRecords),
+            if (!isClient) ViewRecordCount(count: state.totalRecords),
             Expanded(
               child: ViewDataTable<NetPosition>(
-                columns: _getColumns(),
+                columns: _getColumns(isClient),
                 data: state.filteredPositions,
                 idExtractor: (item) => item.id,
                 selectedId: state.selectedPositionId,
@@ -177,11 +254,17 @@ class NetPositionTable extends StatelessWidget {
                 autoFit: true,
                 emptyMessage: 'No net positions found',
                 cellBuilder: (item, column) =>
-                    _buildCell(context, item, column, isDarkMode),
+                    _buildCell(context, item, column, isDarkMode, isClient),
                 onRowTap: (item) {
                   context.read<NetPositionBloc>().add(
                     SelectPositionEvent(item.id),
                   );
+                  if (isClient) {
+                    OpenPositionDialog.show(
+                      context: context,
+                      isDarkMode: isDarkMode,
+                    );
+                  }
                 },
                 onSort: (columnId, ascending) {
                   context.read<NetPositionBloc>().add(
@@ -191,8 +274,10 @@ class NetPositionTable extends StatelessWidget {
                     ),
                   );
                 },
-                footerBuilder: (columns) =>
-                    _buildTotalsRow(columns, state.filteredPositions),
+                footerBuilder: isClient
+                    ? null
+                    : (columns) =>
+                          _buildTotalsRow(columns, state.filteredPositions),
               ),
             ),
           ],

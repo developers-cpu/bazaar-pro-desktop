@@ -19,7 +19,11 @@ class UpdateTradeMarginFilters extends TradeMarginEvent {
 }
 
 class ViewTradeMargins extends TradeMarginEvent {
-  const ViewTradeMargins();
+  final String? exchange;
+  final String? search;
+  const ViewTradeMargins({this.exchange, this.search});
+  @override
+  List<Object?> get props => [exchange, search];
 }
 
 class ResetTradeMarginFilters extends TradeMarginEvent {

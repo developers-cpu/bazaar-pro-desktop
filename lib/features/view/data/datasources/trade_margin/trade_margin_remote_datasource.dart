@@ -78,6 +78,48 @@ class TradeMarginRemoteDataSourceImpl implements TradeMarginRemoteDataSource {
         marginPercentage: 1000,
         marginAmount: 1000,
       ),
+      TradeMarginModel(
+        exchange: 'NSE',
+        symbol: 'NIFTY',
+        expiryDate: DateTime(2025, 12, 26, 0, 0, 0),
+        marginPercentage: 10000,
+        marginAmount: 10000,
+      ),
+      TradeMarginModel(
+        exchange: 'NSE',
+        symbol: 'BANKNIFTY',
+        expiryDate: DateTime(2025, 12, 26, 0, 0, 0),
+        marginPercentage: 15000,
+        marginAmount: 15000,
+      ),
+      TradeMarginModel(
+        exchange: 'NSE',
+        symbol: 'RELIANCE',
+        expiryDate: DateTime(2025, 12, 26, 0, 0, 0),
+        marginPercentage: 5000,
+        marginAmount: 5000,
+      ),
+      TradeMarginModel(
+        exchange: 'NSE',
+        symbol: 'TCS',
+        expiryDate: DateTime(2025, 12, 26, 0, 0, 0),
+        marginPercentage: 3000,
+        marginAmount: 3000,
+      ),
+      TradeMarginModel(
+        exchange: 'CE/PE',
+        symbol: 'NIFTY25N0425550CE',
+        expiryDate: DateTime(2025, 12, 26, 0, 0, 0),
+        marginPercentage: 95,
+        marginAmount: 95,
+      ),
+      TradeMarginModel(
+        exchange: 'CE/PE',
+        symbol: 'NIFTY25N0425600CE',
+        expiryDate: DateTime(2025, 12, 26, 0, 0, 0),
+        marginPercentage: 178,
+        marginAmount: 178,
+      ),
     ];
     var filteredList = mockData;
     if (exchange != null && exchange != 'All') {

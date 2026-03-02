@@ -38,23 +38,31 @@ class TradeMarginFilterBar extends StatelessWidget {
                 items: state.exchanges,
                 showAllOption: true,
                 onChanged: (value) {
-                  context.read<TradeMarginBloc>().add(
-                    UpdateTradeMarginFilters(exchange: value),
-                  );
+                  if (isClient) {
+                    context.read<TradeMarginBloc>().add(
+                      ViewTradeMargins(exchange: value),
+                    );
+                  } else {
+                    context.read<TradeMarginBloc>().add(
+                      UpdateTradeMarginFilters(exchange: value),
+                    );
+                  }
                 },
               ),
-              SizedBox(width: 12.w),
-              CustomInputField(
-                hintText: 'Search',
-                height: 35.h,
-                width: 200.w,
-                prefixSvgPath: AppImages.searchIcon,
-                onChanged: (value) {
-                  context.read<TradeMarginBloc>().add(
-                    UpdateTradeMarginFilters(search: value),
-                  );
-                },
-              ),
+              if (!isClient) ...[
+                SizedBox(width: 12.w),
+                CustomInputField(
+                  hintText: 'Search',
+                  height: 35.h,
+                  width: 200.w,
+                  prefixSvgPath: AppImages.searchIcon,
+                  onChanged: (value) {
+                    context.read<TradeMarginBloc>().add(
+                      UpdateTradeMarginFilters(search: value),
+                    );
+                  },
+                ),
+              ],
               if (!isClient) ...[
                 const Spacer(),
                 ViewResetButtons(

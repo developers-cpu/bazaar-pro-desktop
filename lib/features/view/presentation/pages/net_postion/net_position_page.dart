@@ -8,8 +8,12 @@ import '../../bloc/net_position/net_position_state.dart';
 import '../../widget/net_position/net_position_filter_bar.dart';
 import '../../widget/net_position/net_position_table.dart';
 import '../../widget/net_position/select_user_dialog.dart';
+import '../../widget/net_position/square_off_dialog.dart';
+import '../../widget/net_position/roll_over_dialog.dart';
 import '../../widget/net_position/used_margin_dialog.dart';
 import '../../../../../../core/widget/custom_action_button.dart';
+import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
 
 class NetPositionPage extends StatefulWidget {
   const NetPositionPage({Key? key}) : super(key: key);
@@ -65,6 +69,11 @@ class _NetPositionPageState extends State<NetPositionPage> {
   }
 
   Widget _buildFooter(BuildContext context) {
+    final authState = context.read<AuthBloc>().state;
+    final isClient =
+        authState is AuthAuthenticated &&
+        authState.user.role.toLowerCase() == 'client';
+
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
       decoration: BoxDecoration(color: AppColors.white),
@@ -78,12 +87,16 @@ class _NetPositionPageState extends State<NetPositionPage> {
                 backgroundColor: const Color(0xFF224E69),
                 width: 110.w,
                 height: 36.h,
-                borderRadius: 6.r,
+                borderRadius: 8.r,
                 onPressed: () {
-                  SelectUserDialog.show(
-                    context: context,
-                    actionType: 'SquareOff',
-                  );
+                  if (isClient) {
+                    SquareOffDialog.show(context: context);
+                  } else {
+                    SelectUserDialog.show(
+                      context: context,
+                      actionType: 'SquareOff',
+                    );
+                  }
                 },
               ),
               SizedBox(width: 8.w),
@@ -92,12 +105,16 @@ class _NetPositionPageState extends State<NetPositionPage> {
                 backgroundColor: const Color(0xFF224E69),
                 width: 110.w,
                 height: 36.h,
-                borderRadius: 6.r,
+                borderRadius: 8.r,
                 onPressed: () {
-                  SelectUserDialog.show(
-                    context: context,
-                    actionType: 'RollOver',
-                  );
+                  if (isClient) {
+                    RollOverDialog.show(context: context);
+                  } else {
+                    SelectUserDialog.show(
+                      context: context,
+                      actionType: 'RollOver',
+                    );
+                  }
                 },
               ),
             ],
@@ -107,51 +124,60 @@ class _NetPositionPageState extends State<NetPositionPage> {
             decoration: BoxDecoration(
               color: const Color(0xFFC6DBE8),
               borderRadius: BorderRadius.circular(6.r),
-              border: Border.all(color: Colors.transparent),
             ),
             child: Row(
               children: [
-                GestureDetector(
-                  onTap: () {
-                    UsedMarginDialog.show(context: context);
-                  },
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 12.w),
-                    child: Center(
-                      child: Text(
-                        'Used Margin: 7856023',
-                        style: TextStyle(
-                          fontSize: 13.sp,
-                          fontWeight: FontWeight.w600,
-                          color: const Color(0xFF2C5F7A),
-                          decoration: TextDecoration.underline,
-                        ),
-                      ),
-                    ),
-                  ),
+                if (isClient) ...[
+                  _buildMarginItem('Credit: 7856023'),
+                  _buildDivider(),
+                ],
+                _buildMarginItem(
+                  'Used Margin: 7856023',
+                  isUnderlined: true,
+                  onTap: () => UsedMarginDialog.show(context: context),
                 ),
-                Container(
-                  width: 1.w,
-                  height: double.infinity,
-                  color: AppColors.greyBorder,
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 12.w),
-                  child: Center(
-                    child: Text(
-                      'Free Margin : 1000000.00',
-                      style: TextStyle(
-                        fontSize: 13.sp,
-                        color: const Color(0xFF2C5F7A),
-                      ),
-                    ),
-                  ),
-                ),
+                _buildDivider(),
+                _buildMarginItem('Free Margin : 1000000.00'),
               ],
             ),
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildMarginItem(
+    String text, {
+    bool isUnderlined = false,
+    VoidCallback? onTap,
+  }) {
+    Widget textWidget = Text(
+      text,
+      style: TextStyle(
+        fontSize: 12.sp,
+        color: AppColors.primaryBlue,
+        decoration: isUnderlined
+            ? TextDecoration.underline
+            : TextDecoration.none,
+      ),
+    );
+
+    Widget container = Container(
+      padding: EdgeInsets.symmetric(horizontal: 12.w),
+      child: Center(child: textWidget),
+    );
+
+    if (onTap != null) {
+      return GestureDetector(onTap: onTap, child: container);
+    }
+    return container;
+  }
+
+  Widget _buildDivider() {
+    return Container(
+      width: 1.w,
+      height: double.infinity,
+      color: AppColors.greyBorder,
     );
   }
 }

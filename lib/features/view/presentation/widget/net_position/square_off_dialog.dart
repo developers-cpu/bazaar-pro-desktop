@@ -7,6 +7,9 @@ import '../../../../../core/widget/app_dropdown.dart';
 import '../../../../../core/widget/table/success_dialog.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
 import '../../../../../core/widget/table/view_record_count.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
 
 class SquareOffDialog extends StatefulWidget {
   const SquareOffDialog({Key? key}) : super(key: key);
@@ -71,66 +74,72 @@ class _SquareOffDialogState extends State<SquareOffDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final authState = context.read<AuthBloc>().state;
+    final isClient =
+        authState is AuthAuthenticated &&
+        authState.user.role.toLowerCase() == 'client';
+
     return CommonDialog(
       title: 'Square Off',
       width: 800.w,
       height: 600.h,
       showButtons: false,
-      headerColor: headerColor,
       contentPadding: EdgeInsets.zero,
       scrollable: false,
       content: Column(
         children: [
-          Padding(
-            padding: EdgeInsets.all(16.w),
-            child: Row(
-              children: [
-                SizedBox(
-                  width: 200.w,
-                  child: AppDropdown(
-                    type: AppDropdownType.simple,
-                    value: _selectedExchange,
-                    hintText: 'Exchange',
-                    items: const [
-                      'NSE',
-                      'MCX',
-                      'CE/PE',
-                      'OTHERS',
-                      'COMEX',
-                      'CRYPTO',
-                      'GIFT',
-                      'FOREX',
-                    ],
-                    onChanged: (val) {
-                      if (val != null) setState(() => _selectedExchange = val);
-                    },
+          if (!isClient)
+            Padding(
+              padding: EdgeInsets.all(16.w),
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: 200.w,
+                    child: AppDropdown(
+                      type: AppDropdownType.simple,
+                      value: _selectedExchange,
+                      hintText: 'Exchange',
+                      items: const [
+                        'NSE',
+                        'MCX',
+                        'CE/PE',
+                        'OTHERS',
+                        'COMEX',
+                        'CRYPTO',
+                        'GIFT',
+                        'FOREX',
+                      ],
+                      onChanged: (val) {
+                        if (val != null)
+                          setState(() => _selectedExchange = val);
+                      },
+                    ),
                   ),
-                ),
-                SizedBox(width: 16.w),
-                SizedBox(
-                  width: 200.w,
-                  child: AppDropdown(
-                    type: AppDropdownType.search,
-                    value: _selectedSymbol,
-                    hintText: 'Symbol',
-                    items: const [
-                      'GIFTNIFTY Oct 28',
-                      'NIFTY Oct 28',
-                      'BANKNIFTY Oct 28',
-                      'MINI GOLDMINI Dec 05',
-                      'MINI SILVERMINI Dec 05',
-                      'DOW Dec 19',
-                      'NASDAQ Dec 19',
-                      'S & P Dec 19',
-                    ],
-                    onChanged: (val) {
-                      if (val != null) setState(() => _selectedSymbol = val);
-                    },
+                  SizedBox(width: 16.w),
+                  SizedBox(
+                    width: 200.w,
+                    child: AppDropdown(
+                      type: AppDropdownType.search,
+                      value: _selectedSymbol,
+                      hintText: 'Symbol',
+                      items: const [
+                        'GIFTNIFTY Oct 28',
+                        'NIFTY Oct 28',
+                        'BANKNIFTY Oct 28',
+                        'MINI GOLDMINI Dec 05',
+                        'MINI SILVERMINI Dec 05',
+                        'DOW Dec 19',
+                        'NASDAQ Dec 19',
+                        'S & P Dec 19',
+                      ],
+                      onChanged: (val) {
+                        if (val != null) setState(() => _selectedSymbol = val);
+                      },
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
           ViewRecordCount(count: 12550),
           Expanded(child: _buildTable()),
           _buildFooter(),

@@ -13,7 +13,9 @@ import '../../features/tools/presentation/widgets/total_volume/total_volume_dial
 import '../../features/tools/presentation/widgets/my_profile/my_profile_dialog.dart';
 import '../../features/operations/presentation/widgets/inactivity_management/inactivity_management_dialog.dart';
 import '../../features/report/presentation/widgets/users_bill_summary/users_bill_summary_dialog.dart';
+import '../../features/view/presentation/widget/login_history/login_history_dialog.dart';
 import '../../features/view/presentation/widget/manual_trade/manual_trade_dialog.dart';
+import '../../features/view/presentation/widget/trade_margin/trade_margin_dialog.dart';
 
 class AppBarSection extends StatefulWidget implements PreferredSizeWidget {
   final int selectedTabIndex;
@@ -272,11 +274,15 @@ class AppBarSectionState extends State<AppBarSection> {
         ),
         MenuItemData(
           title: 'Login History',
-          onTap: () => _navigateToPage(
-            _getTabIndex(AppStrings.view),
-            'Login History',
-            '/login-history',
-          ),
+          onTap: () {
+            LoginHistoryDialog.show(context);
+            final viewIndex = _getTabIndex(AppStrings.view);
+            if (viewIndex != -1) {
+              setState(() {
+                _selectedDropdownItems[viewIndex] = 'Login History';
+              });
+            }
+          },
         ),
         MenuItemData(
           title: 'Intraday History',
@@ -296,18 +302,22 @@ class AppBarSectionState extends State<AppBarSection> {
         ),
         MenuItemData(
           title: 'Trade Margin',
-          onTap: () => _navigateToPage(
-            _getTabIndex(AppStrings.view),
-            'Trade Margin',
-            '/trade-margin',
-          ),
+          onTap: () {
+            TradeMarginDialog.show(context);
+            final viewIndex = _getTabIndex(AppStrings.view);
+            if (viewIndex != -1) {
+              setState(() {
+                _selectedDropdownItems[viewIndex] = 'Trade Margin';
+              });
+            }
+          },
         ),
         MenuItemData(
           title: 'Brokerage',
           onTap: () => _navigateToPage(
             _getTabIndex(AppStrings.view),
             'Brokerage',
-            '/broker-list',
+            '/brokerage',
           ),
         ),
       ];

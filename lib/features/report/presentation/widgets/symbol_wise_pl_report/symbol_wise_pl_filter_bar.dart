@@ -42,76 +42,80 @@ class SymbolWisePLFilterBar extends StatelessWidget {
                 width: 200.w,
                 height: 40.h,
               ),
-              SizedBox(width: 16.w),
-              Expanded(
-                child: AppDropdown(
-                  hintText: 'Symbol',
-                  items: symbolItems,
-                  type: AppDropdownType.search,
-                  searchHint: 'Search & Add',
-                  onChanged: (value) {
-                    context.read<SymbolWisePLBloc>().add(
-                      FilterSymbolWisePL(symbol: value),
-                    );
-                  },
-                  width: 200.w,
+              if (!isClient) ...[
+                SizedBox(width: 16.w),
+                Expanded(
+                  child: AppDropdown(
+                    hintText: 'Symbol',
+                    items: symbolItems,
+                    type: AppDropdownType.search,
+                    searchHint: 'Search & Add',
+                    onChanged: (value) {
+                      context.read<SymbolWisePLBloc>().add(
+                        FilterSymbolWisePL(symbol: value),
+                      );
+                    },
+                    width: 200.w,
+                    height: 40.h,
+                  ),
+                ),
+              ],
+              if (!isClient) ...[
+                const Spacer(),
+                SizedBox(
                   height: 40.h,
-                ),
-              ),
-              const Spacer(),
-              SizedBox(
-                height: 40.h,
-                width: 100.w,
-                child: OutlinedButton(
-                  onPressed: () {
-                    context.read<SymbolWisePLBloc>().add(
-                      const LoadSymbolWisePL(),
-                    );
-                  },
-                  style: OutlinedButton.styleFrom(
-                    side: BorderSide(color: AppColors.primaryBlue),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.r),
+                  width: 100.w,
+                  child: OutlinedButton(
+                    onPressed: () {
+                      context.read<SymbolWisePLBloc>().add(
+                        const LoadSymbolWisePL(),
+                      );
+                    },
+                    style: OutlinedButton.styleFrom(
+                      side: BorderSide(color: AppColors.primaryBlue),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.r),
+                      ),
+                      padding: EdgeInsets.zero,
                     ),
-                    padding: EdgeInsets.zero,
-                  ),
-                  child: Text(
-                    'Reset',
-                    style: GoogleFonts.openSans(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.primaryBlue,
+                    child: Text(
+                      'Reset',
+                      style: GoogleFonts.openSans(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.primaryBlue,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(width: 16.w),
-              SizedBox(
-                height: 40.h,
-                width: 100.w,
-                child: ElevatedButton(
-                  onPressed: () {
-                    context.read<SymbolWisePLBloc>().add(
-                      const LoadSymbolWisePL(),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF1F4A66),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.r),
+                SizedBox(width: 16.w),
+                SizedBox(
+                  height: 40.h,
+                  width: 100.w,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      context.read<SymbolWisePLBloc>().add(
+                        const LoadSymbolWisePL(),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF1F4A66),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.r),
+                      ),
+                      padding: EdgeInsets.zero,
                     ),
-                    padding: EdgeInsets.zero,
-                  ),
-                  child: Text(
-                    'View',
-                    style: GoogleFonts.openSans(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.white,
+                    child: Text(
+                      'View',
+                      style: GoogleFonts.openSans(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.white,
+                      ),
                     ),
                   ),
                 ),
-              ),
+              ],
             ],
           );
         },

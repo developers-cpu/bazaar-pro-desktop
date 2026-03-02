@@ -8,19 +8,20 @@ import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import '../../bloc/symbol_wise_pl/symbol_wise_pl_bloc.dart';
 import '../../bloc/symbol_wise_pl/symbol_wise_pl_state.dart';
 import '../../../domain/entities/symbol_wise_pl/symbol_wise_pl_report.dart';
-import 'symbol_open_position_dialog.dart';
-import 'symbol_trade_list_dialog.dart';
+import '../../../../view/presentation/widget/net_position/net_position_dialog.dart';
+import '../../widgets/exchange_wise_pl/deals_dialog.dart';
 
-class SymbolWisePLTable extends StatelessWidget {
+class ClientSymbolWisePLTable extends StatelessWidget {
   final bool isDarkMode;
-  const SymbolWisePLTable({super.key, this.isDarkMode = false});
+  const ClientSymbolWisePLTable({super.key, this.isDarkMode = false});
   List<ViewTableColumn> _getColumns() {
     return const [
+      ViewTableColumn(id: 'exchange', label: 'EXCH', width: 80),
       ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 220),
-      ViewTableColumn(id: 'releasePL', label: 'RELEASE PL', width: 140),
       ViewTableColumn(id: 'm2m', label: 'M2M', width: 140),
+      ViewTableColumn(id: 'releasePL', label: 'REALISED P/L', width: 140),
       ViewTableColumn(id: 'brokerage', label: 'BRK', width: 120),
-      ViewTableColumn(id: 'netPL', label: 'NET PL', width: 140),
+      ViewTableColumn(id: 'netPL', label: 'TOTAL', width: 140),
     ];
   }
 
@@ -45,6 +46,7 @@ class SymbolWisePLTable extends StatelessWidget {
                   value,
                   isDark: isDark,
                 ),
+                fontWeight: FontWeight.bold,
               ),
           textAlign: TextAlign.center,
         ),
@@ -59,19 +61,21 @@ class SymbolWisePLTable extends StatelessWidget {
     bool isDark,
   ) {
     switch (column.id) {
+      case 'exchange':
+        return ViewTextCell(text: item.exchange, isDark: isDark);
       case 'symbol':
         return ViewTextCell(
           text: item.symbol,
           isDark: isDark,
           fontWeight: FontWeight.bold,
         );
-      case 'releasePL':
-        return _buildClickableNumberCell(context, item.releasePL, () {
-          SymbolTradeListDialog.show(context, symbol: item.symbol);
-        }, isDark);
       case 'm2m':
         return _buildClickableNumberCell(context, item.m2m, () {
-          SymbolOpenPositionDialog.show(context, symbol: item.symbol);
+          NetPositionDialog.show(context, symbol: item.symbol);
+        }, isDark);
+      case 'releasePL':
+        return _buildClickableNumberCell(context, item.releasePL, () {
+          DealsDialog.show(context, symbol: item.symbol, title: 'Realised P/L');
         }, isDark);
       case 'brokerage':
         return ViewNumberCell(
@@ -129,19 +133,19 @@ class SymbolWisePLTable extends StatelessWidget {
                   return ViewDataTableFooter(
                     columns: columns,
                     values: {
-                      'symbol': 'Total',
-                      'releasePL': totalReleasePL.toStringAsFixed(2),
+                      'exchange': 'Total',
                       'm2m': totalM2M.toStringAsFixed(2),
+                      'releasePL': totalReleasePL.toStringAsFixed(2),
                       'brokerage': totalBrokerage.toStringAsFixed(2),
                       'netPL': totalNetPL.toStringAsFixed(2),
                     },
                     columnColors: {
-                      'releasePL': ViewTableCellStyles.getValueColor(
-                        totalReleasePL,
-                        isDark: isDarkMode,
-                      ),
                       'm2m': ViewTableCellStyles.getValueColor(
                         totalM2M,
+                        isDark: isDarkMode,
+                      ),
+                      'releasePL': ViewTableCellStyles.getValueColor(
+                        totalReleasePL,
                         isDark: isDarkMode,
                       ),
                       'netPL': ViewTableCellStyles.getValueColor(

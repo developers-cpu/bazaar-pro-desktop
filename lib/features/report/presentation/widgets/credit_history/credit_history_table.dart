@@ -7,6 +7,8 @@ import '../../../../../core/widget/table/view_data_table.dart';
 import '../../../../../core/widget/table/view_data_table_footer.dart';
 import '../../../../../core/widget/table/view_record_count.dart';
 import '../../../../../core/widget/table/view_table_cell_styles.dart';
+import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
 import '../../../domain/entities/credit_history.dart';
 import '../../bloc/credit_history/credit_history_bloc.dart';
 import '../../bloc/credit_history/credit_history_state.dart';
@@ -14,7 +16,26 @@ import '../../bloc/credit_history/credit_history_state.dart';
 class CreditHistoryTable extends StatelessWidget {
   final bool isDarkMode;
   const CreditHistoryTable({super.key, this.isDarkMode = false});
-  List<ViewTableColumn> _getColumns() {
+  List<ViewTableColumn> _getColumns(bool isClient) {
+    if (isClient) {
+      return const [
+        ViewTableColumn(id: 'dateTime', label: 'DATE TIME', width: 200),
+        ViewTableColumn(id: 'type', label: 'TYPE', width: 160),
+        ViewTableColumn(
+          id: 'amount',
+          label: 'AMOUNT',
+          width: 200,
+          isNumeric: true,
+        ),
+        ViewTableColumn(
+          id: 'balance',
+          label: 'BALANCE',
+          width: 200,
+          isNumeric: true,
+        ),
+        ViewTableColumn(id: 'comment', label: 'COMMENT', width: 250),
+      ];
+    }
     return const [
       ViewTableColumn(id: 'userName', label: 'U.NAME', width: 160),
       ViewTableColumn(id: 'parentUserName', label: 'P.U.NAME', width: 160),
@@ -76,6 +97,11 @@ class CreditHistoryTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authState = context.read<AuthBloc>().state;
+    final isClient =
+        authState is AuthAuthenticated &&
+        authState.user.role.toLowerCase() == 'client';
+
     return BlocBuilder<CreditHistoryBloc, CreditHistoryState>(
       builder: (context, state) {
         if (state is CreditHistoryLoading) {
@@ -97,7 +123,7 @@ class CreditHistoryTable extends StatelessWidget {
             Flexible(
               fit: FlexFit.loose,
               child: ViewDataTable<CreditHistory>(
-                columns: _getColumns(),
+                columns: _getColumns(isClient),
                 data: state.creditHistory,
                 idExtractor: (item) => item.id,
                 sortColumn: null,
@@ -111,7 +137,10 @@ class CreditHistoryTable extends StatelessWidget {
                   return ViewDataTableFooter(
                     columns: columns,
                     values: {
-                      'userName': 'Total',
+                      if (isClient)
+                        'dateTime': 'Total'
+                      else
+                        'userName': 'Total',
                       'amount': totalAmount.toStringAsFixed(2),
                     },
                     isDarkMode: isDarkMode,

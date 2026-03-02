@@ -138,6 +138,7 @@ class DealsTable extends StatelessWidget {
     Deal item,
     ViewTableColumn column,
     bool isDark,
+    bool isClient,
   ) {
     switch (column.id) {
       case 'userName':
@@ -207,7 +208,7 @@ class DealsTable extends StatelessWidget {
               )
             : ViewTextCell(text: '-', isDark: isDark);
       case 'orderDuration':
-        return _buildOrderDurationCell(context, item, isDark);
+        return _buildOrderDurationCell(context, item, isDark, isClient);
       case 'deviceId':
         return ViewTextCell(text: item.deviceId ?? '-', isDark: isDark);
       case 'ipAddress':
@@ -217,7 +218,25 @@ class DealsTable extends StatelessWidget {
     }
   }
 
-  Widget _buildOrderDurationCell(BuildContext context, Deal item, bool isDark) {
+  Widget _buildOrderDurationCell(
+    BuildContext context,
+    Deal item,
+    bool isDark,
+    bool isClient,
+  ) {
+    if (isClient) {
+      return Container(
+        alignment: Alignment.centerLeft,
+        child: Text(
+          item.orderDuration,
+          style: ViewTableCellStyles.getTextStyle(
+            isDark: isDark,
+            color: const Color(0xFF2C5F7A),
+          ),
+        ),
+      );
+    }
+
     return GestureDetector(
       onTap: () {
         final state = context.read<DealsBloc>().state;
@@ -287,7 +306,7 @@ class DealsTable extends StatelessWidget {
                 isDarkMode: isDarkMode,
                 emptyMessage: 'No deals found',
                 cellBuilder: (item, column) =>
-                    _buildCell(context, item, column, isDarkMode),
+                    _buildCell(context, item, column, isDarkMode, isClient),
                 onRowTap: (item) {
                   context.read<DealsBloc>().add(SelectDealEvent(item.id));
                 },

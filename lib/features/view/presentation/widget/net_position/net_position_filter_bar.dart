@@ -36,23 +36,25 @@ class NetPositionFilterBar extends StatelessWidget {
 
   Widget _buildClientFilterBar(BuildContext context, NetPositionLoaded state) {
     double totalM2M = 0;
-    double totalBrokerage = 0;
     double totalRealisedPnl = 0;
+
     for (final pos in state.filteredPositions) {
       totalM2M += pos.m2mAmount;
-      totalBrokerage += pos.ourPercentage;
       totalRealisedPnl += pos.netQty * pos.netAvgPrice;
     }
-    final totalPnl = totalRealisedPnl + totalM2M + totalBrokerage;
+
+    final totalPnl = totalRealisedPnl + totalM2M;
     final isNegative = totalPnl < 0;
 
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          /// Exchange Dropdown
           SizedBox(
-            width: 200.w,
+            width: 170.w,
+            height: 36.h,
             child: AppDropdown(
               type: AppDropdownType.simple,
               hintText: 'Exchange',
@@ -69,10 +71,13 @@ class NetPositionFilterBar extends StatelessWidget {
               },
             ),
           ),
-          SizedBox(width: 12.w),
 
+          SizedBox(width: 8.w),
+
+          /// Symbol Dropdown
           SizedBox(
-            width: 200.w,
+            width: 170.w,
+            height: 36.h,
             child: AppDropdown(
               type: AppDropdownType.search,
               hintText: 'Symbol',
@@ -88,98 +93,98 @@ class NetPositionFilterBar extends StatelessWidget {
               },
             ),
           ),
+
           const Spacer(),
 
-          _buildPnlSummary(
-            context,
-            realisedPnl: totalRealisedPnl,
-            m2m: totalM2M,
-            brokerage: totalBrokerage,
-            total: totalPnl,
-            isNegative: isNegative,
+          /// Right Side Compact P&L Section
+          IntrinsicWidth(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                /// Credit Box (Compact)
+                Container(
+                  height: 32.h,
+                  padding: EdgeInsets.symmetric(horizontal: 12.w),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFD3E3EC),
+                    borderRadius: BorderRadius.circular(6.r),
+                  ),
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Credit : 500000.00',
+                    style: GoogleFonts.openSans(
+                      fontSize: 12.sp,
+                      color: AppColors.primaryBlue,
+                    ),
+                  ),
+                ),
+
+                SizedBox(height: 6.h),
+
+                /// Realised + M2M = Total (Compact Row)
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    _compactBox(
+                      'Realised P&L : ${totalRealisedPnl.toStringAsFixed(2)}',
+                    ),
+
+                    SizedBox(width: 6.w),
+                    _operator('+'),
+
+                    SizedBox(width: 6.w),
+                    _compactBox('M2M : ${totalM2M.toStringAsFixed(2)}'),
+
+                    SizedBox(width: 6.w),
+                    _operator('='),
+
+                    SizedBox(width: 6.w),
+
+                    Text(
+                      totalPnl.toStringAsFixed(2),
+                      style: GoogleFonts.openSans(
+                        fontSize: 12.sp,
+                        color: isNegative ? AppColors.red : AppColors.blue,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildPnlSummary(
-    BuildContext context, {
-    required double realisedPnl,
-    required double m2m,
-    required double brokerage,
-    required double total,
-    required bool isNegative,
-  }) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        _buildLabeledBox(context, 'Realised P& L', realisedPnl),
-        _buildOperatorText('+'),
-        _buildLabeledBox(context, 'M2M', m2m),
-        _buildOperatorText('+'),
-        _buildLabeledBox(context, 'Brokerage', brokerage),
-        SizedBox(width: 8.w),
-        Text(
-          '=',
-          style: TextStyle(
-            fontSize: 14.sp,
-            fontWeight: FontWeight.w600,
-            color: AppColors.primaryTextColor,
-          ),
-        ),
-        SizedBox(width: 8.w),
-        Text(
-          total.toStringAsFixed(2),
-          style: GoogleFonts.openSans(
-            fontSize: 14.sp,
-            fontWeight: FontWeight.w500,
-            color: isNegative ? AppColors.sellColor : AppColors.buyColor,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildLabeledBox(BuildContext context, String label, double value) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          label,
-          style: TextStyle(fontSize: 11.sp, color: AppColors.primaryTextColor),
-        ),
-        SizedBox(height: 3.h),
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 8.h),
-          decoration: BoxDecoration(
-            color: const Color(0xFFD3E3EC),
-            borderRadius: BorderRadius.circular(8.r),
-          ),
-          child: Text(
-            value.toStringAsFixed(2),
-            style: GoogleFonts.openSans(
-              fontSize: 11.sp,
-              fontWeight: FontWeight.w600,
-              color: AppColors.primaryTextColor,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildOperatorText(String op) {
-    return Padding(
-      padding: EdgeInsets.only(top: 14.h, left: 6.w, right: 6.w),
+  Widget _compactBox(String text) {
+    return Container(
+      height: 30.h,
+      padding: EdgeInsets.symmetric(horizontal: 10.w),
+      decoration: BoxDecoration(
+        color: const Color(0xFFD3E3EC),
+        borderRadius: BorderRadius.circular(6.r),
+      ),
+      alignment: Alignment.center,
       child: Text(
-        op,
-        style: TextStyle(
-          fontSize: 14.sp,
-          fontWeight: FontWeight.w600,
-          color: AppColors.primaryTextColor,
+        text,
+        style: GoogleFonts.openSans(
+          fontSize: 12.sp,
+          fontWeight: FontWeight.w500,
+          color: AppColors.primaryBlue,
         ),
+      ),
+    );
+  }
+
+  Widget _operator(String text) {
+    return Text(
+      text,
+      style: GoogleFonts.openSans(
+        fontSize: 18.sp,
+        fontWeight: FontWeight.w600,
+        color: Colors.black,
       ),
     );
   }

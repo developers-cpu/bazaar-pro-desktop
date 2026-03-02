@@ -175,8 +175,14 @@ class SymbolWisePLPageWithAppBar extends StatelessWidget {
   const SymbolWisePLPageWithAppBar({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final state = context.read<AuthBloc>().state;
+    String title = 'Symbol Wise PL';
+    if (state is AuthAuthenticated &&
+        state.user.role.toLowerCase() == 'client') {
+      title = 'Symbol Wise Report';
+    }
     return ReportPageWrapper(
-      pageTitle: 'Symbol Wise PL',
+      pageTitle: title,
       onExportPdf: () {},
       onExportExcel: () {},
       child: const SymbolWisePLReportPage(),

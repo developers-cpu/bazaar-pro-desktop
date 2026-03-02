@@ -1,5 +1,6 @@
 import 'package:bazarpro/features/report/domain/entities/exchange_wise_pl/exchange_wise_pl_report.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
 import '../../../../../core/widget/table/view_data_table_footer.dart';
 import '../../../../../core/widget/table/view_record_count.dart';
@@ -7,6 +8,9 @@ import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import 'deals_dialog.dart';
 import 'exchange_trade_list_dialog.dart';
 import 'exchange_open_position_dialog.dart';
+import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
+import 'package:bazarpro/features/view/presentation/widget/net_position/net_position_dialog.dart';
 
 class ExchangeWisePLTable extends StatelessWidget {
   final List<ExchangeWisePLReport> reports;
@@ -81,19 +85,35 @@ class ExchangeWisePLTable extends StatelessWidget {
     ExchangeWisePLReport item,
     ViewTableColumn column,
     bool isDark,
+    bool isClient,
   ) {
     switch (column.id) {
       case 'exchange':
+        if (isClient) {
+          return ViewTextCell(text: item.exchange, isDark: isDark);
+        }
         return _buildClickableTextCell(context, item.exchange, () {
           ExchangeTradeListDialog.show(context, exchange: item.exchange);
         }, isDark);
       case 'm2m':
         return _buildClickableNumberCell(context, item.m2m, () {
-          ExchangeOpenPositionDialog.show(context, exchange: item.exchange);
+          if (isClient) {
+            NetPositionDialog.show(context, exchange: item.exchange);
+          } else {
+            ExchangeOpenPositionDialog.show(context, exchange: item.exchange);
+          }
         }, isDark);
       case 'realisedPL':
         return _buildClickableNumberCell(context, item.realisedPL, () {
-          DealsDialog.show(context, exchange: item.exchange);
+          if (isClient) {
+            DealsDialog.show(
+              context,
+              exchange: item.exchange,
+              title: 'Realised P/L',
+            );
+          } else {
+            DealsDialog.show(context, exchange: item.exchange);
+          }
         }, isDark);
       case 'brokerage':
         return ViewNumberCell(
@@ -110,6 +130,11 @@ class ExchangeWisePLTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authState = context.read<AuthBloc>().state;
+    final isClient =
+        authState is AuthAuthenticated &&
+        authState.user.role.toLowerCase() == 'client';
+
     double totalM2M = 0;
     double totalRealisedPL = 0;
     double totalBrokerage = 0;
@@ -135,7 +160,7 @@ class ExchangeWisePLTable extends StatelessWidget {
             isDarkMode: isDarkMode,
             emptyMessage: 'No reports found',
             cellBuilder: (item, column) =>
-                _buildCell(context, item, column, isDarkMode),
+                _buildCell(context, item, column, isDarkMode, isClient),
             footerBuilder: (columns) {
               return ViewDataTableFooter(
                 columns: columns,
@@ -145,6 +170,20 @@ class ExchangeWisePLTable extends StatelessWidget {
                   'realisedPL': totalRealisedPL.toStringAsFixed(2),
                   'brokerage': totalBrokerage.toStringAsFixed(2),
                   'total': totalPL.toStringAsFixed(2),
+                },
+                columnColors: {
+                  'm2m': ViewTableCellStyles.getValueColor(
+                    totalM2M,
+                    isDark: isDarkMode,
+                  ),
+                  'realisedPL': ViewTableCellStyles.getValueColor(
+                    totalRealisedPL,
+                    isDark: isDarkMode,
+                  ),
+                  'total': ViewTableCellStyles.getValueColor(
+                    totalPL,
+                    isDark: isDarkMode,
+                  ),
                 },
                 isDarkMode: isDarkMode,
               );

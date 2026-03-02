@@ -39,36 +39,39 @@ class SymbolWisePLBloc extends Bloc<SymbolWisePLEvent, SymbolWisePLState> {
     FilterSymbolWisePL event,
     Emitter<SymbolWisePLState> emit,
   ) async {
+    final currentState = state;
+    List<String> exchanges = [];
+    List<String> symbols = [];
+    String? currentExchange;
+    String? currentSymbol;
+
+    if (currentState is SymbolWisePLLoaded) {
+      exchanges = currentState.exchanges;
+      symbols = currentState.symbols;
+      currentExchange = currentState.selectedExchange;
+      currentSymbol = currentState.selectedSymbol;
+    }
+
     emit(SymbolWisePLLoading());
+
+    final newExchange = event.exchange ?? currentExchange;
+    final newSymbol = event.symbol ?? currentSymbol;
+
     final result = await getSymbolWisePLReport(
-      exchange: event.exchange == 'All' ? null : event.exchange,
-      symbol: event.symbol == 'All' ? null : event.symbol,
+      exchange: newExchange == 'All' ? null : newExchange,
+      symbol: newSymbol == 'All' ? null : newSymbol,
     );
+
     result.fold(
       (failure) => emit(SymbolWisePLError(message: failure.message)),
       (reports) {
-        final currentState = state;
-        List<String> exchanges = [];
-        List<String> symbols = [];
-        if (currentState is SymbolWisePLLoaded) {
-          exchanges = currentState.exchanges;
-          symbols = currentState.symbols;
-        }
         emit(
           SymbolWisePLLoaded(
             reports: reports,
             exchanges: exchanges,
             symbols: symbols,
-            selectedExchange:
-                event.exchange ??
-                (currentState is SymbolWisePLLoaded
-                    ? currentState.selectedExchange
-                    : null),
-            selectedSymbol:
-                event.symbol ??
-                (currentState is SymbolWisePLLoaded
-                    ? currentState.selectedSymbol
-                    : null),
+            selectedExchange: newExchange,
+            selectedSymbol: newSymbol,
           ),
         );
       },

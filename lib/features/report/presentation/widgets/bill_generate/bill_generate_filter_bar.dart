@@ -18,138 +18,138 @@ class BillGenerateFilterBar extends StatelessWidget {
         authState is AuthAuthenticated &&
         authState.user.role.toLowerCase() == 'client';
 
+    final rowChildren = <Widget>[
+      AppDropdown(
+        width: 200.w,
+        hintText: 'This Week',
+        items: const ['This Week', 'Previous Week', 'Custom Period'],
+        onChanged: (value) async {
+          if (value == 'Custom Period') {
+            final DateTimeRange? picked = await showDateRangePicker(
+              context: context,
+              firstDate: DateTime(2020),
+              lastDate: DateTime(2030),
+            );
+            if (picked != null) {}
+          }
+        },
+        height: 35.h,
+      ),
+      SizedBox(width: 16.w),
+      if (!isClient) ...[
+        AppDropdown(
+          width: 200.w,
+          hintText: 'User Type',
+          items: const ['Master', 'Client'],
+          onChanged: (value) {},
+          height: 35.h,
+        ),
+        SizedBox(width: 16.w),
+      ],
+      if (!isClient) ...[
+        AppDropdown(
+          width: 200.w,
+          hintText: 'User',
+          items: const ['User 1', 'User 2', 'User 3'],
+          type: AppDropdownType.search,
+          searchHint: 'Search & Add',
+          onChanged: (value) {
+            context.read<BillGenerateBloc>().add(
+              FilterBillGenerateReport(userId: value),
+            );
+          },
+          height: 35.h,
+        ),
+        SizedBox(width: 16.w),
+      ],
+      AppDropdown(
+        width: 200.w,
+        hintText: 'Bill Format',
+        items: const ['Advance', 'Regular'],
+        onChanged: (value) {
+          context.read<BillGenerateBloc>().add(
+            FilterBillGenerateReport(billFormat: value),
+          );
+        },
+        height: 35.h,
+      ),
+      SizedBox(width: 16.w),
+      AppDropdown(
+        width: 200.w,
+        hintText: 'Bill Type',
+        items: const ['PDF', 'Excel'],
+        onChanged: (value) {
+          context.read<BillGenerateBloc>().add(
+            FilterBillGenerateReport(billType: value),
+          );
+        },
+        height: 35.h,
+      ),
+      if (isClient) const Spacer() else SizedBox(width: 16.w),
+      SizedBox(
+        height: 35.h,
+        width: 100.w,
+        child: OutlinedButton(
+          onPressed: () {
+            context.read<BillGenerateBloc>().add(
+              const LoadBillGenerateReport(),
+            );
+          },
+          style: OutlinedButton.styleFrom(
+            side: BorderSide(color: AppColors.primaryBlue),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.r),
+            ),
+            padding: EdgeInsets.zero,
+          ),
+          child: Text(
+            'Reset',
+            style: GoogleFonts.openSans(
+              fontSize: 14.sp,
+              fontWeight: FontWeight.w600,
+              color: AppColors.primaryBlue,
+            ),
+          ),
+        ),
+      ),
+      SizedBox(width: 16.w),
+      SizedBox(
+        height: 35.h,
+        width: 120.w,
+        child: ElevatedButton(
+          onPressed: () {
+            context.read<BillGenerateBloc>().add(
+              const LoadBillGenerateReport(),
+            );
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color(0xFF1F4A66),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.r),
+            ),
+            padding: EdgeInsets.zero,
+          ),
+          child: Text(
+            'Generate',
+            style: GoogleFonts.openSans(
+              fontSize: 14.sp,
+              fontWeight: FontWeight.w600,
+              color: AppColors.white,
+            ),
+          ),
+        ),
+      ),
+    ];
+
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
       width: double.infinity,
-      child: Row(
-        children: [
-          Expanded(
-            child: AppDropdown(
-              hintText: 'This Week',
-              items: const ['This Week', 'Previous Week', 'Custom Period'],
-              onChanged: (value) async {
-                if (value == 'Custom Period') {
-                  final DateTimeRange? picked = await showDateRangePicker(
-                    context: context,
-                    firstDate: DateTime(2020),
-                    lastDate: DateTime(2030),
-                  );
-                  if (picked != null) {}
-                }
-              },
-              height: 40.h,
+      child: isClient
+          ? Row(children: rowChildren)
+          : SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(children: rowChildren),
             ),
-          ),
-          SizedBox(width: 16.w),
-          if (!isClient) ...[
-            Expanded(
-              child: AppDropdown(
-                hintText: 'User Type',
-                items: const ['Master', 'Client'],
-                onChanged: (value) {},
-                height: 40.h,
-              ),
-            ),
-            SizedBox(width: 16.w),
-          ],
-          if (!isClient) ...[
-            Expanded(
-              child: AppDropdown(
-                hintText: 'User',
-                items: const ['User 1', 'User 2', 'User 3'],
-                type: AppDropdownType.search,
-                searchHint: 'Search & Add',
-                onChanged: (value) {
-                  context.read<BillGenerateBloc>().add(
-                    FilterBillGenerateReport(userId: value),
-                  );
-                },
-                height: 40.h,
-              ),
-            ),
-            SizedBox(width: 16.w),
-          ],
-          Expanded(
-            child: AppDropdown(
-              hintText: 'Bill Format',
-              items: const ['Advance', 'Regular'],
-              onChanged: (value) {
-                context.read<BillGenerateBloc>().add(
-                  FilterBillGenerateReport(billFormat: value),
-                );
-              },
-              height: 40.h,
-            ),
-          ),
-          SizedBox(width: 16.w),
-          Expanded(
-            child: AppDropdown(
-              hintText: 'Bill Type',
-              items: const ['PDF', 'Excel'],
-              onChanged: (value) {
-                context.read<BillGenerateBloc>().add(
-                  FilterBillGenerateReport(billType: value),
-                );
-              },
-              height: 40.h,
-            ),
-          ),
-          SizedBox(width: 16.w),
-          SizedBox(
-            height: 40.h,
-            width: 100.w,
-            child: OutlinedButton(
-              onPressed: () {
-                context.read<BillGenerateBloc>().add(
-                  const LoadBillGenerateReport(),
-                );
-              },
-              style: OutlinedButton.styleFrom(
-                side: BorderSide(color: AppColors.primaryBlue),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.r),
-                ),
-                padding: EdgeInsets.zero,
-              ),
-              child: Text(
-                'Reset',
-                style: GoogleFonts.openSans(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.primaryBlue,
-                ),
-              ),
-            ),
-          ),
-          SizedBox(width: 16.w),
-          SizedBox(
-            height: 40.h,
-            width: 120.w,
-            child: ElevatedButton(
-              onPressed: () {
-                context.read<BillGenerateBloc>().add(
-                  const LoadBillGenerateReport(),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF1F4A66),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.r),
-                ),
-                padding: EdgeInsets.zero,
-              ),
-              child: Text(
-                'Generate',
-                style: GoogleFonts.openSans(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.white,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

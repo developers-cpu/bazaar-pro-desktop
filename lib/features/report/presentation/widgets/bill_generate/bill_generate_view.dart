@@ -154,25 +154,25 @@ class BillGenerateView extends StatelessWidget {
             trade.buyQty?.toString() ?? '',
             flex: 2,
             alignRight: true,
-            color: AppColors.billBuyColor,
+            color: AppColors.buyColor,
           ),
           _buildDataCell(
             trade.buyPrice?.toStringAsFixed(0) ?? '',
             flex: 2,
             alignRight: true,
-            color: AppColors.billBuyColor,
+            color: AppColors.buyColor,
           ),
           _buildDataCell(
             trade.sellQty?.toString() ?? '',
             flex: 2,
             alignRight: true,
-            color: AppColors.billSellColor,
+            color: AppColors.sellColor,
           ),
           _buildDataCell(
             trade.sellPrice?.toStringAsFixed(0) ?? '',
             flex: 2,
             alignRight: true,
-            color: AppColors.billSellColor,
+            color: AppColors.sellColor,
           ),
           _buildDataCell(
             trade.brokerage > 0 ? trade.brokerage.toStringAsFixed(0) : '',
@@ -184,8 +184,8 @@ class BillGenerateView extends StatelessWidget {
             flex: 2,
             alignRight: true,
             color: trade.profitLoss >= 0
-                ? AppColors.billProfitColor
-                : AppColors.billLossColor,
+                ? AppColors.buyColor
+                : AppColors.sellColor,
           ),
         ],
       ),
@@ -238,8 +238,8 @@ class BillGenerateView extends StatelessWidget {
             total.totalProfitLoss.toStringAsFixed(0),
             flex: 2,
             color: total.totalProfitLoss >= 0
-                ? AppColors.billProfitColor
-                : AppColors.billLossColor,
+                ? AppColors.buyColor
+                : AppColors.sellColor,
           ),
         ],
       ),
@@ -313,23 +313,21 @@ class BillGenerateView extends StatelessWidget {
             summary.mtm.toStringAsFixed(0),
             flex: 2,
             alignRight: true,
-            color: summary.mtm >= 0
-                ? AppColors.billProfitColor
-                : AppColors.billLossColor,
+            color: summary.mtm >= 0 ? AppColors.buyColor : AppColors.sellColor,
           ),
           _buildDataCell(
             summary.brokerage.toStringAsFixed(0),
             flex: 2,
             alignRight: true,
-            color: AppColors.billBrokerageColor,
+            color: AppColors.primaryTextColor,
           ),
           _buildDataCell(
             summary.netAmount.toStringAsFixed(0),
             flex: 2,
             alignRight: true,
             color: summary.netAmount >= 0
-                ? AppColors.billProfitColor
-                : AppColors.billLossColor,
+                ? AppColors.buyColor
+                : AppColors.sellColor,
           ),
         ],
       ),
@@ -358,20 +356,20 @@ class BillGenerateView extends StatelessWidget {
             total.totalMtm.toStringAsFixed(0),
             flex: 2,
             color: total.totalMtm >= 0
-                ? AppColors.billProfitColor
-                : AppColors.billLossColor,
+                ? AppColors.buyColor
+                : AppColors.sellColor,
           ),
           _buildTotalCell(
             total.totalBrokerage.toStringAsFixed(0),
             flex: 2,
-            color: AppColors.billBrokerageColor,
+            color: AppColors.primaryTextColor,
           ),
           _buildTotalCell(
             total.totalNetAmount.toStringAsFixed(0),
             flex: 2,
             color: total.totalNetAmount >= 0
-                ? AppColors.billProfitColor
-                : AppColors.billLossColor,
+                ? AppColors.buyColor
+                : AppColors.sellColor,
           ),
         ],
       ),

@@ -23,6 +23,10 @@ class CreditHistoryFilterBar extends StatelessWidget {
             authState is AuthAuthenticated &&
             authState.user.role.toLowerCase() == 'client';
 
+        if (isClient) {
+          return const SizedBox.shrink();
+        }
+
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Row(

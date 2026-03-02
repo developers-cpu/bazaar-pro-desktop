@@ -212,7 +212,7 @@ class _AppDropdownState extends State<AppDropdown>
     if (widget.subtitles != null) {
       listHeight = visibleItems * (_itemHeight + 10.h);
     }
-    return listHeight + searchHeight + selectAllHeight;
+    return listHeight + searchHeight + selectAllHeight + 4.h;
   }
 
   OverlayEntry _createOverlay() {

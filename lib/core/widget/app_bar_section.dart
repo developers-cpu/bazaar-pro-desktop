@@ -544,7 +544,7 @@ class AppBarSectionState extends State<AppBarSection> {
           onTap: () => _navigateToPage(
             _getTabIndex(AppStrings.report),
             'Symbol Wise Report',
-            '/symbol-wise-position',
+            '/symbol-wise-pl',
           ),
         ),
         MenuItemData(

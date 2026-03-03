@@ -2,6 +2,7 @@ import 'package:bazarpro/features/report/presentation/pages/bill_generate_page.d
 import 'package:bazarpro/features/report/presentation/pages/symbol_wise_pl_report_page.dart';
 import 'package:bazarpro/features/report/presentation/pages/profit_and_loss_report_page.dart';
 import 'package:bazarpro/features/report/presentation/pages/settlement_report_page.dart';
+import 'package:bazarpro/features/report/presentation/pages/settlement_sharing_report_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../features/auth/presentation/bloc/auth_bloc.dart';
@@ -76,6 +77,19 @@ class SettlementPageWithAppBar extends StatelessWidget {
       onExportPdf: () {},
       onExportExcel: () {},
       child: const SettlementReportPage(),
+    );
+  }
+}
+
+class SettlementSharingReportPageWithAppBar extends StatelessWidget {
+  const SettlementSharingReportPageWithAppBar({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return ReportPageWrapper(
+      pageTitle: 'Settlement with % Sharing',
+      onExportPdf: () {},
+      onExportExcel: () {},
+      child: const SettlementSharingReportPage(),
     );
   }
 }

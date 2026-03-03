@@ -37,6 +37,7 @@ class AppRoutes {
   static const String tradeLogs = '/trade-logs';
   static const String tradeMargin = '/trade-margin';
   static const String settlement = '/settlement';
+  static const String settlementWithSharing = '/settlement-with-sharing';
   static const String creditHistory = '/credit-history';
   static const String billGenerate = '/bill-generate';
   static const String activityReport = '/activity-report';
@@ -94,6 +95,8 @@ class AppRoutes {
       tradeLogs: (context) => const TradeLogsPageWithAppBar(),
       tradeMargin: (context) => const TradeMarginPageWithAppBar(),
       settlement: (context) => const SettlementPageWithAppBar(),
+      settlementWithSharing: (context) =>
+          const SettlementSharingReportPageWithAppBar(),
       creditHistory: (context) => const CreditHistoryPageWithAppBar(),
       billGenerate: (context) => const BillGeneratePageWithAppBar(),
       activityReport: (context) => const ActivityReportPageWithAppBar(),

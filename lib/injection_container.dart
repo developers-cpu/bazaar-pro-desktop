@@ -288,6 +288,11 @@ import 'features/report/domain/usecases/get_settlement_report.dart';
 import 'features/report/domain/repositories/settlement_report_repository.dart';
 import 'features/report/data/repositories/settlement_report_repository_impl.dart';
 import 'features/report/data/datasources/settlement_report_remote_datasource.dart';
+import 'features/report/presentation/bloc/settlement_sharing_report/settlement_sharing_report_bloc.dart';
+import 'features/report/domain/usecases/get_settlement_sharing_report.dart';
+import 'features/report/domain/repositories/settlement_sharing_report_repository.dart';
+import 'features/report/data/repositories/settlement_sharing_report_repository_impl.dart';
+import 'features/report/data/datasources/settlement_sharing_report_remote_datasource.dart';
 import 'features/report/presentation/bloc/users_bill_summary/users_bill_summary_bloc.dart';
 import 'features/report/domain/usecases/users_bill_summary/get_users.dart'
     as bill_summary_users;
@@ -941,6 +946,17 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<SettlementReportRemoteDataSource>(
     () => SettlementReportRemoteDataSourceImpl(),
+  );
+
+  sl.registerFactory(
+    () => SettlementSharingReportBloc(getSettlementSharingReport: sl()),
+  );
+  sl.registerLazySingleton(() => GetSettlementSharingReport(sl()));
+  sl.registerLazySingleton<SettlementSharingReportRepository>(
+    () => SettlementSharingReportRepositoryImpl(remoteDataSource: sl()),
+  );
+  sl.registerLazySingleton<SettlementSharingReportRemoteDataSource>(
+    () => SettlementSharingReportRemoteDataSourceImpl(),
   );
   sl.registerFactory(
     () => UsersBillSummaryBloc(getUsers: sl(), getBillSummaryData: sl()),

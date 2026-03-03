@@ -211,6 +211,14 @@ class AppBarSectionState extends State<AppBarSection> {
         ),
       ),
       MenuItemData(
+        title: 'Settlement Master % Sharing',
+        onTap: () => _navigateToPage(
+          _getTabIndex('Operations'),
+          'Settlement Master % Sharing',
+          '/settlement-master-sharing',
+        ),
+      ),
+      MenuItemData(
         title: 'Server',
         onTap: () =>
             _navigateToPage(_getTabIndex('Operations'), 'Server', '/server'),
@@ -682,6 +690,14 @@ class AppBarSectionState extends State<AppBarSection> {
           ),
         ),
         MenuItemData(
+          title: 'Settlement With % Sharing',
+          onTap: () => _navigateToPage(
+            _getTabIndex(AppStrings.report),
+            'Settlement With % Sharing',
+            '/settlement-with-sharing',
+          ),
+        ),
+        MenuItemData(
           title: 'Profit & Loss',
           onTap: () => _navigateToPage(
             _getTabIndex(AppStrings.report),
@@ -742,6 +758,14 @@ class AppBarSectionState extends State<AppBarSection> {
           onTap: () {
             UsersBillSummaryDialog.show(context);
           },
+        ),
+        MenuItemData(
+          title: 'Back Office Activity Report',
+          onTap: () => _navigateToPage(
+            _getTabIndex(AppStrings.report),
+            'Back Office Activity Report',
+            '/back-office-activity-report',
+          ),
         ),
       ];
     }

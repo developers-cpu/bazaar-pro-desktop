@@ -57,6 +57,7 @@ class AppRoutes {
   static const String settlementProgress = '/settlement-progress';
   static const String server = '/server';
   static const String billComparison = '/bill-comparison';
+  static const String settlementMasterSharing = '/settlement-master-sharing';
   static const String inactivityManagement = '/inactivity-management';
   static const String operationsMessage = '/operations-message';
   static const String tools = '/tools';
@@ -118,6 +119,8 @@ class AppRoutes {
       settlementProgress: (context) => const SettlementProgressPageWithAppBar(),
       server: (context) => const ServerPageWithAppBar(),
       billComparison: (context) => const BillComparisonPageWithAppBar(),
+      settlementMasterSharing: (context) =>
+          const SettlementMasterSharingPageWithAppBar(),
       operationsMessage: (context) => const OperationsMessagePageWithAppBar(),
       tools: (context) => const AboutPageWithAppBar(),
       toolsAbout: (context) => const AboutPageWithAppBar(),

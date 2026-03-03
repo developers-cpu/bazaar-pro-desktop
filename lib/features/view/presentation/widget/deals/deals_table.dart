@@ -29,7 +29,7 @@ class DealsTable extends StatelessWidget {
         ViewTableColumn(id: 'exchange', label: 'EXCH', width: 100),
         ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 150),
         ViewTableColumn(id: 'orderDateTime', label: 'Order D/T', width: 220),
-        ViewTableColumn(id: 'buySell', label: 'B/S', width: 280),
+        ViewTableColumn(id: 'buySell', label: 'B/S', width: 150),
         ViewTableColumn(id: 'qty', label: 'QTY', width: 120, isNumeric: true),
         ViewTableColumn(id: 'lot', label: 'Lot', width: 100, isNumeric: true),
         ViewTableColumn(id: 'orderType', label: 'Type', width: 100),
@@ -75,7 +75,7 @@ class DealsTable extends StatelessWidget {
         label: 'ORDER D/T',
         width: 220,
       ),
-      const ViewTableColumn(id: 'buySell', label: 'B/S', width: 280),
+      const ViewTableColumn(id: 'buySell', label: 'B/S', width: 150),
       const ViewTableColumn(
         id: 'qty',
         label: 'QTY',
@@ -165,7 +165,11 @@ class DealsTable extends StatelessWidget {
       case 'orderDateTime':
         return ViewDateTimeCell(dateTime: item.orderDateTime, isDark: isDark);
       case 'buySell':
-        return ViewBuySellCell(text: item.buySell, isDark: isDark);
+        return ViewBuySellCell(
+          text: item.buySell,
+          isDark: isDark,
+          isStart: true,
+        );
       case 'qty':
         return ViewNumberCell(
           value: item.qty,

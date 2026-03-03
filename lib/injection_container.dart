@@ -340,6 +340,11 @@ import 'features/view/presentation/bloc/brokerage/brokerage_bloc.dart';
 import 'features/view/domain/repositories/brokerage/brokerage_repository.dart';
 import 'features/view/data/repositories/brokerage/brokerage_repository_impl.dart';
 import 'features/view/data/datasources/brokerage/brokerage_remote_datasource.dart';
+import 'features/operations/presentation/bloc/settlement_master_sharing/settlement_master_sharing_bloc.dart';
+import 'features/operations/domain/usecases/get_settlement_master_sharing.dart';
+import 'features/operations/domain/repositories/settlement_master_sharing_repository.dart';
+import 'features/operations/data/repositories/settlement_master_sharing_repository_impl.dart';
+import 'features/operations/data/datasources/settlement_master_sharing_datasource.dart';
 
 final sl = GetIt.instance;
 Future<void> init() async {
@@ -1157,5 +1162,16 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<BillComparisonRemoteDataSource>(
     () => BillComparisonRemoteDataSourceImpl(),
+  );
+
+  sl.registerFactory(
+    () => SettlementMasterSharingBloc(getSettlementMasterSharing: sl()),
+  );
+  sl.registerLazySingleton(() => GetSettlementMasterSharing(sl()));
+  sl.registerLazySingleton<SettlementMasterSharingRepository>(
+    () => SettlementMasterSharingRepositoryImpl(dataSource: sl()),
+  );
+  sl.registerLazySingleton<SettlementMasterSharingDataSource>(
+    () => SettlementMasterSharingDataSourceImpl(),
   );
 }

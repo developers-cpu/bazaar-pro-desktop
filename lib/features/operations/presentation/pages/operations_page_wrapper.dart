@@ -22,6 +22,9 @@ import 'bill_comparison/bill_comparison_page.dart';
 import '../bloc/settlement_progress/settlement_progress_bloc.dart';
 import 'settlement_progress/settlement_progress_page.dart';
 import 'surveillance/surveillance_page.dart';
+import '../bloc/settlement_master_sharing/settlement_master_sharing_bloc.dart';
+import '../bloc/settlement_master_sharing/settlement_master_sharing_event.dart';
+import 'settlement_master_sharing/settlement_master_sharing_page.dart';
 
 class OperationsPageWrapper extends StatelessWidget {
   final String pageTitle;
@@ -174,6 +177,21 @@ class BillComparisonPageWithAppBar extends StatelessWidget {
       child: const OperationsPageWrapper(
         pageTitle: 'Bill Comparison',
         child: BillComparisonPage(),
+      ),
+    );
+  }
+}
+
+class SettlementMasterSharingPageWithAppBar extends StatelessWidget {
+  const SettlementMasterSharingPageWithAppBar({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) =>
+          sl<SettlementMasterSharingBloc>()..add(LoadMasterSharingDataEvent()),
+      child: const OperationsPageWrapper(
+        pageTitle: 'Settlement Master % Sharing',
+        child: SettlementMasterSharingPage(),
       ),
     );
   }

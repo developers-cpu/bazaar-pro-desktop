@@ -37,7 +37,7 @@ class TradesTable extends StatelessWidget {
           width: 130,
           isNumeric: true,
         ),
-        ViewTableColumn(id: 'buySell', label: 'B/S', width: 280),
+        ViewTableColumn(id: 'buySell', label: 'B/S', width:  150),
         ViewTableColumn(id: 'orderDateTime', label: 'Order D/T', width: 220),
         ViewTableColumn(id: 'orderType', label: 'Type', width: 100),
         ViewTableColumn(id: 'pl', label: 'P/L', width: 120, isNumeric: true),
@@ -71,7 +71,7 @@ class TradesTable extends StatelessWidget {
         label: 'ORDER D/T',
         width: 220,
       ),
-      const ViewTableColumn(id: 'buySell', label: 'B/S', width: 280),
+      const ViewTableColumn(id: 'buySell', label: 'B/S', width: 150),
       const ViewTableColumn(
         id: 'qty',
         label: 'QTY',
@@ -155,7 +155,11 @@ class TradesTable extends StatelessWidget {
       case 'orderDateTime':
         return ViewDateTimeCell(dateTime: item.orderDateTime, isDark: isDark);
       case 'buySell':
-        return ViewBuySellCell(text: item.buySell, isDark: isDark);
+        return ViewBuySellCell(
+          text: item.buySell,
+          isDark: isDark,
+          isStart: true,
+        );
       case 'qty':
         return ViewNumberCell(
           value: item.qty,

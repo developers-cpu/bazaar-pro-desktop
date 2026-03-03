@@ -85,21 +85,31 @@ class ViewTextCell extends StatelessWidget {
 class ViewBuySellCell extends StatelessWidget {
   final String text;
   final bool isDark;
+  final bool isStart;
 
-  const ViewBuySellCell({Key? key, required this.text, this.isDark = false})
-    : super(key: key);
+  const ViewBuySellCell({
+    Key? key,
+    required this.text,
+    this.isDark = false,
+    this.isStart = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      text,
-      style: ViewTableCellStyles.getTextStyle(
-        isDark: isDark,
-        color: ViewTableCellStyles.getBuySellColor(text, isDark: isDark),
+    return Container(
+      width: double.infinity,
+      padding: isStart ? EdgeInsets.only(left: 14.w) : null,
+      alignment: isStart ? Alignment.centerLeft : Alignment.center,
+      child: Text(
+        text,
+        style: ViewTableCellStyles.getTextStyle(
+          isDark: isDark,
+          color: ViewTableCellStyles.getBuySellColor(text, isDark: isDark),
+        ),
+        textAlign: isStart ? TextAlign.start : TextAlign.center,
+        maxLines: 1,
+        softWrap: false,
       ),
-      textAlign: TextAlign.center,
-      maxLines: 1,
-      softWrap: false,
     );
   }
 }

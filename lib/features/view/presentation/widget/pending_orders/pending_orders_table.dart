@@ -28,7 +28,7 @@ class PendingOrdersTable extends StatelessWidget {
       return const [
         ViewTableColumn(id: 'exchange', label: 'EXCH', width: 100),
         ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 150),
-        ViewTableColumn(id: 'buySell', label: 'B/S', width: 280),
+        ViewTableColumn(id: 'buySell', label: 'B/S', width: 150),
         ViewTableColumn(id: 'qty', label: 'QTY', width: 120, isNumeric: true),
         ViewTableColumn(id: 'lot', label: 'LOT', width: 100, isNumeric: true),
         ViewTableColumn(
@@ -52,7 +52,7 @@ class PendingOrdersTable extends StatelessWidget {
       const ViewTableColumn(id: 'upline', label: 'UPLINE', width: 120),
       const ViewTableColumn(id: 'exchange', label: 'EXCH', width: 100),
       const ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 150),
-      const ViewTableColumn(id: 'buySell', label: 'B/S', width: 280),
+      const ViewTableColumn(id: 'buySell', label: 'B/S', width: 150),
       const ViewTableColumn(
         id: 'qty',
         label: 'QTY',
@@ -124,7 +124,11 @@ class PendingOrdersTable extends StatelessWidget {
           softWrap: false,
         );
       case 'buySell':
-        return ViewBuySellCell(text: item.buySell, isDark: isDark);
+        return ViewBuySellCell(
+          text: item.buySell,
+          isDark: isDark,
+          isStart: true,
+        );
       case 'qty':
         return ViewNumberCell(
           value: item.qty,

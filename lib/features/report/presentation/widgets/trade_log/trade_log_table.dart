@@ -48,7 +48,7 @@ class TradeLogTable extends StatelessWidget {
       case 'exchange':
         return ViewTextCell(text: item.exchange, isDark: isDark);
       case 'symbol':
-        return ViewLinkCell(text: item.symbol, isDark: isDark);
+        return ViewTextCell(text: item.symbol, isDark: isDark);
       case 'orderUpdateType':
         return ViewTextCell(text: item.orderUpdateType, isDark: isDark);
       case 'userType':

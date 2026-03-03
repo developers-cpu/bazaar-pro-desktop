@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
 import '../../../../../core/widget/table/view_record_count.dart';
@@ -13,11 +14,11 @@ class ActivityReportTable extends StatelessWidget {
   const ActivityReportTable({super.key, this.isDarkMode = false});
   List<ViewTableColumn> _getColumns() {
     return const [
-      ViewTableColumn(id: 'activityName', label: 'ACTIVITY', width: 250),
+      ViewTableColumn(id: 'activityName', label: 'ACTIVITY', width: 150),
       ViewTableColumn(id: 'createdOn', label: 'CREATED ON', width: 200),
-      ViewTableColumn(id: 'createdBy', label: 'CREATED BY', width: 150),
+      ViewTableColumn(id: 'createdBy', label: 'CREATED BY', width: 200),
       ViewTableColumn(id: 'updatedOn', label: 'UPDATED ON', width: 200),
-      ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 150),
+      ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 200),
     ];
   }
 
@@ -29,12 +30,16 @@ class ActivityReportTable extends StatelessWidget {
   ) {
     switch (column.id) {
       case 'activityName':
-        return ViewLinkCell(
-          text: item.activityName,
-          isDark: isDark,
-          onTap: () {
-            _showDetailDialog(context, item);
-          },
+        return Padding(
+          padding: EdgeInsets.only(left: 16.w),
+          child: ViewLinkCell(
+            text: item.activityName,
+            isDark: isDark,
+            isStart: true,
+            onTap: () {
+              _showDetailDialog(context, item);
+            },
+          ),
         );
       case 'createdOn':
         return ViewDateTimeCell(dateTime: item.createdOn, isDark: isDark);

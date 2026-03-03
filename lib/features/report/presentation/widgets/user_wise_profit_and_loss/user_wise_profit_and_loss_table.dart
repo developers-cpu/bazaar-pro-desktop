@@ -350,31 +350,10 @@ class UserWiseProfitAndLossReportTable extends StatelessWidget {
                       'releasedPL': totalReleasedPL >= 0
                           ? AppColors.buyColor
                           : AppColors.sellColor,
-                      'brokerage': totalBrokerage >= 0
-                          ? AppColors.buyColor
-                          : AppColors.sellColor,
                       'netPL': totalNetPL >= 0
                           ? AppColors.buyColor
                           : AppColors.sellColor,
                       'credit': totalCredit >= 0
-                          ? AppColors.buyColor
-                          : AppColors.sellColor,
-                      'equity': totalEquity >= 0
-                          ? AppColors.buyColor
-                          : AppColors.sellColor,
-                      'margin': totalMargin >= 0
-                          ? AppColors.buyColor
-                          : AppColors.sellColor,
-                      'usedMargin': totalUsedMargin >= 0
-                          ? AppColors.buyColor
-                          : AppColors.sellColor,
-                      'freeMargin': totalFreeMargin >= 0
-                          ? AppColors.buyColor
-                          : AppColors.sellColor,
-                      'standingVolume': totalStandingVolume >= 0
-                          ? AppColors.buyColor
-                          : AppColors.sellColor,
-                      'marginLevelPercentage': totalMarginLevelPercentage >= 0
                           ? AppColors.buyColor
                           : AppColors.sellColor,
                     },

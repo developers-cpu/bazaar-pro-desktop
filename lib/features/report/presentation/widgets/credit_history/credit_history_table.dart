@@ -145,6 +145,12 @@ class CreditHistoryTable extends StatelessWidget {
                     },
                     isDarkMode: isDarkMode,
                     textAlign: TextAlign.center,
+                    columnColors: {
+                      'amount': ViewTableCellStyles.getValueColor(
+                        totalAmount,
+                        isDark: isDarkMode,
+                      ),
+                    },
                   );
                 },
               ),

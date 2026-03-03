@@ -46,7 +46,7 @@ class UserScriptPositionTrackingFilterBar extends StatelessWidget {
             children: [
               DateRangePickerButton(
                 width: 200.w,
-                height: 40.h,
+                height: 35.h,
                 selectedDateRange: selectedDateRange,
                 onTap: () async {
                   final picked = await custom.CustomDateRangePickerDialog.show(
@@ -73,7 +73,7 @@ class UserScriptPositionTrackingFilterBar extends StatelessWidget {
                 hintText: 'User',
                 items: userNames,
                 width: 200.w,
-                height: 40.h,
+                height: 35.h,
                 type: AppDropdownType.search,
                 searchHint: 'Search & Add',
                 onChanged: (value) {
@@ -98,7 +98,7 @@ class UserScriptPositionTrackingFilterBar extends StatelessWidget {
                 hintText: 'Exchange',
                 items: exchanges,
                 width: 200.w,
-                height: 40.h,
+                height: 35.h,
                 onChanged: (value) {
                   context.read<UserScriptPositionTrackingBloc>().add(
                     FilterUserScriptPositionTracking(
@@ -121,7 +121,7 @@ class UserScriptPositionTrackingFilterBar extends StatelessWidget {
                 hintText: 'Symbol',
                 items: symbols,
                 width: 200.w,
-                height: 40.h,
+                height: 35.h,
                 type: AppDropdownType.search,
                 onChanged: (value) {
                   context.read<UserScriptPositionTrackingBloc>().add(

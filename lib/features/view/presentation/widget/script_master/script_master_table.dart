@@ -19,7 +19,7 @@ class ScriptMasterTable extends StatelessWidget {
   List<ViewTableColumn> _getColumns() {
     return const [
       ViewTableColumn(id: 'exchange', label: 'EXCH', width: 100),
-      ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 200),
+      ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 100),
       ViewTableColumn(id: 'expiryDate', label: 'EXPIRY DATE', width: 150),
       ViewTableColumn(id: 'tradeAttribute', label: 'TRADE ATTR.', width: 120),
       ViewTableColumn(id: 'allowTrade', label: 'ALLOW TRADE', width: 120),
@@ -36,7 +36,10 @@ class ScriptMasterTable extends StatelessWidget {
       case 'exchange':
         return ViewTextCell(text: item.exchange, isDark: isDark);
       case 'symbol':
-        return ViewTextCell(text: item.symbol, isDark: isDark);
+        return Padding(
+          padding: const EdgeInsets.only(left: 12),
+          child: ViewTextCell(text: item.symbol, isDark: isDark, isStart: true),
+        );
       case 'expiryDate':
         return _buildExpiryDateCell(item, isDark);
       case 'tradeAttribute':
@@ -57,28 +60,20 @@ class ScriptMasterTable extends StatelessWidget {
     final formattedDate = dateFormat.format(item.expiryDate);
     final formattedTime = timeFormat.format(item.expiryDate);
     return Container(
-      alignment: Alignment.centerLeft,
+      alignment: Alignment.center,
       child: Text(
         '$formattedDate | $formattedTime',
-        style: GoogleFonts.openSans(
-          fontSize: 14.sp,
-          fontWeight: FontWeight.w400,
-          color: isDark ? Colors.white : AppColors.primaryTextColor,
-        ),
+        style: ViewTableCellStyles.getTextStyle(isDark: isDark),
       ),
     );
   }
 
   Widget _buildTradeAttributeCell(ScriptMaster item, bool isDark) {
     return Container(
-      alignment: Alignment.centerLeft,
+      alignment: Alignment.center,
       child: Text(
         item.tradeAttribute,
-        style: GoogleFonts.openSans(
-          fontSize: 14.sp,
-          fontWeight: FontWeight.w400,
-          color: isDark ? Colors.white : AppColors.primaryTextColor,
-        ),
+        style: ViewTableCellStyles.getTextStyle(isDark: isDark),
       ),
     );
   }

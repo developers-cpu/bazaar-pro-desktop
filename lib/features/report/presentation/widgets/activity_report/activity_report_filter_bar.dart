@@ -30,40 +30,42 @@ class ActivityReportFilterBar extends StatelessWidget {
           child: Row(
             children: [
               if (!isClient) ...[
-                Expanded(
-                  child: AppDropdown(
-                    type: AppDropdownType.simple,
-                    hintText: 'User Type',
-                    value: state.selectedUserType,
-                    items: const ['Master', 'Client'],
-                    onChanged: (value) {
-                      context.read<ActivityReportBloc>().add(
-                        FilterActivityReport(userType: value),
-                      );
-                    },
-                  ),
+                AppDropdown(
+                  type: AppDropdownType.simple,
+                  hintText: 'User Type',
+                  value: state.selectedUserType,
+                  items: const ['Master', 'Client'],
+                  width: 200.w,
+                  height: 35.h,
+                  onChanged: (value) {
+                    context.read<ActivityReportBloc>().add(
+                      FilterActivityReport(userType: value),
+                    );
+                  },
                 ),
                 SizedBox(width: 12.w),
               ],
               if (!isClient) ...[
-                Expanded(
-                  child: AppDropdown(
-                    type: AppDropdownType.search,
-                    hintText: 'User',
-                    searchHint: 'Search & Add',
-                    value: state.selectedUser,
-                    items: state.users,
-                    onChanged: (value) {
-                      context.read<ActivityReportBloc>().add(
-                        FilterActivityReport(user: value),
-                      );
-                    },
-                  ),
+                AppDropdown(
+                  type: AppDropdownType.search,
+                  hintText: 'User',
+                  searchHint: 'Search & Add',
+                  value: state.selectedUser,
+                  items: state.users,
+                  width: 200.w,
+                  height: 35.h,
+                  onChanged: (value) {
+                    context.read<ActivityReportBloc>().add(
+                      FilterActivityReport(user: value),
+                    );
+                  },
                 ),
                 SizedBox(width: 12.w),
               ],
-              Expanded(
-                child: DateRangePickerButton(
+              if (isClient) ...[
+                DateRangePickerButton(
+                  width: 200.w,
+                  height: 35.h,
                   selectedDateRange: state.selectedDateRange,
                   onTap: () async {
                     final picked =
@@ -79,7 +81,7 @@ class ActivityReportFilterBar extends StatelessWidget {
                     }
                   },
                 ),
-              ),
+              ],
               if (!isClient) ...[
                 const Spacer(),
                 ViewResetButtons(

@@ -11,6 +11,7 @@ import '../bloc/user_list/user_list_event.dart';
 import '../bloc/user_list/user_list_state.dart';
 import '../../../../core/widget/table/view_data_table.dart';
 import '../../../../core/widget/table/view_record_count.dart';
+import '../../../../core/widget/table/view_table_cell_styles.dart';
 import '../../../../core/widget/table/view_reset_buttons.dart';
 import '../widgets/create_user/master_form_dialog.dart';
 import '../widgets/create_user/client_form_dialog.dart';
@@ -452,52 +453,28 @@ class _UserListPageState extends State<UserListPage> {
           child: Text(
             user.userName,
             style: GoogleFonts.openSans(
-              fontSize: 12.sp,
-              fontWeight: FontWeight.w600,
+              fontSize: 11.sp,
+              fontWeight: FontWeight.w500,
               decoration: TextDecoration.underline,
               color: AppColors.primaryBlue,
             ),
           ),
         );
       case 'parentUser':
-        return Text(
-          user.parentUser,
-          style: GoogleFonts.openSans(
-            fontSize: 12.sp,
-            color: AppColors.textColor(context),
-          ),
-        );
+        return Text(user.parentUser, style: ViewTableCellStyles.getTextStyle());
       case 'type':
-        return Text(
-          user.type,
-          style: GoogleFonts.openSans(
-            fontSize: 12.sp,
-            color: AppColors.textColor(context),
-          ),
-        );
+        return Text(user.type, style: ViewTableCellStyles.getTextStyle());
       case 'name':
-        return Text(
-          user.name,
-          style: GoogleFonts.openSans(
-            fontSize: 12.sp,
-            color: AppColors.textColor(context),
-          ),
-        );
+        return Text(user.name, style: ViewTableCellStyles.getTextStyle());
       case 'plPercent':
         return Text(
           '${user.plPercent}%',
-          style: GoogleFonts.openSans(
-            fontSize: 12.sp,
-            color: AppColors.textColor(context),
-          ),
+          style: ViewTableCellStyles.getTextStyle(),
         );
       case 'brkPercent':
         return Text(
           '${user.brkPercent}%',
-          style: GoogleFonts.openSans(
-            fontSize: 12.sp,
-            color: AppColors.textColor(context),
-          ),
+          style: ViewTableCellStyles.getTextStyle(),
         );
       case 'leverage':
         return InkWell(
@@ -505,8 +482,8 @@ class _UserListPageState extends State<UserListPage> {
           child: Text(
             '1:${user.leverage}',
             style: GoogleFonts.openSans(
-              fontSize: 12.sp,
-              fontWeight: FontWeight.w600,
+              fontSize: 11.sp,
+              fontWeight: FontWeight.w500,
               decoration: TextDecoration.underline,
               color: AppColors.primaryBlue,
             ),
@@ -518,8 +495,8 @@ class _UserListPageState extends State<UserListPage> {
           child: Text(
             user.credit.toStringAsFixed(0),
             style: GoogleFonts.openSans(
-              fontSize: 12.sp,
-              fontWeight: FontWeight.w600,
+              fontSize: 11.sp,
+              fontWeight: FontWeight.w500,
               decoration: TextDecoration.underline,
               color: AppColors.primaryBlue,
             ),

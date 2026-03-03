@@ -94,7 +94,7 @@ class UserScriptPositionTrackingTable extends StatelessWidget {
           },
         );
       case 'symbol':
-        return ViewLinkCell(text: item.symbol, isDark: isDark, onTap: () {});
+        return ViewTextCell(text: item.symbol, isDark: isDark);
       case 'position':
         return ViewTextCell(text: item.position, isDark: isDark);
       case 'openAPrice':

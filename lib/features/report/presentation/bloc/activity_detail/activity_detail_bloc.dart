@@ -14,7 +14,6 @@ class ActivityDetailBloc
     emit(ActivityDetailLoading());
     try {
       List<Map<String, dynamic>> data = [];
-      const int mockRecordCount = 12550;
       switch (event.activityName) {
         case 'Leverage':
           data = List.generate(
@@ -172,7 +171,7 @@ class ActivityDetailBloc
         default:
           data = [];
       }
-      emit(ActivityDetailLoaded(details: data, recordCount: mockRecordCount));
+      emit(ActivityDetailLoaded(details: data, recordCount: data.length));
     } catch (e) {
       emit(ActivityDetailError(e.toString()));
     }

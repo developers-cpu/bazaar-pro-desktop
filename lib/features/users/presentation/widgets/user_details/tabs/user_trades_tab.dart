@@ -269,10 +269,7 @@ class UserTradesTabView extends StatelessWidget {
               case 'symbol':
                 return Text(
                   item.symbol,
-                  style: _cellStyle(
-                    isSymbol: true,
-                    color: AppColors.errorColor,
-                  ),
+                  style: _cellStyle(color: AppColors.primaryTextColor),
                 );
               case 'buySell':
                 return Text(
@@ -354,15 +351,11 @@ class UserTradesTabView extends StatelessWidget {
     );
   }
 
-  TextStyle _cellStyle({
-    Color? color,
-    bool isSymbol = false,
-    bool isUnderline = false,
-  }) {
+  TextStyle _cellStyle({Color? color, bool isUnderline = false}) {
     return GoogleFonts.openSans(
-      fontSize: 9.sp,
-      fontWeight: isSymbol ? FontWeight.bold : FontWeight.w600,
-      color: color,
+      fontSize: 11.sp,
+      fontWeight: FontWeight.w500,
+      color: color ?? AppColors.primaryTextColor,
       decoration: isUnderline ? TextDecoration.underline : null,
     );
   }

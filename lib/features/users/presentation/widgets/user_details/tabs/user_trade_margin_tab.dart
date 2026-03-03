@@ -266,9 +266,9 @@ class _UserTradeMarginTabViewState extends State<UserTradeMarginTabView> {
           idExtractor: (item) => item.id,
           cellBuilder: (item, column) {
             final commonStyle = GoogleFonts.openSans(
-              fontSize: 9.sp,
-              fontWeight: FontWeight.w600,
-              color: AppColors.primaryBlue,
+              fontSize: 11.sp,
+              fontWeight: FontWeight.w500,
+              color: AppColors.primaryTextColor,
             );
             switch (column.id) {
               case 'checkbox':

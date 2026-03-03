@@ -28,147 +28,153 @@ class TradesFilterBar extends StatelessWidget {
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           alignment: Alignment.centerLeft,
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                DateRangePickerButton(
-                  width: 200.w,
-                  selectedDateRange:
-                      state.startDate != null && state.endDate != null
-                      ? DateTimeRange(
-                          start: state.startDate!,
-                          end: state.endDate!,
-                        )
-                      : null,
-                  onTap: () async {
-                    final result = await CustomDateRangePickerDialog.show(
-                      context,
-                      initialStartDate: state.startDate,
-                      initialEndDate: state.endDate,
-                    );
-                    if (result != null) {
-                      context.read<TradesBloc>().add(
-                        ApplyFiltersEvent(
-                          startDate: result.start,
-                          endDate: result.end,
-                          client: state.selectedClient,
-                          exchange: state.selectedExchange,
-                          symbol: state.selectedSymbol,
-                          orderType: state.selectedOrderType,
-                        ),
-                      );
-                    }
-                  },
-                ),
-                if (!isClient) ...[
-                  SizedBox(width: 12.w),
-                  AppDropdown(
-                    width: 200.w,
-                    type: AppDropdownType.search,
-                    hintText: 'Client',
-                    value: state.selectedClient,
-                    items: state.clients,
-                    onChanged: (value) {
-                      context.read<TradesBloc>().add(
-                        ApplyFiltersEvent(
-                          startDate: state.startDate,
-                          endDate: state.endDate,
-                          client: value,
-                          exchange: state.selectedExchange,
-                          symbol: state.selectedSymbol,
-                          orderType: state.selectedOrderType,
-                        ),
-                      );
-                    },
-                  ),
-                ],
-                SizedBox(width: 12.w),
-                AppDropdown(
-                  width: 200.w,
-                  type: AppDropdownType.simple,
-                  hintText: 'Exchange',
-                  value: state.selectedExchange,
-                  items: state.exchanges,
-                  showAllOption: true,
-                  onChanged: (value) {
-                    context.read<TradesBloc>().add(
-                      ApplyFiltersEvent(
-                        startDate: state.startDate,
-                        endDate: state.endDate,
-                        client: state.selectedClient,
-                        exchange: value,
-                        symbol: state.selectedSymbol,
-                        orderType: state.selectedOrderType,
+          child: Row(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      DateRangePickerButton(
+                        width: 200.w,
+                        selectedDateRange:
+                            state.startDate != null && state.endDate != null
+                            ? DateTimeRange(
+                                start: state.startDate!,
+                                end: state.endDate!,
+                              )
+                            : null,
+                        onTap: () async {
+                          final result = await CustomDateRangePickerDialog.show(
+                            context,
+                            initialStartDate: state.startDate,
+                            initialEndDate: state.endDate,
+                          );
+                          if (result != null) {
+                            context.read<TradesBloc>().add(
+                              ApplyFiltersEvent(
+                                startDate: result.start,
+                                endDate: result.end,
+                                client: state.selectedClient,
+                                exchange: state.selectedExchange,
+                                symbol: state.selectedSymbol,
+                                orderType: state.selectedOrderType,
+                              ),
+                            );
+                          }
+                        },
                       ),
-                    );
-                  },
+                      if (!isClient) ...[
+                        SizedBox(width: 12.w),
+                        AppDropdown(
+                          width: 200.w,
+                          type: AppDropdownType.search,
+                          hintText: 'Client',
+                          value: state.selectedClient,
+                          items: state.clients,
+                          onChanged: (value) {
+                            context.read<TradesBloc>().add(
+                              ApplyFiltersEvent(
+                                startDate: state.startDate,
+                                endDate: state.endDate,
+                                client: value,
+                                exchange: state.selectedExchange,
+                                symbol: state.selectedSymbol,
+                                orderType: state.selectedOrderType,
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                      SizedBox(width: 12.w),
+                      AppDropdown(
+                        width: 200.w,
+                        type: AppDropdownType.simple,
+                        hintText: 'Exchange',
+                        value: state.selectedExchange,
+                        items: state.exchanges,
+                        showAllOption: true,
+                        onChanged: (value) {
+                          context.read<TradesBloc>().add(
+                            ApplyFiltersEvent(
+                              startDate: state.startDate,
+                              endDate: state.endDate,
+                              client: state.selectedClient,
+                              exchange: value,
+                              symbol: state.selectedSymbol,
+                              orderType: state.selectedOrderType,
+                            ),
+                          );
+                        },
+                      ),
+                      SizedBox(width: 12.w),
+                      AppDropdown(
+                        width: 200.w,
+                        type: AppDropdownType.search,
+                        hintText: 'Symbol',
+                        value: state.selectedSymbol,
+                        items: state.symbols,
+                        onChanged: (value) {
+                          context.read<TradesBloc>().add(
+                            ApplyFiltersEvent(
+                              startDate: state.startDate,
+                              endDate: state.endDate,
+                              client: state.selectedClient,
+                              exchange: state.selectedExchange,
+                              symbol: value,
+                              orderType: state.selectedOrderType,
+                            ),
+                          );
+                        },
+                      ),
+                      SizedBox(width: 12.w),
+                      AppDropdown(
+                        width: 200.w,
+                        type: AppDropdownType.simple,
+                        hintText: 'Select Type',
+                        value: state.selectedOrderType,
+                        items: state.orderTypes,
+                        showAllOption: true,
+                        onChanged: (value) {
+                          context.read<TradesBloc>().add(
+                            ApplyFiltersEvent(
+                              startDate: state.startDate,
+                              endDate: state.endDate,
+                              client: state.selectedClient,
+                              exchange: state.selectedExchange,
+                              symbol: state.selectedSymbol,
+                              orderType: value,
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
                 ),
+              ),
+              if (!isClient) ...[
                 SizedBox(width: 12.w),
-                AppDropdown(
-                  width: 200.w,
-                  type: AppDropdownType.search,
-                  hintText: 'Symbol',
-                  value: state.selectedSymbol,
-                  items: state.symbols,
-                  onChanged: (value) {
+                ViewResetButtons(
+                  onReset: () {
+                    context.read<TradesBloc>().add(const ResetFiltersEvent());
+                  },
+                  onView: () {
                     context.read<TradesBloc>().add(
                       ApplyFiltersEvent(
                         startDate: state.startDate,
                         endDate: state.endDate,
                         client: state.selectedClient,
                         exchange: state.selectedExchange,
-                        symbol: value,
+                        symbol: state.selectedSymbol,
                         orderType: state.selectedOrderType,
                       ),
                     );
                   },
                 ),
-                SizedBox(width: 12.w),
-                AppDropdown(
-                  width: 200.w,
-                  type: AppDropdownType.simple,
-                  hintText: 'Select Type',
-                  value: state.selectedOrderType,
-                  items: state.orderTypes,
-                  showAllOption: true,
-                  onChanged: (value) {
-                    context.read<TradesBloc>().add(
-                      ApplyFiltersEvent(
-                        startDate: state.startDate,
-                        endDate: state.endDate,
-                        client: state.selectedClient,
-                        exchange: state.selectedExchange,
-                        symbol: state.selectedSymbol,
-                        orderType: value,
-                      ),
-                    );
-                  },
-                ),
-                if (!isClient) ...[
-                  SizedBox(width: 12.w),
-                  ViewResetButtons(
-                    onReset: () {
-                      context.read<TradesBloc>().add(const ResetFiltersEvent());
-                    },
-                    onView: () {
-                      context.read<TradesBloc>().add(
-                        ApplyFiltersEvent(
-                          startDate: state.startDate,
-                          endDate: state.endDate,
-                          client: state.selectedClient,
-                          exchange: state.selectedExchange,
-                          symbol: state.selectedSymbol,
-                          orderType: state.selectedOrderType,
-                        ),
-                      );
-                    },
-                  ),
-                ],
               ],
-            ),
+            ],
           ),
         );
       },

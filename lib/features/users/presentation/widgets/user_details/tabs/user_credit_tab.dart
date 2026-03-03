@@ -196,9 +196,9 @@ class _UserCreditTabViewState extends State<UserCreditTabView> {
         final isDebit = item.type == 'Debit';
         final color = isDebit ? AppColors.errorColor : AppColors.primaryBlue;
         final commonStyle = GoogleFonts.openSans(
-          fontSize: 9.sp,
-          fontWeight: FontWeight.w600,
-          color: AppColors.primaryBlue,
+          fontSize: 11.sp,
+          fontWeight: FontWeight.w500,
+          color: AppColors.primaryTextColor,
         );
         switch (column.id) {
           case 'date':

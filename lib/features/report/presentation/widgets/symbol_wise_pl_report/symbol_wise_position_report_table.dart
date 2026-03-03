@@ -1,6 +1,6 @@
 import 'package:bazarpro/features/report/domain/entities/symbol_wise_position_report.dart';
 import 'package:bazarpro/features/report/presentation/widgets/symbol_wise_pl_report/symbol_open_position_dialog.dart';
-import 'package:bazarpro/features/report/presentation/widgets/symbol_wise_pl_report/symbol_trade_list_dialog.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
@@ -97,15 +97,10 @@ class SymbolWisePositionReportTable extends StatelessWidget {
       case 'exchange':
         return ViewTextCell(text: item.exchange, isDark: isDark);
       case 'symbol':
-        return ViewLinkCell(
-          text: item.symbol,
-          isDark: isDark,
-          onTap: () =>
-              SymbolOpenPositionDialog.show(context, symbol: item.symbol),
-        );
+        return ViewTextCell(text: item.symbol, isDark: isDark);
       case 'netQty':
         return _buildClickableNumberCell(context, item.netQty, () {
-          SymbolTradeListDialog.show(context, symbol: item.symbol);
+          SymbolOpenPositionDialog.show(context, symbol: item.symbol);
         }, isDark);
       case 'netMs':
         return ViewNumberCell(value: item.netMs, isDark: isDark);
@@ -196,7 +191,7 @@ class SymbolWisePositionReportTable extends StatelessWidget {
                   return ViewDataTableFooter(
                     columns: columns,
                     values: {
-                      'symbol': 'Total',
+                      'exchange': 'Total',
                       'brokerage': totalBrokerage.toStringAsFixed(2),
                       'netPL': totalNetPL.toStringAsFixed(2),
                       'releasePL': totalReleasePL.toStringAsFixed(2),

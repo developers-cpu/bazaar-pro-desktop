@@ -205,17 +205,16 @@ class NetPositionTable extends StatelessWidget {
         OpenPositionDialog.show(context: context, isDarkMode: isDark);
       },
       child: Container(
-        alignment: Alignment.centerRight,
+        width: double.infinity,
+        alignment: Alignment.center,
         child: Text(
           item.netQty.toStringAsFixed(2),
-          style: GoogleFonts.openSans(
-            fontSize: 13.sp,
-            fontWeight: FontWeight.w600,
-            color: color,
-            decoration: TextDecoration.underline,
-            decorationColor: color,
-            decorationThickness: 1.5,
-          ),
+          textAlign: TextAlign.center,
+          style: ViewTableCellStyles.getTextStyle(isDark: isDark, color: color)
+              .copyWith(
+                decoration: TextDecoration.underline,
+                decorationColor: color,
+              ),
         ),
       ),
     );

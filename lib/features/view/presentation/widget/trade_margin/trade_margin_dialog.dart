@@ -40,7 +40,7 @@ class TradeMarginDialog extends StatelessWidget {
       content: Column(
         children: [
           SizedBox(height: 16.h),
-          const TradeMarginFilterBar(),
+          const TradeMarginFilterBar(isDialogMode: true),
           SizedBox(height: 8.h),
           Expanded(
             child: Padding(

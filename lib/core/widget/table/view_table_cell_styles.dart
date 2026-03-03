@@ -51,25 +51,33 @@ class ViewTextCell extends StatelessWidget {
   final Color? color;
   final FontWeight? fontWeight;
   final bool isDark;
+  final bool isStart;
+
   const ViewTextCell({
     Key? key,
     required this.text,
     this.color,
     this.fontWeight,
     this.isDark = false,
+    this.isStart = false,
   }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return Text(
-      text,
-      style: ViewTableCellStyles.getTextStyle(
-        isDark: isDark,
-        color: color,
-        fontWeight: fontWeight,
+    return Container(
+      width: double.infinity,
+      alignment: isStart ? Alignment.centerLeft : Alignment.center,
+      child: Text(
+        text,
+        style: ViewTableCellStyles.getTextStyle(
+          isDark: isDark,
+          color: color,
+          fontWeight: fontWeight,
+        ),
+        textAlign: isStart ? TextAlign.start : TextAlign.center,
+        maxLines: 1,
+        softWrap: false,
       ),
-      textAlign: TextAlign.center,
-      maxLines: 1,
-      softWrap: false,
     );
   }
 }
@@ -77,8 +85,10 @@ class ViewTextCell extends StatelessWidget {
 class ViewBuySellCell extends StatelessWidget {
   final String text;
   final bool isDark;
+
   const ViewBuySellCell({Key? key, required this.text, this.isDark = false})
     : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Text(
@@ -100,6 +110,8 @@ class ViewNumberCell extends StatelessWidget {
   final bool colorByValue;
   final Color? fixedColor;
   final bool isDark;
+  final bool isStart;
+
   const ViewNumberCell({
     Key? key,
     required this.value,
@@ -107,7 +119,9 @@ class ViewNumberCell extends StatelessWidget {
     this.colorByValue = true,
     this.fixedColor,
     this.isDark = false,
+    this.isStart = false,
   }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final text = displayText ?? _formatNumber(value);
@@ -116,12 +130,17 @@ class ViewNumberCell extends StatelessWidget {
         (colorByValue
             ? ViewTableCellStyles.getValueColor(value, isDark: isDark)
             : null);
-    return Text(
-      text,
-      style: ViewTableCellStyles.getTextStyle(isDark: isDark, color: color),
-      textAlign: TextAlign.center,
-      maxLines: 1,
-      softWrap: false,
+
+    return Container(
+      width: double.infinity,
+      alignment: isStart ? Alignment.centerLeft : Alignment.center,
+      child: Text(
+        text,
+        style: ViewTableCellStyles.getTextStyle(isDark: isDark, color: color),
+        textAlign: isStart ? TextAlign.start : TextAlign.center,
+        maxLines: 1,
+        softWrap: false,
+      ),
     );
   }
 
@@ -137,30 +156,36 @@ class ViewLinkCell extends StatelessWidget {
   final String text;
   final VoidCallback? onTap;
   final bool isDark;
+  final bool isStart;
   const ViewLinkCell({
     Key? key,
     required this.text,
     this.onTap,
     this.isDark = false,
+    this.isStart = false,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Text(
-        text,
-        style:
-            ViewTableCellStyles.getTextStyle(
-              isDark: isDark,
-              color: AppColors.primaryBlue,
-              fontWeight: FontWeight.w600,
-            ).copyWith(
-              decoration: TextDecoration.underline,
-              decorationColor: AppColors.primaryBlue,
-            ),
-        textAlign: TextAlign.center,
-        maxLines: 1,
-        softWrap: false,
+      child: Container(
+        width: double.infinity,
+        alignment: isStart ? Alignment.centerLeft : Alignment.center,
+        child: Text(
+          text,
+          style:
+              ViewTableCellStyles.getTextStyle(
+                isDark: isDark,
+                color: AppColors.primaryBlue,
+                fontWeight: FontWeight.w600,
+              ).copyWith(
+                decoration: TextDecoration.underline,
+                decorationColor: AppColors.primaryBlue,
+              ),
+          textAlign: isStart ? TextAlign.start : TextAlign.center,
+          maxLines: 1,
+          softWrap: false,
+        ),
       ),
     );
   }

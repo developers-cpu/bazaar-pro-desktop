@@ -23,12 +23,15 @@ class IntradayHistoryFilterBar extends StatelessWidget {
         final isClient =
             authState is AuthAuthenticated &&
             authState.user.role.toLowerCase() == 'client';
+        final isMaster =
+            authState is AuthAuthenticated &&
+            authState.user.role.toLowerCase() == 'master';
 
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Row(
             children: [
-              if (!isClient) ...[
+              if (!isClient && !isMaster) ...[
                 AppDatePicker(
                   label: '',
                   value: state.selectedDate,

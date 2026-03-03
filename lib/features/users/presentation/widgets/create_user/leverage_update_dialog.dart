@@ -77,7 +77,7 @@ class _LeverageUpdateDialogState extends State<LeverageUpdateDialog> {
                 value: _selectedLeverage,
                 items: _leverageOptions,
                 width: availableWidth,
-                height: 48.h,
+                height: 35.h,
                 isDarkMode: isDarkMode,
                 borderColor: AppColors.primaryBlue,
                 textColor: AppColors.textColor(context),
@@ -91,7 +91,7 @@ class _LeverageUpdateDialogState extends State<LeverageUpdateDialog> {
               ),
               SizedBox(height: 16.h),
               SizedBox(
-                height: 40.h,
+                height: 32.h,
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {

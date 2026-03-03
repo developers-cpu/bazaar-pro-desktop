@@ -207,15 +207,16 @@ class _OpenPositionDialogState extends State<OpenPositionDialog> {
             child: Center(
               child: Text(
                 item.netQty.toStringAsFixed(0),
-                style: GoogleFonts.openSans(
-                  fontSize: 13.sp,
-                  fontWeight: FontWeight.w600,
-                  color: item.netQty > 0 ? AppColors.blue : AppColors.red,
-                  decoration: TextDecoration.underline,
-                  decorationColor: item.netQty > 0
-                      ? AppColors.blue
-                      : AppColors.red,
-                ),
+                style:
+                    ViewTableCellStyles.getTextStyle(
+                      isDark: widget.isDarkMode,
+                      color: item.netQty > 0 ? AppColors.blue : AppColors.red,
+                    ).copyWith(
+                      decoration: TextDecoration.underline,
+                      decorationColor: item.netQty > 0
+                          ? AppColors.blue
+                          : AppColors.red,
+                    ),
               ),
             ),
           );

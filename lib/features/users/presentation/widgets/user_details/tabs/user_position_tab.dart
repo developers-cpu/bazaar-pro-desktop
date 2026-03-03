@@ -197,10 +197,7 @@ class UserPositionTabView extends StatelessWidget {
               case 'symbol':
                 return Text(
                   item.symbol,
-                  style: _cellStyle(
-                    isSymbol: true,
-                    color: AppColors.errorColor,
-                  ),
+                  style: _cellStyle(color: AppColors.primaryTextColor),
                 );
               case 'buyQty':
                 return Text(
@@ -240,11 +237,11 @@ class UserPositionTabView extends StatelessWidget {
     );
   }
 
-  TextStyle _cellStyle({Color? color, bool isSymbol = false}) {
+  TextStyle _cellStyle({Color? color}) {
     return GoogleFonts.openSans(
-      fontSize: 9.sp,
-      fontWeight: isSymbol ? FontWeight.bold : FontWeight.w600,
-      color: color ?? AppColors.primaryBlue,
+      fontSize: 11.sp,
+      fontWeight: FontWeight.w500,
+      color: color ?? AppColors.primaryTextColor,
     );
   }
 

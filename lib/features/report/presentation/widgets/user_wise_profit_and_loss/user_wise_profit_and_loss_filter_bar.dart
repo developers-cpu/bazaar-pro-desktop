@@ -44,7 +44,7 @@ class UserWiseProfitAndLossFilterBar extends StatelessWidget {
                 hintText: 'User',
                 items: users,
                 width: 200.w,
-                height: 40.h,
+                height: 35.h,
                 type: AppDropdownType.search,
                 searchHint: 'Search & Add',
                 onChanged: (value) {
@@ -64,7 +64,7 @@ class UserWiseProfitAndLossFilterBar extends StatelessWidget {
               SizedBox(width: 10.w),
               DateRangePickerButton(
                 width: 200.w,
-                height: 40.h,
+                height: 35.h,
                 selectedDateRange: selectedDateRange,
                 onTap: () async {
                   final picked = await custom.CustomDateRangePickerDialog.show(

@@ -12,7 +12,8 @@ import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
 
 class TradeMarginFilterBar extends StatelessWidget {
-  const TradeMarginFilterBar({super.key});
+  final bool isDialogMode;
+  const TradeMarginFilterBar({super.key, this.isDialogMode = false});
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TradeMarginBloc, TradeMarginState>(
@@ -24,31 +25,36 @@ class TradeMarginFilterBar extends StatelessWidget {
         final isClient =
             authState is AuthAuthenticated &&
             authState.user.role.toLowerCase() == 'client';
+        final isMaster =
+            authState is AuthAuthenticated &&
+            authState.user.role.toLowerCase() == 'master';
 
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Row(
             children: [
-              AppDropdown(
-                width: 200.w,
-                height: 35.h,
-                type: AppDropdownType.simple,
-                hintText: 'Exchange',
-                value: state.selectedExchange,
-                items: state.exchanges,
-                showAllOption: true,
-                onChanged: (value) {
-                  if (isClient) {
-                    context.read<TradeMarginBloc>().add(
-                      ViewTradeMargins(exchange: value),
-                    );
-                  } else {
-                    context.read<TradeMarginBloc>().add(
-                      UpdateTradeMarginFilters(exchange: value),
-                    );
-                  }
-                },
-              ),
+              if (!(isMaster && isDialogMode)) ...[
+                AppDropdown(
+                  width: 200.w,
+                  height: 35.h,
+                  type: AppDropdownType.simple,
+                  hintText: 'Exchange',
+                  value: state.selectedExchange,
+                  items: state.exchanges,
+                  showAllOption: true,
+                  onChanged: (value) {
+                    if (isClient) {
+                      context.read<TradeMarginBloc>().add(
+                        ViewTradeMargins(exchange: value),
+                      );
+                    } else {
+                      context.read<TradeMarginBloc>().add(
+                        UpdateTradeMarginFilters(exchange: value),
+                      );
+                    }
+                  },
+                ),
+              ],
               if (!isClient) ...[
                 SizedBox(width: 12.w),
                 CustomInputField(
@@ -63,7 +69,7 @@ class TradeMarginFilterBar extends StatelessWidget {
                   },
                 ),
               ],
-              if (!isClient) ...[
+              if (!isClient && !(isMaster && isDialogMode)) ...[
                 const Spacer(),
                 ViewResetButtons(
                   onReset: () {

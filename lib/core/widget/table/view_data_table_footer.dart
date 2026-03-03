@@ -59,7 +59,7 @@ class ViewDataTableFooter extends StatelessWidget {
               style: ViewTableCellStyles.getTextStyle(
                 isDark: isDarkMode,
                 fontWeight: FontWeight.w500,
-                fontSize: 12.sp,
+                fontSize: 11.sp,
                 color:
                     columnColors?[column.id] ?? textColor ?? defaultTextColor,
               ),

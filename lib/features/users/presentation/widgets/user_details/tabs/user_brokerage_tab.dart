@@ -274,9 +274,9 @@ class _UserBrokerageTabViewState extends State<UserBrokerageTabView> {
         cellBuilder: (item, column) {
           final isSelected = _selectedIds.contains(item.id);
           final commonStyle = GoogleFonts.openSans(
-            fontSize: 9.sp,
-            fontWeight: FontWeight.w600,
-            color: AppColors.primaryBlue,
+            fontSize: 11.sp,
+            fontWeight: FontWeight.w500,
+            color: AppColors.primaryTextColor,
           );
           switch (column.id) {
             case 'checkbox':

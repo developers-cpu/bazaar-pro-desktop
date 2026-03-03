@@ -40,7 +40,7 @@ class SymbolWisePLFilterBar extends StatelessWidget {
                   );
                 },
                 width: 200.w,
-                height: 40.h,
+                height: 35.h,
               ),
               if (!isClient) ...[
                 SizedBox(width: 16.w),
@@ -56,14 +56,14 @@ class SymbolWisePLFilterBar extends StatelessWidget {
                       );
                     },
                     width: 200.w,
-                    height: 40.h,
+                    height: 35.h,
                   ),
                 ),
               ],
               if (!isClient) ...[
                 const Spacer(),
                 SizedBox(
-                  height: 40.h,
+                  height: 35.h,
                   width: 100.w,
                   child: OutlinedButton(
                     onPressed: () {
@@ -90,7 +90,7 @@ class SymbolWisePLFilterBar extends StatelessWidget {
                 ),
                 SizedBox(width: 16.w),
                 SizedBox(
-                  height: 40.h,
+                  height: 35.h,
                   width: 100.w,
                   child: ElevatedButton(
                     onPressed: () {

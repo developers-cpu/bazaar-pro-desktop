@@ -7,6 +7,7 @@ class ExchangeWisePLReportModel extends ExchangeWisePLReport {
     required super.realisedPL,
     required super.brokerage,
     required super.totalPL,
+    required super.ourPercent,
   });
   factory ExchangeWisePLReportModel.fromJson(Map<String, dynamic> json) {
     return ExchangeWisePLReportModel(
@@ -15,6 +16,7 @@ class ExchangeWisePLReportModel extends ExchangeWisePLReport {
       realisedPL: (json['realisedPL'] as num).toDouble(),
       brokerage: (json['brokerage'] as num).toDouble(),
       totalPL: (json['totalPL'] as num).toDouble(),
+      ourPercent: (json['ourPercent'] as num?)?.toDouble() ?? 0.0,
     );
   }
   Map<String, dynamic> toJson() {
@@ -24,6 +26,7 @@ class ExchangeWisePLReportModel extends ExchangeWisePLReport {
       'realisedPL': realisedPL,
       'brokerage': brokerage,
       'totalPL': totalPL,
+      'ourPercent': ourPercent,
     };
   }
 }

@@ -6,7 +6,7 @@ import '../../../../../core/widget/table/view_data_table_footer.dart';
 import '../../../../../core/widget/table/view_record_count.dart';
 import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import 'deals_dialog.dart';
-import 'exchange_trade_list_dialog.dart';
+
 import 'exchange_open_position_dialog.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
@@ -27,6 +27,7 @@ class ExchangeWisePLTable extends StatelessWidget {
       ViewTableColumn(id: 'realisedPL', label: 'REALISED P/L', width: 140),
       ViewTableColumn(id: 'brokerage', label: 'BRK', width: 120),
       ViewTableColumn(id: 'total', label: 'TOTAL', width: 140),
+      ViewTableColumn(id: 'ourPercent', label: 'OUR %', width: 140),
     ];
   }
 
@@ -59,27 +60,6 @@ class ExchangeWisePLTable extends StatelessWidget {
     );
   }
 
-  Widget _buildClickableTextCell(
-    BuildContext context,
-    String text,
-    VoidCallback onTap,
-    bool isDark,
-  ) {
-    return InkWell(
-      onTap: onTap,
-      child: Center(
-        child: Text(
-          text,
-          style: ViewTableCellStyles.getTextStyle(isDark: isDark).copyWith(
-            decoration: TextDecoration.underline,
-            fontWeight: FontWeight.bold,
-          ),
-          textAlign: TextAlign.center,
-        ),
-      ),
-    );
-  }
-
   Widget _buildCell(
     BuildContext context,
     ExchangeWisePLReport item,
@@ -89,12 +69,7 @@ class ExchangeWisePLTable extends StatelessWidget {
   ) {
     switch (column.id) {
       case 'exchange':
-        if (isClient) {
-          return ViewTextCell(text: item.exchange, isDark: isDark);
-        }
-        return _buildClickableTextCell(context, item.exchange, () {
-          ExchangeTradeListDialog.show(context, exchange: item.exchange);
-        }, isDark);
+        return ViewTextCell(text: item.exchange, isDark: isDark);
       case 'm2m':
         return _buildClickableNumberCell(context, item.m2m, () {
           if (isClient) {
@@ -123,6 +98,8 @@ class ExchangeWisePLTable extends StatelessWidget {
         );
       case 'total':
         return ViewNumberCell(value: item.totalPL, isDark: isDark);
+      case 'ourPercent':
+        return ViewNumberCell(value: item.ourPercent, isDark: isDark);
       default:
         return const SizedBox.shrink();
     }
@@ -139,11 +116,13 @@ class ExchangeWisePLTable extends StatelessWidget {
     double totalRealisedPL = 0;
     double totalBrokerage = 0;
     double totalPL = 0;
+    double totalOurPercent = 0;
     for (var report in reports) {
       totalM2M += report.m2m;
       totalRealisedPL += report.realisedPL;
       totalBrokerage += report.brokerage;
       totalPL += report.totalPL;
+      totalOurPercent += report.ourPercent;
     }
     return Column(
       children: [
@@ -170,6 +149,7 @@ class ExchangeWisePLTable extends StatelessWidget {
                   'realisedPL': totalRealisedPL.toStringAsFixed(2),
                   'brokerage': totalBrokerage.toStringAsFixed(2),
                   'total': totalPL.toStringAsFixed(2),
+                  'ourPercent': totalOurPercent.toStringAsFixed(2),
                 },
                 columnColors: {
                   'm2m': ViewTableCellStyles.getValueColor(
@@ -182,6 +162,10 @@ class ExchangeWisePLTable extends StatelessWidget {
                   ),
                   'total': ViewTableCellStyles.getValueColor(
                     totalPL,
+                    isDark: isDarkMode,
+                  ),
+                  'ourPercent': ViewTableCellStyles.getValueColor(
+                    totalOurPercent,
                     isDark: isDarkMode,
                   ),
                 },

@@ -117,8 +117,8 @@ class UserListTabView extends StatelessWidget {
           child: Text(
             user.userName,
             style: GoogleFonts.openSans(
-              fontSize: 9.sp,
-              fontWeight: FontWeight.w600,
+              fontSize: 11.sp,
+              fontWeight: FontWeight.w500,
               color: AppColors.primaryBlue,
               decoration: TextDecoration.underline,
             ),
@@ -137,8 +137,8 @@ class UserListTabView extends StatelessWidget {
           child: Text(
             user.credit.toStringAsFixed(0),
             style: GoogleFonts.openSans(
-              fontSize: 9.sp,
-              fontWeight: FontWeight.w600,
+              fontSize: 11.sp,
+              fontWeight: FontWeight.w500,
               color: AppColors.primaryBlue,
               decoration: TextDecoration.underline,
             ),
@@ -172,8 +172,9 @@ class UserListTabView extends StatelessWidget {
 
   TextStyle _textStyle(BuildContext context) {
     return GoogleFonts.openSans(
-      fontSize: 9.sp,
-      color: AppColors.textColor(context),
+      fontSize: 11.sp,
+      fontWeight: FontWeight.w500,
+      color: AppColors.primaryTextColor,
     );
   }
 

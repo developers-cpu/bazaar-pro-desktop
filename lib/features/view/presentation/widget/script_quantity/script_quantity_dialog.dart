@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
+import '../../../../../core/widget/table/view_record_count.dart';
+import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import '../../../../../core/widget/common_dilog_box.dart';
 import '../../../domain/entities/script_quantity/script_quantity.dart';
 
@@ -82,18 +84,8 @@ class _ScriptQuantityDialogState extends State<ScriptQuantityDialog> {
           SizedBox(height: 8.h),
           if (!widget.isClient) ...[
             Padding(
-              padding: EdgeInsets.only(right: 16.w),
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: Text(
-                  'RECORD : ${widget.totalRecords}',
-                  style: GoogleFonts.openSans(
-                    fontSize: 13.sp,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.primaryColor(context),
-                  ),
-                ),
-              ),
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              child: ViewRecordCount(count: widget.totalRecords),
             ),
             SizedBox(height: 8.h),
           ],
@@ -119,44 +111,14 @@ class _ScriptQuantityDialogState extends State<ScriptQuantityDialog> {
   Widget _buildCell(ScriptQuantity item, ViewTableColumn column) {
     switch (column.id) {
       case 'symbol':
-        return Container(
-          padding: EdgeInsets.symmetric(horizontal: 16.w),
-          alignment: Alignment.centerLeft,
-          child: Text(
-            item.symbol,
-            style: GoogleFonts.openSans(
-              fontSize: 13.sp,
-              fontWeight: FontWeight.w600,
-              color: AppColors.primaryTextColor,
-            ),
-          ),
+        return Padding(
+          padding: EdgeInsets.only(left: 12.w),
+          child: ViewTextCell(text: item.symbol, isStart: true),
         );
       case 'breakupQty':
-        return Container(
-          padding: EdgeInsets.symmetric(horizontal: 16.w),
-          alignment: Alignment.centerRight,
-          child: Text(
-            item.breakupQty.toStringAsFixed(0),
-            style: GoogleFonts.openSans(
-              fontSize: 13.sp,
-              fontWeight: FontWeight.w600,
-              color: AppColors.primaryTextColor,
-            ),
-          ),
-        );
+        return ViewNumberCell(value: item.breakupQty, colorByValue: false);
       case 'maxQty':
-        return Container(
-          padding: EdgeInsets.symmetric(horizontal: 16.w),
-          alignment: Alignment.centerRight,
-          child: Text(
-            item.maxQty.toStringAsFixed(0),
-            style: GoogleFonts.openSans(
-              fontSize: 13.sp,
-              fontWeight: FontWeight.w600,
-              color: AppColors.primaryTextColor,
-            ),
-          ),
-        );
+        return ViewNumberCell(value: item.maxQty, colorByValue: false);
       default:
         return const SizedBox.shrink();
     }

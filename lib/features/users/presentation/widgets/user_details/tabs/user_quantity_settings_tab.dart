@@ -360,9 +360,9 @@ class _UserQuantitySettingsTabViewState
 
   TextStyle _cellStyle({bool isBold = false}) {
     return GoogleFonts.openSans(
-      fontSize: 9.sp,
-      fontWeight: isBold ? FontWeight.bold : FontWeight.w600,
-      color: AppColors.primaryBlue,
+      fontSize: 11.sp,
+      fontWeight: isBold ? FontWeight.bold : FontWeight.w500,
+      color: AppColors.primaryTextColor,
     );
   }
 }

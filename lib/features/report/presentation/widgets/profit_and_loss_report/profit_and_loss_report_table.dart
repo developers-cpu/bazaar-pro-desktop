@@ -208,6 +208,7 @@ class ProfitAndLossReportTable extends StatelessWidget {
                       'brokerage': totalBrokerage.toStringAsFixed(2),
                       'm2m': totalM2M.toStringAsFixed(2),
                       'netPL': totalNetPL.toStringAsFixed(2),
+                      'ourBrokerage': totalOurBrokerage.toStringAsFixed(2),
                       'ourPercentage': totalOurPercentage.toStringAsFixed(2),
                     },
                     columnColors: {

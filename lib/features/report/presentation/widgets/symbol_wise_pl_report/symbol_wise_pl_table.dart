@@ -21,6 +21,7 @@ class SymbolWisePLTable extends StatelessWidget {
       ViewTableColumn(id: 'm2m', label: 'M2M', width: 140),
       ViewTableColumn(id: 'brokerage', label: 'BRK', width: 120),
       ViewTableColumn(id: 'netPL', label: 'NET PL', width: 140),
+      ViewTableColumn(id: 'ourPercent', label: 'OUR %', width: 140),
     ];
   }
 
@@ -60,11 +61,7 @@ class SymbolWisePLTable extends StatelessWidget {
   ) {
     switch (column.id) {
       case 'symbol':
-        return ViewTextCell(
-          text: item.symbol,
-          isDark: isDark,
-          fontWeight: FontWeight.bold,
-        );
+        return ViewTextCell(text: item.symbol, isDark: isDark);
       case 'releasePL':
         return _buildClickableNumberCell(context, item.releasePL, () {
           SymbolTradeListDialog.show(context, symbol: item.symbol);
@@ -81,6 +78,8 @@ class SymbolWisePLTable extends StatelessWidget {
         );
       case 'netPL':
         return ViewNumberCell(value: item.netPL, isDark: isDark);
+      case 'ourPercent':
+        return ViewNumberCell(value: item.plPercent, isDark: isDark);
       default:
         return const SizedBox.shrink();
     }
@@ -103,11 +102,13 @@ class SymbolWisePLTable extends StatelessWidget {
         double totalM2M = 0;
         double totalBrokerage = 0;
         double totalNetPL = 0;
+        double totalOurPercent = 0;
         for (var item in state.reports) {
           totalReleasePL += item.releasePL;
           totalM2M += item.m2m;
           totalBrokerage += item.brokerage;
           totalNetPL += item.netPL;
+          totalOurPercent += item.plPercent;
         }
         return Column(
           children: [
@@ -134,6 +135,7 @@ class SymbolWisePLTable extends StatelessWidget {
                       'm2m': totalM2M.toStringAsFixed(2),
                       'brokerage': totalBrokerage.toStringAsFixed(2),
                       'netPL': totalNetPL.toStringAsFixed(2),
+                      'ourPercent': totalOurPercent.toStringAsFixed(2),
                     },
                     columnColors: {
                       'releasePL': ViewTableCellStyles.getValueColor(
@@ -146,6 +148,10 @@ class SymbolWisePLTable extends StatelessWidget {
                       ),
                       'netPL': ViewTableCellStyles.getValueColor(
                         totalNetPL,
+                        isDark: isDarkMode,
+                      ),
+                      'ourPercent': ViewTableCellStyles.getValueColor(
+                        totalOurPercent,
                         isDark: isDarkMode,
                       ),
                     },

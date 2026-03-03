@@ -75,7 +75,7 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
                 hintText: 'Current Password',
                 obscureText: _obscureCurrent,
                 width: double.infinity,
-                height: 40.h,
+                height: 35.h,
                 showErrorBorder: false,
                 suffixIcon: _obscureCurrent
                     ? Icons.visibility_off_outlined
@@ -99,7 +99,7 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
               hintText: 'New Password',
               obscureText: _obscureNew,
               width: double.infinity,
-              height: 40.h,
+              height: 35.h,
               showErrorBorder: false,
               suffixIcon: _obscureNew
                   ? Icons.visibility_off_outlined
@@ -125,7 +125,7 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
               hintText: 'Confirm Password',
               obscureText: _obscureConfirm,
               width: double.infinity,
-              height: 40.h,
+              height: 35.h,
               showErrorBorder: false,
               suffixIcon: _obscureConfirm
                   ? Icons.visibility_off_outlined
@@ -147,7 +147,7 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
             ),
             SizedBox(height: 16.h),
             SizedBox(
-              height: 40.h,
+              height: 32.h,
               child: ElevatedButton(
                 onPressed: _handleSubmit,
                 style: ElevatedButton.styleFrom(

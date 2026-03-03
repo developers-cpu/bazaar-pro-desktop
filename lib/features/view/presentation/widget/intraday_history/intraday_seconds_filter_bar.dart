@@ -54,6 +54,9 @@ class _IntradaySecondsFilterBarState extends State<IntradaySecondsFilterBar> {
         final isClient =
             authState is AuthAuthenticated &&
             authState.user.role.toLowerCase() == 'client';
+        final isMaster =
+            authState is AuthAuthenticated &&
+            authState.user.role.toLowerCase() == 'master';
 
         _selectedDate ??= state.date;
         _selectedExchange ??= state.exchange.isNotEmpty ? state.exchange : null;
@@ -66,7 +69,7 @@ class _IntradaySecondsFilterBarState extends State<IntradaySecondsFilterBar> {
               SizedBox(height: 12.h),
               Row(
                 children: [
-                  if (!isClient) ...[
+                  if (!isClient && !isMaster) ...[
                     AppDatePicker(
                       label: '',
                       value: _selectedDate,

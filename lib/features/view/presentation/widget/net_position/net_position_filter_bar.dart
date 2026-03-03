@@ -51,7 +51,7 @@ class NetPositionFilterBar extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          /// Exchange Dropdown
+
           SizedBox(
             width: 170.w,
             height: 36.h,
@@ -74,7 +74,6 @@ class NetPositionFilterBar extends StatelessWidget {
 
           SizedBox(width: 8.w),
 
-          /// Symbol Dropdown
           SizedBox(
             width: 170.w,
             height: 36.h,
@@ -96,13 +95,12 @@ class NetPositionFilterBar extends StatelessWidget {
 
           const Spacer(),
 
-          /// Right Side Compact P&L Section
           IntrinsicWidth(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisSize: MainAxisSize.min,
               children: [
-                /// Credit Box (Compact)
+
                 Container(
                   height: 32.h,
                   padding: EdgeInsets.symmetric(horizontal: 12.w),
@@ -122,7 +120,6 @@ class NetPositionFilterBar extends StatelessWidget {
 
                 SizedBox(height: 6.h),
 
-                /// Realised + M2M = Total (Compact Row)
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [

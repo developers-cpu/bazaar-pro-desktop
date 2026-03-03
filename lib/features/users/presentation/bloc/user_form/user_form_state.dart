@@ -135,13 +135,6 @@ class UserFormState extends Equatable {
     'Brokerage Settings',
   ];
   static const List<TriggerSetting> masterTriggerSettings = [
-    TriggerSetting(key: 'addMaster', label: 'Add Master', icon: 'add_master'),
-    TriggerSetting(key: 'addClient', label: 'Add Client', icon: 'add_client'),
-    TriggerSetting(
-      key: 'editPermission',
-      label: 'Edit Permission',
-      icon: 'edit_permission',
-    ),
     TriggerSetting(
       key: 'fifteenDays',
       label: 'Fifteen Days',
@@ -157,25 +150,16 @@ class UserFormState extends Equatable {
       label: 'Auto Square Off',
       icon: 'auto_square_off',
     ),
-    TriggerSetting(key: 'tradeLock', label: 'Trade Lock', icon: 'trade_lock'),
-    TriggerSetting(key: 'closeMode', label: 'Close Mode', icon: 'close_mode'),
     TriggerSetting(
       key: 'symbolWiseSLLimit',
       label: 'Symbol wise SL/Limit (%)',
       icon: 'symbol_wise',
     ),
     TriggerSetting(
-      key: 'canTradeForClient',
-      label: 'Can Trade For Client',
-      icon: 'can_trade',
-    ),
-    TriggerSetting(
       key: 'changePasswordFirstTime',
       label: 'Change Password at first time',
       icon: 'change_password',
     ),
-    TriggerSetting(key: 'lockUser', label: 'Lock User', icon: 'lock_user'),
-    TriggerSetting(key: 'status', label: 'Status', icon: 'status'),
   ];
   static const List<TriggerSetting> clientTriggerSettings = [
     TriggerSetting(

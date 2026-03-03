@@ -124,6 +124,7 @@ class SettlementReportPage extends StatelessWidget {
                                     color: AppColors.primaryBlue,
                                     size: 14.sp,
                                   ),
+                                  SizedBox(width: 4.w),
                                   Icon(
                                     Icons.arrow_downward,
                                     color: AppColors.sellColor,

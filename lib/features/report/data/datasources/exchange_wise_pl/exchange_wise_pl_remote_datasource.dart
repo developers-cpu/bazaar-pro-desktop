@@ -20,6 +20,7 @@ class ExchangeWisePLRemoteDataSourceImpl
         realisedPL: 1000000.00,
         brokerage: 36200.00,
         totalPL: 124191.00,
+        ourPercent: 124191.00,
       ),
       const ExchangeWisePLReportModel(
         exchange: 'MCX',
@@ -27,6 +28,7 @@ class ExchangeWisePLRemoteDataSourceImpl
         realisedPL: 1000000.00,
         brokerage: 36200.00,
         totalPL: 124191.00,
+        ourPercent: 124191.00,
       ),
       const ExchangeWisePLReportModel(
         exchange: 'GIFTNIFTY',
@@ -34,6 +36,7 @@ class ExchangeWisePLRemoteDataSourceImpl
         realisedPL: 1000000.00,
         brokerage: 36200.00,
         totalPL: 124191.00,
+        ourPercent: 124191.00,
       ),
       const ExchangeWisePLReportModel(
         exchange: 'CE/PE',
@@ -41,6 +44,7 @@ class ExchangeWisePLRemoteDataSourceImpl
         realisedPL: 1000000.00,
         brokerage: 36200.00,
         totalPL: 124191.00,
+        ourPercent: 124191.00,
       ),
       const ExchangeWisePLReportModel(
         exchange: 'OTHERS',
@@ -48,6 +52,7 @@ class ExchangeWisePLRemoteDataSourceImpl
         realisedPL: 1000000.00,
         brokerage: 36200.00,
         totalPL: 124191.00,
+        ourPercent: 124191.00,
       ),
       const ExchangeWisePLReportModel(
         exchange: 'COMEX',
@@ -55,6 +60,7 @@ class ExchangeWisePLRemoteDataSourceImpl
         realisedPL: 1000000.00,
         brokerage: 36200.00,
         totalPL: 124191.00,
+        ourPercent: 124191.00,
       ),
       const ExchangeWisePLReportModel(
         exchange: 'CRYPTO',
@@ -62,6 +68,7 @@ class ExchangeWisePLRemoteDataSourceImpl
         realisedPL: 1000000.00,
         brokerage: 36200.00,
         totalPL: 124191.00,
+        ourPercent: 124191.00,
       ),
       const ExchangeWisePLReportModel(
         exchange: 'FOREX',
@@ -69,6 +76,7 @@ class ExchangeWisePLRemoteDataSourceImpl
         realisedPL: 1000000.00,
         brokerage: 36200.00,
         totalPL: 124191.00,
+        ourPercent: 124191.00,
       ),
       const ExchangeWisePLReportModel(
         exchange: 'USSTOCK',
@@ -76,6 +84,7 @@ class ExchangeWisePLRemoteDataSourceImpl
         realisedPL: 1000000.00,
         brokerage: 36200.00,
         totalPL: 124191.00,
+        ourPercent: 124191.00,
       ),
     ];
     return Right(mockData);

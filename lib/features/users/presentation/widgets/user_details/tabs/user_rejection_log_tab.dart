@@ -206,7 +206,7 @@ class UserRejectionLogTabView extends StatelessWidget {
               case 'uName':
                 return Text(item.userName, style: _cellStyle());
               case 'symbol':
-                return Text(item.symbol, style: _cellStyle(isSymbol: true));
+                return Text(item.symbol, style: _cellStyle());
               case 'type':
                 return Text(item.type, style: _cellStyle());
               case 'qty':
@@ -227,15 +227,11 @@ class UserRejectionLogTabView extends StatelessWidget {
     );
   }
 
-  TextStyle _cellStyle({
-    Color? color,
-    bool isSymbol = false,
-    bool isUnderline = false,
-  }) {
+  TextStyle _cellStyle({Color? color, bool isUnderline = false}) {
     return GoogleFonts.openSans(
-      fontSize: 9.sp,
-      fontWeight: isSymbol ? FontWeight.bold : FontWeight.w600,
-      color: color,
+      fontSize: 11.sp,
+      fontWeight: FontWeight.w500,
+      color: color ?? AppColors.primaryTextColor,
       decoration: isUnderline ? TextDecoration.underline : null,
     );
   }

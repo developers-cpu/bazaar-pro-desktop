@@ -203,83 +203,91 @@ class SettlementReportView extends StatelessWidget {
   }
 
   Widget _buildRow(SettlementEntry entry, bool isProfitSection, int index) {
-    return InkWell(
-      onTap: () => onUserSelected(
-        entry.userId,
-        '${entry.username} [ ${entry.userType} ]',
+    final isMaster = entry.userType.toUpperCase() != 'C';
+    final rowContent = Container(
+      padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
+      decoration: BoxDecoration(
+        color: index % 2 == 0
+            ? (isProfitSection
+                  ? AppColors.headerBgColor
+                  : LightThemeColors.chipBgRed)
+            : Colors.transparent,
+        border: Border(top: BorderSide(color: Colors.grey.shade100)),
       ),
-      child: Container(
-        padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
-        decoration: BoxDecoration(
-          color: index % 2 == 0
-              ? (isProfitSection
-                    ? AppColors.headerBgColor
-                    : LightThemeColors.chipBgRed)
-              : Colors.transparent,
-          border: Border(top: BorderSide(color: Colors.grey.shade100)),
-        ),
-        child: Row(
-          children: [
-            Expanded(
-              flex: 3,
-              child: Row(
-                children: [
-                  Text(
-                    entry.username,
-                    style: GoogleFonts.openSans(
-                      color: AppColors.billDataText,
-                      fontSize: 13.sp,
-                    ),
+      child: Row(
+        children: [
+          Expanded(
+            flex: 3,
+            child: Row(
+              children: [
+                Text(
+                  entry.username,
+                  style: GoogleFonts.openSans(
+                    color: AppColors.billDataText,
+                    fontSize: 13.sp,
+                    decoration: isMaster ? TextDecoration.underline : null,
+                    decorationColor: AppColors.billDataText,
                   ),
-                  SizedBox(width: 4.w),
-                  Text(
-                    '[ ${entry.userType} ]',
-                    style: GoogleFonts.openSans(
-                      color: AppColors.billDataText,
-                      fontSize: 13.sp,
-                    ),
+                ),
+                SizedBox(width: 4.w),
+                Text(
+                  '[ ${entry.userType} ]',
+                  style: GoogleFonts.openSans(
+                    color: AppColors.billDataText,
+                    fontSize: 13.sp,
                   ),
-                ],
-              ),
-            ),
-            Expanded(
-              flex: 2,
-              child: Text(
-                entry.pnl.toStringAsFixed(0),
-                textAlign: TextAlign.center,
-                style: GoogleFonts.openSans(
-                  fontSize: 13.sp,
-                  color: AppColors.billDataText,
                 ),
+              ],
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: Text(
+              entry.pnl.toStringAsFixed(0),
+              textAlign: TextAlign.center,
+              style: GoogleFonts.openSans(
+                fontSize: 13.sp,
+                color: AppColors.billDataText,
               ),
             ),
-            Expanded(
-              flex: 2,
-              child: Text(
-                entry.brokerage.toStringAsFixed(0),
-                textAlign: TextAlign.center,
-                style: GoogleFonts.openSans(
-                  fontSize: 13.sp,
-                  color: AppColors.billDataText,
-                ),
+          ),
+          Expanded(
+            flex: 2,
+            child: Text(
+              entry.brokerage.toStringAsFixed(0),
+              textAlign: TextAlign.center,
+              style: GoogleFonts.openSans(
+                fontSize: 13.sp,
+                color: AppColors.billDataText,
               ),
             ),
-            Expanded(
-              flex: 2,
-              child: Text(
-                entry.total.toStringAsFixed(0),
-                textAlign: TextAlign.right,
-                style: GoogleFonts.openSans(
-                  fontSize: 13.sp,
-                  color: isProfitSection
-                      ? AppColors.buyColor
-                      : AppColors.sellColor,
-                ),
+          ),
+          Expanded(
+            flex: 2,
+            child: Text(
+              entry.total.toStringAsFixed(0),
+              textAlign: TextAlign.right,
+              style: GoogleFonts.openSans(
+                fontSize: 13.sp,
+                color: isProfitSection
+                    ? AppColors.buyColor
+                    : AppColors.sellColor,
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
+
+    if (isMaster) {
+      return InkWell(
+        onTap: () => onUserSelected(
+          entry.userId,
+          '${entry.username} [ ${entry.userType} ]',
+        ),
+        child: rowContent,
+      );
+    }
+    return rowContent;
   }
 }

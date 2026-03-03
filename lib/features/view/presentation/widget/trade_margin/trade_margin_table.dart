@@ -37,7 +37,10 @@ class TradeMarginTable extends StatelessWidget {
       case 'exchange':
         return ViewTextCell(text: item.exchange, isDark: isDark);
       case 'symbol':
-        return ViewTextCell(text: item.symbol, isDark: isDark);
+        return Padding(
+          padding: const EdgeInsets.only(left: 12),
+          child: ViewTextCell(text: item.symbol, isDark: isDark, isStart: true),
+        );
       case 'expiryDate':
         return ViewDateTimeCell(dateTime: item.expiryDate, isDark: isDark);
       case 'marginPct':

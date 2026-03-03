@@ -50,7 +50,6 @@ class BrokerClientDialog extends StatelessWidget {
       isDarkMode: isDarkMode,
       width: 800.w,
       height: 600.h,
-      headerColor: const Color(0xFF2C5F7A),
       showButtons: false,
       scrollable: false,
       contentPadding: EdgeInsets.zero,
@@ -61,7 +60,7 @@ class BrokerClientDialog extends StatelessWidget {
             Row(
               children: [
                 SizedBox(
-                  width: 250.w,
+                  width: 200.w,
                   child: AppDropdown(
                     type: AppDropdownType.simple,
                     hintText: 'This Week',

@@ -14,7 +14,7 @@ import '../../../../auth/presentation/bloc/auth_state.dart';
 class RejectionLogTable extends StatelessWidget {
   const RejectionLogTable({Key? key}) : super(key: key);
 
-  List<ViewTableColumn> _getColumns(bool isClient) {
+  List<ViewTableColumn> _getColumns(bool isClient, bool isMaster) {
     if (isClient) {
       return const [
         ViewTableColumn(id: 'orderDateTime', label: 'ORDER D/T', width: 170),
@@ -29,6 +29,24 @@ class RejectionLogTable extends StatelessWidget {
           isNumeric: true,
         ),
         ViewTableColumn(id: 'comment', label: 'COMMENT', width: 400),
+      ];
+    }
+
+    if (isMaster) {
+      return const [
+        ViewTableColumn(id: 'orderDateTime', label: 'ORDER D/T', width: 170),
+        ViewTableColumn(id: 'userName', label: 'U.NAME', width: 100),
+        ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 170),
+        ViewTableColumn(id: 'type', label: 'TYPE', width: 80),
+        ViewTableColumn(id: 'qty', label: 'QTY', width: 100, isNumeric: true),
+        ViewTableColumn(
+          id: 'price',
+          label: 'PRICE',
+          width: 100,
+          isNumeric: true,
+        ),
+        ViewTableColumn(id: 'comment', label: 'COMMENT', width: 400),
+        ViewTableColumn(id: 'date', label: 'DATE', width: 170),
       ];
     }
 
@@ -52,11 +70,15 @@ class RejectionLogTable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isClient = false;
+    bool isMaster = false;
     try {
       final authState = context.read<AuthBloc>().state;
       isClient =
           authState is AuthAuthenticated &&
           authState.user.role.toLowerCase() == 'client';
+      isMaster =
+          authState is AuthAuthenticated &&
+          authState.user.role.toLowerCase() == 'master';
     } catch (_) {}
 
     return BlocBuilder<RejectionLogBloc, RejectionLogState>(
@@ -80,7 +102,7 @@ class RejectionLogTable extends StatelessWidget {
               ViewRecordCount(count: state.totalRecords),
               Expanded(
                 child: ViewDataTable<RejectionLog>(
-                  columns: _getColumns(isClient),
+                  columns: _getColumns(isClient, isMaster),
                   data: state.filteredLogs,
                   cellBuilder: _buildCell,
                   idExtractor: (log) => log.id,

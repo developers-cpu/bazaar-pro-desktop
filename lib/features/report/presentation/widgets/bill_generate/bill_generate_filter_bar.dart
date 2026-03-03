@@ -85,7 +85,7 @@ class BillGenerateFilterBar extends StatelessWidget {
         },
         height: 35.h,
       ),
-      if (isClient) const Spacer() else SizedBox(width: 16.w),
+      if (isClient) const Spacer() else const Spacer(),
       SizedBox(
         height: 35.h,
         width: 100.w,
@@ -144,12 +144,7 @@ class BillGenerateFilterBar extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
       width: double.infinity,
-      child: isClient
-          ? Row(children: rowChildren)
-          : SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(children: rowChildren),
-            ),
+      child: Row(children: rowChildren),
     );
   }
 }

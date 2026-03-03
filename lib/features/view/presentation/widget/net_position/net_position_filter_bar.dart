@@ -51,46 +51,41 @@ class NetPositionFilterBar extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-
-          SizedBox(
-            width: 170.w,
-            height: 36.h,
-            child: AppDropdown(
-              type: AppDropdownType.simple,
-              hintText: 'Exchange',
-              value: state.selectedExchange,
-              items: state.exchanges,
-              showAllOption: true,
-              onChanged: (value) {
-                context.read<NetPositionBloc>().add(
-                  ApplyFiltersEvent(
-                    exchange: value,
-                    symbol: state.selectedSymbol,
-                  ),
-                );
-              },
-            ),
+          AppDropdown(
+            type: AppDropdownType.simple,
+            hintText: 'Exchange',
+            value: state.selectedExchange,
+            items: state.exchanges,
+            width: 200.w,
+            height: 35.h,
+            showAllOption: true,
+            onChanged: (value) {
+              context.read<NetPositionBloc>().add(
+                ApplyFiltersEvent(
+                  exchange: value,
+                  symbol: state.selectedSymbol,
+                ),
+              );
+            },
           ),
 
           SizedBox(width: 8.w),
 
-          SizedBox(
-            width: 170.w,
-            height: 36.h,
-            child: AppDropdown(
-              type: AppDropdownType.search,
-              hintText: 'Symbol',
-              value: state.selectedSymbol,
-              items: state.symbols,
-              onChanged: (value) {
-                context.read<NetPositionBloc>().add(
-                  ApplyFiltersEvent(
-                    exchange: state.selectedExchange,
-                    symbol: value,
-                  ),
-                );
-              },
-            ),
+          AppDropdown(
+            type: AppDropdownType.search,
+            hintText: 'Symbol',
+            value: state.selectedSymbol,
+            items: state.symbols,
+            width: 200.w,
+            height: 35.h,
+            onChanged: (value) {
+              context.read<NetPositionBloc>().add(
+                ApplyFiltersEvent(
+                  exchange: state.selectedExchange,
+                  symbol: value,
+                ),
+              );
+            },
           ),
 
           const Spacer(),
@@ -100,7 +95,6 @@ class NetPositionFilterBar extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisSize: MainAxisSize.min,
               children: [
-
                 Container(
                   height: 32.h,
                   padding: EdgeInsets.symmetric(horizontal: 12.w),
@@ -191,82 +185,82 @@ class NetPositionFilterBar extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
       child: Row(
         children: [
-          Expanded(
-            child: AppDropdown(
-              type: AppDropdownType.simple,
-              hintText: 'User Type',
-              value: state.selectedUserType,
-              items: state.userTypes,
-              showAllOption: true,
-              onChanged: (value) {
-                context.read<NetPositionBloc>().add(
-                  ApplyFiltersEvent(
-                    userType: value,
-                    client: state.selectedClient,
-                    exchange: state.selectedExchange,
-                    symbol: state.selectedSymbol,
-                  ),
-                );
-              },
-            ),
+          AppDropdown(
+            type: AppDropdownType.simple,
+            hintText: 'User Type',
+            value: state.selectedUserType,
+            items: state.userTypes,
+            width: 200.w,
+            height: 35.h,
+            showAllOption: true,
+            onChanged: (value) {
+              context.read<NetPositionBloc>().add(
+                ApplyFiltersEvent(
+                  userType: value,
+                  client: state.selectedClient,
+                  exchange: state.selectedExchange,
+                  symbol: state.selectedSymbol,
+                ),
+              );
+            },
           ),
           SizedBox(width: 12.w),
-          Expanded(
-            child: AppDropdown(
-              type: AppDropdownType.search,
-              hintText: 'Client',
-              value: state.selectedClient,
-              items: state.clients,
-              onChanged: (value) {
-                context.read<NetPositionBloc>().add(
-                  ApplyFiltersEvent(
-                    userType: state.selectedUserType,
-                    client: value,
-                    exchange: state.selectedExchange,
-                    symbol: state.selectedSymbol,
-                  ),
-                );
-              },
-            ),
+          AppDropdown(
+            type: AppDropdownType.search,
+            hintText: 'Client',
+            value: state.selectedClient,
+            items: state.clients,
+            width: 200.w,
+            height: 35.h,
+            onChanged: (value) {
+              context.read<NetPositionBloc>().add(
+                ApplyFiltersEvent(
+                  userType: state.selectedUserType,
+                  client: value,
+                  exchange: state.selectedExchange,
+                  symbol: state.selectedSymbol,
+                ),
+              );
+            },
           ),
           SizedBox(width: 12.w),
-          Expanded(
-            child: AppDropdown(
-              type: AppDropdownType.simple,
-              hintText: 'Exchange',
-              value: state.selectedExchange,
-              items: state.exchanges,
-              showAllOption: true,
-              onChanged: (value) {
-                context.read<NetPositionBloc>().add(
-                  ApplyFiltersEvent(
-                    userType: state.selectedUserType,
-                    client: state.selectedClient,
-                    exchange: value,
-                    symbol: state.selectedSymbol,
-                  ),
-                );
-              },
-            ),
+          AppDropdown(
+            type: AppDropdownType.simple,
+            hintText: 'Exchange',
+            value: state.selectedExchange,
+            items: state.exchanges,
+            width: 200.w,
+            height: 35.h,
+            showAllOption: true,
+            onChanged: (value) {
+              context.read<NetPositionBloc>().add(
+                ApplyFiltersEvent(
+                  userType: state.selectedUserType,
+                  client: state.selectedClient,
+                  exchange: value,
+                  symbol: state.selectedSymbol,
+                ),
+              );
+            },
           ),
           SizedBox(width: 12.w),
-          Expanded(
-            child: AppDropdown(
-              type: AppDropdownType.search,
-              hintText: 'Symbol',
-              value: state.selectedSymbol,
-              items: state.symbols,
-              onChanged: (value) {
-                context.read<NetPositionBloc>().add(
-                  ApplyFiltersEvent(
-                    userType: state.selectedUserType,
-                    client: state.selectedClient,
-                    exchange: state.selectedExchange,
-                    symbol: value,
-                  ),
-                );
-              },
-            ),
+          AppDropdown(
+            type: AppDropdownType.search,
+            hintText: 'Symbol',
+            value: state.selectedSymbol,
+            items: state.symbols,
+            width: 200.w,
+            height: 35.h,
+            onChanged: (value) {
+              context.read<NetPositionBloc>().add(
+                ApplyFiltersEvent(
+                  userType: state.selectedUserType,
+                  client: state.selectedClient,
+                  exchange: state.selectedExchange,
+                  symbol: value,
+                ),
+              );
+            },
           ),
           const Spacer(),
           ViewResetButtons(

@@ -152,37 +152,52 @@ class ProfileSummaryDialog extends StatelessWidget {
 
   List<Widget> _buildSections(BuildContext context, UserFormState state) {
     final sections = <Widget>[];
+
     sections.add(_buildSectionTitle('Personal Details'));
     sections.add(SizedBox(height: 6.h));
     sections.add(_buildPersonalDetails(context, state));
     sections.add(SizedBox(height: 12.h));
+
+    if (state.userType == 'Admin') {
+      sections.add(_buildSectionTitle('Trigger Settings'));
+      sections.add(SizedBox(height: 6.h));
+      sections.add(_buildTriggerSettings(context, state));
+      return sections;
+    }
+
     if (state.userType == 'Master') {
       sections.add(_buildSectionTitle('Profit & Loss Sharing Details'));
       sections.add(SizedBox(height: 6.h));
       sections.add(_buildPnlSharing(context, state));
       sections.add(SizedBox(height: 12.h));
     }
+
     sections.add(_buildSectionTitle('Exchange Allowed'));
     sections.add(SizedBox(height: 6.h));
     sections.add(_buildExchangeAllowed(context, state));
     sections.add(SizedBox(height: 12.h));
+
     if (state.userType == 'Master') {
       sections.add(_buildSectionTitle('Exchange Setting'));
       sections.add(SizedBox(height: 6.h));
       sections.add(_buildExchangeSetting(context, state));
       sections.add(SizedBox(height: 12.h));
     }
+
     sections.add(_buildSectionTitle('High Low Between Trade Limit'));
     sections.add(SizedBox(height: 6.h));
     sections.add(_buildHighLowLimit(context, state));
     sections.add(SizedBox(height: 12.h));
+
     sections.add(_buildSectionTitle('Trigger Settings'));
     sections.add(SizedBox(height: 6.h));
     sections.add(_buildTriggerSettings(context, state));
     sections.add(SizedBox(height: 12.h));
+
     sections.add(_buildSectionTitle('Brokerage Settings'));
     sections.add(SizedBox(height: 6.h));
     sections.add(_buildBrokerageSettings(context, state));
+
     if (state.userType == 'Client') {
       sections.add(SizedBox(height: 12.h));
       sections.add(_buildSectionTitle('Broker Settings'));
@@ -197,17 +212,26 @@ class ProfileSummaryDialog extends StatelessWidget {
     if (state.userType == "Master's Client") {
       fields.add([state.selectedMaster ?? '-', '']);
     }
+
     fields.add([state.name, state.username]);
     fields.add([
       state.password.isNotEmpty ? '••••••••' : '-',
       state.confirmPassword.isNotEmpty ? '••••••••' : '-',
     ]);
-    fields.add([state.mobile, state.credit]);
-    fields.add([state.cutOff, state.leverage ?? '-']);
-    fields.add([
-      state.creditLimit.isNotEmpty ? state.creditLimit : '-',
-      state.remark.isNotEmpty ? state.remark : '-',
-    ]);
+
+    if (state.userType == 'Admin') {
+      fields.add([
+        state.mobile,
+        state.allowedDevice.isNotEmpty ? state.allowedDevice : '-',
+      ]);
+    } else {
+      fields.add([state.mobile, state.credit]);
+      fields.add([state.cutOff, state.leverage ?? '-']);
+      fields.add([
+        state.creditLimit.isNotEmpty ? state.creditLimit : '-',
+        state.remark.isNotEmpty ? state.remark : '-',
+      ]);
+    }
     return _buildSectionBox(
       child: Column(
         children: fields.asMap().entries.map((entry) {
@@ -356,22 +380,24 @@ class ProfileSummaryDialog extends StatelessWidget {
   }
 
   Widget _buildTriggerSettings(BuildContext context, UserFormState state) {
+    final settings = UserFormState.getTriggerSettings(state.userType);
     return _buildSectionBox(
       child: Wrap(
         spacing: 12.w,
         runSpacing: 8.h,
-        children: state.triggerSettings.entries.map((entry) {
+        children: settings.map((setting) {
+          final isEnabled = state.triggerSettings[setting.key] ?? false;
           return Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               Icon(
-                entry.value ? Icons.toggle_on : Icons.toggle_off,
+                isEnabled ? Icons.toggle_on : Icons.toggle_off,
                 size: 22.sp,
-                color: entry.value ? AppColors.primaryBlue : AppColors.grey,
+                color: isEnabled ? AppColors.primaryBlue : AppColors.grey,
               ),
               SizedBox(width: 4.w),
               Text(
-                entry.key,
+                setting.label,
                 style: GoogleFonts.openSans(
                   fontSize: 10.sp,
                   fontWeight: FontWeight.w500,

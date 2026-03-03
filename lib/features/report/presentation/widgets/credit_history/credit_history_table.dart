@@ -38,7 +38,6 @@ class CreditHistoryTable extends StatelessWidget {
     }
     return const [
       ViewTableColumn(id: 'userName', label: 'U.NAME', width: 160),
-      ViewTableColumn(id: 'parentUserName', label: 'P.U.NAME', width: 160),
       ViewTableColumn(id: 'dateTime', label: 'DATE TIME', width: 200),
       ViewTableColumn(id: 'type', label: 'TYPE', width: 160),
       ViewTableColumn(
@@ -61,8 +60,6 @@ class CreditHistoryTable extends StatelessWidget {
     switch (column.id) {
       case 'userName':
         return ViewTextCell(text: item.userName, isDark: isDark);
-      case 'parentUserName':
-        return ViewTextCell(text: item.parentUserName, isDark: isDark);
       case 'dateTime':
         return ViewDateTimeCell(dateTime: item.dateTime, isDark: isDark);
       case 'type':

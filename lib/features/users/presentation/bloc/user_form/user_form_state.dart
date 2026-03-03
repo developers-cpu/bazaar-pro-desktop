@@ -134,6 +134,10 @@ class UserFormState extends Equatable {
     'Trigger Settings',
     'Brokerage Settings',
   ];
+  static const List<String> adminStepTitles = [
+    'Personal Details',
+    'Triggers Setting',
+  ];
   static const List<TriggerSetting> masterTriggerSettings = [
     TriggerSetting(
       key: 'fifteenDays',
@@ -188,18 +192,46 @@ class UserFormState extends Equatable {
       icon: 'change_password',
     ),
   ];
+  static const List<TriggerSetting> adminTriggerSettings = [
+    TriggerSetting(key: 'cmpOrder', label: 'CMP Order', icon: 'cmp_order'),
+    TriggerSetting(
+      key: 'deleteTrade',
+      label: 'Delete Trade',
+      icon: 'delete_trade',
+    ),
+    TriggerSetting(
+      key: 'executePendingOrder',
+      label: 'Execute Pending Order',
+      icon: 'execute_pending_order',
+    ),
+    TriggerSetting(key: 'viewOnly', label: 'View Only', icon: 'view_only'),
+    TriggerSetting(
+      key: 'cancelOrder',
+      label: 'Cancel Order',
+      icon: 'cancel_order',
+    ),
+    TriggerSetting(key: 'showPL', label: 'Show P/L', icon: 'show_pl'),
+    TriggerSetting(
+      key: 'canDoSettlement',
+      label: 'Can Do Settlement',
+      icon: 'can_do_settlement',
+    ),
+  ];
   static List<TriggerSetting> getTriggerSettings(String userType) {
+    if (userType == 'Admin') return adminTriggerSettings;
     return userType == 'Master' ? masterTriggerSettings : clientTriggerSettings;
   }
 
   static List<String> getStepTitles(String userType) {
     if (userType == 'Master') return masterStepTitles;
     if (userType == "Master's Client") return mastersClientStepTitles;
+    if (userType == 'Admin') return adminStepTitles;
     return clientStepTitles;
   }
 
   static int getTotalSteps(String userType) {
     if (userType == 'Master') return 7;
+    if (userType == 'Admin') return 2;
     return 5;
   }
 
@@ -207,6 +239,7 @@ class UserFormState extends Equatable {
       masterTriggerSettings;
   static Map<String, bool> get defaultTriggerSettings => {
     for (var setting in masterTriggerSettings) setting.key: false,
+    for (var setting in adminTriggerSettings) setting.key: false,
   };
   static Map<String, BrokerageData> get defaultBrokerageData => {
     for (var exchange in availableExchanges)

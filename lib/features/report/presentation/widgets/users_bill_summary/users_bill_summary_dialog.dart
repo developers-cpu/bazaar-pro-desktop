@@ -6,7 +6,9 @@ import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/app_dropdown.dart';
 import '../../../../../core/widget/common_dilog_box.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
+import '../../../../../core/widget/table/view_record_count.dart';
 import '../../../../../core/widget/table/view_data_table_footer.dart';
+import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import '../../bloc/users_bill_summary/users_bill_summary_bloc.dart';
 import '../../bloc/users_bill_summary/users_bill_summary_event.dart';
 import '../../bloc/users_bill_summary/users_bill_summary_state.dart';
@@ -69,14 +71,7 @@ class UsersBillSummaryDialog extends StatelessWidget {
                     },
                   ),
                   if (summaryData.isNotEmpty)
-                    Text(
-                      'RECORD : ${summaryData.length}',
-                      style: GoogleFonts.openSans(
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.primaryBlue,
-                      ),
-                    ),
+                    ViewRecordCount(count: summaryData.length),
                 ],
               ),
               SizedBox(height: 10.h),
@@ -96,9 +91,10 @@ class UsersBillSummaryDialog extends StatelessWidget {
                     autoFit: true,
                     rowHeight: 32.h,
                     idExtractor: (item) => "${item.puName}_${item.uName}",
-                    cellBuilder: (item, column) => _buildCell(item, column),
+                    cellBuilder: (item, column) =>
+                        _buildCell(context, item, column),
                     footerBuilder: (columns) =>
-                        _buildFooter(summaryData, columns),
+                        _buildFooter(context, summaryData, columns),
                   ),
                 ),
             ],
@@ -121,32 +117,27 @@ class UsersBillSummaryDialog extends StatelessWidget {
     ];
   }
 
-  Widget _buildCell(UsersBillSummaryEntity item, ViewTableColumn column) {
+  Widget _buildCell(
+    BuildContext context,
+    UsersBillSummaryEntity item,
+    ViewTableColumn column,
+  ) {
+    final isDark = AppColors.isDarkMode(context);
     if (column.id == 'netPL') {
-      final isNegative = item.netPL < 0;
-      return Text(
-        item.netPL.toStringAsFixed(2),
-        style: GoogleFonts.openSans(
-          fontSize: 12.sp,
-          fontWeight: FontWeight.w600,
-          color: isNegative ? AppColors.errorColor : AppColors.primaryBlue,
-        ),
+      return ViewNumberCell(
+        value: item.netPL,
+        isDark: isDark,
+        colorByValue: true,
       );
     }
     String text = "";
     if (column.id == 'puName') text = item.puName;
     if (column.id == 'uName') text = item.uName;
-    return Text(
-      text,
-      style: GoogleFonts.openSans(
-        fontSize: 12.sp,
-        fontWeight: FontWeight.w600,
-        color: AppColors.primaryBlue,
-      ),
-    );
+    return ViewTextCell(text: text, isDark: isDark);
   }
 
   Widget _buildFooter(
+    BuildContext context,
     List<UsersBillSummaryEntity> data,
     List<ViewTableColumn> columns,
   ) {
@@ -159,13 +150,15 @@ class UsersBillSummaryDialog extends StatelessWidget {
       'uName': '',
       'netPL': totalPL.toStringAsFixed(2),
     };
+    final isDark = AppColors.isDarkMode(context);
     final columnColors = {
-      'netPL': totalPL < 0 ? AppColors.errorColor : AppColors.primaryBlue,
+      'netPL': ViewTableCellStyles.getValueColor(totalPL, isDark: isDark),
     };
     return ViewDataTableFooter(
       columns: columns,
       values: values,
       columnColors: columnColors,
+      isDarkMode: isDark,
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,8 +20,24 @@ class MarketFilters extends StatelessWidget {
     : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final availableSymbols =
-        state.items.map((item) => item.symbol).toSet().toList()..sort();
+    final symbolDisplayMap = <String, String>{};
+    for (final item in state.items) {
+      final label = item.expiry != null
+          ? '${item.symbol} ${DateFormat('MMM dd').format(item.expiry!)}'
+          : item.symbol;
+      symbolDisplayMap[label] = item.symbol;
+    }
+    final displayLabels = symbolDisplayMap.keys.toList()..sort();
+    final selectedDisplayLabels = (state.selectedSymbols ?? [])
+        .map(
+          (symbol) => symbolDisplayMap.entries
+              .firstWhere(
+                (e) => e.value == symbol,
+                orElse: () => MapEntry(symbol, symbol),
+              )
+              .key,
+        )
+        .toList();
     final exchanges = [
       AppStrings.nse,
       AppStrings.mcx,
@@ -51,8 +68,6 @@ class MarketFilters extends StatelessWidget {
                     items: exchanges,
                     width: 200.w,
                     dropdownHeight: 250.h,
-                    showAllOption: true,
-                    allOptionText: 'All',
                     onChanged: (exchange) {
                       context.read<MarketWatchBloc>().add(
                         FilterByExchangeEvent(
@@ -65,12 +80,15 @@ class MarketFilters extends StatelessWidget {
                   AppDropdown(
                     type: AppDropdownType.multiSelect,
                     hintText: AppStrings.symbolFilter,
-                    selectedValues: state.selectedSymbols ?? [],
-                    items: availableSymbols,
+                    selectedValues: selectedDisplayLabels,
+                    items: displayLabels,
                     width: 200.w,
                     dropdownHeight: 250.h,
                     searchHint: 'Search & Add',
-                    onMultiChanged: (symbols) {
+                    onMultiChanged: (selectedLabels) {
+                      final symbols = selectedLabels
+                          .map((label) => symbolDisplayMap[label] ?? label)
+                          .toList();
                       context.read<MarketWatchBloc>().add(
                         FilterBySymbolsEvent(symbols: symbols),
                       );
@@ -126,10 +144,17 @@ class MarketFilters extends StatelessWidget {
               border: Border.all(color: AppColors.primaryBlue, width: 1.5),
             ),
             child: Center(
-              child: Icon(
-                isDarkMode ? Icons.dark_mode : Icons.light_mode,
-                size: 20.sp,
-                color: isDarkMode ? AppColors.white : AppColors.primaryBlue,
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 300),
+                transitionBuilder: (Widget child, Animation<double> animation) {
+                  return FadeTransition(opacity: animation, child: child);
+                },
+                child: Icon(
+                  isDarkMode ? Icons.dark_mode : Icons.light_mode,
+                  key: ValueKey<bool>(isDarkMode),
+                  size: 20.sp,
+                  color: isDarkMode ? AppColors.white : AppColors.primaryBlue,
+                ),
               ),
             ),
           ),
@@ -177,9 +202,6 @@ class _ClientProfitLossWidgetState extends State<ClientProfitLossWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final isPositive = _profitLoss >= 0;
-    final color = isPositive ? AppColors.buyColor : AppColors.sellColor;
-
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -187,16 +209,15 @@ class _ClientProfitLossWidgetState extends State<ClientProfitLossWidget> {
         SizedBox(width: 8.w),
         AnimatedSwitcher(
           duration: const Duration(milliseconds: 300),
-          transitionBuilder: (Widget child, Animation<double> animation) {
-            return FadeTransition(opacity: animation, child: child);
-          },
           child: Text(
             'P/L : ${_profitLoss.toStringAsFixed(2)}',
             key: ValueKey<double>(_profitLoss),
             style: TextStyle(
               fontSize: 12.sp,
               fontWeight: FontWeight.bold,
-              color: color,
+              color: _profitLoss >= 0
+                  ? AppColors.buyColor
+                  : AppColors.sellColor,
             ),
           ),
         ),

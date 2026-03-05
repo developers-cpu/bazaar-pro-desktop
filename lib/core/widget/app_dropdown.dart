@@ -27,6 +27,7 @@ class AppDropdown extends StatefulWidget {
   final bool isDarkMode;
   final String? label;
   final Color? labelColor;
+  final bool showSelectAll;
   const AppDropdown({
     Key? key,
     this.type = AppDropdownType.simple,
@@ -45,6 +46,7 @@ class AppDropdown extends StatefulWidget {
     this.borderColor,
     this.textColor,
     this.isDarkMode = false,
+    this.showSelectAll = true,
     this.label,
     this.labelColor,
     this.subtitles,
@@ -206,7 +208,7 @@ class _AppDropdownState extends State<AppDropdown>
       searchHeight = _searchFieldHeight;
     }
     double selectAllHeight = 0;
-    if (widget.type == AppDropdownType.multiSelect) {
+    if (widget.type == AppDropdownType.multiSelect && widget.showSelectAll) {
       selectAllHeight = _selectAllHeight;
     }
     if (widget.subtitles != null) {
@@ -264,7 +266,8 @@ class _AppDropdownState extends State<AppDropdown>
                             widget.type !=
                                 AppDropdownType.multiSelectRightNoSearch)
                           _buildSearchField(),
-                        if (widget.type == AppDropdownType.multiSelect)
+                        if (widget.type == AppDropdownType.multiSelect &&
+                            widget.showSelectAll)
                           _buildSelectAllOption(),
                         Flexible(
                           child: RawScrollbar(

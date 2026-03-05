@@ -68,7 +68,7 @@ class AppStrings {
   static const String mcx = 'MCX';
   static const String cePe = 'CE/PE';
   static const String others = 'OTHERS';
-  static const String comex = 'COMEX';
+  static const String comex = 'COMEX FUTURE';
   static const String crypto = 'CRYPTO';
   static const String gift = 'GIFT';
   static const String forex = 'FOREX';

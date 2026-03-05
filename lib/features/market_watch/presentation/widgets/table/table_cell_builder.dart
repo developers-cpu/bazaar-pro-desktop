@@ -6,6 +6,7 @@ import '../../../../../core/constants/app_strings.dart';
 import '../../../../../core/utils/date_formatter.dart';
 import '../../../../../core/utils/number_formatter.dart';
 import '../../../../../core/widget/svg_icon.dart';
+
 import '../../../domain/entities/market_item.dart';
 import 'animated_price_cell.dart';
 import 'table_text_style_helper.dart';
@@ -36,7 +37,7 @@ class TableCellBuilder extends StatelessWidget {
       case 'exchange':
         return _buildExchangeWithArrowCell();
       case 'symbol':
-        return _buildTextCell(item.symbol);
+        return _buildTextCell(item.symbol, alignLeft: true);
       case 'buyQty':
         return _buildTextCell(NumberFormatter.formatQuantity(item.buyQty));
       case 'buyPrice':
@@ -100,7 +101,7 @@ class TableCellBuilder extends StatelessWidget {
           : LightThemeColors.textColor;
     }
     return Padding(
-      padding: EdgeInsets.only(left: 4.w),
+      padding: EdgeInsets.only(left: 8.w),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -141,11 +142,17 @@ class TableCellBuilder extends StatelessWidget {
     );
   }
 
-  Widget _buildTextCell(String text, {bool isBold = false, Color? color}) {
-    return Center(
+  Widget _buildTextCell(
+    String text, {
+    bool isBold = false,
+    Color? color,
+    bool alignLeft = false,
+  }) {
+    return Container(
+      alignment: alignLeft ? Alignment.centerLeft : Alignment.center,
       child: Text(
         text,
-        textAlign: TextAlign.center,
+        textAlign: alignLeft ? TextAlign.left : TextAlign.center,
         overflow: TextOverflow.ellipsis,
         maxLines: 1,
         style: TableTextStyleHelper.getTextStyle(

@@ -152,7 +152,7 @@ class _MarketDataTableState extends State<MarketDataTable> {
     required FontWeight fontWeight,
     required double minWidth,
   }) {
-    final rowHeight = (fontSize * 2.4).clamp(36.0, 56.0);
+    final rowHeight = (fontSize * 1.8).clamp(28.0, 40.0);
     final headerHeight = (fontSize * 2.8).clamp(40.0, 60.0);
     return Listener(
       onPointerDown: (event) {
@@ -174,8 +174,6 @@ class _MarketDataTableState extends State<MarketDataTable> {
                 width: 1,
               )
             : const TableBorder(),
-        sortColumnIndex: _sortColumnIndex,
-        sortAscending: _sortAscending,
         columns: _buildColumns(
           visibleColumns: visibleColumns,
           isDark: isDark,
@@ -187,7 +185,7 @@ class _MarketDataTableState extends State<MarketDataTable> {
           visibleColumns: visibleColumns,
           isDark: isDark,
           fontFamily: fontFamily,
-          fontSize: fontSize - 1.5,
+          fontSize: fontSize,
           fontWeight: fontWeight,
         ),
       ),
@@ -207,6 +205,14 @@ class _MarketDataTableState extends State<MarketDataTable> {
       final label = TableColumnHelper.getLabel(column.id);
       final config = TableColumnHelper.getConfig(column.id);
       final isLut = column.id == 'lut';
+      final baseWidth = config?.baseWidth ?? 100;
+      ColumnSize size = ColumnSize.M;
+      if (baseWidth >= 150) {
+        size = ColumnSize.L;
+      } else if (baseWidth <= 100) {
+        size = ColumnSize.S;
+      }
+
       return DataColumn2(
         label: TableHeaderCell(
           title: label,
@@ -217,7 +223,7 @@ class _MarketDataTableState extends State<MarketDataTable> {
           isLast: index == visibleColumns.length - 1,
         ),
         fixedWidth: isLut ? config?.getWidth(fontSize) : null,
-        size: isLut ? ColumnSize.S : ColumnSize.S,
+        size: size,
         numeric: config?.isNumeric ?? false,
         onSort: _onSort,
       );
@@ -226,9 +232,69 @@ class _MarketDataTableState extends State<MarketDataTable> {
 
   void _onSort(int columnIndex, bool ascending) {
     setState(() {
-      _sortColumnIndex = columnIndex;
-      _sortAscending = ascending;
+      if (_sortColumnIndex == columnIndex) {
+        _sortAscending = !_sortAscending;
+      } else {
+        _sortColumnIndex = columnIndex;
+        _sortAscending = true;
+      }
     });
+  }
+
+  Comparable? _getColumnValue(MarketItem item, String columnId) {
+    switch (columnId) {
+      case 'exchange':
+        return item.exchange.toLowerCase();
+      case 'symbol':
+        return item.symbol.toLowerCase();
+      case 'buyQty':
+        return item.buyQty;
+      case 'buyPrice':
+        return item.buyPrice;
+      case 'sellPrice':
+        return item.sellPrice;
+      case 'sellQty':
+        return item.sellQty;
+      case 'netChange':
+        return item.netChange;
+      case 'high':
+        return item.high;
+      case 'low':
+        return item.low;
+      case 'open':
+        return item.open;
+      case 'close':
+        return item.close;
+      case 'ltp':
+        return item.ltp;
+      case 'netChangePercent':
+        return item.netChangePercent;
+      case 'expiry':
+        return item.expiry?.millisecondsSinceEpoch ?? 0;
+      case 'lut':
+        return item.lut.millisecondsSinceEpoch;
+      default:
+        return null;
+    }
+  }
+
+  List<MarketItem> _getSortedItems({required List<ColumnItem> visibleColumns}) {
+    final items = List<MarketItem>.from(widget.state.filteredItems);
+    if (_sortColumnIndex == null ||
+        _sortColumnIndex! >= visibleColumns.length) {
+      return items;
+    }
+    final columnId = visibleColumns[_sortColumnIndex!].id;
+    items.sort((a, b) {
+      final aValue = _getColumnValue(a, columnId);
+      final bValue = _getColumnValue(b, columnId);
+      if (aValue == null && bValue == null) return 0;
+      if (aValue == null) return 1;
+      if (bValue == null) return -1;
+      final result = aValue.compareTo(bValue);
+      return _sortAscending ? result : -result;
+    });
+    return items;
   }
 
   List<DataRow2> _buildRows({
@@ -238,7 +304,8 @@ class _MarketDataTableState extends State<MarketDataTable> {
     required double fontSize,
     required FontWeight fontWeight,
   }) {
-    return widget.state.filteredItems.map((item) {
+    final sortedItems = _getSortedItems(visibleColumns: visibleColumns);
+    return sortedItems.map((item) {
       final isSelected = widget.state.selectedItemId == item.id;
       return DataRow2(
         selected: isSelected,

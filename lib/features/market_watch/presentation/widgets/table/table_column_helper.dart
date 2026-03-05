@@ -19,7 +19,7 @@ class TableColumnHelper {
   TableColumnHelper._();
   static const Map<String, TableColumnConfig> columnConfigs = {
     'exchange': TableColumnConfig(
-      baseWidth: 130,
+      baseWidth: 120,
       isNumeric: false,
       label: 'Exchange',
     ),
@@ -29,27 +29,27 @@ class TableColumnHelper {
       label: 'Symbol',
     ),
     'buyQty': TableColumnConfig(
-      baseWidth: 90,
+      baseWidth: 100,
       isNumeric: true,
       label: 'Buy Qty',
     ),
     'buyPrice': TableColumnConfig(
-      baseWidth: 110,
+      baseWidth: 120,
       isNumeric: true,
       label: 'Buy Price',
     ),
     'sellPrice': TableColumnConfig(
-      baseWidth: 110,
+      baseWidth: 130,
       isNumeric: true,
       label: 'Sell Price',
     ),
     'sellQty': TableColumnConfig(
-      baseWidth: 90,
+      baseWidth: 100,
       isNumeric: true,
       label: 'Sell Qty',
     ),
     'netChange': TableColumnConfig(
-      baseWidth: 130,
+      baseWidth: 200,
       isNumeric: true,
       label: 'Net Change',
     ),
@@ -57,18 +57,18 @@ class TableColumnHelper {
     'low': TableColumnConfig(baseWidth: 100, isNumeric: true, label: 'Low'),
     'open': TableColumnConfig(baseWidth: 100, isNumeric: true, label: 'Open'),
     'close': TableColumnConfig(baseWidth: 100, isNumeric: true, label: 'Close'),
-    'ltp': TableColumnConfig(baseWidth: 110, isNumeric: true, label: 'LTP'),
+    'ltp': TableColumnConfig(baseWidth: 100, isNumeric: true, label: 'LTP'),
     'netChangePercent': TableColumnConfig(
-      baseWidth: 100,
+      baseWidth: 150,
       isNumeric: true,
       label: 'Net Chg %',
     ),
     'expiry': TableColumnConfig(
-      baseWidth: 90,
+      baseWidth: 100,
       isNumeric: false,
       label: 'Expiry',
     ),
-    'lut': TableColumnConfig(baseWidth: 150, isNumeric: false, label: 'LUT'),
+    'lut': TableColumnConfig(baseWidth: 180, isNumeric: false, label: 'LUT'),
   };
   static List<ColumnItem> getDefaultColumns() {
     return const [

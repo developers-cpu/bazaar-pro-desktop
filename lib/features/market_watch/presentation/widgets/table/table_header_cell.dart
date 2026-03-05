@@ -29,17 +29,18 @@ class TableHeaderCell extends StatelessWidget {
       return const SizedBox.shrink();
     }
     final iconSize = (fontSize * 1.0).sp;
+    final headerTitle = title.toUpperCase();
     final textStyle = TableTextStyleHelper.getTextStyle(
       fontFamily: fontFamily,
-      fontSize: fontSize.sp,
-      fontWeight: FontWeight.w400,
-      color: LightThemeColors.textColor,
+      fontSize: (fontSize - 1).sp,
+      fontWeight: FontWeight.w500,
+      color: AppColors.primaryTextColor,
     );
     Widget content;
     if (!showSortIcon) {
       content = Center(
         child: Text(
-          title,
+          headerTitle,
           textAlign: TextAlign.center,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
@@ -48,34 +49,31 @@ class TableHeaderCell extends StatelessWidget {
       );
     } else {
       content = Center(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 2.w),
-          child: FittedBox(
-            fit: BoxFit.scaleDown,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  title,
-                  textAlign: TextAlign.center,
-                  maxLines: 1,
-                  style: textStyle,
-                ),
-                SizedBox(width: 4.w),
-                SvgIcon(
-                  assetPath: AppImages.sortIcon,
-                  isActive: isDark,
-                  size: iconSize,
-                ),
-              ],
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Flexible(
+              child: Text(
+                headerTitle,
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: textStyle,
+              ),
             ),
-          ),
+            SvgIcon(
+              assetPath: AppImages.sortIcon,
+              isActive: isDark,
+              size: iconSize,
+            ),
+          ],
         ),
       );
     }
     return Container(
+      padding: EdgeInsets.only(left: 0.w),
       decoration: isLast
           ? null
           : BoxDecoration(

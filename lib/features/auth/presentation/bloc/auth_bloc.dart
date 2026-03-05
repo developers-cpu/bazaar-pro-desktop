@@ -17,13 +17,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     User? dummyUser;
     if (event.username == AuthConstants.clientUsername &&
         event.password == AuthConstants.clientPassword) {
-      dummyUser = _createDummyUser('Client');
+      dummyUser = _createDummyUser('Client', event.username);
     } else if (event.username == AuthConstants.masterUsername &&
         event.password == AuthConstants.masterPassword) {
-      dummyUser = _createDummyUser('Master');
+      dummyUser = _createDummyUser('Master', event.username);
     } else if (event.username == AuthConstants.adminUsername &&
         event.password == AuthConstants.adminPassword) {
-      dummyUser = _createDummyUser('Admin');
+      dummyUser = _createDummyUser('Admin', event.username);
+    } else if (event.username == AuthConstants.superAdminUsername &&
+        event.password == AuthConstants.superAdminPassword) {
+      dummyUser = _createDummyUser('Super Admin', event.username);
     }
     if (dummyUser != null) {
       emit(AuthAuthenticated(user: dummyUser));
@@ -47,14 +50,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) async {
     emit(const AuthLoading());
-    final dummyUser = _createDummyUser(event.role);
+    final dummyUser = _createDummyUser(event.role, event.role.toLowerCase());
     emit(AuthAuthenticated(user: dummyUser));
   }
 
-  User _createDummyUser(String role) {
+  User _createDummyUser(String role, String username) {
     return User(
       id: 0,
-      username: role.toLowerCase(),
+      username: username,
       email: '${role.toLowerCase()}@bazarpro.com',
       firstName: role,
       lastName: 'User',

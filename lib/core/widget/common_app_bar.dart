@@ -20,6 +20,7 @@ class CommonAppBar extends StatefulWidget implements PreferredSizeWidget {
   final VoidCallback? onExportPdf;
   final VoidCallback? onExportExcel;
   final Map<int, String>? selectedDropdownItems;
+  final String? userRole;
   const CommonAppBar({
     Key? key,
     this.username = AppStrings.defaultUsername,
@@ -33,6 +34,7 @@ class CommonAppBar extends StatefulWidget implements PreferredSizeWidget {
     this.onExportPdf,
     this.onExportExcel,
     this.selectedDropdownItems,
+    this.userRole,
   }) : super(key: key);
   @override
   Size get preferredSize => Size.fromHeight(64.h);
@@ -420,6 +422,15 @@ class _CommonAppBarState extends State<CommonAppBar>
   }
 
   Widget _buildUserInitial() {
+    String badgeInitial = AppStrings.userInitialFallback;
+    if (widget.userRole != null && widget.userRole!.isNotEmpty) {
+      if (widget.userRole == 'Super Admin') {
+        badgeInitial = 'SA';
+      } else {
+        badgeInitial = widget.userRole![0].toUpperCase();
+      }
+    }
+
     return Container(
       width: 26.w,
       height: 26.h,
@@ -431,9 +442,7 @@ class _CommonAppBarState extends State<CommonAppBar>
       child: FittedBox(
         fit: BoxFit.scaleDown,
         child: Text(
-          widget.username.isNotEmpty
-              ? widget.username[0].toUpperCase()
-              : AppStrings.userInitialFallback,
+          badgeInitial,
           style: GoogleFonts.openSans(
             fontSize: 12.sp,
             fontWeight: FontWeight.w600,
@@ -452,7 +461,7 @@ class _CommonAppBarState extends State<CommonAppBar>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          widget.username,
+          widget.username.toUpperCase(),
           style: GoogleFonts.openSans(
             fontSize: 11.sp,
             fontWeight: FontWeight.w700,

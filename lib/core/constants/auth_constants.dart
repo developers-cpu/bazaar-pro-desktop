@@ -11,6 +11,8 @@ class AuthConstants {
   static const String masterPassword = 'master@bazarpro';
   static const String adminUsername = 'admin@@bazarpro.com';
   static const String adminPassword = 'admin@@bazarpro';
+  static const String superAdminUsername = 'superadmin@bazarpro.com';
+  static const String superAdminPassword = 'superadmin@bazarpro';
   static const int tokenExpiryMinutes = 30;
   static const String appName = 'BAZAAR';
   static const String loginTitle = 'Log In';

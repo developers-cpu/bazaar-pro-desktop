@@ -34,7 +34,6 @@ class _CustomDropdownFieldState extends State<CustomDropdownField>
   late Animation<double> _animation;
   static const double _fieldHeight = 45;
   static const double _defaultDropdownHeight = 125;
-  static const double _defaultWidth = 450;
   static const double _gap = 5;
   TextStyle get _textStyle => GoogleFonts.openSans(
     fontSize: AppDimensions.fontSizeL,
@@ -142,7 +141,7 @@ class _CustomDropdownFieldState extends State<CustomDropdownField>
     final renderBox = context.findRenderObject() as RenderBox;
     final size = renderBox.size;
     final offset = renderBox.localToGlobal(Offset.zero);
-    final dropdownWidth = widget.width ?? _defaultWidth;
+    final dropdownWidth = widget.width ?? size.width;
     final dropdownHeight = widget.dropdownHeight ?? _defaultDropdownHeight;
     return OverlayEntry(
       builder: (context) => Stack(
@@ -249,9 +248,8 @@ class _CustomDropdownFieldState extends State<CustomDropdownField>
   @override
   Widget build(BuildContext context) {
     final selected = _selectedItem;
-    final fieldWidth = widget.width ?? _defaultWidth;
     return SizedBox(
-      width: fieldWidth,
+      width: widget.width,
       child: CompositedTransformTarget(
         link: _layerLink,
         child: GestureDetector(

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/widget/common_app_bar.dart';
+import '../../features/auth/presentation/bloc/auth_bloc.dart';
+import '../../features/auth/presentation/bloc/auth_state.dart';
 import '../../features/market_watch/data/models/menu_Item_data.dart';
 import '../../features/users/presentation/widgets/create_user/user_search_dialog.dart';
 import '../../features/tools/presentation/widgets/about_dialog.dart';
@@ -120,7 +123,7 @@ class AppBarSectionState extends State<AppBarSection> {
         dropdownItems: _getOperationsDropdownItems(),
       ),
     ];
-    if (widget.userRole == 'Admin') {
+    if (widget.userRole == 'Admin' || widget.userRole == 'Super Admin') {
       _tabs = allTabs;
     } else if (widget.userRole == 'Master') {
       _tabs = allTabs.sublist(0, allTabs.length - 1);
@@ -801,16 +804,28 @@ class AppBarSectionState extends State<AppBarSection> {
         ? false
         : widget.showExportByDefault;
 
-    return CommonAppBar(
-      tabs: _tabs,
-      selectedIndex: widget.selectedTabIndex,
-      onTabSelected: _onTabSelected,
-      showReloadIcon: _shouldShowReloadIcon,
-      showExportIcon: shouldShowExport,
-      onReload: widget.onReload,
-      onExportPdf: widget.onExportPdf,
-      onExportExcel: widget.onExportExcel,
-      selectedDropdownItems: _selectedDropdownItems,
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, authState) {
+        String username = AppStrings.defaultUsername;
+        String? userRole = widget.userRole;
+        if (authState is AuthAuthenticated) {
+          username = authState.user.username;
+          userRole = authState.user.role;
+        }
+        return CommonAppBar(
+          tabs: _tabs,
+          selectedIndex: widget.selectedTabIndex,
+          onTabSelected: _onTabSelected,
+          showReloadIcon: _shouldShowReloadIcon,
+          showExportIcon: shouldShowExport,
+          onReload: widget.onReload,
+          onExportPdf: widget.onExportPdf,
+          onExportExcel: widget.onExportExcel,
+          selectedDropdownItems: _selectedDropdownItems,
+          username: username,
+          userRole: userRole,
+        );
+      },
     );
   }
 

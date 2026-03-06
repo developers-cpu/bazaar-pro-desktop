@@ -23,6 +23,15 @@ class BanScriptDataTable extends StatelessWidget {
     return ViewDataTable(
       data: data,
       columns: _buildColumns(),
+      comparatorBuilder: (item, columnId) {
+        switch (columnId) {
+          case 'symbol': return item.symbol;
+          case 'updatedOn': return item.updatedOn;
+          case 'updatedBy': return item.updatedBy;
+          case 'status': return item.isBanned ? 1 : 0;
+          default: return '';
+        }
+      },
       cellBuilder: (item, column) {
         if (column.id == 'checkbox') {
           return Checkbox(

@@ -37,7 +37,7 @@ class NetPositionDialog extends StatelessWidget {
             height: 600.h,
             child: Column(
               children: [
-                const NetPositionFilterBar(),
+                const NetPositionFilterBar(isDialog: true),
                 Expanded(child: NetPositionTable(showDeviceInfo: true)),
               ],
             ),

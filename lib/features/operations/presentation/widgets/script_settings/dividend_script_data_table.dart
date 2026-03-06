@@ -20,6 +20,15 @@ class DividendScriptDataTable extends StatelessWidget {
     return ViewDataTable(
       data: data,
       columns: _buildColumns(),
+      comparatorBuilder: (item, columnId) {
+        switch (columnId) {
+          case 'symbol': return item.symbol;
+          case 'cutDate': return item.cutDate ?? '';
+          case 'updatedOn': return item.updatedOn;
+          case 'updatedBy': return item.updatedBy;
+          default: return '';
+        }
+      },
       cellBuilder: (item, column) {
         if (column.id == 'checkbox') {
           return Checkbox(

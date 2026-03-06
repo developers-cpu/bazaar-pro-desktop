@@ -20,6 +20,20 @@ class DateSettingsDataTable extends StatelessWidget {
     return ViewDataTable(
       data: data,
       columns: _buildColumns(),
+      comparatorBuilder: (item, columnId) {
+        if (item is! DateSetting) return '';
+        switch (columnId) {
+          case 'exchange': return item.exchange;
+          case 'symbol': return item.symbol;
+          case 'expiryDate': return item.expiryDate;
+          case 'launchDate': return item.launchDate;
+          case 'closeDate': return item.closeDate;
+          case 'cutDate': return item.cutDate;
+          case 'updatedOn': return item.updatedOn;
+          case 'updatedBy': return item.updatedBy;
+          default: return '';
+        }
+      },
       cellBuilder: (item, column) {
         if (item is! DateSetting) return const SizedBox.shrink();
         if (column.id == 'checkbox') {

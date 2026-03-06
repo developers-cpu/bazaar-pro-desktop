@@ -154,40 +154,35 @@ class _MarketDataTableState extends State<MarketDataTable> {
   }) {
     final rowHeight = (fontSize * 1.8).clamp(28.0, 40.0);
     final headerHeight = (fontSize * 2.8).clamp(40.0, 60.0);
-    return Listener(
-      onPointerDown: (event) {
-        _lastTapPosition = event.position;
-      },
-      child: DataTable2(
-        columnSpacing: 0,
-        horizontalMargin: 0,
-        minWidth: minWidth,
-        headingRowHeight: headerHeight.h,
-        dataRowHeight: rowHeight.h,
-        headingRowColor: WidgetStateProperty.all(
-          LightThemeColors.tableColumnHeadColor,
-        ),
-        dividerThickness: showGrid ? 1 : 0,
-        border: showGrid
-            ? TableBorder.all(
-                color: isDark ? AppColors.white : AppColors.black,
-                width: 1,
-              )
-            : const TableBorder(),
-        columns: _buildColumns(
-          visibleColumns: visibleColumns,
-          isDark: isDark,
-          fontFamily: fontFamily,
-          fontSize: fontSize,
-          fontWeight: fontWeight,
-        ),
-        rows: _buildRows(
-          visibleColumns: visibleColumns,
-          isDark: isDark,
-          fontFamily: fontFamily,
-          fontSize: fontSize,
-          fontWeight: fontWeight,
-        ),
+    return DataTable2(
+      columnSpacing: 0,
+      horizontalMargin: 0,
+      minWidth: minWidth,
+      headingRowHeight: headerHeight.h,
+      dataRowHeight: rowHeight.h,
+      headingRowColor: WidgetStateProperty.all(
+        LightThemeColors.tableColumnHeadColor,
+      ),
+      dividerThickness: showGrid ? 1 : 0,
+      border: showGrid
+          ? TableBorder.all(
+              color: isDark ? AppColors.white : AppColors.black,
+              width: 1,
+            )
+          : const TableBorder(),
+      columns: _buildColumns(
+        visibleColumns: visibleColumns,
+        isDark: isDark,
+        fontFamily: fontFamily,
+        fontSize: fontSize,
+        fontWeight: fontWeight,
+      ),
+      rows: _buildRows(
+        visibleColumns: visibleColumns,
+        isDark: isDark,
+        fontFamily: fontFamily,
+        fontSize: fontSize,
+        fontWeight: fontWeight,
       ),
     );
   }
@@ -334,12 +329,8 @@ class _MarketDataTableState extends State<MarketDataTable> {
     }).toList();
   }
 
-  Offset? _lastTapPosition;
   void _onRowTap(String itemId) {
     context.read<MarketWatchBloc>().add(SelectMarketItemEvent(itemId: itemId));
-    if (_lastTapPosition != null) {
-      widget.onRightClick(_lastTapPosition!);
-    }
   }
 
   void _onRowRightClick(TapDownDetails details, String itemId) {

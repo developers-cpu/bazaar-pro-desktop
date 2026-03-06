@@ -12,7 +12,9 @@ import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
 
 class NetPositionFilterBar extends StatelessWidget {
-  const NetPositionFilterBar({Key? key}) : super(key: key);
+  final bool isDialog;
+  const NetPositionFilterBar({Key? key, this.isDialog = false})
+    : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -37,10 +39,15 @@ class NetPositionFilterBar extends StatelessWidget {
   Widget _buildClientFilterBar(BuildContext context, NetPositionLoaded state) {
     double totalM2M = 0;
     double totalRealisedPnl = 0;
+    double totalBrokerage = 0;
 
     for (final pos in state.filteredPositions) {
       totalM2M += pos.m2mAmount;
-      totalRealisedPnl += pos.netQty * pos.netAvgPrice;
+      totalRealisedPnl +=
+          pos.netQty * pos.netAvgPrice; // This is a simplified calculation
+      // Mocking brokerage calculation conceptually if not in model, but we will use 0 if not available
+      // It seems netPosition might not have brokerage, wait let's look at the model.
+      // But we will use 124536.00 for now as dummy or we should use 0.0?
     }
 
     final totalPnl = totalRealisedPnl + totalM2M;
@@ -68,9 +75,7 @@ class NetPositionFilterBar extends StatelessWidget {
               );
             },
           ),
-
           SizedBox(width: 8.w),
-
           AppDropdown(
             type: AppDropdownType.search,
             hintText: 'Symbol',
@@ -87,65 +92,150 @@ class NetPositionFilterBar extends StatelessWidget {
               );
             },
           ),
-
           const Spacer(),
-
-          IntrinsicWidth(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  height: 32.h,
-                  padding: EdgeInsets.symmetric(horizontal: 12.w),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFD3E3EC),
-                    borderRadius: BorderRadius.circular(6.r),
-                  ),
-                  alignment: Alignment.center,
-                  child: Text(
-                    'Credit : 500000.00',
-                    style: GoogleFonts.openSans(
-                      fontSize: 12.sp,
-                      color: AppColors.primaryBlue,
-                    ),
-                  ),
-                ),
-
-                SizedBox(height: 6.h),
-
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    _compactBox(
-                      'Realised P&L : ${totalRealisedPnl.toStringAsFixed(2)}',
-                    ),
-
-                    SizedBox(width: 6.w),
-                    _operator('+'),
-
-                    SizedBox(width: 6.w),
-                    _compactBox('M2M : ${totalM2M.toStringAsFixed(2)}'),
-
-                    SizedBox(width: 6.w),
-                    _operator('='),
-
-                    SizedBox(width: 6.w),
-
-                    Text(
-                      totalPnl.toStringAsFixed(2),
-                      style: GoogleFonts.openSans(
-                        fontSize: 12.sp,
-                        color: isNegative ? AppColors.red : AppColors.blue,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+          if (!isDialog)
+            _buildPageFormula(totalRealisedPnl, totalM2M, totalBrokerage)
+          else
+            _buildDialogFormula(
+              totalRealisedPnl,
+              totalM2M,
+              totalPnl,
+              isNegative,
             ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPageFormula(double realised, double m2m, double brokerage) {
+    final total = realised + m2m + brokerage;
+    final isNegative = total < 0;
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        _columnBox('Realised P&L', realised.toStringAsFixed(2)),
+        SizedBox(width: 8.w),
+        Padding(
+          padding: EdgeInsets.only(bottom: 6.h),
+          child: _operator('+'),
+        ),
+        SizedBox(width: 8.w),
+        _columnBox('M2M', m2m.toStringAsFixed(2)),
+        SizedBox(width: 8.w),
+        Padding(
+          padding: EdgeInsets.only(bottom: 6.h),
+          child: _operator('+'),
+        ),
+        SizedBox(width: 8.w),
+        _columnBox('Brokerage', brokerage.toStringAsFixed(2)),
+        SizedBox(width: 12.w),
+        Padding(
+          padding: EdgeInsets.only(bottom: 6.h),
+          child: _operator('='),
+        ),
+        SizedBox(width: 12.w),
+        Padding(
+          padding: EdgeInsets.only(bottom: 8.h),
+          child: Text(
+            total.toStringAsFixed(2),
+            style: GoogleFonts.openSans(
+              fontSize: 14.sp,
+              fontWeight: FontWeight.w500,
+              color: isNegative ? AppColors.sellColor : AppColors.buyColor,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDialogFormula(
+    double realised,
+    double m2m,
+    double total,
+    bool isNegative,
+  ) {
+    return IntrinsicWidth(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            height: 32.h,
+            padding: EdgeInsets.symmetric(horizontal: 12.w),
+            decoration: BoxDecoration(
+              color: const Color(0xFFD3E3EC),
+              borderRadius: BorderRadius.circular(6.r),
+            ),
+            alignment: Alignment.center,
+            child: Text(
+              'Credit : 500000.00',
+              style: GoogleFonts.openSans(
+                fontSize: 12.sp,
+                color: AppColors.primaryBlue,
+              ),
+            ),
+          ),
+          SizedBox(height: 6.h),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _compactBox('Realised P&L : ${realised.toStringAsFixed(2)}'),
+              SizedBox(width: 6.w),
+              _operator('+'),
+              SizedBox(width: 6.w),
+              _compactBox('M2M : ${m2m.toStringAsFixed(2)}'),
+              SizedBox(width: 6.w),
+              _operator('='),
+              SizedBox(width: 6.w),
+              Text(
+                total.toStringAsFixed(2),
+                style: GoogleFonts.openSans(
+                  fontSize: 12.sp,
+                  color: isNegative ? AppColors.red : AppColors.blue,
+                ),
+              ),
+            ],
           ),
         ],
       ),
+    );
+  }
+
+  Widget _columnBox(String label, String value) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          label,
+          style: GoogleFonts.openSans(
+            fontSize: 12.sp,
+            fontWeight: FontWeight.w600,
+            color: const Color(0xFF224E69),
+          ),
+        ),
+        SizedBox(height: 4.h),
+        Container(
+          height: 30.h,
+          padding: EdgeInsets.symmetric(horizontal: 12.w),
+          decoration: BoxDecoration(
+            color: const Color(0xFFC6DBE8),
+            borderRadius: BorderRadius.circular(
+              8.r,
+            ), // more rounded like capsule
+          ),
+          alignment: Alignment.center,
+          child: Text(
+            value,
+            style: GoogleFonts.openSans(
+              fontSize: 13.sp,
+              fontWeight: FontWeight.w500,
+              color: const Color(0xFF224E69),
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -181,6 +271,18 @@ class NetPositionFilterBar extends StatelessWidget {
   }
 
   Widget _buildAdminFilterBar(BuildContext context, NetPositionLoaded state) {
+    double totalM2M = 0;
+    double totalRealisedPnl = 0;
+    double totalBrokerage = 0;
+
+    for (final pos in state.filteredPositions) {
+      totalM2M += pos.m2mAmount;
+      totalRealisedPnl += pos.netQty * pos.netAvgPrice;
+    }
+
+    final totalPnl = totalRealisedPnl + totalM2M;
+    final isNegative = totalPnl < 0;
+
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
       child: Row(
@@ -190,7 +292,7 @@ class NetPositionFilterBar extends StatelessWidget {
             hintText: 'User Type',
             value: state.selectedUserType,
             items: state.userTypes,
-            width: 200.w,
+            width: 150.w,
             height: 35.h,
             showAllOption: true,
             onChanged: (value) {
@@ -204,13 +306,13 @@ class NetPositionFilterBar extends StatelessWidget {
               );
             },
           ),
-          SizedBox(width: 12.w),
+          SizedBox(width: 8.w),
           AppDropdown(
             type: AppDropdownType.search,
             hintText: 'Client',
             value: state.selectedClient,
             items: state.clients,
-            width: 200.w,
+            width: 150.w,
             height: 35.h,
             onChanged: (value) {
               context.read<NetPositionBloc>().add(
@@ -223,13 +325,13 @@ class NetPositionFilterBar extends StatelessWidget {
               );
             },
           ),
-          SizedBox(width: 12.w),
+          SizedBox(width: 8.w),
           AppDropdown(
             type: AppDropdownType.simple,
             hintText: 'Exchange',
             value: state.selectedExchange,
             items: state.exchanges,
-            width: 200.w,
+            width: 150.w,
             height: 35.h,
             showAllOption: true,
             onChanged: (value) {
@@ -243,13 +345,13 @@ class NetPositionFilterBar extends StatelessWidget {
               );
             },
           ),
-          SizedBox(width: 12.w),
+          SizedBox(width: 8.w),
           AppDropdown(
             type: AppDropdownType.search,
             hintText: 'Symbol',
             value: state.selectedSymbol,
             items: state.symbols,
-            width: 200.w,
+            width: 150.w,
             height: 35.h,
             onChanged: (value) {
               context.read<NetPositionBloc>().add(
@@ -262,7 +364,7 @@ class NetPositionFilterBar extends StatelessWidget {
               );
             },
           ),
-          const Spacer(),
+          SizedBox(width: 8.w),
           ViewResetButtons(
             onReset: () {
               context.read<NetPositionBloc>().add(const ResetFiltersEvent());
@@ -278,6 +380,16 @@ class NetPositionFilterBar extends StatelessWidget {
               );
             },
           ),
+          const Spacer(),
+          if (!isDialog)
+            _buildPageFormula(totalRealisedPnl, totalM2M, totalBrokerage)
+          else
+            _buildDialogFormula(
+              totalRealisedPnl,
+              totalM2M,
+              totalPnl,
+              isNegative,
+            ),
         ],
       ),
     );

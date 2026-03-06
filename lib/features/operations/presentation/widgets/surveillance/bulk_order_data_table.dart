@@ -20,6 +20,18 @@ class BulkOrderDataTable extends StatelessWidget {
     return ViewDataTable(
       data: data,
       columns: _buildColumns(),
+      comparatorBuilder: (item, columnId) {
+        switch (columnId) {
+          case 'exchange': return item.exchange;
+          case 'symbol': return item.symbol;
+          case 'intervalTime': return item.intervalTime;
+          case 'totalQuantity': return item.totalQuantity;
+          case 'tradeSlLimit': return item.tradeSlLimit;
+          case 'updatedOn': return item.updatedOn;
+          case 'updatedBy': return item.updatedBy;
+          default: return '';
+        }
+      },
       cellBuilder: (item, column) {
         if (column.id == 'checkbox') {
           return Checkbox(

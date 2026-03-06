@@ -24,6 +24,25 @@ class TradeSettingsDataTable extends StatelessWidget {
     return ViewDataTable(
       data: data,
       columns: _buildColumns(),
+      comparatorBuilder: (item, columnId) {
+        if (item is! TradeSetting) return '';
+        switch (columnId) {
+          case 'exchange': return item.exchange;
+          case 'marginType': return item.marginType ?? '';
+          case 'intMarginPercentage': return item.intMarginPercentage ?? '';
+          case 'cfMarginPercentage': return item.cfMarginPercentage ?? '';
+          case 'intMarginAmt': return item.intMarginAmt ?? '';
+          case 'cfMarginAmt': return item.cfMarginAmt ?? '';
+          case 'brokerageType': return item.brokerageType ?? '';
+          case 'turnoverWiseBrokerageRs': return item.turnoverWiseBrokerageRs ?? '';
+          case 'lotWiseBrokerageAmt': return item.lotWiseBrokerageAmt ?? '';
+          case 'leverageMultiplier': return item.leverageMultiplier ?? '';
+          case 'tradeSecondsLimit': return item.tradeSecondsLimit ?? '';
+          case 'updatedOn': return item.updatedOn;
+          case 'updatedBy': return item.updatedBy;
+          default: return '';
+        }
+      },
       cellBuilder: (item, column) {
         if (item is! TradeSetting) return const SizedBox.shrink();
         if (column.id == 'checkbox') {

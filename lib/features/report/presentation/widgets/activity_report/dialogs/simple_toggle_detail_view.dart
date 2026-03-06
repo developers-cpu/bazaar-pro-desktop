@@ -51,6 +51,12 @@ class SimpleToggleDetailView extends StatelessWidget {
                 idExtractor: (item) => state.details.indexOf(item).toString(),
                 isDarkMode: isDarkMode,
                 autoFit: true,
+                comparatorBuilder: (item, columnId) {
+                  final val = item[columnId];
+                  if (val is num) return val;
+                  if (val is DateTime) return val;
+                  return val?.toString() ?? '';
+                },
                 cellBuilder: (item, column) {
                   switch (column.id) {
                     case 'updatedOn':

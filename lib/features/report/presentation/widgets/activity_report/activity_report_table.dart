@@ -80,13 +80,27 @@ class ActivityReportTable extends StatelessWidget {
                 columns: _getColumns(),
                 data: state.reports,
                 idExtractor: (item) => item.id,
-                sortColumn: null,
-                sortAscending: true,
                 autoFit: true,
                 isDarkMode: isDarkMode,
                 emptyMessage: 'No activity report found',
                 cellBuilder: (item, column) =>
                     _buildCell(context, item, column, isDarkMode),
+                comparatorBuilder: (item, columnId) {
+                  switch (columnId) {
+                    case 'activityName':
+                      return item.activityName;
+                    case 'createdOn':
+                      return item.createdOn;
+                    case 'createdBy':
+                      return item.createdBy;
+                    case 'updatedOn':
+                      return item.updatedOn;
+                    case 'updatedBy':
+                      return item.updatedBy;
+                    default:
+                      return '';
+                  }
+                },
               ),
             ),
           ],

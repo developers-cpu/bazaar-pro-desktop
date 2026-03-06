@@ -95,6 +95,14 @@ class _ScriptQuantityDialogState extends State<ScriptQuantityDialog> {
               child: ViewDataTable<ScriptQuantity>(
                 columns: _columns,
                 data: widget.quantities,
+                comparatorBuilder: (item, columnId) {
+                  switch (columnId) {
+                    case 'symbol': return item.symbol;
+                    case 'breakupQty': return item.breakupQty;
+                    case 'maxQty': return item.maxQty;
+                    default: return '';
+                  }
+                },
                 cellBuilder: _buildCell,
                 idExtractor: (item) => item.symbol,
                 emptyMessage: 'No script quantities found',

@@ -271,6 +271,16 @@ class _UserBrokerageTabViewState extends State<UserBrokerageTabView> {
         ],
         data: state.filteredSettings,
         idExtractor: (item) => item.id,
+        comparatorBuilder: (item, columnId) {
+          switch (columnId) {
+            case 'exchange':
+              return item.exchange;
+            case 'symbol':
+              return item.symbol ?? '';
+            default:
+              return '';
+          }
+        },
         cellBuilder: (item, column) {
           final isSelected = _selectedIds.contains(item.id);
           final commonStyle = GoogleFonts.openSans(

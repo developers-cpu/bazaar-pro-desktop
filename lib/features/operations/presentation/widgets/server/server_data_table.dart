@@ -29,6 +29,16 @@ class ServerDataTable extends StatelessWidget {
     return ViewDataTable<ServerEntity>(
       data: data,
       columns: _buildColumns(),
+      comparatorBuilder: (item, columnId) {
+        switch (columnId) {
+          case 'index': return item.index;
+          case 'serverName': return item.serverName;
+          case 'updatedOn': return item.updatedOn;
+          case 'updatedBy': return item.updatedBy;
+          case 'status': return item.status ? 1 : 0;
+          default: return '';
+        }
+      },
       cellBuilder: (item, column) {
         if (column.id == 'status') {
           return AppSwitch(

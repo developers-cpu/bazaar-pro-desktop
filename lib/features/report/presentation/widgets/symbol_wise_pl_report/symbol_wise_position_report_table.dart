@@ -180,13 +180,39 @@ class SymbolWisePositionReportTable extends StatelessWidget {
                 columns: _getColumns(),
                 data: state.reports,
                 idExtractor: (item) => item.id,
-                sortColumn: null,
-                sortAscending: true,
                 autoFit: true,
                 isDarkMode: isDarkMode,
                 emptyMessage: 'No reports found',
                 cellBuilder: (item, column) =>
                     _buildCell(context, item, column, isDarkMode),
+                comparatorBuilder: (item, columnId) {
+                  switch (columnId) {
+                    case 'exchange':
+                      return item.exchange;
+                    case 'symbol':
+                      return item.symbol;
+                    case 'netQty':
+                      return item.netQty;
+                    case 'netMs':
+                      return item.netMs;
+                    case 'netAvgPrice':
+                      return item.netAvgPrice;
+                    case 'brokerage':
+                      return item.brokerage;
+                    case 'wbaPrice':
+                      return item.netAvgPrice;
+                    case 'cmp':
+                      return item.cmp;
+                    case 'netPL':
+                      return item.netPL;
+                    case 'releasePL':
+                      return item.releasePL;
+                    case 'm2m':
+                      return item.m2m;
+                    default:
+                      return '';
+                  }
+                },
                 footerBuilder: (columns) {
                   return ViewDataTableFooter(
                     columns: columns,

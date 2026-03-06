@@ -318,13 +318,47 @@ class UserWiseProfitAndLossReportTable extends StatelessWidget {
                 columns: _getColumns(),
                 data: state.reports,
                 idExtractor: (item) => item.id,
-                sortColumn: null,
-                sortAscending: true,
                 autoFit: true,
                 isDarkMode: isDarkMode,
                 emptyMessage: 'No records found',
                 cellBuilder: (item, column) =>
                     _buildCell(context, item, column, isDarkMode),
+                comparatorBuilder: (item, columnId) {
+                  switch (columnId) {
+                    case 'userName':
+                      return item.userName;
+                    case 'parentUser':
+                      return item.parentUser;
+                    case 'mtm':
+                      return item.mtm;
+                    case 'releasedPL':
+                      return item.releasedPL;
+                    case 'brokerage':
+                      return item.brokerage;
+                    case 'netPL':
+                      return item.netPL;
+                    case 'credit':
+                      return item.credit;
+                    case 'equity':
+                      return item.equity;
+                    case 'margin':
+                      return item.margin;
+                    case 'usedMargin':
+                      return item.usedMargin;
+                    case 'freeMargin':
+                      return item.freeMargin;
+                    case 'standingVolume':
+                      return item.standingVolume;
+                    case 'marginLevelPercentage':
+                      return item.marginLevelPercentage;
+                    case 'createdBy':
+                      return item.createdBy;
+                    case 'createdDate':
+                      return item.createdDate;
+                    default:
+                      return '';
+                  }
+                },
                 footerBuilder: (columns) {
                   return ViewDataTableFooter(
                     columns: columns,

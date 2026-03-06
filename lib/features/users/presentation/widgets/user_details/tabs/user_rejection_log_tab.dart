@@ -186,6 +186,19 @@ class UserRejectionLogTabView extends StatelessWidget {
           ],
           data: logs,
           idExtractor: (item) => item.id,
+          comparatorBuilder: (item, columnId) {
+            switch (columnId) {
+              case 'date': return item.dateTime;
+              case 'status': return item.status;
+              case 'uName': return item.userName;
+              case 'symbol': return item.symbol;
+              case 'type': return item.type;
+              case 'qty': return item.qty;
+              case 'price': return item.price;
+              case 'comment': return item.comment;
+              default: return '';
+            }
+          },
           cellBuilder: (item, column) {
             switch (column.id) {
               case 'date':

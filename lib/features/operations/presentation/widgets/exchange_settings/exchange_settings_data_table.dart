@@ -33,6 +33,9 @@ class ExchangeSettingsDataTable extends StatelessWidget {
       columns: allColumns,
       data: data,
       idExtractor: (item) => item.id,
+      comparatorBuilder: (item, columnId) {
+        return '';
+      },
       cellBuilder: (item, column) => _buildCell(item, column),
     );
   }

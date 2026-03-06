@@ -264,6 +264,16 @@ class _UserTradeMarginTabViewState extends State<UserTradeMarginTabView> {
           ],
           data: data,
           idExtractor: (item) => item.id,
+          comparatorBuilder: (item, columnId) {
+            switch (columnId) {
+              case 'exchange': return item.exchange;
+              case 'symbol': return item.symbol;
+              case 'expiryDate': return item.expiryDate;
+              case 'marginPct': return item.marginPercentage;
+              case 'marginAmt': return item.marginAmount;
+              default: return '';
+            }
+          },
           cellBuilder: (item, column) {
             final commonStyle = GoogleFonts.openSans(
               fontSize: 11.sp,

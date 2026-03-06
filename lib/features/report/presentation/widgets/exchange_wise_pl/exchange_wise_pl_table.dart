@@ -133,13 +133,29 @@ class ExchangeWisePLTable extends StatelessWidget {
             columns: _getColumns(),
             data: reports,
             idExtractor: (item) => item.exchange,
-            sortColumn: null,
-            sortAscending: true,
             autoFit: true,
             isDarkMode: isDarkMode,
             emptyMessage: 'No reports found',
             cellBuilder: (item, column) =>
                 _buildCell(context, item, column, isDarkMode, isClient),
+            comparatorBuilder: (item, columnId) {
+              switch (columnId) {
+                case 'exchange':
+                  return item.exchange;
+                case 'm2m':
+                  return item.m2m;
+                case 'realisedPL':
+                  return item.realisedPL;
+                case 'brokerage':
+                  return item.brokerage;
+                case 'total':
+                  return item.totalPL;
+                case 'ourPercent':
+                  return item.ourPercent;
+                default:
+                  return '';
+              }
+            },
             footerBuilder: (columns) {
               return ViewDataTableFooter(
                 columns: columns,

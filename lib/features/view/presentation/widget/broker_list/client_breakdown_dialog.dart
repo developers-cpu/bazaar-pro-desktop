@@ -161,6 +161,11 @@ class ClientBreakdownDialog extends StatelessWidget {
           isDarkMode: isDarkMode,
           shrinkWrap: true,
           autoFit: true,
+          comparatorBuilder: (item, columnId) {
+            final val = item[columnId];
+            if (val is num) return val;
+            return val?.toString() ?? '';
+          },
           headerBgColor: const Color(0xFFD3E3EC),
           cellBuilder: (item, column) {
             final val = item[column.id];

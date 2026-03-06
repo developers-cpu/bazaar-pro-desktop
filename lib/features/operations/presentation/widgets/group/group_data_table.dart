@@ -37,6 +37,9 @@ class GroupDataTable extends StatelessWidget {
       columns: columns,
       data: groups,
       idExtractor: (item) => item.id,
+      comparatorBuilder: (item, columnId) {
+        return '';
+      },
       cellBuilder: (item, column) => _buildCell(item, column),
     );
   }

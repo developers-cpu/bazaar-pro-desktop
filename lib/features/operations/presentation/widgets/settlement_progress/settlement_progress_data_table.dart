@@ -36,6 +36,17 @@ class SettlementProgressDataTable extends StatelessWidget {
       data: data,
       idExtractor: (item) => item.symbol,
       autoFit: true,
+      comparatorBuilder: (item, columnId) {
+        switch (columnId) {
+          case 'exch': return item.exch;
+          case 'symbol': return item.symbol;
+          case 'expiryDate': return item.expiryDate;
+          case 'dayHigh': return item.dayHigh;
+          case 'dayLow': return item.dayLow;
+          case 'dayClose': return item.dayClose;
+          default: return '';
+        }
+      },
       cellBuilder: (item, column) {
         switch (column.id) {
           case 'exch':

@@ -36,6 +36,20 @@ class BrokerListTable extends StatelessWidget {
           isDarkMode: isDarkMode,
           autoFit: true,
           headerBgColor: const Color(0xFFD3E3EC),
+          comparatorBuilder: (item, columnId) {
+            switch (columnId) {
+              case 'index':
+                return item.index;
+              case 'brokerName':
+                return item.name;
+              case 'clientCount':
+                return item.clientsCount;
+              case 'brokerage':
+                return item.totalBrokerage;
+              default:
+                return '';
+            }
+          },
           cellBuilder: (item, column) => _buildCell(context, item, column),
         );
       },

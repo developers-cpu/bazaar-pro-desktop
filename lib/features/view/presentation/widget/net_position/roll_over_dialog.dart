@@ -158,6 +158,9 @@ class _RollOverDialogState extends State<RollOverDialog> {
             columns: _getColumns(),
             data: List.generate(15, (index) => index),
             idExtractor: (item) => item.toString(),
+            comparatorBuilder: (item, columnId) {
+              return item;
+            },
             cellBuilder: (item, column) => _buildCell(item, column),
             isDarkMode: false,
             autoFit: true,

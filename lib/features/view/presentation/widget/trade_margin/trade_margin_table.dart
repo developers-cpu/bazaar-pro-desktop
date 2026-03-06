@@ -70,13 +70,26 @@ class TradeMarginTable extends StatelessWidget {
             columns: _getColumns(),
             data: tradeMargins,
             idExtractor: (item) => item.exchange + item.symbol,
-            sortColumn: null,
-            sortAscending: true,
             isDarkMode: isDarkMode,
             autoFit: true,
             emptyMessage: 'No trade margins found',
             cellBuilder: (item, column) => _buildCell(item, column, isDarkMode),
-            onSort: (columnId, ascending) {},
+            comparatorBuilder: (item, columnId) {
+              switch (columnId) {
+                case 'exchange':
+                  return item.exchange;
+                case 'symbol':
+                  return item.symbol;
+                case 'expiryDate':
+                  return item.expiryDate;
+                case 'marginPct':
+                  return item.marginPercentage;
+                case 'marginAmt':
+                  return item.marginAmount;
+                default:
+                  return '';
+              }
+            },
           ),
         ),
       ],

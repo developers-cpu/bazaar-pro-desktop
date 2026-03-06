@@ -90,6 +90,9 @@ class _SettlementProgressDialogState extends State<SettlementProgressDialog> {
                   sortable: true,
                 ),
               ],
+                comparatorBuilder: (item, columnId) {
+                  return item;
+                },
               cellBuilder: (item, column) {
                 switch (column.id) {
                   case 'checkbox':

@@ -122,6 +122,14 @@ class _SettlementMasterSharingPageState
         ViewTableColumn(id: 'action', label: 'ACTION', width: 200.w),
       ],
       data: entries,
+      comparatorBuilder: (item, columnId) {
+        switch (columnId) {
+          case 'index': return item.index;
+          case 'username': return item.username;
+          case 'assignedMaster': return item.assignedMasterCount;
+          default: return '';
+        }
+      },
       cellBuilder: (item, column) => _buildCell(item, column.id, masters),
       idExtractor: (item) => item.userId,
       autoFit: true,

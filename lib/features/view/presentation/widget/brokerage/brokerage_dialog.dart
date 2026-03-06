@@ -165,6 +165,14 @@ class BrokerageDialog extends StatelessWidget {
                     return ViewDataTable<Brokerage>(
                       columns: _columns,
                       data: loaded.brokerages,
+                      comparatorBuilder: (item, columnId) {
+                        switch (columnId) {
+                          case 'exchange': return item.exchange;
+                          case 'symbol': return item.symbol;
+                          case 'brokeragePercentage': return item.brokeragePercentage;
+                          default: return '';
+                        }
+                      },
                       cellBuilder: _buildCell,
                       idExtractor: (item) =>
                           '${item.exchange}_${item.symbol}_${item.brokeragePercentage}',

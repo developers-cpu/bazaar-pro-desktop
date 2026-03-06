@@ -109,6 +109,30 @@ class OrderDurationDialog extends StatelessWidget {
       idExtractor: (item) => item.id,
       isDarkMode: isDarkMode,
       emptyMessage: 'No related orders found',
+      comparatorBuilder: (item, columnId) {
+        switch (columnId) {
+          case 'userName':
+            return item.userName;
+          case 'pUser':
+            return item.pUser;
+          case 'exchange':
+            return item.exchange;
+          case 'symbol':
+            return item.symbol;
+          case 'buySell':
+            return item.buySell;
+          case 'tradeType':
+            return item.orderType;
+          case 'qty':
+            return item.qty;
+          case 'lot':
+            return item.lot;
+          case 'pl':
+            return item.pl;
+          default:
+            return '';
+        }
+      },
       cellBuilder: (item, column) => _buildCell(item, column, isDarkMode),
     );
   }

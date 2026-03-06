@@ -323,6 +323,16 @@ class _UserQuantitySettingsTabViewState
           ],
           data: settings,
           idExtractor: (item) => item.id,
+          comparatorBuilder: (item, columnId) {
+            switch (columnId) {
+              case 'symbol': return item.symbol;
+              case 'maxQty': return item.maxQty;
+              case 'breakupQty': return item.breakupQty;
+              case 'maxLot': return item.maxLot;
+              case 'breakupLot': return item.breakupLot;
+              default: return '';
+            }
+          },
           cellBuilder: (item, column) {
             final isSelected = _selectedIds.contains(item.id);
             switch (column.id) {

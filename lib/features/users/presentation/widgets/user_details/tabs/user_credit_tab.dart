@@ -192,6 +192,16 @@ class _UserCreditTabViewState extends State<UserCreditTabView> {
       ],
       data: state.transactions,
       idExtractor: (item) => item.id,
+      comparatorBuilder: (item, columnId) {
+        switch (columnId) {
+          case 'date': return item.dateTime;
+          case 'type': return item.type;
+          case 'amount': return item.amount;
+          case 'balance': return item.balance;
+          case 'comment': return item.comment;
+          default: return '';
+        }
+      },
       cellBuilder: (item, column) {
         final isDebit = item.type == 'Debit';
         final color = isDebit ? AppColors.errorColor : AppColors.primaryBlue;

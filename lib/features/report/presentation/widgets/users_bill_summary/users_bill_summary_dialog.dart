@@ -88,6 +88,14 @@ class UsersBillSummaryDialog extends StatelessWidget {
                     columns: _getColumns(),
                     data: summaryData,
                     autoFit: true,
+                    comparatorBuilder: (item, columnId) {
+                      switch (columnId) {
+                        case 'puName': return item.puName;
+                        case 'uName': return item.uName;
+                        case 'netPL': return item.netPL;
+                        default: return '';
+                      }
+                    },
                     rowHeight: 32.h,
                     idExtractor: (item) => "${item.puName}_${item.uName}",
                     cellBuilder: (item, column) =>

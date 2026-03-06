@@ -198,6 +198,26 @@ class UserPendingOrdersTabView extends StatelessWidget {
           ],
           data: data,
           idExtractor: (item) => item.id,
+          comparatorBuilder: (item, columnId) {
+            switch (columnId) {
+              case 'time':
+                return item.time;
+              case 'exchange':
+                return item.exchange;
+              case 'symbol':
+                return item.symbol;
+              case 'type':
+                return item.type;
+              case 'lot':
+                return item.lot;
+              case 'price':
+                return item.price;
+              case 'status':
+                return item.status;
+              default:
+                return '';
+            }
+          },
           cellBuilder: (item, column) {
             final commonStyle = GoogleFonts.openSans(
               fontSize: 11.sp,

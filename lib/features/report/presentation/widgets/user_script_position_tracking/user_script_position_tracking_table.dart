@@ -135,13 +135,29 @@ class UserScriptPositionTrackingTable extends StatelessWidget {
                 columns: _getColumns(),
                 data: state.reports,
                 idExtractor: (item) => item.id,
-                sortColumn: null,
-                sortAscending: true,
                 autoFit: true,
                 isDarkMode: isDarkMode,
                 emptyMessage: 'No records found',
                 cellBuilder: (item, column) =>
                     _buildCell(context, item, column, isDarkMode),
+                comparatorBuilder: (item, columnId) {
+                  switch (columnId) {
+                    case 'positionDate':
+                      return item.positionDate;
+                    case 'userName':
+                      return item.userName;
+                    case 'symbol':
+                      return item.symbol;
+                    case 'position':
+                      return item.position;
+                    case 'openAPrice':
+                      return item.openAPrice;
+                    case 'days':
+                      return item.days;
+                    default:
+                      return '';
+                  }
+                },
               ),
             ),
           ],

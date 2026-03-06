@@ -130,13 +130,31 @@ class SymbolWisePLTable extends StatelessWidget {
                 columns: _getColumns(),
                 data: state.reports,
                 idExtractor: (item) => item.id,
-                sortColumn: null,
-                sortAscending: true,
                 autoFit: true,
                 isDarkMode: isDarkMode,
                 emptyMessage: 'No reports found',
                 cellBuilder: (item, column) =>
                     _buildCell(context, item, column, isDarkMode),
+                comparatorBuilder: (item, columnId) {
+                  switch (columnId) {
+                    case 'exchange':
+                      return item.exchange;
+                    case 'symbol':
+                      return item.symbol;
+                    case 'releasePL':
+                      return item.releasePL;
+                    case 'm2m':
+                      return item.m2m;
+                    case 'brokerage':
+                      return item.brokerage;
+                    case 'netPL':
+                      return item.netPL;
+                    case 'ourPercent':
+                      return item.plPercent;
+                    default:
+                      return '';
+                  }
+                },
                 footerBuilder: (columns) {
                   return ViewDataTableFooter(
                     columns: columns,

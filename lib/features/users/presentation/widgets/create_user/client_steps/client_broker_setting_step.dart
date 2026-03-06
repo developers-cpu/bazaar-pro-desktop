@@ -68,6 +68,9 @@ class _ClientBrokerSettingStepState extends State<ClientBrokerSettingStep> {
                 child: ViewDataTable<Map<String, String>>(
                   shrinkWrap: false,
                   autoFit: true,
+                  comparatorBuilder: (item, columnId) {
+                    return item[columnId] ?? '';
+                  },
                   rowHeight: 28.h,
                   headerHeight: 32.h,
                   columns: _getColumns(),

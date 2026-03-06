@@ -83,6 +83,9 @@ class _SettlementDialogState extends State<SettlementDialog> {
                     sortable: true,
                   ),
                 ],
+                comparatorBuilder: (item, columnId) {
+                  return item;
+                },
                 cellBuilder: (item, column) {
                   switch (column.id) {
                     case 'checkbox':

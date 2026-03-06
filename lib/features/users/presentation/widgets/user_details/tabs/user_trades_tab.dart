@@ -251,6 +251,44 @@ class UserTradesTabView extends StatelessWidget {
           ],
           data: trades,
           idExtractor: (item) => item.id,
+          comparatorBuilder: (item, columnId) {
+            switch (columnId) {
+              case 'userName':
+                return item.userName;
+              case 'parentUser':
+                return item.parentUser;
+              case 'exchange':
+                return item.exchange;
+              case 'symbol':
+                return item.symbol;
+              case 'buySell':
+                return item.buySell;
+              case 'tradeType':
+                return item.tradeType;
+              case 'qty':
+                return item.quantity;
+              case 'lot':
+                return item.lot;
+              case 'pl':
+                return item.profitLoss;
+              case 'validity':
+                return item.validity;
+              case 'tradePrice':
+                return item.tradePrice;
+              case 'brokerage':
+                return item.brokerage;
+              case 'netPrice':
+                return item.netPrice;
+              case 'orderTime':
+                return item.orderTime;
+              case 'executionTime':
+                return item.executionTime;
+              case 'referencePrice':
+                return item.requestPrice;
+              default:
+                return '';
+            }
+          },
           cellBuilder: (item, column) {
             switch (column.id) {
               case 'userName':

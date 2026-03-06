@@ -114,6 +114,13 @@ class BrokerClientDialog extends StatelessWidget {
                           isDarkMode: isDarkMode,
                           autoFit: true,
                           headerBgColor: const Color(0xFFD3E3EC),
+                          comparatorBuilder: (item, columnId) {
+                            switch (columnId) {
+                              case 'name': return item.name;
+                              case 'brokerage': return item.brokerage;
+                              default: return '';
+                            }
+                          },
                           cellBuilder: (item, column) {
                             if (column.id == 'name') {
                               return ViewLinkCell(

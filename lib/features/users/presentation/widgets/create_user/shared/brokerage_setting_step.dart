@@ -78,6 +78,9 @@ class _BrokerageSettingStepState extends State<BrokerageSettingStep> {
                 child: ViewDataTable<String>(
                   shrinkWrap: false,
                   autoFit: true,
+                  comparatorBuilder: (item, columnId) {
+                    return item;
+                  },
                   rowHeight: 28.h,
                   headerHeight: 32.h,
                   columns: _getColumns(context, state),

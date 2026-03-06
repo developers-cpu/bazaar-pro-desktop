@@ -64,6 +64,16 @@ class UserGroupSettingsTabView extends StatelessWidget {
                   ],
                   data: state.settings,
                   idExtractor: (item) => item.id,
+                  comparatorBuilder: (item, columnId) {
+                    switch (columnId) {
+                      case 'name':
+                        return item.groupName;
+                      case 'quantity':
+                        return item.maxQuantity;
+                      default:
+                        return '';
+                    }
+                  },
                   cellBuilder: (item, column) {
                     switch (column.id) {
                       case 'name':

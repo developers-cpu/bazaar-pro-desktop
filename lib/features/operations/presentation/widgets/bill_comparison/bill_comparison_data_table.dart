@@ -45,6 +45,20 @@ class BillComparisonDataTable extends StatelessWidget {
       columns: columns,
       data: data,
       idExtractor: (item) => item.index.toString(),
+      comparatorBuilder: (item, columnId) {
+        switch (columnId) {
+          case 'index': return item.index;
+          case 'username': return item.username;
+          case 'billTotal': return item.billTotal;
+          case 'billBrokerage': return item.billBrokerage;
+          case 'billNetTotal': return item.billNetTotal;
+          case 'settlementTotal': return item.settlementTotal;
+          case 'settlementBrokerage': return item.settlementBrokerage;
+          case 'settlementNetTotal': return item.settlementNetTotal;
+          case 'type': return item.type;
+          default: return '';
+        }
+      },
       cellBuilder: (item, column) {
         switch (column.id) {
           case 'index':

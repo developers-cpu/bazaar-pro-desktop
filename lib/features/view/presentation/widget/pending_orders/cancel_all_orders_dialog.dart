@@ -361,6 +361,30 @@ class _CancelAllOrdersDialogState extends State<CancelAllOrdersDialog> {
       idExtractor: (item) => item.id,
       isDarkMode: widget.isDarkMode,
       autoFit: true,
+      comparatorBuilder: (item, columnId) {
+        switch (columnId) {
+          case 'userName':
+            return item.userId;
+          case 'pUser':
+            return item.upline;
+          case 'exchange':
+            return item.exchange;
+          case 'symbol':
+            return item.symbol;
+          case 'buySell':
+            return item.buySell;
+          case 'qty':
+            return item.qty;
+          case 'lot':
+            return item.lot;
+          case 'triggerPrice':
+            return item.triggerPrice;
+          case 'orderTime':
+            return item.orderDateTime;
+          default:
+            return '';
+        }
+      },
       headerBgColor: const Color(0xFFD3E3EC),
       emptyMessage: 'No pending orders found',
       onRowTap: (item) {

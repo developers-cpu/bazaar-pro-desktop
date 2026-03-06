@@ -246,6 +246,19 @@ class ProfitAndLossDetailsDialog extends StatelessWidget {
                 data: reports,
                 idExtractor: (item) => item.id,
                 autoFit: true,
+                comparatorBuilder: (item, columnId) {
+                  switch (columnId) {
+                    case 'userName': return item.userName;
+                    case 'percentage': return item.percentage;
+                    case 'releasePL': return item.releasePL;
+                    case 'brokerage': return item.brokerage;
+                    case 'm2m': return item.m2m;
+                    case 'netPL': return item.netPL;
+                    case 'ourBrokerage': return item.ourBrokerage;
+                    case 'ourPercentage': return item.ourPercentage;
+                    default: return '';
+                  }
+                },
                 emptyMessage: 'No records found',
                 cellBuilder: (item, column) {
                   final index = reports.indexOf(item);

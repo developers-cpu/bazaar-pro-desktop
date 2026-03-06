@@ -144,6 +144,16 @@ class _AssignMasterDialogState extends State<AssignMasterDialog> {
             ),
           ],
           data: _rows,
+          comparatorBuilder: (item, columnId) {
+            switch (columnId) {
+              case 'master':
+                return item.selectedMasterName ?? '';
+              case 'percentSharing':
+                return item.percentSharing;
+              default:
+                return '';
+            }
+          },
           cellBuilder: (item, column) {
             final index = _rows.indexOf(item);
             if (column.id == 'checkbox') {

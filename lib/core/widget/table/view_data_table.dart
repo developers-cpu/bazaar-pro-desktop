@@ -40,6 +40,7 @@ class ViewDataTable<T> extends StatefulWidget {
   final bool autoFit;
   final Color? headerBgColor;
   final bool shrinkWrap;
+  final Comparable Function(T item, String columnId)? comparatorBuilder;
   const ViewDataTable({
     Key? key,
     required this.columns,
@@ -59,6 +60,7 @@ class ViewDataTable<T> extends StatefulWidget {
     this.autoFit = false,
     this.headerBgColor,
     this.shrinkWrap = false,
+    this.comparatorBuilder,
   }) : super(key: key);
   @override
   State<ViewDataTable<T>> createState() => _ViewDataTableState<T>();
@@ -67,6 +69,68 @@ class ViewDataTable<T> extends StatefulWidget {
 class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
   final ScrollController _horizontalScrollController = ScrollController();
   final ScrollController _verticalScrollController = ScrollController();
+  String? _internalSortColumn;
+  bool _internalSortAscending = true;
+  List<T>? _sortedData;
+
+  bool get _useInternalSort =>
+      widget.comparatorBuilder != null && widget.onSort == null;
+
+  String? get _activeSortColumn =>
+      _useInternalSort ? _internalSortColumn : widget.sortColumn;
+  bool get _activeSortAscending =>
+      _useInternalSort ? _internalSortAscending : widget.sortAscending;
+
+  List<T> get _displayData {
+    if (_useInternalSort && _sortedData != null) {
+      return _sortedData!;
+    }
+    return widget.data;
+  }
+
+  void _handleSort(String columnId) {
+    if (_useInternalSort) {
+      setState(() {
+        if (_internalSortColumn == columnId) {
+          _internalSortAscending = !_internalSortAscending;
+        } else {
+          _internalSortColumn = columnId;
+          _internalSortAscending = true;
+        }
+        _sortedData = List<T>.from(widget.data);
+        _sortedData!.sort((a, b) {
+          final aVal = widget.comparatorBuilder!(a, columnId);
+          final bVal = widget.comparatorBuilder!(b, columnId);
+          final comparison = aVal.compareTo(bVal);
+          return _internalSortAscending ? comparison : -comparison;
+        });
+      });
+    } else if (widget.onSort != null) {
+      final newAscending = _activeSortColumn == columnId
+          ? !_activeSortAscending
+          : true;
+      widget.onSort!(columnId, newAscending);
+    }
+  }
+
+  @override
+  void didUpdateWidget(covariant ViewDataTable<T> oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (_useInternalSort && oldWidget.data != widget.data) {
+      if (_internalSortColumn != null) {
+        _sortedData = List<T>.from(widget.data);
+        _sortedData!.sort((a, b) {
+          final aVal = widget.comparatorBuilder!(a, _internalSortColumn!);
+          final bVal = widget.comparatorBuilder!(b, _internalSortColumn!);
+          final comparison = aVal.compareTo(bVal);
+          return _internalSortAscending ? comparison : -comparison;
+        });
+      } else {
+        _sortedData = null;
+      }
+    }
+  }
+
   @override
   void dispose() {
     _horizontalScrollController.dispose();
@@ -162,7 +226,7 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
                     _buildHeaderRow(headerHeight, scale),
                     Flexible(
                       fit: FlexFit.loose,
-                      child: widget.data.isEmpty
+                      child: _displayData.isEmpty
                           ? _buildEmptyState()
                           : _buildDataRows(rowHeight, scale),
                     ),
@@ -193,7 +257,7 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
           mainAxisSize: MainAxisSize.min,
           children: [
             _buildHeaderRow(headerHeight, scale),
-            widget.data.isEmpty
+            _displayData.isEmpty
                 ? SizedBox(height: 50.h, child: _buildEmptyState())
                 : _buildDataRows(rowHeight, scale),
             if (widget.footerBuilder != null) _buildFooterRow(rowHeight, scale),
@@ -236,12 +300,10 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
   }
 
   Widget _buildHeaderCell(ViewTableColumn column, bool isLast, double scale) {
-    final isSorted = widget.sortColumn == column.id;
+    final isSorted = _activeSortColumn == column.id;
     final cellWidth = column.width * scale;
     return GestureDetector(
-      onTap: column.sortable && widget.onSort != null
-          ? () => widget.onSort!(column.id, !widget.sortAscending)
-          : null,
+      onTap: column.sortable ? () => _handleSort(column.id) : null,
       child: Container(
         width: cellWidth,
         decoration: BoxDecoration(
@@ -298,12 +360,12 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
         physics: widget.shrinkWrap
             ? const NeverScrollableScrollPhysics()
             : const ClampingScrollPhysics(),
-        itemCount: widget.data.length,
+        itemCount: _displayData.length,
         itemBuilder: (context, index) {
-          final item = widget.data[index];
+          final item = _displayData[index];
           final itemId = widget.idExtractor(item);
           final isSelected = itemId == widget.selectedId;
-          final isLast = index == widget.data.length - 1;
+          final isLast = index == _displayData.length - 1;
           return _buildDataRow(
             item,
             index,

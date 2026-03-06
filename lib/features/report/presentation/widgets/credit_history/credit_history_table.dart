@@ -123,13 +123,29 @@ class CreditHistoryTable extends StatelessWidget {
                 columns: _getColumns(isClient),
                 data: state.creditHistory,
                 idExtractor: (item) => item.id,
-                sortColumn: null,
-                sortAscending: true,
                 autoFit: true,
                 isDarkMode: isDarkMode,
                 emptyMessage: 'No credit history found',
                 cellBuilder: (item, column) =>
                     _buildCell(item, column, isDarkMode),
+                comparatorBuilder: (item, columnId) {
+                  switch (columnId) {
+                    case 'userName':
+                      return item.userName;
+                    case 'dateTime':
+                      return item.dateTime;
+                    case 'type':
+                      return item.type;
+                    case 'amount':
+                      return item.amount;
+                    case 'balance':
+                      return item.balance;
+                    case 'comment':
+                      return item.comment;
+                    default:
+                      return '';
+                  }
+                },
                 footerBuilder: (columns) {
                   return ViewDataTableFooter(
                     columns: columns,

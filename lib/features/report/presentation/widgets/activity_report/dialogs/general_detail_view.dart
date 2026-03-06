@@ -56,6 +56,12 @@ class GeneralDetailView extends StatelessWidget {
                 idExtractor: (item) => '1',
                 isDarkMode: isDarkMode,
                 autoFit: true,
+                comparatorBuilder: (item, columnId) {
+                  final val = item[columnId];
+                  if (val is num) return val;
+                  if (val is DateTime) return val;
+                  return val?.toString() ?? '';
+                },
                 cellBuilder: (item, column) {
                   switch (column.id) {
                     case 'oldValue':

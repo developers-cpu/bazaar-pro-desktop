@@ -76,7 +76,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     try {
       final tradeReports = await _getTradeReports(
         clientId: event.clientId,
-        showPeriod: currentState.tradeReportPeriod,
+        showPeriod: currentState.tradeReportPeriod ?? 'Day',
         exchanges: currentState.tradeReportSelectedExchanges.toList(),
       );
       emit(
@@ -136,9 +136,9 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     try {
       final symbolReports = await _getSymbolReports(
         clientId: event.clientId,
-        showPeriod: currentState.symbolReportPeriod,
+        showPeriod: currentState.symbolReportPeriod ?? 'Day',
         exchanges: currentState.symbolReportSelectedExchanges.toList(),
-        topCount: currentState.symbolReportTopCount,
+        topCount: currentState.symbolReportTopCount ?? 10,
       );
       emit(
         currentState.copyWith(
@@ -161,7 +161,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
         clientId: currentState.symbolReportClientId,
         showPeriod: event.period,
         exchanges: currentState.symbolReportSelectedExchanges.toList(),
-        topCount: currentState.symbolReportTopCount,
+        topCount: currentState.symbolReportTopCount ?? 10,
       );
       emit(
         currentState.copyWith(
@@ -198,7 +198,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     try {
       final symbolReports = await _getSymbolReports(
         clientId: currentState.symbolReportClientId,
-        showPeriod: currentState.symbolReportPeriod,
+        showPeriod: currentState.symbolReportPeriod ?? 'Day',
         exchanges: currentState.symbolReportSelectedExchanges.toList(),
         topCount: event.topCount,
       );

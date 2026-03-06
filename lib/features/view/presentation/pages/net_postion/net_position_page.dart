@@ -39,7 +39,12 @@ class _NetPositionPageState extends State<NetPositionPage> {
         child: Column(
           children: [
             const NetPositionFilterBar(),
-            const Expanded(child: NetPositionTable(showDeviceInfo: false)),
+            const Expanded(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                child: NetPositionTable(showDeviceInfo: false),
+              ),
+            ),
             _buildFooter(context),
           ],
         ),

@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:bazarpro/core/widget/app_dropdown.dart';
 import 'package:bazarpro/core/widget/date_range_picker_button.dart';
-import 'package:bazarpro/core/widget/date_range_picker_dialog.dart' as custom;
 import '../../../../../core/widget/table/view_reset_buttons.dart';
 import '../../bloc/symbol_wise_pl/trade_list/symbol_trade_list_bloc.dart';
 import '../../bloc/symbol_wise_pl/trade_list/symbol_trade_list_event.dart';
@@ -37,18 +36,11 @@ class TradeListFilterBar extends StatelessWidget {
                     width: 200.w,
                     height: 40.h,
                     selectedDateRange: state.selectedDateRange,
-                    onTap: () async {
-                      final picked =
-                          await custom.CustomDateRangePickerDialog.show(
-                            context,
-                            initialStartDate: state.selectedDateRange?.start,
-                            initialEndDate: state.selectedDateRange?.end,
-                          );
-                      if (picked != null && context.mounted) {
-                        context.read<SymbolTradeListBloc>().add(
-                          FilterSymbolTradeList(dateRange: picked),
-                        );
-                      }
+                    onTap: () {},
+                    onDateRangeSelected: (range) {
+                      context.read<SymbolTradeListBloc>().add(
+                        FilterSymbolTradeList(dateRange: range),
+                      );
                     },
                   ),
                   SizedBox(width: 12.w),

@@ -18,16 +18,16 @@ class DashboardLoading extends DashboardState {
 class DashboardLoaded extends DashboardState {
   final List<TradeReportData> tradeReports;
   final String? tradeReportClientId;
-  final String tradeReportPeriod;
+  final String? tradeReportPeriod;
   final Set<String> tradeReportSelectedExchanges;
   final List<SymbolReportData> symbolReports;
   final String? symbolReportClientId;
-  final String symbolReportPeriod;
+  final String? symbolReportPeriod;
   final Set<String> symbolReportSelectedExchanges;
-  final int symbolReportTopCount;
+  final int? symbolReportTopCount;
   final List<WeeklyProgressData> weeklyProgress;
   final String? weeklyProgressClientId;
-  final String weeklyProgressPeriod;
+  final String? weeklyProgressPeriod;
   final Set<String> weeklyProgressSelectedExchanges;
   final DashboardSummary summary;
   final List<String> clients;
@@ -37,16 +37,16 @@ class DashboardLoaded extends DashboardState {
   const DashboardLoaded({
     required this.tradeReports,
     this.tradeReportClientId,
-    this.tradeReportPeriod = 'Day',
+    this.tradeReportPeriod,
     this.tradeReportSelectedExchanges = const {},
     required this.symbolReports,
     this.symbolReportClientId,
-    this.symbolReportPeriod = 'Day',
+    this.symbolReportPeriod,
     this.symbolReportSelectedExchanges = const {},
-    this.symbolReportTopCount = 10,
+    this.symbolReportTopCount,
     required this.weeklyProgress,
     this.weeklyProgressClientId,
-    this.weeklyProgressPeriod = 'This Week',
+    this.weeklyProgressPeriod,
     this.weeklyProgressSelectedExchanges = const {},
     required this.summary,
     this.clients = const ['User 1', 'User 2', 'User 3', 'User 4', 'User 5'],
@@ -57,7 +57,8 @@ class DashboardLoaded extends DashboardState {
       'GIFTNIFTY',
       'CE/PE',
       'OTHERS',
-      'COMEX',
+      'COMEX FUTURE',
+      'COMEX SPOT',
       'CRYPTO',
       'FOREX',
       'USSTOCK',
@@ -86,28 +87,40 @@ class DashboardLoaded extends DashboardState {
     bool clearTradeClient = false,
     bool clearSymbolClient = false,
     bool clearWeeklyProgressClient = false,
+    bool clearTradePeriod = false,
+    bool clearSymbolPeriod = false,
+    bool clearSymbolTopCount = false,
+    bool clearWeeklyProgressPeriod = false,
   }) {
     return DashboardLoaded(
       tradeReports: tradeReports ?? this.tradeReports,
       tradeReportClientId: clearTradeClient
           ? null
           : (tradeReportClientId ?? this.tradeReportClientId),
-      tradeReportPeriod: tradeReportPeriod ?? this.tradeReportPeriod,
+      tradeReportPeriod: clearTradePeriod
+          ? null
+          : (tradeReportPeriod ?? this.tradeReportPeriod),
       tradeReportSelectedExchanges:
           tradeReportSelectedExchanges ?? this.tradeReportSelectedExchanges,
       symbolReports: symbolReports ?? this.symbolReports,
       symbolReportClientId: clearSymbolClient
           ? null
           : (symbolReportClientId ?? this.symbolReportClientId),
-      symbolReportPeriod: symbolReportPeriod ?? this.symbolReportPeriod,
+      symbolReportPeriod: clearSymbolPeriod
+          ? null
+          : (symbolReportPeriod ?? this.symbolReportPeriod),
       symbolReportSelectedExchanges:
           symbolReportSelectedExchanges ?? this.symbolReportSelectedExchanges,
-      symbolReportTopCount: symbolReportTopCount ?? this.symbolReportTopCount,
+      symbolReportTopCount: clearSymbolTopCount
+          ? null
+          : (symbolReportTopCount ?? this.symbolReportTopCount),
       weeklyProgress: weeklyProgress ?? this.weeklyProgress,
       weeklyProgressClientId: clearWeeklyProgressClient
           ? null
           : (weeklyProgressClientId ?? this.weeklyProgressClientId),
-      weeklyProgressPeriod: weeklyProgressPeriod ?? this.weeklyProgressPeriod,
+      weeklyProgressPeriod: clearWeeklyProgressPeriod
+          ? null
+          : (weeklyProgressPeriod ?? this.weeklyProgressPeriod),
       weeklyProgressSelectedExchanges:
           weeklyProgressSelectedExchanges ??
           this.weeklyProgressSelectedExchanges,

@@ -57,6 +57,7 @@ class IntradayHistoryFilterBar extends StatelessWidget {
                   hintText: 'Exchange',
                   value: state.selectedExchange,
                   items: state.exchanges,
+                  showAllOption: true,
                   onChanged: (value) {
                     context.read<IntradayHistoryBloc>().add(
                       ApplyIntradayFiltersEvent(

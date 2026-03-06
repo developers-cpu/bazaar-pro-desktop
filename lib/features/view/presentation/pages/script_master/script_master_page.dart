@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import '../../../../../../core/constants/app_colors.dart';
 import '../../bloc/script_master/script_master_bloc.dart';
 import '../../bloc/script_master/script_master_event.dart';
@@ -43,7 +43,10 @@ class _ScriptMasterPageState extends State<ScriptMasterPage> {
                     );
                   }
                   if (state is ScriptMasterLoaded && state.showTable) {
-                    return const ScriptMasterTable();
+                    return const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.0),
+                      child: ScriptMasterTable(),
+                    );
                   }
                   return const SizedBox.shrink();
                 },

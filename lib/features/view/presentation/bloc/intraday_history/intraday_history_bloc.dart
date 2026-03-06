@@ -41,14 +41,12 @@ class IntradayHistoryBloc
     try {
       final results = await Future.wait([
         getIntradayHistory(const IntradayHistoryParams()),
-        getExchanges(NoParams()),
         getSymbols(NoParams()),
         getTimings(NoParams()),
       ]);
       final historyResult = results[0];
-      final exchangesResult = results[1];
-      final symbolsResult = results[2];
-      final timingsResult = results[3];
+      final symbolsResult = results[1];
+      final timingsResult = results[2];
       if (historyResult.isLeft()) {
         final failure = historyResult.fold((l) => l, (r) => null);
         emit(
@@ -62,10 +60,17 @@ class IntradayHistoryBloc
         (l) => <IntradayHistory>[],
         (r) => r as List<IntradayHistory>,
       );
-      final exchanges = exchangesResult.fold(
-        (l) => <String>[],
-        (r) => r as List<String>,
-      );
+      final exchanges = <String>[
+        'NSE',
+        'MCX',
+        'CE/PE',
+        'OTHERS',
+        'COMEX FUTURE',
+        'COMEX SPOT',
+        'CRYPTO',
+        'GIFT',
+        'FOREX',
+      ];
       final symbols = symbolsResult.fold(
         (l) => <String>[],
         (r) => r as List<String>,

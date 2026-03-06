@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import '../../../../../../core/constants/app_colors.dart';
 import '../../bloc/rejection_log/rejection_log_bloc.dart';
 import '../../bloc/rejection_log/rejection_log_event.dart';
@@ -32,7 +32,12 @@ class _RejectionLogPageState extends State<RejectionLogPage> {
         child: Column(
           children: [
             const RejectionLogFilterBar(),
-            const Expanded(child: RejectionLogTable()),
+            const Expanded(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                child: RejectionLogTable(),
+              ),
+            ),
           ],
         ),
       ),

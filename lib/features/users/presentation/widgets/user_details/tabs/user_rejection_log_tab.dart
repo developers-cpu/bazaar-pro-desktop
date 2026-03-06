@@ -1,10 +1,9 @@
 import 'package:bazarpro/core/widget/table/view_reset_buttons.dart';
-import 'package:flutter/material.dart' hide CustomDateRangePickerDialog;
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import '../../../../../../core/widget/date_range_picker_dialog.dart';
 import '../../../../../../core/widget/date_range_picker_button.dart';
 import '../../../../../../core/constants/app_colors.dart';
 import '../../../../../../core/widget/app_dropdown.dart';
@@ -67,22 +66,15 @@ class UserRejectionLogTabView extends StatelessWidget {
             children: [
               DateRangePickerButton(
                 selectedDateRange: selectedDateRange,
-                onTap: () async {
-                  final DateTimeRange? picked =
-                      await CustomDateRangePickerDialog.show(
-                        context,
-                        initialStartDate: selectedDateRange?.start,
-                        initialEndDate: selectedDateRange?.end,
-                      );
-                  if (picked != null) {
-                    context.read<UserRejectionLogBloc>().add(
-                      FilterUserRejectionLogs(
-                        dateRange: picked,
-                        exchange: selectedExchange,
-                        symbol: selectedSymbol,
-                      ),
-                    );
-                  }
+                onTap: () {},
+                onDateRangeSelected: (range) {
+                  context.read<UserRejectionLogBloc>().add(
+                    FilterUserRejectionLogs(
+                      dateRange: range,
+                      exchange: selectedExchange,
+                      symbol: selectedSymbol,
+                    ),
+                  );
                 },
               ),
               SizedBox(width: 5.w),

@@ -15,68 +15,37 @@ class CreditHistoryRemoteDataSourceImpl
     String? search,
   }) async {
     await Future.delayed(const Duration(milliseconds: 500));
-    final List<CreditHistoryModel> mockData = [
-      CreditHistoryModel(
-        id: '1',
-        userName: 'User 1',
-        type: 'Credit',
-        comment: 'Deposit',
-        amount: 500000.00,
-        balance: 1500000.00,
-        dateTime: DateTime.now(),
+    final List<CreditHistoryModel> mockData = List.generate(15, (index) {
+      final isCredit = index % 2 == 0;
+      final type = isCredit ? 'Credit' : 'Debit';
+      final comment = isCredit ? 'Initial Credit' : 'Initial Debit';
+      final amount = isCredit ? 500000.00 : -500000.00;
+
+      double balance;
+      if (index == 0)
+        balance = 6000000.00;
+      else if (index == 1)
+        balance = 5500000.00;
+      else if (index == 2)
+        balance = 5000000.00;
+      else if (index == 3)
+        balance = 5500000.00;
+      else if (index % 4 == 0)
+        balance = 500000.00;
+      else
+        balance = 0.00;
+
+      return CreditHistoryModel(
+        id: index.toString(),
+        userName: 'User $index',
+        type: type,
+        comment: comment,
+        amount: index == 3 ? 5500000.00 : amount,
+        balance: balance,
+        dateTime: DateTime(2025, 11, 4, 13, 25, 35),
         parentUserName: 'DEMO',
-      ),
-      CreditHistoryModel(
-        id: '2',
-        userName: 'User 2',
-        type: 'Debit',
-        comment: 'Withdrawal',
-        amount: -20000.00,
-        balance: 480000.00,
-        dateTime: DateTime.now().subtract(const Duration(hours: 2)),
-        parentUserName: 'DEMO',
-      ),
-      CreditHistoryModel(
-        id: '3',
-        userName: 'User 3',
-        type: 'Credit',
-        comment: 'Bonus',
-        amount: 15000.00,
-        balance: 15000.00,
-        dateTime: DateTime.now().subtract(const Duration(days: 1)),
-        parentUserName: 'DEMO',
-      ),
-      CreditHistoryModel(
-        id: '4',
-        userName: 'User 4',
-        type: 'Debit',
-        comment: 'Correction',
-        amount: 0.00,
-        balance: 0.00,
-        dateTime: DateTime.now().subtract(const Duration(days: 2)),
-        parentUserName: 'DEMO',
-      ),
-      CreditHistoryModel(
-        id: '5',
-        userName: 'User 5',
-        type: 'Credit',
-        comment: 'Transfer',
-        amount: 100000.00,
-        balance: 100000.00,
-        dateTime: DateTime.now().subtract(const Duration(days: 3)),
-        parentUserName: 'DEMO',
-      ),
-      CreditHistoryModel(
-        id: '6',
-        userName: 'DEMO',
-        type: 'Credit',
-        comment: 'Self funding',
-        amount: 1000000.00,
-        balance: 5000000.00,
-        dateTime: DateTime.now(),
-        parentUserName: 'ADMIN',
-      ),
-    ];
+      );
+    });
     return mockData.where((item) {
       if (type != null &&
           type.isNotEmpty &&

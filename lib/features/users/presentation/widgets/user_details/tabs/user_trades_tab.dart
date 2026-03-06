@@ -1,6 +1,6 @@
 import 'package:bazarpro/core/widget/table/view_reset_buttons.dart';
 import 'package:bazarpro/injection_container.dart';
-import 'package:flutter/material.dart' hide CustomDateRangePickerDialog;
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../../core/widget/table/view_data_table.dart';
@@ -10,7 +10,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import '../../../../../../core/constants/app_colors.dart';
 import '../../../../../../core/widget/app_dropdown.dart';
-import '../../../../../../core/widget/date_range_picker_dialog.dart';
 import '../../../../../../core/widget/date_range_picker_button.dart';
 import '../../../../domain/entities/user.dart';
 import '../../../bloc/user_trades/user_trades_bloc.dart';
@@ -71,22 +70,16 @@ class UserTradesTabView extends StatelessWidget {
             children: [
               DateRangePickerButton(
                 selectedDateRange: selectedDateRange,
-                onTap: () async {
-                  final result = await CustomDateRangePickerDialog.show(
-                    context,
-                    initialStartDate: selectedDateRange?.start,
-                    initialEndDate: selectedDateRange?.end,
+                onTap: () {},
+                onDateRangeSelected: (range) {
+                  context.read<UserTradesBloc>().add(
+                    FilterUserTrades(
+                      dateRange: range,
+                      exchange: selectedExchange,
+                      symbol: selectedSymbol,
+                      status: selectedStatus,
+                    ),
                   );
-                  if (result != null) {
-                    context.read<UserTradesBloc>().add(
-                      FilterUserTrades(
-                        dateRange: result,
-                        exchange: selectedExchange,
-                        symbol: selectedSymbol,
-                        status: selectedStatus,
-                      ),
-                    );
-                  }
                 },
               ),
               SizedBox(width: 5.w),

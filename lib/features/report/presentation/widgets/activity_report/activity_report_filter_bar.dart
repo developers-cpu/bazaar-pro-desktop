@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/widget/app_dropdown.dart';
 import '../../../../../core/widget/date_range_picker_button.dart';
-import '../../../../../core/widget/date_range_picker_dialog.dart' as custom;
 import '../../bloc/activity_report/activity_report_bloc.dart';
 import '../../bloc/activity_report/activity_report_event.dart';
 import '../../bloc/activity_report/activity_report_state.dart';
@@ -67,18 +66,11 @@ class ActivityReportFilterBar extends StatelessWidget {
                   width: 200.w,
                   height: 35.h,
                   selectedDateRange: state.selectedDateRange,
-                  onTap: () async {
-                    final picked =
-                        await custom.CustomDateRangePickerDialog.show(
-                          context,
-                          initialStartDate: state.selectedDateRange?.start,
-                          initialEndDate: state.selectedDateRange?.end,
-                        );
-                    if (picked != null && context.mounted) {
-                      context.read<ActivityReportBloc>().add(
-                        FilterActivityReport(dateRange: picked),
-                      );
-                    }
+                  onTap: () {},
+                  onDateRangeSelected: (range) {
+                    context.read<ActivityReportBloc>().add(
+                      FilterActivityReport(dateRange: range),
+                    );
                   },
                 ),
               ],

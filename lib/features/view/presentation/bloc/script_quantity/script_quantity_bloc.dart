@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../../core/usecases/usecase.dart';
+
 import '../../../domain/usecases/script_quantity/script_quantity_usecases.dart';
 import 'script_quantity_event.dart';
 import 'script_quantity_state.dart';
@@ -24,11 +24,18 @@ class ScriptQuantityBloc
     Emitter<ScriptQuantityState> emit,
   ) async {
     emit(const ScriptQuantityLoading());
-    final result = await getExchanges(NoParams());
-    result.fold(
-      (failure) => emit(ScriptQuantityError(failure.message)),
-      (exchanges) => emit(ScriptQuantityFiltersLoaded(exchanges: exchanges)),
-    );
+    final exchanges = <String>[
+      'NSE',
+      'MCX',
+      'CE/PE',
+      'OTHERS',
+      'COMEX FUTURE',
+      'COMEX SPOT',
+      'CRYPTO',
+      'GIFT',
+      'FOREX',
+    ];
+    emit(ScriptQuantityFiltersLoaded(exchanges: exchanges));
   }
 
   Future<void> _onLoadGroups(
@@ -78,11 +85,18 @@ class ScriptQuantityBloc
   ) async {
     if (state is ScriptQuantityFiltersLoaded ||
         state is ScriptQuantityDataLoaded) {
-      final result = await getExchanges(NoParams());
-      result.fold(
-        (failure) => emit(ScriptQuantityError(failure.message)),
-        (exchanges) => emit(ScriptQuantityFiltersLoaded(exchanges: exchanges)),
-      );
+      final exchanges = <String>[
+        'NSE',
+        'MCX',
+        'CE/PE',
+        'OTHERS',
+        'COMEX FUTURE',
+        'COMEX SPOT',
+        'CRYPTO',
+        'GIFT',
+        'FOREX',
+      ];
+      emit(ScriptQuantityFiltersLoaded(exchanges: exchanges));
     }
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import '../../../../../core/constants/app_colors.dart';
 import '../../bloc/login_history/login_history_bloc.dart';
 import '../../bloc/login_history/login_history_event.dart';
@@ -44,7 +44,12 @@ class _LoginHistoryPageState extends State<LoginHistoryPage> {
                   );
                 }
                 if (state is LoginHistoryLoaded && state.showTable) {
-                  return const Expanded(child: LoginHistoryTable());
+                  return const Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.0),
+                      child: LoginHistoryTable(),
+                    ),
+                  );
                 }
                 return const Spacer();
               },

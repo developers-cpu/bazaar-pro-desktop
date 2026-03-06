@@ -31,7 +31,12 @@ class _PendingOrdersPageState extends State<PendingOrdersPage> {
         child: Column(
           children: [
             const PendingOrdersFilterBar(),
-            const Expanded(child: PendingOrdersTable(showDeviceInfo: false)),
+            const Expanded(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                child: PendingOrdersTable(showDeviceInfo: false),
+              ),
+            ),
           ],
         ),
       ),

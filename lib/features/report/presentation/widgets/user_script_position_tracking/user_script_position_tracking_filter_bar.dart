@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../../core/widget/date_range_picker_button.dart';
-import '../../../../../../core/widget/date_range_picker_dialog.dart' as custom;
 import '../../bloc/user_script_position_tracking/user_script_position_tracking_bloc.dart';
 import '../../bloc/user_script_position_tracking/user_script_position_tracking_event.dart';
 import '../../bloc/user_script_position_tracking/user_script_position_tracking_state.dart';
@@ -48,23 +47,17 @@ class UserScriptPositionTrackingFilterBar extends StatelessWidget {
                 width: 200.w,
                 height: 35.h,
                 selectedDateRange: selectedDateRange,
-                onTap: () async {
-                  final picked = await custom.CustomDateRangePickerDialog.show(
-                    context,
-                    initialStartDate: null,
-                    initialEndDate: null,
+                onTap: () {},
+                onDateRangeSelected: (range) {
+                  context.read<UserScriptPositionTrackingBloc>().add(
+                    FilterUserScriptPositionTracking(
+                      startDate: range.start.toIso8601String(),
+                      endDate: range.end.toIso8601String(),
+                      userId: selectedUser,
+                      exchange: selectedExchange,
+                      symbol: selectedSymbol,
+                    ),
                   );
-                  if (picked != null && context.mounted) {
-                    context.read<UserScriptPositionTrackingBloc>().add(
-                      FilterUserScriptPositionTracking(
-                        startDate: picked.start.toIso8601String(),
-                        endDate: picked.end.toIso8601String(),
-                        userId: selectedUser,
-                        exchange: selectedExchange,
-                        symbol: selectedSymbol,
-                      ),
-                    );
-                  }
                 },
               ),
               SizedBox(width: 10.w),

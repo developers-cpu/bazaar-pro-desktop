@@ -38,13 +38,11 @@ class RejectionLogBloc extends Bloc<RejectionLogEvent, RejectionLogState> {
       final results = await Future.wait([
         getRejectionLogs(NoParams()),
         getClients(NoParams()),
-        getExchanges(NoParams()),
         getSymbols(NoParams()),
       ]);
       final logsResult = results[0];
       final clientsResult = results[1];
-      final exchangesResult = results[2];
-      final symbolsResult = results[3];
+      final symbolsResult = results[2];
       if (logsResult.isLeft()) {
         final failure = logsResult.fold((l) => l, (r) => null);
         emit(RejectionLogError(failure?.message ?? 'Failed to load logs'));
@@ -58,10 +56,17 @@ class RejectionLogBloc extends Bloc<RejectionLogEvent, RejectionLogState> {
         (l) => <String>[],
         (r) => r as List<String>,
       );
-      final exchanges = exchangesResult.fold(
-        (l) => <String>[],
-        (r) => r as List<String>,
-      );
+      final exchanges = <String>[
+        'NSE',
+        'MCX',
+        'CE/PE',
+        'OTHERS',
+        'COMEX FUTURE',
+        'COMEX SPOT',
+        'CRYPTO',
+        'GIFT',
+        'FOREX',
+      ];
       final symbols = symbolsResult.fold(
         (l) => <String>[],
         (r) => r as List<String>,

@@ -19,15 +19,24 @@ class SymbolWisePLBloc extends Bloc<SymbolWisePLEvent, SymbolWisePLState> {
     result.fold(
       (failure) => emit(SymbolWisePLError(message: failure.message)),
       (reports) {
-        final exchanges = reports.map((e) => e.exchange).toSet().toList()
-          ..sort();
+        final exchanges = <String>[
+          'NSE',
+          'MCX',
+          'CE/PE',
+          'OTHERS',
+          'COMEX FUTURE',
+          'COMEX SPOT',
+          'CRYPTO',
+          'GIFT',
+          'FOREX',
+        ];
         final symbols = reports.map((e) => e.symbol).toSet().toList()..sort();
         emit(
           SymbolWisePLLoaded(
             reports: reports,
-            exchanges: ['All', ...exchanges],
-            symbols: ['All', ...symbols],
-            selectedExchange: 'All',
+            exchanges: exchanges,
+            symbols: symbols,
+            selectedExchange: null,
             selectedSymbol: 'All',
           ),
         );

@@ -26,41 +26,41 @@ class DealsTable extends StatelessWidget {
   List<ViewTableColumn> _getColumns(bool isClient) {
     if (isClient) {
       return const [
-        ViewTableColumn(id: 'exchange', label: 'EXCH', width: 100),
-        ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 150),
-        ViewTableColumn(id: 'orderDateTime', label: 'Order D/T', width: 220),
-        ViewTableColumn(id: 'buySell', label: 'B/S', width: 150),
-        ViewTableColumn(id: 'qty', label: 'QTY', width: 120, isNumeric: true),
-        ViewTableColumn(id: 'lot', label: 'Lot', width: 100, isNumeric: true),
-        ViewTableColumn(id: 'orderType', label: 'Type', width: 100),
-        ViewTableColumn(id: 'pl', label: 'P/L', width: 120, isNumeric: true),
+        ViewTableColumn(id: 'exchange', label: 'EXCH', width: 70),
+        ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 120),
+        ViewTableColumn(id: 'orderDateTime', label: 'Order D/T', width: 170),
+        ViewTableColumn(id: 'buySell', label: 'B/S', width: 130),
+        ViewTableColumn(id: 'qty', label: 'QTY', width: 90, isNumeric: true),
+        ViewTableColumn(id: 'lot', label: 'Lot', width: 70, isNumeric: true),
+        ViewTableColumn(id: 'orderType', label: 'Type', width: 80),
+        ViewTableColumn(id: 'pl', label: 'P/L', width: 90, isNumeric: true),
         ViewTableColumn(
           id: 'triggerPrice',
           label: 'T. PRICE',
-          width: 130,
+          width: 100,
           isNumeric: true,
         ),
         ViewTableColumn(
           id: 'brokerage',
           label: 'Brk',
-          width: 100,
+          width: 70,
           isNumeric: true,
         ),
         ViewTableColumn(
           id: 'executionDateTime',
           label: 'Execution D/T',
-          width: 220,
+          width: 170,
         ),
         ViewTableColumn(
           id: 'rPrice',
           label: 'R. PRICE',
-          width: 120,
+          width: 90,
           isNumeric: true,
         ),
         ViewTableColumn(
           id: 'orderDuration',
           label: 'ORDER DURATION',
-          width: 180,
+          width: 140,
         ),
       ];
     }
@@ -152,15 +152,11 @@ class DealsTable extends StatelessWidget {
           item.qty,
           isDark: isDark,
         );
-        return Text(
-          item.symbol,
-          style: ViewTableCellStyles.getTextStyle(
-            isDark: isDark,
-            color: symbolColor,
-          ),
-          textAlign: TextAlign.center,
-          maxLines: 1,
-          softWrap: false,
+        return ViewTextCell(
+          text: item.symbol,
+          color: symbolColor,
+          isDark: isDark,
+          isStart: true,
         );
       case 'orderDateTime':
         return ViewDateTimeCell(dateTime: item.orderDateTime, isDark: isDark);
@@ -228,19 +224,6 @@ class DealsTable extends StatelessWidget {
     bool isDark,
     bool isClient,
   ) {
-    if (isClient) {
-      return Container(
-        alignment: Alignment.centerLeft,
-        child: Text(
-          item.orderDuration,
-          style: ViewTableCellStyles.getTextStyle(
-            isDark: isDark,
-            color: const Color(0xFF2C5F7A),
-          ),
-        ),
-      );
-    }
-
     return GestureDetector(
       onTap: () {
         final state = context.read<DealsBloc>().state;

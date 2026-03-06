@@ -16,6 +16,7 @@ class SymbolWisePLTable extends StatelessWidget {
   const SymbolWisePLTable({super.key, this.isDarkMode = false});
   List<ViewTableColumn> _getColumns() {
     return const [
+      ViewTableColumn(id: 'exchange', label: 'EXCH', width: 100),
       ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 220),
       ViewTableColumn(id: 'releasePL', label: 'RELEASE PL', width: 140),
       ViewTableColumn(id: 'm2m', label: 'M2M', width: 140),
@@ -60,8 +61,18 @@ class SymbolWisePLTable extends StatelessWidget {
     bool isDark,
   ) {
     switch (column.id) {
+      case 'exchange':
+        return ViewTextCell(
+          text: item.exchange,
+          isDark: isDark,
+          fontWeight: FontWeight.normal,
+        );
       case 'symbol':
-        return ViewTextCell(text: item.symbol, isDark: isDark);
+        return ViewTextCell(
+          text: item.symbol,
+          isDark: isDark,
+          fontWeight: FontWeight.normal,
+        );
       case 'releasePL':
         return _buildClickableNumberCell(context, item.releasePL, () {
           SymbolTradeListDialog.show(context, symbol: item.symbol);
@@ -130,7 +141,8 @@ class SymbolWisePLTable extends StatelessWidget {
                   return ViewDataTableFooter(
                     columns: columns,
                     values: {
-                      'symbol': 'Total',
+                      'exchange': 'Total',
+                      'symbol': '',
                       'releasePL': totalReleasePL.toStringAsFixed(2),
                       'm2m': totalM2M.toStringAsFixed(2),
                       'brokerage': totalBrokerage.toStringAsFixed(2),

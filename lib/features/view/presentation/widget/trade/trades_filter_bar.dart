@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/widget/app_dropdown.dart';
 import '../../../../../core/widget/date_range_picker_button.dart';
-import '../../../../../core/widget/date_range_picker_dialog.dart';
 import '../../../../../core/widget/table/view_reset_buttons.dart';
 import '../../bloc/trade/trades_bloc.dart';
 import '../../bloc/trade/trades_event.dart';
@@ -46,24 +45,18 @@ class TradesFilterBar extends StatelessWidget {
                                 end: state.endDate!,
                               )
                             : null,
-                        onTap: () async {
-                          final result = await CustomDateRangePickerDialog.show(
-                            context,
-                            initialStartDate: state.startDate,
-                            initialEndDate: state.endDate,
+                        onTap: () {},
+                        onDateRangeSelected: (range) {
+                          context.read<TradesBloc>().add(
+                            ApplyFiltersEvent(
+                              startDate: range.start,
+                              endDate: range.end,
+                              client: state.selectedClient,
+                              exchange: state.selectedExchange,
+                              symbol: state.selectedSymbol,
+                              orderType: state.selectedOrderType,
+                            ),
                           );
-                          if (result != null) {
-                            context.read<TradesBloc>().add(
-                              ApplyFiltersEvent(
-                                startDate: result.start,
-                                endDate: result.end,
-                                client: state.selectedClient,
-                                exchange: state.selectedExchange,
-                                symbol: state.selectedSymbol,
-                                orderType: state.selectedOrderType,
-                              ),
-                            );
-                          }
                         },
                       ),
                       if (!isClient) ...[
@@ -94,7 +87,17 @@ class TradesFilterBar extends StatelessWidget {
                         type: AppDropdownType.simple,
                         hintText: 'Exchange',
                         value: state.selectedExchange,
-                        items: state.exchanges,
+                        items: const [
+                          'NSE',
+                          'MCX',
+                          'CE/PE',
+                          'OTHERS',
+                          'COMEX FUTURE',
+                          'COMEX SPOT',
+                          'CRYPTO',
+                          'GIFT',
+                          'FOREX',
+                        ],
                         showAllOption: true,
                         onChanged: (value) {
                           context.read<TradesBloc>().add(
@@ -135,7 +138,14 @@ class TradesFilterBar extends StatelessWidget {
                         type: AppDropdownType.simple,
                         hintText: 'Select Type',
                         value: state.selectedOrderType,
-                        items: state.orderTypes,
+                        items: const [
+                          'Buy',
+                          'Sell',
+                          'Buy Limit',
+                          'Buy Stop',
+                          'Sell Limit',
+                          'Sell Stop',
+                        ],
                         showAllOption: true,
                         onChanged: (value) {
                           context.read<TradesBloc>().add(

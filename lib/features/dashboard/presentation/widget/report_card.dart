@@ -12,8 +12,8 @@ class ReportCard extends StatelessWidget {
   final String? selectedClient;
   final ValueChanged<String?> onClientChanged;
   final List<String> periods;
-  final String selectedPeriod;
-  final ValueChanged<String?> onPeriodChanged;
+  final String? selectedPeriod;
+  final Function(String?) onPeriodChanged;
   final List<String> exchanges;
   final Set<String> selectedExchanges;
   final ValueChanged<String> onExchangeToggle;

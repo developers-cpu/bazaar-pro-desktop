@@ -31,7 +31,12 @@ class _DeletedTradePageState extends State<DeletedTradePage> {
         child: Column(
           children: [
             const DeletedTradeFilterBar(),
-            const Expanded(child: DeletedTradeTable()),
+            const Expanded(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                child: DeletedTradeTable(),
+              ),
+            ),
           ],
         ),
       ),

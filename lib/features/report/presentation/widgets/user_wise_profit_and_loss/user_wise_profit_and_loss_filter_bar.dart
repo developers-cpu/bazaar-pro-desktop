@@ -1,6 +1,5 @@
 import 'package:bazarpro/core/widget/app_dropdown.dart';
 import 'package:bazarpro/core/widget/date_range_picker_button.dart';
-import 'package:bazarpro/core/widget/date_range_picker_dialog.dart' as custom;
 import 'package:bazarpro/core/widget/table/view_reset_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -66,21 +65,15 @@ class UserWiseProfitAndLossFilterBar extends StatelessWidget {
                 width: 200.w,
                 height: 35.h,
                 selectedDateRange: selectedDateRange,
-                onTap: () async {
-                  final picked = await custom.CustomDateRangePickerDialog.show(
-                    context,
-                    initialStartDate: null,
-                    initialEndDate: null,
+                onTap: () {},
+                onDateRangeSelected: (range) {
+                  context.read<UserWiseProfitAndLossBloc>().add(
+                    FilterUserWiseProfitAndLoss(
+                      startDate: range.start.toIso8601String(),
+                      endDate: range.end.toIso8601String(),
+                      userId: selectedUser,
+                    ),
                   );
-                  if (picked != null && context.mounted) {
-                    context.read<UserWiseProfitAndLossBloc>().add(
-                      FilterUserWiseProfitAndLoss(
-                        startDate: picked.start.toIso8601String(),
-                        endDate: picked.end.toIso8601String(),
-                        userId: selectedUser,
-                      ),
-                    );
-                  }
                 },
               ),
               if (!isClient) ...[

@@ -34,6 +34,7 @@ class SymbolWisePLFilterBar extends StatelessWidget {
               AppDropdown(
                 hintText: 'Exchange',
                 items: exchangeItems,
+                showAllOption: true,
                 onChanged: (value) {
                   context.read<SymbolWisePLBloc>().add(
                     FilterSymbolWisePL(exchange: value),

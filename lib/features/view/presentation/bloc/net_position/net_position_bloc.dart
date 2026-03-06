@@ -44,15 +44,13 @@ class NetPositionBloc extends Bloc<NetPositionEvent, NetPositionState> {
       final results = await Future.wait([
         getNetPositions(NoParams()),
         getClients(NoParams()),
-        getExchanges(NoParams()),
         getSymbols(NoParams()),
         getUserTypes(NoParams()),
       ]);
       final positionsResult = results[0];
       final clientsResult = results[1];
-      final exchangesResult = results[2];
-      final symbolsResult = results[3];
-      final userTypesResult = results[4];
+      final symbolsResult = results[2];
+      final userTypesResult = results[3];
       if (positionsResult.isLeft()) {
         final failure = positionsResult.fold((l) => l, (r) => null);
         emit(
@@ -68,10 +66,17 @@ class NetPositionBloc extends Bloc<NetPositionEvent, NetPositionState> {
         (l) => <String>[],
         (r) => r as List<String>,
       );
-      final exchanges = exchangesResult.fold(
-        (l) => <String>[],
-        (r) => r as List<String>,
-      );
+      final exchanges = <String>[
+        'NSE',
+        'MCX',
+        'CE/PE',
+        'OTHERS',
+        'COMEX FUTURE',
+        'COMEX SPOT',
+        'CRYPTO',
+        'GIFT',
+        'FOREX',
+      ];
       final symbols = symbolsResult.fold(
         (l) => <String>[],
         (r) => r as List<String>,

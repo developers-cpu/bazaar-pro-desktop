@@ -121,6 +121,24 @@ class DashboardDataSource {
         percentage: 5.82,
         colorIndex: 11,
       ),
+      const SymbolReportModel(
+        symbol: 'NIFTY50',
+        value: 88.45,
+        percentage: 5.18,
+        colorIndex: 0,
+      ),
+      const SymbolReportModel(
+        symbol: 'BANKNIFTY',
+        value: 76.32,
+        percentage: 4.47,
+        colorIndex: 1,
+      ),
+      const SymbolReportModel(
+        symbol: 'ZINC',
+        value: 65.19,
+        percentage: 3.82,
+        colorIndex: 2,
+      ),
     ];
     return allSymbols.take(topCount).toList();
   }

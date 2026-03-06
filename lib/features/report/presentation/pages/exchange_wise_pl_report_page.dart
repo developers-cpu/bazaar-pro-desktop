@@ -23,7 +23,10 @@ class ExchangeWisePLReportPage extends StatelessWidget {
                   if (state is ExchangeWisePLLoading) {
                     return const Center(child: CircularProgressIndicator());
                   } else if (state is ExchangeWisePLLoaded) {
-                    return ExchangeWisePLTable(reports: state.reports);
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: ExchangeWisePLTable(reports: state.reports),
+                    );
                   } else if (state is ExchangeWisePLError) {
                     return Center(child: Text(state.message));
                   }

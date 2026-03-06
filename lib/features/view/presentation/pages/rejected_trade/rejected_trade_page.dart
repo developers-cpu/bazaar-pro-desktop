@@ -31,7 +31,12 @@ class _RejectedTradePageState extends State<RejectedTradePage> {
         child: Column(
           children: [
             const RejectedTradeFilterBar(),
-            const Expanded(child: RejectedTradeTable()),
+            const Expanded(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                child: RejectedTradeTable(),
+              ),
+            ),
           ],
         ),
       ),

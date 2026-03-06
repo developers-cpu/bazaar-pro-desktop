@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import '../../../../../../core/constants/app_colors.dart';
 import '../../bloc/deals/deals_bloc.dart';
 import '../../bloc/deals/deals_event.dart';
@@ -32,7 +32,12 @@ class _DealsPageState extends State<DealsPage> {
         child: Column(
           children: [
             const DealsFilterBar(),
-            const Expanded(child: DealsTable(showDeviceInfo: true)),
+            const Expanded(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                child: DealsTable(showDeviceInfo: true),
+              ),
+            ),
           ],
         ),
       ),

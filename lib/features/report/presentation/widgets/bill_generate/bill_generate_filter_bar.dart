@@ -8,9 +8,21 @@ import '../../bloc/bill_generate/bill_generate_bloc.dart';
 import '../../bloc/bill_generate/bill_generate_event.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
+import '../../../../../../core/widget/date_range_picker_dialog.dart';
 
-class BillGenerateFilterBar extends StatelessWidget {
+import 'package:intl/intl.dart';
+
+class BillGenerateFilterBar extends StatefulWidget {
   const BillGenerateFilterBar({super.key});
+
+  @override
+  State<BillGenerateFilterBar> createState() => _BillGenerateFilterBarState();
+}
+
+class _BillGenerateFilterBarState extends State<BillGenerateFilterBar> {
+  String _customPeriodLabel = 'Select Date Range';
+  String _selectedDateRange = 'This Week';
+
   @override
   Widget build(BuildContext context) {
     final authState = context.read<AuthBloc>().state;
@@ -22,15 +34,31 @@ class BillGenerateFilterBar extends StatelessWidget {
       AppDropdown(
         width: 200.w,
         hintText: 'This Week',
+        value: _selectedDateRange,
         items: const ['This Week', 'Previous Week', 'Custom Period'],
+        subtitles: [
+          '27-10-25 to 02-11-25',
+          '20-10-25 to 26-10-25',
+          _customPeriodLabel,
+        ],
         onChanged: (value) async {
           if (value == 'Custom Period') {
-            final DateTimeRange? picked = await showDateRangePicker(
-              context: context,
-              firstDate: DateTime(2020),
-              lastDate: DateTime(2030),
-            );
-            if (picked != null) {}
+            final DateTimeRange? picked =
+                await CustomDateRangePickerDialog.show(
+                  context,
+                  showSimpleUI: true,
+                );
+            if (picked != null) {
+              setState(() {
+                _selectedDateRange = value!;
+                _customPeriodLabel =
+                    '${DateFormat('dd-MM-yy').format(picked.start)} to ${DateFormat('dd-MM-yy').format(picked.end)}';
+              });
+            }
+          } else if (value != null) {
+            setState(() {
+              _selectedDateRange = value;
+            });
           }
         },
         height: 35.h,
@@ -64,11 +92,11 @@ class BillGenerateFilterBar extends StatelessWidget {
       ],
       AppDropdown(
         width: 200.w,
-        hintText: 'Bill Format',
+        hintText: 'Bill Type',
         items: const ['Advance', 'Regular'],
         onChanged: (value) {
           context.read<BillGenerateBloc>().add(
-            FilterBillGenerateReport(billFormat: value),
+            FilterBillGenerateReport(billType: value),
           );
         },
         height: 35.h,
@@ -76,11 +104,11 @@ class BillGenerateFilterBar extends StatelessWidget {
       SizedBox(width: 16.w),
       AppDropdown(
         width: 200.w,
-        hintText: 'Bill Type',
+        hintText: 'Bill Format',
         items: const ['PDF', 'Excel'],
         onChanged: (value) {
           context.read<BillGenerateBloc>().add(
-            FilterBillGenerateReport(billType: value),
+            FilterBillGenerateReport(billFormat: value),
           );
         },
         height: 35.h,

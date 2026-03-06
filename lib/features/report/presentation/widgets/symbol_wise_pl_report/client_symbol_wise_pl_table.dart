@@ -67,7 +67,7 @@ class ClientSymbolWisePLTable extends StatelessWidget {
         return ViewTextCell(
           text: item.symbol,
           isDark: isDark,
-          fontWeight: FontWeight.bold,
+          fontWeight: FontWeight.normal,
         );
       case 'm2m':
         return _buildClickableNumberCell(context, item.m2m, () {

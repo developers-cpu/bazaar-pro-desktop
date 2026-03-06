@@ -29,7 +29,12 @@ class _BrokerListPageState extends State<BrokerListPage> {
       child: Column(
         children: [
           const BrokerListFilterBar(),
-          Expanded(child: BrokerListTable(isDarkMode: widget.isDarkMode)),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: BrokerListTable(isDarkMode: widget.isDarkMode),
+            ),
+          ),
         ],
       ),
     );

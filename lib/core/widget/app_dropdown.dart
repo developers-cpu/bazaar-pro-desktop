@@ -190,7 +190,10 @@ class _AppDropdownState extends State<AppDropdown>
       if (_selectedSet.length == 1) return _selectedSet.first;
       return '${_selectedSet.length} Selected';
     }
-    return widget.value ?? widget.hintText;
+    if (widget.value != null && widget.value!.isNotEmpty) {
+      return widget.value!;
+    }
+    return widget.hintText;
   }
 
   double _calculateDropdownHeight(int filteredCount) {
@@ -504,7 +507,9 @@ class _AppDropdownState extends State<AppDropdown>
 
   @override
   Widget build(BuildContext context) {
-    final bool hasValue = widget.value != null || _selectedSet.isNotEmpty;
+    final bool hasValue =
+        (widget.value != null && widget.value!.isNotEmpty) ||
+        _selectedSet.isNotEmpty;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,

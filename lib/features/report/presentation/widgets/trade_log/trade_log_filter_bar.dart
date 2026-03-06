@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../../core/widget/app_dropdown.dart';
 import '../../../../../../core/widget/date_range_picker_button.dart';
-import '../../../../../../core/widget/date_range_picker_dialog.dart' as custom;
 import '../../../presentation/bloc/trade_log/trade_log_bloc.dart';
 import '../../../presentation/bloc/trade_log/trade_log_event.dart';
 import '../../../presentation/bloc/trade_log/trade_log_state.dart';
@@ -31,17 +30,11 @@ class TradeLogFilterBar extends StatelessWidget {
             children: [
               DateRangePickerButton(
                 selectedDateRange: state.selectedDateRange,
-                onTap: () async {
-                  final picked = await custom.CustomDateRangePickerDialog.show(
-                    context,
-                    initialStartDate: state.selectedDateRange?.start,
-                    initialEndDate: state.selectedDateRange?.end,
+                onTap: () {},
+                onDateRangeSelected: (range) {
+                  context.read<TradeLogBloc>().add(
+                    FilterTradeLogsEvent(dateRange: range),
                   );
-                  if (picked != null && context.mounted) {
-                    context.read<TradeLogBloc>().add(
-                      FilterTradeLogsEvent(dateRange: picked),
-                    );
-                  }
                 },
               ),
               SizedBox(width: 12.w),

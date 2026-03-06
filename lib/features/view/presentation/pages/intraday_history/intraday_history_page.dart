@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import '../../../../../../core/constants/app_colors.dart';
 import '../../bloc/intraday_history/intraday_history_bloc.dart';
 import '../../bloc/intraday_history/intraday_history_event.dart';
@@ -40,9 +40,12 @@ class _IntradayHistoryPageState extends State<IntradayHistoryPage> {
                 else if (state is IntradayHistorySecondsView)
                   const IntradaySecondsFilterBar(),
                 Expanded(
-                  child: state is IntradayHistorySecondsView
-                      ? const IntradaySecondsTable()
-                      : const IntradayHistoryTable(),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: state is IntradayHistorySecondsView
+                        ? const IntradaySecondsTable()
+                        : const IntradayHistoryTable(),
+                  ),
                 ),
               ],
             ),

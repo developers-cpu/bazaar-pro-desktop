@@ -7,15 +7,18 @@ import '../constants/app_colors.dart';
 class CustomDateRangePickerDialog extends StatefulWidget {
   final DateTime? initialStartDate;
   final DateTime? initialEndDate;
+  final bool showSimpleUI;
   const CustomDateRangePickerDialog({
     super.key,
     this.initialStartDate,
     this.initialEndDate,
+    this.showSimpleUI = false,
   });
   static Future<DateTimeRange?> show(
     BuildContext context, {
     DateTime? initialStartDate,
     DateTime? initialEndDate,
+    bool showSimpleUI = false,
   }) async {
     return await showDialog<DateTimeRange>(
       context: context,
@@ -23,6 +26,7 @@ class CustomDateRangePickerDialog extends StatefulWidget {
       builder: (context) => CustomDateRangePickerDialog(
         initialStartDate: initialStartDate,
         initialEndDate: initialEndDate,
+        showSimpleUI: showSimpleUI,
       ),
     );
   }
@@ -51,7 +55,7 @@ class _CustomDateRangePickerDialogState
     return Dialog(
       backgroundColor: Colors.transparent,
       child: Container(
-        width: 350.w,
+        width: widget.showSimpleUI ? 330.w : 350.w,
         decoration: BoxDecoration(
           color: AppColors.white,
           borderRadius: BorderRadius.circular(16.r),
@@ -59,13 +63,13 @@ class _CustomDateRangePickerDialogState
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            _buildHeader(),
+            if (!widget.showSimpleUI) _buildHeader(),
             _buildMonthNavigation(),
             _buildWeekdayHeaders(),
             _buildCalendarGrid(),
-            if (_startDate != null && _endDate != null)
+            if (!widget.showSimpleUI && _startDate != null && _endDate != null)
               _buildSelectedDateDisplay(),
-            _buildButtons(),
+            if (!widget.showSimpleUI) _buildButtons(),
           ],
         ),
       ),
@@ -156,27 +160,30 @@ class _CustomDateRangePickerDialogState
 
   Widget _buildWeekdayHeaders() {
     const weekdays = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 16.w),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: weekdays.asMap().entries.map((entry) {
-          final index = entry.key;
-          final day = entry.value;
-          final isWeekend = index == 0 || index == 6;
-          return SizedBox(
-            width: 40.w,
-            child: Text(
-              day,
-              textAlign: TextAlign.center,
-              style: GoogleFonts.openSans(
-                fontSize: 12.sp,
-                fontWeight: FontWeight.w600,
-                color: isWeekend ? AppColors.red : AppColors.primaryBlue,
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16.w),
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 8.h),
+        decoration: BoxDecoration(
+          color: AppColors.tableHeaderBackground,
+          borderRadius: BorderRadius.circular(20.r),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: weekdays.map((day) {
+            return Expanded(
+              child: Text(
+                day,
+                textAlign: TextAlign.center,
+                style: GoogleFonts.openSans(
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.primaryBlue,
+                ),
               ),
-            ),
-          );
-        }).toList(),
+            );
+          }).toList(),
+        ),
       ),
     );
   }
@@ -254,14 +261,18 @@ class _CustomDateRangePickerDialogState
     BoxDecoration? decoration;
     if (isStartDate || isEndDate) {
       textColor = AppColors.white;
-      backgroundColor = isStartDate ? AppColors.red : AppColors.primaryBlue;
+      backgroundColor = (date.weekday == DateTime.sunday)
+          ? AppColors.red
+          : AppColors.primaryBlue;
       decoration = BoxDecoration(
         color: backgroundColor,
-        shape: BoxShape.circle,
+        borderRadius: BorderRadius.circular(8.r),
       );
     } else if (isInRange) {
       textColor = AppColors.primaryTextColor;
-      backgroundColor = AppColors.primaryBlue.withValues(alpha: 0.1);
+      backgroundColor = (date.weekday == DateTime.sunday)
+          ? AppColors.red.withOpacity(0.1)
+          : AppColors.primaryBlue.withOpacity(0.1);
       decoration = BoxDecoration(color: backgroundColor);
     } else if (!isCurrentMonth) {
       textColor = AppColors.secondaryTextColor.withValues(alpha: 0.3);
@@ -273,8 +284,8 @@ class _CustomDateRangePickerDialogState
     return GestureDetector(
       onTap: isCurrentMonth ? () => _onDayTap(date) : null,
       child: Container(
-        width: 40.w,
-        height: 40.h,
+        width: 38.w,
+        height: 38.w,
         decoration: decoration,
         alignment: Alignment.center,
         child: Text(
@@ -314,6 +325,17 @@ class _CustomDateRangePickerDialogState
           _endDate = date;
         }
         _selectingEndDate = false;
+
+        if (widget.showSimpleUI) {
+          Future.delayed(const Duration(milliseconds: 100), () {
+            if (mounted) {
+              Navigator.pop(
+                context,
+                DateTimeRange(start: _startDate!, end: _endDate!),
+              );
+            }
+          });
+        }
       }
     });
   }

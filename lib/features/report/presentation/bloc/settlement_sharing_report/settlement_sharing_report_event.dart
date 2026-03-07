@@ -9,7 +9,10 @@ abstract class SettlementSharingReportEvent extends Equatable {
 class LoadSettlementSharingReport extends SettlementSharingReportEvent {
   final String dateRange;
   final String? userId;
-  const LoadSettlementSharingReport({this.dateRange = 'This Week', this.userId});
+  const LoadSettlementSharingReport({
+    this.dateRange = 'This Week',
+    this.userId,
+  });
   @override
   List<Object?> get props => [dateRange, userId];
 }

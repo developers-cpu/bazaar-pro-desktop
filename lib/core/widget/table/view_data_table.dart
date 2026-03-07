@@ -412,6 +412,9 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
             return Container(
               width: column.width * scale,
               alignment: Alignment.center,
+              padding: EdgeInsets.symmetric(
+                horizontal: column.width <= 50 ? 4.w : 16.w,
+              ),
               child: widget.cellBuilder(item, column),
             );
           }).toList(),

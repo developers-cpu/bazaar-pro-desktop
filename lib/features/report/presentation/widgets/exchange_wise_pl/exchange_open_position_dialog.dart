@@ -158,20 +158,34 @@ class _DialogContentState extends State<_DialogContent> {
                     autoFit: true,
                     comparatorBuilder: (item, columnId) {
                       switch (columnId) {
-                        case 'name': return item.name;
-                        case 'type': return item.type;
-                        case 'exchange': return item.exchange;
-                        case 'symbol': return item.symbol;
-                        case 'buyQty': return item.buyQty;
-                        case 'sellQty': return item.sellQty;
-                        case 'netQty': return item.netQty;
-                        case 'netAvgPrice': return item.netAvgPrice;
-                        case 'cmp': return item.cmp;
-                        case 'm2m': return item.m2m;
-                        case 'ourPercent': return item.ourPercent;
-                        case 'user': return item.user;
-                        case 'days': return item.days;
-                        default: return '';
+                        case 'name':
+                          return item.name;
+                        case 'type':
+                          return item.type;
+                        case 'exchange':
+                          return item.exchange;
+                        case 'symbol':
+                          return item.symbol;
+                        case 'buyQty':
+                          return item.buyQty;
+                        case 'sellQty':
+                          return item.sellQty;
+                        case 'netQty':
+                          return item.netQty;
+                        case 'netAvgPrice':
+                          return item.netAvgPrice;
+                        case 'cmp':
+                          return item.cmp;
+                        case 'm2m':
+                          return item.m2m;
+                        case 'ourPercent':
+                          return item.ourPercent;
+                        case 'user':
+                          return item.user;
+                        case 'days':
+                          return item.days;
+                        default:
+                          return '';
                       }
                     },
                     cellBuilder:

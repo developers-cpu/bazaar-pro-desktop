@@ -30,7 +30,7 @@ class RollOverDialog extends StatefulWidget {
 class _RollOverDialogState extends State<RollOverDialog> {
   String _selectedExchange = 'Exchange';
   String _selectedSymbol = 'Symbol';
-  final Color headerColor = const Color(0xFF2C5F7A);
+  final Color headerColor = AppColors.primaryBlue;
   Set<int> _selectedIndices = {
     0,
     1,
@@ -154,16 +154,19 @@ class _RollOverDialogState extends State<RollOverDialog> {
     return Column(
       children: [
         Expanded(
-          child: ViewDataTable<int>(
-            columns: _getColumns(),
-            data: List.generate(15, (index) => index),
-            idExtractor: (item) => item.toString(),
-            comparatorBuilder: (item, columnId) {
-              return item;
-            },
-            cellBuilder: (item, column) => _buildCell(item, column),
-            isDarkMode: false,
-            autoFit: true,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            child: ViewDataTable<int>(
+              columns: _getColumns(),
+              data: List.generate(15, (index) => index),
+              idExtractor: (item) => item.toString(),
+              comparatorBuilder: (item, columnId) {
+                return item;
+              },
+              cellBuilder: (item, column) => _buildCell(item, column),
+              isDarkMode: false,
+              autoFit: true,
+            ),
           ),
         ),
       ],
@@ -320,34 +323,38 @@ class _RollOverDialogState extends State<RollOverDialog> {
         SizedBox(height: 10.h),
         ViewRecordCount(count: selectedList.length),
         Expanded(
-          child: ViewDataTable<int>(
-            columns: const [
-              ViewTableColumn(id: 'exchange', label: 'EXCH', width: 100),
-              ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 180),
-              ViewTableColumn(
-                id: 'qty',
-                label: 'QTY',
-                width: 140,
-                isNumeric: true,
-              ),
-              ViewTableColumn(
-                id: 'cmp',
-                label: 'CMP',
-                width: 140,
-                isNumeric: true,
-              ),
-              ViewTableColumn(
-                id: 'rollOverPrice',
-                label: 'ROLL OVER PRICE',
-                width: 140,
-                isNumeric: true,
-              ),
-            ],
-            data: selectedList,
-            idExtractor: (item) => item.toString(),
-            cellBuilder: (item, column) => _buildConfirmationCell(item, column),
-            isDarkMode: false,
-            autoFit: true,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            child: ViewDataTable<int>(
+              columns: const [
+                ViewTableColumn(id: 'exchange', label: 'EXCH', width: 100),
+                ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 180),
+                ViewTableColumn(
+                  id: 'qty',
+                  label: 'QTY',
+                  width: 140,
+                  isNumeric: true,
+                ),
+                ViewTableColumn(
+                  id: 'cmp',
+                  label: 'CMP',
+                  width: 140,
+                  isNumeric: true,
+                ),
+                ViewTableColumn(
+                  id: 'rollOverPrice',
+                  label: 'ROLL OVER PRICE',
+                  width: 140,
+                  isNumeric: true,
+                ),
+              ],
+              data: selectedList,
+              idExtractor: (item) => item.toString(),
+              cellBuilder: (item, column) =>
+                  _buildConfirmationCell(item, column),
+              isDarkMode: false,
+              autoFit: true,
+            ),
           ),
         ),
         SizedBox(height: 16.h),

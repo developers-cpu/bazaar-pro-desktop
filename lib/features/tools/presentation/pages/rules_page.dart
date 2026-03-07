@@ -43,20 +43,26 @@ class _RulesPageState extends State<RulesPage>
                 isScrollable: true,
                 dividerColor: Colors.transparent,
                 overlayColor: MaterialStateProperty.all(Colors.transparent),
-                indicatorSize: TabBarIndicatorSize.tab,
-                indicatorWeight: 3.0,
+                indicatorWeight: 1.0,
                 labelColor: AppColors.primaryBlue,
                 unselectedLabelColor: const Color(0xFF9E9E9E),
-                indicatorColor: AppColors.primaryBlue,
-                labelPadding: EdgeInsets.symmetric(horizontal: 24.w),
-                labelStyle: GoogleFonts.openSans(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w600,
+                indicator: UnderlineTabIndicator(
+                  borderSide: BorderSide(
+                    color: AppColors.primaryBlue,
+                    width: 1.5,
+                  ),
+                  insets: EdgeInsets.only(bottom: 2.h),
                 ),
-                tabs: const [
-                  Tab(text: 'ENGLISH'),
-                  Tab(text: 'HINDI'),
-                  Tab(text: 'GUJARATI'),
+                indicatorSize: TabBarIndicatorSize.tab,
+                labelPadding: EdgeInsets.symmetric(horizontal: 40.w),
+                labelStyle: GoogleFonts.openSans(
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.normal,
+                ),
+                tabs: [
+                  Tab(height: 26.h, text: 'ENGLISH'),
+                  Tab(height: 26.h, text: 'HINDI'),
+                  Tab(height: 26.h, text: 'GUJARATI'),
                 ],
               ),
             ),
@@ -95,24 +101,24 @@ class _RulesPageState extends State<RulesPage>
       itemBuilder: (context, index) {
         final rule = rules[index];
         return Padding(
-          padding: EdgeInsets.only(bottom: 12.h),
+          padding: EdgeInsets.only(bottom: 8.h),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Icon(
                 Icons.lightbulb_outline,
-                size: 18.sp,
+                size: 20.sp,
                 color: const Color(0xFF536C7C),
               ),
-              SizedBox(width: 12.w),
+              SizedBox(width: 8.w),
               Expanded(
                 child: Text(
                   rule.rule,
                   style: GoogleFonts.openSans(
-                    fontSize: 13.sp,
-                    fontWeight: FontWeight.w600,
-                    color: const Color(0xFF536C7C),
-                    height: 1.5,
+                    fontSize: 17.sp,
+                    fontWeight: FontWeight.normal,
+                    color: AppColors.primaryBlue,
+                    height: 1.3,
                   ),
                 ),
               ),

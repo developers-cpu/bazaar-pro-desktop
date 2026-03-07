@@ -124,28 +124,46 @@ class ExchangeTradeListDialog extends StatelessWidget {
                       data: state.tradeLogs,
                       idExtractor: (item) => item.hashCode.toString(),
                       autoFit: true,
-                    comparatorBuilder: (item, columnId) {
-                      switch (columnId) {
-                        case 'sequence': return item.sequence;
-                        case 'userName': return item.userName;
-                        case 'pUser': return item.pUser;
-                        case 'exchange': return item.exchange;
-                        case 'symbol': return item.symbol;
-                        case 'buySell': return item.buySell;
-                        case 'tradeType': return item.tradeType;
-                        case 'qty': return item.qty;
-                        case 'lot': return item.lot;
-                        case 'pl': return item.pl;
-                        case 'validity': return item.validity;
-                        case 'tradePrice': return item.tradePrice;
-                        case 'brokerage': return item.brokerage;
-                        case 'netPrice': return item.netPrice;
-                        case 'orderDateTime': return item.orderDateTime;
-                        case 'executionDateTime': return item.executionDateTime;
-                        case 'referencePrice': return item.referencePrice;
-                        default: return '';
-                      }
-                    },
+                      comparatorBuilder: (item, columnId) {
+                        switch (columnId) {
+                          case 'sequence':
+                            return item.sequence;
+                          case 'userName':
+                            return item.userName;
+                          case 'pUser':
+                            return item.pUser;
+                          case 'exchange':
+                            return item.exchange;
+                          case 'symbol':
+                            return item.symbol;
+                          case 'buySell':
+                            return item.buySell;
+                          case 'tradeType':
+                            return item.tradeType;
+                          case 'qty':
+                            return item.qty;
+                          case 'lot':
+                            return item.lot;
+                          case 'pl':
+                            return item.pl;
+                          case 'validity':
+                            return item.validity;
+                          case 'tradePrice':
+                            return item.tradePrice;
+                          case 'brokerage':
+                            return item.brokerage;
+                          case 'netPrice':
+                            return item.netPrice;
+                          case 'orderDateTime':
+                            return item.orderDateTime;
+                          case 'executionDateTime':
+                            return item.executionDateTime;
+                          case 'referencePrice':
+                            return item.referencePrice;
+                          default:
+                            return '';
+                        }
+                      },
                       cellBuilder:
                           (SymbolTradeLog item, ViewTableColumn column) {
                             final isDark = false;

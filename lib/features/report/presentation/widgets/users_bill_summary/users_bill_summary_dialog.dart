@@ -90,10 +90,14 @@ class UsersBillSummaryDialog extends StatelessWidget {
                     autoFit: true,
                     comparatorBuilder: (item, columnId) {
                       switch (columnId) {
-                        case 'puName': return item.puName;
-                        case 'uName': return item.uName;
-                        case 'netPL': return item.netPL;
-                        default: return '';
+                        case 'puName':
+                          return item.puName;
+                        case 'uName':
+                          return item.uName;
+                        case 'netPL':
+                          return item.netPL;
+                        default:
+                          return '';
                       }
                     },
                     rowHeight: 32.h,

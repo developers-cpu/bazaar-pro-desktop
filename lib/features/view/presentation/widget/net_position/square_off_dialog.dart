@@ -153,16 +153,19 @@ class _SquareOffDialogState extends State<SquareOffDialog> {
     return Column(
       children: [
         Expanded(
-          child: ViewDataTable<int>(
-            columns: _getColumns(),
-            data: List.generate(15, (index) => index),
-            idExtractor: (item) => item.toString(),
-            comparatorBuilder: (item, columnId) {
-              return item;
-            },
-            cellBuilder: (item, column) => _buildCell(item, column),
-            isDarkMode: false,
-            autoFit: true,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            child: ViewDataTable<int>(
+              columns: _getColumns(),
+              data: List.generate(15, (index) => index),
+              idExtractor: (item) => item.toString(),
+              comparatorBuilder: (item, columnId) {
+                return item;
+              },
+              cellBuilder: (item, column) => _buildCell(item, column),
+              isDarkMode: false,
+              autoFit: true,
+            ),
           ),
         ),
       ],
@@ -268,11 +271,7 @@ class _SquareOffDialogState extends State<SquareOffDialog> {
               AppColors.sellColor,
             ),
             SizedBox(width: 16.w),
-            _buildSquareOffButton(
-              'Square Off',
-              'All',
-              AppColors.primaryBlue,
-            ),
+            _buildSquareOffButton('Square Off', 'All', AppColors.primaryBlue),
           ],
         ),
       ),
@@ -332,7 +331,10 @@ class _SquareOffDialogState extends State<SquareOffDialog> {
         children: [
           Text(
             title,
-            style: GoogleFonts.openSans(fontSize: 22.sp, color: headerColor),
+            style: GoogleFonts.openSans(
+              fontSize: 22.sp,
+              color: AppColors.primaryBlue,
+            ),
           ),
           SizedBox(height: 8.h),
           Text(
@@ -358,7 +360,7 @@ class _SquareOffDialogState extends State<SquareOffDialog> {
             child: OutlinedButton(
               onPressed: () => Navigator.pop(context),
               style: OutlinedButton.styleFrom(
-                side: BorderSide(color: headerColor, width: 1.5),
+                side: BorderSide(color: AppColors.primaryBlue, width: 1.5),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.r),
                 ),
@@ -368,7 +370,7 @@ class _SquareOffDialogState extends State<SquareOffDialog> {
                 style: GoogleFonts.openSans(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w600,
-                  color: headerColor,
+                  color: AppColors.primaryBlue,
                 ),
               ),
             ),
@@ -390,7 +392,7 @@ class _SquareOffDialogState extends State<SquareOffDialog> {
                 });
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: headerColor,
+                backgroundColor: AppColors.primaryBlue,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.r),
                 ),

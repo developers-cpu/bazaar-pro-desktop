@@ -65,17 +65,28 @@ class UserListTabView extends StatelessWidget {
                 emptyMessage: 'No users found',
                 comparatorBuilder: (item, columnId) {
                   switch (columnId) {
-                    case 'userName': return item.userName;
-                    case 'name': return item.name;
-                    case 'parentUser': return item.parentUser;
-                    case 'type': return item.type;
-                    case 'plPercent': return item.plPercent;
-                    case 'brkPercent': return item.brkPercent;
-                    case 'credit': return item.credit;
-                    case 'pl': return item.pl;
-                    case 'equity': return item.equity;
-                    case 'status': return item.status;
-                    default: return '';
+                    case 'userName':
+                      return item.userName;
+                    case 'name':
+                      return item.name;
+                    case 'parentUser':
+                      return item.parentUser;
+                    case 'type':
+                      return item.type;
+                    case 'plPercent':
+                      return item.plPercent;
+                    case 'brkPercent':
+                      return item.brkPercent;
+                    case 'credit':
+                      return item.credit;
+                    case 'pl':
+                      return item.pl;
+                    case 'equity':
+                      return item.equity;
+                    case 'status':
+                      return item.status;
+                    default:
+                      return '';
                   }
                 },
                 rowHeight: 40.h,

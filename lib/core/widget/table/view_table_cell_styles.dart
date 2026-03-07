@@ -66,7 +66,7 @@ class ViewTextCell extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      alignment: isStart ? Alignment.centerLeft : Alignment.center,
+      alignment: Alignment.centerLeft,
       child: Text(
         text,
         style: ViewTableCellStyles.getTextStyle(
@@ -74,7 +74,7 @@ class ViewTextCell extends StatelessWidget {
           color: color,
           fontWeight: fontWeight,
         ),
-        textAlign: isStart ? TextAlign.start : TextAlign.center,
+        textAlign: TextAlign.start,
         maxLines: 1,
         softWrap: false,
       ),
@@ -99,14 +99,14 @@ class ViewBuySellCell extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: isStart ? EdgeInsets.only(left: 14.w) : null,
-      alignment: isStart ? Alignment.centerLeft : Alignment.center,
+      alignment: Alignment.centerLeft,
       child: Text(
         text,
         style: ViewTableCellStyles.getTextStyle(
           isDark: isDark,
           color: ViewTableCellStyles.getBuySellColor(text, isDark: isDark),
         ),
-        textAlign: isStart ? TextAlign.start : TextAlign.center,
+        textAlign: TextAlign.start,
         maxLines: 1,
         softWrap: false,
       ),
@@ -143,11 +143,11 @@ class ViewNumberCell extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      alignment: isStart ? Alignment.centerLeft : Alignment.center,
+      alignment: Alignment.centerRight,
       child: Text(
         text,
         style: ViewTableCellStyles.getTextStyle(isDark: isDark, color: color),
-        textAlign: isStart ? TextAlign.start : TextAlign.center,
+        textAlign: TextAlign.end,
         maxLines: 1,
         softWrap: false,
       ),
@@ -180,21 +180,25 @@ class ViewLinkCell extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: double.infinity,
-        alignment: isStart ? Alignment.centerLeft : Alignment.center,
-        child: Text(
-          text,
-          style:
-              ViewTableCellStyles.getTextStyle(
-                isDark: isDark,
-                color: AppColors.primaryBlue,
-                fontWeight: FontWeight.w600,
-              ).copyWith(
-                decoration: TextDecoration.underline,
-                decorationColor: AppColors.primaryBlue,
-              ),
-          textAlign: isStart ? TextAlign.start : TextAlign.center,
-          maxLines: 1,
-          softWrap: false,
+        alignment: Alignment.centerLeft,
+        child: Container(
+          padding: const EdgeInsets.only(bottom: 2),
+          decoration: const BoxDecoration(
+            border: Border(
+              bottom: BorderSide(color: AppColors.primaryBlue, width: 2.0),
+            ),
+          ),
+          child: Text(
+            text,
+            style: ViewTableCellStyles.getTextStyle(
+              isDark: isDark,
+              color: AppColors.primaryBlue,
+              fontWeight: FontWeight.w600,
+            ),
+            textAlign: TextAlign.start,
+            maxLines: 1,
+            softWrap: false,
+          ),
         ),
       ),
     );

@@ -796,13 +796,7 @@ class AppBarSectionState extends State<AppBarSection> {
 
   @override
   Widget build(BuildContext context) {
-    final isClient = widget.userRole?.toLowerCase() == 'client';
-    final isViewOrReport =
-        widget.selectedTabIndex == _getTabIndex(AppStrings.view) ||
-        widget.selectedTabIndex == _getTabIndex(AppStrings.report);
-    final shouldShowExport = (isClient && isViewOrReport)
-        ? false
-        : widget.showExportByDefault;
+    final shouldShowExport = widget.showExportByDefault;
 
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, authState) {

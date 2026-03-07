@@ -161,11 +161,21 @@ class _NetPositionPageState extends State<NetPositionPage> {
       style: TextStyle(
         fontSize: 12.sp,
         color: AppColors.primaryBlue,
-        decoration: isUnderlined
-            ? TextDecoration.underline
-            : TextDecoration.none,
+        decoration: TextDecoration.none,
       ),
     );
+
+    if (isUnderlined) {
+      textWidget = Container(
+        padding: const EdgeInsets.only(bottom: 2),
+        decoration: const BoxDecoration(
+          border: Border(
+            bottom: BorderSide(color: AppColors.primaryBlue, width: 2.0),
+          ),
+        ),
+        child: textWidget,
+      );
+    }
 
     Widget container = Container(
       padding: EdgeInsets.symmetric(horizontal: 12.w),
@@ -182,7 +192,8 @@ class _NetPositionPageState extends State<NetPositionPage> {
     return Container(
       width: 1.w,
       height: double.infinity,
-      color: AppColors.greyBorder,
+      color: AppColors.primaryBlue,
+      margin: EdgeInsets.symmetric(vertical: 4.h),
     );
   }
 }

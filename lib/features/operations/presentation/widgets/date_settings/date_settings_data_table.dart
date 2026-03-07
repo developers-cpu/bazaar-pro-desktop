@@ -23,15 +23,24 @@ class DateSettingsDataTable extends StatelessWidget {
       comparatorBuilder: (item, columnId) {
         if (item is! DateSetting) return '';
         switch (columnId) {
-          case 'exchange': return item.exchange;
-          case 'symbol': return item.symbol;
-          case 'expiryDate': return item.expiryDate;
-          case 'launchDate': return item.launchDate;
-          case 'closeDate': return item.closeDate;
-          case 'cutDate': return item.cutDate;
-          case 'updatedOn': return item.updatedOn;
-          case 'updatedBy': return item.updatedBy;
-          default: return '';
+          case 'exchange':
+            return item.exchange;
+          case 'symbol':
+            return item.symbol;
+          case 'expiryDate':
+            return item.expiryDate;
+          case 'launchDate':
+            return item.launchDate;
+          case 'closeDate':
+            return item.closeDate;
+          case 'cutDate':
+            return item.cutDate;
+          case 'updatedOn':
+            return item.updatedOn;
+          case 'updatedBy':
+            return item.updatedBy;
+          default:
+            return '';
         }
       },
       cellBuilder: (item, column) {

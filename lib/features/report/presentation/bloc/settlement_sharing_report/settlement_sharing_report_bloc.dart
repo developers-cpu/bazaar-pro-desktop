@@ -51,7 +51,8 @@ class SettlementSharingReportBloc
         ),
       );
       failureOrReport.fold(
-        (failure) => emit(SettlementSharingReportError(message: failure.message)),
+        (failure) =>
+            emit(SettlementSharingReportError(message: failure.message)),
         (report) => emit(
           SettlementSharingReportLoaded(
             report: report,

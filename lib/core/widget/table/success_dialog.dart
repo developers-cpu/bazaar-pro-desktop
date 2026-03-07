@@ -38,33 +38,48 @@ class _SuccessDialogState extends State<SuccessDialog> {
 
   @override
   Widget build(BuildContext context) {
+    const statusColor = Color(0xFF0052FF);
+
     return Dialog(
-      alignment: Alignment.center,
-      backgroundColor: AppColors.white,
-      elevation: 8,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.r)),
+      alignment: Alignment.bottomRight,
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      insetPadding: EdgeInsets.only(right: 16.w, bottom: 12.h),
       child: Container(
-        width: 400.w,
-        padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 36.h),
+        width: 260.w,
+        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 12.h),
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          borderRadius: BorderRadius.circular(8.r),
+          border: Border.all(color: statusColor, width: 1.5),
+          boxShadow: [
+            BoxShadow(
+              color: statusColor,
+              offset: Offset(3.w, 3.h),
+              blurRadius: 0,
+              spreadRadius: 0,
+            ),
+          ],
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
               widget.title,
               textAlign: TextAlign.center,
               style: GoogleFonts.openSans(
-                fontSize: 22.sp,
+                fontSize: 14.sp,
                 fontWeight: FontWeight.w600,
-                color: const Color(0xFF0052FF),
+                color: statusColor,
               ),
             ),
-            SizedBox(height: 12.h),
+            SizedBox(height: 6.h),
             Text(
               widget.subtitle,
               textAlign: TextAlign.center,
               style: GoogleFonts.openSans(
-                fontSize: 16.sp,
+                fontSize: 11.sp,
                 color: Colors.grey.shade600,
               ),
             ),

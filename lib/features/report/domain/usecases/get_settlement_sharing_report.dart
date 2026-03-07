@@ -6,7 +6,8 @@ import '../entities/settlement_sharing_report.dart';
 import '../repositories/settlement_sharing_report_repository.dart';
 
 class GetSettlementSharingReport
-    implements UseCase<SettlementSharingReport, GetSettlementSharingReportParams> {
+    implements
+        UseCase<SettlementSharingReport, GetSettlementSharingReportParams> {
   final SettlementSharingReportRepository repository;
   GetSettlementSharingReport(this.repository);
   @override
@@ -23,7 +24,10 @@ class GetSettlementSharingReport
 class GetSettlementSharingReportParams extends Equatable {
   final String dateRange;
   final String? userId;
-  const GetSettlementSharingReportParams({required this.dateRange, this.userId});
+  const GetSettlementSharingReportParams({
+    required this.dateRange,
+    this.userId,
+  });
   @override
   List<Object?> get props => [dateRange, userId];
 }

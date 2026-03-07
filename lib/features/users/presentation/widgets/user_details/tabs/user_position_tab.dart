@@ -192,16 +192,26 @@ class UserPositionTabView extends StatelessWidget {
               '${item.exchange}_${item.symbol}_${item.buyQty}',
           comparatorBuilder: (item, columnId) {
             switch (columnId) {
-              case 'exch': return item.exchange;
-              case 'symbol': return item.symbol;
-              case 'buyQty': return item.buyQty;
-              case 'sellQty': return item.sellQty;
-              case 'netQty': return item.netQty;
-              case 'netAp': return item.netAp;
-              case 'cmp': return item.cmp;
-              case 'm2m': return item.m2m;
-              case 'lot': return item.lot;
-              default: return '';
+              case 'exch':
+                return item.exchange;
+              case 'symbol':
+                return item.symbol;
+              case 'buyQty':
+                return item.buyQty;
+              case 'sellQty':
+                return item.sellQty;
+              case 'netQty':
+                return item.netQty;
+              case 'netAp':
+                return item.netAp;
+              case 'cmp':
+                return item.cmp;
+              case 'm2m':
+                return item.m2m;
+              case 'lot':
+                return item.lot;
+              default:
+                return '';
             }
           },
           cellBuilder: (item, column) {

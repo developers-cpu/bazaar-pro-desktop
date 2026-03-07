@@ -60,7 +60,7 @@ class DealsTable extends StatelessWidget {
         ViewTableColumn(
           id: 'orderDuration',
           label: 'ORDER DURATION',
-          width: 140,
+          width: 220,
         ),
       ];
     }
@@ -121,7 +121,7 @@ class DealsTable extends StatelessWidget {
       const ViewTableColumn(
         id: 'orderDuration',
         label: 'ORDER DURATION',
-        width: 180,
+        width: 240,
       ),
     ];
     if (showDeviceInfo) {
@@ -244,17 +244,20 @@ class DealsTable extends StatelessWidget {
       },
       child: Container(
         alignment: Alignment.centerLeft,
-        child: Text(
-          item.orderDuration,
-          style:
-              ViewTableCellStyles.getTextStyle(
-                isDark: isDark,
-                color: const Color(0xFF2C5F7A),
-              ).copyWith(
-                decoration: TextDecoration.underline,
-                decorationColor: const Color(0xFF2C5F7A),
-                decorationThickness: 1.5,
-              ),
+        child: Container(
+          padding: const EdgeInsets.only(bottom: 2),
+          decoration: const BoxDecoration(
+            border: Border(
+              bottom: BorderSide(color: Color(0xFF2C5F7A), width: 2.0),
+            ),
+          ),
+          child: Text(
+            item.orderDuration,
+            style: ViewTableCellStyles.getTextStyle(
+              isDark: isDark,
+              color: const Color(0xFF2C5F7A),
+            ),
+          ),
         ),
       ),
     );

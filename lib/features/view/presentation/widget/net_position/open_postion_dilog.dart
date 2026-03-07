@@ -124,18 +124,30 @@ class _OpenPositionDialogState extends State<OpenPositionDialog> {
               autoFit: true,
               comparatorBuilder: (item, columnId) {
                 switch (columnId) {
-                  case 'userName': return item.userName;
-                  case 'pUser': return item.pUser;
-                  case 'exchange': return item.exchange;
-                  case 'symbol': return item.symbol;
-                  case 'buyQty': return item.buyQty;
-                  case 'sellQty': return item.sellQty;
-                  case 'netQty': return item.netQty;
-                  case 'netAvgPrice': return item.netAvgPrice;
-                  case 'cmp': return item.cmp;
-                  case 'm2mAmount': return item.m2mAmount;
-                  case 'ourPercentage': return item.ourPercentage;
-                  default: return '';
+                  case 'userName':
+                    return item.userName;
+                  case 'pUser':
+                    return item.pUser;
+                  case 'exchange':
+                    return item.exchange;
+                  case 'symbol':
+                    return item.symbol;
+                  case 'buyQty':
+                    return item.buyQty;
+                  case 'sellQty':
+                    return item.sellQty;
+                  case 'netQty':
+                    return item.netQty;
+                  case 'netAvgPrice':
+                    return item.netAvgPrice;
+                  case 'cmp':
+                    return item.cmp;
+                  case 'm2mAmount':
+                    return item.m2mAmount;
+                  case 'ourPercentage':
+                    return item.ourPercentage;
+                  default:
+                    return '';
                 }
               },
               headerBgColor: const Color(0xFFD3E3EC),

@@ -153,9 +153,7 @@ class TradeDetailsDialog extends StatelessWidget {
                     child: ElevatedButton(
                       onPressed: () {
                         if (isClient) {
-                          Navigator.pop(
-                            context,
-                          );
+                          Navigator.pop(context);
                           PendingToSuccessDialog.show(
                             context: context,
                             order: order,
@@ -171,9 +169,7 @@ class TradeDetailsDialog extends StatelessWidget {
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: isClient
-                            ? const Color(
-                                0xFF1F4A66,
-                              )
+                            ? const Color(0xFF1F4A66)
                             : AppColors.red,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.r),

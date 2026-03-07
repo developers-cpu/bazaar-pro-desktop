@@ -25,11 +25,16 @@ class BanScriptDataTable extends StatelessWidget {
       columns: _buildColumns(),
       comparatorBuilder: (item, columnId) {
         switch (columnId) {
-          case 'symbol': return item.symbol;
-          case 'updatedOn': return item.updatedOn;
-          case 'updatedBy': return item.updatedBy;
-          case 'status': return item.isBanned ? 1 : 0;
-          default: return '';
+          case 'symbol':
+            return item.symbol;
+          case 'updatedOn':
+            return item.updatedOn;
+          case 'updatedBy':
+            return item.updatedBy;
+          case 'status':
+            return item.isBanned ? 1 : 0;
+          default:
+            return '';
         }
       },
       cellBuilder: (item, column) {

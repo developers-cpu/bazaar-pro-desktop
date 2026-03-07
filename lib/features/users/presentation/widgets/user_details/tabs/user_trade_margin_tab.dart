@@ -266,12 +266,18 @@ class _UserTradeMarginTabViewState extends State<UserTradeMarginTabView> {
           idExtractor: (item) => item.id,
           comparatorBuilder: (item, columnId) {
             switch (columnId) {
-              case 'exchange': return item.exchange;
-              case 'symbol': return item.symbol;
-              case 'expiryDate': return item.expiryDate;
-              case 'marginPct': return item.marginPercentage;
-              case 'marginAmt': return item.marginAmount;
-              default: return '';
+              case 'exchange':
+                return item.exchange;
+              case 'symbol':
+                return item.symbol;
+              case 'expiryDate':
+                return item.expiryDate;
+              case 'marginPct':
+                return item.marginPercentage;
+              case 'marginAmt':
+                return item.marginAmount;
+              default:
+                return '';
             }
           },
           cellBuilder: (item, column) {

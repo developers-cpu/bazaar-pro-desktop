@@ -5,7 +5,8 @@ import '../../domain/entities/settlement_sharing_report.dart';
 import '../../domain/repositories/settlement_sharing_report_repository.dart';
 import '../datasources/settlement_sharing_report_remote_datasource.dart';
 
-class SettlementSharingReportRepositoryImpl implements SettlementSharingReportRepository {
+class SettlementSharingReportRepositoryImpl
+    implements SettlementSharingReportRepository {
   final SettlementSharingReportRemoteDataSource remoteDataSource;
   SettlementSharingReportRepositoryImpl({required this.remoteDataSource});
   @override

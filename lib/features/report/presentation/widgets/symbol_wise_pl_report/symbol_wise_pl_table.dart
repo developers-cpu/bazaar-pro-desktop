@@ -35,20 +35,23 @@ class SymbolWisePLTable extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Center(
-        child: Text(
-          value.toStringAsFixed(2),
-          style:
-              ViewTableCellStyles.getTextStyle(
-                isDark: isDark,
+        child: Container(
+          decoration: BoxDecoration(
+            border: Border(
+              bottom: BorderSide(
                 color: ViewTableCellStyles.getValueColor(value, isDark: isDark),
-              ).copyWith(
-                decoration: TextDecoration.underline,
-                decorationColor: ViewTableCellStyles.getValueColor(
-                  value,
-                  isDark: isDark,
-                ),
+                width: 1.5,
               ),
-          textAlign: TextAlign.center,
+            ),
+          ),
+          child: Text(
+            value.toStringAsFixed(2),
+            style: ViewTableCellStyles.getTextStyle(
+              isDark: isDark,
+              color: ViewTableCellStyles.getValueColor(value, isDark: isDark),
+            ),
+            textAlign: TextAlign.center,
+          ),
         ),
       ),
     );

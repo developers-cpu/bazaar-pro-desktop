@@ -43,8 +43,7 @@ class NetPositionFilterBar extends StatelessWidget {
 
     for (final pos in state.filteredPositions) {
       totalM2M += pos.m2mAmount;
-      totalRealisedPnl +=
-          pos.netQty * pos.netAvgPrice;
+      totalRealisedPnl += pos.netQty * pos.netAvgPrice;
     }
 
     final totalPnl = totalRealisedPnl + totalM2M;
@@ -229,9 +228,7 @@ class NetPositionFilterBar extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 12.w),
           decoration: BoxDecoration(
             color: const Color(0xFFC6DBE8),
-            borderRadius: BorderRadius.circular(
-              8.r,
-            ),
+            borderRadius: BorderRadius.circular(8.r),
           ),
           alignment: Alignment.center,
           child: Text(

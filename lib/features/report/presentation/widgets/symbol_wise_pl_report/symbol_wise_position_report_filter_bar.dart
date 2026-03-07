@@ -37,7 +37,6 @@ class SymbolWisePositionReportFilterBar extends StatelessWidget {
                 hintText: 'Exchange',
                 value: state.selectedExchange,
                 items: state.exchanges,
-                showAllOption: true,
                 onChanged: (value) {
                   context.read<SymbolWisePositionReportBloc>().add(
                     FilterSymbolWisePositionReport(exchange: value),
@@ -59,24 +58,23 @@ class SymbolWisePositionReportFilterBar extends StatelessWidget {
                   );
                 },
               ),
-              if (!isClient) ...[
-                const Spacer(),
-                ViewResetButtons(
-                  onReset: () {
-                    context.read<SymbolWisePositionReportBloc>().add(
-                      const ResetSymbolWisePositionReportFilters(),
-                    );
-                  },
-                  onView: () {
-                    context.read<SymbolWisePositionReportBloc>().add(
-                      FilterSymbolWisePositionReport(
-                        exchange: state.selectedExchange,
-                        symbol: state.selectedSymbol,
-                      ),
-                    );
-                  },
-                ),
-              ],
+              const Spacer(),
+              ViewResetButtons(
+                showReset: !isClient,
+                onReset: () {
+                  context.read<SymbolWisePositionReportBloc>().add(
+                    const ResetSymbolWisePositionReportFilters(),
+                  );
+                },
+                onView: () {
+                  context.read<SymbolWisePositionReportBloc>().add(
+                    FilterSymbolWisePositionReport(
+                      exchange: state.selectedExchange,
+                      symbol: state.selectedSymbol,
+                    ),
+                  );
+                },
+              ),
             ],
           ),
         );

@@ -25,6 +25,7 @@ class IntradayHistoryBloc
   }) : super(const IntradayHistoryInitial()) {
     on<LoadIntradayHistoryEvent>(_onLoadIntradayHistory);
     on<ApplyIntradayFiltersEvent>(_onApplyFilters);
+    on<UpdateIntradayFiltersEvent>(_onUpdateFilters);
     on<ResetIntradayFiltersEvent>(_onResetFilters);
     on<NavigateToSecondsViewEvent>(_onNavigateToSecondsView);
     on<LoadSecondsDataEvent>(_onLoadSecondsData);
@@ -119,6 +120,22 @@ class IntradayHistoryBloc
           selectedSymbol: event.symbol,
           selectedTiming: event.timing,
         ),
+      ),
+    );
+  }
+
+  void _onUpdateFilters(
+    UpdateIntradayFiltersEvent event,
+    Emitter<IntradayHistoryState> emit,
+  ) {
+    if (state is! IntradayHistoryLoaded) return;
+    final currentState = state as IntradayHistoryLoaded;
+    emit(
+      currentState.copyWith(
+        selectedDate: event.date,
+        selectedExchange: event.exchange,
+        selectedSymbol: event.symbol,
+        selectedTiming: event.timing,
       ),
     );
   }

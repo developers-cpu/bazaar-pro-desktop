@@ -29,6 +29,7 @@ class ViewDataTable<T> extends StatefulWidget {
   final String Function(T item) idExtractor;
   final String? selectedId;
   final Function(T item)? onRowTap;
+  final Function(T item)? onRowSecondaryTap;
   final Function(String columnId, bool ascending)? onSort;
   final String? sortColumn;
   final bool sortAscending;
@@ -49,6 +50,7 @@ class ViewDataTable<T> extends StatefulWidget {
     required this.idExtractor,
     this.selectedId,
     this.onRowTap,
+    this.onRowSecondaryTap,
     this.onSort,
     this.sortColumn,
     this.sortAscending = true,
@@ -389,6 +391,9 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
   ) {
     return GestureDetector(
       onTap: widget.onRowTap != null ? () => widget.onRowTap!(item) : null,
+      onSecondaryTapDown: widget.onRowSecondaryTap != null
+          ? (details) => widget.onRowSecondaryTap!(item)
+          : null,
       child: Container(
         height: rowHeight,
         decoration: BoxDecoration(

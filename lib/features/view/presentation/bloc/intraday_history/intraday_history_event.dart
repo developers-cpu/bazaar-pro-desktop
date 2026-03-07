@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import '../../../domain/entities/intraday_history/intraday_history.dart';
 
 abstract class IntradayHistoryEvent extends Equatable {
   const IntradayHistoryEvent();
@@ -17,6 +16,21 @@ class ApplyIntradayFiltersEvent extends IntradayHistoryEvent {
   final String? symbol;
   final String? timing;
   const ApplyIntradayFiltersEvent({
+    this.date,
+    this.exchange,
+    this.symbol,
+    this.timing,
+  });
+  @override
+  List<Object?> get props => [date, exchange, symbol, timing];
+}
+
+class UpdateIntradayFiltersEvent extends IntradayHistoryEvent {
+  final DateTime? date;
+  final String? exchange;
+  final String? symbol;
+  final String? timing;
+  const UpdateIntradayFiltersEvent({
     this.date,
     this.exchange,
     this.symbol,

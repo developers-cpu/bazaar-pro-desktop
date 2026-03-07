@@ -65,7 +65,6 @@ class TradeListFilterBar extends StatelessWidget {
                     hintText: 'Exchange',
                     value: state.selectedExchange,
                     items: state.exchanges,
-                    showAllOption: true,
                     onChanged: (value) {
                       context.read<SymbolTradeListBloc>().add(
                         FilterSymbolTradeList(exchange: value),
@@ -106,26 +105,25 @@ class TradeListFilterBar extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  if (!isClient) ...[
-                    ViewResetButtons(
-                      onReset: () {
-                        context.read<SymbolTradeListBloc>().add(
-                          const ResetSymbolTradeListFilters(),
-                        );
-                      },
-                      onView: () {
-                        context.read<SymbolTradeListBloc>().add(
-                          FilterSymbolTradeList(
-                            user: state.selectedUser,
-                            exchange: state.selectedExchange,
-                            symbol: state.selectedSymbol,
-                            type: state.selectedType,
-                            dateRange: state.selectedDateRange,
-                          ),
-                        );
-                      },
-                    ),
-                  ],
+                  ViewResetButtons(
+                    showReset: !isClient,
+                    onReset: () {
+                      context.read<SymbolTradeListBloc>().add(
+                        const ResetSymbolTradeListFilters(),
+                      );
+                    },
+                    onView: () {
+                      context.read<SymbolTradeListBloc>().add(
+                        FilterSymbolTradeList(
+                          user: state.selectedUser,
+                          exchange: state.selectedExchange,
+                          symbol: state.selectedSymbol,
+                          type: state.selectedType,
+                          dateRange: state.selectedDateRange,
+                        ),
+                      );
+                    },
+                  ),
                 ],
               ),
             ],

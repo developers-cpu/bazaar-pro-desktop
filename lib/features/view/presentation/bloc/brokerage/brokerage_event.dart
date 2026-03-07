@@ -13,6 +13,20 @@ class LoadBrokeragesEvent extends BrokerageEvent {
   List<Object?> get props => [exchange];
 }
 
+class UpdateBrokerageFilterEvent extends BrokerageEvent {
+  final String exchange;
+  const UpdateBrokerageFilterEvent({required this.exchange});
+  @override
+  List<Object?> get props => [exchange];
+}
+
+class RestoreBrokerageFilterEvent extends BrokerageEvent {
+  final String exchange;
+  const RestoreBrokerageFilterEvent({required this.exchange});
+  @override
+  List<Object?> get props => [exchange];
+}
+
 class ResetBrokerageEvent extends BrokerageEvent {
   const ResetBrokerageEvent();
 }

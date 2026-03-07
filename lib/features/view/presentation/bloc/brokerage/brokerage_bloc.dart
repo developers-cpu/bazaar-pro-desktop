@@ -8,6 +8,12 @@ class BrokerageBloc extends Bloc<BrokerageEvent, BrokerageState> {
 
   BrokerageBloc({required this.repository}) : super(BrokerageInitial()) {
     on<LoadBrokeragesEvent>(_onLoadBrokerages);
+    on<UpdateBrokerageFilterEvent>(
+      (event, emit) => emit(BrokerageFilterUpdated(event.exchange)),
+    );
+    on<RestoreBrokerageFilterEvent>(
+      (event, emit) => emit(BrokerageFilterUpdated(event.exchange)),
+    );
     on<ResetBrokerageEvent>((event, emit) => emit(BrokerageInitial()));
   }
 

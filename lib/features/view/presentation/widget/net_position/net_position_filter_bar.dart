@@ -44,7 +44,7 @@ class NetPositionFilterBar extends StatelessWidget {
     for (final pos in state.filteredPositions) {
       totalM2M += pos.m2mAmount;
       totalRealisedPnl +=
-          pos.netQty * pos.netAvgPrice; // This is a simplified calculation
+          pos.netQty * pos.netAvgPrice;
     }
 
     final totalPnl = totalRealisedPnl + totalM2M;
@@ -62,10 +62,9 @@ class NetPositionFilterBar extends StatelessWidget {
             items: state.exchanges,
             width: 200.w,
             height: 35.h,
-            showAllOption: true,
             onChanged: (value) {
               context.read<NetPositionBloc>().add(
-                ApplyFiltersEvent(
+                UpdateFiltersEvent(
                   exchange: value,
                   symbol: state.selectedSymbol,
                 ),
@@ -82,7 +81,7 @@ class NetPositionFilterBar extends StatelessWidget {
             height: 35.h,
             onChanged: (value) {
               context.read<NetPositionBloc>().add(
-                ApplyFiltersEvent(
+                UpdateFiltersEvent(
                   exchange: state.selectedExchange,
                   symbol: value,
                 ),
@@ -90,6 +89,18 @@ class NetPositionFilterBar extends StatelessWidget {
             },
           ),
           const Spacer(),
+          ViewResetButtons(
+            showReset: false,
+            onView: () {
+              context.read<NetPositionBloc>().add(
+                ApplyFiltersEvent(
+                  exchange: state.selectedExchange,
+                  symbol: state.selectedSymbol,
+                ),
+              );
+            },
+          ),
+          SizedBox(width: 12.w),
           if (!isDialog)
             _buildPageFormula(totalRealisedPnl, totalM2M, totalBrokerage)
           else
@@ -220,7 +231,7 @@ class NetPositionFilterBar extends StatelessWidget {
             color: const Color(0xFFC6DBE8),
             borderRadius: BorderRadius.circular(
               8.r,
-            ), // more rounded like capsule
+            ),
           ),
           alignment: Alignment.center,
           child: Text(
@@ -330,7 +341,6 @@ class NetPositionFilterBar extends StatelessWidget {
             items: state.exchanges,
             width: 150.w,
             height: 35.h,
-            showAllOption: true,
             onChanged: (value) {
               context.read<NetPositionBloc>().add(
                 ApplyFiltersEvent(

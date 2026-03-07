@@ -43,17 +43,16 @@ class BrokerListFilterBar extends StatelessWidget {
                       onChanged: (value) {},
                     ),
                   ),
-                  if (!isClient) ...[
-                    const Spacer(),
-                    ViewResetButtons(
-                      onReset: () {
-                        context.read<BrokerListBloc>().add(
-                          const LoadBrokersEvent(),
-                        );
-                      },
-                      onView: () {},
-                    ),
-                  ],
+                  const Spacer(),
+                  ViewResetButtons(
+                    showReset: !isClient,
+                    onReset: () {
+                      context.read<BrokerListBloc>().add(
+                        const LoadBrokersEvent(),
+                      );
+                    },
+                    onView: () {},
+                  ),
                 ],
               ),
               ViewRecordCount(

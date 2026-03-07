@@ -55,12 +55,8 @@ class _ScriptQuantityFilterBarState extends State<ScriptQuantityFilterBar> {
                   onChanged: (value) {
                     if (value != null && value.isNotEmpty) {
                       if (isClient) {
-                        final defaultGroup = '${value}_X';
                         context.read<ScriptQuantityBloc>().add(
-                          LoadScriptQuantitiesEvent(
-                            exchange: value,
-                            group: defaultGroup,
-                          ),
+                          UpdateScriptQuantityFilterEvent(value),
                         );
                       } else {
                         setState(() {
@@ -98,18 +94,38 @@ class _ScriptQuantityFilterBarState extends State<ScriptQuantityFilterBar> {
                   ),
                 ),
               ],
-              if (!isClient) ...[
-                const Spacer(),
-                ViewResetButtons(
-                  onReset: () {
-                    setState(() {
-                      _tempSelectedGroup = null;
-                    });
-                    context.read<ScriptQuantityBloc>().add(
-                      const ResetFiltersEvent(),
-                    );
-                  },
-                  onView: () {
+              const Spacer(),
+              ViewResetButtons(
+                showReset: !isClient,
+                onReset: () {
+                  setState(() {
+                    _tempSelectedGroup = null;
+                  });
+                  context.read<ScriptQuantityBloc>().add(
+                    const ResetFiltersEvent(),
+                  );
+                },
+                onView: () {
+                  if (isClient) {
+                    if (state.selectedExchange != null &&
+                        state.selectedExchange!.isNotEmpty) {
+                      final defaultGroup = '${state.selectedExchange}_X';
+                      context.read<ScriptQuantityBloc>().add(
+                        LoadScriptQuantitiesEvent(
+                          exchange: state.selectedExchange!,
+                          group: defaultGroup,
+                        ),
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: const Text('Please select Exchange'),
+                          backgroundColor: AppColors.errorColor,
+                          duration: const Duration(seconds: 2),
+                        ),
+                      );
+                    }
+                  } else {
                     if (state.selectedExchange != null &&
                         _tempSelectedGroup != null) {
                       context.read<ScriptQuantityBloc>().add(
@@ -129,9 +145,9 @@ class _ScriptQuantityFilterBarState extends State<ScriptQuantityFilterBar> {
                         ),
                       );
                     }
-                  },
-                ),
-              ],
+                  }
+                },
+              ),
             ],
           ),
         );

@@ -28,6 +28,7 @@ class DealsBloc extends Bloc<DealsEvent, DealsState> {
   }) : super(const DealsInitial()) {
     on<LoadDealsEvent>(_onLoadDeals);
     on<ApplyFiltersEvent>(_onApplyFilters);
+    on<UpdateFiltersEvent>(_onUpdateFilters);
     on<ResetFiltersEvent>(_onResetFilters);
     on<SelectDealEvent>(_onSelectDeal);
     on<SortDealsByColumnEvent>(_onSortByColumn);
@@ -129,6 +130,22 @@ class DealsBloc extends Bloc<DealsEvent, DealsState> {
           selectedOrderType: event.orderType,
           selectedStatus: event.status,
         ),
+      ),
+    );
+  }
+
+  void _onUpdateFilters(UpdateFiltersEvent event, Emitter<DealsState> emit) {
+    if (state is! DealsLoaded) return;
+    final currentState = state as DealsLoaded;
+    emit(
+      currentState.copyWith(
+        startDate: event.startDate,
+        endDate: event.endDate,
+        selectedClient: event.client,
+        selectedExchange: event.exchange,
+        selectedSymbol: event.symbol,
+        selectedOrderType: event.orderType,
+        selectedStatus: event.status,
       ),
     );
   }

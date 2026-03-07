@@ -9,8 +9,25 @@ class CreditHistoryBloc extends Bloc<CreditHistoryEvent, CreditHistoryState> {
     : super(CreditHistoryInitial()) {
     on<LoadCreditHistory>(_onLoadCreditHistory);
     on<FilterCreditHistory>(_onFilterCreditHistory);
+    on<CreditHistoryFilter>(_onCreditHistoryFilter);
     on<ResetCreditHistoryFilters>(_onResetCreditHistoryFilters);
   }
+
+  void _onCreditHistoryFilter(
+    CreditHistoryFilter event,
+    Emitter<CreditHistoryState> emit,
+  ) {
+    final currentState = state;
+    if (currentState is CreditHistoryLoaded) {
+      emit(
+        currentState.copyWith(
+          selectedType: event.type ?? currentState.selectedType,
+          selectedUser: event.user ?? currentState.selectedUser,
+        ),
+      );
+    }
+  }
+
   Future<void> _onLoadCreditHistory(
     LoadCreditHistory event,
     Emitter<CreditHistoryState> emit,

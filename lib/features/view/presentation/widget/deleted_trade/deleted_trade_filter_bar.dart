@@ -106,26 +106,25 @@ class DeletedTradeFilterBar extends StatelessWidget {
                   },
                 ),
               ),
-              if (!isClient) ...[
-                const Spacer(),
-                ViewResetButtons(
-                  onReset: () {
-                    context.read<DeletedTradeBloc>().add(
-                      const ResetDeletedTradeFiltersEvent(),
-                    );
-                  },
-                  onView: () {
-                    context.read<DeletedTradeBloc>().add(
-                      ApplyDeletedTradeFiltersEvent(
-                        userType: state.selectedUserType,
-                        user: state.selectedUser,
-                        exchange: state.selectedExchange,
-                        symbol: state.selectedSymbol,
-                      ),
-                    );
-                  },
-                ),
-              ],
+              const Spacer(),
+              ViewResetButtons(
+                showReset: !isClient,
+                onReset: () {
+                  context.read<DeletedTradeBloc>().add(
+                    const ResetDeletedTradeFiltersEvent(),
+                  );
+                },
+                onView: () {
+                  context.read<DeletedTradeBloc>().add(
+                    ApplyDeletedTradeFiltersEvent(
+                      userType: state.selectedUserType,
+                      user: state.selectedUser,
+                      exchange: state.selectedExchange,
+                      symbol: state.selectedSymbol,
+                    ),
+                  );
+                },
+              ),
             ],
           ),
         );

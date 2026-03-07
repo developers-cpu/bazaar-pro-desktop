@@ -34,10 +34,12 @@ class SymbolWisePLFilterBar extends StatelessWidget {
               AppDropdown(
                 hintText: 'Exchange',
                 items: exchangeItems,
-                showAllOption: true,
+                value: state is SymbolWisePLLoaded
+                    ? state.selectedExchange
+                    : null,
                 onChanged: (value) {
                   context.read<SymbolWisePLBloc>().add(
-                    FilterSymbolWisePL(exchange: value),
+                    SymbolWisePLFilter(exchange: value),
                   );
                 },
                 width: 200.w,
@@ -49,11 +51,14 @@ class SymbolWisePLFilterBar extends StatelessWidget {
                   child: AppDropdown(
                     hintText: 'Symbol',
                     items: symbolItems,
+                    value: state is SymbolWisePLLoaded
+                        ? state.selectedSymbol
+                        : null,
                     type: AppDropdownType.search,
                     searchHint: 'Search & Add',
                     onChanged: (value) {
                       context.read<SymbolWisePLBloc>().add(
-                        FilterSymbolWisePL(symbol: value),
+                        SymbolWisePLFilter(symbol: value),
                       );
                     },
                     width: 200.w,
@@ -61,8 +66,8 @@ class SymbolWisePLFilterBar extends StatelessWidget {
                   ),
                 ),
               ],
+              const Spacer(),
               if (!isClient) ...[
-                const Spacer(),
                 SizedBox(
                   height: 35.h,
                   width: 100.w,
@@ -90,33 +95,39 @@ class SymbolWisePLFilterBar extends StatelessWidget {
                   ),
                 ),
                 SizedBox(width: 16.w),
-                SizedBox(
-                  height: 35.h,
-                  width: 100.w,
-                  child: ElevatedButton(
-                    onPressed: () {
+              ],
+              SizedBox(
+                height: 35.h,
+                width: 100.w,
+                child: ElevatedButton(
+                  onPressed: () {
+                    final currentState = context.read<SymbolWisePLBloc>().state;
+                    if (currentState is SymbolWisePLLoaded) {
                       context.read<SymbolWisePLBloc>().add(
-                        const LoadSymbolWisePL(),
+                        FilterSymbolWisePL(
+                          exchange: currentState.selectedExchange,
+                          symbol: currentState.selectedSymbol,
+                        ),
                       );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF1F4A66),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.r),
-                      ),
-                      padding: EdgeInsets.zero,
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF1F4A66),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.r),
                     ),
-                    child: Text(
-                      'View',
-                      style: GoogleFonts.openSans(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.white,
-                      ),
+                    padding: EdgeInsets.zero,
+                  ),
+                  child: Text(
+                    'View',
+                    style: GoogleFonts.openSans(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.white,
                     ),
                   ),
                 ),
-              ],
+              ),
             ],
           );
         },

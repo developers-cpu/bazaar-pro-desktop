@@ -9,7 +9,24 @@ class SymbolWisePLBloc extends Bloc<SymbolWisePLEvent, SymbolWisePLState> {
     : super(SymbolWisePLInitial()) {
     on<LoadSymbolWisePL>(_onLoadSymbolWisePL);
     on<FilterSymbolWisePL>(_onFilterSymbolWisePL);
+    on<SymbolWisePLFilter>(_onSymbolWisePLFilter);
   }
+
+  void _onSymbolWisePLFilter(
+    SymbolWisePLFilter event,
+    Emitter<SymbolWisePLState> emit,
+  ) {
+    final currentState = state;
+    if (currentState is SymbolWisePLLoaded) {
+      emit(
+        currentState.copyWith(
+          selectedExchange: event.exchange ?? currentState.selectedExchange,
+          selectedSymbol: event.symbol ?? currentState.selectedSymbol,
+        ),
+      );
+    }
+  }
+
   Future<void> _onLoadSymbolWisePL(
     LoadSymbolWisePL event,
     Emitter<SymbolWisePLState> emit,

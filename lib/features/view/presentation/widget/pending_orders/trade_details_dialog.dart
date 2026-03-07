@@ -155,7 +155,7 @@ class TradeDetailsDialog extends StatelessWidget {
                         if (isClient) {
                           Navigator.pop(
                             context,
-                          ); // close Trade Details dialog first
+                          );
                           PendingToSuccessDialog.show(
                             context: context,
                             order: order,
@@ -173,7 +173,7 @@ class TradeDetailsDialog extends StatelessWidget {
                         backgroundColor: isClient
                             ? const Color(
                                 0xFF1F4A66,
-                              ) // Primary blue matching your UI theme
+                              )
                             : AppColors.red,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.r),

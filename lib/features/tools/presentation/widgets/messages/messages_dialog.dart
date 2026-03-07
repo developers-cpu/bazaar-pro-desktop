@@ -1,6 +1,7 @@
 import 'package:bazarpro/core/constants/app_colors.dart';
 import 'package:bazarpro/features/tools/presentation/bloc/message/message_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -64,7 +65,7 @@ class MessagesDialog extends StatelessWidget {
         return Column(
           children: [
             _buildDateHeader(dateKey),
-            ...dateMessages.map((msg) => _buildMessageCard(msg)),
+            ...dateMessages.map((msg) => _buildMessageCard(context, msg)),
           ],
         );
       },
@@ -112,7 +113,7 @@ class MessagesDialog extends StatelessWidget {
     );
   }
 
-  Widget _buildMessageCard(MessageEntity message) {
+  Widget _buildMessageCard(BuildContext context, MessageEntity message) {
     return Container(
       margin: EdgeInsets.only(bottom: 12.h),
       padding: EdgeInsets.all(16.w),
@@ -158,6 +159,7 @@ class MessagesDialog extends StatelessWidget {
                   ],
                 ),
               ),
+              _CopyButton(text: '${message.title}\n${message.body}'),
             ],
           ),
           SizedBox(height: 8.h),
@@ -180,6 +182,38 @@ class MessagesDialog extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _CopyButton extends StatefulWidget {
+  final String text;
+  const _CopyButton({required this.text});
+
+  @override
+  State<_CopyButton> createState() => _CopyButtonState();
+}
+
+class _CopyButtonState extends State<_CopyButton> {
+  bool _copied = false;
+
+  void _onCopy() {
+    Clipboard.setData(ClipboardData(text: widget.text));
+    setState(() => _copied = true);
+    Future.delayed(const Duration(seconds: 2), () {
+      if (mounted) setState(() => _copied = false);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: _copied ? null : _onCopy,
+      child: Icon(
+        _copied ? Icons.check : Icons.copy,
+        color: AppColors.primaryBlue,
+        size: 18.sp,
       ),
     );
   }

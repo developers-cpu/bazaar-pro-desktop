@@ -830,6 +830,7 @@ class AppBarSectionState extends State<AppBarSection> {
   }
 
   List<MenuItemData> _getToolsDropdownItems() {
+    final isClient = widget.userRole?.toLowerCase() == 'client';
     return [
       MenuItemData(
         title: 'About',
@@ -927,18 +928,19 @@ class AppBarSectionState extends State<AppBarSection> {
           }
         },
       ),
-      MenuItemData(
-        title: 'Total Volume',
-        onTap: () {
-          TotalVolumeDialog.show(context);
-          final toolsIndex = _getTabIndex(AppStrings.tools);
-          if (toolsIndex != -1) {
-            setState(() {
-              _selectedDropdownItems[toolsIndex] = 'Total Volume';
-            });
-          }
-        },
-      ),
+      if (!isClient)
+        MenuItemData(
+          title: 'Total Volume',
+          onTap: () {
+            TotalVolumeDialog.show(context);
+            final toolsIndex = _getTabIndex(AppStrings.tools);
+            if (toolsIndex != -1) {
+              setState(() {
+                _selectedDropdownItems[toolsIndex] = 'Total Volume';
+              });
+            }
+          },
+        ),
     ];
   }
 }

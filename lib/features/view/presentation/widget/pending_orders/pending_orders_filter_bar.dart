@@ -51,7 +51,6 @@ class PendingOrdersFilterBar extends StatelessWidget {
                     hintText: 'Exchange',
                     value: state.selectedExchange,
                     items: state.exchanges,
-                    showAllOption: true,
                     onChanged: (value) {
                       context.read<PendingOrdersBloc>().add(
                         FilterByExchangeEvent(value),
@@ -88,8 +87,11 @@ class PendingOrdersFilterBar extends StatelessWidget {
                     },
                   ),
                 ),
-                const Spacer(),
+              ],
+              const Spacer(),
+              if (!isClient)
                 ViewResetButtons(
+                  showReset: true,
                   onReset: () {
                     context.read<PendingOrdersBloc>().add(
                       const ResetFiltersEvent(),
@@ -106,10 +108,7 @@ class PendingOrdersFilterBar extends StatelessWidget {
                     );
                   },
                 ),
-                SizedBox(width: 8.w),
-              ] else ...[
-                const Spacer(),
-              ],
+              SizedBox(width: 8.w),
               SizedBox(
                 height: 35.h,
                 child: ElevatedButton(

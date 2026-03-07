@@ -106,26 +106,25 @@ class RejectedTradeFilterBar extends StatelessWidget {
                   },
                 ),
               ),
-              if (!isClient) ...[
-                const Spacer(),
-                ViewResetButtons(
-                  onReset: () {
-                    context.read<RejectedTradeBloc>().add(
-                      const ResetRejectedTradeFiltersEvent(),
-                    );
-                  },
-                  onView: () {
-                    context.read<RejectedTradeBloc>().add(
-                      ApplyRejectedTradeFiltersEvent(
-                        userType: state.selectedUserType,
-                        user: state.selectedUser,
-                        exchange: state.selectedExchange,
-                        symbol: state.selectedSymbol,
-                      ),
-                    );
-                  },
-                ),
-              ],
+              const Spacer(),
+              ViewResetButtons(
+                showReset: !isClient,
+                onReset: () {
+                  context.read<RejectedTradeBloc>().add(
+                    const ResetRejectedTradeFiltersEvent(),
+                  );
+                },
+                onView: () {
+                  context.read<RejectedTradeBloc>().add(
+                    ApplyRejectedTradeFiltersEvent(
+                      userType: state.selectedUserType,
+                      user: state.selectedUser,
+                      exchange: state.selectedExchange,
+                      symbol: state.selectedSymbol,
+                    ),
+                  );
+                },
+              ),
             ],
           ),
         );

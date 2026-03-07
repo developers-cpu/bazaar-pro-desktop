@@ -74,25 +74,24 @@ class ActivityReportFilterBar extends StatelessWidget {
                   },
                 ),
               ],
-              if (!isClient) ...[
-                const Spacer(),
-                ViewResetButtons(
-                  onReset: () {
-                    context.read<ActivityReportBloc>().add(
-                      const ResetActivityReportFilters(),
-                    );
-                  },
-                  onView: () {
-                    context.read<ActivityReportBloc>().add(
-                      FilterActivityReport(
-                        userType: state.selectedUserType,
-                        user: state.selectedUser,
-                        dateRange: state.selectedDateRange,
-                      ),
-                    );
-                  },
-                ),
-              ],
+              const Spacer(),
+              ViewResetButtons(
+                showReset: !isClient,
+                onReset: () {
+                  context.read<ActivityReportBloc>().add(
+                    const ResetActivityReportFilters(),
+                  );
+                },
+                onView: () {
+                  context.read<ActivityReportBloc>().add(
+                    FilterActivityReport(
+                      userType: state.selectedUserType,
+                      user: state.selectedUser,
+                      dateRange: state.selectedDateRange,
+                    ),
+                  );
+                },
+              ),
             ],
           ),
         );

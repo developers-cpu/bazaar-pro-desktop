@@ -112,47 +112,45 @@ class _IntradaySecondsFilterBarState extends State<IntradaySecondsFilterBar> {
                       },
                     ),
                   ),
-                  if (!isClient) ...[
-                    const Spacer(),
-                    ViewResetButtons(
-                      onReset: () {
-                        context.read<IntradayHistoryBloc>().add(
-                          const BackToListViewEvent(),
-                        );
-                      },
-                      onView: () {
-                        if (_selectedExchange == null ||
-                            _selectedExchange!.isEmpty) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Please select an Exchange'),
-                              backgroundColor: AppColors.errorColor,
-                            ),
-                          );
-                          return;
-                        }
-                        if (_selectedSymbol == null ||
-                            _selectedSymbol!.isEmpty) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Please select a Symbol'),
-                              backgroundColor: AppColors.errorColor,
-                            ),
-                          );
-                          return;
-                        }
-                        context.read<IntradayHistoryBloc>().add(
-                          LoadSecondsDataEvent(
-                            date: state.date,
-                            exchange: _selectedExchange!,
-                            symbol: _selectedSymbol!,
-                            startTime: state.startTime,
-                            endTime: state.endTime,
+                  const Spacer(),
+                  ViewResetButtons(
+                    showReset: !isClient,
+                    onReset: () {
+                      context.read<IntradayHistoryBloc>().add(
+                        const BackToListViewEvent(),
+                      );
+                    },
+                    onView: () {
+                      if (_selectedExchange == null ||
+                          _selectedExchange!.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Please select an Exchange'),
+                            backgroundColor: AppColors.errorColor,
                           ),
                         );
-                      },
-                    ),
-                  ],
+                        return;
+                      }
+                      if (_selectedSymbol == null || _selectedSymbol!.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Please select a Symbol'),
+                            backgroundColor: AppColors.errorColor,
+                          ),
+                        );
+                        return;
+                      }
+                      context.read<IntradayHistoryBloc>().add(
+                        LoadSecondsDataEvent(
+                          date: state.date,
+                          exchange: _selectedExchange!,
+                          symbol: _selectedSymbol!,
+                          startTime: state.startTime,
+                          endTime: state.endTime,
+                        ),
+                      );
+                    },
+                  ),
                 ],
               ),
             ],

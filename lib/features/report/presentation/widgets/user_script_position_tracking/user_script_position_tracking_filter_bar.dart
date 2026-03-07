@@ -132,31 +132,30 @@ class UserScriptPositionTrackingFilterBar extends StatelessWidget {
                   );
                 },
               ),
-              if (!isClient) ...[
-                const Spacer(),
-                ViewResetButtons(
-                  onReset: () {
-                    context.read<UserScriptPositionTrackingBloc>().add(
-                      const ResetUserScriptPositionTrackingFilters(),
-                    );
-                  },
-                  onView: () {
-                    context.read<UserScriptPositionTrackingBloc>().add(
-                      FilterUserScriptPositionTracking(
-                        startDate: state is UserScriptPositionTrackingLoaded
-                            ? state.startDate
-                            : null,
-                        endDate: state is UserScriptPositionTrackingLoaded
-                            ? state.endDate
-                            : null,
-                        userId: selectedUser,
-                        exchange: selectedExchange,
-                        symbol: selectedSymbol,
-                      ),
-                    );
-                  },
-                ),
-              ],
+              const Spacer(),
+              ViewResetButtons(
+                showReset: !isClient,
+                onReset: () {
+                  context.read<UserScriptPositionTrackingBloc>().add(
+                    const ResetUserScriptPositionTrackingFilters(),
+                  );
+                },
+                onView: () {
+                  context.read<UserScriptPositionTrackingBloc>().add(
+                    FilterUserScriptPositionTracking(
+                      startDate: state is UserScriptPositionTrackingLoaded
+                          ? state.startDate
+                          : null,
+                      endDate: state is UserScriptPositionTrackingLoaded
+                          ? state.endDate
+                          : null,
+                      userId: selectedUser,
+                      exchange: selectedExchange,
+                      symbol: selectedSymbol,
+                    ),
+                  );
+                },
+              ),
             ],
           ),
         );

@@ -31,19 +31,29 @@ class RejectionLogFilterBar extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Row(
             children: [
-              if (!isClient) ...[
-                if (!isMaster) ...[
-                  DateRangePickerButton(
-                    width: 200.w,
-                    selectedDateRange:
-                        state.startDate != null && state.endDate != null
-                        ? DateTimeRange(
-                            start: state.startDate!,
-                            end: state.endDate!,
-                          )
-                        : null,
-                    onTap: () {},
-                    onDateRangeSelected: (range) {
+              if (!isMaster) ...[
+                DateRangePickerButton(
+                  width: 200.w,
+                  selectedDateRange:
+                      state.startDate != null && state.endDate != null
+                      ? DateTimeRange(
+                          start: state.startDate!,
+                          end: state.endDate!,
+                        )
+                      : null,
+                  onTap: () {},
+                  onDateRangeSelected: (range) {
+                    if (isClient) {
+                      context.read<RejectionLogBloc>().add(
+                        UpdateRejectionLogFiltersEvent(
+                          startDate: range.start,
+                          endDate: range.end,
+                          client: state.selectedClient,
+                          exchange: state.selectedExchange,
+                          symbol: state.selectedSymbol,
+                        ),
+                      );
+                    } else {
                       context.read<RejectionLogBloc>().add(
                         ApplyRejectionLogFiltersEvent(
                           startDate: range.start,
@@ -53,10 +63,12 @@ class RejectionLogFilterBar extends StatelessWidget {
                           symbol: state.selectedSymbol,
                         ),
                       );
-                    },
-                  ),
-                  SizedBox(width: 12.w),
-                ],
+                    }
+                  },
+                ),
+                SizedBox(width: 12.w),
+              ],
+              if (!isClient) ...[
                 SizedBox(
                   width: 200.w,
                   child: AppDropdown(
@@ -87,15 +99,27 @@ class RejectionLogFilterBar extends StatelessWidget {
                   value: state.selectedExchange,
                   items: state.exchanges,
                   onChanged: (value) {
-                    context.read<RejectionLogBloc>().add(
-                      ApplyRejectionLogFiltersEvent(
-                        startDate: state.startDate,
-                        endDate: state.endDate,
-                        client: state.selectedClient,
-                        exchange: value,
-                        symbol: state.selectedSymbol,
-                      ),
-                    );
+                    if (isClient) {
+                      context.read<RejectionLogBloc>().add(
+                        UpdateRejectionLogFiltersEvent(
+                          startDate: state.startDate,
+                          endDate: state.endDate,
+                          client: state.selectedClient,
+                          exchange: value,
+                          symbol: state.selectedSymbol,
+                        ),
+                      );
+                    } else {
+                      context.read<RejectionLogBloc>().add(
+                        ApplyRejectionLogFiltersEvent(
+                          startDate: state.startDate,
+                          endDate: state.endDate,
+                          client: state.selectedClient,
+                          exchange: value,
+                          symbol: state.selectedSymbol,
+                        ),
+                      );
+                    }
                   },
                 ),
               ),
@@ -108,39 +132,50 @@ class RejectionLogFilterBar extends StatelessWidget {
                   value: state.selectedSymbol,
                   items: state.symbols,
                   onChanged: (value) {
-                    context.read<RejectionLogBloc>().add(
-                      ApplyRejectionLogFiltersEvent(
-                        startDate: state.startDate,
-                        endDate: state.endDate,
-                        client: state.selectedClient,
-                        exchange: state.selectedExchange,
-                        symbol: value,
-                      ),
-                    );
+                    if (isClient) {
+                      context.read<RejectionLogBloc>().add(
+                        UpdateRejectionLogFiltersEvent(
+                          startDate: state.startDate,
+                          endDate: state.endDate,
+                          client: state.selectedClient,
+                          exchange: state.selectedExchange,
+                          symbol: value,
+                        ),
+                      );
+                    } else {
+                      context.read<RejectionLogBloc>().add(
+                        ApplyRejectionLogFiltersEvent(
+                          startDate: state.startDate,
+                          endDate: state.endDate,
+                          client: state.selectedClient,
+                          exchange: state.selectedExchange,
+                          symbol: value,
+                        ),
+                      );
+                    }
                   },
                 ),
               ),
-              if (!isClient) ...[
-                const Spacer(),
-                ViewResetButtons(
-                  onReset: () {
-                    context.read<RejectionLogBloc>().add(
-                      const ResetRejectionLogFiltersEvent(),
-                    );
-                  },
-                  onView: () {
-                    context.read<RejectionLogBloc>().add(
-                      ApplyRejectionLogFiltersEvent(
-                        startDate: state.startDate,
-                        endDate: state.endDate,
-                        client: state.selectedClient,
-                        exchange: state.selectedExchange,
-                        symbol: state.selectedSymbol,
-                      ),
-                    );
-                  },
-                ),
-              ],
+              const Spacer(),
+              ViewResetButtons(
+                showReset: !isClient,
+                onReset: () {
+                  context.read<RejectionLogBloc>().add(
+                    const ResetRejectionLogFiltersEvent(),
+                  );
+                },
+                onView: () {
+                  context.read<RejectionLogBloc>().add(
+                    ApplyRejectionLogFiltersEvent(
+                      startDate: state.startDate,
+                      endDate: state.endDate,
+                      client: state.selectedClient,
+                      exchange: state.selectedExchange,
+                      symbol: state.selectedSymbol,
+                    ),
+                  );
+                },
+              ),
             ],
           ),
         );

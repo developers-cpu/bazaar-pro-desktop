@@ -9,6 +9,7 @@ class ViewResetButtons extends StatelessWidget {
   final bool isLoading;
   final String viewText;
   final String resetText;
+  final bool showReset;
   const ViewResetButtons({
     Key? key,
     this.onView,
@@ -16,14 +17,14 @@ class ViewResetButtons extends StatelessWidget {
     this.isLoading = false,
     this.viewText = 'View',
     this.resetText = 'Reset',
+    this.showReset = true,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        _buildResetButton(),
-        SizedBox(width: 8.w),
+        if (showReset) ...[_buildResetButton(), SizedBox(width: 8.w)],
         _buildViewButton(),
       ],
     );

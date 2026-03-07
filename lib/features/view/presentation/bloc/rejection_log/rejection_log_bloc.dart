@@ -24,6 +24,7 @@ class RejectionLogBloc extends Bloc<RejectionLogEvent, RejectionLogState> {
   }) : super(const RejectionLogInitial()) {
     on<LoadRejectionLogsEvent>(_onLoadRejectionLogs);
     on<ApplyRejectionLogFiltersEvent>(_onApplyFilters);
+    on<UpdateRejectionLogFiltersEvent>(_onUpdateFilters);
     on<ResetRejectionLogFiltersEvent>(_onResetFilters);
     on<SortRejectionLogsByColumnEvent>(_onSortByColumn);
     on<ExportRejectionLogsToPdfEvent>(_onExportToPdf);
@@ -114,6 +115,23 @@ class RejectionLogBloc extends Bloc<RejectionLogEvent, RejectionLogState> {
           selectedExchange: event.exchange,
           selectedSymbol: event.symbol,
         ),
+      ),
+    );
+  }
+
+  void _onUpdateFilters(
+    UpdateRejectionLogFiltersEvent event,
+    Emitter<RejectionLogState> emit,
+  ) {
+    if (state is! RejectionLogLoaded) return;
+    final currentState = state as RejectionLogLoaded;
+    emit(
+      currentState.copyWith(
+        startDate: event.startDate,
+        endDate: event.endDate,
+        selectedClient: event.client,
+        selectedExchange: event.exchange,
+        selectedSymbol: event.symbol,
       ),
     );
   }

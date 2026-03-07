@@ -28,6 +28,7 @@ class SquareOffDialog extends StatefulWidget {
 class _SquareOffDialogState extends State<SquareOffDialog> {
   String _selectedExchange = 'Exchange';
   String _selectedSymbol = 'Symbol';
+  String _squareOffType = 'All';
   final Color headerColor = const Color(0xFF2C5F7A);
   Set<int> _selectedIndices = {
     0,
@@ -252,58 +253,90 @@ class _SquareOffDialogState extends State<SquareOffDialog> {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
       child: Center(
-        child: SizedBox(
-          width: 400.w,
-          height: 40.h,
-          child: ElevatedButton(
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (context) => Dialog(
-                  backgroundColor: AppColors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16.r),
-                  ),
-                  child: Container(
-                    width: 500.w,
-                    child: _buildConfirmationContent(),
-                  ),
-                ),
-              );
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: headerColor,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.r),
-              ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            _buildSquareOffButton(
+              'Profit Position Square Off',
+              'Profit',
+              AppColors.buyColor,
             ),
-            child: Text(
+            SizedBox(width: 16.w),
+            _buildSquareOffButton(
+              'Loss Position Square Off',
+              'Loss',
+              AppColors.sellColor,
+            ),
+            SizedBox(width: 16.w),
+            _buildSquareOffButton(
               'Square Off',
-              style: GoogleFonts.openSans(
-                fontSize: 14.sp,
-                fontWeight: FontWeight.w600,
-                color: Colors.white,
-              ),
+              'All',
+              AppColors.primaryBlue,
             ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSquareOffButton(String text, String type, Color color) {
+    return SizedBox(
+      height: 40.h,
+      child: ElevatedButton(
+        onPressed: () {
+          setState(() {
+            _squareOffType = type;
+          });
+          showDialog(
+            context: context,
+            builder: (context) => Dialog(
+              backgroundColor: AppColors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16.r),
+              ),
+              child: SizedBox(width: 500.w, child: _buildConfirmationContent()),
+            ),
+          );
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: color,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8.r),
           ),
+          padding: EdgeInsets.symmetric(horizontal: 24.w),
+        ),
+        child: Text(
+          text,
+          style: GoogleFonts.openSans(fontSize: 14.sp, color: Colors.white),
         ),
       ),
     );
   }
 
   Widget _buildConfirmationContent() {
+    String title = 'Square off All Positions';
+    String message = 'Are You Sure you want to Square off all Positions?';
+
+    if (_squareOffType == 'Profit') {
+      title = 'Square off Profit Positions';
+      message = 'Are You Sure you want to Square off all Profit Positions?';
+    } else if (_squareOffType == 'Loss') {
+      title = 'Square off Loss Positions';
+      message = 'Are You Sure you want to Square off all Loss Positions?';
+    }
+
     return Container(
       padding: EdgeInsets.symmetric(vertical: 24.h, horizontal: 16.w),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            'Square off All Positions',
+            title,
             style: GoogleFonts.openSans(fontSize: 22.sp, color: headerColor),
           ),
           SizedBox(height: 8.h),
           Text(
-            'Are You Sure you want to Square off all Positions?',
+            message,
             style: GoogleFonts.openSans(
               fontSize: 16.sp,
               color: Colors.grey.shade500,

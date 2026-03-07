@@ -27,6 +27,23 @@ class ApplyRejectionLogFiltersEvent extends RejectionLogEvent {
   List<Object?> get props => [startDate, endDate, client, exchange, symbol];
 }
 
+class UpdateRejectionLogFiltersEvent extends RejectionLogEvent {
+  final DateTime? startDate;
+  final DateTime? endDate;
+  final String? client;
+  final String? exchange;
+  final String? symbol;
+  const UpdateRejectionLogFiltersEvent({
+    this.startDate,
+    this.endDate,
+    this.client,
+    this.exchange,
+    this.symbol,
+  });
+  @override
+  List<Object?> get props => [startDate, endDate, client, exchange, symbol];
+}
+
 class ResetRejectionLogFiltersEvent extends RejectionLogEvent {
   const ResetRejectionLogFiltersEvent();
 }

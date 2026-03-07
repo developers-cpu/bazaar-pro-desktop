@@ -9,6 +9,13 @@ abstract class BrokerageState extends Equatable {
 
 class BrokerageInitial extends BrokerageState {}
 
+class BrokerageFilterUpdated extends BrokerageState {
+  final String selectedExchange;
+  const BrokerageFilterUpdated(this.selectedExchange);
+  @override
+  List<Object?> get props => [selectedExchange];
+}
+
 class BrokerageLoading extends BrokerageState {}
 
 class BrokerageLoaded extends BrokerageState {

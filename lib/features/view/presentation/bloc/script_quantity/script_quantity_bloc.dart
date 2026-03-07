@@ -15,6 +15,8 @@ class ScriptQuantityBloc
     required this.getScriptQuantities,
   }) : super(const ScriptQuantityInitial()) {
     on<LoadFiltersEvent>(_onLoadFilters);
+    on<RestoreFiltersEvent>(_onRestoreFilters);
+    on<UpdateScriptQuantityFilterEvent>(_onUpdateScriptQuantityFilter);
     on<LoadGroupsEvent>(_onLoadGroups);
     on<LoadScriptQuantitiesEvent>(_onLoadScriptQuantities);
     on<ResetFiltersEvent>(_onResetFilters);
@@ -36,6 +38,40 @@ class ScriptQuantityBloc
       'FOREX',
     ];
     emit(ScriptQuantityFiltersLoaded(exchanges: exchanges));
+  }
+
+  Future<void> _onRestoreFilters(
+    RestoreFiltersEvent event,
+    Emitter<ScriptQuantityState> emit,
+  ) async {
+    final exchanges = <String>[
+      'NSE',
+      'MCX',
+      'CE/PE',
+      'OTHERS',
+      'COMEX FUTURE',
+      'COMEX SPOT',
+      'CRYPTO',
+      'GIFT',
+      'FOREX',
+    ];
+    emit(
+      ScriptQuantityFiltersLoaded(
+        exchanges: exchanges,
+        selectedExchange: event.exchange,
+        selectedGroup: event.group,
+      ),
+    );
+  }
+
+  void _onUpdateScriptQuantityFilter(
+    UpdateScriptQuantityFilterEvent event,
+    Emitter<ScriptQuantityState> emit,
+  ) {
+    if (state is ScriptQuantityFiltersLoaded) {
+      final currentState = state as ScriptQuantityFiltersLoaded;
+      emit(currentState.copyWith(selectedExchange: event.exchange));
+    }
   }
 
   Future<void> _onLoadGroups(

@@ -18,6 +18,14 @@ class FilterCreditHistory extends CreditHistoryEvent {
   List<Object?> get props => [type, user];
 }
 
+class CreditHistoryFilter extends CreditHistoryEvent {
+  final String? type;
+  final String? user;
+  const CreditHistoryFilter({this.type, this.user});
+  @override
+  List<Object?> get props => [type, user];
+}
+
 class ResetCreditHistoryFilters extends CreditHistoryEvent {
   const ResetCreditHistoryFilters();
 }

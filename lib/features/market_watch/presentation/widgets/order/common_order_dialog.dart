@@ -69,7 +69,7 @@ class _CommonOrderDialogState extends State<CommonOrderDialog> {
   @override
   Widget build(BuildContext context) {
     bool isClient = false;
-    String clientName = 'client1'; // Hardcoded for testing, as requested
+    String clientName = 'client1';
     try {
       final authState = context.read<AuthBloc>().state;
       if (authState is AuthAuthenticated) {

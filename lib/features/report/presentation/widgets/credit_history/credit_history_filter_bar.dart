@@ -23,10 +23,6 @@ class CreditHistoryFilterBar extends StatelessWidget {
             authState is AuthAuthenticated &&
             authState.user.role.toLowerCase() == 'client';
 
-        if (isClient) {
-          return const SizedBox.shrink();
-        }
-
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Row(
@@ -40,7 +36,7 @@ class CreditHistoryFilterBar extends StatelessWidget {
                 items: const ['Master', 'Client'],
                 onChanged: (value) {
                   context.read<CreditHistoryBloc>().add(
-                    FilterCreditHistory(type: value),
+                    CreditHistoryFilter(type: value),
                   );
                 },
               ),
@@ -55,28 +51,27 @@ class CreditHistoryFilterBar extends StatelessWidget {
                 items: state.users,
                 onChanged: (value) {
                   context.read<CreditHistoryBloc>().add(
-                    FilterCreditHistory(user: value),
+                    CreditHistoryFilter(user: value),
                   );
                 },
               ),
-              if (!isClient) ...[
-                const Spacer(),
-                ViewResetButtons(
-                  onReset: () {
-                    context.read<CreditHistoryBloc>().add(
-                      const ResetCreditHistoryFilters(),
-                    );
-                  },
-                  onView: () {
-                    context.read<CreditHistoryBloc>().add(
-                      FilterCreditHistory(
-                        user: state.selectedUser,
-                        type: state.selectedType,
-                      ),
-                    );
-                  },
-                ),
-              ],
+              const Spacer(),
+              ViewResetButtons(
+                showReset: !isClient,
+                onReset: () {
+                  context.read<CreditHistoryBloc>().add(
+                    const ResetCreditHistoryFilters(),
+                  );
+                },
+                onView: () {
+                  context.read<CreditHistoryBloc>().add(
+                    FilterCreditHistory(
+                      user: state.selectedUser,
+                      type: state.selectedType,
+                    ),
+                  );
+                },
+              ),
             ],
           ),
         );

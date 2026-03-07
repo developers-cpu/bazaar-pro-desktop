@@ -1,5 +1,6 @@
 import 'package:bazarpro/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -64,7 +65,9 @@ class AnnouncementDialog extends StatelessWidget {
         return Column(
           children: [
             _buildDateHeader(dateKey),
-            ...dateAnnouncements.map((msg) => _buildAnnouncementCard(msg)),
+            ...dateAnnouncements.map(
+              (msg) => _buildAnnouncementCard(context, msg),
+            ),
           ],
         );
       },
@@ -112,7 +115,10 @@ class AnnouncementDialog extends StatelessWidget {
     );
   }
 
-  Widget _buildAnnouncementCard(AnnouncementEntity announcement) {
+  Widget _buildAnnouncementCard(
+    BuildContext context,
+    AnnouncementEntity announcement,
+  ) {
     return Container(
       margin: EdgeInsets.only(bottom: 12.h),
       padding: EdgeInsets.all(16.w),
@@ -158,6 +164,7 @@ class AnnouncementDialog extends StatelessWidget {
                   ],
                 ),
               ),
+              _CopyButton(text: '${announcement.title}\n${announcement.body}'),
             ],
           ),
           SizedBox(height: 8.h),
@@ -180,6 +187,38 @@ class AnnouncementDialog extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _CopyButton extends StatefulWidget {
+  final String text;
+  const _CopyButton({required this.text});
+
+  @override
+  State<_CopyButton> createState() => _CopyButtonState();
+}
+
+class _CopyButtonState extends State<_CopyButton> {
+  bool _copied = false;
+
+  void _onCopy() {
+    Clipboard.setData(ClipboardData(text: widget.text));
+    setState(() => _copied = true);
+    Future.delayed(const Duration(seconds: 2), () {
+      if (mounted) setState(() => _copied = false);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: _copied ? null : _onCopy,
+      child: Icon(
+        _copied ? Icons.check : Icons.copy,
+        color: AppColors.primaryBlue,
+        size: 18.sp,
       ),
     );
   }

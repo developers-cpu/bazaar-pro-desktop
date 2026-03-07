@@ -17,3 +17,11 @@ class FilterSymbolWisePL extends SymbolWisePLEvent {
   @override
   List<Object?> get props => [exchange, symbol];
 }
+
+class SymbolWisePLFilter extends SymbolWisePLEvent {
+  final String? exchange;
+  final String? symbol;
+  const SymbolWisePLFilter({this.exchange, this.symbol});
+  @override
+  List<Object?> get props => [exchange, symbol];
+}

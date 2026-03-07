@@ -77,7 +77,9 @@ class _ScriptQuantityPageState extends State<ScriptQuantityPage> {
       );
       Future.delayed(const Duration(milliseconds: 100), () {
         if (mounted) {
-          context.read<ScriptQuantityBloc>().add(const LoadFiltersEvent());
+          context.read<ScriptQuantityBloc>().add(
+            RestoreFiltersEvent(state.exchange, state.group),
+          );
         }
       });
     }

@@ -7,6 +7,8 @@ import '../../../../../../injection_container.dart';
 import '../../bloc/trade_margin/trade_margin_bloc.dart';
 import '../../bloc/trade_margin/trade_margin_event.dart';
 import '../../bloc/trade_margin/trade_margin_state.dart';
+import '../../../../auth/presentation/bloc/auth_bloc.dart';
+import '../../../../auth/presentation/bloc/auth_state.dart';
 import 'trade_margin_filter_bar.dart';
 import 'trade_margin_table.dart';
 
@@ -47,10 +49,18 @@ class TradeMarginDialog extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 16.w),
               child: BlocBuilder<TradeMarginBloc, TradeMarginState>(
                 builder: (context, state) {
+                  final authState = context.read<AuthBloc>().state;
+                  final isClient =
+                      authState is AuthAuthenticated &&
+                      authState.user.role.toLowerCase() == 'client';
+
                   if (state is TradeMarginLoading) {
                     return const Center(child: CircularProgressIndicator());
                   } else if (state is TradeMarginLoaded) {
-                    return TradeMarginTable(tradeMargins: state.tradeMargins);
+                    return TradeMarginTable(
+                      tradeMargins: state.tradeMargins,
+                      isClient: isClient,
+                    );
                   }
                   return const SizedBox.shrink();
                 },

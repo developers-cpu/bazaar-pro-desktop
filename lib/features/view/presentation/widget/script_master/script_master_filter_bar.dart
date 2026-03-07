@@ -59,24 +59,23 @@ class ScriptMasterFilterBar extends StatelessWidget {
                   );
                 },
               ),
-              if (!isClient) ...[
-                const Spacer(),
-                ViewResetButtons(
-                  onReset: () {
-                    context.read<ScriptMasterBloc>().add(
-                      const ResetFiltersEvent(),
-                    );
-                  },
-                  onView: () {
-                    context.read<ScriptMasterBloc>().add(
-                      ApplyFiltersEvent(
-                        exchange: state.selectedExchange,
-                        symbol: state.selectedSymbol,
-                      ),
-                    );
-                  },
-                ),
-              ],
+              const Spacer(),
+              ViewResetButtons(
+                showReset: !isClient,
+                onReset: () {
+                  context.read<ScriptMasterBloc>().add(
+                    const ResetFiltersEvent(),
+                  );
+                },
+                onView: () {
+                  context.read<ScriptMasterBloc>().add(
+                    ApplyFiltersEvent(
+                      exchange: state.selectedExchange,
+                      symbol: state.selectedSymbol,
+                    ),
+                  );
+                },
+              ),
             ],
           ),
         );

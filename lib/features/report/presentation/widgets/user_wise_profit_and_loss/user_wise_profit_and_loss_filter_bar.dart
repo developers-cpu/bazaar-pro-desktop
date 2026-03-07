@@ -76,25 +76,24 @@ class UserWiseProfitAndLossFilterBar extends StatelessWidget {
                   );
                 },
               ),
-              if (!isClient) ...[
-                const Spacer(),
-                ViewResetButtons(
-                  onReset: () {
-                    context.read<UserWiseProfitAndLossBloc>().add(
-                      const ResetUserWiseProfitAndLossFilters(),
-                    );
-                  },
-                  onView: () {
-                    context.read<UserWiseProfitAndLossBloc>().add(
-                      FilterUserWiseProfitAndLoss(
-                        userId: selectedUser,
-                        startDate: selectedDateRange?.start.toIso8601String(),
-                        endDate: selectedDateRange?.end.toIso8601String(),
-                      ),
-                    );
-                  },
-                ),
-              ],
+              const Spacer(),
+              ViewResetButtons(
+                showReset: !isClient,
+                onReset: () {
+                  context.read<UserWiseProfitAndLossBloc>().add(
+                    const ResetUserWiseProfitAndLossFilters(),
+                  );
+                },
+                onView: () {
+                  context.read<UserWiseProfitAndLossBloc>().add(
+                    FilterUserWiseProfitAndLoss(
+                      userId: selectedUser,
+                      startDate: selectedDateRange?.start.toIso8601String(),
+                      endDate: selectedDateRange?.end.toIso8601String(),
+                    ),
+                  );
+                },
+              ),
             ],
           ),
         );

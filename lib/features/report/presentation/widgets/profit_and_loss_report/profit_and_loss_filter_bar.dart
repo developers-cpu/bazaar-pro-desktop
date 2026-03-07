@@ -43,27 +43,26 @@ class ProfitAndLossFilterBar extends StatelessWidget {
                   );
                 },
               ),
-              if (!isClient) ...[
-                const Spacer(),
-                ViewResetButtons(
-                  onReset: () {
+              const Spacer(),
+              ViewResetButtons(
+                showReset: !isClient,
+                onReset: () {
+                  context.read<ProfitAndLossReportBloc>().add(
+                    const ResetProfitAndLossReportFilters(),
+                  );
+                },
+                onView: () {
+                  if (selectedUser != null) {
+                    context.read<ProfitAndLossReportBloc>().add(
+                      FilterProfitAndLossReport(userId: selectedUser),
+                    );
+                  } else {
                     context.read<ProfitAndLossReportBloc>().add(
                       const ResetProfitAndLossReportFilters(),
                     );
-                  },
-                  onView: () {
-                    if (selectedUser != null) {
-                      context.read<ProfitAndLossReportBloc>().add(
-                        FilterProfitAndLossReport(userId: selectedUser),
-                      );
-                    } else {
-                      context.read<ProfitAndLossReportBloc>().add(
-                        const ResetProfitAndLossReportFilters(),
-                      );
-                    }
-                  },
-                ),
-              ],
+                  }
+                },
+              ),
             ],
           ),
         );

@@ -60,21 +60,20 @@ class LoginHistoryFilterBar extends StatelessWidget {
                   },
                 ),
               ),
-              if (!isClient) ...[
-                const Spacer(),
-                ViewResetButtons(
-                  onReset: () {
-                    context.read<LoginHistoryBloc>().add(
-                      const ResetLoginHistoryEvent(),
-                    );
-                  },
-                  onView: () {
-                    context.read<LoginHistoryBloc>().add(
-                      const ViewLoginHistoryEvent(),
-                    );
-                  },
-                ),
-              ],
+              const Spacer(),
+              ViewResetButtons(
+                showReset: !isClient,
+                onReset: () {
+                  context.read<LoginHistoryBloc>().add(
+                    const ResetLoginHistoryEvent(),
+                  );
+                },
+                onView: () {
+                  context.read<LoginHistoryBloc>().add(
+                    const ViewLoginHistoryEvent(),
+                  );
+                },
+              ),
             ],
           ),
         );

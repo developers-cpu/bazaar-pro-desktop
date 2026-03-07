@@ -29,6 +29,21 @@ class ApplyFiltersEvent extends NetPositionEvent {
   List<Object?> get props => [userType, client, exchange, symbol];
 }
 
+class UpdateFiltersEvent extends NetPositionEvent {
+  final String? userType;
+  final String? client;
+  final String? exchange;
+  final String? symbol;
+  const UpdateFiltersEvent({
+    this.userType,
+    this.client,
+    this.exchange,
+    this.symbol,
+  });
+  @override
+  List<Object?> get props => [userType, client, exchange, symbol];
+}
+
 class ResetFiltersEvent extends NetPositionEvent {
   const ResetFiltersEvent();
 }

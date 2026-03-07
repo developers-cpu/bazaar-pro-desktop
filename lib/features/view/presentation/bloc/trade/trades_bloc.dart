@@ -26,6 +26,7 @@ class TradesBloc extends Bloc<TradesEvent, TradesState> {
   }) : super(const TradesInitial()) {
     on<LoadTradesEvent>(_onLoadTrades);
     on<ApplyFiltersEvent>(_onApplyFilters);
+    on<UpdateFiltersEvent>(_onUpdateFilters);
     on<ResetFiltersEvent>(_onResetFilters);
     on<SelectTradeEvent>(_onSelectTrade);
     on<SortTradesByColumnEvent>(_onSortByColumn);
@@ -121,6 +122,21 @@ class TradesBloc extends Bloc<TradesEvent, TradesState> {
           selectedSymbol: event.symbol,
           selectedOrderType: event.orderType,
         ),
+      ),
+    );
+  }
+
+  void _onUpdateFilters(UpdateFiltersEvent event, Emitter<TradesState> emit) {
+    if (state is! TradesLoaded) return;
+    final currentState = state as TradesLoaded;
+    emit(
+      currentState.copyWith(
+        startDate: event.startDate,
+        endDate: event.endDate,
+        selectedClient: event.client,
+        selectedExchange: event.exchange,
+        selectedSymbol: event.symbol,
+        selectedOrderType: event.orderType,
       ),
     );
   }

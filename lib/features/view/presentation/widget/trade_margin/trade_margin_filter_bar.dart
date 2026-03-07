@@ -41,17 +41,10 @@ class TradeMarginFilterBar extends StatelessWidget {
                   hintText: 'Exchange',
                   value: state.selectedExchange,
                   items: state.exchanges,
-                  showAllOption: true,
                   onChanged: (value) {
-                    if (isClient) {
-                      context.read<TradeMarginBloc>().add(
-                        ViewTradeMargins(exchange: value),
-                      );
-                    } else {
-                      context.read<TradeMarginBloc>().add(
-                        UpdateTradeMarginFilters(exchange: value),
-                      );
-                    }
+                    context.read<TradeMarginBloc>().add(
+                      UpdateTradeMarginFilters(exchange: value),
+                    );
                   },
                 ),
               ],
@@ -69,9 +62,10 @@ class TradeMarginFilterBar extends StatelessWidget {
                   },
                 ),
               ],
-              if (!isClient && !(isMaster && isDialogMode)) ...[
+              if (!(isMaster && isDialogMode)) ...[
                 const Spacer(),
                 ViewResetButtons(
+                  showReset: !isClient,
                   onReset: () {
                     context.read<TradeMarginBloc>().add(
                       const ResetTradeMarginFilters(),

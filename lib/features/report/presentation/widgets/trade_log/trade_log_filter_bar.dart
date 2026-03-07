@@ -59,7 +59,6 @@ class TradeLogFilterBar extends StatelessWidget {
                 hintText: 'Exchange',
                 value: state.selectedExchange,
                 items: state.exchanges,
-                showAllOption: true,
                 width: 200.w,
                 height: 35.h,
                 onChanged: (value) {
@@ -82,26 +81,25 @@ class TradeLogFilterBar extends StatelessWidget {
                   );
                 },
               ),
-              if (!isClient) ...[
-                const Spacer(),
-                ViewResetButtons(
-                  onReset: () {
-                    context.read<TradeLogBloc>().add(
-                      const ResetTradeLogsFiltersEvent(),
-                    );
-                  },
-                  onView: () {
-                    context.read<TradeLogBloc>().add(
-                      FilterTradeLogsEvent(
-                        user: state.selectedUser,
-                        exchange: state.selectedExchange,
-                        symbol: state.selectedSymbol,
-                        dateRange: state.selectedDateRange,
-                      ),
-                    );
-                  },
-                ),
-              ],
+              const Spacer(),
+              ViewResetButtons(
+                showReset: !isClient,
+                onReset: () {
+                  context.read<TradeLogBloc>().add(
+                    const ResetTradeLogsFiltersEvent(),
+                  );
+                },
+                onView: () {
+                  context.read<TradeLogBloc>().add(
+                    FilterTradeLogsEvent(
+                      user: state.selectedUser,
+                      exchange: state.selectedExchange,
+                      symbol: state.selectedSymbol,
+                      dateRange: state.selectedDateRange,
+                    ),
+                  );
+                },
+              ),
             ],
           ),
         );

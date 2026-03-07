@@ -10,6 +10,21 @@ class LoadFiltersEvent extends ScriptQuantityEvent {
   const LoadFiltersEvent();
 }
 
+class RestoreFiltersEvent extends ScriptQuantityEvent {
+  final String exchange;
+  final String group;
+  const RestoreFiltersEvent(this.exchange, this.group);
+  @override
+  List<Object?> get props => [exchange, group];
+}
+
+class UpdateScriptQuantityFilterEvent extends ScriptQuantityEvent {
+  final String exchange;
+  const UpdateScriptQuantityFilterEvent(this.exchange);
+  @override
+  List<Object?> get props => [exchange];
+}
+
 class LoadGroupsEvent extends ScriptQuantityEvent {
   final String exchange;
   const LoadGroupsEvent(this.exchange);

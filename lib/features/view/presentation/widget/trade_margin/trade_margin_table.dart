@@ -7,12 +7,31 @@ import '../../../../../core/widget/table/view_table_cell_styles.dart';
 class TradeMarginTable extends StatelessWidget {
   final List<TradeMargin> tradeMargins;
   final bool isDarkMode;
+  final bool isClient;
   const TradeMarginTable({
     super.key,
     required this.tradeMargins,
     this.isDarkMode = false,
+    this.isClient = false,
   });
   List<ViewTableColumn> _getColumns() {
+    if (isClient) {
+      return const [
+        ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 250),
+        ViewTableColumn(
+          id: 'marginPct',
+          label: 'MARGIN (%)',
+          width: 200,
+          isNumeric: true,
+        ),
+        ViewTableColumn(
+          id: 'marginAmt',
+          label: 'MARGIN (A.)',
+          width: 200,
+          isNumeric: true,
+        ),
+      ];
+    }
     return const [
       ViewTableColumn(id: 'exchange', label: 'EXCH', width: 100),
       ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 150),

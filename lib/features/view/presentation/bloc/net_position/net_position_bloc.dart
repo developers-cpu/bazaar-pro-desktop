@@ -28,6 +28,7 @@ class NetPositionBloc extends Bloc<NetPositionEvent, NetPositionState> {
   }) : super(const NetPositionInitial()) {
     on<LoadNetPositionsEvent>(_onLoadNetPositions);
     on<ApplyFiltersEvent>(_onApplyFilters);
+    on<UpdateFiltersEvent>(_onUpdateFilters);
     on<ResetFiltersEvent>(_onResetFilters);
     on<SelectPositionEvent>(_onSelectPosition);
     on<SortPositionsByColumnEvent>(_onSortByColumn);
@@ -127,6 +128,22 @@ class NetPositionBloc extends Bloc<NetPositionEvent, NetPositionState> {
           selectedExchange: event.exchange,
           selectedSymbol: event.symbol,
         ),
+      ),
+    );
+  }
+
+  void _onUpdateFilters(
+    UpdateFiltersEvent event,
+    Emitter<NetPositionState> emit,
+  ) {
+    if (state is! NetPositionLoaded) return;
+    final currentState = state as NetPositionLoaded;
+    emit(
+      currentState.copyWith(
+        selectedUserType: event.userType,
+        selectedClient: event.client,
+        selectedExchange: event.exchange,
+        selectedSymbol: event.symbol,
       ),
     );
   }

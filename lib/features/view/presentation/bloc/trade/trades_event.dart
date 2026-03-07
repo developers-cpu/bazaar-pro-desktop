@@ -40,6 +40,32 @@ class ApplyFiltersEvent extends TradesEvent {
   ];
 }
 
+class UpdateFiltersEvent extends TradesEvent {
+  final DateTime? startDate;
+  final DateTime? endDate;
+  final String? client;
+  final String? exchange;
+  final String? symbol;
+  final String? orderType;
+  const UpdateFiltersEvent({
+    this.startDate,
+    this.endDate,
+    this.client,
+    this.exchange,
+    this.symbol,
+    this.orderType,
+  });
+  @override
+  List<Object?> get props => [
+    startDate,
+    endDate,
+    client,
+    exchange,
+    symbol,
+    orderType,
+  ];
+}
+
 class ResetFiltersEvent extends TradesEvent {
   const ResetFiltersEvent();
 }

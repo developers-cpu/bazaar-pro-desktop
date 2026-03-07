@@ -142,76 +142,240 @@ class WatchlistWidget extends StatelessWidget {
     required bool isSelected,
     required bool showCloseIcon,
   }) {
-    return InkWell(
-      onTap: () {
-        context.read<WatchlistBloc>().add(SelectWatchlistEvent(index: index));
-      },
-      borderRadius: BorderRadius.circular(10.r),
-      child: Container(
-        width: 95.w,
-        height: 26.h,
-        padding: EdgeInsets.only(
-          top: 4.h,
-          bottom: 4.h,
-          left: 6.w,
-          right: showCloseIcon ? 3.w : 6.w,
-        ),
-        decoration: BoxDecoration(
-          color: AppColors.transparent,
-          borderRadius: BorderRadius.circular(8.r),
-          border: Border.all(
-            color: AppColors.primaryBlue,
-            width: isSelected ? 1.5.w : 1.w,
-          ),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: Text(
-                label,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontFamily: 'Open Sans',
-                  fontWeight: FontWeight.w600,
-                  fontSize: 11.sp,
-                  color: AppColors.primaryBlue,
-                  letterSpacing: 0.15,
-                  height: 1.0,
-                ),
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-            if (showCloseIcon) ...[
-              SizedBox(width: 3.w),
-              InkWell(
-                onTap: () {
-                  context.read<WatchlistBloc>().add(
-                    RemoveWatchlistEvent(index: index),
-                  );
-                },
-                borderRadius: BorderRadius.circular(7.r),
-                child: Container(
-                  width: 13.w,
-                  height: 13.h,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: AppColors.primaryBlue,
-                      width: 1.w,
-                    ),
-                  ),
-                  child: Center(
-                    child: Icon(
-                      Icons.close,
-                      size: 9.sp,
-                      color: AppColors.primaryBlue,
-                    ),
-                  ),
-                ),
+    return _WatchlistTab(
+      blocContext: context,
+      label: label,
+      index: index,
+      isSelected: isSelected,
+      showCloseIcon: showCloseIcon,
+    );
+  }
+}
+
+class _WatchlistTab extends StatefulWidget {
+  final BuildContext blocContext;
+  final String label;
+  final int index;
+  final bool isSelected;
+  final bool showCloseIcon;
+
+  const _WatchlistTab({
+    Key? key,
+    required this.blocContext,
+    required this.label,
+    required this.index,
+    required this.isSelected,
+    required this.showCloseIcon,
+  }) : super(key: key);
+
+  @override
+  State<_WatchlistTab> createState() => _WatchlistTabState();
+}
+
+class _WatchlistTabState extends State<_WatchlistTab> {
+  bool _isEditing = false;
+  late TextEditingController _controller;
+  late FocusNode _focusNode;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(text: widget.label);
+    _focusNode = FocusNode();
+    _focusNode.addListener(() {
+      if (!_focusNode.hasFocus && _isEditing) {
+        _saveAndExitEditMode();
+      }
+    });
+  }
+
+  @override
+  void didUpdateWidget(_WatchlistTab oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (!_isEditing && oldWidget.label != widget.label) {
+      _controller.text = widget.label;
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  void _saveAndExitEditMode() {
+    if (_isEditing) {
+      final newName = _controller.text.trim();
+      if (newName.isNotEmpty && newName != widget.label) {
+        widget.blocContext.read<WatchlistBloc>().add(
+          RenameWatchlistEvent(index: widget.index, newName: newName),
+        );
+      } else {
+        _controller.text = widget.label;
+      }
+      setState(() {
+        _isEditing = false;
+      });
+    }
+  }
+
+  void _showEditMenu(Offset globalPosition) async {
+    final RenderBox overlay =
+        Overlay.of(context).context.findRenderObject() as RenderBox;
+    final result = await showMenu<String>(
+      context: context,
+      color: AppColors.white,
+      elevation: 4,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
+      position: RelativeRect.fromRect(
+        globalPosition & const Size(0, 0),
+        Offset.zero & overlay.size,
+      ),
+      items: [
+        PopupMenuItem<String>(
+          value: 'edit',
+          height: 25.h,
+          padding: EdgeInsets.symmetric(horizontal: 10.w),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.edit, size: 14.sp, color: AppColors.primaryBlue),
+              SizedBox(width: 8.w),
+              Text(
+                'Edit',
+                style: TextStyle(fontSize: 12.sp, color: AppColors.black),
               ),
             ],
-          ],
+          ),
+        ),
+      ],
+    );
+    if (result == 'edit') {
+      setState(() {
+        _isEditing = true;
+      });
+      _focusNode.requestFocus();
+      _controller.selection = TextSelection(
+        baseOffset: 0,
+        extentOffset: _controller.text.length,
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onLongPressStart: (details) {
+        if (widget.showCloseIcon && widget.index >= 0) {
+          _showEditMenu(details.globalPosition);
+        }
+      },
+      onSecondaryTapDown: (details) {
+        if (widget.showCloseIcon && widget.index >= 0) {
+          _showEditMenu(details.globalPosition);
+        }
+      },
+      child: InkWell(
+        onTap: () {
+          if (!_isEditing) {
+            widget.blocContext.read<WatchlistBloc>().add(
+              SelectWatchlistEvent(index: widget.index),
+            );
+          }
+        },
+        borderRadius: BorderRadius.circular(10.r),
+        child: Container(
+          width: 95.w,
+          height: 26.h,
+          padding: EdgeInsets.only(
+            top: 4.h,
+            bottom: 4.h,
+            left: 6.w,
+            right: widget.showCloseIcon ? 3.w : 6.w,
+          ),
+          decoration: BoxDecoration(
+            color: AppColors.transparent,
+            borderRadius: BorderRadius.circular(8.r),
+            border: Border.all(
+              color: AppColors.primaryBlue,
+              width: widget.isSelected ? 1.5.w : 1.w,
+            ),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: _isEditing
+                    ? TextField(
+                        controller: _controller,
+                        focusNode: _focusNode,
+                        style: TextStyle(
+                          fontFamily: 'Open Sans',
+                          fontWeight: FontWeight.w600,
+                          fontSize: 11.sp,
+                          color: AppColors.primaryBlue,
+                          letterSpacing: 0.15,
+                          height: 1.0,
+                        ),
+                        decoration: const InputDecoration(
+                          isDense: true,
+                          contentPadding: EdgeInsets.zero,
+                          border: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                        ),
+                        onSubmitted: (_) => _saveAndExitEditMode(),
+                        cursorColor: AppColors.primaryBlue,
+                        textAlign: TextAlign.center,
+                      )
+                    : Text(
+                        widget.label,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: 'Open Sans',
+                          fontWeight: FontWeight.w600,
+                          fontSize: 11.sp,
+                          color: AppColors.primaryBlue,
+                          letterSpacing: 0.15,
+                          height: 1.0,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+              ),
+              if (widget.showCloseIcon) ...[
+                SizedBox(width: 3.w),
+                InkWell(
+                  onTap: () {
+                    if (!_isEditing) {
+                      widget.blocContext.read<WatchlistBloc>().add(
+                        RemoveWatchlistEvent(index: widget.index),
+                      );
+                    }
+                  },
+                  borderRadius: BorderRadius.circular(7.r),
+                  child: Container(
+                    width: 13.w,
+                    height: 13.h,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: AppColors.primaryBlue,
+                        width: 1.w,
+                      ),
+                    ),
+                    child: Center(
+                      child: Icon(
+                        Icons.close,
+                        size: 9.sp,
+                        color: AppColors.primaryBlue,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ],
+          ),
         ),
       ),
     );

@@ -29,6 +29,14 @@ class SaveColumnsEvent extends ArrangeSymbolEvent {
   const SaveColumnsEvent();
 }
 
+class ResizeColumnEvent extends ArrangeSymbolEvent {
+  final String columnId;
+  final double width;
+  const ResizeColumnEvent({required this.columnId, required this.width});
+  @override
+  List<Object?> get props => [columnId, width];
+}
+
 class ResetColumnsEvent extends ArrangeSymbolEvent {
   const ResetColumnsEvent();
 }

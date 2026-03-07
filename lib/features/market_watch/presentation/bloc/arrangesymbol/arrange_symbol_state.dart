@@ -4,21 +4,29 @@ class ColumnItem extends Equatable {
   final String id;
   final String name;
   final bool isVisible;
+  final double? width;
   const ColumnItem({
     required this.id,
     required this.name,
     this.isVisible = true,
+    this.width,
   });
-  ColumnItem copyWith({String? id, String? name, bool? isVisible}) {
+  ColumnItem copyWith({
+    String? id,
+    String? name,
+    bool? isVisible,
+    double? width,
+  }) {
     return ColumnItem(
       id: id ?? this.id,
       name: name ?? this.name,
       isVisible: isVisible ?? this.isVisible,
+      width: width ?? this.width,
     );
   }
 
   @override
-  List<Object?> get props => [id, name, isVisible];
+  List<Object?> get props => [id, name, isVisible, width];
 }
 
 class ArrangeSymbolState extends Equatable {

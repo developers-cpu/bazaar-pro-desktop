@@ -71,10 +71,10 @@ class _CancelAllOrdersDialogState extends State<CancelAllOrdersDialog> {
     } catch (_) {}
 
     return CommonDialog(
-      title: 'Cancel Order',
+      title: 'Cancle Order',
       isDarkMode: widget.isDarkMode,
-      width: 900.w,
-      height: 650.h,
+      width: 850.w,
+      height: 500.h,
       headerColor: AppColors.primaryBlue,
       showButtons: false,
       autoPop: false,
@@ -104,8 +104,13 @@ class _CancelAllOrdersDialogState extends State<CancelAllOrdersDialog> {
       content: Column(
         children: [
           _buildFilterBar(isClient),
-          Expanded(child: _buildTable(isClient)),
-          SizedBox(height: 8.h),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              child: _buildTable(isClient),
+            ),
+          ),
+          SizedBox(height: 16.h),
           _buildActionButtons(context),
           SizedBox(height: 8.h),
         ],
@@ -149,8 +154,8 @@ class _CancelAllOrdersDialogState extends State<CancelAllOrdersDialog> {
         children: [
           CustomOutlinedActionButton(
             text: 'No',
-            width: 200.w,
-            height: 40.h,
+            width: 140.w,
+            height: 35.h,
             borderRadius: 8.r,
             fontSize: 14.sp,
             borderColor: widget.isDarkMode
@@ -175,8 +180,8 @@ class _CancelAllOrdersDialogState extends State<CancelAllOrdersDialog> {
           SizedBox(width: 16.w),
           CustomActionButton(
             text: 'Yes',
-            width: 200.w,
-            height: 40.h,
+            width: 140.w,
+            height: 35.h,
             borderRadius: 8.r,
             fontSize: 14.sp,
             backgroundColor: widget.isDarkMode
@@ -200,32 +205,10 @@ class _CancelAllOrdersDialogState extends State<CancelAllOrdersDialog> {
   }
 
   List<ViewTableColumn> _getColumns(bool isClient) {
-    if (isClient) {
-      return const [
-        ViewTableColumn(id: 'exchange', label: 'EXCH', width: 100),
-        ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 150),
-        ViewTableColumn(id: 'buySell', label: 'B/S', width: 280),
-        ViewTableColumn(id: 'qty', label: 'QTY', width: 120, isNumeric: true),
-        ViewTableColumn(id: 'lot', label: 'LOT', width: 100, isNumeric: true),
-        ViewTableColumn(
-          id: 'price',
-          label: 'PRICE',
-          width: 130,
-          isNumeric: true,
-        ),
-        ViewTableColumn(id: 'orderDateTime', label: 'ORDER D/T', width: 220),
-        ViewTableColumn(
-          id: 'modifyOrderDateTime',
-          label: 'MODIFY ORDER D/T',
-          width: 240,
-        ),
-        ViewTableColumn(id: 'cmp', label: 'CMP', width: 120, isNumeric: true),
-      ];
-    }
-
     final allSelected =
         _filteredOrders.isNotEmpty &&
         _filteredOrders.every((o) => _selectedOrderIds.contains(o.id));
+
     return [
       ViewTableColumn(
         id: 'checkbox',
@@ -250,19 +233,19 @@ class _CancelAllOrdersDialogState extends State<CancelAllOrdersDialog> {
           side: BorderSide(color: AppColors.primaryBlue, width: 1.5.w),
         ),
       ),
-      ViewTableColumn(id: 'exchange', label: 'EXCH', width: 100),
+      ViewTableColumn(id: 'exchange', label: 'EXCH', width: 90),
       ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 160),
-      ViewTableColumn(id: 'buySell', label: 'B/S', width: 220),
-      ViewTableColumn(id: 'qty', label: 'QTY', width: 120, isNumeric: true),
-      ViewTableColumn(id: 'lot', label: 'LOT', width: 100, isNumeric: true),
-      ViewTableColumn(id: 'price', label: 'PRICE', width: 120, isNumeric: true),
-      ViewTableColumn(id: 'orderDateTime', label: 'ORDER D/T', width: 220),
+      ViewTableColumn(id: 'buySell', label: 'B/S', width: 200),
+      ViewTableColumn(id: 'qty', label: 'QTY', width: 110, isNumeric: true),
+      ViewTableColumn(id: 'lot', label: 'LOT', width: 90, isNumeric: true),
+      ViewTableColumn(id: 'price', label: 'PRICE', width: 110, isNumeric: true),
+      ViewTableColumn(id: 'orderDateTime', label: 'ORDER D/T', width: 190),
       ViewTableColumn(
         id: 'modifyOrderDateTime',
         label: 'MODIFY ORDER D/T',
-        width: 220,
+        width: 190,
       ),
-      ViewTableColumn(id: 'cmp', label: 'CMP', width: 120, isNumeric: true),
+      ViewTableColumn(id: 'cmp', label: 'CMP', width: 110, isNumeric: true),
     ];
   }
 

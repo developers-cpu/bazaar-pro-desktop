@@ -5,8 +5,11 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/widget/common_dilog_box.dart';
 import '../../../../market_watch/presentation/widgets/order/order_number_field.dart';
 import '../../../domain/entities/pending_orders/pending_order.dart';
-import '../../../../../core/widget/app_switch.dart';
 import '../../../../../core/widget/table/animated_price_box.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../auth/presentation/bloc/auth_bloc.dart';
+import '../../../../auth/presentation/bloc/auth_state.dart';
+import 'order_status_dialog.dart';
 
 class ModifyOrderDialog extends StatefulWidget {
   final PendingOrder order;
@@ -52,27 +55,37 @@ class _ModifyOrderDialogState extends State<ModifyOrderDialog> {
 
   @override
   Widget build(BuildContext context) {
+    bool isClient = false;
+    try {
+      final authState = context.read<AuthBloc>().state;
+      isClient =
+          authState is AuthAuthenticated &&
+          authState.user.role.toLowerCase() == 'client';
+    } catch (_) {}
+
     return CommonDialog(
-      title: 'Modify Order',
+      title: 'Modify  Order',
       isDarkMode: widget.isDarkMode,
-      width: 500.w,
-      height: 800.h,
+      width: 450.w,
+      height: isClient ? 650.h : 780.h,
       headerColor: AppColors.primaryBlue,
       showButtons: false,
       scrollable: true,
       contentPadding: EdgeInsets.zero,
       content: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
         child: Column(
           children: [
             _buildSymbolRow(),
-            SizedBox(height: 10.h),
-            _buildUserIdField(),
-            SizedBox(height: 12.h),
+            if (!isClient) ...[
+              SizedBox(height: 10.h),
+              _buildUserIdField(isClient),
+            ],
+            SizedBox(height: 8.h),
             _buildOrderControls(),
-            SizedBox(height: 16.h),
+            SizedBox(height: 12.h),
             _buildActionButtons(),
-            SizedBox(height: 10.h),
+            SizedBox(height: 12.h),
             _buildPositionInfo(),
             SizedBox(height: 8.h),
             _buildInfoCards(),
@@ -125,64 +138,96 @@ class _ModifyOrderDialogState extends State<ModifyOrderDialog> {
     );
   }
 
-  Widget _buildUserIdField() {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-      decoration: BoxDecoration(
-        border: Border.all(color: AppColors.greyBorder),
-        borderRadius: BorderRadius.circular(8.r),
-      ),
-      alignment: Alignment.centerLeft,
-      child: Text(
-        widget.order.userId,
-        style: GoogleFonts.openSans(
-          fontSize: 16.sp,
-          color: Colors.grey.shade600,
+  Widget _buildUserIdField(bool isClient) {
+    if (isClient) return const SizedBox.shrink();
+    return Column(
+      children: [
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+          decoration: BoxDecoration(
+            border: Border.all(color: AppColors.greyBorder),
+            borderRadius: BorderRadius.circular(8.r),
+          ),
+          alignment: Alignment.centerLeft,
+          child: Text(
+            widget.order.userId,
+            style: GoogleFonts.openSans(
+              fontSize: 16.sp,
+              color: Colors.grey.shade600,
+            ),
+          ),
         ),
-      ),
+        SizedBox(height: 12.h),
+      ],
     );
   }
 
   Widget _buildOrderControls() {
     return Container(
-      padding: EdgeInsets.all(16.w),
+      padding: EdgeInsets.zero,
       child: Column(
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                'Limit',
-                style: GoogleFonts.openSans(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w600,
-                  color: _isLimit ? AppColors.primaryBlue : AppColors.grey,
+              Expanded(
+                child: GestureDetector(
+                  onTap: () => setState(() => _isLimit = true),
+                  child: Container(
+                    padding: EdgeInsets.symmetric(vertical: 8.h),
+                    decoration: BoxDecoration(
+                      color: _isLimit
+                          ? const Color(0xFF1F4A66)
+                          : Colors.transparent,
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
+                    alignment: Alignment.center,
+                    child: Text(
+                      'Limit',
+                      style: GoogleFonts.openSans(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w600,
+                        color: _isLimit
+                            ? Colors.white
+                            : const Color(0xFF1F4A66),
+                      ),
+                    ),
+                  ),
                 ),
               ),
-              SizedBox(width: 8.w),
-              AppSwitch(
-                value: !_isLimit,
-                onChanged: (val) => setState(() => _isLimit = !val),
-                activeColor: AppColors.primaryBlue,
-              ),
-              SizedBox(width: 8.w),
-              Text(
-                'SL',
-                style: GoogleFonts.openSans(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w600,
-                  color: !_isLimit ? AppColors.primaryBlue : AppColors.grey,
+              Expanded(
+                child: GestureDetector(
+                  onTap: () => setState(() => _isLimit = false),
+                  child: Container(
+                    padding: EdgeInsets.symmetric(vertical: 8.h),
+                    decoration: BoxDecoration(
+                      color: !_isLimit
+                          ? const Color(0xFF1F4A66)
+                          : Colors.transparent,
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
+                    alignment: Alignment.center,
+                    child: Text(
+                      'SL',
+                      style: GoogleFonts.openSans(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w600,
+                        color: !_isLimit
+                            ? Colors.white
+                            : const Color(0xFF1F4A66),
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ],
           ),
-          SizedBox(height: 16.h),
+          SizedBox(height: 8.h),
           _buildStepperRow(
             'Price',
             _price,
             (val) => setState(() => _price = val),
           ),
-          SizedBox(height: 16.h),
+          SizedBox(height: 8.h),
           _buildStepperRow('Lot', _lot, (val) => setState(() => _lot = val)),
         ],
       ),
@@ -196,12 +241,14 @@ class _ModifyOrderDialogState extends State<ModifyOrderDialog> {
           label: _isLimit ? 'Sell Limit' : 'Sell Stop',
           price: '25800',
           color: AppColors.red,
+          isSuccess: false,
         ),
         SizedBox(width: 16.w),
         _buildOrderButton(
           label: _isLimit ? 'Buy Limit' : 'Buy Stop',
           price: '25800',
           color: const Color(0xFF0052FF),
+          isSuccess: true,
         ),
       ],
     );
@@ -211,39 +258,43 @@ class _ModifyOrderDialogState extends State<ModifyOrderDialog> {
     required String label,
     required String price,
     required Color color,
+    required bool isSuccess,
   }) {
     return Expanded(
-      child: ElevatedButton(
-        onPressed: () {
+      child: GestureDetector(
+        onTap: () {
           Navigator.pop(context);
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(const SnackBar(content: Text('Order Modified')));
+          OrderStatusDialog.show(
+            context: context,
+            isSuccess: isSuccess,
+            order: widget.order,
+            actionName: label,
+          );
         },
-        style: ElevatedButton.styleFrom(
-          backgroundColor: color,
-          padding: EdgeInsets.symmetric(vertical: 12.h),
-          shape: RoundedRectangleBorder(
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical: 8.h),
+          decoration: BoxDecoration(
+            color: color,
             borderRadius: BorderRadius.circular(8.r),
           ),
-        ),
-        child: Column(
-          children: [
-            Text(
-              label,
-              style: GoogleFonts.openSans(
-                fontSize: 14.sp,
-                color: AppColors.white,
+          child: Column(
+            children: [
+              Text(
+                label,
+                style: GoogleFonts.openSans(
+                  fontSize: 13.sp,
+                  color: AppColors.white,
+                ),
               ),
-            ),
-            Text(
-              price,
-              style: GoogleFonts.openSans(
-                fontSize: 12.sp,
-                color: AppColors.white,
+              Text(
+                price,
+                style: GoogleFonts.openSans(
+                  fontSize: 12.sp,
+                  color: AppColors.white,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

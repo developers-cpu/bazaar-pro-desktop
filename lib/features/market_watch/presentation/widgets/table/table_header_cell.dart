@@ -5,39 +5,51 @@ import '../../../../../core/constants/app_images.dart';
 import '../../../../../core/widget/svg_icon.dart';
 import 'table_text_style_helper.dart';
 
-class TableHeaderCell extends StatelessWidget {
+class TableHeaderCell extends StatefulWidget {
   final String title;
+  final String columnId;
   final bool isDark;
   final String fontFamily;
   final double fontSize;
   final FontWeight fontWeight;
   final bool showSortIcon;
   final bool isLast;
+  final void Function(String fromColumnId, String toColumnId)? onColumnReorder;
   const TableHeaderCell({
     Key? key,
     required this.title,
+    required this.columnId,
     required this.isDark,
     required this.fontFamily,
     required this.fontSize,
     required this.fontWeight,
     this.showSortIcon = true,
     this.isLast = false,
+    this.onColumnReorder,
   }) : super(key: key);
+
+  @override
+  State<TableHeaderCell> createState() => _TableHeaderCellState();
+}
+
+class _TableHeaderCellState extends State<TableHeaderCell> {
+  bool _isDragOver = false;
+
   @override
   Widget build(BuildContext context) {
-    if (title.isEmpty) {
+    if (widget.title.isEmpty) {
       return const SizedBox.shrink();
     }
-    final iconSize = (fontSize * 1.0).sp;
-    final headerTitle = title.toUpperCase();
+    final iconSize = (widget.fontSize * 1.0).sp;
+    final headerTitle = widget.title.toUpperCase();
     final textStyle = TableTextStyleHelper.getTextStyle(
-      fontFamily: fontFamily,
-      fontSize: (fontSize - 1).sp,
+      fontFamily: widget.fontFamily,
+      fontSize: (widget.fontSize - 1).sp,
       fontWeight: FontWeight.w500,
       color: AppColors.primaryTextColor,
     );
     Widget content;
-    if (!showSortIcon) {
+    if (!widget.showSortIcon) {
       content = Center(
         child: Text(
           headerTitle,
@@ -65,16 +77,17 @@ class TableHeaderCell extends StatelessWidget {
             ),
             SvgIcon(
               assetPath: AppImages.sortIcon,
-              isActive: isDark,
+              isActive: widget.isDark,
               size: iconSize,
             ),
           ],
         ),
       );
     }
-    return Container(
+
+    Widget headerWidget = Container(
       padding: EdgeInsets.only(left: 0.w),
-      decoration: isLast
+      decoration: widget.isLast
           ? null
           : BoxDecoration(
               border: Border(
@@ -86,5 +99,60 @@ class TableHeaderCell extends StatelessWidget {
             ),
       child: content,
     );
+
+    if (widget.onColumnReorder != null) {
+      final originalHeaderWidget = headerWidget;
+      headerWidget = DragTarget<String>(
+        onWillAcceptWithDetails: (details) {
+          if (details.data != widget.columnId) {
+            setState(() => _isDragOver = true);
+            return true;
+          }
+          return false;
+        },
+        onLeave: (_) {
+          setState(() => _isDragOver = false);
+        },
+        onAcceptWithDetails: (details) {
+          setState(() => _isDragOver = false);
+          widget.onColumnReorder!(details.data, widget.columnId);
+        },
+        builder: (context, candidateData, rejectedData) {
+          return LongPressDraggable<String>(
+            data: widget.columnId,
+            axis: Axis.horizontal,
+            delay: const Duration(milliseconds: 150),
+            feedback: Material(
+              elevation: 4,
+              borderRadius: BorderRadius.circular(4),
+              color: LightThemeColors.tableColumnHeadColor,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+                child: Text(
+                  headerTitle,
+                  style: textStyle.copyWith(color: AppColors.primaryTextColor),
+                ),
+              ),
+            ),
+            childWhenDragging: Opacity(
+              opacity: 0.4,
+              child: originalHeaderWidget,
+            ),
+            child: Container(
+              decoration: _isDragOver
+                  ? BoxDecoration(
+                      border: Border(
+                        left: BorderSide(color: AppColors.blue, width: 2.5),
+                      ),
+                    )
+                  : null,
+              child: originalHeaderWidget,
+            ),
+          );
+        },
+      );
+    }
+
+    return headerWidget;
   }
 }

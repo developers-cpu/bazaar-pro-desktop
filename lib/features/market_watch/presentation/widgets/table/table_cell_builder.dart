@@ -37,9 +37,22 @@ class TableCellBuilder extends StatelessWidget {
       case 'exchange':
         return _buildExchangeWithArrowCell();
       case 'symbol':
-        return _buildTextCell(item.symbol, alignLeft: true);
+        return AnimatedPriceCell(
+          text: item.symbol,
+          isDark: isDark,
+          fontFamily: fontFamily,
+          fontSize: fontSize,
+          textColor: _getTextColor(),
+          alignment: Alignment.centerLeft,
+          padding: EdgeInsets.only(left: 8.w),
+          textAlign: TextAlign.left,
+          fontWeight: _effectiveFontWeight,
+        );
       case 'buyQty':
-        return _buildTextCell(NumberFormatter.formatQuantity(item.buyQty));
+        return _buildTextCell(
+          NumberFormatter.formatQuantity(item.buyQty),
+          alignRight: true,
+        );
       case 'buyPrice':
         return _buildAnimatedPriceCell(
           NumberFormatter.formatPrice(item.buyPrice),
@@ -49,26 +62,43 @@ class TableCellBuilder extends StatelessWidget {
           NumberFormatter.formatPrice(item.sellPrice),
         );
       case 'sellQty':
-        return _buildTextCell(NumberFormatter.formatQuantity(item.sellQty));
+        return _buildTextCell(
+          NumberFormatter.formatQuantity(item.sellQty),
+          alignRight: true,
+        );
       case 'netChange':
         return _buildTextCell(
           NumberFormatter.formatChange(item.netChange),
           color: _getChangeColor(item.netChange),
+          alignRight: true,
         );
       case 'high':
-        return _buildTextCell(NumberFormatter.formatPrice(item.high));
+        return _buildTextCell(
+          NumberFormatter.formatPrice(item.high),
+          alignRight: true,
+        );
       case 'low':
-        return _buildTextCell(NumberFormatter.formatPrice(item.low));
+        return _buildTextCell(
+          NumberFormatter.formatPrice(item.low),
+          alignRight: true,
+        );
       case 'open':
-        return _buildTextCell(NumberFormatter.formatPrice(item.open));
+        return _buildTextCell(
+          NumberFormatter.formatPrice(item.open),
+          alignRight: true,
+        );
       case 'close':
-        return _buildTextCell(NumberFormatter.formatPrice(item.close));
+        return _buildTextCell(
+          NumberFormatter.formatPrice(item.close),
+          alignRight: true,
+        );
       case 'ltp':
         return _buildAnimatedPriceCell(NumberFormatter.formatPrice(item.ltp));
       case 'netChangePercent':
         return _buildTextCell(
           NumberFormatter.formatPercentage(item.netChangePercent),
           color: _getChangeColor(item.netChangePercent),
+          alignRight: true,
         );
       case 'expiry':
         return _buildTextCell(
@@ -139,6 +169,7 @@ class TableCellBuilder extends StatelessWidget {
       fontSize: fontSize,
       fontWeight: fontWeight,
       textColor: _getTextColor(),
+      padding: EdgeInsets.only(right: 8.w),
     );
   }
 
@@ -147,22 +178,42 @@ class TableCellBuilder extends StatelessWidget {
     bool isBold = false,
     Color? color,
     bool alignLeft = false,
+    bool alignRight = false,
   }) {
+    final alignment = alignLeft
+        ? Alignment.centerLeft
+        : alignRight
+        ? Alignment.centerRight
+        : Alignment.center;
+    final textAlign = alignLeft
+        ? TextAlign.left
+        : alignRight
+        ? TextAlign.right
+        : TextAlign.center;
     return Container(
-      alignment: alignLeft ? Alignment.centerLeft : Alignment.center,
+      padding: alignRight ? EdgeInsets.only(right: 8.w) : EdgeInsets.zero,
+      alignment: alignment,
       child: Text(
         text,
-        textAlign: alignLeft ? TextAlign.left : TextAlign.center,
+        textAlign: textAlign,
         overflow: TextOverflow.ellipsis,
         maxLines: 1,
         style: TableTextStyleHelper.getTextStyle(
           fontFamily: fontFamily,
           fontSize: fontSize.sp,
-          fontWeight: isBold ? FontWeight.w600 : fontWeight,
+          fontWeight: isBold ? FontWeight.w600 : _effectiveFontWeight,
           color: color ?? _getTextColor(),
         ),
       ),
     );
+  }
+
+  FontWeight get _effectiveFontWeight {
+    if (isDark) return fontWeight;
+    if (fontWeight == FontWeight.w400 || fontWeight == FontWeight.normal) {
+      return FontWeight.w500;
+    }
+    return fontWeight;
   }
 
   Color _getTextColor() {

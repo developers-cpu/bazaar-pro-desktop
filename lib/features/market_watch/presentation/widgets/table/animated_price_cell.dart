@@ -12,6 +12,9 @@ class AnimatedPriceCell extends StatefulWidget {
   final double fontSize;
   final FontWeight fontWeight;
   final Color textColor;
+  final Alignment alignment;
+  final EdgeInsetsGeometry padding;
+  final TextAlign textAlign;
   const AnimatedPriceCell({
     super.key,
     required this.text,
@@ -20,6 +23,9 @@ class AnimatedPriceCell extends StatefulWidget {
     required this.fontSize,
     required this.fontWeight,
     required this.textColor,
+    this.alignment = Alignment.centerRight,
+    this.padding = EdgeInsets.zero,
+    this.textAlign = TextAlign.right,
   });
   @override
   State<AnimatedPriceCell> createState() => _AnimatedPriceCellState();
@@ -62,22 +68,21 @@ class _AnimatedPriceCellState extends State<AnimatedPriceCell> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox.expand(
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
-        color: _bgColor,
-        alignment: Alignment.center,
-        child: Text(
-          widget.text,
-          textAlign: TextAlign.center,
-          overflow: TextOverflow.ellipsis,
-          maxLines: 1,
-          style: TableTextStyleHelper.getTextStyle(
-            fontFamily: widget.fontFamily,
-            fontSize: widget.fontSize.sp,
-            fontWeight: widget.fontWeight,
-            color: _bgColor != null ? Colors.white : widget.textColor,
-          ),
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 300),
+      color: _bgColor,
+      alignment: widget.alignment,
+      padding: widget.padding,
+      child: Text(
+        widget.text,
+        textAlign: widget.textAlign,
+        overflow: TextOverflow.ellipsis,
+        maxLines: 1,
+        style: TableTextStyleHelper.getTextStyle(
+          fontFamily: widget.fontFamily,
+          fontSize: widget.fontSize.sp,
+          fontWeight: widget.fontWeight,
+          color: _bgColor != null ? Colors.white : widget.textColor,
         ),
       ),
     );

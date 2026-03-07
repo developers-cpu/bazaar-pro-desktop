@@ -45,9 +45,6 @@ class NetPositionFilterBar extends StatelessWidget {
       totalM2M += pos.m2mAmount;
       totalRealisedPnl +=
           pos.netQty * pos.netAvgPrice; // This is a simplified calculation
-      // Mocking brokerage calculation conceptually if not in model, but we will use 0 if not available
-      // It seems netPosition might not have brokerage, wait let's look at the model.
-      // But we will use 124536.00 for now as dummy or we should use 0.0?
     }
 
     final totalPnl = totalRealisedPnl + totalM2M;

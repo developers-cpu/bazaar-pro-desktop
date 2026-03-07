@@ -26,6 +26,7 @@ class ArrangeSymbolBloc extends Bloc<ArrangeSymbolEvent, ArrangeSymbolState> {
     on<ToggleColumnEvent>(_onToggleColumn);
     on<ReorderColumnEvent>(_onReorderColumn);
     on<SaveColumnsEvent>(_onSaveColumns);
+    on<ResizeColumnEvent>(_onResizeColumn);
     on<ResetColumnsEvent>(_onResetColumns);
   }
   void _onLoadColumns(
@@ -55,6 +56,19 @@ class ArrangeSymbolBloc extends Bloc<ArrangeSymbolEvent, ArrangeSymbolState> {
     if (visibleCount == 0) {
       return;
     }
+    emit(state.copyWith(columns: updatedColumns, isSaved: false));
+  }
+
+  void _onResizeColumn(
+    ResizeColumnEvent event,
+    Emitter<ArrangeSymbolState> emit,
+  ) {
+    final updatedColumns = state.columns.map((column) {
+      if (column.id == event.columnId) {
+        return column.copyWith(width: event.width);
+      }
+      return column;
+    }).toList();
     emit(state.copyWith(columns: updatedColumns, isSaved: false));
   }
 

@@ -1,55 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 import '../../../../../core/constants/app_colors.dart';
-import '../../../data/models/order_dialog_type.dart';
+import '../../../domain/entities/pending_orders/pending_order.dart';
+import 'package:intl/intl.dart';
 
-class OrderSuccessDialog extends StatefulWidget {
-  final OrderType orderType;
-  final String? symbol;
-  final String? exchange;
-  final int? quantity;
-  final double? price;
-  final bool isDarkMode;
-  const OrderSuccessDialog({
+class OrderStatusDialog extends StatefulWidget {
+  final bool isSuccess;
+  final PendingOrder order;
+  final String actionName;
+
+  const OrderStatusDialog({
     Key? key,
-    required this.orderType,
-    this.symbol,
-    this.exchange,
-    this.quantity,
-    this.price,
-    this.isDarkMode = false,
+    required this.isSuccess,
+    required this.order,
+    required this.actionName,
   }) : super(key: key);
-  static Future<void> show(
-    BuildContext context, {
-    required OrderType orderType,
-    String? symbol,
-    String? exchange,
-    int? quantity,
-    double? price,
-    bool isDarkMode = false,
+
+  static void show({
+    required BuildContext context,
+    required bool isSuccess,
+    required PendingOrder order,
+    required String actionName,
   }) {
-    return showDialog(
+    showDialog(
       context: context,
       barrierColor: AppColors.black.withOpacity(0.54),
       useRootNavigator: true,
-      builder: (context) => OrderSuccessDialog(
-        orderType: orderType,
-        symbol: symbol,
-        exchange: exchange,
-        quantity: quantity,
-        price: price,
-        isDarkMode: isDarkMode,
+      builder: (_) => OrderStatusDialog(
+        isSuccess: isSuccess,
+        order: order,
+        actionName: actionName,
       ),
     );
   }
 
   @override
-  State<OrderSuccessDialog> createState() => _OrderSuccessDialogState();
+  State<OrderStatusDialog> createState() => _OrderStatusDialogState();
 }
 
-class _OrderSuccessDialogState extends State<OrderSuccessDialog> {
+class _OrderStatusDialogState extends State<OrderStatusDialog> {
   @override
   void initState() {
     super.initState();
@@ -62,11 +52,15 @@ class _OrderSuccessDialogState extends State<OrderSuccessDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final statusColor = widget.orderType == OrderType.buy
+    final statusColor = widget.isSuccess
         ? const Color(0xFF0052FF)
         : AppColors.red;
-    final titleText = 'Order Placed Successfully!';
-    final actionName = widget.orderType == OrderType.buy ? 'Buy' : 'Sell';
+    final titleText = widget.isSuccess
+        ? 'Order Successful !'
+        : 'Order Rejected !';
+
+    final isBuy = widget.actionName.toLowerCase().contains('buy');
+    final actionColor = isBuy ? const Color(0xFF0052FF) : AppColors.red;
 
     final dateFormat = DateFormat('dd/MM/yy');
     final timeFormat = DateFormat('hh:mm:ss a');
@@ -81,9 +75,7 @@ class _OrderSuccessDialogState extends State<OrderSuccessDialog> {
         width: 260.w,
         padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
         decoration: BoxDecoration(
-          color: widget.isDarkMode
-              ? DarkThemeColors.cardBackground
-              : AppColors.white,
+          color: AppColors.white,
           borderRadius: BorderRadius.circular(8.r),
           border: Border.all(color: statusColor, width: 1.5),
           boxShadow: [
@@ -114,7 +106,7 @@ class _OrderSuccessDialogState extends State<OrderSuccessDialog> {
               children: [
                 Expanded(
                   child: Text(
-                    widget.symbol ?? '-',
+                    widget.order.symbol,
                     style: GoogleFonts.openSans(
                       fontSize: 11.sp,
                       color: statusColor,
@@ -152,18 +144,18 @@ class _OrderSuccessDialogState extends State<OrderSuccessDialog> {
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
                   decoration: BoxDecoration(
-                    color: statusColor.withOpacity(0.08),
+                    color: actionColor.withOpacity(0.08),
                     border: Border.all(
-                      color: statusColor.withOpacity(0.6),
+                      color: actionColor.withOpacity(0.6),
                       width: 1,
                     ),
                     borderRadius: BorderRadius.circular(3.r),
                   ),
                   child: Text(
-                    actionName,
+                    widget.actionName,
                     style: GoogleFonts.openSans(
                       fontSize: 10.sp,
-                      color: statusColor,
+                      color: actionColor,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -190,7 +182,7 @@ class _OrderSuccessDialogState extends State<OrderSuccessDialog> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  widget.quantity != null ? 'Q.${widget.quantity}' : '-',
+                  'Q.${widget.order.qty.toStringAsFixed(widget.order.qty.truncateToDouble() == widget.order.qty ? 0 : 2)}',
                   style: GoogleFonts.openSans(
                     fontSize: 12.sp,
                     color: statusColor,
@@ -198,7 +190,7 @@ class _OrderSuccessDialogState extends State<OrderSuccessDialog> {
                   ),
                 ),
                 Text(
-                  widget.price != null ? widget.price!.toStringAsFixed(2) : '-',
+                  widget.order.triggerPrice.toStringAsFixed(0),
                   style: GoogleFonts.openSans(
                     fontSize: 12.sp,
                     color: statusColor,

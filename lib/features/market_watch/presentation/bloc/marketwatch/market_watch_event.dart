@@ -93,3 +93,14 @@ class ClearFiltersEvent extends MarketWatchEvent {
 class ToggleGridEvent extends MarketWatchEvent {
   const ToggleGridEvent();
 }
+
+class ReorderMarketItemsEvent extends MarketWatchEvent {
+  final String fromItemId;
+  final String toItemId;
+  const ReorderMarketItemsEvent({
+    required this.fromItemId,
+    required this.toItemId,
+  });
+  @override
+  List<Object> get props => [fromItemId, toItemId];
+}

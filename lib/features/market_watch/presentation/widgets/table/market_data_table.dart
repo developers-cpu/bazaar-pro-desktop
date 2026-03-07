@@ -7,6 +7,7 @@ import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/constants/app_strings.dart';
 import '../../../domain/entities/market_item.dart';
 import '../../bloc/arrangesymbol/arrange_symbol_bloc.dart';
+import '../../bloc/arrangesymbol/arrange_symbol_event.dart';
 import '../../bloc/arrangesymbol/arrange_symbol_state.dart';
 import '../../bloc/marketwatch/market_watch_bloc.dart';
 import '../../bloc/marketwatch/market_watch_event.dart';
@@ -155,6 +156,7 @@ class _MarketDataTableState extends State<MarketDataTable> {
     final rowHeight = (fontSize * 1.8).clamp(28.0, 40.0);
     final headerHeight = (fontSize * 2.8).clamp(40.0, 60.0);
     return DataTable2(
+      key: ValueKey(visibleColumns.map((c) => c.id).join('-')),
       columnSpacing: 0,
       horizontalMargin: 0,
       minWidth: minWidth,
@@ -199,6 +201,7 @@ class _MarketDataTableState extends State<MarketDataTable> {
       final column = entry.value;
       final label = TableColumnHelper.getLabel(column.id);
       final config = TableColumnHelper.getConfig(column.id);
+
       final isLut = column.id == 'lut';
       final baseWidth = config?.baseWidth ?? 100;
       ColumnSize size = ColumnSize.M;
@@ -211,18 +214,57 @@ class _MarketDataTableState extends State<MarketDataTable> {
       return DataColumn2(
         label: TableHeaderCell(
           title: label,
+          columnId: column.id,
           isDark: isDark,
           fontFamily: fontFamily,
           fontSize: fontSize,
           fontWeight: fontWeight,
           isLast: index == visibleColumns.length - 1,
+          onColumnReorder: (fromId, toId) {
+            _onColumnReorder(fromId, toId, visibleColumns);
+          },
         ),
         fixedWidth: isLut ? config?.getWidth(fontSize) : null,
         size: size,
         numeric: config?.isNumeric ?? false,
         onSort: _onSort,
+        isResizable: true,
+        minWidth: config?.minWidth ?? 60,
       );
     }).toList();
+  }
+
+  void _onColumnReorder(
+    String fromColumnId,
+    String toColumnId,
+    List<ColumnItem> visibleColumns,
+  ) {
+    if (fromColumnId == toColumnId) return;
+    final bloc = context.read<ArrangeSymbolBloc>();
+    if (bloc.state.columns.isEmpty) {
+      bloc.add(const LoadColumnsEvent());
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _performReorder(fromColumnId, toColumnId);
+      });
+    } else {
+      _performReorder(fromColumnId, toColumnId);
+    }
+  }
+
+  void _performReorder(String fromColumnId, String toColumnId) {
+    final bloc = context.read<ArrangeSymbolBloc>();
+    final allColumns = bloc.state.columns;
+    if (allColumns.isEmpty) return;
+    final oldIndex = allColumns.indexWhere((c) => c.id == fromColumnId);
+    final newIndex = allColumns.indexWhere((c) => c.id == toColumnId);
+    if (oldIndex == -1 || newIndex == -1 || oldIndex == newIndex) return;
+    bloc.add(
+      ReorderColumnEvent(
+        oldIndex: oldIndex,
+        newIndex: newIndex > oldIndex ? newIndex + 1 : newIndex,
+      ),
+    );
+    bloc.add(const SaveColumnsEvent());
   }
 
   void _onSort(int columnIndex, bool ascending) {
@@ -347,14 +389,73 @@ class _MarketDataTableState extends State<MarketDataTable> {
     required FontWeight fontWeight,
   }) {
     return visibleColumns.map((column) {
+      final cellContent = TableCellBuilder(
+        columnId: column.id,
+        item: item,
+        isDark: isDark,
+        fontFamily: fontFamily,
+        fontSize: fontSize,
+        fontWeight: fontWeight,
+      );
+
       return DataCell(
-        TableCellBuilder(
-          columnId: column.id,
-          item: item,
-          isDark: isDark,
-          fontFamily: fontFamily,
-          fontSize: fontSize,
-          fontWeight: fontWeight,
+        DragTarget<String>(
+          onWillAcceptWithDetails: (details) {
+            return details.data != item.id;
+          },
+          onAcceptWithDetails: (details) {
+            context.read<MarketWatchBloc>().add(
+              ReorderMarketItemsEvent(
+                fromItemId: details.data,
+                toItemId: item.id,
+              ),
+            );
+          },
+          builder: (context, candidateData, rejectedData) {
+            final isHovered = candidateData.isNotEmpty;
+            return Container(
+              decoration: isHovered
+                  ? BoxDecoration(
+                      border: Border(
+                        top: BorderSide(color: AppColors.blue, width: 2.0),
+                      ),
+                    )
+                  : null,
+              child: LongPressDraggable<String>(
+                data: item.id,
+                axis: Axis.vertical,
+                delay: const Duration(milliseconds: 300),
+                feedback: Material(
+                  elevation: 8,
+                  borderRadius: BorderRadius.circular(8.r),
+                  color: isDark
+                      ? DarkThemeColors.backgroundColor
+                      : LightThemeColors.backgroundColor,
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 16.w,
+                      vertical: 12.h,
+                    ),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: AppColors.blue, width: 1.5),
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
+                    child: Text(
+                      item.symbol,
+                      style: TextStyle(
+                        fontFamily: fontFamily,
+                        fontSize: fontSize.sp,
+                        fontWeight: FontWeight.w600,
+                        color: isDark ? AppColors.white : AppColors.black,
+                      ),
+                    ),
+                  ),
+                ),
+                childWhenDragging: Opacity(opacity: 0.3, child: cellContent),
+                child: cellContent,
+              ),
+            );
+          },
         ),
       );
     }).toList();

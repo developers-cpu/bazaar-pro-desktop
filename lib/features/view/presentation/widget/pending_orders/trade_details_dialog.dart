@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../auth/presentation/bloc/auth_bloc.dart';
+import '../../../../auth/presentation/bloc/auth_state.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/common_dilog_box.dart';
 import '../../../domain/entities/pending_orders/pending_order.dart';
 import '../../../../../core/widget/table/animated_price_box.dart';
 import 'delete_order_dialog.dart';
 import 'modify_order_dialog.dart';
+import 'pending_to_success_dialog.dart';
 
 class TradeDetailsDialog extends StatelessWidget {
   final PendingOrder order;
@@ -30,16 +34,24 @@ class TradeDetailsDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isClient = false;
+    try {
+      final authState = context.read<AuthBloc>().state;
+      isClient =
+          authState is AuthAuthenticated &&
+          authState.user.role.toLowerCase() == 'client';
+    } catch (_) {}
+
     return CommonDialog(
       title: 'Trade Details',
       isDarkMode: isDarkMode,
-      width: 500.w,
+      width: 450.w,
       headerColor: AppColors.primaryBlue,
       showButtons: false,
       scrollable: false,
       contentPadding: EdgeInsets.zero,
       content: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -55,7 +67,6 @@ class TradeDetailsDialog extends StatelessWidget {
                           order.symbol,
                           style: GoogleFonts.openSans(
                             fontSize: 16.sp,
-                            fontWeight: FontWeight.w600,
                             color: const Color(0xFF2C5F7A),
                           ),
                         ),
@@ -87,28 +98,30 @@ class TradeDetailsDialog extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: 16.h),
-            Container(
-              width: double.infinity,
-              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-              decoration: BoxDecoration(
-                border: Border.all(color: AppColors.greyBorder),
-                borderRadius: BorderRadius.circular(8.r),
-              ),
-              child: Text(
-                order.userId,
-                style: GoogleFonts.openSans(
-                  fontSize: 16.sp,
-                  color: Colors.grey.shade600,
+            if (!isClient) ...[
+              SizedBox(height: 16.h),
+              Container(
+                width: double.infinity,
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                decoration: BoxDecoration(
+                  border: Border.all(color: AppColors.greyBorder),
+                  borderRadius: BorderRadius.circular(8.r),
+                ),
+                child: Text(
+                  order.userId,
+                  style: GoogleFonts.openSans(
+                    fontSize: 16.sp,
+                    color: Colors.grey.shade600,
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: 20.h),
+            ],
+            SizedBox(height: 12.h),
             Row(
               children: [
                 Expanded(
                   child: SizedBox(
-                    height: 45.h,
+                    height: 40.h,
                     child: ElevatedButton(
                       onPressed: () {
                         ModifyOrderDialog.show(
@@ -126,8 +139,7 @@ class TradeDetailsDialog extends StatelessWidget {
                       child: Text(
                         'Modify Order',
                         style: GoogleFonts.openSans(
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w600,
+                          fontSize: 14.sp,
                           color: AppColors.white,
                         ),
                       ),
@@ -137,26 +149,40 @@ class TradeDetailsDialog extends StatelessWidget {
                 SizedBox(width: 16.w),
                 Expanded(
                   child: SizedBox(
-                    height: 45.h,
+                    height: 40.h,
                     child: ElevatedButton(
                       onPressed: () {
-                        DeleteOrderDialog.show(
-                          context: context,
-                          order: order,
-                          isDarkMode: isDarkMode,
-                        );
+                        if (isClient) {
+                          Navigator.pop(
+                            context,
+                          ); // close Trade Details dialog first
+                          PendingToSuccessDialog.show(
+                            context: context,
+                            order: order,
+                            isDarkMode: isDarkMode,
+                          );
+                        } else {
+                          DeleteOrderDialog.show(
+                            context: context,
+                            order: order,
+                            isDarkMode: isDarkMode,
+                          );
+                        }
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.red,
+                        backgroundColor: isClient
+                            ? const Color(
+                                0xFF1F4A66,
+                              ) // Primary blue matching your UI theme
+                            : AppColors.red,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.r),
                         ),
                       ),
                       child: Text(
-                        'Cancel Order',
+                        isClient ? 'Pending to Success' : 'Cancel Order',
                         style: GoogleFonts.openSans(
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w600,
+                          fontSize: 14.sp,
                           color: AppColors.white,
                         ),
                       ),

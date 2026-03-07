@@ -2,12 +2,14 @@ import '../../bloc/arrangesymbol/arrange_symbol_state.dart';
 
 class TableColumnConfig {
   final double baseWidth;
+  final double minWidth;
   final bool isNumeric;
   final String label;
   const TableColumnConfig({
     required this.baseWidth,
     required this.isNumeric,
     required this.label,
+    this.minWidth = 60,
   });
   double getWidth(double fontSize) {
     final scaleFactor = fontSize / 13.0;
@@ -22,53 +24,92 @@ class TableColumnHelper {
       baseWidth: 120,
       isNumeric: false,
       label: 'Exchange',
+      minWidth: 90,
     ),
     'symbol': TableColumnConfig(
       baseWidth: 100,
       isNumeric: false,
       label: 'Symbol',
+      minWidth: 90,
     ),
     'buyQty': TableColumnConfig(
       baseWidth: 100,
       isNumeric: true,
       label: 'Buy Qty',
+      minWidth: 75,
     ),
     'buyPrice': TableColumnConfig(
       baseWidth: 120,
       isNumeric: true,
       label: 'Buy Price',
+      minWidth: 85,
     ),
     'sellPrice': TableColumnConfig(
       baseWidth: 130,
       isNumeric: true,
       label: 'Sell Price',
+      minWidth: 85,
     ),
     'sellQty': TableColumnConfig(
       baseWidth: 100,
       isNumeric: true,
       label: 'Sell Qty',
+      minWidth: 75,
     ),
     'netChange': TableColumnConfig(
       baseWidth: 200,
       isNumeric: true,
       label: 'Net Change',
+      minWidth: 85,
     ),
-    'high': TableColumnConfig(baseWidth: 100, isNumeric: true, label: 'High'),
-    'low': TableColumnConfig(baseWidth: 100, isNumeric: true, label: 'Low'),
-    'open': TableColumnConfig(baseWidth: 100, isNumeric: true, label: 'Open'),
-    'close': TableColumnConfig(baseWidth: 100, isNumeric: true, label: 'Close'),
-    'ltp': TableColumnConfig(baseWidth: 100, isNumeric: true, label: 'LTP'),
+    'high': TableColumnConfig(
+      baseWidth: 100,
+      isNumeric: true,
+      label: 'High',
+      minWidth: 75,
+    ),
+    'low': TableColumnConfig(
+      baseWidth: 100,
+      isNumeric: true,
+      label: 'Low',
+      minWidth: 75,
+    ),
+    'open': TableColumnConfig(
+      baseWidth: 100,
+      isNumeric: true,
+      label: 'Open',
+      minWidth: 75,
+    ),
+    'close': TableColumnConfig(
+      baseWidth: 100,
+      isNumeric: true,
+      label: 'Close',
+      minWidth: 75,
+    ),
+    'ltp': TableColumnConfig(
+      baseWidth: 100,
+      isNumeric: true,
+      label: 'LTP',
+      minWidth: 85,
+    ),
     'netChangePercent': TableColumnConfig(
       baseWidth: 150,
       isNumeric: true,
       label: 'Net Chg %',
+      minWidth: 85,
     ),
     'expiry': TableColumnConfig(
       baseWidth: 100,
       isNumeric: false,
       label: 'Expiry',
+      minWidth: 85,
     ),
-    'lut': TableColumnConfig(baseWidth: 180, isNumeric: false, label: 'LUT'),
+    'lut': TableColumnConfig(
+      baseWidth: 180,
+      isNumeric: false,
+      label: 'LUT',
+      minWidth: 120,
+    ),
   };
   static List<ColumnItem> getDefaultColumns() {
     return const [

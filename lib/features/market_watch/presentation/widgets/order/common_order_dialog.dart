@@ -8,6 +8,8 @@ import '../../../data/models/order_dialog_type.dart';
 import '../../bloc/order/order_dialog_bloc.dart';
 import '../../bloc/order/order_dialog_event.dart';
 import '../../bloc/order/order_dialog_state.dart';
+import '../../../../auth/presentation/bloc/auth_bloc.dart';
+import '../../../../auth/presentation/bloc/auth_state.dart';
 import 'order_number_field.dart';
 import 'order_action_button.dart';
 import 'order_success_dialog.dart';
@@ -60,17 +62,23 @@ class _CommonOrderDialogState extends State<CommonOrderDialog> {
     super.didChangeDependencies();
     if (_position == null) {
       final screenSize = MediaQuery.of(context).size;
-      final dialogWidth = 600.0;
-      final dialogHeight = 140.0;
-      _position = Offset(
-        screenSize.width - dialogWidth - 20,
-        screenSize.height - dialogHeight - 40,
-      );
+      _position = Offset(20, screenSize.height * 0.75);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    bool isClient = false;
+    String clientName = 'client1'; // Hardcoded for testing, as requested
+    try {
+      final authState = context.read<AuthBloc>().state;
+      if (authState is AuthAuthenticated) {
+        if (authState.user.role.toLowerCase() == 'client') {
+          isClient = true;
+        }
+      }
+    } catch (_) {}
+
     return BlocConsumer<OrderDialogBloc, OrderDialogState>(
       listener: (context, state) {
         if (state.isSubmitted) {
@@ -132,7 +140,7 @@ class _CommonOrderDialogState extends State<CommonOrderDialog> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         _buildHeader(context),
-                        _buildContent(context, state),
+                        _buildContent(context, state, isClient, clientName),
                       ],
                     ),
                   ),
@@ -156,7 +164,7 @@ class _CommonOrderDialogState extends State<CommonOrderDialog> {
         });
       },
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+        padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 2.h),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -187,46 +195,58 @@ class _CommonOrderDialogState extends State<CommonOrderDialog> {
     );
   }
 
-  Widget _buildContent(BuildContext context, OrderDialogState state) {
+  Widget _buildContent(
+    BuildContext context,
+    OrderDialogState state,
+    bool isClient,
+    String clientName,
+  ) {
     return Container(
-      margin: EdgeInsets.fromLTRB(6.w, 0, 6.w, 6.w),
-      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 6.h),
+      margin: EdgeInsets.fromLTRB(6.w, 0, 6.w, 4.w),
+      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
       decoration: BoxDecoration(
         color: _backgroundColor,
         borderRadius: BorderRadius.circular(6.r),
       ),
       child: Column(
         children: [
-          _buildFirstRow(context, state),
-          SizedBox(height: 6.h),
+          _buildFirstRow(context, state, isClient, clientName),
+          SizedBox(height: 4.h),
           _buildSecondRow(context, state),
         ],
       ),
     );
   }
 
-  Widget _buildFirstRow(BuildContext context, OrderDialogState state) {
+  Widget _buildFirstRow(
+    BuildContext context,
+    OrderDialogState state,
+    bool isClient,
+    String clientName,
+  ) {
     return Row(
       children: [
         Expanded(
           flex: 2,
-          child: AppDropdown(
-            type: AppDropdownType.simple,
-            hintText: 'Client',
-            value: state.clientName.isEmpty ? null : state.clientName,
-            items: const ['Client 1', 'Client 2', 'Client 3'],
-            label: 'Client Name',
-            labelColor: AppColors.white,
-            height: 26.h,
-            borderColor: LightThemeColors.primaryColor,
-            onChanged: (value) {
-              if (value != null) {
-                context.read<OrderDialogBloc>().add(
-                  UpdateClientNameEvent(value),
-                );
-              }
-            },
-          ),
+          child: isClient
+              ? _buildStaticClientField(clientName)
+              : AppDropdown(
+                  type: AppDropdownType.simple,
+                  hintText: 'Client',
+                  value: state.clientName.isEmpty ? null : state.clientName,
+                  items: const ['Client 1', 'Client 2', 'Client 3'],
+                  label: 'Client Name',
+                  labelColor: AppColors.white,
+                  height: 26.h,
+                  borderColor: LightThemeColors.primaryColor,
+                  onChanged: (value) {
+                    if (value != null) {
+                      context.read<OrderDialogBloc>().add(
+                        UpdateClientNameEvent(value),
+                      );
+                    }
+                  },
+                ),
         ),
         SizedBox(width: 6.w),
         Expanded(
@@ -288,6 +308,46 @@ class _CommonOrderDialogState extends State<CommonOrderDialog> {
                 UpdatePriceEvent(value.toDouble()),
               );
             },
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildStaticClientField(String clientName) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Client Name',
+          style: GoogleFonts.openSans(
+            fontSize: 10.sp,
+            fontWeight: FontWeight.w600,
+            color: AppColors.white,
+          ),
+        ),
+        SizedBox(height: 2.sp),
+        Container(
+          height: 26.h,
+          padding: EdgeInsets.symmetric(horizontal: 8.w),
+          alignment: Alignment.centerLeft,
+          decoration: BoxDecoration(
+            color: AppColors.white,
+            borderRadius: BorderRadius.circular(4.r),
+            border: Border.all(
+              color: LightThemeColors.primaryColor,
+              width: 1.w,
+            ),
+          ),
+          child: Text(
+            clientName,
+            style: GoogleFonts.openSans(
+              fontSize: 11.sp,
+              fontWeight: FontWeight.w600,
+              color: AppColors.primaryBlue,
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
         ),
       ],

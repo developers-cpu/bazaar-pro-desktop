@@ -34,8 +34,8 @@ class OrderDurationDialog extends StatelessWidget {
     return CommonDialog(
       title: 'Order Duration',
       isDarkMode: isDarkMode,
-      width: 1100.w,
-      height: 370.h,
+      width: 1000.w,
+      height: 350.h,
       headerColor: AppColors.primaryBlue,
       showButtons: false,
       scrollable: false,
@@ -46,18 +46,18 @@ class OrderDurationDialog extends StatelessWidget {
 
   List<ViewTableColumn> _getColumns() {
     return const [
-      ViewTableColumn(id: 'id', label: 'ID', width: 60),
+      ViewTableColumn(id: 'id', label: 'ID', width: 50),
       ViewTableColumn(id: 'duration', label: 'DURATION', width: 140),
-      ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 160),
+      ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 190),
       ViewTableColumn(id: 'type', label: 'TYPE', width: 110),
-      ViewTableColumn(id: 'qty', label: 'QTY', width: 110, isNumeric: true),
-      ViewTableColumn(id: 'price', label: 'PRICE', width: 120, isNumeric: true),
+      ViewTableColumn(id: 'qty', label: 'QTY', width: 100, isNumeric: true),
+      ViewTableColumn(id: 'price', label: 'PRICE', width: 110, isNumeric: true),
       ViewTableColumn(
         id: 'executionDateTime',
         label: 'EXECUTION D/T',
-        width: 220,
+        width: 180,
       ),
-      ViewTableColumn(id: 'pl', label: 'P/L', width: 120, isNumeric: true),
+      ViewTableColumn(id: 'pl', label: 'P/L', width: 100, isNumeric: true),
     ];
   }
 
@@ -75,13 +75,17 @@ class OrderDurationDialog extends StatelessWidget {
       case 'symbol':
         return ViewTextCell(
           text: item.symbol,
+          color: AppColors.primaryBlue,
+          isDark: isDark,
+        );
+      case 'type':
+        return ViewTextCell(
+          text: item.orderType,
           color: item.buySell.toUpperCase().startsWith('BUY')
               ? AppColors.blue
               : AppColors.red,
           isDark: isDark,
         );
-      case 'type':
-        return ViewTextCell(text: item.orderType, isDark: isDark);
       case 'qty':
         return ViewNumberCell(value: item.qty, isDark: isDark);
       case 'price':
@@ -103,37 +107,40 @@ class OrderDurationDialog extends StatelessWidget {
   }
 
   Widget _buildTable() {
-    return ViewDataTable<Deal>(
-      columns: _getColumns(),
-      data: relatedOrders,
-      idExtractor: (item) => item.id,
-      isDarkMode: isDarkMode,
-      emptyMessage: 'No related orders found',
-      comparatorBuilder: (item, columnId) {
-        switch (columnId) {
-          case 'userName':
-            return item.userName;
-          case 'pUser':
-            return item.pUser;
-          case 'exchange':
-            return item.exchange;
-          case 'symbol':
-            return item.symbol;
-          case 'buySell':
-            return item.buySell;
-          case 'tradeType':
-            return item.orderType;
-          case 'qty':
-            return item.qty;
-          case 'lot':
-            return item.lot;
-          case 'pl':
-            return item.pl;
-          default:
-            return '';
-        }
-      },
-      cellBuilder: (item, column) => _buildCell(item, column, isDarkMode),
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 8.w),
+      child: ViewDataTable<Deal>(
+        columns: _getColumns(),
+        data: relatedOrders,
+        idExtractor: (item) => item.id,
+        isDarkMode: isDarkMode,
+        emptyMessage: 'No related orders found',
+        comparatorBuilder: (item, columnId) {
+          switch (columnId) {
+            case 'userName':
+              return item.userName;
+            case 'pUser':
+              return item.pUser;
+            case 'exchange':
+              return item.exchange;
+            case 'symbol':
+              return item.symbol;
+            case 'buySell':
+              return item.buySell;
+            case 'tradeType':
+              return item.orderType;
+            case 'qty':
+              return item.qty;
+            case 'lot':
+              return item.lot;
+            case 'pl':
+              return item.pl;
+            default:
+              return '';
+          }
+        },
+        cellBuilder: (item, column) => _buildCell(item, column, isDarkMode),
+      ),
     );
   }
 }

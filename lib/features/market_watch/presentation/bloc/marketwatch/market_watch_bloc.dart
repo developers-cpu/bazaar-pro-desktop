@@ -32,6 +32,7 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
     on<AddMarketItemEvent>(_onAddMarketItem);
     on<ClearFiltersEvent>(_onClearFilters);
     on<ToggleGridEvent>(_onToggleGrid);
+    on<ReorderMarketItemsEvent>(_onReorderMarketItems);
   }
   Future<void> _onLoadMarketItems(
     LoadMarketItemsEvent event,
@@ -440,5 +441,35 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
           .toList();
     }
     return filtered;
+  }
+
+  void _onReorderMarketItems(
+    ReorderMarketItemsEvent event,
+    Emitter<MarketWatchState> emit,
+  ) {
+    final currentState = _getLoadedState();
+    if (currentState == null) return;
+
+    final updatedItems = List<MarketItem>.from(currentState.items);
+    final oldIndex = updatedItems.indexWhere(
+      (item) => item.id == event.fromItemId,
+    );
+    final newIndex = updatedItems.indexWhere(
+      (item) => item.id == event.toItemId,
+    );
+
+    if (oldIndex != -1 && newIndex != -1) {
+      final item = updatedItems.removeAt(oldIndex);
+      updatedItems.insert(newIndex, item);
+
+      final filteredItems = _applyFilters(updatedItems, currentState);
+
+      emit(
+        currentState.copyWith(
+          items: updatedItems,
+          filteredItems: filteredItems,
+        ),
+      );
+    }
   }
 }

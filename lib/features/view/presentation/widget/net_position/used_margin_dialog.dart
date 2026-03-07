@@ -81,7 +81,17 @@ class _UsedMarginDialogState extends State<UsedMarginDialog> {
                       value: _selectedExchange,
                       width: 200.w,
                       hintText: 'Exchange',
-                      items: const ['Exchange', 'MCX', 'NSE'],
+                      items: const [
+                        'NSE',
+                        'MCX',
+                        'CE/PE',
+                        'OTHERS',
+                        'COMEX FUTURE',
+                        'COMEX SPOT',
+                        'CRYPTO',
+                        'GIFT',
+                        'FOREX',
+                      ],
                       onChanged: (val) {
                         if (val != null)
                           setState(() => _selectedExchange = val);
@@ -91,10 +101,20 @@ class _UsedMarginDialogState extends State<UsedMarginDialog> {
                   SizedBox(width: 8.w),
                   Expanded(
                     child: AppDropdown(
+                      type: AppDropdownType.search,
                       value: _selectedSymbol,
                       width: 200.w,
                       hintText: 'Symbol',
-                      items: const ['Symbol', 'GOLD05DEC', 'SILVER'],
+                      items: const [
+                        'SGX GIFTNIFTY Oct 28',
+                        'NSE NIFTY Oct 28',
+                        'NSE BANKNIFTY Oct 28',
+                        'MINI GOLDMINI Dec 05',
+                        'MINI SILVERMINI Dec 05',
+                        'OTHER DOW Dec 19',
+                        'OTHER NASDAQ Dec 19',
+                        'OTHER S & P Dec 19',
+                      ],
                       onChanged: (val) {
                         if (val != null) setState(() => _selectedSymbol = val);
                       },
@@ -105,17 +125,37 @@ class _UsedMarginDialogState extends State<UsedMarginDialog> {
                     value: _selectedExchange,
                     width: 200.w,
                     hintText: 'Exchange',
-                    items: const ['Exchange', 'MCX', 'NSE'],
+                    items: const [
+                      'NSE',
+                      'MCX',
+                      'CE/PE',
+                      'OTHERS',
+                      'COMEX FUTURE',
+                      'COMEX SPOT',
+                      'CRYPTO',
+                      'GIFT',
+                      'FOREX',
+                    ],
                     onChanged: (val) {
                       if (val != null) setState(() => _selectedExchange = val);
                     },
                   ),
                   SizedBox(width: 8.w),
                   AppDropdown(
+                    type: AppDropdownType.search,
                     value: _selectedSymbol,
                     width: 200.w,
                     hintText: 'Symbol',
-                    items: const ['Symbol', 'GOLD05DEC', 'SILVER'],
+                    items: const [
+                      'SGX GIFTNIFTY Oct 28',
+                      'NSE NIFTY Oct 28',
+                      'NSE BANKNIFTY Oct 28',
+                      'MINI GOLDMINI Dec 05',
+                      'MINI SILVERMINI Dec 05',
+                      'OTHER DOW Dec 19',
+                      'OTHER NASDAQ Dec 19',
+                      'OTHER S & P Dec 19',
+                    ],
                     onChanged: (val) {
                       if (val != null) setState(() => _selectedSymbol = val);
                     },
@@ -125,7 +165,13 @@ class _UsedMarginDialogState extends State<UsedMarginDialog> {
             ),
           ),
           SizedBox(height: 8.h),
-          Expanded(child: _buildTable()),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              child: _buildTable(),
+            ),
+          ),
+          SizedBox(height: 16.h),
         ],
       ),
     );

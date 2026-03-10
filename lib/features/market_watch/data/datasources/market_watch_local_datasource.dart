@@ -67,7 +67,7 @@ class MarketWatchLocalDataSourceImpl implements MarketWatchLocalDataSource {
       MarketItemModel(
         id: '1',
         exchange: 'CE/PE',
-        symbol: 'SILVER 18DEC 400 CE',
+        symbol: 'SILVER',
         buyQty: 433,
         buyPrice: 422.73,
         sellPrice: 431.27,
@@ -136,7 +136,7 @@ class MarketWatchLocalDataSourceImpl implements MarketWatchLocalDataSource {
       MarketItemModel(
         id: '4',
         exchange: 'CE/PE',
-        symbol: 'RELIANCE 13FEB 100 CE',
+        symbol: 'RELIANCE',
         buyQty: 301,
         buyPrice: 147.51,
         sellPrice: 150.49,
@@ -205,7 +205,7 @@ class MarketWatchLocalDataSourceImpl implements MarketWatchLocalDataSource {
       MarketItemModel(
         id: '7',
         exchange: 'CE/PE',
-        symbol: 'HDFCBANK 08SEP 400 PE',
+        symbol: 'HDFCBANK',
         buyQty: 787,
         buyPrice: 369.27,
         sellPrice: 376.73,
@@ -274,7 +274,7 @@ class MarketWatchLocalDataSourceImpl implements MarketWatchLocalDataSource {
       MarketItemModel(
         id: '10',
         exchange: 'CE/PE',
-        symbol: 'BAJFINANCE 26MAR 200 PE',
+        symbol: 'BAJFINANCE',
         buyQty: 66,
         buyPrice: 209.88,
         sellPrice: 214.12,
@@ -343,7 +343,7 @@ class MarketWatchLocalDataSourceImpl implements MarketWatchLocalDataSource {
       MarketItemModel(
         id: '13',
         exchange: 'CE/PE',
-        symbol: 'LARSEN 18MAR 500 CE',
+        symbol: 'LARSEN',
         buyQty: 332,
         buyPrice: 539.55,
         sellPrice: 550.45,
@@ -412,7 +412,7 @@ class MarketWatchLocalDataSourceImpl implements MarketWatchLocalDataSource {
       MarketItemModel(
         id: '16',
         exchange: 'CE/PE',
-        symbol: 'SUNPHARMA 17AUG 500 PE',
+        symbol: 'SUNPHARMA',
         buyQty: 254,
         buyPrice: 481.14,
         sellPrice: 490.86,
@@ -481,7 +481,7 @@ class MarketWatchLocalDataSourceImpl implements MarketWatchLocalDataSource {
       MarketItemModel(
         id: '19',
         exchange: 'CE/PE',
-        symbol: 'HUL 02DEC 500 CE',
+        symbol: 'HUL 02DEC',
         buyQty: 413,
         buyPrice: 507.87,
         sellPrice: 518.13,
@@ -550,7 +550,7 @@ class MarketWatchLocalDataSourceImpl implements MarketWatchLocalDataSource {
       MarketItemModel(
         id: '22',
         exchange: 'CE/PE',
-        symbol: 'TATASTEEL 26MAY 300 PE',
+        symbol: 'TATASTEEL 26MAY',
         buyQty: 434,
         buyPrice: 342.54,
         sellPrice: 349.46,
@@ -619,7 +619,7 @@ class MarketWatchLocalDataSourceImpl implements MarketWatchLocalDataSource {
       MarketItemModel(
         id: '25',
         exchange: 'CE/PE',
-        symbol: 'ULTRACEMCO 20JAN 400 CE',
+        symbol: 'ULTRACEMCO',
         buyQty: 674,
         buyPrice: 440.55,
         sellPrice: 449.45,
@@ -688,7 +688,7 @@ class MarketWatchLocalDataSourceImpl implements MarketWatchLocalDataSource {
       MarketItemModel(
         id: '28',
         exchange: 'CE/PE',
-        symbol: 'NESTLEIND 17NOV 600 CE',
+        symbol: 'NESTLEIND',
         buyQty: 837,
         buyPrice: 544.50,
         sellPrice: 555.50,
@@ -757,7 +757,7 @@ class MarketWatchLocalDataSourceImpl implements MarketWatchLocalDataSource {
       MarketItemModel(
         id: '31',
         exchange: 'CE/PE',
-        symbol: 'DRREDDY 14DEC 100 CE',
+        symbol: 'DRREDDY',
         buyQty: 78,
         buyPrice: 99.99,
         sellPrice: 102.01,
@@ -826,7 +826,7 @@ class MarketWatchLocalDataSourceImpl implements MarketWatchLocalDataSource {
       MarketItemModel(
         id: '34',
         exchange: 'CE/PE',
-        symbol: 'GRASIM 26JUL 500 CE',
+        symbol: 'GRASIM ',
         buyQty: 164,
         buyPrice: 503.91,
         sellPrice: 514.09,
@@ -895,7 +895,7 @@ class MarketWatchLocalDataSourceImpl implements MarketWatchLocalDataSource {
       MarketItemModel(
         id: '37',
         exchange: 'CE/PE',
-        symbol: 'DIVISLAB 24JUN 600 PE',
+        symbol: 'DIVISLAB',
         buyQty: 621,
         buyPrice: 590.04,
         sellPrice: 601.96,
@@ -964,7 +964,7 @@ class MarketWatchLocalDataSourceImpl implements MarketWatchLocalDataSource {
       MarketItemModel(
         id: '40',
         exchange: 'CE/PE',
-        symbol: 'APOLLOHOSP 19OCT 400 PE',
+        symbol: 'APOLLOHOSP',
         buyQty: 562,
         buyPrice: 379.17,
         sellPrice: 386.83,
@@ -1033,7 +1033,7 @@ class MarketWatchLocalDataSourceImpl implements MarketWatchLocalDataSource {
       MarketItemModel(
         id: '43',
         exchange: 'CE/PE',
-        symbol: 'BRITANNIA 21JUL 200 CE',
+        symbol: 'BRITANNIA',
         buyQty: 714,
         buyPrice: 173.25,
         sellPrice: 176.75,
@@ -1102,7 +1102,7 @@ class MarketWatchLocalDataSourceImpl implements MarketWatchLocalDataSource {
       MarketItemModel(
         id: '46',
         exchange: 'CE/PE',
-        symbol: 'HDFCLIFE 24MAR 400 PE',
+        symbol: 'HDFCLIFE',
         buyQty: 266,
         buyPrice: 408.87,
         sellPrice: 417.13,
@@ -1171,7 +1171,7 @@ class MarketWatchLocalDataSourceImpl implements MarketWatchLocalDataSource {
       MarketItemModel(
         id: '49',
         exchange: 'CE/PE',
-        symbol: 'TATAMOTORS 01DEC 300 PE',
+        symbol: 'TATAMOTORS',
         buyQty: 7,
         buyPrice: 334.62,
         sellPrice: 341.38,

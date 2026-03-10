@@ -31,7 +31,7 @@ class BillGenerateRemoteDataSourceImpl implements BillGenerateRemoteDataSource {
               "qty": 20000,
               "price": "(CF)344.10",
               "vol": 6882000.00,
-            }
+            },
           ],
           "sellLegs": [
             {
@@ -39,7 +39,7 @@ class BillGenerateRemoteDataSourceImpl implements BillGenerateRemoteDataSource {
               "qty": 20000,
               "price": "349.65",
               "vol": 6993000.00,
-            }
+            },
           ],
           "totalBuyQty": 20000,
           "totalBuyVol": 6882000.00,
@@ -58,7 +58,7 @@ class BillGenerateRemoteDataSourceImpl implements BillGenerateRemoteDataSource {
               "qty": 9000,
               "price": "(CF)999.55",
               "vol": 8995950.00,
-            }
+            },
           ],
           "sellLegs": [
             {
@@ -66,7 +66,7 @@ class BillGenerateRemoteDataSourceImpl implements BillGenerateRemoteDataSource {
               "qty": 9000,
               "price": "1001.05",
               "vol": 9009450.00,
-            }
+            },
           ],
           "totalBuyQty": 9000,
           "totalBuyVol": 8995950.00,
@@ -103,7 +103,7 @@ class BillGenerateRemoteDataSourceImpl implements BillGenerateRemoteDataSource {
               "qty": 1500,
               "price": "1240.80",
               "vol": 1861200.00,
-            }
+            },
           ],
           "sellLegs": [
             {
@@ -111,7 +111,7 @@ class BillGenerateRemoteDataSourceImpl implements BillGenerateRemoteDataSource {
               "qty": 6000,
               "price": "(BF)1193.00",
               "vol": 7158000.00,
-            }
+            },
           ],
           "totalBuyQty": 6000,
           "totalBuyVol": 7444200.00,
@@ -125,30 +125,30 @@ class BillGenerateRemoteDataSourceImpl implements BillGenerateRemoteDataSource {
           "exchange": "NSE",
           "script": "VEDL26MARFUT",
           "buyLegs": [
-             {
+            {
               "date": "26-Feb 01:49:54 PM",
               "qty": 3000,
               "price": "733.85",
               "vol": 2201550.00,
             },
             {
-               "date": "26-Feb 01:49:25 PM",
-               "qty": 3000,
-               "price": "733.85",
-               "vol": 2201550.00,
+              "date": "26-Feb 01:49:25 PM",
+              "qty": 3000,
+              "price": "733.85",
+              "vol": 2201550.00,
             },
-             {
+            {
               "date": "26-Feb 01:49:35 PM",
               "qty": 3000,
               "price": "733.90",
               "vol": 2201700.00,
-             },
-             {
-               "date": "26-Feb 01:49:45 PM",
-               "qty": 3000,
-               "price": "733.80",
-               "vol": 2201400.00,
-             }
+            },
+            {
+              "date": "26-Feb 01:49:45 PM",
+              "qty": 3000,
+              "price": "733.80",
+              "vol": 2201400.00,
+            },
           ],
           "sellLegs": [
             {
@@ -156,7 +156,7 @@ class BillGenerateRemoteDataSourceImpl implements BillGenerateRemoteDataSource {
               "qty": 12000,
               "price": "(BF)720.20",
               "vol": 8642400.00,
-            }
+            },
           ],
           "totalBuyQty": 12000,
           "totalBuyVol": 8806200.00,
@@ -165,7 +165,7 @@ class BillGenerateRemoteDataSourceImpl implements BillGenerateRemoteDataSource {
           "netDifference": -163800.00,
           "brokerage": 2641.86,
           "profitLoss": -166441.86,
-        }
+        },
       ],
       "scriptWiseSummary": [
         {
@@ -190,12 +190,12 @@ class BillGenerateRemoteDataSourceImpl implements BillGenerateRemoteDataSource {
           "net": -288433.26,
         },
         {
-           "exchange": "NSE",
-           "script": "VEDL26MARFUT",
-           "total": -163800.00,
-           "brokerage": 2641.86,
-           "net": -166441.86,
-        }
+          "exchange": "NSE",
+          "script": "VEDL26MARFUT",
+          "total": -163800.00,
+          "brokerage": 2641.86,
+          "net": -166441.86,
+        },
       ],
       "summaryTotal": {
         "total": 496445.00,
@@ -211,19 +211,19 @@ class BillGenerateRemoteDataSourceImpl implements BillGenerateRemoteDataSource {
           "price": 605.700000,
         },
         {
-           "exchange": "NSE",
-           "script": "RBLBANK26MARFUT",
-           "type": "buy",
-           "quantity": 30000.00,
-           "price": 321.550000,
+          "exchange": "NSE",
+          "script": "RBLBANK26MARFUT",
+          "type": "buy",
+          "quantity": 30000.00,
+          "price": 321.550000,
         },
         {
-           "exchange": "NSE",
-           "script": "VEDL26MARFUT",
-           "type": "buy",
-           "quantity": 12000.00,
-           "price": 720.200000,
-        }
+          "exchange": "NSE",
+          "script": "VEDL26MARFUT",
+          "type": "buy",
+          "quantity": 12000.00,
+          "price": 720.200000,
+        },
       ],
       "exchangeWisePL": [
         {
@@ -231,8 +231,8 @@ class BillGenerateRemoteDataSourceImpl implements BillGenerateRemoteDataSource {
           "mtm": 496445.00,
           "brok": 93600.10,
           "pl": 402844.90,
-        }
-      ]
+        },
+      ],
     };
     try {
       return BillGenerateReportModel.fromJson(mockResponse);

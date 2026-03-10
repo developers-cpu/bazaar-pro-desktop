@@ -14,6 +14,7 @@ class ArrangeSymbolBloc extends Bloc<ArrangeSymbolEvent, ArrangeSymbolState> {
     on<SaveColumnsEvent>(_onSaveColumns);
     on<ResizeColumnEvent>(_onResizeColumn);
     on<ResetColumnsEvent>(_onResetColumns);
+    on<ResetColumnSizesEvent>(_onResetColumnSizes);
   }
   void _onLoadColumns(
     LoadColumnsEvent event,
@@ -92,6 +93,13 @@ class ArrangeSymbolBloc extends Bloc<ArrangeSymbolEvent, ArrangeSymbolState> {
         resetCount: state.resetCount + 1,
       ),
     );
+  }
+
+  void _onResetColumnSizes(
+    ResetColumnSizesEvent event,
+    Emitter<ArrangeSymbolState> emit,
+  ) {
+    emit(state.copyWith(resetCount: state.resetCount + 1));
   }
 
   List<ColumnItem> get visibleColumns {

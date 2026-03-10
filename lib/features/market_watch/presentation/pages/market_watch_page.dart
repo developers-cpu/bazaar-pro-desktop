@@ -15,8 +15,6 @@ import '../bloc/arrangesymbol/arrange_symbol_event.dart';
 import '../bloc/marketwatch/market_watch_bloc.dart';
 import '../bloc/marketwatch/market_watch_event.dart';
 import '../bloc/marketwatch/market_watch_state.dart';
-import '../bloc/symbolfont/symbol_font_bloc.dart';
-import '../bloc/symbolfont/symbol_font_event.dart';
 import '../widgets/arrange_symbol_dialog.dart';
 import '../widgets/ban_trade_info.dart';
 import '../widgets/context_menu_widget.dart';
@@ -110,9 +108,8 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
   }
 
   void _onFitToSize() {
-    context.read<SymbolFontBloc>().add(const ResetFontSettingsEvent());
-    context.read<ArrangeSymbolBloc>().add(const ResetColumnsEvent());
-    _showMessage('Reset to default size');
+    context.read<ArrangeSymbolBloc>().add(const ResetColumnSizesEvent());
+    _showMessage('Reset column sizes to default');
   }
 
   void _openBuyOrderDialog() => CommonOrderDialog.showBuyOrder(context);

@@ -121,9 +121,7 @@ class BillGenerateView extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: Container(), 
-                ),
+                Expanded(child: Container()),
                 Container(width: 1, color: Colors.grey.shade300),
                 Expanded(child: _buildTradeSummary(trade)),
               ],

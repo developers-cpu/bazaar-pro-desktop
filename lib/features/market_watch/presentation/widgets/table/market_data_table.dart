@@ -20,6 +20,7 @@ import 'table_cell_builder.dart';
 import 'table_column_helper.dart';
 import 'table_header_cell.dart';
 import 'table_text_style_helper.dart';
+import 'package:flutter/services.dart';
 
 class MarketDataTable extends StatefulWidget {
   final MarketWatchLoaded state;
@@ -38,6 +39,95 @@ class MarketDataTable extends StatefulWidget {
 class _MarketDataTableState extends State<MarketDataTable> {
   int? _sortColumnIndex;
   bool _sortAscending = true;
+  final FocusNode _focusNode = FocusNode();
+  final ScrollController _scrollController = ScrollController();
+  Offset? _lastTapDownPosition;
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _scrollToCurrentIndex(
+    int index,
+    double rowHeight,
+    List<MarketItem> sortedItems,
+  ) {
+    if (!_scrollController.hasClients) return;
+
+    double itemTop = 0;
+    for (int i = 0; i < index; i++) {
+      itemTop += rowHeight;
+      final spacerCount = widget.expandedRowCounts[sortedItems[i].id] ?? 0;
+      itemTop += spacerCount * rowHeight;
+    }
+
+    final itemBottom = itemTop + rowHeight;
+
+    final currentPosition = _scrollController.position.pixels;
+    final viewportHeight = _scrollController.position.viewportDimension;
+
+    if (itemTop < currentPosition) {
+      _scrollController.animateTo(
+        itemTop,
+        duration: const Duration(milliseconds: 100),
+        curve: Curves.easeInOut,
+      );
+    } else if (itemBottom > currentPosition + viewportHeight) {
+      _scrollController.animateTo(
+        itemBottom - viewportHeight,
+        duration: const Duration(milliseconds: 100),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
+
+  void _selectNextRow(List<ColumnItem> visibleColumns, double rowHeight) {
+    final sortedItems = _getSortedItems(visibleColumns: visibleColumns);
+    if (sortedItems.isEmpty) return;
+
+    final selectedId = widget.state.selectedItemId;
+    int currentIndex = sortedItems.indexWhere((item) => item.id == selectedId);
+
+    if (currentIndex < sortedItems.length - 1) {
+      currentIndex++;
+      final nextItem = sortedItems[currentIndex];
+      context.read<MarketWatchBloc>().add(
+        SelectMarketItemEvent(itemId: nextItem.id),
+      );
+      _scrollToCurrentIndex(currentIndex, rowHeight, sortedItems);
+    } else if (currentIndex == -1 && sortedItems.isNotEmpty) {
+      context.read<MarketWatchBloc>().add(
+        SelectMarketItemEvent(itemId: sortedItems.first.id),
+      );
+      _scrollToCurrentIndex(0, rowHeight, sortedItems);
+    }
+  }
+
+  void _selectPreviousRow(List<ColumnItem> visibleColumns, double rowHeight) {
+    final sortedItems = _getSortedItems(visibleColumns: visibleColumns);
+    if (sortedItems.isEmpty) return;
+
+    final selectedId = widget.state.selectedItemId;
+    int currentIndex = sortedItems.indexWhere((item) => item.id == selectedId);
+
+    if (currentIndex > 0) {
+      currentIndex--;
+      final prevItem = sortedItems[currentIndex];
+      context.read<MarketWatchBloc>().add(
+        SelectMarketItemEvent(itemId: prevItem.id),
+      );
+      _scrollToCurrentIndex(currentIndex, rowHeight, sortedItems);
+    } else if (currentIndex == -1 && sortedItems.isNotEmpty) {
+      context.read<MarketWatchBloc>().add(
+        SelectMarketItemEvent(itemId: sortedItems.last.id),
+      );
+      _scrollToCurrentIndex(sortedItems.length - 1, rowHeight, sortedItems);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ThemeBloc, ThemeState>(
@@ -175,58 +265,85 @@ class _MarketDataTableState extends State<MarketDataTable> {
   }) {
     final rowHeight = (fontSize * 1.8).clamp(28.0, 40.0);
     final headerHeight = (fontSize * 2.8).clamp(40.0, 60.0);
-    return DataTable2(
-      key: ValueKey('${visibleColumns.map((c) => c.id).join('-')}-$resetCount'),
-      columnSpacing: 0,
-      horizontalMargin: 0,
-      minWidth: minWidth,
-      headingRowHeight: headerHeight.h,
-      dataRowHeight: rowHeight.h,
-      headingRowColor: WidgetStateProperty.all(
-        LightThemeColors.tableColumnHeadColor,
-      ),
-      dividerThickness: showGrid ? 1 : 0,
-      border: TableBorder(
-        top: BorderSide.none,
-        bottom: showGrid
-            ? BorderSide(
-                color: isDark ? AppColors.white : AppColors.black,
-                width: 1,
-              )
-            : BorderSide.none,
-        left: showGrid
-            ? BorderSide(
-                color: isDark ? AppColors.white : AppColors.black,
-                width: 1,
-              )
-            : BorderSide.none,
-        right: showGrid
-            ? BorderSide(
-                color: isDark ? AppColors.white : AppColors.black,
-                width: 1,
-              )
-            : BorderSide.none,
-        horizontalInside: showGrid
-            ? BorderSide(
-                color: isDark ? AppColors.white : AppColors.black,
-                width: 1,
-              )
-            : BorderSide.none,
-        verticalInside: BorderSide.none,
-      ),
-      columns: _buildColumns(
-        visibleColumns: visibleColumns,
-        isDark: isDark,
-        fontFamily: fontFamily,
-        fontSize: fontSize,
-        fontWeight: fontWeight,
-      ),
-      rows: _buildRows(
-        visibleColumns: visibleColumns,
-        isDark: isDark,
-        fontFamily: fontFamily,
-        fontSize: fontSize,
-        fontWeight: fontWeight,
+    return Focus(
+      focusNode: _focusNode,
+      autofocus: true,
+      onKeyEvent: (node, event) {
+        if (event is KeyDownEvent || event is KeyRepeatEvent) {
+          if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
+            _selectNextRow(visibleColumns, rowHeight.h);
+            return KeyEventResult.handled;
+          } else if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
+            _selectPreviousRow(visibleColumns, rowHeight.h);
+            return KeyEventResult.handled;
+          }
+        }
+        return KeyEventResult.ignored;
+      },
+      child: Listener(
+        onPointerDown: (event) {
+          _lastTapDownPosition = event.position;
+          if (!_focusNode.hasFocus) {
+            FocusScope.of(context).requestFocus(_focusNode);
+          }
+        },
+        child: DataTable2(
+          scrollController: _scrollController,
+          key: ValueKey(
+            '${visibleColumns.map((c) => c.id).join('-')}-$resetCount',
+          ),
+          columnSpacing: 0,
+          horizontalMargin: 0,
+          minWidth: minWidth,
+          headingRowHeight: headerHeight.h,
+          dataRowHeight: rowHeight.h,
+          headingRowColor: WidgetStateProperty.all(
+            LightThemeColors.tableColumnHeadColor,
+          ),
+          dividerThickness: showGrid ? 1 : 0,
+          border: TableBorder(
+            top: BorderSide.none,
+            bottom: showGrid
+                ? BorderSide(
+                    color: isDark ? AppColors.white : AppColors.black,
+                    width: 1,
+                  )
+                : BorderSide.none,
+            left: showGrid
+                ? BorderSide(
+                    color: isDark ? AppColors.white : AppColors.black,
+                    width: 1,
+                  )
+                : BorderSide.none,
+            right: showGrid
+                ? BorderSide(
+                    color: isDark ? AppColors.white : AppColors.black,
+                    width: 1,
+                  )
+                : BorderSide.none,
+            horizontalInside: showGrid
+                ? BorderSide(
+                    color: isDark ? AppColors.white : AppColors.black,
+                    width: 1,
+                  )
+                : BorderSide.none,
+            verticalInside: BorderSide.none,
+          ),
+          columns: _buildColumns(
+            visibleColumns: visibleColumns,
+            isDark: isDark,
+            fontFamily: fontFamily,
+            fontSize: fontSize,
+            fontWeight: fontWeight,
+          ),
+          rows: _buildRows(
+            visibleColumns: visibleColumns,
+            isDark: isDark,
+            fontFamily: fontFamily,
+            fontSize: fontSize,
+            fontWeight: fontWeight,
+          ),
+        ),
       ),
     );
   }
@@ -259,7 +376,7 @@ class _MarketDataTableState extends State<MarketDataTable> {
           columnId: column.id,
           isDark: isDark,
           fontFamily: fontFamily,
-          fontSize: fontSize,
+          fontSize: 12.0,
           fontWeight: fontWeight,
           isLast: index == visibleColumns.length - 1,
           isSorted: _sortColumnIndex == index,
@@ -450,6 +567,10 @@ class _MarketDataTableState extends State<MarketDataTable> {
 
   void _onRowTap(String itemId) {
     context.read<MarketWatchBloc>().add(SelectMarketItemEvent(itemId: itemId));
+
+    if (_lastTapDownPosition != null) {
+      widget.onRightClick(_lastTapDownPosition!);
+    }
   }
 
   void _onRowRightClick(TapDownDetails details, String itemId) {

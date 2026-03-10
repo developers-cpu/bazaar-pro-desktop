@@ -19,23 +19,20 @@ class BillGenerateReport extends Equatable {
 
   @override
   List<Object?> get props => [
-        headerInfo,
-        scriptTrades,
-        scriptWiseSummary,
-        summaryTotal,
-        carryForward,
-        exchangeWisePL,
-      ];
+    headerInfo,
+    scriptTrades,
+    scriptWiseSummary,
+    summaryTotal,
+    carryForward,
+    exchangeWisePL,
+  ];
 }
 
 class BillHeaderInfo extends Equatable {
   final String userName;
   final String dateRange;
 
-  const BillHeaderInfo({
-    required this.userName,
-    required this.dateRange,
-  });
+  const BillHeaderInfo({required this.userName, required this.dateRange});
 
   @override
   List<Object?> get props => [userName, dateRange];
@@ -70,24 +67,24 @@ class BillScriptTrade extends Equatable {
 
   @override
   List<Object?> get props => [
-        exchange,
-        script,
-        buyLegs,
-        sellLegs,
-        totalBuyQty,
-        totalBuyVol,
-        totalSellQty,
-        totalSellVol,
-        netDifference,
-        brokerage,
-        profitLoss,
-      ];
+    exchange,
+    script,
+    buyLegs,
+    sellLegs,
+    totalBuyQty,
+    totalBuyVol,
+    totalSellQty,
+    totalSellVol,
+    netDifference,
+    brokerage,
+    profitLoss,
+  ];
 }
 
 class BillTradeLeg extends Equatable {
   final String date;
   final int qty;
-  final String price; 
+  final String price;
   final double vol;
 
   const BillTradeLeg({

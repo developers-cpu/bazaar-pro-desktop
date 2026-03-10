@@ -4,7 +4,6 @@ import '../../../tools/presentation/widgets/messages/messages_dialog.dart';
 import 'market_depth_dialog.dart';
 import 'order/common_order_dialog.dart';
 
-
 class KeyboardShortcutHandler extends StatelessWidget {
   final Widget child;
   const KeyboardShortcutHandler({Key? key, required this.child})

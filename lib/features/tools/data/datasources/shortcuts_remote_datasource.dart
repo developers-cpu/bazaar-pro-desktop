@@ -9,7 +9,9 @@ abstract class ShortcutsRemoteDataSource {
 class ShortcutsRemoteDataSourceImpl implements ShortcutsRemoteDataSource {
   @override
   Future<List<ShortcutModel>> getShortcuts() async {
-    final cmdStr = defaultTargetPlatform == TargetPlatform.macOS ? 'CMD' : 'CTRL';
+    final cmdStr = defaultTargetPlatform == TargetPlatform.macOS
+        ? 'CMD'
+        : 'CTRL';
     return [
       const ShortcutModel(
         title: 'BUY',

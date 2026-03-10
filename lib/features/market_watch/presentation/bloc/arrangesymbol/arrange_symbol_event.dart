@@ -40,3 +40,7 @@ class ResizeColumnEvent extends ArrangeSymbolEvent {
 class ResetColumnsEvent extends ArrangeSymbolEvent {
   const ResetColumnsEvent();
 }
+
+class ResetColumnSizesEvent extends ArrangeSymbolEvent {
+  const ResetColumnSizesEvent();
+}

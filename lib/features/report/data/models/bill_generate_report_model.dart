@@ -9,31 +9,35 @@ class BillGenerateReportModel extends BillGenerateReport {
     required List<CarryForwardTradeModel> carryForward,
     required List<ExchangeWisePLModel> exchangeWisePL,
   }) : super(
-          headerInfo: headerInfo,
-          scriptTrades: scriptTrades,
-          scriptWiseSummary: scriptWiseSummary,
-          summaryTotal: summaryTotal,
-          carryForward: carryForward,
-          exchangeWisePL: exchangeWisePL,
-        );
+         headerInfo: headerInfo,
+         scriptTrades: scriptTrades,
+         scriptWiseSummary: scriptWiseSummary,
+         summaryTotal: summaryTotal,
+         carryForward: carryForward,
+         exchangeWisePL: exchangeWisePL,
+       );
 
   factory BillGenerateReportModel.fromJson(Map<String, dynamic> json) {
     return BillGenerateReportModel(
       headerInfo: BillHeaderInfoModel.fromJson(json['headerInfo']),
-      scriptTrades: (json['scriptTrades'] as List?)
+      scriptTrades:
+          (json['scriptTrades'] as List?)
               ?.map((e) => BillScriptTradeModel.fromJson(e))
               .toList() ??
           [],
-      scriptWiseSummary: (json['scriptWiseSummary'] as List?)
+      scriptWiseSummary:
+          (json['scriptWiseSummary'] as List?)
               ?.map((e) => ScriptBillSummaryModel.fromJson(e))
               .toList() ??
           [],
       summaryTotal: BillTotalModel.fromJson(json['summaryTotal']),
-      carryForward: (json['carryForward'] as List?)
+      carryForward:
+          (json['carryForward'] as List?)
               ?.map((e) => CarryForwardTradeModel.fromJson(e))
               .toList() ??
           [],
-      exchangeWisePL: (json['exchangeWisePL'] as List?)
+      exchangeWisePL:
+          (json['exchangeWisePL'] as List?)
               ?.map((e) => ExchangeWisePLModel.fromJson(e))
               .toList() ??
           [],
@@ -69,28 +73,30 @@ class BillScriptTradeModel extends BillScriptTrade {
     required double brokerage,
     required double profitLoss,
   }) : super(
-          exchange: exchange,
-          script: script,
-          buyLegs: buyLegs,
-          sellLegs: sellLegs,
-          totalBuyQty: totalBuyQty,
-          totalBuyVol: totalBuyVol,
-          totalSellQty: totalSellQty,
-          totalSellVol: totalSellVol,
-          netDifference: netDifference,
-          brokerage: brokerage,
-          profitLoss: profitLoss,
-        );
+         exchange: exchange,
+         script: script,
+         buyLegs: buyLegs,
+         sellLegs: sellLegs,
+         totalBuyQty: totalBuyQty,
+         totalBuyVol: totalBuyVol,
+         totalSellQty: totalSellQty,
+         totalSellVol: totalSellVol,
+         netDifference: netDifference,
+         brokerage: brokerage,
+         profitLoss: profitLoss,
+       );
 
   factory BillScriptTradeModel.fromJson(Map<String, dynamic> json) {
     return BillScriptTradeModel(
       exchange: json['exchange'] ?? '',
       script: json['script'] ?? '',
-      buyLegs: (json['buyLegs'] as List?)
+      buyLegs:
+          (json['buyLegs'] as List?)
               ?.map((e) => BillTradeLegModel.fromJson(e))
               .toList() ??
           [],
-      sellLegs: (json['sellLegs'] as List?)
+      sellLegs:
+          (json['sellLegs'] as List?)
               ?.map((e) => BillTradeLegModel.fromJson(e))
               .toList() ??
           [],
@@ -131,12 +137,12 @@ class ScriptBillSummaryModel extends ScriptBillSummary {
     required double brokerage,
     required double net,
   }) : super(
-          exchange: exchange,
-          script: script,
-          total: total,
-          brokerage: brokerage,
-          net: net,
-        );
+         exchange: exchange,
+         script: script,
+         total: total,
+         brokerage: brokerage,
+         net: net,
+       );
 
   factory ScriptBillSummaryModel.fromJson(Map<String, dynamic> json) {
     return ScriptBillSummaryModel(
@@ -154,11 +160,7 @@ class BillTotalModel extends BillTotal {
     required double total,
     required double totalBrokerage,
     required double totalNet,
-  }) : super(
-          total: total,
-          totalBrokerage: totalBrokerage,
-          totalNet: totalNet,
-        );
+  }) : super(total: total, totalBrokerage: totalBrokerage, totalNet: totalNet);
 
   factory BillTotalModel.fromJson(Map<String, dynamic> json) {
     return BillTotalModel(
@@ -177,12 +179,12 @@ class CarryForwardTradeModel extends CarryForwardTrade {
     required double quantity,
     required double price,
   }) : super(
-          exchange: exchange,
-          script: script,
-          type: type,
-          quantity: quantity,
-          price: price,
-        );
+         exchange: exchange,
+         script: script,
+         type: type,
+         quantity: quantity,
+         price: price,
+       );
 
   factory CarryForwardTradeModel.fromJson(Map<String, dynamic> json) {
     return CarryForwardTradeModel(
@@ -201,12 +203,7 @@ class ExchangeWisePLModel extends ExchangeWisePL {
     required double mtm,
     required double brok,
     required double pl,
-  }) : super(
-          exchange: exchange,
-          mtm: mtm,
-          brok: brok,
-          pl: pl,
-        );
+  }) : super(exchange: exchange, mtm: mtm, brok: brok, pl: pl);
 
   factory ExchangeWisePLModel.fromJson(Map<String, dynamic> json) {
     return ExchangeWisePLModel(

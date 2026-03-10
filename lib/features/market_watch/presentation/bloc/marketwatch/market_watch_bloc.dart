@@ -251,11 +251,26 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
       return;
     }
     final addedItem = result.fold((l) => null, (r) => r)!;
-    final updatedItems = [...currentState.items, addedItem];
+    List<MarketItem> updatedItems = List<MarketItem>.from(currentState.items);
+    int insertIndex = updatedItems.length;
+    if (currentState.selectedItemId != null) {
+      final selectedIndex = updatedItems.indexWhere(
+        (item) => item.id == currentState.selectedItemId,
+      );
+      if (selectedIndex != -1) {
+        insertIndex = selectedIndex;
+      }
+    }
+    updatedItems.insert(insertIndex, addedItem);
+
     final filteredItems = _applyFilters(updatedItems, currentState);
     final newUndoStack = [
       ...currentState.undoStack,
-      MarketWatchAction(type: MarketWatchActionType.paste, item: addedItem),
+      MarketWatchAction(
+        type: MarketWatchActionType.paste,
+        item: addedItem,
+        index: insertIndex,
+      ),
     ];
     final newState = currentState.copyWith(
       items: updatedItems,
@@ -395,7 +410,13 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
     switch (lastAction.type) {
       case MarketWatchActionType.add:
       case MarketWatchActionType.paste:
-        updatedItems = [...currentState.items, lastAction.item!];
+        updatedItems = [...currentState.items];
+        final index = lastAction.index;
+        if (index != null && index <= updatedItems.length) {
+          updatedItems.insert(index, lastAction.item!);
+        } else {
+          updatedItems.add(lastAction.item!);
+        }
         break;
       case MarketWatchActionType.delete:
         updatedItems = currentState.items

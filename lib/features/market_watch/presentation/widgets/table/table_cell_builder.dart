@@ -1,13 +1,12 @@
-import 'package:bazarpro/core/constants/app_images.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/constants/app_strings.dart';
 import '../../../../../core/utils/date_formatter.dart';
 import '../../../../../core/utils/number_formatter.dart';
-import '../../../../../core/widget/svg_icon.dart';
 
 import '../../../domain/entities/market_item.dart';
+import 'animated_exchange_cell.dart';
 import 'animated_price_cell.dart';
 import 'table_text_style_helper.dart';
 
@@ -35,7 +34,14 @@ class TableCellBuilder extends StatelessWidget {
   Widget _buildCellContent() {
     switch (columnId) {
       case 'exchange':
-        return _buildExchangeWithArrowCell();
+        return AnimatedExchangeCell(
+          text: item.exchange,
+          isDark: isDark,
+          fontFamily: fontFamily,
+          fontSize: fontSize,
+          fontWeight: _effectiveFontWeight,
+          textColor: _getTextColor(),
+        );
       case 'symbol':
         return AnimatedPriceCell(
           text: item.symbol,
@@ -132,54 +138,6 @@ class TableCellBuilder extends StatelessWidget {
       default:
         return const SizedBox.shrink();
     }
-  }
-
-  Widget _buildExchangeWithArrowCell() {
-    final isPositive = item.netChange > 0;
-    final isNegative = item.netChange < 0;
-    Color iconColor;
-    if (isPositive) {
-      iconColor = isDark
-          ? DarkThemeColors.positiveTextColor
-          : LightThemeColors.positiveTextColor;
-    } else if (isNegative) {
-      iconColor = isDark
-          ? DarkThemeColors.negativeTextColor
-          : LightThemeColors.negativeTextColor;
-    } else {
-      iconColor = isDark
-          ? DarkThemeColors.textColor
-          : LightThemeColors.textColor;
-    }
-    return Padding(
-      padding: EdgeInsets.only(left: 8.w),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          SvgIcon(
-            assetPath: isPositive ? AppImages.buyIcon : AppImages.sellIcon,
-            isActive: true,
-            size: (fontSize * 1.1).sp,
-            activeColor: iconColor,
-          ),
-          SizedBox(width: 3.w),
-          Flexible(
-            child: Text(
-              item.exchange,
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
-              style: TableTextStyleHelper.getTextStyle(
-                fontFamily: fontFamily,
-                fontSize: fontSize.sp,
-                fontWeight: fontWeight,
-                color: _getTextColor(),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
   }
 
   Widget _buildAnimatedPriceCell(String text) {

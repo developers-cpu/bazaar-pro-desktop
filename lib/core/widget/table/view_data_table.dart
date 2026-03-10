@@ -75,6 +75,10 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
   bool _internalSortAscending = true;
   List<T>? _sortedData;
 
+  List<ViewTableColumn> _activeColumns = [];
+  Map<String, double> _columnWidths = {};
+  String? _dragTargetColumnId;
+
   bool get _useInternalSort =>
       widget.comparatorBuilder != null && widget.onSort == null;
 
@@ -88,6 +92,35 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
       return _sortedData!;
     }
     return widget.data;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _activeColumns = List.from(widget.columns);
+    for (var col in widget.columns) {
+      _columnWidths[col.id] = col.width;
+    }
+  }
+
+  void _onColumnReorder(String fromId, String toId) {
+    if (fromId == toId) return;
+    setState(() {
+      final fromIndex = _activeColumns.indexWhere((c) => c.id == fromId);
+      final toIndex = _activeColumns.indexWhere((c) => c.id == toId);
+      if (fromIndex != -1 && toIndex != -1) {
+        final col = _activeColumns.removeAt(fromIndex);
+        _activeColumns.insert(toIndex, col);
+      }
+    });
+  }
+
+  void _onColumnResize(String columnId, double delta, double minWidth) {
+    setState(() {
+      final currentWidth = _columnWidths[columnId] ?? minWidth;
+      final newWidth = (currentWidth + delta).clamp(minWidth, double.infinity);
+      _columnWidths[columnId] = newWidth;
+    });
   }
 
   void _handleSort(String columnId) {
@@ -118,6 +151,12 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
   @override
   void didUpdateWidget(covariant ViewDataTable<T> oldWidget) {
     super.didUpdateWidget(oldWidget);
+    if (oldWidget.columns != widget.columns) {
+      _activeColumns = List.from(widget.columns);
+      for (var col in widget.columns) {
+        _columnWidths[col.id] = col.width;
+      }
+    }
     if (_useInternalSort && oldWidget.data != widget.data) {
       if (_internalSortColumn != null) {
         _sortedData = List<T>.from(widget.data);
@@ -141,7 +180,10 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
   }
 
   double get _totalFixedScaleWidth {
-    return widget.columns.fold<double>(0, (sum, col) => sum + col.width);
+    return _activeColumns.fold<double>(
+      0,
+      (sum, col) => sum + (_columnWidths[col.id] ?? col.width),
+    );
   }
 
   Color get _headerBgColor =>
@@ -167,38 +209,45 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
   Widget build(BuildContext context) {
     final rowHeight = widget.rowHeight ?? 30.h;
     final headerHeight = widget.headerHeight ?? 35.h;
-    return Container(
-      margin: EdgeInsets.fromLTRB(0.w, 4.h, 0.w, 10.h),
-      decoration: BoxDecoration(
-        color: _rowBgColor,
-        borderRadius: BorderRadius.circular(10.r),
-        border: Border.all(color: _dividerColor.withOpacity(0.5), width: 1),
+    return Theme(
+      data: Theme.of(context).copyWith(
+        scrollbarTheme: ScrollbarThemeData(
+          thumbColor: MaterialStateProperty.all(AppColors.primaryBlue),
+        ),
       ),
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          double scale = 1.0;
-          double totalWidth = _totalFixedScaleWidth;
-          if (widget.autoFit && constraints.maxWidth > totalWidth) {
-            scale = constraints.maxWidth / totalWidth;
-            totalWidth = constraints.maxWidth;
-          }
-          return ClipRRect(
-            borderRadius: BorderRadius.circular(10.r),
-            child: widget.shrinkWrap
-                ? _buildShrinkWrapContent(
-                    headerHeight,
-                    rowHeight,
-                    totalWidth,
-                    scale,
-                  )
-                : _buildExpandedContent(
-                    headerHeight,
-                    rowHeight,
-                    totalWidth,
-                    scale,
-                  ),
-          );
-        },
+      child: Container(
+        margin: EdgeInsets.fromLTRB(0.w, 4.h, 0.w, 10.h),
+        decoration: BoxDecoration(
+          color: _rowBgColor,
+          borderRadius: BorderRadius.circular(10.r),
+          border: Border.all(color: _dividerColor.withOpacity(0.5), width: 1),
+        ),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            double scale = 1.0;
+            double totalWidth = _totalFixedScaleWidth;
+            if (widget.autoFit && constraints.maxWidth > totalWidth) {
+              scale = constraints.maxWidth / totalWidth;
+              totalWidth = constraints.maxWidth;
+            }
+            return ClipRRect(
+              borderRadius: BorderRadius.circular(10.r),
+              child: widget.shrinkWrap
+                  ? _buildShrinkWrapContent(
+                      headerHeight,
+                      rowHeight,
+                      totalWidth,
+                      scale,
+                    )
+                  : _buildExpandedContent(
+                      headerHeight,
+                      rowHeight,
+                      totalWidth,
+                      scale,
+                    ),
+            );
+          },
+        ),
       ),
     );
   }
@@ -291,10 +340,10 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
         border: Border(bottom: BorderSide(color: _dividerColor, width: 1)),
       ),
       child: Row(
-        children: widget.columns.asMap().entries.map((entry) {
+        children: _activeColumns.asMap().entries.map((entry) {
           final index = entry.key;
           final column = entry.value;
-          final isLast = index == widget.columns.length - 1;
+          final isLast = index == _activeColumns.length - 1;
           return _buildHeaderCell(column, isLast, scale);
         }).toList(),
       ),
@@ -303,51 +352,140 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
 
   Widget _buildHeaderCell(ViewTableColumn column, bool isLast, double scale) {
     final isSorted = _activeSortColumn == column.id;
-    final cellWidth = column.width * scale;
-    return GestureDetector(
+    final originalWidth = widget.columns
+        .firstWhere((c) => c.id == column.id)
+        .width;
+    final cellWidth = (_columnWidths[column.id] ?? originalWidth) * scale;
+
+    Widget content = Center(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (column.customHeaderWidget != null)
+            column.customHeaderWidget!
+          else ...[
+            Flexible(
+              child: Text(
+                column.label,
+                style: GoogleFonts.openSans(
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w500,
+                  color: _textColor,
+                ),
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            if (column.sortable) ...[
+              SizedBox(width: 4.w),
+              SvgIcon(
+                assetPath: AppImages.sortIcon,
+                isActive: isSorted,
+                size: 12.sp,
+                activeColor: isSorted ? AppColors.primaryBlue : null,
+              ),
+            ],
+          ],
+        ],
+      ),
+    );
+
+    Widget headerItem = GestureDetector(
       onTap: column.sortable ? () => _handleSort(column.id) : null,
       child: Container(
         width: cellWidth,
+        height: 35.h,
         decoration: BoxDecoration(
-          border: isLast
-              ? null
-              : Border(right: BorderSide(color: _headerDividerColor, width: 1)),
+          border: _dragTargetColumnId == column.id
+              ? Border(
+                  left: BorderSide(color: AppColors.blue, width: 2.5),
+                  right: isLast
+                      ? BorderSide.none
+                      : BorderSide(color: _headerDividerColor, width: 1),
+                )
+              : (isLast
+                    ? null
+                    : Border(
+                        right: BorderSide(color: _headerDividerColor, width: 1),
+                      )),
         ),
-        child: Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (column.customHeaderWidget != null)
-                column.customHeaderWidget!
-              else ...[
-                Flexible(
-                  child: Text(
-                    column.label,
-                    style: GoogleFonts.openSans(
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w500,
-                      color: _textColor,
-                    ),
-                    textAlign: TextAlign.center,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+        child: Stack(
+          children: [
+            Positioned.fill(child: content),
+            Positioned(
+              right: 0,
+              top: 0,
+              bottom: 0,
+              width: 20.w,
+              child: MouseRegion(
+                cursor: SystemMouseCursors.resizeColumn,
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onHorizontalDragUpdate: (details) {
+                    _onColumnResize(
+                      column.id,
+                      details.delta.dx / scale,
+                      originalWidth,
+                    );
+                  },
+                  child: Container(
+                    alignment: Alignment.centerRight,
+                    color: Colors.transparent,
                   ),
                 ),
-                if (column.sortable) ...[
-                  SizedBox(width: 4.w),
-                  SvgIcon(
-                    assetPath: AppImages.sortIcon,
-                    isActive: isSorted,
-                    size: 12.sp,
-                    activeColor: isSorted ? AppColors.primaryBlue : null,
-                  ),
-                ],
-              ],
-            ],
-          ),
+              ),
+            ),
+          ],
         ),
       ),
+    );
+
+    return DragTarget<String>(
+      onWillAcceptWithDetails: (details) {
+        if (details.data != column.id) {
+          setState(() => _dragTargetColumnId = column.id);
+          return true;
+        }
+        return false;
+      },
+      onLeave: (_) {
+        if (_dragTargetColumnId == column.id) {
+          setState(() => _dragTargetColumnId = null);
+        }
+      },
+      onAcceptWithDetails: (details) {
+        setState(() => _dragTargetColumnId = null);
+        _onColumnReorder(details.data, column.id);
+      },
+      builder: (context, candidateData, rejectedData) {
+        return LongPressDraggable<String>(
+          data: column.id,
+          axis: Axis.horizontal,
+          delay: const Duration(milliseconds: 150),
+          feedback: Material(
+            elevation: 4,
+            borderRadius: BorderRadius.circular(4.r),
+            color: _headerBgColor,
+            child: Container(
+              width: cellWidth,
+              height: 35.h,
+              alignment: Alignment.center,
+              child: Text(
+                column.label,
+                style: GoogleFonts.openSans(
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w500,
+                  color: _textColor,
+                ),
+              ),
+            ),
+          ),
+          childWhenDragging: Opacity(opacity: 0.4, child: headerItem),
+          child: headerItem,
+        );
+      },
     );
   }
 
@@ -408,9 +546,10 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
                 ),
         ),
         child: Row(
-          children: widget.columns.map((column) {
+          children: _activeColumns.map((column) {
+            final colWidth = (_columnWidths[column.id] ?? column.width) * scale;
             return Container(
-              width: column.width * scale,
+              width: colWidth,
               alignment: Alignment.center,
               padding: EdgeInsets.symmetric(
                 horizontal: column.width <= 50 ? 4.w : 16.w,
@@ -424,12 +563,12 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
   }
 
   Widget _buildFooterRow(double rowHeight, double scale) {
-    final scaledColumns = widget.columns
+    final scaledColumns = _activeColumns
         .map(
           (c) => ViewTableColumn(
             id: c.id,
             label: c.label,
-            width: c.width * scale,
+            width: (_columnWidths[c.id] ?? c.width) * scale,
             isNumeric: c.isNumeric,
             sortable: c.sortable,
           ),

@@ -99,7 +99,11 @@ class ArrangeSymbolBloc extends Bloc<ArrangeSymbolEvent, ArrangeSymbolState> {
     Emitter<ArrangeSymbolState> emit,
   ) {
     _savedColumns = List.from(_defaultColumns);
-    emit(state.copyWith(columns: List.from(_defaultColumns), isSaved: true));
+    emit(state.copyWith(
+      columns: List.from(_defaultColumns),
+      isSaved: true,
+      resetCount: state.resetCount + 1,
+    ));
   }
 
   List<ColumnItem> get visibleColumns {

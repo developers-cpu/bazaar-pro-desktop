@@ -33,23 +33,27 @@ class ArrangeSymbolState extends Equatable {
   final List<ColumnItem> columns;
   final bool isLoading;
   final bool isSaved;
+  final int resetCount;
   const ArrangeSymbolState({
     this.columns = const [],
     this.isLoading = false,
     this.isSaved = false,
+    this.resetCount = 0,
   });
   ArrangeSymbolState copyWith({
     List<ColumnItem>? columns,
     bool? isLoading,
     bool? isSaved,
+    int? resetCount,
   }) {
     return ArrangeSymbolState(
       columns: columns ?? this.columns,
       isLoading: isLoading ?? this.isLoading,
       isSaved: isSaved ?? this.isSaved,
+      resetCount: resetCount ?? this.resetCount,
     );
   }
 
   @override
-  List<Object?> get props => [columns, isLoading, isSaved];
+  List<Object?> get props => [columns, isLoading, isSaved, resetCount];
 }

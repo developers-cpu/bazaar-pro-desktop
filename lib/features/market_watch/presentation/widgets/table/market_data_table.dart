@@ -75,6 +75,7 @@ class _MarketDataTableState extends State<MarketDataTable> {
                   fontFamily: fontFamily,
                   fontSize: fontSize,
                   fontWeight: fontWeight,
+                  resetCount: arrangeState.resetCount,
                 );
               },
             );
@@ -110,6 +111,7 @@ class _MarketDataTableState extends State<MarketDataTable> {
     required String fontFamily,
     required double fontSize,
     required FontWeight fontWeight,
+    required int resetCount,
   }) {
     final minWidth = TableColumnHelper.calculateMinWidth(
       visibleColumns,
@@ -128,7 +130,14 @@ class _MarketDataTableState extends State<MarketDataTable> {
                     : LightThemeColors.dividerColor,
                 width: 1,
               )
-            : null,
+            : Border(
+                bottom: BorderSide(
+                  color: isDark
+                      ? DarkThemeColors.dividerColor.withOpacity(0.5)
+                      : AppColors.greyBorder.withOpacity(0.5),
+                  width: 1,
+                ),
+              ),
         borderRadius: BorderRadius.circular(10.r),
       ),
       child: ClipRRect(
@@ -141,6 +150,7 @@ class _MarketDataTableState extends State<MarketDataTable> {
           fontSize: fontSize,
           fontWeight: fontWeight,
           minWidth: minWidth,
+          resetCount: resetCount,
         ),
       ),
     );
@@ -154,11 +164,12 @@ class _MarketDataTableState extends State<MarketDataTable> {
     required double fontSize,
     required FontWeight fontWeight,
     required double minWidth,
+    required int resetCount,
   }) {
     final rowHeight = (fontSize * 1.8).clamp(28.0, 40.0);
     final headerHeight = (fontSize * 2.8).clamp(40.0, 60.0);
     return DataTable2(
-      key: ValueKey(visibleColumns.map((c) => c.id).join('-')),
+      key: ValueKey('${visibleColumns.map((c) => c.id).join('-')}-$resetCount'),
       columnSpacing: 0,
       horizontalMargin: 0,
       minWidth: minWidth,
@@ -169,12 +180,7 @@ class _MarketDataTableState extends State<MarketDataTable> {
       ),
       dividerThickness: showGrid ? 1 : 0,
       border: TableBorder(
-        top: showGrid
-            ? BorderSide(
-                color: isDark ? AppColors.white : AppColors.black,
-                width: 1,
-              )
-            : BorderSide.none,
+        top: BorderSide.none,
         bottom: showGrid
             ? BorderSide(
                 color: isDark ? AppColors.white : AppColors.black,
@@ -199,12 +205,7 @@ class _MarketDataTableState extends State<MarketDataTable> {
                 width: 1,
               )
             : BorderSide.none,
-        verticalInside: showGrid
-            ? BorderSide(
-                color: isDark ? AppColors.white : AppColors.black,
-                width: 1,
-              )
-            : BorderSide.none,
+        verticalInside: BorderSide.none,
       ),
       columns: _buildColumns(
         visibleColumns: visibleColumns,
@@ -254,6 +255,11 @@ class _MarketDataTableState extends State<MarketDataTable> {
           fontSize: fontSize,
           fontWeight: fontWeight,
           isLast: index == visibleColumns.length - 1,
+          isSorted: _sortColumnIndex == index,
+          sortAscending: _sortAscending,
+          onSort: () {
+            _onSort(index, _sortColumnIndex == index ? !_sortAscending : true);
+          },
           onColumnReorder: (fromId, toId) {
             _onColumnReorder(fromId, toId, visibleColumns);
           },
@@ -261,7 +267,6 @@ class _MarketDataTableState extends State<MarketDataTable> {
         fixedWidth: isLut ? config?.getWidth(fontSize) : null,
         size: size,
         numeric: config?.isNumeric ?? false,
-        onSort: _onSort,
         isResizable: true,
         minWidth: config?.minWidth ?? 60,
       );
@@ -443,7 +448,11 @@ class _MarketDataTableState extends State<MarketDataTable> {
     required double fontSize,
     required FontWeight fontWeight,
   }) {
-    return visibleColumns.map((column) {
+    return visibleColumns.asMap().entries.map((entry) {
+      final index = entry.key;
+      final column = entry.value;
+      final isLast = index == visibleColumns.length - 1;
+
       final cellContent = TableCellBuilder(
         columnId: column.id,
         item: item,
@@ -469,13 +478,21 @@ class _MarketDataTableState extends State<MarketDataTable> {
           builder: (context, candidateData, rejectedData) {
             final isHovered = candidateData.isNotEmpty;
             return Container(
-              decoration: isHovered
-                  ? BoxDecoration(
-                      border: Border(
-                        top: BorderSide(color: AppColors.blue, width: 2.0),
-                      ),
-                    )
-                  : null,
+              height: double.infinity,
+              alignment: Alignment.centerLeft,
+              decoration: BoxDecoration(
+                border: Border(
+                  top: isHovered
+                      ? BorderSide(color: AppColors.blue, width: 2.0)
+                      : BorderSide.none,
+                  right: (widget.state.showGrid && !isLast)
+                      ? BorderSide(
+                          color: isDark ? AppColors.white : AppColors.black,
+                          width: 1,
+                        )
+                      : BorderSide.none,
+                ),
+              ),
               child: LongPressDraggable<String>(
                 data: item.id,
                 axis: Axis.vertical,

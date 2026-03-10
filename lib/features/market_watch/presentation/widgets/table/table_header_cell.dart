@@ -15,6 +15,9 @@ class TableHeaderCell extends StatefulWidget {
   final bool showSortIcon;
   final bool isLast;
   final bool showGrid; 
+  final bool isSorted;
+  final bool sortAscending;
+  final VoidCallback? onSort;
   final void Function(String fromColumnId, String toColumnId)? onColumnReorder;
   const TableHeaderCell({
     Key? key,
@@ -27,6 +30,9 @@ class TableHeaderCell extends StatefulWidget {
     this.showSortIcon = true,
     this.isLast = false,
     this.showGrid = false,
+    this.isSorted = false,
+    this.sortAscending = true,
+    this.onSort,
     this.onColumnReorder,
   }) : super(key: key);
 
@@ -42,7 +48,6 @@ class _TableHeaderCellState extends State<TableHeaderCell> {
     if (widget.title.isEmpty) {
       return const SizedBox.shrink();
     }
-    final iconSize = (widget.fontSize * 1.0).sp;
     final headerTitle = widget.title.toUpperCase();
     final textStyle = TableTextStyleHelper.getTextStyle(
       fontFamily: widget.fontFamily,
@@ -77,20 +82,34 @@ class _TableHeaderCellState extends State<TableHeaderCell> {
                 style: textStyle,
               ),
             ),
-            SvgIcon(
-              assetPath: AppImages.sortIcon,
-              isActive: widget.isDark,
-              size: iconSize,
-            ),
+            if (widget.showSortIcon) ...[
+              SizedBox(width: 4.w),
+              SvgIcon(
+                assetPath: AppImages.sortIcon,
+                isActive: widget.isSorted,
+                size: widget.fontSize.sp,
+                activeColor: widget.isSorted ? AppColors.primaryBlue : null,
+              ),
+            ],
           ],
         ),
       );
     }
 
+
+
+
     Widget headerWidget = Container(
       constraints: const BoxConstraints.expand(),
       padding: EdgeInsets.only(left: widget.columnId == 'exchange' ? 8.w : 0.w),
-      decoration: const BoxDecoration(),
+      decoration: BoxDecoration(
+        border: Border(
+          right: widget.isLast
+              ? BorderSide.none
+              : BorderSide(color: AppColors.white, width: 1),
+          bottom: BorderSide(color: AppColors.white, width: 1),
+        ),
+      ),
       child: Align(
         alignment: widget.columnId == 'exchange'
             ? Alignment.centerLeft
@@ -149,6 +168,13 @@ class _TableHeaderCellState extends State<TableHeaderCell> {
             ),
           );
         },
+      );
+    }
+
+    if (widget.onSort != null) {
+      headerWidget = InkWell(
+        onTap: widget.onSort,
+        child: headerWidget,
       );
     }
 

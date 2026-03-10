@@ -51,6 +51,26 @@ class MarketFilters extends StatelessWidget {
     final users = ['Client 1', 'Client 2', 'Client 3', 'Client 4', 'Client 5'];
     return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (context, themeState) {
+        final isCePe = state.selectedExchange == AppStrings.cePe;
+
+        final expiries =
+            state.items
+                .where((i) => i.expiry != null)
+                .map((i) => DateFormat('yy/MM/dd').format(i.expiry!))
+                .toSet()
+                .toList()
+              ..sort();
+
+        final prices =
+            state.items
+                .where((i) => i.strikePrice != null)
+                .map((i) => i.strikePrice.toString())
+                .toSet()
+                .toList()
+              ..sort((a, b) => double.parse(a).compareTo(double.parse(b)));
+
+        final types = ['CALL', 'PUT'];
+
         return Container(
           width: double.infinity,
           height: 40.h,
@@ -59,42 +79,111 @@ class MarketFilters extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: [
-                  AppDropdown(
-                    type: AppDropdownType.simple,
-                    hintText: AppStrings.exchangeFilter,
-                    value: state.selectedExchange,
-                    items: exchanges,
-                    width: 200.w,
-                    dropdownHeight: 250.h,
-                    onChanged: (exchange) {
-                      context.read<MarketWatchBloc>().add(
-                        FilterByExchangeEvent(
-                          exchange: exchange?.isEmpty == true ? null : exchange,
+              Expanded(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      AppDropdown(
+                        type: AppDropdownType.simple,
+                        hintText: AppStrings.exchangeFilter,
+                        value: state.selectedExchange,
+                        items: exchanges,
+                        width: 200.w,
+                        dropdownHeight: 250.h,
+                        onChanged: (exchange) {
+                          context.read<MarketWatchBloc>().add(
+                            FilterByExchangeEvent(
+                              exchange: exchange?.isEmpty ?? true
+                                  ? null
+                                  : exchange,
+                            ),
+                          );
+                        },
+                      ),
+                      SizedBox(width: 10.w),
+                      AppDropdown(
+                        type: AppDropdownType.multiSelect,
+                        hintText: AppStrings.symbolFilter,
+                        selectedValues: selectedDisplayLabels,
+                        items: displayLabels,
+                        width: 200.w,
+                        dropdownHeight: 250.h,
+                        searchHint: 'Search & Add',
+                        onMultiChanged: (selectedLabels) {
+                          final symbols = selectedLabels
+                              .map((label) => symbolDisplayMap[label] ?? label)
+                              .toList();
+                          context.read<MarketWatchBloc>().add(
+                            FilterBySymbolsEvent(symbols: symbols),
+                          );
+                        },
+                      ),
+                      SizedBox(width: 10.w),
+                      if (isCePe) ...[
+                        AppDropdown(
+                          type: AppDropdownType.simple,
+                          hintText: 'Expiry',
+                          value: state.selectedExpiry != null
+                              ? DateFormat(
+                                  'yy/MM/dd',
+                                ).format(state.selectedExpiry!)
+                              : null,
+                          items: expiries,
+                          width: 200.w,
+                          dropdownHeight: 250.h,
+                          onChanged: (val) {
+                            DateTime? expiryDate;
+                            if (val != null && val.isNotEmpty) {
+                              try {
+                                expiryDate = DateFormat('yy/MM/dd').parse(val);
+                              } catch (_) {}
+                            }
+                            context.read<MarketWatchBloc>().add(
+                              FilterByExpiryEvent(expiry: expiryDate),
+                            );
+                          },
                         ),
-                      );
-                    },
+                        SizedBox(width: 10.w),
+                        AppDropdown(
+                          type: AppDropdownType.simple,
+                          hintText: 'Type',
+                          value: state.selectedType,
+                          items: types,
+                          width: 200.w,
+                          dropdownHeight: 120.h,
+                          onChanged: (val) {
+                            context.read<MarketWatchBloc>().add(
+                              FilterByTypeEvent(
+                                type: val?.isEmpty == true ? null : val,
+                              ),
+                            );
+                          },
+                        ),
+                        SizedBox(width: 10.w),
+                        AppDropdown(
+                          type: AppDropdownType.search,
+                          hintText: 'Price',
+                          value: state.selectedPrice?.toString(),
+                          items: prices,
+                          width: 200.w,
+                          dropdownHeight: 250.h,
+                          searchHint: 'Search Price',
+                          onChanged: (val) {
+                            double? price;
+                            if (val != null && val.isNotEmpty) {
+                              price = double.tryParse(val);
+                            }
+                            context.read<MarketWatchBloc>().add(
+                              FilterByPriceEvent(price: price),
+                            );
+                          },
+                        ),
+                        SizedBox(width: 10.w),
+                      ],
+                    ],
                   ),
-                  SizedBox(width: 10.w),
-                  AppDropdown(
-                    type: AppDropdownType.multiSelect,
-                    hintText: AppStrings.symbolFilter,
-                    selectedValues: selectedDisplayLabels,
-                    items: displayLabels,
-                    width: 200.w,
-                    dropdownHeight: 250.h,
-                    searchHint: 'Search & Add',
-                    onMultiChanged: (selectedLabels) {
-                      final symbols = selectedLabels
-                          .map((label) => symbolDisplayMap[label] ?? label)
-                          .toList();
-                      context.read<MarketWatchBloc>().add(
-                        FilterBySymbolsEvent(symbols: symbols),
-                      );
-                    },
-                  ),
-                ],
+                ),
               ),
               Row(
                 children: [

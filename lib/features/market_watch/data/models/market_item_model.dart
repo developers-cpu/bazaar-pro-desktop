@@ -17,6 +17,11 @@ class MarketItemModel extends MarketItem {
     required super.ltp,
     required super.netChangePercent,
     super.expiry,
+    required super.strikePrice,
+    required super.lowerCkt,
+    required super.upperCkt,
+    required super.tbq,
+    required super.tsq,
     required super.lut,
   });
   factory MarketItemModel.fromJson(Map<String, dynamic> json) {
@@ -38,6 +43,11 @@ class MarketItemModel extends MarketItem {
       expiry: json['expiry'] != null
           ? DateTime.parse(json['expiry'] as String)
           : null,
+      strikePrice: (json['strikePrice'] as num).toDouble(),
+      lowerCkt: (json['lowerCkt'] as num).toDouble(),
+      upperCkt: (json['upperCkt'] as num).toDouble(),
+      tbq: json['tbq'] as int,
+      tsq: json['tsq'] as int,
       lut: DateTime.parse(json['lut'] as String),
     );
   }
@@ -58,6 +68,11 @@ class MarketItemModel extends MarketItem {
       'ltp': ltp,
       'netChangePercent': netChangePercent,
       'expiry': expiry?.toIso8601String(),
+      'strikePrice': strikePrice,
+      'lowerCkt': lowerCkt,
+      'upperCkt': upperCkt,
+      'tbq': tbq,
+      'tsq': tsq,
       'lut': lut.toIso8601String(),
     };
   }
@@ -79,6 +94,11 @@ class MarketItemModel extends MarketItem {
       ltp: entity.ltp,
       netChangePercent: entity.netChangePercent,
       expiry: entity.expiry,
+      strikePrice: entity.strikePrice,
+      lowerCkt: entity.lowerCkt,
+      upperCkt: entity.upperCkt,
+      tbq: entity.tbq,
+      tsq: entity.tsq,
       lut: entity.lut,
     );
   }
@@ -99,6 +119,11 @@ class MarketItemModel extends MarketItem {
       ltp: ltp,
       netChangePercent: netChangePercent,
       expiry: expiry,
+      strikePrice: strikePrice,
+      lowerCkt: lowerCkt,
+      upperCkt: upperCkt,
+      tbq: tbq,
+      tsq: tsq,
       lut: lut,
     );
   }

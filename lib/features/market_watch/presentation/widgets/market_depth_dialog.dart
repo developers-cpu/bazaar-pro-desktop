@@ -72,11 +72,12 @@ class MarketDepthDialog extends StatelessWidget {
         SizedBox(width: 8.w),
         Expanded(
           child: AppDropdown(
-            type: AppDropdownType.simple,
+            type: AppDropdownType.search,
             hintText: 'Symbol',
             value: state.symbol.isEmpty ? null : state.symbol,
             items: const ['NIFTY25NOV25', 'BANKNIFTY', 'RELIANCE', 'TCS'],
             height: 28.h,
+            searchHint: 'Search Symbol',
             onChanged: (value) {
               if (value != null) {
                 context.read<MarketDepthBloc>().add(UpdateSymbolEvent(value));

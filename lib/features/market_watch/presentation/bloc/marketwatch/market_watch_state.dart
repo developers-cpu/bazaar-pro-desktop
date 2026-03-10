@@ -23,6 +23,10 @@ class MarketWatchLoaded extends MarketWatchState {
   final List<String>? selectedSymbols;
   final String? selectedUser;
   final String? selectedItemId;
+  final DateTime? selectedExpiry;
+  final String? selectedType;
+  final double? selectedPrice;
+
   final MarketItem? clipboardItem;
   final bool isClipboardCut;
   final List<MarketWatchAction> undoStack;
@@ -36,6 +40,9 @@ class MarketWatchLoaded extends MarketWatchState {
     this.selectedSymbols,
     this.selectedUser,
     this.selectedItemId,
+    this.selectedExpiry,
+    this.selectedType,
+    this.selectedPrice,
     this.clipboardItem,
     this.isClipboardCut = false,
     this.undoStack = const [],
@@ -50,6 +57,9 @@ class MarketWatchLoaded extends MarketWatchState {
     List<String>? selectedSymbols,
     String? selectedUser,
     String? selectedItemId,
+    DateTime? selectedExpiry,
+    String? selectedType,
+    double? selectedPrice,
     MarketItem? clipboardItem,
     bool? isClipboardCut,
     List<MarketWatchAction>? undoStack,
@@ -60,6 +70,9 @@ class MarketWatchLoaded extends MarketWatchState {
     bool clearSymbols = false,
     bool clearUser = false,
     bool clearSelectedItem = false,
+    bool clearExpiry = false,
+    bool clearType = false,
+    bool clearPrice = false,
     bool clearClipboard = false,
   }) {
     return MarketWatchLoaded(
@@ -78,6 +91,11 @@ class MarketWatchLoaded extends MarketWatchState {
       selectedItemId: clearSelectedItem
           ? null
           : (selectedItemId ?? this.selectedItemId),
+      selectedExpiry: clearExpiry
+          ? null
+          : (selectedExpiry ?? this.selectedExpiry),
+      selectedType: clearType ? null : (selectedType ?? this.selectedType),
+      selectedPrice: clearPrice ? null : (selectedPrice ?? this.selectedPrice),
       clipboardItem: clearClipboard
           ? null
           : (clipboardItem ?? this.clipboardItem),
@@ -97,6 +115,9 @@ class MarketWatchLoaded extends MarketWatchState {
     selectedSymbols,
     selectedUser,
     selectedItemId,
+    selectedExpiry,
+    selectedType,
+    selectedPrice,
     clipboardItem,
     isClipboardCut,
     undoStack,

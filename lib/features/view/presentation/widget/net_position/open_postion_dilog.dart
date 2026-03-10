@@ -284,7 +284,7 @@ class _OpenPositionDialogState extends State<OpenPositionDialog> {
           value: item.ourPercentage,
           displayText: item.ourPercentage.toStringAsFixed(2),
           isDark: widget.isDarkMode,
-          colorByValue: false, 
+          colorByValue: false,
         );
       case 'user':
         return ViewNumberCell(

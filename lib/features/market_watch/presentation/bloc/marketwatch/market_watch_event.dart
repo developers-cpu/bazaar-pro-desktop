@@ -39,6 +39,27 @@ class FilterByUserEvent extends MarketWatchEvent {
   List<Object?> get props => [user];
 }
 
+class FilterByExpiryEvent extends MarketWatchEvent {
+  final DateTime? expiry;
+  const FilterByExpiryEvent({this.expiry});
+  @override
+  List<Object?> get props => [expiry];
+}
+
+class FilterByTypeEvent extends MarketWatchEvent {
+  final String? type;
+  const FilterByTypeEvent({this.type});
+  @override
+  List<Object?> get props => [type];
+}
+
+class FilterByPriceEvent extends MarketWatchEvent {
+  final double? price;
+  const FilterByPriceEvent({this.price});
+  @override
+  List<Object?> get props => [price];
+}
+
 class SelectMarketItemEvent extends MarketWatchEvent {
   final String itemId;
   const SelectMarketItemEvent({required this.itemId});

@@ -69,7 +69,6 @@ class TableCellBuilder extends StatelessWidget {
       case 'netChange':
         return _buildTextCell(
           NumberFormatter.formatChange(item.netChange),
-          color: _getChangeColor(item.netChange),
           alignRight: true,
         );
       case 'high':
@@ -97,7 +96,6 @@ class TableCellBuilder extends StatelessWidget {
       case 'netChangePercent':
         return _buildTextCell(
           NumberFormatter.formatPercentage(item.netChangePercent),
-          color: _getChangeColor(item.netChangePercent),
           alignRight: true,
         );
       case 'expiry':
@@ -108,6 +106,29 @@ class TableCellBuilder extends StatelessWidget {
         );
       case 'lut':
         return _buildTextCell(DateFormatter.formatToDateTimeWithAmPm(item.lut));
+      case 'strikePrice':
+        return _buildTextCell(
+          NumberFormatter.formatPrice(item.strikePrice),
+          alignRight: true,
+        );
+      case 'lowerCkt':
+        return _buildTextCell(
+          NumberFormatter.formatPrice(item.lowerCkt),
+          alignRight: true,
+        );
+      case 'upperCkt':
+        return _buildTextCell(
+          NumberFormatter.formatPrice(item.upperCkt),
+          alignRight: true,
+        );
+      case 'tbq':
+        return _buildAnimatedPriceCell(
+          NumberFormatter.formatQuantity(item.tbq),
+        );
+      case 'tsq':
+        return _buildAnimatedPriceCell(
+          NumberFormatter.formatQuantity(item.tsq),
+        );
       default:
         return const SizedBox.shrink();
     }
@@ -218,18 +239,5 @@ class TableCellBuilder extends StatelessWidget {
 
   Color _getTextColor() {
     return isDark ? DarkThemeColors.textColor : AppColors.black;
-  }
-
-  Color? _getChangeColor(double value) {
-    if (value > 0) {
-      return isDark
-          ? DarkThemeColors.positiveTextColor
-          : LightThemeColors.positiveTextColor;
-    } else if (value < 0) {
-      return isDark
-          ? DarkThemeColors.negativeTextColor
-          : LightThemeColors.negativeTextColor;
-    }
-    return null;
   }
 }

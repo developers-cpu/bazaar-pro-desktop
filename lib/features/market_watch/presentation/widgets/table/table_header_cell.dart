@@ -14,7 +14,7 @@ class TableHeaderCell extends StatefulWidget {
   final FontWeight fontWeight;
   final bool showSortIcon;
   final bool isLast;
-  final bool showGrid; 
+  final bool showGrid;
   final bool isSorted;
   final bool sortAscending;
   final VoidCallback? onSort;
@@ -96,9 +96,6 @@ class _TableHeaderCellState extends State<TableHeaderCell> {
       );
     }
 
-
-
-
     Widget headerWidget = Container(
       constraints: const BoxConstraints.expand(),
       padding: EdgeInsets.only(left: widget.columnId == 'exchange' ? 8.w : 0.w),
@@ -172,10 +169,7 @@ class _TableHeaderCellState extends State<TableHeaderCell> {
     }
 
     if (widget.onSort != null) {
-      headerWidget = InkWell(
-        onTap: widget.onSort,
-        child: headerWidget,
-      );
+      headerWidget = InkWell(onTap: widget.onSort, child: headerWidget);
     }
 
     return headerWidget;

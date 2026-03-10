@@ -41,26 +41,13 @@ class IntradayHistoryBloc
     emit(const IntradayHistoryLoading());
     try {
       final results = await Future.wait([
-        getIntradayHistory(const IntradayHistoryParams()),
         getSymbols(NoParams()),
         getTimings(NoParams()),
       ]);
-      final historyResult = results[0];
-      final symbolsResult = results[1];
-      final timingsResult = results[2];
-      if (historyResult.isLeft()) {
-        final failure = historyResult.fold((l) => l, (r) => null);
-        emit(
-          IntradayHistoryError(
-            failure?.message ?? 'Failed to load intraday history',
-          ),
-        );
-        return;
-      }
-      final history = historyResult.fold(
-        (l) => <IntradayHistory>[],
-        (r) => r as List<IntradayHistory>,
-      );
+      final symbolsResult = results[0];
+      final timingsResult = results[1];
+
+      final history = <IntradayHistory>[];
       final exchanges = <String>[
         'NSE',
         'MCX',
@@ -72,14 +59,8 @@ class IntradayHistoryBloc
         'GIFT',
         'FOREX',
       ];
-      final symbols = symbolsResult.fold(
-        (l) => <String>[],
-        (r) => r as List<String>,
-      );
-      final timings = timingsResult.fold(
-        (l) => <String>[],
-        (r) => r as List<String>,
-      );
+      final symbols = symbolsResult.fold((l) => <String>[], (r) => r);
+      final timings = timingsResult.fold((l) => <String>[], (r) => r);
       emit(
         IntradayHistoryLoaded(
           history: history,

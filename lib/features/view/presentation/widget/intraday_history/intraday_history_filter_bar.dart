@@ -36,25 +36,14 @@ class IntradayHistoryFilterBar extends StatelessWidget {
                   label: '',
                   value: state.selectedDate,
                   onChanged: (value) {
-                    if (isClient) {
-                      context.read<IntradayHistoryBloc>().add(
-                        UpdateIntradayFiltersEvent(
-                          date: value,
-                          exchange: state.selectedExchange,
-                          symbol: state.selectedSymbol,
-                          timing: state.selectedTiming,
-                        ),
-                      );
-                    } else {
-                      context.read<IntradayHistoryBloc>().add(
-                        ApplyIntradayFiltersEvent(
-                          date: value,
-                          exchange: state.selectedExchange,
-                          symbol: state.selectedSymbol,
-                          timing: state.selectedTiming,
-                        ),
-                      );
-                    }
+                    context.read<IntradayHistoryBloc>().add(
+                      UpdateIntradayFiltersEvent(
+                        date: value,
+                        exchange: state.selectedExchange,
+                        symbol: state.selectedSymbol,
+                        timing: state.selectedTiming,
+                      ),
+                    );
                   },
                   width: 200.w,
                   height: 35.h,
@@ -69,25 +58,14 @@ class IntradayHistoryFilterBar extends StatelessWidget {
                   value: state.selectedExchange,
                   items: state.exchanges,
                   onChanged: (value) {
-                    if (isClient) {
-                      context.read<IntradayHistoryBloc>().add(
-                        UpdateIntradayFiltersEvent(
-                          date: state.selectedDate,
-                          exchange: value,
-                          symbol: state.selectedSymbol,
-                          timing: state.selectedTiming,
-                        ),
-                      );
-                    } else {
-                      context.read<IntradayHistoryBloc>().add(
-                        ApplyIntradayFiltersEvent(
-                          date: state.selectedDate,
-                          exchange: value,
-                          symbol: state.selectedSymbol,
-                          timing: state.selectedTiming,
-                        ),
-                      );
-                    }
+                    context.read<IntradayHistoryBloc>().add(
+                      UpdateIntradayFiltersEvent(
+                        date: state.selectedDate,
+                        exchange: value,
+                        symbol: state.selectedSymbol,
+                        timing: state.selectedTiming,
+                      ),
+                    );
                   },
                 ),
               ),
@@ -100,25 +78,14 @@ class IntradayHistoryFilterBar extends StatelessWidget {
                   value: state.selectedSymbol,
                   items: state.symbols,
                   onChanged: (value) {
-                    if (isClient) {
-                      context.read<IntradayHistoryBloc>().add(
-                        UpdateIntradayFiltersEvent(
-                          date: state.selectedDate,
-                          exchange: state.selectedExchange,
-                          symbol: value,
-                          timing: state.selectedTiming,
-                        ),
-                      );
-                    } else {
-                      context.read<IntradayHistoryBloc>().add(
-                        ApplyIntradayFiltersEvent(
-                          date: state.selectedDate,
-                          exchange: state.selectedExchange,
-                          symbol: value,
-                          timing: state.selectedTiming,
-                        ),
-                      );
-                    }
+                    context.read<IntradayHistoryBloc>().add(
+                      UpdateIntradayFiltersEvent(
+                        date: state.selectedDate,
+                        exchange: state.selectedExchange,
+                        symbol: value,
+                        timing: state.selectedTiming,
+                      ),
+                    );
                   },
                 ),
               ),
@@ -132,25 +99,14 @@ class IntradayHistoryFilterBar extends StatelessWidget {
                   value: state.selectedTiming,
                   items: state.timings,
                   onChanged: (value) {
-                    if (isClient) {
-                      context.read<IntradayHistoryBloc>().add(
-                        UpdateIntradayFiltersEvent(
-                          date: state.selectedDate,
-                          exchange: state.selectedExchange,
-                          symbol: state.selectedSymbol,
-                          timing: value,
-                        ),
-                      );
-                    } else {
-                      context.read<IntradayHistoryBloc>().add(
-                        ApplyIntradayFiltersEvent(
-                          date: state.selectedDate,
-                          exchange: state.selectedExchange,
-                          symbol: state.selectedSymbol,
-                          timing: value,
-                        ),
-                      );
-                    }
+                    context.read<IntradayHistoryBloc>().add(
+                      UpdateIntradayFiltersEvent(
+                        date: state.selectedDate,
+                        exchange: state.selectedExchange,
+                        symbol: state.selectedSymbol,
+                        timing: value,
+                      ),
+                    );
                   },
                 ),
               ),

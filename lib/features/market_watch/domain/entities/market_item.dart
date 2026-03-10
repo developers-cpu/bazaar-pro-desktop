@@ -16,6 +16,11 @@ class MarketItem extends Equatable {
   final double ltp;
   final double netChangePercent;
   final DateTime? expiry;
+  final double strikePrice;
+  final double lowerCkt;
+  final double upperCkt;
+  final int tbq;
+  final int tsq;
   final DateTime lut;
   const MarketItem({
     required this.id,
@@ -33,6 +38,11 @@ class MarketItem extends Equatable {
     required this.ltp,
     required this.netChangePercent,
     this.expiry,
+    required this.strikePrice,
+    required this.lowerCkt,
+    required this.upperCkt,
+    required this.tbq,
+    required this.tsq,
     required this.lut,
   });
   MarketItem copyWith({
@@ -51,6 +61,11 @@ class MarketItem extends Equatable {
     double? ltp,
     double? netChangePercent,
     DateTime? expiry,
+    double? strikePrice,
+    double? lowerCkt,
+    double? upperCkt,
+    int? tbq,
+    int? tsq,
     DateTime? lut,
   }) {
     return MarketItem(
@@ -69,6 +84,11 @@ class MarketItem extends Equatable {
       ltp: ltp ?? this.ltp,
       netChangePercent: netChangePercent ?? this.netChangePercent,
       expiry: expiry ?? this.expiry,
+      strikePrice: strikePrice ?? this.strikePrice,
+      lowerCkt: lowerCkt ?? this.lowerCkt,
+      upperCkt: upperCkt ?? this.upperCkt,
+      tbq: tbq ?? this.tbq,
+      tsq: tsq ?? this.tsq,
       lut: lut ?? this.lut,
     );
   }
@@ -90,6 +110,11 @@ class MarketItem extends Equatable {
     ltp,
     netChangePercent,
     expiry,
+    strikePrice,
+    lowerCkt,
+    upperCkt,
+    tbq,
+    tsq,
     lut,
   ];
 }

@@ -124,9 +124,7 @@ class _MarketTimingDialogState extends State<MarketTimingDialog> {
 
   Widget _buildStateFooter(MarketTimingState state) {
     if (state is MarketTimingLoading) {
-      return SizedBox(
-        height: 100.h,
-      );
+      return SizedBox(height: 100.h);
     } else if (state is MarketTimingError) {
       return SizedBox(
         height: 100.h,

@@ -142,15 +142,22 @@ class _MarketDataTableState extends State<MarketDataTable> {
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(10.r),
-        child: _buildDataTable(
-          isDark: isDark,
-          showGrid: showGrid,
-          visibleColumns: visibleColumns,
-          fontFamily: fontFamily,
-          fontSize: fontSize,
-          fontWeight: fontWeight,
-          minWidth: minWidth,
-          resetCount: resetCount,
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final effectiveMinWidth = constraints.maxWidth > minWidth
+                ? constraints.maxWidth
+                : minWidth;
+            return _buildDataTable(
+              isDark: isDark,
+              showGrid: showGrid,
+              visibleColumns: visibleColumns,
+              fontFamily: fontFamily,
+              fontSize: fontSize,
+              fontWeight: fontWeight,
+              minWidth: effectiveMinWidth,
+              resetCount: resetCount,
+            );
+          },
         ),
       ),
     );
@@ -349,6 +356,16 @@ class _MarketDataTableState extends State<MarketDataTable> {
         return item.expiry?.millisecondsSinceEpoch ?? 0;
       case 'lut':
         return item.lut.millisecondsSinceEpoch;
+      case 'strikePrice':
+        return item.strikePrice;
+      case 'lowerCkt':
+        return item.lowerCkt;
+      case 'upperCkt':
+        return item.upperCkt;
+      case 'tbq':
+        return item.tbq;
+      case 'tsq':
+        return item.tsq;
       default:
         return null;
     }
@@ -410,7 +427,7 @@ class _MarketDataTableState extends State<MarketDataTable> {
           ),
         ),
       );
-      
+
       final spacerCount = widget.expandedRowCounts[item.id] ?? 0;
       for (int i = 0; i < spacerCount; i++) {
         rows.add(

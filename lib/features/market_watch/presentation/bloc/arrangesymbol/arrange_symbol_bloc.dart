@@ -1,25 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../widgets/table/table_column_helper.dart';
 import 'arrange_symbol_event.dart';
 import 'arrange_symbol_state.dart';
 
 class ArrangeSymbolBloc extends Bloc<ArrangeSymbolEvent, ArrangeSymbolState> {
-  static const List<ColumnItem> _defaultColumns = [
-    ColumnItem(id: 'exchange', name: 'EXCHANGE', isVisible: true),
-    ColumnItem(id: 'symbol', name: 'SYMBOL', isVisible: true),
-    ColumnItem(id: 'buyQty', name: 'BUY QTY', isVisible: true),
-    ColumnItem(id: 'buyPrice', name: 'BUY PRICE', isVisible: true),
-    ColumnItem(id: 'sellPrice', name: 'SELL PRICE', isVisible: true),
-    ColumnItem(id: 'sellQty', name: 'SELL QTY', isVisible: true),
-    ColumnItem(id: 'netChange', name: 'NET CHANGE', isVisible: true),
-    ColumnItem(id: 'high', name: 'HIGH', isVisible: true),
-    ColumnItem(id: 'low', name: 'LOW', isVisible: true),
-    ColumnItem(id: 'open', name: 'OPEN', isVisible: true),
-    ColumnItem(id: 'close', name: 'CLOSE', isVisible: true),
-    ColumnItem(id: 'ltp', name: 'LTP', isVisible: true),
-    ColumnItem(id: 'netChangePercent', name: 'NET CHG %', isVisible: true),
-    ColumnItem(id: 'expiry', name: 'EXPIRY', isVisible: true),
-    ColumnItem(id: 'lut', name: 'LUT', isVisible: true),
-  ];
+  static final List<ColumnItem> _defaultColumns =
+      TableColumnHelper.getDefaultColumns();
   List<ColumnItem> _savedColumns = List.from(_defaultColumns);
   ArrangeSymbolBloc() : super(const ArrangeSymbolState()) {
     on<LoadColumnsEvent>(_onLoadColumns);
@@ -99,11 +85,13 @@ class ArrangeSymbolBloc extends Bloc<ArrangeSymbolEvent, ArrangeSymbolState> {
     Emitter<ArrangeSymbolState> emit,
   ) {
     _savedColumns = List.from(_defaultColumns);
-    emit(state.copyWith(
-      columns: List.from(_defaultColumns),
-      isSaved: true,
-      resetCount: state.resetCount + 1,
-    ));
+    emit(
+      state.copyWith(
+        columns: List.from(_defaultColumns),
+        isSaved: true,
+        resetCount: state.resetCount + 1,
+      ),
+    );
   }
 
   List<ColumnItem> get visibleColumns {

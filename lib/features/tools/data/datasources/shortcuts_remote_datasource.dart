@@ -65,16 +65,6 @@ class ShortcutsRemoteDataSourceImpl implements ShortcutsRemoteDataSource {
         keyComb: 'CTRL + Z',
         iconPath: AppImages.reloadIcon,
       ),
-      const ShortcutModel(
-        title: 'Select Symbol Upside',
-        keyComb: 'UP ARROW',
-        iconPath: AppImages.menu7Icon,
-      ),
-      const ShortcutModel(
-        title: 'Select Symbol Downside',
-        keyComb: 'DOWN ARROW',
-        iconPath: AppImages.menu8Icon,
-      ),
     ];
   }
 }

@@ -57,10 +57,10 @@ class TableColumnHelper {
       minWidth: 100,
     ),
     'netChange': TableColumnConfig(
-      baseWidth: 150,
+      baseWidth: 90,
       isNumeric: true,
       label: 'Net Change',
-      minWidth: 150,
+      minWidth: 90,
     ),
     'high': TableColumnConfig(
       baseWidth: 100,
@@ -93,10 +93,10 @@ class TableColumnHelper {
       minWidth: 100,
     ),
     'netChangePercent': TableColumnConfig(
-      baseWidth: 150,
+      baseWidth: 80,
       isNumeric: true,
       label: 'Net Chg %',
-      minWidth: 100,
+      minWidth: 80,
     ),
     'expiry': TableColumnConfig(
       baseWidth: 100,
@@ -109,6 +109,36 @@ class TableColumnHelper {
       isNumeric: false,
       label: 'LUT',
       minWidth: 150,
+    ),
+    'strikePrice': TableColumnConfig(
+      baseWidth: 100,
+      isNumeric: true,
+      label: 'STRIKE PRICE',
+      minWidth: 100,
+    ),
+    'lowerCkt': TableColumnConfig(
+      baseWidth: 100,
+      isNumeric: true,
+      label: 'LOWER CKT',
+      minWidth: 100,
+    ),
+    'upperCkt': TableColumnConfig(
+      baseWidth: 100,
+      isNumeric: true,
+      label: 'UPPER CKT',
+      minWidth: 100,
+    ),
+    'tbq': TableColumnConfig(
+      baseWidth: 100,
+      isNumeric: true,
+      label: 'TBQ',
+      minWidth: 100,
+    ),
+    'tsq': TableColumnConfig(
+      baseWidth: 100,
+      isNumeric: true,
+      label: 'TSQ',
+      minWidth: 100,
     ),
   };
   static List<ColumnItem> getDefaultColumns() {
@@ -128,6 +158,11 @@ class TableColumnHelper {
       ColumnItem(id: 'netChangePercent', name: 'NET CHG %', isVisible: true),
       ColumnItem(id: 'expiry', name: 'EXPIRY', isVisible: true),
       ColumnItem(id: 'lut', name: 'LUT', isVisible: true),
+      ColumnItem(id: 'strikePrice', name: 'STRIKE PRICE', isVisible: true),
+      ColumnItem(id: 'lowerCkt', name: 'LOWER CKT', isVisible: true),
+      ColumnItem(id: 'upperCkt', name: 'UPPER CKT', isVisible: true),
+      ColumnItem(id: 'tbq', name: 'TBQ', isVisible: true),
+      ColumnItem(id: 'tsq', name: 'TSQ', isVisible: true),
     ];
   }
 

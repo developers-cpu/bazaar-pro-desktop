@@ -450,12 +450,8 @@ class _CancelAllOrdersDialogState extends State<CancelAllOrdersDialog> {
                     backgroundColor: const Color(0xFF1F4A66),
                     textColor: Colors.white,
                     onPressed: () {
-                      Navigator.of(
-                        dialogContext,
-                      ).pop(); 
-                      Navigator.of(
-                        parentContext,
-                      ).pop(); 
+                      Navigator.of(dialogContext).pop();
+                      Navigator.of(parentContext).pop();
                       Future.delayed(const Duration(milliseconds: 100), () {
                         if (parentContext.mounted) {
                           SuccessDialog.show(

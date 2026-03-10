@@ -22,6 +22,9 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
     on<FilterBySymbolEvent>(_onFilterBySymbol);
     on<FilterBySymbolsEvent>(_onFilterBySymbols);
     on<FilterByUserEvent>(_onFilterByUser);
+    on<FilterByExpiryEvent>(_onFilterByExpiry);
+    on<FilterByTypeEvent>(_onFilterByType);
+    on<FilterByPriceEvent>(_onFilterByPrice);
     on<SelectMarketItemEvent>(_onSelectMarketItem);
     on<CopyMarketItemEvent>(_onCopyMarketItem);
     on<CutMarketItemEvent>(_onCutMarketItem);
@@ -72,6 +75,9 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
       currentState.copyWith(
         filteredItems: filtered,
         selectedExchange: event.exchange,
+        clearExpiry: event.exchange != AppStrings.cePe,
+        clearType: event.exchange != AppStrings.cePe,
+        clearPrice: event.exchange != AppStrings.cePe,
       ),
     );
   }
@@ -132,6 +138,51 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
     final currentState = _getLoadedState();
     if (currentState == null) return;
     emit(currentState.copyWith(selectedUser: event.user));
+  }
+
+  void _onFilterByExpiry(
+    FilterByExpiryEvent event,
+    Emitter<MarketWatchState> emit,
+  ) {
+    final currentState = _getLoadedState();
+    if (currentState == null) return;
+    final newState = currentState.copyWith(
+      selectedExpiry: event.expiry,
+      clearExpiry: event.expiry == null,
+    );
+    emit(
+      newState.copyWith(filteredItems: _applyFilters(newState.items, newState)),
+    );
+  }
+
+  void _onFilterByType(
+    FilterByTypeEvent event,
+    Emitter<MarketWatchState> emit,
+  ) {
+    final currentState = _getLoadedState();
+    if (currentState == null) return;
+    final newState = currentState.copyWith(
+      selectedType: event.type,
+      clearType: event.type == null,
+    );
+    emit(
+      newState.copyWith(filteredItems: _applyFilters(newState.items, newState)),
+    );
+  }
+
+  void _onFilterByPrice(
+    FilterByPriceEvent event,
+    Emitter<MarketWatchState> emit,
+  ) {
+    final currentState = _getLoadedState();
+    if (currentState == null) return;
+    final newState = currentState.copyWith(
+      selectedPrice: event.price,
+      clearPrice: event.price == null,
+    );
+    emit(
+      newState.copyWith(filteredItems: _applyFilters(newState.items, newState)),
+    );
   }
 
   void _onSelectMarketItem(
@@ -439,6 +490,33 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
       filtered = filtered
           .where((item) => item.symbol == currentState.selectedSymbol)
           .toList();
+    }
+    if (currentState.selectedSymbols != null &&
+        currentState.selectedSymbols!.isNotEmpty) {
+      filtered = filtered
+          .where((item) => currentState.selectedSymbols!.contains(item.symbol))
+          .toList();
+    }
+    if (currentState.selectedExchange == AppStrings.cePe) {
+      if (currentState.selectedExpiry != null) {
+        filtered = filtered
+            .where((item) => item.expiry == currentState.selectedExpiry)
+            .toList();
+      }
+      if (currentState.selectedType != null) {
+        filtered = filtered.where((item) {
+          final isCall = item.symbol.endsWith('CE');
+          final isPut = item.symbol.endsWith('PE');
+          if (currentState.selectedType == 'CALL') return isCall;
+          if (currentState.selectedType == 'PUT') return isPut;
+          return true;
+        }).toList();
+      }
+      if (currentState.selectedPrice != null) {
+        filtered = filtered
+            .where((item) => item.strikePrice == currentState.selectedPrice)
+            .toList();
+      }
     }
     return filtered;
   }

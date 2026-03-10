@@ -16,150 +16,223 @@ class BillGenerateRemoteDataSourceImpl implements BillGenerateRemoteDataSource {
     required String billFormat,
     required String billType,
   }) async {
-    await Future.delayed(const Duration(milliseconds: 800));
     final mockResponse = {
       "headerInfo": {
-        "userName": "AER01",
-        "dateRange": "BILL SUMMRY 27-OCT-25 TO 01-NOV-25",
-        "billNo": "AER01",
+        "userName": "KUB1",
+        "dateRange": "GeneralSummary From 23 Feb 2026 To 01 Mar 2026",
       },
-      "exchangeReports": [
+      "scriptTrades": [
         {
-          "exchangeName": "NSE",
-          "trades": [
+          "exchange": "NSE",
+          "script": "ABCAPITAL26FEBFUT",
+          "buyLegs": [
             {
-              "exchange": "NSE",
-              "script": "NIFTY25NOV25",
-              "buyQty": 1000,
-              "buyPrice": 1000.0,
-              "sellQty": 1000,
-              "brokerage": 0.0,
-              "profitLoss": 0.0,
-            },
-            {
-              "exchange": "NSE",
-              "script": "NIFTY25NOV25",
-              "sellQty": 1000,
-              "brokerage": 0.0,
-              "profitLoss": 0.0,
-            },
-            {
-              "exchange": "NSE",
-              "script": "NIFTY25NOV25",
-              "buyQty": 500,
-              "buyPrice": 500.0,
-              "sellQty": 1250,
-              "brokerage": 0.0,
-              "profitLoss": 0.0,
-            },
-            {
-              "exchange": "NSE",
-              "script": "NIFTY25NOV25",
-              "buyQty": 250,
-              "buyPrice": 250.0,
-              "sellQty": 49000,
-              "sellPrice": 1000.0,
-              "brokerage": 1000.0,
-              "profitLoss": 51000.0,
-            },
+              "date": "21-Feb 02:26:20 AM",
+              "qty": 20000,
+              "price": "(CF)344.10",
+              "vol": 6882000.00,
+            }
           ],
-          "total": {
-            "totalBuyQty": 1750,
-            "totalSellQty": 1750,
-            "totalBrokerage": 1000.0,
-            "totalProfitLoss": 51000.0,
-          },
+          "sellLegs": [
+            {
+              "date": "23-Feb 09:31:28 AM",
+              "qty": 20000,
+              "price": "349.65",
+              "vol": 6993000.00,
+            }
+          ],
+          "totalBuyQty": 20000,
+          "totalBuyVol": 6882000.00,
+          "totalSellQty": 20000,
+          "totalSellVol": 6993000.00,
+          "netDifference": 111000.00,
+          "brokerage": 2097.90,
+          "profitLoss": 108902.10,
         },
         {
-          "exchangeName": "MCX",
-          "trades": [
+          "exchange": "NSE",
+          "script": "ADANIENSOL26FEBFUT",
+          "buyLegs": [
             {
-              "exchange": "MCX",
-              "script": "GOLD05DEC25",
-              "buyQty": 500,
-              "buyPrice": 56000.0,
-              "sellQty": 56000,
-              "brokerage": 0.0,
-              "profitLoss": 0.0,
-            },
-            {
-              "exchange": "MCX",
-              "script": "GOLD05DEC25",
-              "buyQty": 500,
-              "buyPrice": 55500.0,
-              "sellQty": 55500,
-              "brokerage": 1500.0,
-              "profitLoss": 1500.0,
-            },
-            {
-              "exchange": "MCX",
-              "script": "GOLD05DEC25",
-              "buyQty": 200,
-              "buyPrice": 5000.0,
-              "sellQty": 5000,
-              "brokerage": 1500.0,
-              "profitLoss": 5000.0,
-            },
-            {
-              "exchange": "MCX",
-              "script": "GOLD05DEC25",
-              "buyQty": 250,
-              "buyPrice": 500.0,
-              "sellQty": 500,
-              "brokerage": 500.0,
-              "profitLoss": 500.0,
-            },
+              "date": "21-Feb 02:26:20 AM",
+              "qty": 9000,
+              "price": "(CF)999.55",
+              "vol": 8995950.00,
+            }
           ],
-          "total": {
-            "totalBuyQty": 950,
-            "totalSellQty": 500,
-            "totalBrokerage": 3500.0,
-            "totalProfitLoss": 117000.0,
-          },
+          "sellLegs": [
+            {
+              "date": "23-Feb 09:31:28 AM",
+              "qty": 9000,
+              "price": "1001.05",
+              "vol": 9009450.00,
+            }
+          ],
+          "totalBuyQty": 9000,
+          "totalBuyVol": 8995950.00,
+          "totalSellQty": 9000,
+          "totalSellVol": 9009450.00,
+          "netDifference": 13500.00,
+          "brokerage": 2702.84,
+          "profitLoss": 10797.17,
         },
+        {
+          "exchange": "NSE",
+          "script": "UNOMINDA26MARFUT",
+          "buyLegs": [
+            {
+              "date": "26-Feb 12:07:14 PM",
+              "qty": 1500,
+              "price": "1240.80",
+              "vol": 1861200.00,
+            },
+            {
+              "date": "26-Feb 12:06:55 PM",
+              "qty": 1500,
+              "price": "1240.40",
+              "vol": 1860600.00,
+            },
+            {
+              "date": "26-Feb 12:07:04 PM",
+              "qty": 1500,
+              "price": "1240.80",
+              "vol": 1861200.00,
+            },
+            {
+              "date": "26-Feb 12:07:23 PM",
+              "qty": 1500,
+              "price": "1240.80",
+              "vol": 1861200.00,
+            }
+          ],
+          "sellLegs": [
+            {
+              "date": "28-Feb 10:03:30 AM",
+              "qty": 6000,
+              "price": "(BF)1193.00",
+              "vol": 7158000.00,
+            }
+          ],
+          "totalBuyQty": 6000,
+          "totalBuyVol": 7444200.00,
+          "totalSellQty": 6000,
+          "totalSellVol": 7158000.00,
+          "netDifference": -286200.00,
+          "brokerage": 2233.26,
+          "profitLoss": -288433.26,
+        },
+        {
+          "exchange": "NSE",
+          "script": "VEDL26MARFUT",
+          "buyLegs": [
+             {
+              "date": "26-Feb 01:49:54 PM",
+              "qty": 3000,
+              "price": "733.85",
+              "vol": 2201550.00,
+            },
+            {
+               "date": "26-Feb 01:49:25 PM",
+               "qty": 3000,
+               "price": "733.85",
+               "vol": 2201550.00,
+            },
+             {
+              "date": "26-Feb 01:49:35 PM",
+              "qty": 3000,
+              "price": "733.90",
+              "vol": 2201700.00,
+             },
+             {
+               "date": "26-Feb 01:49:45 PM",
+               "qty": 3000,
+               "price": "733.80",
+               "vol": 2201400.00,
+             }
+          ],
+          "sellLegs": [
+            {
+              "date": "28-Feb 10:03:30 AM",
+              "qty": 12000,
+              "price": "(BF)720.20",
+              "vol": 8642400.00,
+            }
+          ],
+          "totalBuyQty": 12000,
+          "totalBuyVol": 8806200.00,
+          "totalSellQty": 12000,
+          "totalSellVol": 8642400.00,
+          "netDifference": -163800.00,
+          "brokerage": 2641.86,
+          "profitLoss": -166441.86,
+        }
       ],
       "scriptWiseSummary": [
         {
           "exchange": "NSE",
-          "script": "NIFTY25NOV25",
-          "mtm": 50000.0,
-          "brokerage": 1000.0,
-          "netAmount": 490000.0,
+          "script": "ABCAPITAL26FEBFUT",
+          "total": 111000.00,
+          "brokerage": 2097.90,
+          "net": 108902.10,
         },
         {
           "exchange": "NSE",
-          "script": "BANKNIFTY25NOV25",
-          "mtm": -250000.0,
-          "brokerage": 1500.0,
-          "netAmount": -251500.0,
+          "script": "ADANIENSOL26FEBFUT",
+          "total": 13500.00,
+          "brokerage": 2702.84,
+          "net": 10797.17,
         },
         {
-          "exchange": "MCX",
-          "script": "GOLD05DEC25",
-          "mtm": 100000.0,
-          "brokerage": 600.0,
-          "netAmount": 99400.0,
+          "exchange": "NSE",
+          "script": "UNOMINDA26MARFUT",
+          "total": -286200.00,
+          "brokerage": 2233.26,
+          "net": -288433.26,
         },
         {
-          "exchange": "GIFT",
-          "script": "GIFT05DEC25",
-          "mtm": -7500.0,
-          "brokerage": 750.0,
-          "netAmount": 6750.0,
-        },
-        {
-          "exchange": "OTHER",
-          "script": "DOWJONES21DEC25",
-          "mtm": 100000.0,
-          "brokerage": 600.0,
-          "netAmount": 99400.0,
-        },
+           "exchange": "NSE",
+           "script": "VEDL26MARFUT",
+           "total": -163800.00,
+           "brokerage": 2641.86,
+           "net": -166441.86,
+        }
       ],
-      "overallTotal": {
-        "totalMtm": -7500.0,
-        "totalBrokerage": 750.0,
-        "totalNetAmount": 6750.0,
+      "summaryTotal": {
+        "total": 496445.00,
+        "totalBrokerage": 93600.10,
+        "totalNet": 402844.90,
       },
+      "carryForward": [
+        {
+          "exchange": "NSE",
+          "script": "DLF26MARFUT",
+          "type": "buy",
+          "quantity": 12000.00,
+          "price": 605.700000,
+        },
+        {
+           "exchange": "NSE",
+           "script": "RBLBANK26MARFUT",
+           "type": "buy",
+           "quantity": 30000.00,
+           "price": 321.550000,
+        },
+        {
+           "exchange": "NSE",
+           "script": "VEDL26MARFUT",
+           "type": "buy",
+           "quantity": 12000.00,
+           "price": 720.200000,
+        }
+      ],
+      "exchangeWisePL": [
+        {
+          "exchange": "NSE",
+          "mtm": 496445.00,
+          "brok": 93600.10,
+          "pl": 402844.90,
+        }
+      ]
     };
     try {
       return BillGenerateReportModel.fromJson(mockResponse);

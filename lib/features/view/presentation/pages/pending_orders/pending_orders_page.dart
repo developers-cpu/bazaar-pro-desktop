@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../../core/constants/app_colors.dart';
+import '../../../../auth/presentation/bloc/auth_bloc.dart';
+import '../../../../auth/presentation/bloc/auth_state.dart';
 import '../../bloc/pending_orders/pending_orders_bloc.dart';
 import '../../bloc/pending_orders/pending_orders_event.dart';
 import '../../bloc/pending_orders/pending_orders_state.dart';
@@ -18,7 +20,13 @@ class _PendingOrdersPageState extends State<PendingOrdersPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<PendingOrdersBloc>().add(const LoadPendingOrdersEvent());
+      final authState = context.read<AuthBloc>().state;
+      final isClient =
+          authState is AuthAuthenticated &&
+          authState.user.role.toLowerCase() == 'client';
+      context.read<PendingOrdersBloc>().add(
+        LoadPendingOrdersEvent(isClient: isClient),
+      );
     });
   }
 

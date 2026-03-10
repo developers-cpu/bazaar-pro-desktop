@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/app_dropdown.dart';
 import '../../../../../core/widget/common_dilog_box.dart';
@@ -44,11 +45,13 @@ class CancelAllOrdersDialog extends StatefulWidget {
 class _CancelAllOrdersDialogState extends State<CancelAllOrdersDialog> {
   final Set<String> _selectedOrderIds = {};
   String? _selectedUser;
+  String? _tempSelectedUser;
   List<String> _users = ['All Users'];
   @override
   void initState() {
     super.initState();
     _users.addAll(widget.pendingOrders.map((o) => o.userId).toSet().toList());
+    _tempSelectedUser = 'All Users';
   }
 
   List<PendingOrder> get _filteredOrders {
@@ -71,7 +74,7 @@ class _CancelAllOrdersDialogState extends State<CancelAllOrdersDialog> {
     } catch (_) {}
 
     return CommonDialog(
-      title: 'Cancle Order',
+      title: 'Cancel Order',
       isDarkMode: widget.isDarkMode,
       width: 850.w,
       height: 500.h,
@@ -91,13 +94,7 @@ class _CancelAllOrdersDialogState extends State<CancelAllOrdersDialog> {
         }
       },
       onSave: () {
-        Future.delayed(Duration.zero, () {
-          SuccessDialog.show(
-            context: context,
-            title: 'Successful Deleted !',
-            subtitle: 'Your Order is Successfully Deleted',
-          );
-        });
+        _showConfirmationDialog(context);
       },
       scrollable: false,
       contentPadding: EdgeInsets.zero,
@@ -126,20 +123,35 @@ class _CancelAllOrdersDialogState extends State<CancelAllOrdersDialog> {
       child: Row(
         children: [
           SizedBox(
-            width: 250.w,
+            width: 200.w,
             height: 35.h,
             child: AppDropdown(
               type: AppDropdownType.search,
               hintText: 'User',
-              value: _selectedUser,
+              value: _tempSelectedUser,
               items: _users,
               onChanged: (value) {
                 setState(() {
-                  _selectedUser = value;
-                  _selectedOrderIds.clear();
+                  _tempSelectedUser = value;
                 });
               },
             ),
+          ),
+          const Spacer(),
+          CustomActionButton(
+            text: 'View',
+            width: 80.w,
+            height: 35.h,
+            borderRadius: 6.r,
+            fontSize: 12.sp,
+            backgroundColor: AppColors.primaryBlue,
+            textColor: Colors.white,
+            onPressed: () {
+              setState(() {
+                _selectedUser = _tempSelectedUser;
+                _selectedOrderIds.clear();
+              });
+            },
           ),
         ],
       ),
@@ -189,14 +201,7 @@ class _CancelAllOrdersDialogState extends State<CancelAllOrdersDialog> {
                 : const Color(0xFF1F4A66),
             textColor: Colors.white,
             onPressed: () {
-              Navigator.pop(context);
-              Future.delayed(Duration.zero, () {
-                SuccessDialog.show(
-                  context: context,
-                  title: 'Successful Deleted !',
-                  subtitle: 'Your Order is Successfully Deleted',
-                );
-              });
+              _showConfirmationDialog(context);
             },
           ),
         ],
@@ -278,15 +283,11 @@ class _CancelAllOrdersDialogState extends State<CancelAllOrdersDialog> {
           item.qty,
           isDark: isDark,
         );
-        return Text(
-          item.symbol,
-          style: ViewTableCellStyles.getTextStyle(
-            isDark: isDark,
-            color: symbolColor,
-          ),
-          textAlign: TextAlign.center,
-          maxLines: 1,
-          softWrap: false,
+        return ViewTextCell(
+          text: item.symbol,
+          color: symbolColor,
+          isDark: isDark,
+          isStart: true,
         );
       case 'buySell':
         return ViewTextCell(
@@ -305,7 +306,12 @@ class _CancelAllOrdersDialogState extends State<CancelAllOrdersDialog> {
           isDark: isDark,
         );
       case 'lot':
-        return ViewTextCell(text: item.lot.toStringAsFixed(2), isDark: isDark);
+        return ViewNumberCell(
+          value: item.lot,
+          displayText: item.lot.toStringAsFixed(2),
+          colorByValue: false,
+          isDark: isDark,
+        );
       case 'price':
         return ViewNumberCell(
           value: item.triggerPrice,
@@ -379,6 +385,94 @@ class _CancelAllOrdersDialogState extends State<CancelAllOrdersDialog> {
       },
       cellBuilder: (item, column) =>
           _buildCell(item, column, widget.isDarkMode),
+    );
+  }
+
+  void _showConfirmationDialog(BuildContext parentContext) {
+    showDialog(
+      context: parentContext,
+      barrierColor: AppColors.black.withOpacity(0.54),
+      builder: (dialogContext) => Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.r),
+        ),
+        backgroundColor: widget.isDarkMode
+            ? const Color(0xFF1E1E1E)
+            : AppColors.white,
+        child: Container(
+          width: 450.w,
+          padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 24.h),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Want to Delete Orders ?',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.openSans(
+                  fontSize: 22.sp,
+                  color: const Color(0xFF1F4A66),
+                ),
+              ),
+              SizedBox(height: 16.h),
+              Text(
+                'Are You Sure you want to Delete All Orders?',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.openSans(
+                  fontSize: 16.sp,
+                  color: Colors.grey.shade500,
+                ),
+              ),
+              SizedBox(height: 24.h),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CustomOutlinedActionButton(
+                    text: 'No',
+                    width: 140.w,
+                    height: 40.h,
+                    borderRadius: 8.r,
+                    fontSize: 14.sp,
+                    borderColor: widget.isDarkMode
+                        ? Colors.white
+                        : const Color(0xFF1F4A66),
+                    textColor: widget.isDarkMode
+                        ? Colors.white
+                        : const Color(0xFF1F4A66),
+                    onPressed: () => Navigator.of(dialogContext).pop(),
+                  ),
+                  SizedBox(width: 16.w),
+                  CustomActionButton(
+                    text: 'Yes',
+                    width: 140.w,
+                    height: 40.h,
+                    borderRadius: 8.r,
+                    fontSize: 14.sp,
+                    backgroundColor: const Color(0xFF1F4A66),
+                    textColor: Colors.white,
+                    onPressed: () {
+                      Navigator.of(
+                        dialogContext,
+                      ).pop(); 
+                      Navigator.of(
+                        parentContext,
+                      ).pop(); 
+                      Future.delayed(const Duration(milliseconds: 100), () {
+                        if (parentContext.mounted) {
+                          SuccessDialog.show(
+                            context: parentContext,
+                            title: 'Successful Deleted !',
+                            subtitle: 'Your Order is Successfully Deleted',
+                          );
+                        }
+                      });
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

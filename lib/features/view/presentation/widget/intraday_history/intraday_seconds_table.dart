@@ -12,30 +12,30 @@ import '../../../../../core/widget/table/view_table_cell_styles.dart';
 class IntradaySecondsTable extends StatelessWidget {
   const IntradaySecondsTable({Key? key}) : super(key: key);
   static final List<ViewTableColumn> _columns = [
-    const ViewTableColumn(id: 'timestamp', label: 'TIME STAMP', width: 300),
+    const ViewTableColumn(id: 'timestamp', label: 'TIME STAMP', width: 100),
     const ViewTableColumn(
       id: 'open',
       label: 'OPEN',
-      width: 250,
+      width: 150,
       isNumeric: true,
     ),
     const ViewTableColumn(
       id: 'high',
       label: 'HIGH',
-      width: 250,
+      width: 150,
       isNumeric: true,
     ),
-    const ViewTableColumn(id: 'low', label: 'LOW', width: 250, isNumeric: true),
+    const ViewTableColumn(id: 'low', label: 'LOW', width: 150, isNumeric: true),
     const ViewTableColumn(
       id: 'close',
       label: 'CLOSE',
-      width: 250,
+      width: 150,
       isNumeric: true,
     ),
     const ViewTableColumn(
       id: 'volume',
       label: 'VOLUME',
-      width: 250,
+      width: 150,
       isNumeric: true,
     ),
   ];
@@ -77,6 +77,7 @@ class IntradaySecondsTable extends StatelessWidget {
                   sortColumn: state.sortColumn,
                   sortAscending: state.sortAscending,
                   emptyMessage: 'No seconds data found',
+                  autoFit: true,
                 ),
               ),
             ],

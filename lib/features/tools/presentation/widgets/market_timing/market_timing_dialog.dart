@@ -126,7 +126,6 @@ class _MarketTimingDialogState extends State<MarketTimingDialog> {
     if (state is MarketTimingLoading) {
       return SizedBox(
         height: 100.h,
-        child: const Center(child: CircularProgressIndicator()),
       );
     } else if (state is MarketTimingError) {
       return SizedBox(

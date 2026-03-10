@@ -10,7 +10,6 @@ class MarketTimingRemoteDataSourceImpl implements MarketTimingRemoteDataSource {
     String exchange,
     DateTime date,
   ) async {
-    await Future.delayed(const Duration(milliseconds: 500));
     final isWeekend =
         date.weekday == DateTime.sunday || date.weekday == DateTime.saturday;
     if (isWeekend) {

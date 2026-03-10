@@ -43,26 +43,34 @@ class NetPositionBloc extends Bloc<NetPositionEvent, NetPositionState> {
     emit(const NetPositionLoading());
     try {
       final results = await Future.wait([
-        getNetPositions(NoParams()),
+        if (event.isClient) getNetPositions(NoParams()),
         getClients(NoParams()),
         getSymbols(NoParams()),
         getUserTypes(NoParams()),
       ]);
-      final positionsResult = results[0];
-      final clientsResult = results[1];
-      final symbolsResult = results[2];
-      final userTypesResult = results[3];
-      if (positionsResult.isLeft()) {
-        final failure = positionsResult.fold((l) => l, (r) => null);
-        emit(
-          NetPositionError(failure?.message ?? 'Failed to load net positions'),
+
+      var positions = <NetPosition>[];
+      if (event.isClient) {
+        final positionsResult = results[0];
+        if (positionsResult.isLeft()) {
+          final failure = positionsResult.fold((l) => l, (r) => null);
+          emit(
+            NetPositionError(
+              failure?.message ?? 'Failed to load net positions',
+            ),
+          );
+          return;
+        }
+        positions = positionsResult.fold(
+          (l) => <NetPosition>[],
+          (r) => r as List<NetPosition>,
         );
-        return;
       }
-      final positions = positionsResult.fold(
-        (l) => <NetPosition>[],
-        (r) => r as List<NetPosition>,
-      );
+
+      final startIndex = event.isClient ? 1 : 0;
+      final clientsResult = results[startIndex];
+      final symbolsResult = results[startIndex + 1];
+      final userTypesResult = results[startIndex + 2];
       final clients = clientsResult.fold(
         (l) => <String>[],
         (r) => r as List<String>,
@@ -85,7 +93,7 @@ class NetPositionBloc extends Bloc<NetPositionEvent, NetPositionState> {
       final userTypes = userTypesResult.fold(
         (l) => <String>[],
         (r) => r as List<String>,
-      );
+      )..remove('All');
       emit(
         NetPositionLoaded(
           positions: positions,

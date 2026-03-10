@@ -12,6 +12,7 @@ import '../../../../../core/widget/table/view_record_count.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
+import '../../../../../core/widget/table/view_table_cell_styles.dart';
 
 class RollOverDialog extends StatefulWidget {
   const RollOverDialog({Key? key}) : super(key: key);
@@ -142,7 +143,7 @@ class _RollOverDialogState extends State<RollOverDialog> {
                 ],
               ),
             ),
-          ViewRecordCount(count: 12550),
+          ViewRecordCount(count: 15),
           Expanded(child: _buildTable()),
           _buildFooter(),
         ],
@@ -187,12 +188,13 @@ class _RollOverDialogState extends State<RollOverDialog> {
       ),
       ViewTableColumn(id: 'exchange', label: 'EXCH', width: 100.w),
       ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 160.w),
-      ViewTableColumn(id: 'qty', label: 'QTY', width: 120.w),
-      ViewTableColumn(id: 'cmp', label: 'CMP', width: 150.w),
+      ViewTableColumn(id: 'qty', label: 'QTY', width: 120.w, isNumeric: true),
+      ViewTableColumn(id: 'cmp', label: 'CMP', width: 150.w, isNumeric: true),
       ViewTableColumn(
         id: 'rollOverPrice',
         label: 'ROLL OVER PRICE',
         width: 150.w,
+        isNumeric: true,
       ),
     ];
   }
@@ -215,32 +217,30 @@ class _RollOverDialogState extends State<RollOverDialog> {
           ),
         );
       case 'exchange':
-        return _tableCell('MCX', headerColor);
+        return ViewTextCell(text: 'MCX');
       case 'symbol':
-        return _tableCell('GOLD05DEC', headerColor);
+        return ViewTextCell(text: 'GOLD05DEC');
       case 'qty':
-        return _tableCell(qty, qtyColor);
+        return ViewNumberCell(
+          value: double.tryParse(qty) ?? 0.0,
+          displayText: qty,
+          fixedColor: qtyColor,
+        );
       case 'cmp':
-        return _tableCell(cmp, cmpColor);
+        return ViewNumberCell(
+          value: double.tryParse(cmp) ?? 0.0,
+          displayText: cmp,
+          fixedColor: cmpColor,
+        );
       case 'rollOverPrice':
-        return _tableCell(cmp, cmpColor);
+        return ViewNumberCell(
+          value: double.tryParse(cmp) ?? 0.0,
+          displayText: cmp,
+          fixedColor: cmpColor,
+        );
       default:
         return const SizedBox.shrink();
     }
-  }
-
-  Widget _tableCell(String title, Color color, {bool bold = false}) {
-    return Container(
-      alignment: Alignment.center,
-      child: Text(
-        title,
-        style: GoogleFonts.openSans(
-          fontSize: 13.sp,
-          fontWeight: bold ? FontWeight.bold : FontWeight.normal,
-          color: color,
-        ),
-      ),
-    );
   }
 
   Widget _buildCheckbox(bool value) {
@@ -412,15 +412,27 @@ class _RollOverDialogState extends State<RollOverDialog> {
     Color cmpColor = isPositive ? AppColors.blue : AppColors.red;
     switch (column.id) {
       case 'exchange':
-        return _tableCell('MCX', Colors.black87);
+        return ViewTextCell(text: 'MCX', color: Colors.black87);
       case 'symbol':
-        return _tableCell('GOLD05DEC', Colors.black87);
+        return ViewTextCell(text: 'GOLD05DEC', color: Colors.black87);
       case 'qty':
-        return _tableCell(qty, qtyColor);
+        return ViewNumberCell(
+          value: double.tryParse(qty) ?? 0.0,
+          displayText: qty,
+          fixedColor: qtyColor,
+        );
       case 'cmp':
-        return _tableCell(cmp, cmpColor);
+        return ViewNumberCell(
+          value: double.tryParse(cmp) ?? 0.0,
+          displayText: cmp,
+          fixedColor: cmpColor,
+        );
       case 'rollOverPrice':
-        return _tableCell(cmp, cmpColor);
+        return ViewNumberCell(
+          value: double.tryParse(cmp) ?? 0.0,
+          displayText: cmp,
+          fixedColor: cmpColor,
+        );
       default:
         return const SizedBox.shrink();
     }

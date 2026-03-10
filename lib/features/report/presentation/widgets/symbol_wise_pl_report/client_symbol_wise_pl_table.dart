@@ -18,10 +18,20 @@ class ClientSymbolWisePLTable extends StatelessWidget {
     return const [
       ViewTableColumn(id: 'exchange', label: 'EXCH', width: 80),
       ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 220),
-      ViewTableColumn(id: 'm2m', label: 'M2M', width: 140),
-      ViewTableColumn(id: 'releasePL', label: 'REALISED P/L', width: 140),
-      ViewTableColumn(id: 'brokerage', label: 'BRK', width: 120),
-      ViewTableColumn(id: 'netPL', label: 'TOTAL', width: 140),
+      ViewTableColumn(id: 'm2m', label: 'M2M', width: 140, isNumeric: true),
+      ViewTableColumn(
+        id: 'releasePL',
+        label: 'REALISED P/L',
+        width: 140,
+        isNumeric: true,
+      ),
+      ViewTableColumn(
+        id: 'brokerage',
+        label: 'BRK',
+        width: 120,
+        isNumeric: true,
+      ),
+      ViewTableColumn(id: 'netPL', label: 'TOTAL', width: 140, isNumeric: true),
     ];
   }
 
@@ -33,7 +43,9 @@ class ClientSymbolWisePLTable extends StatelessWidget {
   ) {
     return InkWell(
       onTap: onTap,
-      child: Center(
+      child: Container(
+        width: double.infinity,
+        alignment: Alignment.centerRight,
         child: Container(
           decoration: BoxDecoration(
             border: Border(
@@ -49,7 +61,7 @@ class ClientSymbolWisePLTable extends StatelessWidget {
               isDark: isDark,
               color: ViewTableCellStyles.getValueColor(value, isDark: isDark),
             ).copyWith(fontWeight: FontWeight.bold),
-            textAlign: TextAlign.center,
+            textAlign: TextAlign.right,
           ),
         ),
       ),
@@ -66,11 +78,7 @@ class ClientSymbolWisePLTable extends StatelessWidget {
       case 'exchange':
         return ViewTextCell(text: item.exchange, isDark: isDark);
       case 'symbol':
-        return ViewTextCell(
-          text: item.symbol,
-          isDark: isDark,
-          fontWeight: FontWeight.normal,
-        );
+        return ViewTextCell(text: item.symbol, isDark: isDark);
       case 'm2m':
         return _buildClickableNumberCell(context, item.m2m, () {
           NetPositionDialog.show(context, symbol: item.symbol);

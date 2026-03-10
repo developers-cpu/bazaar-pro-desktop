@@ -46,7 +46,7 @@ class OrderDurationDialog extends StatelessWidget {
 
   List<ViewTableColumn> _getColumns() {
     return const [
-      ViewTableColumn(id: 'id', label: 'ID', width: 50),
+      ViewTableColumn(id: 'id', label: 'ID', width: 50, isNumeric: true),
       ViewTableColumn(id: 'duration', label: 'DURATION', width: 140),
       ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 190),
       ViewTableColumn(id: 'type', label: 'TYPE', width: 110),
@@ -65,7 +65,12 @@ class OrderDurationDialog extends StatelessWidget {
     final index = relatedOrders.indexOf(item) + 1;
     switch (column.id) {
       case 'id':
-        return ViewTextCell(text: index.toString(), isDark: isDark);
+        return ViewNumberCell(
+          value: index.toDouble(),
+          displayText: index.toString(),
+          colorByValue: false,
+          isDark: isDark,
+        );
       case 'duration':
         return ViewTextCell(
           text: item.orderDuration.isNotEmpty ? item.orderDuration : '-',

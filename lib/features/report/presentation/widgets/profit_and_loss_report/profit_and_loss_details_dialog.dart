@@ -45,13 +45,38 @@ class ProfitAndLossDetailsDialog extends StatelessWidget {
     return const [
       ViewTableColumn(id: 'view', label: 'VIEW', width: 120),
       ViewTableColumn(id: 'userName', label: 'U. NAME', width: 120),
-      ViewTableColumn(id: 'percentage', label: '%', width: 80),
-      ViewTableColumn(id: 'releasePL', label: 'RELEASE P/L', width: 120),
-      ViewTableColumn(id: 'brokerage', label: 'BRK', width: 100),
-      ViewTableColumn(id: 'm2m', label: 'M2M', width: 100),
-      ViewTableColumn(id: 'netPL', label: 'NET P/L', width: 120),
-      ViewTableColumn(id: 'ourBrokerage', label: 'OUR BRK', width: 120),
-      ViewTableColumn(id: 'ourPercentage', label: 'OUR', width: 120),
+      ViewTableColumn(id: 'percentage', label: '%', width: 80, isNumeric: true),
+      ViewTableColumn(
+        id: 'releasePL',
+        label: 'RELEASE P/L',
+        width: 120,
+        isNumeric: true,
+      ),
+      ViewTableColumn(
+        id: 'brokerage',
+        label: 'BRK',
+        width: 100,
+        isNumeric: true,
+      ),
+      ViewTableColumn(id: 'm2m', label: 'M2M', width: 100, isNumeric: true),
+      ViewTableColumn(
+        id: 'netPL',
+        label: 'NET P/L',
+        width: 120,
+        isNumeric: true,
+      ),
+      ViewTableColumn(
+        id: 'ourBrokerage',
+        label: 'OUR BRK',
+        width: 120,
+        isNumeric: true,
+      ),
+      ViewTableColumn(
+        id: 'ourPercentage',
+        label: 'OUR',
+        width: 120,
+        isNumeric: true,
+      ),
     ];
   }
 

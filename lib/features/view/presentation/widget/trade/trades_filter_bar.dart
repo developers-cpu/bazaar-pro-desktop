@@ -48,23 +48,14 @@ class TradesFilterBar extends StatelessWidget {
                         onTap: () {},
                         onDateRangeSelected: (range) {
                           context.read<TradesBloc>().add(
-                            isClient
-                                ? UpdateFiltersEvent(
-                                    startDate: range.start,
-                                    endDate: range.end,
-                                    client: state.selectedClient,
-                                    exchange: state.selectedExchange,
-                                    symbol: state.selectedSymbol,
-                                    orderType: state.selectedOrderType,
-                                  )
-                                : ApplyFiltersEvent(
-                                    startDate: range.start,
-                                    endDate: range.end,
-                                    client: state.selectedClient,
-                                    exchange: state.selectedExchange,
-                                    symbol: state.selectedSymbol,
-                                    orderType: state.selectedOrderType,
-                                  ),
+                            UpdateFiltersEvent(
+                              startDate: range.start,
+                              endDate: range.end,
+                              client: state.selectedClient,
+                              exchange: state.selectedExchange,
+                              symbol: state.selectedSymbol,
+                              orderType: state.selectedOrderType,
+                            ),
                           );
                         },
                       ),
@@ -78,7 +69,7 @@ class TradesFilterBar extends StatelessWidget {
                           items: state.clients,
                           onChanged: (value) {
                             context.read<TradesBloc>().add(
-                              ApplyFiltersEvent(
+                              UpdateFiltersEvent(
                                 startDate: state.startDate,
                                 endDate: state.endDate,
                                 client: value,
@@ -109,23 +100,14 @@ class TradesFilterBar extends StatelessWidget {
                         ],
                         onChanged: (value) {
                           context.read<TradesBloc>().add(
-                            isClient
-                                ? UpdateFiltersEvent(
-                                    startDate: state.startDate,
-                                    endDate: state.endDate,
-                                    client: state.selectedClient,
-                                    exchange: value,
-                                    symbol: state.selectedSymbol,
-                                    orderType: state.selectedOrderType,
-                                  )
-                                : ApplyFiltersEvent(
-                                    startDate: state.startDate,
-                                    endDate: state.endDate,
-                                    client: state.selectedClient,
-                                    exchange: value,
-                                    symbol: state.selectedSymbol,
-                                    orderType: state.selectedOrderType,
-                                  ),
+                            UpdateFiltersEvent(
+                              startDate: state.startDate,
+                              endDate: state.endDate,
+                              client: state.selectedClient,
+                              exchange: value,
+                              symbol: state.selectedSymbol,
+                              orderType: state.selectedOrderType,
+                            ),
                           );
                         },
                       ),
@@ -138,23 +120,14 @@ class TradesFilterBar extends StatelessWidget {
                         items: state.symbols,
                         onChanged: (value) {
                           context.read<TradesBloc>().add(
-                            isClient
-                                ? UpdateFiltersEvent(
-                                    startDate: state.startDate,
-                                    endDate: state.endDate,
-                                    client: state.selectedClient,
-                                    exchange: state.selectedExchange,
-                                    symbol: value,
-                                    orderType: state.selectedOrderType,
-                                  )
-                                : ApplyFiltersEvent(
-                                    startDate: state.startDate,
-                                    endDate: state.endDate,
-                                    client: state.selectedClient,
-                                    exchange: state.selectedExchange,
-                                    symbol: value,
-                                    orderType: state.selectedOrderType,
-                                  ),
+                            UpdateFiltersEvent(
+                              startDate: state.startDate,
+                              endDate: state.endDate,
+                              client: state.selectedClient,
+                              exchange: state.selectedExchange,
+                              symbol: value,
+                              orderType: state.selectedOrderType,
+                            ),
                           );
                         },
                       ),
@@ -175,23 +148,14 @@ class TradesFilterBar extends StatelessWidget {
                         showAllOption: true,
                         onChanged: (value) {
                           context.read<TradesBloc>().add(
-                            isClient
-                                ? UpdateFiltersEvent(
-                                    startDate: state.startDate,
-                                    endDate: state.endDate,
-                                    client: state.selectedClient,
-                                    exchange: state.selectedExchange,
-                                    symbol: state.selectedSymbol,
-                                    orderType: value,
-                                  )
-                                : ApplyFiltersEvent(
-                                    startDate: state.startDate,
-                                    endDate: state.endDate,
-                                    client: state.selectedClient,
-                                    exchange: state.selectedExchange,
-                                    symbol: state.selectedSymbol,
-                                    orderType: value,
-                                  ),
+                            UpdateFiltersEvent(
+                              startDate: state.startDate,
+                              endDate: state.endDate,
+                              client: state.selectedClient,
+                              exchange: state.selectedExchange,
+                              symbol: state.selectedSymbol,
+                              orderType: value,
+                            ),
                           );
                         },
                       ),

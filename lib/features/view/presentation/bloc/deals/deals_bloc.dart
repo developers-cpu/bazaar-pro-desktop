@@ -41,46 +41,37 @@ class DealsBloc extends Bloc<DealsEvent, DealsState> {
   ) async {
     emit(const DealsLoading());
     try {
+      dynamic dealsResult;
+      if (event.isClient) {
+        dealsResult = await getDeals(NoParams());
+      }
+
       final results = await Future.wait([
-        getDeals(NoParams()),
         getClients(NoParams()),
         getExchanges(NoParams()),
         getSymbols(NoParams()),
         getOrderTypes(NoParams()),
         getStatuses(NoParams()),
       ]);
-      final dealsResult = results[0];
-      final clientsResult = results[1];
-      final exchangesResult = results[2];
-      final symbolsResult = results[3];
-      final orderTypesResult = results[4];
-      final statusesResult = results[5];
-      if (dealsResult.isLeft()) {
-        final failure = dealsResult.fold((l) => l, (r) => null);
-        emit(DealsError(failure?.message ?? 'Failed to load deals'));
-        return;
+      final clientsResult = results[0];
+      final exchangesResult = results[1];
+      final symbolsResult = results[2];
+      final orderTypesResult = results[3];
+      final statusesResult = results[4];
+      List<Deal> deals = [];
+      if (dealsResult != null) {
+        if (dealsResult.isLeft()) {
+          final failure = dealsResult.fold((l) => l, (r) => null);
+          emit(DealsError(failure?.message ?? 'Failed to load deals'));
+          return;
+        }
+        deals = dealsResult.fold((l) => <Deal>[], (r) => r as List<Deal>);
       }
-      final deals = dealsResult.fold((l) => <Deal>[], (r) => r as List<Deal>);
-      final clients = clientsResult.fold(
-        (l) => <String>[],
-        (r) => r as List<String>,
-      );
-      final exchanges = exchangesResult.fold(
-        (l) => <String>[],
-        (r) => r as List<String>,
-      );
-      final symbols = symbolsResult.fold(
-        (l) => <String>[],
-        (r) => r as List<String>,
-      );
-      final orderTypes = orderTypesResult.fold(
-        (l) => <String>[],
-        (r) => r as List<String>,
-      );
-      final statuses = statusesResult.fold(
-        (l) => <String>[],
-        (r) => r as List<String>,
-      );
+      final clients = clientsResult.fold((l) => <String>[], (r) => r);
+      final exchanges = exchangesResult.fold((l) => <String>[], (r) => r);
+      final symbols = symbolsResult.fold((l) => <String>[], (r) => r);
+      final orderTypes = orderTypesResult.fold((l) => <String>[], (r) => r);
+      final statuses = statusesResult.fold((l) => <String>[], (r) => r);
       emit(
         DealsLoaded(
           deals: deals,

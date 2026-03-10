@@ -230,21 +230,29 @@ class _OpenPositionDialogState extends State<OpenPositionDialog> {
         );
       case 'netQty':
         if (_selectedUser == null && item.userCount > 0) {
+          final color = item.netQty > 0 ? AppColors.blue : AppColors.red;
           return GestureDetector(
             onTap: () => setState(() => _selectedUser = item.userName),
-            child: Center(
-              child: Text(
-                item.netQty.toStringAsFixed(0),
-                style:
-                    ViewTableCellStyles.getTextStyle(
-                      isDark: widget.isDarkMode,
-                      color: item.netQty > 0 ? AppColors.blue : AppColors.red,
-                    ).copyWith(
-                      decoration: TextDecoration.underline,
-                      decorationColor: item.netQty > 0
-                          ? AppColors.blue
-                          : AppColors.red,
-                    ),
+            child: Container(
+              width: double.infinity,
+              alignment: Alignment.centerRight,
+              child: Container(
+                padding: const EdgeInsets.only(bottom: 2),
+                decoration: BoxDecoration(
+                  border: Border(bottom: BorderSide(color: color, width: 2.0)),
+                ),
+                child: Text(
+                  item.netQty == item.netQty.toInt()
+                      ? item.netQty.toInt().toString()
+                      : item.netQty.toStringAsFixed(2),
+                  textAlign: TextAlign.end,
+                  style: ViewTableCellStyles.getTextStyle(
+                    isDark: widget.isDarkMode,
+                    color: color,
+                  ),
+                  maxLines: 1,
+                  softWrap: false,
+                ),
               ),
             ),
           );
@@ -272,19 +280,26 @@ class _OpenPositionDialogState extends State<OpenPositionDialog> {
           isDark: widget.isDarkMode,
         );
       case 'ourPercent':
-        return ViewTextCell(
-          text: item.ourPercentage.toStringAsFixed(2),
+        return ViewNumberCell(
+          value: item.ourPercentage,
+          displayText: item.ourPercentage.toStringAsFixed(2),
           isDark: widget.isDarkMode,
+          colorByValue: false, 
         );
       case 'user':
-        return ViewTextCell(
-          text: item.userCount > 0 ? item.userCount.toString() : '-',
+        return ViewNumberCell(
+          value: double.tryParse(item.userCount.toString()) ?? 0,
+          displayText: item.userCount > 0 ? item.userCount.toString() : '-',
           isDark: widget.isDarkMode,
+          colorByValue: false,
         );
       case 'days':
-        return ViewTextCell(
-          text: item.days.toString(),
+        return ViewNumberCell(
+          value: item.days.toDouble(),
+          displayText: item.days.toString(),
+          colorByValue: false,
           isDark: widget.isDarkMode,
+          padding: EdgeInsets.only(right: 15.w),
         );
       default:
         return const SizedBox.shrink();

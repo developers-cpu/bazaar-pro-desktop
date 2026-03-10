@@ -158,7 +158,6 @@ class BrokerClientDialog extends StatelessWidget {
                               },
                               isDarkMode: isDarkMode,
                               backgroundColor: const Color(0xFFD3E3EC),
-                              textAlign: TextAlign.center,
                             );
                           },
                         ),

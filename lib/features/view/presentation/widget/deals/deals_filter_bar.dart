@@ -37,9 +37,9 @@ class DealsFilterBar extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       SizedBox(
-                        width: 200.w,
+                        width: 190.w,
                         child: DateRangePickerButton(
-                          width: 200.w,
+                          width: 190.w,
                           height: 35.h,
                           selectedDateRange:
                               state.startDate != null && state.endDate != null
@@ -51,25 +51,15 @@ class DealsFilterBar extends StatelessWidget {
                           onTap: () {},
                           onDateRangeSelected: (range) {
                             context.read<DealsBloc>().add(
-                              isClient
-                                  ? UpdateFiltersEvent(
-                                      startDate: range.start,
-                                      endDate: range.end,
-                                      client: state.selectedClient,
-                                      exchange: state.selectedExchange,
-                                      symbol: state.selectedSymbol,
-                                      orderType: state.selectedOrderType,
-                                      status: state.selectedStatus,
-                                    )
-                                  : ApplyFiltersEvent(
-                                      startDate: range.start,
-                                      endDate: range.end,
-                                      client: state.selectedClient,
-                                      exchange: state.selectedExchange,
-                                      symbol: state.selectedSymbol,
-                                      orderType: state.selectedOrderType,
-                                      status: state.selectedStatus,
-                                    ),
+                              UpdateFiltersEvent(
+                                startDate: range.start,
+                                endDate: range.end,
+                                client: state.selectedClient,
+                                exchange: state.selectedExchange,
+                                symbol: state.selectedSymbol,
+                                orderType: state.selectedOrderType,
+                                status: state.selectedStatus,
+                              ),
                             );
                           },
                         ),
@@ -77,7 +67,7 @@ class DealsFilterBar extends StatelessWidget {
                       SizedBox(width: 12.w),
                       if (!isClient) ...[
                         SizedBox(
-                          width: 200.w,
+                          width: 190.w,
                           child: AppDropdown(
                             type: AppDropdownType.search,
                             hintText: 'Client',
@@ -85,7 +75,7 @@ class DealsFilterBar extends StatelessWidget {
                             items: state.clients,
                             onChanged: (value) {
                               context.read<DealsBloc>().add(
-                                ApplyFiltersEvent(
+                                UpdateFiltersEvent(
                                   startDate: state.startDate,
                                   endDate: state.endDate,
                                   client: value,
@@ -101,7 +91,7 @@ class DealsFilterBar extends StatelessWidget {
                         SizedBox(width: 12.w),
                       ],
                       SizedBox(
-                        width: 200.w,
+                        width: 190.w,
                         child: AppDropdown(
                           type: AppDropdownType.simple,
                           hintText: 'Exchange',
@@ -119,32 +109,22 @@ class DealsFilterBar extends StatelessWidget {
                           ],
                           onChanged: (value) {
                             context.read<DealsBloc>().add(
-                              isClient
-                                  ? UpdateFiltersEvent(
-                                      startDate: state.startDate,
-                                      endDate: state.endDate,
-                                      client: state.selectedClient,
-                                      exchange: value,
-                                      symbol: state.selectedSymbol,
-                                      orderType: state.selectedOrderType,
-                                      status: state.selectedStatus,
-                                    )
-                                  : ApplyFiltersEvent(
-                                      startDate: state.startDate,
-                                      endDate: state.endDate,
-                                      client: state.selectedClient,
-                                      exchange: value,
-                                      symbol: state.selectedSymbol,
-                                      orderType: state.selectedOrderType,
-                                      status: state.selectedStatus,
-                                    ),
+                              UpdateFiltersEvent(
+                                startDate: state.startDate,
+                                endDate: state.endDate,
+                                client: state.selectedClient,
+                                exchange: value,
+                                symbol: state.selectedSymbol,
+                                orderType: state.selectedOrderType,
+                                status: state.selectedStatus,
+                              ),
                             );
                           },
                         ),
                       ),
                       SizedBox(width: 12.w),
                       SizedBox(
-                        width: 200.w,
+                        width: 190.w,
                         child: AppDropdown(
                           type: AppDropdownType.search,
                           hintText: 'Symbol',
@@ -152,32 +132,22 @@ class DealsFilterBar extends StatelessWidget {
                           items: state.symbols,
                           onChanged: (value) {
                             context.read<DealsBloc>().add(
-                              isClient
-                                  ? UpdateFiltersEvent(
-                                      startDate: state.startDate,
-                                      endDate: state.endDate,
-                                      client: state.selectedClient,
-                                      exchange: state.selectedExchange,
-                                      symbol: value,
-                                      orderType: state.selectedOrderType,
-                                      status: state.selectedStatus,
-                                    )
-                                  : ApplyFiltersEvent(
-                                      startDate: state.startDate,
-                                      endDate: state.endDate,
-                                      client: state.selectedClient,
-                                      exchange: state.selectedExchange,
-                                      symbol: value,
-                                      orderType: state.selectedOrderType,
-                                      status: state.selectedStatus,
-                                    ),
+                              UpdateFiltersEvent(
+                                startDate: state.startDate,
+                                endDate: state.endDate,
+                                client: state.selectedClient,
+                                exchange: state.selectedExchange,
+                                symbol: value,
+                                orderType: state.selectedOrderType,
+                                status: state.selectedStatus,
+                              ),
                             );
                           },
                         ),
                       ),
                       SizedBox(width: 12.w),
                       SizedBox(
-                        width: 200.w,
+                        width: 190.w,
                         child: AppDropdown(
                           type: AppDropdownType.simple,
                           hintText: 'Select Type',
@@ -193,25 +163,15 @@ class DealsFilterBar extends StatelessWidget {
                           showAllOption: true,
                           onChanged: (value) {
                             context.read<DealsBloc>().add(
-                              isClient
-                                  ? UpdateFiltersEvent(
-                                      startDate: state.startDate,
-                                      endDate: state.endDate,
-                                      client: state.selectedClient,
-                                      exchange: state.selectedExchange,
-                                      symbol: state.selectedSymbol,
-                                      orderType: value,
-                                      status: state.selectedStatus,
-                                    )
-                                  : ApplyFiltersEvent(
-                                      startDate: state.startDate,
-                                      endDate: state.endDate,
-                                      client: state.selectedClient,
-                                      exchange: state.selectedExchange,
-                                      symbol: state.selectedSymbol,
-                                      orderType: value,
-                                      status: state.selectedStatus,
-                                    ),
+                              UpdateFiltersEvent(
+                                startDate: state.startDate,
+                                endDate: state.endDate,
+                                client: state.selectedClient,
+                                exchange: state.selectedExchange,
+                                symbol: state.selectedSymbol,
+                                orderType: value,
+                                status: state.selectedStatus,
+                              ),
                             );
                           },
                         ),
@@ -219,7 +179,7 @@ class DealsFilterBar extends StatelessWidget {
                       SizedBox(width: 12.w),
                       if (!isClient) ...[
                         SizedBox(
-                          width: 200.w,
+                          width: 190.w,
                           child: AppDropdown(
                             type: AppDropdownType.simple,
                             hintText: 'Status',
@@ -228,7 +188,7 @@ class DealsFilterBar extends StatelessWidget {
                             showAllOption: true,
                             onChanged: (value) {
                               context.read<DealsBloc>().add(
-                                ApplyFiltersEvent(
+                                UpdateFiltersEvent(
                                   startDate: state.startDate,
                                   endDate: state.endDate,
                                   client: state.selectedClient,

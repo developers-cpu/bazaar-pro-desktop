@@ -8,6 +8,8 @@ import '../../bloc/my_profile/my_profile_state.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/common_dilog_box.dart';
 import '../../../../../injection_container.dart';
+import '../../../../auth/presentation/bloc/auth_bloc.dart';
+import '../../../../auth/presentation/bloc/auth_state.dart';
 import '../../../../users/presentation/bloc/user_form/user_form_bloc.dart';
 import '../../../../users/presentation/bloc/user_form/user_form_event.dart';
 import '../../../../users/presentation/bloc/user_form/user_form_state.dart';
@@ -18,6 +20,9 @@ import '../../../../users/presentation/widgets/create_user/shared/brokerage_sett
 import '../../../../users/presentation/widgets/create_user/master_steps/pnl_sharing_step.dart';
 import '../../../../users/presentation/widgets/create_user/master_steps/exchange_setting_step.dart';
 import '../../../../users/presentation/widgets/create_user/master_steps/master_trigger_settings_step.dart';
+import '../../../../users/presentation/widgets/create_user/client_steps/client_exchange_allow_step.dart';
+import '../../../../users/presentation/widgets/create_user/client_steps/client_trigger_settings_step.dart';
+import '../../../../users/presentation/widgets/create_user/client_steps/client_broker_setting_step.dart';
 
 class MyProfileDialog extends StatelessWidget {
   final Map<String, dynamic>? userData;
@@ -60,10 +65,18 @@ class MyProfileDialog extends StatelessWidget {
             'brokerageSharing': _formatSharing(profile.brkSharing),
             'allowedDevice': 'All',
           };
+          final authState = context.read<AuthBloc>().state;
+          String role = 'Client';
+          if (authState is AuthAuthenticated) {
+            String rawRole = authState.user.role;
+            role =
+                rawRole[0].toUpperCase() + rawRole.substring(1).toLowerCase();
+          }
+
           context.read<UserFormBloc>().add(
             InitializeFormEvent(
               isEditMode: true,
-              userType: 'Master',
+              userType: role,
               userData: userData,
             ),
           );
@@ -95,6 +108,7 @@ class MyProfileDialog extends StatelessWidget {
               }
             },
             builder: (context, state) {
+              final isClient = state.userType.toLowerCase() == 'client';
               return Container(
                 height: 500.h,
                 decoration: BoxDecoration(
@@ -109,31 +123,63 @@ class MyProfileDialog extends StatelessWidget {
                           horizontal: 16.w,
                           vertical: 12.h,
                         ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            _buildSectionHeader('Personal Details'),
-                            const PersonalDetailsStep(),
-                            _buildDivider(),
-                            _buildSectionHeader('P&L Sharing Details'),
-                            const PnlSharingStep(),
-                            _buildDivider(),
-                            _buildSectionHeader('Exchange Allowed'),
-                            const MasterExchangeAllowStep(),
-                            _buildDivider(),
-                            _buildSectionHeader('Exchange Settings'),
-                            const ExchangeSettingStep(),
-                            _buildDivider(),
-                            _buildSectionHeader('High/Low Between Trade Limit'),
-                            const HighLowLimitStep(),
-                            _buildDivider(),
-                            _buildSectionHeader('Trigger Settings'),
-                            const MasterTriggerSettingsStep(),
-                            _buildDivider(),
-                            _buildSectionHeader('Brokerage Settings'),
-                            const BrokerageSettingStep(showUpdateButton: false),
-                            SizedBox(height: 12.h),
-                          ],
+                        child: IgnorePointer(
+                          ignoring: true,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: isClient
+                                ? [
+                                    _buildSectionHeader('Personal Details'),
+                                    const PersonalDetailsStep(),
+                                    _buildDivider(),
+                                    _buildSectionHeader('Exchange Allowed'),
+                                    const ClientExchangeAllowStep(),
+                                    _buildDivider(),
+                                    _buildSectionHeader(
+                                      'High/Low Between Trade Limit',
+                                    ),
+                                    const HighLowLimitStep(),
+                                    _buildDivider(),
+                                    _buildSectionHeader('Trigger Settings'),
+                                    const ClientTriggerSettingsStep(),
+                                    _buildDivider(),
+                                    _buildSectionHeader('Brokerage Settings'),
+                                    const BrokerageSettingStep(
+                                      showUpdateButton: false,
+                                    ),
+                                    _buildDivider(),
+                                    _buildSectionHeader('Broker Settings'),
+                                    const ClientBrokerSettingStep(),
+                                    SizedBox(height: 12.h),
+                                  ]
+                                : [
+                                    _buildSectionHeader('Personal Details'),
+                                    const PersonalDetailsStep(),
+                                    _buildDivider(),
+                                    _buildSectionHeader('P&L Sharing Details'),
+                                    const PnlSharingStep(),
+                                    _buildDivider(),
+                                    _buildSectionHeader('Exchange Allowed'),
+                                    const MasterExchangeAllowStep(),
+                                    _buildDivider(),
+                                    _buildSectionHeader('Exchange Settings'),
+                                    const ExchangeSettingStep(),
+                                    _buildDivider(),
+                                    _buildSectionHeader(
+                                      'High/Low Between Trade Limit',
+                                    ),
+                                    const HighLowLimitStep(),
+                                    _buildDivider(),
+                                    _buildSectionHeader('Trigger Settings'),
+                                    const MasterTriggerSettingsStep(),
+                                    _buildDivider(),
+                                    _buildSectionHeader('Brokerage Settings'),
+                                    const BrokerageSettingStep(
+                                      showUpdateButton: false,
+                                    ),
+                                    SizedBox(height: 12.h),
+                                  ],
+                          ),
                         ),
                       ),
                     ),

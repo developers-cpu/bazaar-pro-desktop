@@ -14,6 +14,10 @@ class TableHeaderCell extends StatefulWidget {
   final FontWeight fontWeight;
   final bool showSortIcon;
   final bool isLast;
+  final bool showGrid; 
+  final bool isSorted;
+  final bool sortAscending;
+  final VoidCallback? onSort;
   final void Function(String fromColumnId, String toColumnId)? onColumnReorder;
   const TableHeaderCell({
     Key? key,
@@ -25,6 +29,10 @@ class TableHeaderCell extends StatefulWidget {
     required this.fontWeight,
     this.showSortIcon = true,
     this.isLast = false,
+    this.showGrid = false,
+    this.isSorted = false,
+    this.sortAscending = true,
+    this.onSort,
     this.onColumnReorder,
   }) : super(key: key);
 
@@ -40,7 +48,6 @@ class _TableHeaderCellState extends State<TableHeaderCell> {
     if (widget.title.isEmpty) {
       return const SizedBox.shrink();
     }
-    final iconSize = (widget.fontSize * 1.0).sp;
     final headerTitle = widget.title.toUpperCase();
     final textStyle = TableTextStyleHelper.getTextStyle(
       fontFamily: widget.fontFamily,
@@ -75,29 +82,40 @@ class _TableHeaderCellState extends State<TableHeaderCell> {
                 style: textStyle,
               ),
             ),
-            SvgIcon(
-              assetPath: AppImages.sortIcon,
-              isActive: widget.isDark,
-              size: iconSize,
-            ),
+            if (widget.showSortIcon) ...[
+              SizedBox(width: 4.w),
+              SvgIcon(
+                assetPath: AppImages.sortIcon,
+                isActive: widget.isSorted,
+                size: widget.fontSize.sp,
+                activeColor: widget.isSorted ? AppColors.primaryBlue : null,
+              ),
+            ],
           ],
         ),
       );
     }
 
+
+
+
     Widget headerWidget = Container(
-      padding: EdgeInsets.only(left: 0.w),
-      decoration: widget.isLast
-          ? null
-          : BoxDecoration(
-              border: Border(
-                right: BorderSide(
-                  color: AppColors.white.withValues(alpha: 0.8),
-                  width: 1,
-                ),
-              ),
-            ),
-      child: content,
+      constraints: const BoxConstraints.expand(),
+      padding: EdgeInsets.only(left: widget.columnId == 'exchange' ? 8.w : 0.w),
+      decoration: BoxDecoration(
+        border: Border(
+          right: widget.isLast
+              ? BorderSide.none
+              : BorderSide(color: AppColors.white, width: 1),
+          bottom: BorderSide(color: AppColors.white, width: 1),
+        ),
+      ),
+      child: Align(
+        alignment: widget.columnId == 'exchange'
+            ? Alignment.centerLeft
+            : Alignment.center,
+        child: content,
+      ),
     );
 
     if (widget.onColumnReorder != null) {
@@ -150,6 +168,13 @@ class _TableHeaderCellState extends State<TableHeaderCell> {
             ),
           );
         },
+      );
+    }
+
+    if (widget.onSort != null) {
+      headerWidget = InkWell(
+        onTap: widget.onSort,
+        child: headerWidget,
       );
     }
 

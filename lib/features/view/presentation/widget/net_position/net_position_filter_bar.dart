@@ -276,18 +276,6 @@ class NetPositionFilterBar extends StatelessWidget {
   }
 
   Widget _buildAdminFilterBar(BuildContext context, NetPositionLoaded state) {
-    double totalM2M = 0;
-    double totalRealisedPnl = 0;
-    double totalBrokerage = 0;
-
-    for (final pos in state.filteredPositions) {
-      totalM2M += pos.m2mAmount;
-      totalRealisedPnl += pos.netQty * pos.netAvgPrice;
-    }
-
-    final totalPnl = totalRealisedPnl + totalM2M;
-    final isNegative = totalPnl < 0;
-
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
       child: Row(
@@ -299,10 +287,10 @@ class NetPositionFilterBar extends StatelessWidget {
             items: state.userTypes,
             width: 150.w,
             height: 35.h,
-            showAllOption: true,
+            showAllOption: false,
             onChanged: (value) {
               context.read<NetPositionBloc>().add(
-                ApplyFiltersEvent(
+                UpdateFiltersEvent(
                   userType: value,
                   client: state.selectedClient,
                   exchange: state.selectedExchange,
@@ -321,7 +309,7 @@ class NetPositionFilterBar extends StatelessWidget {
             height: 35.h,
             onChanged: (value) {
               context.read<NetPositionBloc>().add(
-                ApplyFiltersEvent(
+                UpdateFiltersEvent(
                   userType: state.selectedUserType,
                   client: value,
                   exchange: state.selectedExchange,
@@ -340,7 +328,7 @@ class NetPositionFilterBar extends StatelessWidget {
             height: 35.h,
             onChanged: (value) {
               context.read<NetPositionBloc>().add(
-                ApplyFiltersEvent(
+                UpdateFiltersEvent(
                   userType: state.selectedUserType,
                   client: state.selectedClient,
                   exchange: value,
@@ -359,7 +347,7 @@ class NetPositionFilterBar extends StatelessWidget {
             height: 35.h,
             onChanged: (value) {
               context.read<NetPositionBloc>().add(
-                ApplyFiltersEvent(
+                UpdateFiltersEvent(
                   userType: state.selectedUserType,
                   client: state.selectedClient,
                   exchange: state.selectedExchange,
@@ -368,10 +356,13 @@ class NetPositionFilterBar extends StatelessWidget {
               );
             },
           ),
-          SizedBox(width: 8.w),
+          const Spacer(),
           ViewResetButtons(
             onReset: () {
               context.read<NetPositionBloc>().add(const ResetFiltersEvent());
+              context.read<NetPositionBloc>().add(
+                const LoadNetPositionsEvent(isClient: false),
+              );
             },
             onView: () {
               context.read<NetPositionBloc>().add(
@@ -384,16 +375,6 @@ class NetPositionFilterBar extends StatelessWidget {
               );
             },
           ),
-          const Spacer(),
-          if (!isDialog)
-            _buildPageFormula(totalRealisedPnl, totalM2M, totalBrokerage)
-          else
-            _buildDialogFormula(
-              totalRealisedPnl,
-              totalM2M,
-              totalPnl,
-              isNegative,
-            ),
         ],
       ),
     );

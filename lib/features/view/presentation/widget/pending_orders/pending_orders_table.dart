@@ -113,15 +113,11 @@ class PendingOrdersTable extends StatelessWidget {
           item.qty,
           isDark: isDark,
         );
-        return Text(
-          item.symbol,
-          style: ViewTableCellStyles.getTextStyle(
-            isDark: isDark,
-            color: symbolColor,
-          ),
-          textAlign: TextAlign.center,
-          maxLines: 1,
-          softWrap: false,
+        return ViewTextCell(
+          text: item.symbol,
+          color: symbolColor,
+          isDark: isDark,
+          isStart: true,
         );
       case 'buySell':
         return ViewBuySellCell(
@@ -136,7 +132,12 @@ class PendingOrdersTable extends StatelessWidget {
           isDark: isDark,
         );
       case 'lot':
-        return ViewTextCell(text: item.lot.toStringAsFixed(2), isDark: isDark);
+        return ViewNumberCell(
+          value: item.lot,
+          displayText: item.lot.toStringAsFixed(2),
+          colorByValue: false,
+          isDark: isDark,
+        );
       case 'triggerPrice':
         return ViewNumberCell(
           value: item.triggerPrice,

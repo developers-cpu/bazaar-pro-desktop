@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../core/constants/app_colors.dart';
+import '../../../../auth/presentation/bloc/auth_bloc.dart';
+import '../../../../auth/presentation/bloc/auth_state.dart';
 import '../../bloc/trade/trades_bloc.dart';
 import '../../bloc/trade/trades_event.dart';
 import '../../bloc/trade/trades_state.dart';
@@ -19,7 +21,11 @@ class _TradesPageState extends State<TradesPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<TradesBloc>().add(const LoadTradesEvent());
+      final authState = context.read<AuthBloc>().state;
+      final isClient =
+          authState is AuthAuthenticated &&
+          authState.user.role.toLowerCase() == 'client';
+      context.read<TradesBloc>().add(LoadTradesEvent(isClient: isClient));
     });
   }
 

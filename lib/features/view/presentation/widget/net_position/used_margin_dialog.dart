@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/common_dilog_box.dart';
 import '../../../../../core/widget/app_dropdown.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
 import '../../../../../core/widget/table/view_data_table_footer.dart';
+import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
@@ -224,30 +224,24 @@ class _UsedMarginDialogState extends State<UsedMarginDialog> {
 
     switch (column.id) {
       case 'exchange':
-        return _tableCell('MCX', headerColor);
+        return ViewTextCell(text: 'MCX');
       case 'symbol':
-        return _tableCell('GOLD05DEC', headerColor);
+        return ViewTextCell(text: 'GOLD05DEC');
       case 'netQty':
-        return _tableCell(qty, qtyColor, bold: true);
+        return ViewNumberCell(
+          value: double.tryParse(qty) ?? 0.0,
+          displayText: qty,
+          fixedColor: qtyColor,
+        );
       case 'usedMargin':
-        return _tableCell('50000', AppColors.blue, bold: true);
+        return ViewNumberCell(
+          value: 50000.0,
+          displayText: '50000',
+          fixedColor: AppColors.blue,
+        );
       default:
         return const SizedBox.shrink();
     }
-  }
-
-  Widget _tableCell(String title, Color color, {bool bold = false}) {
-    return Container(
-      alignment: Alignment.center,
-      child: Text(
-        title,
-        style: GoogleFonts.openSans(
-          fontSize: 13.sp,
-          fontWeight: bold ? FontWeight.w600 : FontWeight.normal,
-          color: color,
-        ),
-      ),
-    );
   }
 
   Widget _buildTotalsRow(List<ViewTableColumn> columns) {

@@ -6,7 +6,6 @@ import '../../../../../core/widget/common_dilog_box.dart';
 import '../../../../../core/widget/custom_action_button.dart';
 import '../../../../../core/widget/custom_outlined_button.dart';
 import '../../../domain/entities/pending_orders/pending_order.dart';
-import '../../../../../core/widget/table/animated_price_box.dart';
 import '../../../../../core/widget/table/success_dialog.dart';
 
 class DeleteOrderDialog extends StatelessWidget {
@@ -45,14 +44,30 @@ class DeleteOrderDialog extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'Are You Sure you want to Delete this Order ?',
+              'Are You Sure you want to Delete this  Order ?',
               textAlign: TextAlign.center,
               style: GoogleFonts.openSans(
-                fontSize: 16.sp,
-                color: AppColors.primaryBlue,
+                fontSize: 18.sp,
+                color: const Color(0xFF1F4A66),
               ),
             ),
-            SizedBox(height: 20.h),
+            SizedBox(height: 16.h),
+            Container(
+              width: double.infinity,
+              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+              decoration: BoxDecoration(
+                border: Border.all(color: AppColors.greyBorder),
+                borderRadius: BorderRadius.circular(8.r),
+              ),
+              child: Text(
+                order.userId,
+                style: GoogleFonts.openSans(
+                  fontSize: 16.sp,
+                  color: Colors.grey.shade600,
+                ),
+              ),
+            ),
+            SizedBox(height: 16.h),
             Row(
               children: [
                 Expanded(
@@ -62,35 +77,49 @@ class DeleteOrderDialog extends StatelessWidget {
                       Text(
                         order.symbol,
                         style: GoogleFonts.openSans(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.primaryBlue,
+                          fontSize: 16.sp,
+                          color: const Color(0xFF2C5F7A),
                         ),
                       ),
-                      SizedBox(height: 4.h),
+                      SizedBox(height: 8.h),
                       Text(
-                        'Q.${order.qty.toStringAsFixed(0)}',
+                        order.buySell,
                         style: GoogleFonts.openSans(
                           fontSize: 14.sp,
-                          color: AppColors.primaryBlue,
+                          color: order.buySell.toUpperCase().startsWith('BUY')
+                              ? AppColors.blue
+                              : AppColors.red,
                         ),
                       ),
                     ],
                   ),
                 ),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    AnimatedPriceBox(
-                      price: order.triggerPrice.toStringAsFixed(0),
-                      isDarkMode: isDarkMode,
+                Text(
+                  'Q.${order.qty.toStringAsFixed(6)}',
+                  style: GoogleFonts.openSans(
+                    fontSize: 14.sp,
+                    color: const Color(0xFF2C5F7A),
+                  ),
+                ),
+                SizedBox(width: 16.w),
+                Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 16.w,
+                    vertical: 8.h,
+                  ),
+                  decoration: BoxDecoration(
+                    color: AppColors.white,
+                    border: Border.all(color: AppColors.greyBorder),
+                    borderRadius: BorderRadius.circular(4.r),
+                  ),
+                  child: Text(
+                    order.triggerPrice.toStringAsFixed(0),
+                    style: GoogleFonts.openSans(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.black,
                     ),
-                    SizedBox(width: 8.w),
-                    AnimatedPriceBox(
-                      price: order.triggerPrice.toStringAsFixed(0),
-                      isDarkMode: isDarkMode,
-                    ),
-                  ],
+                  ),
                 ),
               ],
             ),

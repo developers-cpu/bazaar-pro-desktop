@@ -37,7 +37,7 @@ class TradesTable extends StatelessWidget {
           width: 100,
           isNumeric: true,
         ),
-        ViewTableColumn(id: 'buySell', label: 'B/S', width: 130),
+        ViewTableColumn(id: 'buySell', label: 'B/S', width: 200),
         ViewTableColumn(id: 'orderDateTime', label: 'Order D/T', width: 170),
         ViewTableColumn(id: 'orderType', label: 'Type', width: 80),
         ViewTableColumn(id: 'pl', label: 'P/L', width: 90, isNumeric: true),
@@ -71,7 +71,7 @@ class TradesTable extends StatelessWidget {
         label: 'ORDER D/T',
         width: 170,
       ),
-      const ViewTableColumn(id: 'buySell', label: 'B/S', width: 130),
+      const ViewTableColumn(id: 'buySell', label: 'B/S', width: 200),
       const ViewTableColumn(
         id: 'qty',
         label: 'QTY',
@@ -112,8 +112,8 @@ class TradesTable extends StatelessWidget {
           label: 'EXECUTION D/T',
           width: 170,
         ),
-        ViewTableColumn(id: 'deviceId', label: 'DEVICE ID', width: 400),
-        ViewTableColumn(id: 'ipAddress', label: 'IP ADDRESS', width: 160),
+        ViewTableColumn(id: 'deviceId', label: 'DEVICE ID', width: 300),
+        ViewTableColumn(id: 'ipAddress', label: 'IP ADDRESS', width: 100),
       ]);
     }
     return columns;
@@ -137,15 +137,11 @@ class TradesTable extends StatelessWidget {
           item.qty,
           isDark: isDark,
         );
-        return Text(
-          item.symbol,
-          style: ViewTableCellStyles.getTextStyle(
-            isDark: isDark,
-            color: symbolColor,
-          ),
-          textAlign: TextAlign.center,
-          maxLines: 1,
-          softWrap: false,
+        return ViewTextCell(
+          text: item.symbol,
+          color: symbolColor,
+          isDark: isDark,
+          isStart: true,
         );
       case 'orderDateTime':
         return ViewDateTimeCell(dateTime: item.orderDateTime, isDark: isDark);
@@ -162,7 +158,12 @@ class TradesTable extends StatelessWidget {
           isDark: isDark,
         );
       case 'lot':
-        return ViewTextCell(text: item.lot.toStringAsFixed(2), isDark: isDark);
+        return ViewNumberCell(
+          value: item.lot,
+          displayText: item.lot.toStringAsFixed(2),
+          colorByValue: false,
+          isDark: isDark,
+        );
       case 'orderType':
         return ViewTextCell(text: item.orderType, isDark: isDark);
       case 'pl':

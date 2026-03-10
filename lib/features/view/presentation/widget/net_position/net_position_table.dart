@@ -129,7 +129,11 @@ class NetPositionTable extends StatelessWidget {
                 isDark: isDark,
                 color: AppColors.primaryBlue,
               )
-            : ViewLinkCell(text: item.symbol, isDark: isDark);
+            : ViewTextCell(
+                text: item.symbol,
+                isDark: isDark,
+                color: AppColors.primaryBlue,
+              );
       case 'buyQty':
         return ViewNumberCell(
           value: item.buyQty,
@@ -177,7 +181,13 @@ class NetPositionTable extends StatelessWidget {
       case 'userCount':
         return ViewTextCell(text: item.userCount.toString(), isDark: isDark);
       case 'days':
-        return ViewTextCell(text: item.days.toString(), isDark: isDark);
+        return ViewNumberCell(
+          value: item.days.toDouble(),
+          displayText: item.days.toString(),
+          colorByValue: false,
+          isDark: isDark,
+          padding: EdgeInsets.only(right: 15.w),
+        );
       default:
         return const SizedBox.shrink();
     }
@@ -206,15 +216,24 @@ class NetPositionTable extends StatelessWidget {
       },
       child: Container(
         width: double.infinity,
-        alignment: Alignment.center,
-        child: Text(
-          item.netQty.toStringAsFixed(2),
-          textAlign: TextAlign.center,
-          style: ViewTableCellStyles.getTextStyle(isDark: isDark, color: color)
-              .copyWith(
-                decoration: TextDecoration.underline,
-                decorationColor: color,
-              ),
+        alignment: Alignment.centerRight,
+        child: Container(
+          padding: const EdgeInsets.only(bottom: 2),
+          decoration: BoxDecoration(
+            border: Border(bottom: BorderSide(color: color, width: 2.0)),
+          ),
+          child: Text(
+            item.netQty == item.netQty.toInt()
+                ? item.netQty.toInt().toString()
+                : item.netQty.toStringAsFixed(2),
+            textAlign: TextAlign.end,
+            style: ViewTableCellStyles.getTextStyle(
+              isDark: isDark,
+              color: color,
+            ),
+            maxLines: 1,
+            softWrap: false,
+          ),
         ),
       ),
     );
@@ -299,9 +318,15 @@ class NetPositionTable extends StatelessWidget {
       'm2mAmount': totalM2M.toStringAsFixed(2),
       'ourPercentage': totalOurPercentage.toStringAsFixed(2),
     };
+    final Map<String, Color> columnColors = {
+      'm2mAmount': totalM2M >= 0 ? AppColors.blue : AppColors.red,
+      'ourPercentage': totalOurPercentage >= 0 ? AppColors.blue : AppColors.red,
+      'exchange': isDarkMode ? Colors.white : AppColors.primaryTextColor,
+    };
     return ViewDataTableFooter(
       columns: columns,
       values: values,
+      columnColors: columnColors,
       isDarkMode: isDarkMode,
     );
   }

@@ -42,6 +42,7 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
   final _focusNode = FocusNode();
   int _selectedTabIndex = 0;
   int _selectedWatchlistIndex = -1;
+  final Map<String, int> _expandedRowCounts = {};
   final GlobalKey<AppBarSectionState> _appBarKey = GlobalKey();
   @override
   void initState() {
@@ -224,6 +225,7 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
             Expanded(
               child: MarketDataTable(
                 state: loadedState,
+                expandedRowCounts: _expandedRowCounts,
                 onRightClick: (position) {
                   setState(() => _contextMenuPosition = position);
                 },
@@ -412,6 +414,22 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
       _openMarketDepthDialog();
       return;
     }
+    if (event.logicalKey == LogicalKeyboardKey.enter ||
+        event.logicalKey == LogicalKeyboardKey.numpadEnter) {
+      if (_selectedTabIndex == 0) {
+        final state = context.read<MarketWatchBloc>().state;
+        final loadedState = state is MarketWatchSuccess
+            ? state.previousState
+            : (state is MarketWatchLoaded ? state : null);
+        if (loadedState != null && loadedState.selectedItemId != null) {
+          setState(() {
+            final id = loadedState.selectedItemId!;
+            _expandedRowCounts[id] = (_expandedRowCounts[id] ?? 0) + 1;
+          });
+        }
+      }
+      return;
+    }
     if (_selectedTabIndex != 0) return;
     final state = context.read<MarketWatchBloc>().state;
     final loadedState = state is MarketWatchSuccess
@@ -422,12 +440,25 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
         HardwareKeyboard.instance.isControlPressed ||
         HardwareKeyboard.instance.isMetaPressed;
     final selectedItem = _getSelectedItem(loadedState);
-    if (event.logicalKey == LogicalKeyboardKey.delete &&
+    
+    if ((event.logicalKey == LogicalKeyboardKey.delete ||
+            event.logicalKey == LogicalKeyboardKey.backspace) &&
         selectedItem != null &&
         !isCtrlPressed) {
-      context.read<MarketWatchBloc>().add(
-        DeleteMarketItemEvent(itemId: selectedItem.id),
-      );
+      final id = selectedItem.id as String;
+      final currentCount = _expandedRowCounts[id] ?? 0;
+      if (currentCount > 0) {
+        setState(() {
+          if (currentCount <= 1) {
+            _expandedRowCounts.remove(id);
+          } else {
+            _expandedRowCounts[id] = currentCount - 1;
+          }
+        });
+        return;
+      }
+      
+      context.read<MarketWatchBloc>().add(DeleteMarketItemEvent(itemId: id));
       return;
     }
     if (!isCtrlPressed) return;

@@ -7,7 +7,6 @@ abstract class RulesRemoteDataSource {
 class RulesRemoteDataSourceImpl implements RulesRemoteDataSource {
   @override
   Future<List<RuleModel>> getRules() async {
-    await Future.delayed(const Duration(milliseconds: 500));
     return [
       const RuleModel(
         id: '1',

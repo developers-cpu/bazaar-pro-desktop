@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import '../../../../../core/constants/app_images.dart';
 import '../models/shortcut_model.dart';
 
@@ -8,7 +9,7 @@ abstract class ShortcutsRemoteDataSource {
 class ShortcutsRemoteDataSourceImpl implements ShortcutsRemoteDataSource {
   @override
   Future<List<ShortcutModel>> getShortcuts() async {
-    await Future.delayed(const Duration(milliseconds: 500));
+    final cmdStr = defaultTargetPlatform == TargetPlatform.macOS ? 'CMD' : 'CTRL';
     return [
       const ShortcutModel(
         title: 'BUY',
@@ -50,19 +51,19 @@ class ShortcutsRemoteDataSourceImpl implements ShortcutsRemoteDataSource {
         keyComb: 'F10',
         iconPath: AppImages.messageIcon,
       ),
-      const ShortcutModel(
+      ShortcutModel(
         title: 'Cut Symbol',
-        keyComb: 'CTRL + X',
+        keyComb: '$cmdStr + X',
         iconPath: AppImages.menu5Icon,
       ),
-      const ShortcutModel(
+      ShortcutModel(
         title: 'Paste Symbol',
-        keyComb: 'CTRL + V',
+        keyComb: '$cmdStr + V',
         iconPath: AppImages.menu6Icon,
       ),
-      const ShortcutModel(
+      ShortcutModel(
         title: 'Undo Symbol',
-        keyComb: 'CTRL + Z',
+        keyComb: '$cmdStr + Z',
         iconPath: AppImages.reloadIcon,
       ),
     ];

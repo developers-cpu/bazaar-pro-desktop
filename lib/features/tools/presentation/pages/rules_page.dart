@@ -71,7 +71,7 @@ class _RulesPageState extends State<RulesPage>
             child: BlocBuilder<RulesBloc, RulesState>(
               builder: (context, state) {
                 if (state is RulesLoading) {
-                  return const Center(child: CircularProgressIndicator());
+                  return const SizedBox.shrink();
                 } else if (state is RulesError) {
                   return Center(child: Text(state.message));
                 } else if (state is RulesLoaded) {

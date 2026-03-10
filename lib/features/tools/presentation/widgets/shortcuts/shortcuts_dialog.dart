@@ -32,7 +32,7 @@ class ShortcutsDialog extends StatelessWidget {
     return BlocBuilder<ShortcutsBloc, ShortcutsState>(
       builder: (context, state) {
         if (state is ShortcutsLoading) {
-          return const Center(child: CircularProgressIndicator());
+          return const SizedBox.shrink();
         } else if (state is ShortcutsLoaded) {
           return SizedBox(
             width: double.maxFinite,

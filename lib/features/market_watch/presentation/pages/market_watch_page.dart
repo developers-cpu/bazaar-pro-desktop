@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,6 +27,7 @@ import '../widgets/symbo_info_dialog.dart';
 import '../widgets/symbol_font_dialog.dart';
 import '../widgets/market_depth_dialog.dart';
 import '../widgets/watchlist_widget.dart';
+import '../../../tools/presentation/widgets/messages/messages_dialog.dart';
 import 'dummy/file_page.dart';
 import 'dummy/report_page.dart';
 import 'dummy/tools_page.dart';
@@ -410,8 +412,28 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
       _openSellOrderDialog();
       return;
     }
+    if (event.logicalKey == LogicalKeyboardKey.f3) {
+      Navigator.of(context).pushReplacementNamed('/pending_order-orders');
+      return;
+    }
     if (event.logicalKey == LogicalKeyboardKey.f5) {
       _openMarketDepthDialog();
+      return;
+    }
+    if (event.logicalKey == LogicalKeyboardKey.f6) {
+      Navigator.of(context).pushReplacementNamed('/net-position');
+      return;
+    }
+    if (event.logicalKey == LogicalKeyboardKey.f8) {
+      Navigator.of(context).pushReplacementNamed('/trades');
+      return;
+    }
+    if (event.logicalKey == LogicalKeyboardKey.f9) {
+      Navigator.of(context).pushReplacementNamed('/deals');
+      return;
+    }
+    if (event.logicalKey == LogicalKeyboardKey.f10) {
+      MessagesDialog.show(context);
       return;
     }
     if (event.logicalKey == LogicalKeyboardKey.enter ||
@@ -436,9 +458,10 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
         ? state.previousState
         : (state is MarketWatchLoaded ? state : null);
     if (loadedState == null) return;
-    final isCtrlPressed =
-        HardwareKeyboard.instance.isControlPressed ||
-        HardwareKeyboard.instance.isMetaPressed;
+    final isMac = defaultTargetPlatform == TargetPlatform.macOS;
+    final isCtrlPressed = isMac
+        ? HardwareKeyboard.instance.isMetaPressed
+        : HardwareKeyboard.instance.isControlPressed;
     final selectedItem = _getSelectedItem(loadedState);
 
     if ((event.logicalKey == LogicalKeyboardKey.delete ||
@@ -480,26 +503,30 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
   }
 
   void _handleCtrlShortcut(KeyEvent event, dynamic selectedItem) {
+    if (event.logicalKey.keyLabel.isEmpty) return;
     final bloc = context.read<MarketWatchBloc>();
-    switch (event.logicalKey) {
-      case LogicalKeyboardKey.keyX:
-        if (selectedItem != null)
+    final keyLabel = event.logicalKey.keyLabel.toLowerCase();
+    switch (keyLabel) {
+      case 'x':
+        if (selectedItem != null) {
           bloc.add(CutMarketItemEvent(item: selectedItem));
+        }
         break;
-      case LogicalKeyboardKey.keyC:
-        if (selectedItem != null)
+      case 'c':
+        if (selectedItem != null) {
           bloc.add(CopyMarketItemEvent(item: selectedItem));
+        }
         break;
-      case LogicalKeyboardKey.keyV:
+      case 'v':
         bloc.add(const PasteMarketItemEvent());
         break;
-      case LogicalKeyboardKey.keyZ:
+      case 'z':
         bloc.add(const UndoActionEvent());
         break;
-      case LogicalKeyboardKey.keyY:
+      case 'y':
         bloc.add(const RedoActionEvent());
         break;
-      case LogicalKeyboardKey.keyG:
+      case 'g':
         bloc.add(const ToggleGridEvent());
         break;
     }

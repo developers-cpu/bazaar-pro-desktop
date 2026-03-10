@@ -85,10 +85,7 @@ class MyProfileDialog extends StatelessWidget {
       child: BlocBuilder<MyProfileBloc, MyProfileState>(
         builder: (context, state) {
           if (state is MyProfileLoading) {
-            return SizedBox(
-              height: 400.h,
-              child: const Center(child: CircularProgressIndicator()),
-            );
+            return const SizedBox.shrink();
           } else if (state is MyProfileError) {
             return SizedBox(
               height: 200.h,

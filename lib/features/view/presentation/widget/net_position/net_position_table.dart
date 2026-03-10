@@ -277,12 +277,6 @@ class NetPositionTable extends StatelessWidget {
                   context.read<NetPositionBloc>().add(
                     SelectPositionEvent(item.id),
                   );
-                  if (isClient) {
-                    OpenPositionDialog.show(
-                      context: context,
-                      isDarkMode: isDarkMode,
-                    );
-                  }
                 },
                 onSort: (columnId, ascending) {
                   context.read<NetPositionBloc>().add(

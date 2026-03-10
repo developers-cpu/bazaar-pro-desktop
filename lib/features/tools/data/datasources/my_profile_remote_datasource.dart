@@ -7,7 +7,6 @@ abstract class MyProfileRemoteDataSource {
 class MyProfileRemoteDataSourceImpl implements MyProfileRemoteDataSource {
   @override
   Future<MyProfileModel> getMyProfile() async {
-    await Future.delayed(const Duration(milliseconds: 500));
     return const MyProfileModel(
       userName: 'Democlient',
       name: 'Rajesh Patil',

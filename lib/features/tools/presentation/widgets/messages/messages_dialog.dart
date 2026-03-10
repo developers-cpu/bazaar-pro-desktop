@@ -35,7 +35,7 @@ class MessagesDialog extends StatelessWidget {
       content: BlocBuilder<MessageBloc, MessageState>(
         builder: (context, state) {
           if (state is MessageLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return const SizedBox.shrink();
           } else if (state is MessageError) {
             return Center(child: Text(state.message));
           } else if (state is MessageLoaded) {

@@ -29,7 +29,6 @@ class SquareOffDialog extends StatefulWidget {
 class _SquareOffDialogState extends State<SquareOffDialog> {
   String _selectedExchange = 'Exchange';
   String _selectedSymbol = 'Symbol';
-  String _squareOffType = 'All';
   final Color headerColor = const Color(0xFF2C5F7A);
   Set<int> _selectedIndices = {
     0,
@@ -273,18 +272,6 @@ class _SquareOffDialogState extends State<SquareOffDialog> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _buildSquareOffButton(
-              'Profit Position Square Off',
-              'Profit',
-              AppColors.buyColor,
-            ),
-            SizedBox(width: 16.w),
-            _buildSquareOffButton(
-              'Loss Position Square Off',
-              'Loss',
-              AppColors.sellColor,
-            ),
-            SizedBox(width: 16.w),
             _buildSquareOffButton('Square Off', 'All', AppColors.primaryBlue),
           ],
         ),
@@ -297,9 +284,6 @@ class _SquareOffDialogState extends State<SquareOffDialog> {
       height: 40.h,
       child: ElevatedButton(
         onPressed: () {
-          setState(() {
-            _squareOffType = type;
-          });
           showDialog(
             context: context,
             builder: (context) => Dialog(
@@ -329,14 +313,6 @@ class _SquareOffDialogState extends State<SquareOffDialog> {
   Widget _buildConfirmationContent() {
     String title = 'Square off All Positions';
     String message = 'Are You Sure you want to Square off all Positions?';
-
-    if (_squareOffType == 'Profit') {
-      title = 'Square off Profit Positions';
-      message = 'Are You Sure you want to Square off all Profit Positions?';
-    } else if (_squareOffType == 'Loss') {
-      title = 'Square off Loss Positions';
-      message = 'Are You Sure you want to Square off all Loss Positions?';
-    }
 
     return Container(
       padding: EdgeInsets.symmetric(vertical: 24.h, horizontal: 16.w),

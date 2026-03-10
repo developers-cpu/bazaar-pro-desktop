@@ -12,6 +12,8 @@ import '../../widget/net_position/square_off_dialog.dart';
 import '../../widget/net_position/roll_over_dialog.dart';
 import '../../widget/net_position/used_margin_dialog.dart';
 import '../../../../../../core/widget/custom_action_button.dart';
+import '../../../../../../core/widget/table/success_dialog.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
 
@@ -128,6 +130,42 @@ class _NetPositionPageState extends State<NetPositionPage> {
                   }
                 },
               ),
+              SizedBox(width: 8.w),
+              CustomActionButton(
+                text: 'Profit Position Square Off',
+                backgroundColor: AppColors.buyColor,
+                width: 170.w,
+                height: 36.h,
+                borderRadius: 8.r,
+                onPressed: () {
+                  if (isClient) {
+                    _showSquareOffConfirmation(context, 'Profit');
+                  } else {
+                    SelectUserDialog.show(
+                      context: context,
+                      actionType: 'ProfitSquareOff',
+                    );
+                  }
+                },
+              ),
+              SizedBox(width: 8.w),
+              CustomActionButton(
+                text: 'Loss Position Square Off',
+                backgroundColor: AppColors.sellColor,
+                width: 170.w,
+                height: 36.h,
+                borderRadius: 8.r,
+                onPressed: () {
+                  if (isClient) {
+                    _showSquareOffConfirmation(context, 'Loss');
+                  } else {
+                    SelectUserDialog.show(
+                      context: context,
+                      actionType: 'LossSquareOff',
+                    );
+                  }
+                },
+              ),
             ],
           ),
           Container(
@@ -153,6 +191,118 @@ class _NetPositionPageState extends State<NetPositionPage> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  void _showSquareOffConfirmation(BuildContext context, String type) {
+    String title = 'Square off All Positions';
+    String message = 'Are You Sure you want to Square off all Positions?';
+
+    if (type == 'Profit') {
+      title = 'Square off Profit Positions';
+      message = 'Are You Sure you want to Square off all Profit Positions?';
+    } else if (type == 'Loss') {
+      title = 'Square off Loss Positions';
+      message = 'Are You Sure you want to Square off all Loss Positions?';
+    }
+
+    showDialog(
+      context: context,
+      builder: (dialogContext) => Dialog(
+        backgroundColor: AppColors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.r),
+        ),
+        child: SizedBox(
+          width: 500.w,
+          child: Container(
+            padding: EdgeInsets.symmetric(vertical: 24.h, horizontal: 16.w),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  title,
+                  style: GoogleFonts.openSans(
+                    fontSize: 22.sp,
+                    color: AppColors.primaryBlue,
+                  ),
+                ),
+                SizedBox(height: 8.h),
+                Text(
+                  message,
+                  style: GoogleFonts.openSans(
+                    fontSize: 16.sp,
+                    color: Colors.grey.shade500,
+                  ),
+                ),
+                SizedBox(height: 24.h),
+                Row(
+                  children: [
+                    Expanded(
+                      child: SizedBox(
+                        height: 40.h,
+                        child: OutlinedButton(
+                          onPressed: () => Navigator.pop(dialogContext),
+                          style: OutlinedButton.styleFrom(
+                            side: BorderSide(
+                              color: AppColors.primaryBlue,
+                              width: 1.5,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.r),
+                            ),
+                          ),
+                          child: Text(
+                            'No',
+                            style: GoogleFonts.openSans(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.primaryBlue,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 16.w),
+                    Expanded(
+                      child: SizedBox(
+                        height: 40.h,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.pop(dialogContext);
+                            Future.delayed(Duration.zero, () {
+                              SuccessDialog.show(
+                                context: context,
+                                title: 'Successful !',
+                                subtitle:
+                                    'Selected Position are Successfully Squared off',
+                              );
+                            });
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primaryBlue,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.r),
+                            ),
+                          ),
+                          child: Text(
+                            'Yes',
+                            style: GoogleFonts.openSans(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

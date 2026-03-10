@@ -35,7 +35,7 @@ class AnnouncementDialog extends StatelessWidget {
       content: BlocBuilder<AnnouncementBloc, AnnouncementState>(
         builder: (context, state) {
           if (state is AnnouncementLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return const SizedBox.shrink();
           } else if (state is AnnouncementError) {
             return Center(child: Text(state.message));
           } else if (state is AnnouncementLoaded) {

@@ -7,7 +7,6 @@ abstract class MessageRemoteDataSource {
 class MessageRemoteDataSourceImpl implements MessageRemoteDataSource {
   @override
   Future<List<MessageModel>> getMessages() async {
-    await Future.delayed(const Duration(milliseconds: 500));
     return [
       MessageModel(
         id: '1',

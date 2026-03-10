@@ -22,6 +22,10 @@ class BillGenerateFilterBar extends StatefulWidget {
 class _BillGenerateFilterBarState extends State<BillGenerateFilterBar> {
   String _customPeriodLabel = 'Select Date Range';
   String _selectedDateRange = 'This Week';
+  String? _selectedUserType;
+  String? _selectedUser;
+  String? _selectedBillType;
+  String? _selectedBillFormat;
 
   @override
   Widget build(BuildContext context) {
@@ -68,8 +72,13 @@ class _BillGenerateFilterBarState extends State<BillGenerateFilterBar> {
         AppDropdown(
           width: 200.w,
           hintText: 'User Type',
+          value: _selectedUserType,
           items: const ['Master', 'Client'],
-          onChanged: (value) {},
+          onChanged: (value) {
+            setState(() {
+              _selectedUserType = value;
+            });
+          },
           height: 35.h,
         ),
         SizedBox(width: 16.w),
@@ -78,10 +87,14 @@ class _BillGenerateFilterBarState extends State<BillGenerateFilterBar> {
         AppDropdown(
           width: 200.w,
           hintText: 'User',
+          value: _selectedUser,
           items: const ['User 1', 'User 2', 'User 3'],
           type: AppDropdownType.search,
           searchHint: 'Search & Add',
           onChanged: (value) {
+            setState(() {
+              _selectedUser = value;
+            });
             context.read<BillGenerateBloc>().add(
               FilterBillGenerateReport(userId: value),
             );
@@ -93,8 +106,12 @@ class _BillGenerateFilterBarState extends State<BillGenerateFilterBar> {
       AppDropdown(
         width: 200.w,
         hintText: 'Bill Type',
+        value: _selectedBillType,
         items: const ['Advance', 'Regular'],
         onChanged: (value) {
+          setState(() {
+            _selectedBillType = value;
+          });
           context.read<BillGenerateBloc>().add(
             FilterBillGenerateReport(billType: value),
           );
@@ -105,8 +122,12 @@ class _BillGenerateFilterBarState extends State<BillGenerateFilterBar> {
       AppDropdown(
         width: 200.w,
         hintText: 'Bill Format',
+        value: _selectedBillFormat,
         items: const ['PDF', 'Excel'],
         onChanged: (value) {
+          setState(() {
+            _selectedBillFormat = value;
+          });
           context.read<BillGenerateBloc>().add(
             FilterBillGenerateReport(billFormat: value),
           );
@@ -119,6 +140,13 @@ class _BillGenerateFilterBarState extends State<BillGenerateFilterBar> {
         width: 100.w,
         child: OutlinedButton(
           onPressed: () {
+            setState(() {
+              _selectedDateRange = 'This Week';
+              _selectedUserType = null;
+              _selectedUser = null;
+              _selectedBillType = null;
+              _selectedBillFormat = null;
+            });
             context.read<BillGenerateBloc>().add(
               const LoadBillGenerateReport(),
             );
@@ -147,7 +175,7 @@ class _BillGenerateFilterBarState extends State<BillGenerateFilterBar> {
         child: ElevatedButton(
           onPressed: () {
             context.read<BillGenerateBloc>().add(
-              const LoadBillGenerateReport(),
+              const LoadBillGenerateReport(shouldExport: true),
             );
           },
           style: ElevatedButton.styleFrom(

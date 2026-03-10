@@ -12,9 +12,11 @@ import '../../../../../core/widget/table/view_data_table_footer.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
 import '../../../../../core/widget/table/view_record_count.dart';
 import '../../../../../core/widget/table/view_table_cell_styles.dart';
+import '../../../../../../core/widget/date_range_picker_dialog.dart';
+import 'package:intl/intl.dart';
 import 'client_breakdown_dialog.dart';
 
-class BrokerClientDialog extends StatelessWidget {
+class BrokerClientDialog extends StatefulWidget {
   final String brokerName;
   final bool isDarkMode;
   const BrokerClientDialog({
@@ -44,12 +46,20 @@ class BrokerClientDialog extends StatelessWidget {
   }
 
   @override
+  State<BrokerClientDialog> createState() => _BrokerClientDialogState();
+}
+
+class _BrokerClientDialogState extends State<BrokerClientDialog> {
+  String _customPeriodLabel = 'Select Date Range';
+  String _selectedDateRange = 'This Week';
+
+  @override
   Widget build(BuildContext context) {
     return CommonDialog(
       title: "Broker's Client",
-      isDarkMode: isDarkMode,
-      width: 800.w,
-      height: 600.h,
+      isDarkMode: widget.isDarkMode,
+      width: 600.w,
+      height: 450.h,
       showButtons: false,
       scrollable: false,
       contentPadding: EdgeInsets.zero,
@@ -64,17 +74,37 @@ class BrokerClientDialog extends StatelessWidget {
                   child: AppDropdown(
                     type: AppDropdownType.simple,
                     hintText: 'This Week',
+                    value: _selectedDateRange,
                     items: const [
                       'This Week',
                       'Previous Week',
                       'Custom Period',
                     ],
-                    subtitles: const [
+                    subtitles: [
                       '27-10-25 to 02-11-25',
                       '20-10-25 to 26-10-25',
-                      'Select Date Range',
+                      _customPeriodLabel,
                     ],
-                    onChanged: (value) {},
+                    onChanged: (value) async {
+                      if (value == 'Custom Period') {
+                        final DateTimeRange? picked =
+                            await CustomDateRangePickerDialog.show(
+                              context,
+                              showSimpleUI: true,
+                            );
+                        if (picked != null) {
+                          setState(() {
+                            _selectedDateRange = value!;
+                            _customPeriodLabel =
+                                '${DateFormat('dd-MM-yy').format(picked.start)} to ${DateFormat('dd-MM-yy').format(picked.end)}';
+                          });
+                        }
+                      } else if (value != null) {
+                        setState(() {
+                          _selectedDateRange = value;
+                        });
+                      }
+                    },
                   ),
                 ),
               ],
@@ -100,18 +130,18 @@ class BrokerClientDialog extends StatelessWidget {
                             ViewTableColumn(
                               id: 'name',
                               label: 'CLIENT NAME',
-                              width: 380,
+                              width: 100,
                             ),
                             ViewTableColumn(
                               id: 'brokerage',
                               label: 'BROKERAGE',
-                              width: 380,
+                              width: 100,
                               isNumeric: true,
                             ),
                           ],
                           data: clients,
                           idExtractor: (item) => item.name,
-                          isDarkMode: isDarkMode,
+                          isDarkMode: widget.isDarkMode,
                           autoFit: true,
                           headerBgColor: const Color(0xFFD3E3EC),
                           comparatorBuilder: (item, columnId) {
@@ -128,20 +158,25 @@ class BrokerClientDialog extends StatelessWidget {
                             if (column.id == 'name') {
                               return ViewLinkCell(
                                 text: item.name,
-                                isDark: isDarkMode,
+                                isDark: widget.isDarkMode,
                                 onTap: () {
                                   ClientBreakdownDialog.show(
                                     context: context,
                                     brokerId: 'brokerdemo01',
                                     clientName: item.name,
-                                    isDarkMode: isDarkMode,
+                                    isDarkMode: widget.isDarkMode,
                                   );
                                 },
                               );
                             }
-                            return ViewTextCell(
-                              text: item.brokerage.toStringAsFixed(0),
-                              isDark: isDarkMode,
+                            return ViewNumberCell(
+                              value: item.brokerage,
+                              displayText: item.brokerage.toStringAsFixed(0),
+                              isDark: widget.isDarkMode,
+                              colorByValue: false,
+                              fixedColor: widget.isDarkMode
+                                  ? Colors.white
+                                  : AppColors.black,
                             );
                           },
                           footerBuilder: (columns) {
@@ -156,7 +191,7 @@ class BrokerClientDialog extends StatelessWidget {
                                     )
                                     .toStringAsFixed(0),
                               },
-                              isDarkMode: isDarkMode,
+                              isDarkMode: widget.isDarkMode,
                               backgroundColor: const Color(0xFFD3E3EC),
                             );
                           },

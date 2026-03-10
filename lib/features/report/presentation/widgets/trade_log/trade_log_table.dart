@@ -96,8 +96,7 @@ class TradeLogTable extends StatelessWidget {
         return Column(
           children: [
             ViewRecordCount(count: state.filteredTradeLogs.length),
-            Flexible(
-              fit: FlexFit.loose,
+            Expanded(
               child: ViewDataTable<TradeLog>(
                 columns: _getColumns(),
                 data: state.filteredTradeLogs,

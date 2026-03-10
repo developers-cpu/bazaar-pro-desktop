@@ -34,7 +34,14 @@ class ScriptMasterTable extends StatelessWidget {
   ) {
     switch (column.id) {
       case 'exchange':
-        return ViewTextCell(text: item.exchange, isDark: isDark);
+        return Padding(
+          padding: const EdgeInsets.only(left: 12),
+          child: ViewTextCell(
+            text: item.exchange,
+            isDark: isDark,
+            isStart: true,
+          ),
+        );
       case 'symbol':
         return Padding(
           padding: const EdgeInsets.only(left: 12),
@@ -45,9 +52,13 @@ class ScriptMasterTable extends StatelessWidget {
       case 'tradeAttribute':
         return _buildTradeAttributeCell(item, isDark);
       case 'allowTrade':
-        return ViewTextCell(
-          text: item.allowTrade ? 'Yes' : 'No',
-          isDark: isDark,
+        return Padding(
+          padding: const EdgeInsets.only(left: 12),
+          child: ViewTextCell(
+            text: item.allowTrade ? 'Yes' : 'No',
+            isDark: isDark,
+            isStart: true,
+          ),
         );
       default:
         return const SizedBox.shrink();
@@ -59,21 +70,23 @@ class ScriptMasterTable extends StatelessWidget {
     final timeFormat = DateFormat('h:mm:ss a');
     final formattedDate = dateFormat.format(item.expiryDate);
     final formattedTime = timeFormat.format(item.expiryDate);
-    return Container(
-      alignment: Alignment.center,
-      child: Text(
-        '$formattedDate | $formattedTime',
-        style: ViewTableCellStyles.getTextStyle(isDark: isDark),
+    return Padding(
+      padding: const EdgeInsets.only(left: 12),
+      child: ViewTextCell(
+        text: '$formattedDate | $formattedTime',
+        isDark: isDark,
+        isStart: true,
       ),
     );
   }
 
   Widget _buildTradeAttributeCell(ScriptMaster item, bool isDark) {
-    return Container(
-      alignment: Alignment.center,
-      child: Text(
-        item.tradeAttribute,
-        style: ViewTableCellStyles.getTextStyle(isDark: isDark),
+    return Padding(
+      padding: const EdgeInsets.only(left: 12),
+      child: ViewTextCell(
+        text: item.tradeAttribute,
+        isDark: isDark,
+        isStart: true,
       ),
     );
   }

@@ -58,10 +58,15 @@ class BrokerListTable extends StatelessWidget {
 
   List<ViewTableColumn> _getColumns() {
     return const [
-      ViewTableColumn(id: 'index', label: 'INDEX', width: 100),
+      ViewTableColumn(id: 'index', label: 'INDEX', width: 100, isNumeric: true),
       ViewTableColumn(id: 'createdAt', label: 'CREATED AT', width: 200),
       ViewTableColumn(id: 'name', label: 'BROKER NAME', width: 200),
-      ViewTableColumn(id: 'clientsCount', label: 'CLIENTS COUNT', width: 200),
+      ViewTableColumn(
+        id: 'clientsCount',
+        label: 'CLIENTS COUNT',
+        width: 200,
+        isNumeric: true,
+      ),
       ViewTableColumn(
         id: 'totalBrokerage',
         label: 'TOTAL BROKERAGE',
@@ -75,22 +80,31 @@ class BrokerListTable extends StatelessWidget {
   Widget _buildCell(BuildContext context, Broker item, ViewTableColumn column) {
     switch (column.id) {
       case 'index':
-        return ViewTextCell(text: item.index.toString(), isDark: isDarkMode);
+        return ViewNumberCell(
+          value: item.index.toDouble(),
+          displayText: item.index.toString(),
+          colorByValue: false,
+          isDark: isDarkMode,
+        );
       case 'createdAt':
         return ViewDateTimeCell(dateTime: item.createdAt, isDark: isDarkMode);
       case 'name':
         return ViewTextCell(text: item.name, isDark: isDarkMode);
       case 'clientsCount':
-        return ViewLinkCell(
-          text: item.clientsCount.toString(),
-          isDark: isDarkMode,
-          onTap: () {
-            BrokerClientDialog.show(
-              context: context,
-              brokerName: item.name,
-              isDarkMode: isDarkMode,
-            );
-          },
+        return Container(
+          alignment: Alignment.centerRight,
+          child: ViewLinkCell(
+            text: item.clientsCount.toString(),
+            isDark: isDarkMode,
+            isEnd: true,
+            onTap: () {
+              BrokerClientDialog.show(
+                context: context,
+                brokerName: item.name,
+                isDarkMode: isDarkMode,
+              );
+            },
+          ),
         );
       case 'totalBrokerage':
         return ViewNumberCell(

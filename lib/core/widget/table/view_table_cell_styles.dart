@@ -168,14 +168,16 @@ class ViewNumberCell extends StatelessWidget {
 class ViewLinkCell extends StatelessWidget {
   final String text;
   final VoidCallback? onTap;
-  final bool isDark;
   final bool isStart;
+  final bool isEnd;
+  final bool isDark;
   const ViewLinkCell({
     Key? key,
     required this.text,
     this.onTap,
     this.isDark = false,
     this.isStart = false,
+    this.isEnd = false,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -183,7 +185,7 @@ class ViewLinkCell extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: double.infinity,
-        alignment: Alignment.centerLeft,
+        alignment: isEnd ? Alignment.centerRight : Alignment.centerLeft,
         child: Container(
           padding: const EdgeInsets.only(bottom: 2),
           decoration: const BoxDecoration(
@@ -198,7 +200,7 @@ class ViewLinkCell extends StatelessWidget {
               color: AppColors.primaryBlue,
               fontWeight: FontWeight.w600,
             ),
-            textAlign: TextAlign.start,
+            textAlign: isEnd ? TextAlign.end : TextAlign.start,
             maxLines: 1,
             softWrap: false,
           ),

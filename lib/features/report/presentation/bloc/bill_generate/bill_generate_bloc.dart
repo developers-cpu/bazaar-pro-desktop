@@ -18,8 +18,8 @@ class BillGenerateBloc extends Bloc<BillGenerateEvent, BillGenerateState> {
     final failureOrReport = await getBillGenerateReport(
       GetBillGenerateParams(
         userId: event.userId ?? '',
-        billFormat: event.billFormat ?? 'Advance',
-        billType: event.billType ?? 'PDF',
+        billFormat: event.billFormat ?? 'PDF',
+        billType: event.billType ?? 'Advance',
       ),
     );
     failureOrReport.fold(
@@ -30,6 +30,7 @@ class BillGenerateBloc extends Bloc<BillGenerateEvent, BillGenerateState> {
           selectedUserId: event.userId,
           selectedBillFormat: event.billFormat,
           selectedBillType: event.billType,
+          shouldExport: event.shouldExport,
         ),
       ),
     );
@@ -46,6 +47,7 @@ class BillGenerateBloc extends Bloc<BillGenerateEvent, BillGenerateState> {
           userId: event.userId ?? currentState.selectedUserId,
           billFormat: event.billFormat ?? currentState.selectedBillFormat,
           billType: event.billType ?? currentState.selectedBillType,
+          shouldExport: false,
         ),
       );
     } else {
@@ -54,6 +56,7 @@ class BillGenerateBloc extends Bloc<BillGenerateEvent, BillGenerateState> {
           userId: event.userId,
           billFormat: event.billFormat,
           billType: event.billType,
+          shouldExport: false,
         ),
       );
     }

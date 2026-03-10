@@ -10,9 +10,17 @@ class LoadBillGenerateReport extends BillGenerateEvent {
   final String? userId;
   final String? billFormat;
   final String? billType;
-  const LoadBillGenerateReport({this.userId, this.billFormat, this.billType});
+  final bool shouldExport;
+
+  const LoadBillGenerateReport({
+    this.userId,
+    this.billFormat,
+    this.billType,
+    this.shouldExport = false,
+  });
+
   @override
-  List<Object?> get props => [userId, billFormat, billType];
+  List<Object?> get props => [userId, billFormat, billType, shouldExport];
 }
 
 class FilterBillGenerateReport extends BillGenerateEvent {

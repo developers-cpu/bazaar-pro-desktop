@@ -16,23 +16,27 @@ class BillGenerateLoaded extends BillGenerateState {
   final String? selectedUserId;
   final String? selectedBillFormat;
   final String? selectedBillType;
+  final bool shouldExport;
   const BillGenerateLoaded({
     required this.report,
     this.selectedUserId,
     this.selectedBillFormat,
     this.selectedBillType,
+    this.shouldExport = false,
   });
   BillGenerateLoaded copyWith({
     BillGenerateReport? report,
     String? selectedUserId,
     String? selectedBillFormat,
     String? selectedBillType,
+    bool? shouldExport,
   }) {
     return BillGenerateLoaded(
       report: report ?? this.report,
       selectedUserId: selectedUserId ?? this.selectedUserId,
       selectedBillFormat: selectedBillFormat ?? this.selectedBillFormat,
       selectedBillType: selectedBillType ?? this.selectedBillType,
+      shouldExport: shouldExport ?? this.shouldExport,
     );
   }
 

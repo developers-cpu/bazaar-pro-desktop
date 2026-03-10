@@ -261,8 +261,7 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Flexible(
-          fit: FlexFit.loose,
+        Expanded(
           child: Scrollbar(
             controller: _horizontalScrollController,
             thumbVisibility: true,
@@ -272,11 +271,10 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
               child: SizedBox(
                 width: totalWidth,
                 child: Column(
-                  mainAxisSize: MainAxisSize.min,
+                  mainAxisSize: MainAxisSize.max,
                   children: [
                     _buildHeaderRow(headerHeight, scale),
-                    Flexible(
-                      fit: FlexFit.loose,
+                    Expanded(
                       child: _displayData.isEmpty
                           ? _buildEmptyState()
                           : _buildDataRows(rowHeight, scale),

@@ -121,7 +121,12 @@ class ClientBreakdownDialog extends StatelessWidget {
         label: isSymbolBased ? 'SYMBOL' : 'EXCHNAGE',
         width: 300,
       ),
-      const ViewTableColumn(id: 'turnover', label: 'TURNOVER', width: 300),
+      const ViewTableColumn(
+        id: 'turnover',
+        label: 'TURNOVER',
+        width: 300,
+        isNumeric: true,
+      ),
       const ViewTableColumn(
         id: 'brokerage',
         label: 'BROKRAGE',

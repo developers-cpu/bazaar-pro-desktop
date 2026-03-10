@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import '../../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
 import '../../../../../core/widget/table/view_data_table_footer.dart';
@@ -69,13 +68,11 @@ class CreditHistoryTable extends StatelessWidget {
         } else if (item.type.toLowerCase() == 'debit') {
           typeColor = AppColors.red;
         }
-        return Text(
-          item.type,
-          style: GoogleFonts.openSans(
-            fontSize: 12.sp,
-            fontWeight: FontWeight.w600,
-            color: typeColor,
-          ),
+        return ViewTextCell(
+          text: item.type,
+          color: typeColor,
+          isDark: isDark,
+          isStart: true,
         );
       case 'amount':
         return ViewNumberCell(
@@ -157,7 +154,6 @@ class CreditHistoryTable extends StatelessWidget {
                       'amount': totalAmount.toStringAsFixed(2),
                     },
                     isDarkMode: isDarkMode,
-                    textAlign: TextAlign.center,
                     columnColors: {
                       'amount': ViewTableCellStyles.getValueColor(
                         totalAmount,

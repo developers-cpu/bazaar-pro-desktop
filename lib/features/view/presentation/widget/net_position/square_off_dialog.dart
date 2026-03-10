@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/common_dilog_box.dart';
 import '../../../../../core/widget/app_dropdown.dart';
 import '../../../../../core/widget/table/success_dialog.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
 import '../../../../../core/widget/table/view_record_count.dart';
+import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class SquareOffDialog extends StatefulWidget {
   const SquareOffDialog({Key? key}) : super(key: key);
@@ -186,11 +187,26 @@ class _SquareOffDialogState extends State<SquareOffDialog> {
       ),
       ViewTableColumn(id: 'exchange', label: 'EXCH', width: 80.w),
       ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 120.w),
-      ViewTableColumn(id: 'buyQty', label: 'BUY QTY', width: 100.w),
-      ViewTableColumn(id: 'sellQty', label: 'SELL QTY', width: 100.w),
-      ViewTableColumn(id: 'qty', label: 'QTY', width: 80.w),
-      ViewTableColumn(id: 'pl', label: 'P/L', width: 100.w),
-      ViewTableColumn(id: 'tPrice', label: 'T. PRICE', width: 100.w),
+      ViewTableColumn(
+        id: 'buyQty',
+        label: 'BUY QTY',
+        width: 100.w,
+        isNumeric: true,
+      ),
+      ViewTableColumn(
+        id: 'sellQty',
+        label: 'SELL QTY',
+        width: 100.w,
+        isNumeric: true,
+      ),
+      ViewTableColumn(id: 'qty', label: 'QTY', width: 80.w, isNumeric: true),
+      ViewTableColumn(id: 'pl', label: 'P/L', width: 100.w, isNumeric: true),
+      ViewTableColumn(
+        id: 'tPrice',
+        label: 'T. PRICE',
+        width: 100.w,
+        isNumeric: true,
+      ),
     ];
   }
 
@@ -204,36 +220,34 @@ class _SquareOffDialogState extends State<SquareOffDialog> {
           ),
         );
       case 'exchange':
-        return _tableCell('MCX', headerColor);
+        return ViewTextCell(text: 'MCX');
       case 'symbol':
-        return _tableCell('GOLD05DEC', headerColor);
+        return ViewTextCell(text: 'GOLD05DEC');
       case 'buyQty':
-        return _tableCell('0.00', headerColor);
+        return ViewNumberCell(value: 0.0, displayText: '0.00');
       case 'sellQty':
-        return _tableCell('1.00', AppColors.red);
+        return ViewNumberCell(
+          value: 1.0,
+          displayText: '1.00',
+          fixedColor: AppColors.red,
+        );
       case 'qty':
-        return _tableCell('-1.00', AppColors.blue);
+        return ViewNumberCell(
+          value: -1.0,
+          displayText: '-1.00',
+          fixedColor: AppColors.blue,
+        );
       case 'pl':
-        return _tableCell('36200.00', headerColor);
+        return ViewNumberCell(value: 36200.0, displayText: '36200.00');
       case 'tPrice':
-        return _tableCell('124191.00', AppColors.red);
+        return ViewNumberCell(
+          value: 124191.0,
+          displayText: '124191.00',
+          fixedColor: AppColors.red,
+        );
       default:
         return const SizedBox.shrink();
     }
-  }
-
-  Widget _tableCell(String title, Color color, {bool bold = false}) {
-    return Container(
-      alignment: Alignment.center,
-      child: Text(
-        title,
-        style: GoogleFonts.openSans(
-          fontSize: 13.sp,
-          fontWeight: bold ? FontWeight.bold : FontWeight.normal,
-          color: color,
-        ),
-      ),
-    );
   }
 
   Widget _buildCheckbox(bool value) {

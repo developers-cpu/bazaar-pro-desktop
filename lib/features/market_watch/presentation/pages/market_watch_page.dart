@@ -440,7 +440,7 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
         HardwareKeyboard.instance.isControlPressed ||
         HardwareKeyboard.instance.isMetaPressed;
     final selectedItem = _getSelectedItem(loadedState);
-    // Delete or Backspace removes one spacer row
+    
     if ((event.logicalKey == LogicalKeyboardKey.delete ||
             event.logicalKey == LogicalKeyboardKey.backspace) &&
         selectedItem != null &&
@@ -457,7 +457,7 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
         });
         return;
       }
-      // If no spacer rows, delete the item
+      
       context.read<MarketWatchBloc>().add(DeleteMarketItemEvent(itemId: id));
       return;
     }

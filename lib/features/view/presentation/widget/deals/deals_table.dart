@@ -32,7 +32,7 @@ class DealsTable extends StatelessWidget {
         ViewTableColumn(id: 'buySell', label: 'B/S', width: 200),
         ViewTableColumn(id: 'qty', label: 'QTY', width: 90, isNumeric: true),
         ViewTableColumn(id: 'lot', label: 'Lot', width: 70, isNumeric: true),
-        ViewTableColumn(id: 'orderType', label: 'Type', width: 80),
+        ViewTableColumn(id: 'orderType', label: 'Type', width: 120),
         ViewTableColumn(id: 'pl', label: 'P/L', width: 90, isNumeric: true),
         ViewTableColumn(
           id: 'triggerPrice',
@@ -88,7 +88,7 @@ class DealsTable extends StatelessWidget {
         width: 100,
         isNumeric: true,
       ),
-      const ViewTableColumn(id: 'orderType', label: 'TYPE', width: 100),
+      const ViewTableColumn(id: 'orderType', label: 'TYPE', width: 120),
       const ViewTableColumn(
         id: 'pl',
         label: 'P/L',
@@ -173,7 +173,12 @@ class DealsTable extends StatelessWidget {
           isDark: isDark,
         );
       case 'lot':
-        return ViewTextCell(text: item.lot.toStringAsFixed(2), isDark: isDark);
+        return ViewNumberCell(
+          value: item.lot,
+          displayText: item.lot.toStringAsFixed(2),
+          colorByValue: false,
+          isDark: isDark,
+        );
       case 'orderType':
         return ViewTextCell(text: item.orderType, isDark: isDark);
       case 'pl':

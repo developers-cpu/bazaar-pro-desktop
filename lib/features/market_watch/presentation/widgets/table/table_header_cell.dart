@@ -14,7 +14,7 @@ class TableHeaderCell extends StatefulWidget {
   final FontWeight fontWeight;
   final bool showSortIcon;
   final bool isLast;
-  final bool showGrid; // new flag to indicate grid mode
+  final bool showGrid; 
   final void Function(String fromColumnId, String toColumnId)? onColumnReorder;
   const TableHeaderCell({
     Key? key,

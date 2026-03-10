@@ -47,8 +47,12 @@ class ViewDataTableFooter extends StatelessWidget {
           final isLast = index == columns.length - 1;
           return Container(
             width: column.width,
-            alignment: Alignment.center,
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            alignment: column.isNumeric
+                ? Alignment.centerRight
+                : Alignment.centerLeft,
+            padding: EdgeInsets.symmetric(
+              horizontal: column.width <= 50 ? 4.w : 16.w,
+            ),
             decoration: BoxDecoration(
               border: (isLast || !showDividers)
                   ? null
@@ -59,11 +63,17 @@ class ViewDataTableFooter extends StatelessWidget {
               style: ViewTableCellStyles.getTextStyle(
                 isDark: isDarkMode,
                 fontWeight: FontWeight.w500,
-                fontSize: 11.sp,
+                fontSize: 13.sp,
                 color:
-                    columnColors?[column.id] ?? textColor ?? defaultTextColor,
+                    columnColors?[column.id] ??
+                    (column.isNumeric
+                        ? ViewTableCellStyles.getValueColor(
+                            double.tryParse(value.replaceAll(',', '')) ?? 0.0,
+                            isDark: isDarkMode,
+                          )
+                        : defaultTextColor),
               ),
-              textAlign: textAlign ?? TextAlign.center,
+              textAlign: column.isNumeric ? TextAlign.end : TextAlign.start,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),

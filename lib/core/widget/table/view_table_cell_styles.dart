@@ -121,6 +121,7 @@ class ViewNumberCell extends StatelessWidget {
   final Color? fixedColor;
   final bool isDark;
   final bool isStart;
+  final EdgeInsetsGeometry? padding;
 
   const ViewNumberCell({
     Key? key,
@@ -130,6 +131,7 @@ class ViewNumberCell extends StatelessWidget {
     this.fixedColor,
     this.isDark = false,
     this.isStart = false,
+    this.padding,
   }) : super(key: key);
 
   @override
@@ -143,6 +145,7 @@ class ViewNumberCell extends StatelessWidget {
 
     return Container(
       width: double.infinity,
+      padding: padding,
       alignment: Alignment.centerRight,
       child: Text(
         text,
@@ -219,12 +222,16 @@ class ViewDateTimeCell extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Text(
-      _formatDateTime(),
-      style: ViewTableCellStyles.getTextStyle(isDark: isDark, color: color),
-      textAlign: TextAlign.center,
-      maxLines: 1,
-      softWrap: false,
+    return Container(
+      width: double.infinity,
+      alignment: Alignment.centerLeft,
+      child: Text(
+        _formatDateTime(),
+        style: ViewTableCellStyles.getTextStyle(isDark: isDark, color: color),
+        textAlign: TextAlign.start,
+        maxLines: 1,
+        softWrap: false,
+      ),
     );
   }
 

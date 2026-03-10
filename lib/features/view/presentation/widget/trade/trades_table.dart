@@ -137,15 +137,11 @@ class TradesTable extends StatelessWidget {
           item.qty,
           isDark: isDark,
         );
-        return Text(
-          item.symbol,
-          style: ViewTableCellStyles.getTextStyle(
-            isDark: isDark,
-            color: symbolColor,
-          ),
-          textAlign: TextAlign.center,
-          maxLines: 1,
-          softWrap: false,
+        return ViewTextCell(
+          text: item.symbol,
+          color: symbolColor,
+          isDark: isDark,
+          isStart: true,
         );
       case 'orderDateTime':
         return ViewDateTimeCell(dateTime: item.orderDateTime, isDark: isDark);
@@ -162,7 +158,12 @@ class TradesTable extends StatelessWidget {
           isDark: isDark,
         );
       case 'lot':
-        return ViewTextCell(text: item.lot.toStringAsFixed(2), isDark: isDark);
+        return ViewNumberCell(
+          value: item.lot,
+          displayText: item.lot.toStringAsFixed(2),
+          colorByValue: false,
+          isDark: isDark,
+        );
       case 'orderType':
         return ViewTextCell(text: item.orderType, isDark: isDark);
       case 'pl':

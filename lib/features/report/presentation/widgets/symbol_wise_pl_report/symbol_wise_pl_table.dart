@@ -18,11 +18,31 @@ class SymbolWisePLTable extends StatelessWidget {
     return const [
       ViewTableColumn(id: 'exchange', label: 'EXCH', width: 100),
       ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 220),
-      ViewTableColumn(id: 'releasePL', label: 'RELEASE PL', width: 140),
-      ViewTableColumn(id: 'm2m', label: 'M2M', width: 140),
-      ViewTableColumn(id: 'brokerage', label: 'BRK', width: 120),
-      ViewTableColumn(id: 'netPL', label: 'NET PL', width: 140),
-      ViewTableColumn(id: 'ourPercent', label: 'OUR %', width: 140),
+      ViewTableColumn(
+        id: 'releasePL',
+        label: 'RELEASE PL',
+        width: 140,
+        isNumeric: true,
+      ),
+      ViewTableColumn(id: 'm2m', label: 'M2M', width: 140, isNumeric: true),
+      ViewTableColumn(
+        id: 'brokerage',
+        label: 'BRK',
+        width: 120,
+        isNumeric: true,
+      ),
+      ViewTableColumn(
+        id: 'netPL',
+        label: 'NET PL',
+        width: 140,
+        isNumeric: true,
+      ),
+      ViewTableColumn(
+        id: 'ourPercent',
+        label: 'OUR %',
+        width: 140,
+        isNumeric: true,
+      ),
     ];
   }
 

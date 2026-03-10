@@ -16,12 +16,7 @@ class TradeMarginBloc extends Bloc<TradeMarginEvent, TradeMarginState> {
     LoadTradeMargins event,
     Emitter<TradeMarginState> emit,
   ) async {
-    emit(TradeMarginLoading());
-    final result = await getTradeMargins();
-    result.fold(
-      (failure) => emit(const TradeMarginError(message: 'Failed to load data')),
-      (data) => emit(TradeMarginLoaded(tradeMargins: data)),
-    );
+    emit(const TradeMarginLoaded(tradeMargins: [], showDialog: false));
   }
 
   Future<void> _onUpdateTradeMarginFilters(

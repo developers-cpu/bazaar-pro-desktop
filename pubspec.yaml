@@ -1,7 +1,7 @@
 name: bazarpro
 description: "A new Flutter project."
 
-publish_to: 'none' 
+publish_to: "none"
 
 version: 1.0.0+9
 
@@ -54,7 +54,6 @@ flutter:
     - assets/icons/view/
     - assets/icons/users/
     - assets/images/bazaar_logo.png
-
 
 flutter_launcher_icons:
   android: false

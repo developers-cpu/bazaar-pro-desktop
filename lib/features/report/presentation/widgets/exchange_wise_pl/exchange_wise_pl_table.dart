@@ -23,11 +23,26 @@ class ExchangeWisePLTable extends StatelessWidget {
   List<ViewTableColumn> _getColumns() {
     return const [
       ViewTableColumn(id: 'exchange', label: 'EXCH', width: 120),
-      ViewTableColumn(id: 'm2m', label: 'M2M', width: 140),
-      ViewTableColumn(id: 'realisedPL', label: 'REALISED P/L', width: 140),
-      ViewTableColumn(id: 'brokerage', label: 'BRK', width: 120),
-      ViewTableColumn(id: 'total', label: 'TOTAL', width: 140),
-      ViewTableColumn(id: 'ourPercent', label: 'OUR %', width: 140),
+      ViewTableColumn(id: 'm2m', label: 'M2M', width: 140, isNumeric: true),
+      ViewTableColumn(
+        id: 'realisedPL',
+        label: 'REALISED P/L',
+        width: 140,
+        isNumeric: true,
+      ),
+      ViewTableColumn(
+        id: 'brokerage',
+        label: 'BRK',
+        width: 120,
+        isNumeric: true,
+      ),
+      ViewTableColumn(id: 'total', label: 'TOTAL', width: 140, isNumeric: true),
+      ViewTableColumn(
+        id: 'ourPercent',
+        label: 'OUR %',
+        width: 140,
+        isNumeric: true,
+      ),
     ];
   }
 
@@ -39,7 +54,9 @@ class ExchangeWisePLTable extends StatelessWidget {
   ) {
     return InkWell(
       onTap: onTap,
-      child: Center(
+      child: Container(
+        width: double.infinity,
+        alignment: Alignment.centerRight,
         child: Container(
           decoration: BoxDecoration(
             border: Border(
@@ -55,7 +72,7 @@ class ExchangeWisePLTable extends StatelessWidget {
               isDark: isDark,
               color: ViewTableCellStyles.getValueColor(value, isDark: isDark),
             ).copyWith(fontWeight: FontWeight.bold),
-            textAlign: TextAlign.center,
+            textAlign: TextAlign.right,
           ),
         ),
       ),

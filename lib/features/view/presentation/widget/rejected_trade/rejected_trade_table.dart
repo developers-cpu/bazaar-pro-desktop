@@ -116,7 +116,11 @@ class RejectedTradeTable extends StatelessWidget {
       case 'qty':
         return ViewNumberCell(value: trade.qty, colorByValue: false);
       case 'lot':
-        return ViewNumberCell(value: trade.lot, colorByValue: false);
+        return ViewNumberCell(
+          value: trade.lot,
+          displayText: trade.lot.toStringAsFixed(2),
+          colorByValue: false,
+        );
       case 'type':
         return ViewTextCell(text: trade.type);
       case 'pl':

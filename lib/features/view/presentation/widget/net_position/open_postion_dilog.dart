@@ -280,19 +280,26 @@ class _OpenPositionDialogState extends State<OpenPositionDialog> {
           isDark: widget.isDarkMode,
         );
       case 'ourPercent':
-        return ViewTextCell(
-          text: item.ourPercentage.toStringAsFixed(2),
+        return ViewNumberCell(
+          value: item.ourPercentage,
+          displayText: item.ourPercentage.toStringAsFixed(2),
           isDark: widget.isDarkMode,
+          colorByValue: false, 
         );
       case 'user':
-        return ViewTextCell(
-          text: item.userCount > 0 ? item.userCount.toString() : '-',
+        return ViewNumberCell(
+          value: double.tryParse(item.userCount.toString()) ?? 0,
+          displayText: item.userCount > 0 ? item.userCount.toString() : '-',
           isDark: widget.isDarkMode,
+          colorByValue: false,
         );
       case 'days':
-        return ViewTextCell(
-          text: item.days.toString(),
+        return ViewNumberCell(
+          value: item.days.toDouble(),
+          displayText: item.days.toString(),
+          colorByValue: false,
           isDark: widget.isDarkMode,
+          padding: EdgeInsets.only(right: 15.w),
         );
       default:
         return const SizedBox.shrink();

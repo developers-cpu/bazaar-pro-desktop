@@ -57,10 +57,13 @@ class TradeMarginDialog extends StatelessWidget {
                   if (state is TradeMarginLoading) {
                     return const Center(child: CircularProgressIndicator());
                   } else if (state is TradeMarginLoaded) {
-                    return TradeMarginTable(
-                      tradeMargins: state.tradeMargins,
-                      isClient: isClient,
-                    );
+                    if (state.showDialog) {
+                      return TradeMarginTable(
+                        tradeMargins: state.tradeMargins,
+                        isClient: isClient,
+                      );
+                    }
+                    return const SizedBox.shrink();
                   }
                   return const SizedBox.shrink();
                 },

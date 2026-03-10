@@ -62,9 +62,17 @@ class BrokerageDialog extends StatelessWidget {
       case 'symbol':
         return ViewTextCell(text: item.symbol);
       case 'brokeragePercentage':
-        return ViewTextCell(text: item.brokeragePercentage.toStringAsFixed(0));
+        return ViewNumberCell(
+          value: item.brokeragePercentage,
+          displayText: item.brokeragePercentage.toStringAsFixed(0),
+          colorByValue: false,
+        );
       case 'brokerageAmount':
-        return ViewTextCell(text: item.brokerageAmount.toStringAsFixed(0));
+        return ViewNumberCell(
+          value: item.brokerageAmount,
+          displayText: item.brokerageAmount.toStringAsFixed(0),
+          colorByValue: false,
+        );
       default:
         return ViewTextCell(text: '');
     }

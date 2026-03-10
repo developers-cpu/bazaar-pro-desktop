@@ -181,7 +181,13 @@ class NetPositionTable extends StatelessWidget {
       case 'userCount':
         return ViewTextCell(text: item.userCount.toString(), isDark: isDark);
       case 'days':
-        return ViewTextCell(text: item.days.toString(), isDark: isDark);
+        return ViewNumberCell(
+          value: item.days.toDouble(),
+          displayText: item.days.toString(),
+          colorByValue: false,
+          isDark: isDark,
+          padding: EdgeInsets.only(right: 15.w),
+        );
       default:
         return const SizedBox.shrink();
     }

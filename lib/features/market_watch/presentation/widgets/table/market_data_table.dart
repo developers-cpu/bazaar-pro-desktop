@@ -405,7 +405,7 @@ class _MarketDataTableState extends State<MarketDataTable> {
           ),
         ),
       );
-      // Insert spacer rows based on count
+      
       final spacerCount = widget.expandedRowCounts[item.id] ?? 0;
       for (int i = 0; i < spacerCount; i++) {
         rows.add(

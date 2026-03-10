@@ -19,7 +19,7 @@ class LightThemeColors {
   static const Color chipBgBlue = Color(0xFFDFECFE);
   static const Color chipTextRedColor = Color(0xFFE05E50);
   static const Color chipBgRed = Color(0xFFFBE7E4);
-  static const Color selectedRowBackground = Color(0xFFE3F2FD);
+  static const Color selectedRowBackground = Color(0xFFB3D9FF);
   static const Color highlightColor = Color(0xFFBBDEFB);
   static const Color selectedRowBorder = Color(0xFF0066FF);
   static const Color contextMenuBackground = Color(0xFFFFFFFF);
@@ -49,9 +49,9 @@ class DarkThemeColors {
   static const Color chipBgBlue = Color(0xFF162032);
   static const Color chipTextRedColor = Color(0xFFE05E50);
   static const Color chipBgRed = Color(0xFF2B1A1A);
-  static const Color selectedRowBackground = Color(0xFF162032);
+  static const Color selectedRowBackground = Color.fromARGB(255, 18, 73, 151);
   static const Color highlightColor = Color(0xFF232E3D);
-  static const Color selectedRowBorder = Color(0xFF1F4A66);
+  static const Color selectedRowBorder = Color.fromARGB(255, 2, 20, 31);
   static const Color contextMenuBackground = Color(0xFF1C1C1C);
   static const Color contextMenuHover = Color(0xFF162032);
   static const Color positiveTextColor = AppColors.buyColor;
@@ -97,7 +97,7 @@ class AppColors {
   static const Color infoColor = Color(0xFF2196F3);
   static const Color contextMenuBackground = Color(0xFFFFFFFF);
   static const Color contextMenuHover = Color(0xFFE3F2FD);
-  static const Color selectedRowBackground = Color(0xFFE3F2FD);
+  static const Color selectedRowBackground = Color(0xFFB3D9FF);
   static const Color highlightColor = Color(0xFFBBDEFB);
   static const Color textGrey = Color(0xFF9E9E9E);
   static const Color blue = Color(0xFF0066FF);

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../core/constants/app_colors.dart';
+import '../../../../auth/presentation/bloc/auth_bloc.dart';
+import '../../../../auth/presentation/bloc/auth_state.dart';
 import '../../bloc/deals/deals_bloc.dart';
 import '../../bloc/deals/deals_event.dart';
 import '../../bloc/deals/deals_state.dart';
@@ -19,7 +21,11 @@ class _DealsPageState extends State<DealsPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<DealsBloc>().add(const LoadDealsEvent());
+      final authState = context.read<AuthBloc>().state;
+      final isClient =
+          authState is AuthAuthenticated &&
+          authState.user.role.toLowerCase() == 'client';
+      context.read<DealsBloc>().add(LoadDealsEvent(isClient: isClient));
     });
   }
 

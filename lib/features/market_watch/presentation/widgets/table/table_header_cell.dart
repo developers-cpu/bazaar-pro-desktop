@@ -14,6 +14,7 @@ class TableHeaderCell extends StatefulWidget {
   final FontWeight fontWeight;
   final bool showSortIcon;
   final bool isLast;
+  final bool showGrid; // new flag to indicate grid mode
   final void Function(String fromColumnId, String toColumnId)? onColumnReorder;
   const TableHeaderCell({
     Key? key,
@@ -25,6 +26,7 @@ class TableHeaderCell extends StatefulWidget {
     required this.fontWeight,
     this.showSortIcon = true,
     this.isLast = false,
+    this.showGrid = false,
     this.onColumnReorder,
   }) : super(key: key);
 
@@ -86,18 +88,15 @@ class _TableHeaderCellState extends State<TableHeaderCell> {
     }
 
     Widget headerWidget = Container(
-      padding: EdgeInsets.only(left: 0.w),
-      decoration: widget.isLast
-          ? null
-          : BoxDecoration(
-              border: Border(
-                right: BorderSide(
-                  color: AppColors.white.withValues(alpha: 0.8),
-                  width: 1,
-                ),
-              ),
-            ),
-      child: content,
+      constraints: const BoxConstraints.expand(),
+      padding: EdgeInsets.only(left: widget.columnId == 'exchange' ? 8.w : 0.w),
+      decoration: const BoxDecoration(),
+      child: Align(
+        alignment: widget.columnId == 'exchange'
+            ? Alignment.centerLeft
+            : Alignment.center,
+        child: content,
+      ),
     );
 
     if (widget.onColumnReorder != null) {

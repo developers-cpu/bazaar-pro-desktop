@@ -7,7 +7,28 @@ abstract class PendingOrdersEvent extends Equatable {
 }
 
 class LoadPendingOrdersEvent extends PendingOrdersEvent {
-  const LoadPendingOrdersEvent();
+  final bool isClient;
+  const LoadPendingOrdersEvent({this.isClient = true});
+
+  @override
+  List<Object?> get props => [isClient];
+}
+
+class UpdateFiltersEvent extends PendingOrdersEvent {
+  final String? client;
+  final String? exchange;
+  final String? symbol;
+  final String? type;
+
+  const UpdateFiltersEvent({
+    this.client,
+    this.exchange,
+    this.symbol,
+    this.type,
+  });
+
+  @override
+  List<Object?> get props => [client, exchange, symbol, type];
 }
 
 class FilterByClientEvent extends PendingOrdersEvent {

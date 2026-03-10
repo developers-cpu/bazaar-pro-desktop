@@ -26,7 +26,13 @@ class _NetPositionPageState extends State<NetPositionPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<NetPositionBloc>().add(const LoadNetPositionsEvent());
+      final authState = context.read<AuthBloc>().state;
+      final isClient =
+          authState is AuthAuthenticated &&
+          authState.user.role.toLowerCase() == 'client';
+      context.read<NetPositionBloc>().add(
+        LoadNetPositionsEvent(isClient: isClient),
+      );
     });
   }
 

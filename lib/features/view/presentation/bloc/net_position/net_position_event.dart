@@ -7,7 +7,11 @@ abstract class NetPositionEvent extends Equatable {
 }
 
 class LoadNetPositionsEvent extends NetPositionEvent {
-  const LoadNetPositionsEvent();
+  final bool isClient;
+  const LoadNetPositionsEvent({this.isClient = true});
+
+  @override
+  List<Object?> get props => [isClient];
 }
 
 class LoadFilterDataEvent extends NetPositionEvent {

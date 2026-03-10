@@ -142,7 +142,7 @@ class _RollOverDialogState extends State<RollOverDialog> {
                 ],
               ),
             ),
-          ViewRecordCount(count: 12550),
+          ViewRecordCount(count: 15),
           Expanded(child: _buildTable()),
           _buildFooter(),
         ],

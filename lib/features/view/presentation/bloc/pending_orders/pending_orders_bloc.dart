@@ -31,6 +31,7 @@ class PendingOrdersBloc extends Bloc<PendingOrdersEvent, PendingOrdersState> {
     on<FilterByExchangeEvent>(_onFilterByExchange);
     on<FilterBySymbolEvent>(_onFilterBySymbol);
     on<FilterByTypeEvent>(_onFilterByType);
+    on<UpdateFiltersEvent>(_onUpdateFilters);
     on<ApplyFiltersEvent>(_onApplyFilters);
     on<ResetFiltersEvent>(_onResetFilters);
     on<SortByColumnEvent>(_onSortByColumn);
@@ -44,37 +45,34 @@ class PendingOrdersBloc extends Bloc<PendingOrdersEvent, PendingOrdersState> {
   ) async {
     emit(const PendingOrdersLoading());
     try {
+      dynamic ordersResult;
+      if (event.isClient) {
+        ordersResult = await getPendingOrders(NoParams());
+      }
       final results = await Future.wait([
-        getPendingOrders(NoParams()),
         getClients(NoParams()),
         getExchanges(NoParams()),
         getSymbols(NoParams()),
       ]);
-      final ordersResult = results[0];
-      final clientsResult = results[1];
-      final exchangesResult = results[2];
-      final symbolsResult = results[3];
-      if (ordersResult.isLeft()) {
-        final failure = ordersResult.fold((l) => l, (r) => null);
-        emit(PendingOrdersError(failure?.message ?? 'Failed to load orders'));
-        return;
+      final clientsResult = results[0];
+      final exchangesResult = results[1];
+      final symbolsResult = results[2];
+
+      List<PendingOrder> orders = [];
+      if (ordersResult != null) {
+        if (ordersResult.isLeft()) {
+          final failure = ordersResult.fold((l) => l, (r) => null);
+          emit(PendingOrdersError(failure?.message ?? 'Failed to load orders'));
+          return;
+        }
+        orders = ordersResult.fold(
+          (l) => <PendingOrder>[],
+          (r) => r as List<PendingOrder>,
+        );
       }
-      final orders = ordersResult.fold(
-        (l) => <PendingOrder>[],
-        (r) => r as List<PendingOrder>,
-      );
-      final clients = clientsResult.fold(
-        (l) => <String>[],
-        (r) => r as List<String>,
-      );
-      final exchanges = exchangesResult.fold(
-        (l) => <String>[],
-        (r) => r as List<String>,
-      );
-      final symbols = symbolsResult.fold(
-        (l) => <String>[],
-        (r) => r as List<String>,
-      );
+      final clients = clientsResult.fold((l) => <String>[], (r) => r);
+      final exchanges = exchangesResult.fold((l) => <String>[], (r) => r);
+      final symbols = symbolsResult.fold((l) => <String>[], (r) => r);
       final types = getOrderTypes();
       emit(
         PendingOrdersLoaded(
@@ -202,6 +200,28 @@ class PendingOrdersBloc extends Bloc<PendingOrdersEvent, PendingOrdersState> {
                 event.type!.isEmpty ||
                 event.type == 'All',
           ),
+        ),
+      );
+    }
+  }
+
+  void _onUpdateFilters(
+    UpdateFiltersEvent event,
+    Emitter<PendingOrdersState> emit,
+  ) {
+    if (state is PendingOrdersLoaded) {
+      final currentState = state as PendingOrdersLoaded;
+      emit(
+        currentState.copyWith(
+          selectedClient: event.client,
+          selectedExchange: event.exchange,
+          selectedSymbol: event.symbol,
+          selectedType: event.type,
+          clearClient: event.client == null || event.client!.isEmpty,
+          clearExchange: event.exchange == null || event.exchange!.isEmpty,
+          clearSymbol: event.symbol == null || event.symbol!.isEmpty,
+          clearType:
+              event.type == null || event.type!.isEmpty || event.type == 'All',
         ),
       );
     }

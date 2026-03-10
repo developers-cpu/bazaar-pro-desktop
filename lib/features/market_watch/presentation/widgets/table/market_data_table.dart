@@ -24,10 +24,12 @@ import 'table_text_style_helper.dart';
 class MarketDataTable extends StatefulWidget {
   final MarketWatchLoaded state;
   final Function(Offset) onRightClick;
+  final Map<String, int> expandedRowCounts;
   const MarketDataTable({
     Key? key,
     required this.state,
     required this.onRightClick,
+    this.expandedRowCounts = const {},
   }) : super(key: key);
   @override
   State<MarketDataTable> createState() => _MarketDataTableState();
@@ -166,12 +168,44 @@ class _MarketDataTableState extends State<MarketDataTable> {
         LightThemeColors.tableColumnHeadColor,
       ),
       dividerThickness: showGrid ? 1 : 0,
-      border: showGrid
-          ? TableBorder.all(
-              color: isDark ? AppColors.white : AppColors.black,
-              width: 1,
-            )
-          : const TableBorder(),
+      border: TableBorder(
+        top: showGrid
+            ? BorderSide(
+                color: isDark ? AppColors.white : AppColors.black,
+                width: 1,
+              )
+            : BorderSide.none,
+        bottom: showGrid
+            ? BorderSide(
+                color: isDark ? AppColors.white : AppColors.black,
+                width: 1,
+              )
+            : BorderSide.none,
+        left: showGrid
+            ? BorderSide(
+                color: isDark ? AppColors.white : AppColors.black,
+                width: 1,
+              )
+            : BorderSide.none,
+        right: showGrid
+            ? BorderSide(
+                color: isDark ? AppColors.white : AppColors.black,
+                width: 1,
+              )
+            : BorderSide.none,
+        horizontalInside: showGrid
+            ? BorderSide(
+                color: isDark ? AppColors.white : AppColors.black,
+                width: 1,
+              )
+            : BorderSide.none,
+        verticalInside: showGrid
+            ? BorderSide(
+                color: isDark ? AppColors.white : AppColors.black,
+                width: 1,
+              )
+            : BorderSide.none,
+      ),
       columns: _buildColumns(
         visibleColumns: visibleColumns,
         isDark: isDark,
@@ -342,33 +376,54 @@ class _MarketDataTableState extends State<MarketDataTable> {
     required FontWeight fontWeight,
   }) {
     final sortedItems = _getSortedItems(visibleColumns: visibleColumns);
-    return sortedItems.map((item) {
+    final List<DataRow2> rows = [];
+    for (final item in sortedItems) {
       final isSelected = widget.state.selectedItemId == item.id;
-      return DataRow2(
-        selected: isSelected,
-        color: WidgetStateProperty.resolveWith<Color?>((states) {
-          if (states.contains(WidgetState.selected)) {
+      rows.add(
+        DataRow2(
+          selected: isSelected,
+          color: WidgetStateProperty.resolveWith<Color?>((states) {
+            if (states.contains(WidgetState.selected)) {
+              return isDark
+                  ? DarkThemeColors.selectedRowBackground
+                  : LightThemeColors.selectedRowBackground;
+            }
             return isDark
-                ? DarkThemeColors.selectedRowBackground
-                : LightThemeColors.selectedRowBackground;
-          }
-          return isDark
-              ? DarkThemeColors.backgroundColor
-              : LightThemeColors.backgroundColor;
-        }),
-        onTap: () => _onRowTap(item.id),
-        onSecondaryTap: () {},
-        onSecondaryTapDown: (details) => _onRowRightClick(details, item.id),
-        cells: _buildCells(
-          visibleColumns: visibleColumns,
-          item: item,
-          isDark: isDark,
-          fontFamily: fontFamily,
-          fontSize: fontSize,
-          fontWeight: fontWeight,
+                ? DarkThemeColors.backgroundColor
+                : LightThemeColors.backgroundColor;
+          }),
+          onTap: () => _onRowTap(item.id),
+          onSecondaryTap: () {},
+          onSecondaryTapDown: (details) => _onRowRightClick(details, item.id),
+          cells: _buildCells(
+            visibleColumns: visibleColumns,
+            item: item,
+            isDark: isDark,
+            fontFamily: fontFamily,
+            fontSize: fontSize,
+            fontWeight: fontWeight,
+          ),
         ),
       );
-    }).toList();
+      // Insert spacer rows based on count
+      final spacerCount = widget.expandedRowCounts[item.id] ?? 0;
+      for (int i = 0; i < spacerCount; i++) {
+        rows.add(
+          DataRow2(
+            color: WidgetStateProperty.all(
+              isDark
+                  ? DarkThemeColors.backgroundColor
+                  : LightThemeColors.backgroundColor,
+            ),
+            cells: List.generate(
+              visibleColumns.length,
+              (_) => const DataCell(SizedBox.shrink()),
+            ),
+          ),
+        );
+      }
+    }
+    return rows;
   }
 
   void _onRowTap(String itemId) {

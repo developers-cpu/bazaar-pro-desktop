@@ -30,65 +30,98 @@ class PendingOrdersFilterBar extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Row(
             children: [
-              if (!isClient) ...[
-                Expanded(
-                  child: AppDropdown(
-                    type: AppDropdownType.search,
-                    hintText: 'Client',
-                    value: state.selectedClient,
-                    items: state.clients,
-                    onChanged: (value) {
-                      context.read<PendingOrdersBloc>().add(
-                        FilterByClientEvent(value),
-                      );
-                    },
+              Expanded(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      if (!isClient) ...[
+                        SizedBox(
+                          width: 200.w,
+                          child: AppDropdown(
+                            type: AppDropdownType.search,
+                            hintText: 'Client',
+                            value: state.selectedClient,
+                            items: state.clients,
+                            onChanged: (value) {
+                              context.read<PendingOrdersBloc>().add(
+                                UpdateFiltersEvent(
+                                  client: value,
+                                  exchange: state.selectedExchange,
+                                  symbol: state.selectedSymbol,
+                                  type: state.selectedType,
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        SizedBox(width: 12.w),
+                        SizedBox(
+                          width: 200.w,
+                          child: AppDropdown(
+                            type: AppDropdownType.simple,
+                            hintText: 'Exchange',
+                            value: state.selectedExchange,
+                            items: state.exchanges,
+                            onChanged: (value) {
+                              context.read<PendingOrdersBloc>().add(
+                                UpdateFiltersEvent(
+                                  client: state.selectedClient,
+                                  exchange: value,
+                                  symbol: state.selectedSymbol,
+                                  type: state.selectedType,
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        SizedBox(width: 12.w),
+                        SizedBox(
+                          width: 200.w,
+                          child: AppDropdown(
+                            type: AppDropdownType.search,
+                            hintText: 'Symbol',
+                            value: state.selectedSymbol,
+                            items: state.symbols,
+                            onChanged: (value) {
+                              context.read<PendingOrdersBloc>().add(
+                                UpdateFiltersEvent(
+                                  client: state.selectedClient,
+                                  exchange: state.selectedExchange,
+                                  symbol: value,
+                                  type: state.selectedType,
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        SizedBox(width: 12.w),
+                        SizedBox(
+                          width: 200.w,
+                          child: AppDropdown(
+                            type: AppDropdownType.simple,
+                            hintText: 'Type',
+                            value: state.selectedType,
+                            items: state.types,
+                            showAllOption: true,
+                            onChanged: (value) {
+                              context.read<PendingOrdersBloc>().add(
+                                UpdateFiltersEvent(
+                                  client: state.selectedClient,
+                                  exchange: state.selectedExchange,
+                                  symbol: state.selectedSymbol,
+                                  type: value,
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ],
                   ),
                 ),
-                SizedBox(width: 12.w),
-                Expanded(
-                  child: AppDropdown(
-                    type: AppDropdownType.simple,
-                    hintText: 'Exchange',
-                    value: state.selectedExchange,
-                    items: state.exchanges,
-                    onChanged: (value) {
-                      context.read<PendingOrdersBloc>().add(
-                        FilterByExchangeEvent(value),
-                      );
-                    },
-                  ),
-                ),
-                SizedBox(width: 12.w),
-                Expanded(
-                  child: AppDropdown(
-                    type: AppDropdownType.search,
-                    hintText: 'Symbol',
-                    value: state.selectedSymbol,
-                    items: state.symbols,
-                    onChanged: (value) {
-                      context.read<PendingOrdersBloc>().add(
-                        FilterBySymbolEvent(value),
-                      );
-                    },
-                  ),
-                ),
-                SizedBox(width: 12.w),
-                Expanded(
-                  child: AppDropdown(
-                    type: AppDropdownType.simple,
-                    hintText: 'Type',
-                    value: state.selectedType,
-                    items: state.types,
-                    showAllOption: true,
-                    onChanged: (value) {
-                      context.read<PendingOrdersBloc>().add(
-                        FilterByTypeEvent(value),
-                      );
-                    },
-                  ),
-                ),
-              ],
-              const Spacer(),
+              ),
+              SizedBox(width: 12.w),
               if (!isClient)
                 ViewResetButtons(
                   showReset: true,

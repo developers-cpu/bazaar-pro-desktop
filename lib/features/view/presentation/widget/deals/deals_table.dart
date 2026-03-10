@@ -29,7 +29,7 @@ class DealsTable extends StatelessWidget {
         ViewTableColumn(id: 'exchange', label: 'EXCH', width: 70),
         ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 120),
         ViewTableColumn(id: 'orderDateTime', label: 'Order D/T', width: 170),
-        ViewTableColumn(id: 'buySell', label: 'B/S', width: 130),
+        ViewTableColumn(id: 'buySell', label: 'B/S', width: 200),
         ViewTableColumn(id: 'qty', label: 'QTY', width: 90, isNumeric: true),
         ViewTableColumn(id: 'lot', label: 'Lot', width: 70, isNumeric: true),
         ViewTableColumn(id: 'orderType', label: 'Type', width: 80),
@@ -75,7 +75,7 @@ class DealsTable extends StatelessWidget {
         label: 'ORDER D/T',
         width: 220,
       ),
-      const ViewTableColumn(id: 'buySell', label: 'B/S', width: 150),
+      const ViewTableColumn(id: 'buySell', label: 'B/S', width: 200),
       const ViewTableColumn(
         id: 'qty',
         label: 'QTY',
@@ -126,8 +126,8 @@ class DealsTable extends StatelessWidget {
     ];
     if (showDeviceInfo) {
       columns.addAll(const [
-        ViewTableColumn(id: 'deviceId', label: 'DEVICE ID', width: 400),
-        ViewTableColumn(id: 'ipAddress', label: 'IP ADDRESS', width: 160),
+        ViewTableColumn(id: 'deviceId', label: 'DEVICE ID', width: 300),
+        ViewTableColumn(id: 'ipAddress', label: 'IP ADDRESS', width: 100),
       ]);
     }
     return columns;

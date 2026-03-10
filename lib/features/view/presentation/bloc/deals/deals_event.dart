@@ -7,7 +7,11 @@ abstract class DealsEvent extends Equatable {
 }
 
 class LoadDealsEvent extends DealsEvent {
-  const LoadDealsEvent();
+  final bool isClient;
+  const LoadDealsEvent({this.isClient = true});
+
+  @override
+  List<Object?> get props => [isClient];
 }
 
 class LoadFilterDataEvent extends DealsEvent {

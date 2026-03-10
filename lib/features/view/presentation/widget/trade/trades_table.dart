@@ -37,7 +37,7 @@ class TradesTable extends StatelessWidget {
           width: 100,
           isNumeric: true,
         ),
-        ViewTableColumn(id: 'buySell', label: 'B/S', width: 130),
+        ViewTableColumn(id: 'buySell', label: 'B/S', width: 200),
         ViewTableColumn(id: 'orderDateTime', label: 'Order D/T', width: 170),
         ViewTableColumn(id: 'orderType', label: 'Type', width: 80),
         ViewTableColumn(id: 'pl', label: 'P/L', width: 90, isNumeric: true),
@@ -71,7 +71,7 @@ class TradesTable extends StatelessWidget {
         label: 'ORDER D/T',
         width: 170,
       ),
-      const ViewTableColumn(id: 'buySell', label: 'B/S', width: 130),
+      const ViewTableColumn(id: 'buySell', label: 'B/S', width: 200),
       const ViewTableColumn(
         id: 'qty',
         label: 'QTY',
@@ -112,8 +112,8 @@ class TradesTable extends StatelessWidget {
           label: 'EXECUTION D/T',
           width: 170,
         ),
-        ViewTableColumn(id: 'deviceId', label: 'DEVICE ID', width: 400),
-        ViewTableColumn(id: 'ipAddress', label: 'IP ADDRESS', width: 160),
+        ViewTableColumn(id: 'deviceId', label: 'DEVICE ID', width: 300),
+        ViewTableColumn(id: 'ipAddress', label: 'IP ADDRESS', width: 100),
       ]);
     }
     return columns;

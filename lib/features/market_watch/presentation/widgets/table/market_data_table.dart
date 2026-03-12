@@ -39,14 +39,16 @@ class MarketDataTable extends StatefulWidget {
 class _MarketDataTableState extends State<MarketDataTable> {
   int? _sortColumnIndex;
   bool _sortAscending = true;
+  int _selectedSubIndex = 0;
   final FocusNode _focusNode = FocusNode();
   final ScrollController _scrollController = ScrollController();
-  Offset? _lastTapDownPosition;
+  final ScrollController _horizontalScrollController = ScrollController();
 
   @override
   void dispose() {
     _focusNode.dispose();
     _scrollController.dispose();
+    _horizontalScrollController.dispose();
     super.dispose();
   }
 
@@ -63,6 +65,9 @@ class _MarketDataTableState extends State<MarketDataTable> {
       final spacerCount = widget.expandedRowCounts[sortedItems[i].id] ?? 0;
       itemTop += spacerCount * rowHeight;
     }
+
+    
+    itemTop += _selectedSubIndex * rowHeight;
 
     final itemBottom = itemTop + rowHeight;
 
@@ -91,18 +96,29 @@ class _MarketDataTableState extends State<MarketDataTable> {
     final selectedId = widget.state.selectedItemId;
     int currentIndex = sortedItems.indexWhere((item) => item.id == selectedId);
 
-    if (currentIndex < sortedItems.length - 1) {
+    if (currentIndex == -1) {
+      context.read<MarketWatchBloc>().add(
+        SelectMarketItemEvent(itemId: sortedItems.first.id),
+      );
+      setState(() => _selectedSubIndex = 0);
+      _scrollToCurrentIndex(0, rowHeight, sortedItems);
+      return;
+    }
+
+    final currentItem = sortedItems[currentIndex];
+    final expandedCount = widget.expandedRowCounts[currentItem.id] ?? 0;
+
+    if (_selectedSubIndex < expandedCount) {
+      setState(() => _selectedSubIndex++);
+      _scrollToCurrentIndex(currentIndex, rowHeight, sortedItems);
+    } else if (currentIndex < sortedItems.length - 1) {
       currentIndex++;
       final nextItem = sortedItems[currentIndex];
       context.read<MarketWatchBloc>().add(
         SelectMarketItemEvent(itemId: nextItem.id),
       );
+      setState(() => _selectedSubIndex = 0);
       _scrollToCurrentIndex(currentIndex, rowHeight, sortedItems);
-    } else if (currentIndex == -1 && sortedItems.isNotEmpty) {
-      context.read<MarketWatchBloc>().add(
-        SelectMarketItemEvent(itemId: sortedItems.first.id),
-      );
-      _scrollToCurrentIndex(0, rowHeight, sortedItems);
     }
   }
 
@@ -113,19 +129,43 @@ class _MarketDataTableState extends State<MarketDataTable> {
     final selectedId = widget.state.selectedItemId;
     int currentIndex = sortedItems.indexWhere((item) => item.id == selectedId);
 
-    if (currentIndex > 0) {
+    if (currentIndex == -1) {
+      context.read<MarketWatchBloc>().add(
+        SelectMarketItemEvent(itemId: sortedItems.last.id),
+      );
+      final lastItem = sortedItems.last;
+      final expandedCount = widget.expandedRowCounts[lastItem.id] ?? 0;
+      setState(() => _selectedSubIndex = expandedCount);
+      _scrollToCurrentIndex(sortedItems.length - 1, rowHeight, sortedItems);
+      return;
+    }
+
+    if (_selectedSubIndex > 0) {
+      setState(() => _selectedSubIndex--);
+      _scrollToCurrentIndex(currentIndex, rowHeight, sortedItems);
+    } else if (currentIndex > 0) {
       currentIndex--;
       final prevItem = sortedItems[currentIndex];
       context.read<MarketWatchBloc>().add(
         SelectMarketItemEvent(itemId: prevItem.id),
       );
+      final expandedCount = widget.expandedRowCounts[prevItem.id] ?? 0;
+      setState(() => _selectedSubIndex = expandedCount);
       _scrollToCurrentIndex(currentIndex, rowHeight, sortedItems);
-    } else if (currentIndex == -1 && sortedItems.isNotEmpty) {
-      context.read<MarketWatchBloc>().add(
-        SelectMarketItemEvent(itemId: sortedItems.last.id),
-      );
-      _scrollToCurrentIndex(sortedItems.length - 1, rowHeight, sortedItems);
     }
+  }
+
+  void _scrollHorizontal(double delta) {
+    if (!_horizontalScrollController.hasClients) return;
+    final target = (_horizontalScrollController.offset + delta).clamp(
+      0.0,
+      _horizontalScrollController.position.maxScrollExtent,
+    );
+    _horizontalScrollController.animateTo(
+      target,
+      duration: const Duration(milliseconds: 100),
+      curve: Curves.easeInOut,
+    );
   }
 
   @override
@@ -216,7 +256,7 @@ class _MarketDataTableState extends State<MarketDataTable> {
         border: showGrid
             ? Border.all(
                 color: isDark
-                    ? DarkThemeColors.dividerColor
+                    ? AppColors.white
                     : LightThemeColors.dividerColor,
                 width: 1,
               )
@@ -264,7 +304,7 @@ class _MarketDataTableState extends State<MarketDataTable> {
     required int resetCount,
   }) {
     final rowHeight = (fontSize * 1.8).clamp(28.0, 40.0);
-    final headerHeight = (fontSize * 2.8).clamp(40.0, 60.0);
+    const headerHeight = 30.0;
     return Focus(
       focusNode: _focusNode,
       autofocus: true,
@@ -276,19 +316,25 @@ class _MarketDataTableState extends State<MarketDataTable> {
           } else if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
             _selectPreviousRow(visibleColumns, rowHeight.h);
             return KeyEventResult.handled;
+          } else if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
+            _scrollHorizontal(100.0);
+            return KeyEventResult.handled;
+          } else if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
+            _scrollHorizontal(-100.0);
+            return KeyEventResult.handled;
           }
         }
         return KeyEventResult.ignored;
       },
       child: Listener(
         onPointerDown: (event) {
-          _lastTapDownPosition = event.position;
           if (!_focusNode.hasFocus) {
             FocusScope.of(context).requestFocus(_focusNode);
           }
         },
         child: DataTable2(
           scrollController: _scrollController,
+          horizontalScrollController: _horizontalScrollController,
           key: ValueKey(
             '${visibleColumns.map((c) => c.id).join('-')}-$resetCount',
           ),
@@ -302,13 +348,23 @@ class _MarketDataTableState extends State<MarketDataTable> {
           ),
           dividerThickness: showGrid ? 1 : 0,
           border: TableBorder(
-            top: BorderSide.none,
-            bottom: showGrid
+            top: showGrid
                 ? BorderSide(
                     color: isDark ? AppColors.white : AppColors.black,
                     width: 1,
                   )
                 : BorderSide.none,
+            bottom: showGrid
+                ? BorderSide(
+                    color: isDark ? AppColors.white : AppColors.black,
+                    width: 1,
+                  )
+                : BorderSide(
+                    color: isDark
+                        ? DarkThemeColors.dividerColor.withOpacity(0.5)
+                        : AppColors.greyBorder.withOpacity(0.5),
+                    width: 1,
+                  ),
             left: showGrid
                 ? BorderSide(
                     color: isDark ? AppColors.white : AppColors.black,
@@ -332,6 +388,7 @@ class _MarketDataTableState extends State<MarketDataTable> {
           columns: _buildColumns(
             visibleColumns: visibleColumns,
             isDark: isDark,
+            showGrid: showGrid,
             fontFamily: fontFamily,
             fontSize: fontSize,
             fontWeight: fontWeight,
@@ -351,6 +408,7 @@ class _MarketDataTableState extends State<MarketDataTable> {
   List<DataColumn2> _buildColumns({
     required List<ColumnItem> visibleColumns,
     required bool isDark,
+    required bool showGrid,
     required String fontFamily,
     required double fontSize,
     required FontWeight fontWeight,
@@ -378,7 +436,9 @@ class _MarketDataTableState extends State<MarketDataTable> {
           fontFamily: fontFamily,
           fontSize: 12.0,
           fontWeight: fontWeight,
+          isFirst: index == 0,
           isLast: index == visibleColumns.length - 1,
+          showGrid: showGrid,
           isSorted: _sortColumnIndex == index,
           sortAscending: _sortAscending,
           onSort: () {
@@ -518,11 +578,13 @@ class _MarketDataTableState extends State<MarketDataTable> {
     final List<DataRow2> rows = [];
     for (final item in sortedItems) {
       final isSelected = widget.state.selectedItemId == item.id;
+      final isParentSelected = isSelected && _selectedSubIndex == 0;
       rows.add(
         DataRow2(
-          selected: isSelected,
+          key: ValueKey('parent_${item.id}'),
+          selected: isParentSelected,
           color: WidgetStateProperty.resolveWith<Color?>((states) {
-            if (states.contains(WidgetState.selected)) {
+            if (isParentSelected) {
               return isDark
                   ? DarkThemeColors.selectedRowBackground
                   : LightThemeColors.selectedRowBackground;
@@ -546,14 +608,25 @@ class _MarketDataTableState extends State<MarketDataTable> {
       );
 
       final spacerCount = widget.expandedRowCounts[item.id] ?? 0;
-      for (int i = 0; i < spacerCount; i++) {
+      for (int i = 1; i <= spacerCount; i++) {
+        final isSubSelected = isSelected && _selectedSubIndex == i;
         rows.add(
           DataRow2(
-            color: WidgetStateProperty.all(
-              isDark
+            key: ValueKey('sub_${item.id}_$i'),
+            selected: isSubSelected,
+            color: WidgetStateProperty.resolveWith<Color?>((states) {
+              if (isSubSelected) {
+                return isDark
+                    ? DarkThemeColors.selectedRowBackground
+                    : LightThemeColors.selectedRowBackground;
+              }
+              return isDark
                   ? DarkThemeColors.backgroundColor
-                  : LightThemeColors.backgroundColor,
-            ),
+                  : LightThemeColors.backgroundColor;
+            }),
+            onTap: () => _onRowTap(item.id, subIndex: i),
+            onSecondaryTap: () {},
+            onSecondaryTapDown: (details) => _onRowRightClick(details, item.id),
             cells: List.generate(
               visibleColumns.length,
               (_) => const DataCell(SizedBox.shrink()),
@@ -565,17 +638,15 @@ class _MarketDataTableState extends State<MarketDataTable> {
     return rows;
   }
 
-  void _onRowTap(String itemId) {
+  void _onRowTap(String itemId, {int subIndex = 0}) {
     context.read<MarketWatchBloc>().add(SelectMarketItemEvent(itemId: itemId));
-
-    if (_lastTapDownPosition != null) {
-      widget.onRightClick(_lastTapDownPosition!);
-    }
+    setState(() => _selectedSubIndex = subIndex);
   }
 
   void _onRowRightClick(TapDownDetails details, String itemId) {
     widget.onRightClick(details.globalPosition);
     context.read<MarketWatchBloc>().add(SelectMarketItemEvent(itemId: itemId));
+    setState(() => _selectedSubIndex = 0);
   }
 
   List<DataCell> _buildCells({

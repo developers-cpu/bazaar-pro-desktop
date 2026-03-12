@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'core/routes/navigator_key.dart';
+import 'features/market_watch/presentation/widgets/global_escape_shortcut.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:window_manager/window_manager.dart';
@@ -50,6 +52,10 @@ void main() async {
   runApp(const MyApp());
 }
 
+
+
+
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
   @override
@@ -88,12 +94,15 @@ class MyApp extends StatelessWidget {
                 BlocProvider(create: (_) => di.sl<IntradayHistoryBloc>()),
                 BlocProvider(create: (_) => di.sl<UserListBloc>()),
               ],
-              child: MaterialApp(
-                title: 'BAZAAR Pro',
-                debugShowCheckedModeBanner: false,
-                themeMode: ThemeMode.system,
-                initialRoute: AppRoutes.login,
-                routes: AppRoutes.getRoutes(),
+              child: GlobalEscapeShortcut(
+                child: MaterialApp(
+                  navigatorKey: globalNavigatorKey,
+                  title: 'BAZAAR Pro',
+                  debugShowCheckedModeBanner: false,
+                  themeMode: ThemeMode.system,
+                  initialRoute: AppRoutes.login,
+                  routes: AppRoutes.getRoutes(),
+                ),
               ),
             );
           },

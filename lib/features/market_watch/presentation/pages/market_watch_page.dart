@@ -401,11 +401,18 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
       if (_contextMenuPosition != null) _closeContextMenu();
       return;
     }
-    if (event.logicalKey == LogicalKeyboardKey.f1) {
+    if (event.logicalKey == LogicalKeyboardKey.f1 ||
+        event.logicalKey == LogicalKeyboardKey.add ||
+        event.logicalKey == LogicalKeyboardKey.numpadAdd ||
+        event.character == '+' ||
+        event.character == '=') {
       _openBuyOrderDialog();
       return;
     }
-    if (event.logicalKey == LogicalKeyboardKey.f2) {
+    if (event.logicalKey == LogicalKeyboardKey.f2 ||
+        event.logicalKey == LogicalKeyboardKey.minus ||
+        event.logicalKey == LogicalKeyboardKey.numpadSubtract ||
+        event.character == '-') {
       _openSellOrderDialog();
       return;
     }
@@ -433,18 +440,25 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
       MessagesDialog.show(context);
       return;
     }
-    if (event.logicalKey == LogicalKeyboardKey.enter ||
-        event.logicalKey == LogicalKeyboardKey.numpadEnter) {
+    if (event.logicalKey == LogicalKeyboardKey.space) {
       if (_selectedTabIndex == 0) {
         final state = context.read<MarketWatchBloc>().state;
         final loadedState = state is MarketWatchSuccess
             ? state.previousState
             : (state is MarketWatchLoaded ? state : null);
-        if (loadedState != null && loadedState.selectedItemId != null) {
-          setState(() {
-            final id = loadedState.selectedItemId!;
-            _expandedRowCounts[id] = (_expandedRowCounts[id] ?? 0) + 1;
-          });
+        
+        if (loadedState != null) {
+          
+          if (loadedState.selectedItemId == null && loadedState.filteredItems.isNotEmpty) {
+            context.read<MarketWatchBloc>().add(
+              SelectMarketItemEvent(itemId: loadedState.filteredItems.first.id),
+            );
+          } else if (loadedState.selectedItemId != null) {
+            setState(() {
+              final id = loadedState.selectedItemId!;
+              _expandedRowCounts[id] = (_expandedRowCounts[id] ?? 0) + 1;
+            });
+          }
         }
       }
       return;

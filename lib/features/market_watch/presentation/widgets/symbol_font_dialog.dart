@@ -23,6 +23,9 @@ class SymbolFontDialog extends StatelessWidget {
       onSave: () {
         context.read<SymbolFontBloc>().add(const SaveFontSettingsEvent());
       },
+      onCancel: () {
+        context.read<SymbolFontBloc>().add(const LoadFontSettingsEvent());
+      },
       isDarkMode: true,
       backgroundColor: AppColors.white,
       contentPadding: EdgeInsets.all(8.w),
@@ -38,6 +41,9 @@ class SymbolFontDialog extends StatelessWidget {
       width: 380.w,
       onSave: () {
         context.read<SymbolFontBloc>().add(const SaveFontSettingsEvent());
+      },
+      onCancel: () {
+        context.read<SymbolFontBloc>().add(const LoadFontSettingsEvent());
       },
       isDarkMode: true,
       contentPadding: EdgeInsets.all(8.w),

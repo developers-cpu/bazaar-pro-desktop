@@ -13,7 +13,14 @@ class KeyboardShortcutHandler extends StatelessWidget {
     return Shortcuts(
       shortcuts: <ShortcutActivator, Intent>{
         const SingleActivator(LogicalKeyboardKey.f1): const BuyOrderIntent(),
+        const SingleActivator(LogicalKeyboardKey.add): const BuyOrderIntent(),
+        const SingleActivator(LogicalKeyboardKey.numpadAdd): const BuyOrderIntent(),
+        CharacterActivator('+'): const BuyOrderIntent(),
+        CharacterActivator('='): const BuyOrderIntent(),
         const SingleActivator(LogicalKeyboardKey.f2): const SellOrderIntent(),
+        const SingleActivator(LogicalKeyboardKey.minus): const SellOrderIntent(),
+        const SingleActivator(LogicalKeyboardKey.numpadSubtract): const SellOrderIntent(),
+        CharacterActivator('-'): const SellOrderIntent(),
         const SingleActivator(LogicalKeyboardKey.f3):
             const PendingOrdersIntent(),
         const SingleActivator(LogicalKeyboardKey.f5): const MarketDepthIntent(),
@@ -171,9 +178,16 @@ class _KeyboardShortcutListenerState extends State<KeyboardShortcutListener> {
 
   void _handleKeyEvent(KeyEvent event) {
     if (event is KeyDownEvent) {
-      if (event.logicalKey == LogicalKeyboardKey.f1) {
+      if (event.logicalKey == LogicalKeyboardKey.f1 ||
+          event.logicalKey == LogicalKeyboardKey.add ||
+          event.logicalKey == LogicalKeyboardKey.numpadAdd ||
+          event.character == '+' ||
+          event.character == '=') {
         CommonOrderDialog.showBuyOrder(context);
-      } else if (event.logicalKey == LogicalKeyboardKey.f2) {
+      } else if (event.logicalKey == LogicalKeyboardKey.f2 ||
+          event.logicalKey == LogicalKeyboardKey.minus ||
+          event.logicalKey == LogicalKeyboardKey.numpadSubtract ||
+          event.character == '-') {
         CommonOrderDialog.showSellOrder(context);
       } else if (event.logicalKey == LogicalKeyboardKey.f3) {
         Navigator.of(context).pushReplacementNamed('/pending_order-orders');

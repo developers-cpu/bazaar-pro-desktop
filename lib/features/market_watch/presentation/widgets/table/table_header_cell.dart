@@ -14,6 +14,7 @@ class TableHeaderCell extends StatefulWidget {
   final FontWeight fontWeight;
   final bool showSortIcon;
   final bool isLast;
+  final bool isFirst;
   final bool showGrid;
   final bool isSorted;
   final bool sortAscending;
@@ -29,6 +30,7 @@ class TableHeaderCell extends StatefulWidget {
     required this.fontWeight,
     this.showSortIcon = true,
     this.isLast = false,
+    this.isFirst = false,
     this.showGrid = false,
     this.isSorted = false,
     this.sortAscending = true,
@@ -99,14 +101,6 @@ class _TableHeaderCellState extends State<TableHeaderCell> {
     Widget headerWidget = Container(
       constraints: const BoxConstraints.expand(),
       padding: EdgeInsets.only(left: widget.columnId == 'exchange' ? 8.w : 0.w),
-      decoration: BoxDecoration(
-        border: Border(
-          right: widget.isLast
-              ? BorderSide.none
-              : BorderSide(color: AppColors.white, width: 1),
-          bottom: BorderSide(color: AppColors.white, width: 1),
-        ),
-      ),
       child: Align(
         alignment: widget.columnId == 'exchange'
             ? Alignment.centerLeft
@@ -154,13 +148,18 @@ class _TableHeaderCellState extends State<TableHeaderCell> {
               child: originalHeaderWidget,
             ),
             child: Container(
-              decoration: _isDragOver
-                  ? BoxDecoration(
-                      border: Border(
-                        left: BorderSide(color: AppColors.blue, width: 2.5),
-                      ),
-                    )
-                  : null,
+              decoration: BoxDecoration(
+                border: Border(
+                  left: widget.isFirst
+                      ? BorderSide.none
+                      : BorderSide(
+                          color: _isDragOver
+                              ? AppColors.blue
+                              :AppColors.white,
+                          width: _isDragOver ? 2.5 : 1.0,
+                        ),
+                ),
+              ),
               child: originalHeaderWidget,
             ),
           );

@@ -15,12 +15,12 @@ class ShortcutsRemoteDataSourceImpl implements ShortcutsRemoteDataSource {
     return [
       const ShortcutModel(
         title: 'BUY',
-        keyComb: 'F1',
+        keyComb: 'F1/+',
         iconPath: AppImages.buyIcon,
       ),
       const ShortcutModel(
         title: 'Sell',
-        keyComb: 'F2',
+        keyComb: 'F2/-',
         iconPath: AppImages.sellIcon,
       ),
       const ShortcutModel(

@@ -17,15 +17,19 @@ class BrokeragePage extends StatelessWidget {
       listener: (context, state) {
         if (state is BrokerageLoaded) {
           final bloc = context.read<BrokerageBloc>();
-          BrokerageDialog.showFromPage(context, state).then((_) {
-            if (context.mounted) {
-              bloc.add(
-                RestoreBrokerageFilterEvent(
-                  exchange: state.selectedExchange ?? '',
-                ),
-              );
-            }
-          });
+          BrokerageDialog.showFromPage(
+            context,
+            state,
+            onClose: () {
+              if (context.mounted) {
+                bloc.add(
+                  RestoreBrokerageFilterEvent(
+                    exchange: state.selectedExchange ?? '',
+                  ),
+                );
+              }
+            },
+          );
         }
       },
       child: Container(

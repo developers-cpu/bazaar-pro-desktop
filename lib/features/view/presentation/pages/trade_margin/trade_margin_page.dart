@@ -57,14 +57,19 @@ class _TradeMarginPageState extends State<TradeMarginPage> {
             state.searchQuery != null ||
             state.selectedExchange != null) {
           _isDialogOpen = true;
-          TradeMarginDialog.show(context).then((_) {
-            if (mounted) {
-              _isDialogOpen = false;
-              context.read<TradeMarginBloc>().add(
-                const UpdateTradeMarginFilters(),
-              );
-            }
-          });
+          TradeMarginDialog.show(
+            context,
+            onClose: () {
+              if (mounted) {
+                setState(() {
+                  _isDialogOpen = false;
+                });
+                context.read<TradeMarginBloc>().add(
+                  const UpdateTradeMarginFilters(),
+                );
+              }
+            },
+          );
         }
       }
     }

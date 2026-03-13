@@ -51,10 +51,7 @@ class _SurveillancePageState extends State<SurveillancePage> {
   }
 
   void _showImportDialog() {
-    showDialog(
-      context: context,
-      builder: (_) => const ImportSurveillanceDialog(),
-    );
+    ImportSurveillanceDialog.show(context);
   }
 
   @override

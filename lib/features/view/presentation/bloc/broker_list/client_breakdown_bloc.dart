@@ -4,7 +4,7 @@ import '../../../domain/entities/broker_list/client_breakdown.dart';
 import '../../../domain/usecases/broker_list/get_client_breakdown.dart';
 import '../../utils/client_breakdown_service.dart';
 
-// Events
+
 abstract class ClientBreakdownEvent extends Equatable {
   const ClientBreakdownEvent();
   @override
@@ -26,7 +26,7 @@ class ExportClientBreakdownPdfEvent extends ClientBreakdownEvent {
   List<Object?> get props => [breakdown];
 }
 
-// States
+
 abstract class ClientBreakdownState extends Equatable {
   const ClientBreakdownState();
   @override
@@ -51,7 +51,7 @@ class ClientBreakdownError extends ClientBreakdownState {
   List<Object?> get props => [message];
 }
 
-// Bloc
+
 class ClientBreakdownBloc extends Bloc<ClientBreakdownEvent, ClientBreakdownState> {
   final GetClientBreakdown getClientBreakdown;
 
@@ -80,8 +80,8 @@ class ClientBreakdownBloc extends Bloc<ClientBreakdownEvent, ClientBreakdownStat
     try {
       await ClientBreakdownService.exportAsPdf(event.breakdown);
     } catch (e) {
-      // In a real app we might want a separate state for export error
-      // or show a snackbar
+      
+      
     }
   }
 }

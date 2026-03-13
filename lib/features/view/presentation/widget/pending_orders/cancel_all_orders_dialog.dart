@@ -15,38 +15,53 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/widget/custom_action_button.dart';
 import '../../../../../core/widget/custom_outlined_button.dart';
 
-class CancelAllOrdersDialog extends StatefulWidget {
-  final List<PendingOrder> pendingOrders;
-  final bool isDarkMode;
-  const CancelAllOrdersDialog({
-    Key? key,
-    required this.pendingOrders,
-    this.isDarkMode = false,
-  }) : super(key: key);
+class CancelAllOrdersDialog {
   static void show({
     required BuildContext context,
     required List<PendingOrder> pendingOrders,
     bool isDarkMode = false,
   }) {
-    showDialog(
+    CommonDialog.show(
       context: context,
-      barrierColor: AppColors.black.withOpacity(0.54),
-      builder: (_) => CancelAllOrdersDialog(
+      title: 'Cancel Order',
+      isDarkMode: isDarkMode,
+      width: 850.w,
+      height: 500.h,
+      headerColor: AppColors.primaryBlue,
+      showButtons: false,
+      autoPop: false,
+      scrollable: false,
+      contentPadding: EdgeInsets.zero,
+      contentBuilder: (context, onClose) => _CancelAllOrdersContent(
         pendingOrders: pendingOrders,
         isDarkMode: isDarkMode,
+        onClose: onClose,
       ),
     );
   }
-
-  @override
-  State<CancelAllOrdersDialog> createState() => _CancelAllOrdersDialogState();
 }
 
-class _CancelAllOrdersDialogState extends State<CancelAllOrdersDialog> {
+class _CancelAllOrdersContent extends StatefulWidget {
+  final List<PendingOrder> pendingOrders;
+  final bool isDarkMode;
+  final VoidCallback onClose;
+  const _CancelAllOrdersContent({
+    Key? key,
+    required this.pendingOrders,
+    this.isDarkMode = false,
+    required this.onClose,
+  }) : super(key: key);
+
+  @override
+  State<_CancelAllOrdersContent> createState() => _CancelAllOrdersContentState();
+}
+
+class _CancelAllOrdersContentState extends State<_CancelAllOrdersContent> {
   final Set<String> _selectedOrderIds = {};
   String? _selectedUser;
   String? _tempSelectedUser;
   List<String> _users = ['All Users'];
+
   @override
   void initState() {
     super.initState();
@@ -73,45 +88,19 @@ class _CancelAllOrdersDialogState extends State<CancelAllOrdersDialog> {
           authState.user.role.toLowerCase() == 'client';
     } catch (_) {}
 
-    return CommonDialog(
-      title: 'Cancel Order',
-      isDarkMode: widget.isDarkMode,
-      width: 850.w,
-      height: 500.h,
-      headerColor: AppColors.primaryBlue,
-      showButtons: false,
-      autoPop: false,
-      onCancel: () {
-        Navigator.pop(context);
-        if (_filteredOrders.isNotEmpty) {
-          Future.delayed(Duration.zero, () {
-            TradeDetailsDialog.show(
-              context: context,
-              order: _filteredOrders.first,
-              isDarkMode: widget.isDarkMode,
-            );
-          });
-        }
-      },
-      onSave: () {
-        _showConfirmationDialog(context);
-      },
-      scrollable: false,
-      contentPadding: EdgeInsets.zero,
-      content: Column(
-        children: [
-          _buildFilterBar(isClient),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: _buildTable(isClient),
-            ),
+    return Column(
+      children: [
+        _buildFilterBar(isClient),
+        Expanded(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            child: _buildTable(isClient),
           ),
-          SizedBox(height: 16.h),
-          _buildActionButtons(context),
-          SizedBox(height: 8.h),
-        ],
-      ),
+        ),
+        SizedBox(height: 16.h),
+        _buildActionButtons(context),
+        SizedBox(height: 8.h),
+      ],
     );
   }
 
@@ -177,7 +166,7 @@ class _CancelAllOrdersDialogState extends State<CancelAllOrdersDialog> {
                 ? Colors.white
                 : const Color(0xFF1F4A66),
             onPressed: () {
-              Navigator.pop(context);
+              widget.onClose();
               if (_filteredOrders.isNotEmpty) {
                 Future.delayed(Duration.zero, () {
                   TradeDetailsDialog.show(
@@ -196,9 +185,7 @@ class _CancelAllOrdersDialogState extends State<CancelAllOrdersDialog> {
             height: 35.h,
             borderRadius: 8.r,
             fontSize: 14.sp,
-            backgroundColor: widget.isDarkMode
-                ? const Color(0xFF1F4A66)
-                : const Color(0xFF1F4A66),
+            backgroundColor: const Color(0xFF1F4A66),
             textColor: Colors.white,
             onPressed: () {
               _showConfirmationDialog(context);
@@ -238,19 +225,19 @@ class _CancelAllOrdersDialogState extends State<CancelAllOrdersDialog> {
           side: BorderSide(color: AppColors.primaryBlue, width: 1.5.w),
         ),
       ),
-      ViewTableColumn(id: 'exchange', label: 'EXCH', width: 90),
-      ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 160),
-      ViewTableColumn(id: 'buySell', label: 'B/S', width: 200),
-      ViewTableColumn(id: 'qty', label: 'QTY', width: 110, isNumeric: true),
-      ViewTableColumn(id: 'lot', label: 'LOT', width: 90, isNumeric: true),
-      ViewTableColumn(id: 'price', label: 'PRICE', width: 110, isNumeric: true),
-      ViewTableColumn(id: 'orderDateTime', label: 'ORDER D/T', width: 190),
-      ViewTableColumn(
+      const ViewTableColumn(id: 'exchange', label: 'EXCH', width: 90),
+      const ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 160),
+      const ViewTableColumn(id: 'buySell', label: 'B/S', width: 200),
+      const ViewTableColumn(id: 'qty', label: 'QTY', width: 110, isNumeric: true),
+      const ViewTableColumn(id: 'lot', label: 'LOT', width: 90, isNumeric: true),
+      const ViewTableColumn(id: 'price', label: 'PRICE', width: 110, isNumeric: true),
+      const ViewTableColumn(id: 'orderDateTime', label: 'ORDER D/T', width: 190),
+      const ViewTableColumn(
         id: 'modifyOrderDateTime',
         label: 'MODIFY ORDER D/T',
         width: 190,
       ),
-      ViewTableColumn(id: 'cmp', label: 'CMP', width: 110, isNumeric: true),
+      const ViewTableColumn(id: 'cmp', label: 'CMP', width: 110, isNumeric: true),
     ];
   }
 
@@ -389,84 +376,70 @@ class _CancelAllOrdersDialogState extends State<CancelAllOrdersDialog> {
   }
 
   void _showConfirmationDialog(BuildContext parentContext) {
-    showDialog(
+    CommonDialog.show(
       context: parentContext,
-      barrierColor: AppColors.black.withOpacity(0.54),
-      builder: (dialogContext) => Dialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16.r),
-        ),
-        backgroundColor: widget.isDarkMode
-            ? const Color(0xFF1E1E1E)
-            : AppColors.white,
-        child: Container(
-          width: 450.w,
-          padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 24.h),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                'Want to Delete Orders ?',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.openSans(
-                  fontSize: 22.sp,
-                  color: const Color(0xFF1F4A66),
+      title: 'Want to Delete Orders ?',
+      isDarkMode: widget.isDarkMode,
+      width: 450.w,
+      showButtons: false,
+      scrollable: false,
+      contentBuilder: (context, onConfirmationClose) => Padding(
+        padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 24.h),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Are You Sure you want to Delete All Orders?',
+              textAlign: TextAlign.center,
+              style: GoogleFonts.openSans(
+                fontSize: 16.sp,
+                color: Colors.grey.shade500,
+              ),
+            ),
+            SizedBox(height: 24.h),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CustomOutlinedActionButton(
+                  text: 'No',
+                  width: 140.w,
+                  height: 40.h,
+                  borderRadius: 8.r,
+                  fontSize: 14.sp,
+                  borderColor: widget.isDarkMode
+                      ? Colors.white
+                      : const Color(0xFF1F4A66),
+                  textColor: widget.isDarkMode
+                      ? Colors.white
+                      : const Color(0xFF1F4A66),
+                  onPressed: onConfirmationClose,
                 ),
-              ),
-              SizedBox(height: 16.h),
-              Text(
-                'Are You Sure you want to Delete All Orders?',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.openSans(
-                  fontSize: 16.sp,
-                  color: Colors.grey.shade500,
+                SizedBox(width: 16.w),
+                CustomActionButton(
+                  text: 'Yes',
+                  width: 140.w,
+                  height: 40.h,
+                  borderRadius: 8.r,
+                  fontSize: 14.sp,
+                  backgroundColor: const Color(0xFF1F4A66),
+                  textColor: Colors.white,
+                  onPressed: () {
+                    onConfirmationClose();
+                    widget.onClose();
+                    Future.delayed(const Duration(milliseconds: 100), () {
+                      if (parentContext.mounted) {
+                        SuccessDialog.show(
+                          context: parentContext,
+                          title: 'Successful Deleted !',
+                          subtitle: 'Your Order is Successfully Deleted',
+                        );
+                      }
+                    });
+                  },
                 ),
-              ),
-              SizedBox(height: 24.h),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CustomOutlinedActionButton(
-                    text: 'No',
-                    width: 140.w,
-                    height: 40.h,
-                    borderRadius: 8.r,
-                    fontSize: 14.sp,
-                    borderColor: widget.isDarkMode
-                        ? Colors.white
-                        : const Color(0xFF1F4A66),
-                    textColor: widget.isDarkMode
-                        ? Colors.white
-                        : const Color(0xFF1F4A66),
-                    onPressed: () => Navigator.of(dialogContext).pop(),
-                  ),
-                  SizedBox(width: 16.w),
-                  CustomActionButton(
-                    text: 'Yes',
-                    width: 140.w,
-                    height: 40.h,
-                    borderRadius: 8.r,
-                    fontSize: 14.sp,
-                    backgroundColor: const Color(0xFF1F4A66),
-                    textColor: Colors.white,
-                    onPressed: () {
-                      Navigator.of(dialogContext).pop();
-                      Navigator.of(parentContext).pop();
-                      Future.delayed(const Duration(milliseconds: 100), () {
-                        if (parentContext.mounted) {
-                          SuccessDialog.show(
-                            context: parentContext,
-                            title: 'Successful Deleted !',
-                            subtitle: 'Your Order is Successfully Deleted',
-                          );
-                        }
-                      });
-                    },
-                  ),
-                ],
-              ),
-            ],
-          ),
+              ],
+            ),
+          ],
         ),
       ),
     );

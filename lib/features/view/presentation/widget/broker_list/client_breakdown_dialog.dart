@@ -11,112 +11,108 @@ import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import '../../../domain/entities/broker_list/client_breakdown.dart';
 import '../../bloc/broker_list/client_breakdown_bloc.dart';
 
-class ClientBreakdownDialog extends StatelessWidget {
-  final String brokerId;
-  final String clientName;
-  final bool isDarkMode;
-  const ClientBreakdownDialog({
-    Key? key,
-    required this.brokerId,
-    required this.clientName,
-    this.isDarkMode = false,
-  }) : super(key: key);
+class ClientBreakdownDialog {
   static void show({
     required BuildContext context,
     required String brokerId,
     required String clientName,
     bool isDarkMode = false,
   }) {
-    showDialog(
+    CommonDialog.show(
       context: context,
-      barrierColor: AppColors.black.withOpacity(0.54),
-      builder: (_) => ClientBreakdownDialog(
-        brokerId: brokerId,
-        clientName: clientName,
-        isDarkMode: isDarkMode,
+      title: "Detailed Client Breakdown",
+      isDarkMode: isDarkMode,
+      width: 1000.w,
+      height: 800.h,
+      headerColor: const Color(0xFF2C5F7A),
+      showButtons: false,
+      scrollable: true,
+      contentPadding: EdgeInsets.zero,
+      content: BlocProvider(
+        create:
+            (context) => sl<ClientBreakdownBloc>()
+              ..add(
+                LoadClientBreakdownEvent(
+                  brokerId: brokerId,
+                  clientName: clientName,
+                ),
+              ),
+        child: _ClientBreakdownContent(
+          brokerId: brokerId,
+          clientName: clientName,
+          isDarkMode: isDarkMode,
+        ),
       ),
     );
   }
+}
+
+class _ClientBreakdownContent extends StatelessWidget {
+  final String brokerId;
+  final String clientName;
+  final bool isDarkMode;
+  const _ClientBreakdownContent({
+    Key? key,
+    required this.brokerId,
+    required this.clientName,
+    this.isDarkMode = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create:
-          (context) => sl<ClientBreakdownBloc>()
-            ..add(
-              LoadClientBreakdownEvent(
-                brokerId: brokerId,
-                clientName: clientName,
+    return BlocBuilder<ClientBreakdownBloc, ClientBreakdownState>(
+      builder: (context, state) {
+        if (state is ClientBreakdownLoading) {
+          return SizedBox(
+            height: 600.h,
+            child: const Center(child: CircularProgressIndicator()),
+          );
+        }
+
+        if (state is ClientBreakdownError) {
+          return SizedBox(
+            height: 600.h,
+            child: Center(
+              child: Text(
+                state.message,
+                style: GoogleFonts.openSans(color: Colors.red),
               ),
             ),
-      child: BlocBuilder<ClientBreakdownBloc, ClientBreakdownState>(
-        builder: (context, state) {
-          return CommonDialog(
-            title: "Detailed Client Breakdown",
-            isDarkMode: isDarkMode,
-            width: 1000.w,
-            height: 800.h,
-            headerColor: const Color(0xFF2C5F7A),
-            showButtons: false,
-            scrollable: true,
-            contentPadding: EdgeInsets.zero,
-            content: _buildContent(context, state),
           );
-        },
-      ),
+        }
+
+        if (state is ClientBreakdownLoaded) {
+          final breakdown = state.breakdown;
+          return Column(
+            children: [
+              _buildHeader(context, breakdown),
+              Padding(
+                padding: EdgeInsets.all(16.w),
+                child: Column(
+                  children:
+                      breakdown.sections.map((section) {
+                        return Column(
+                          children: [
+                            _buildSection(
+                              context,
+                              section.title,
+                              section.rows,
+                              isSymbolBased: section.isSymbolBased,
+                              hasFooter: section.hasFooter,
+                            ),
+                            SizedBox(height: 16.h),
+                          ],
+                        );
+                      }).toList(),
+                ),
+              ),
+            ],
+          );
+        }
+
+        return const SizedBox.shrink();
+      },
     );
-  }
-
-  Widget _buildContent(BuildContext context, ClientBreakdownState state) {
-    if (state is ClientBreakdownLoading) {
-      return SizedBox(
-        height: 600.h,
-        child: const Center(child: CircularProgressIndicator()),
-      );
-    }
-
-    if (state is ClientBreakdownError) {
-      return SizedBox(
-        height: 600.h,
-        child: Center(
-          child: Text(
-            state.message,
-            style: GoogleFonts.openSans(color: Colors.red),
-          ),
-        ),
-      );
-    }
-
-    if (state is ClientBreakdownLoaded) {
-      final breakdown = state.breakdown;
-      return Column(
-        children: [
-          _buildHeader(context, breakdown),
-          Padding(
-            padding: EdgeInsets.all(16.w),
-            child: Column(
-              children:
-                  breakdown.sections.map((section) {
-                    return Column(
-                      children: [
-                        _buildSection(
-                          context,
-                          section.title,
-                          section.rows,
-                          isSymbolBased: section.isSymbolBased,
-                          hasFooter: section.hasFooter,
-                        ),
-                        SizedBox(height: 16.h),
-                      ],
-                    );
-                  }).toList(),
-            ),
-          ),
-        ],
-      );
-    }
-
-    return const SizedBox.shrink();
   }
 
   Widget _buildHeader(BuildContext context, ClientBreakdown breakdown) {
@@ -204,7 +200,7 @@ class ClientBreakdownDialog extends StatelessWidget {
       ),
     ];
 
-    // Convert entity rows to map format for ViewDataTable
+    
     final data =
         rows
             .map(

@@ -24,6 +24,7 @@ import 'features/view/presentation/bloc/script_master/script_master_bloc.dart';
 import 'features/view/presentation/bloc/script_quantity/script_quantity_bloc.dart';
 import 'features/users/presentation/bloc/user_list/user_list_bloc.dart';
 import 'injection_container.dart' as di;
+import 'core/observers/dialog_navigator_observer.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -51,10 +52,6 @@ void main() async {
   await di.init();
   runApp(const MyApp());
 }
-
-
-
-
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -100,6 +97,7 @@ class MyApp extends StatelessWidget {
                   title: 'BAZAAR Pro',
                   debugShowCheckedModeBanner: false,
                   themeMode: ThemeMode.system,
+                  navigatorObservers: [DialogNavigatorObserver()],
                   initialRoute: AppRoutes.login,
                   routes: AppRoutes.getRoutes(),
                 ),

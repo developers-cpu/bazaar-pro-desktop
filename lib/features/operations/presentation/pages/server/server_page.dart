@@ -36,33 +36,29 @@ class _ServerPageState extends State<ServerPage> {
   }
 
   void _showAddServerDialog() {
-    showDialog(
+    AddEditServerDialog.show(
       context: context,
-      builder: (_) => AddEditServerDialog(
-        title: 'Add Server',
-        buttonText: 'Add',
-        onSubmit: (name, logo) {
-          context.read<ServerBloc>().add(
-            AddServerEvent(serverName: name, logoPath: logo),
-          );
-        },
-      ),
+      title: 'Add Server',
+      buttonText: 'Add',
+      onSubmit: (name, logo) {
+        context.read<ServerBloc>().add(
+          AddServerEvent(serverName: name, logoPath: logo),
+        );
+      },
     );
   }
 
   void _showEditServerDialog(String id, String initialName) {
-    showDialog(
+    AddEditServerDialog.show(
       context: context,
-      builder: (_) => AddEditServerDialog(
-        title: 'Edit Server',
-        buttonText: 'Updated',
-        initialServerName: initialName,
-        onSubmit: (name, logo) {
-          context.read<ServerBloc>().add(
-            EditServerEvent(id: id, serverName: name, logoPath: logo),
-          );
-        },
-      ),
+      title: 'Edit Server',
+      buttonText: 'Updated',
+      initialServerName: initialName,
+      onSubmit: (name, logo) {
+        context.read<ServerBloc>().add(
+          EditServerEvent(id: id, serverName: name, logoPath: logo),
+        );
+      },
     );
   }
 

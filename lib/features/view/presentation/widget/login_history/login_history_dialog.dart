@@ -10,43 +10,40 @@ import '../../../../auth/presentation/bloc/auth_bloc.dart';
 import '../../../../auth/presentation/bloc/auth_state.dart';
 import 'login_history_table.dart';
 
-class LoginHistoryDialog extends StatelessWidget {
-  const LoginHistoryDialog({Key? key}) : super(key: key);
-
+class LoginHistoryDialog {
   static void show(BuildContext context) {
-    showDialog(
+    final authState = context.read<AuthBloc>().state;
+    String username = '';
+    if (authState is AuthAuthenticated) {
+      username = authState.user.username;
+    }
+
+    CommonDialog.show(
       context: context,
-      barrierDismissible: true,
-      builder: (BuildContext context) {
-        final authState = context.read<AuthBloc>().state;
-        String username = '';
-        if (authState is AuthAuthenticated) {
-          username = authState.user.username;
-        }
-
-        return BlocProvider(
-          create: (context) {
-            final bloc = sl<LoginHistoryBloc>();
-            bloc.add(SelectClientEvent(username));
-            bloc.add(const ViewLoginHistoryEvent());
-            return bloc;
-          },
-          child: const LoginHistoryDialog(),
-        );
-      },
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return CommonDialog(
       title: 'Login History',
       width: 800.w,
       height: 600.h,
       backgroundColor: Colors.white,
       showButtons: false,
       scrollable: false,
-      content: Container(height: 500.h, child: const LoginHistoryTable()),
+      content: BlocProvider(
+        create: (context) {
+          final bloc = sl<LoginHistoryBloc>();
+          bloc.add(SelectClientEvent(username));
+          bloc.add(const ViewLoginHistoryEvent());
+          return bloc;
+        },
+        child: const _LoginHistoryContent(),
+      ),
     );
+  }
+}
+
+class _LoginHistoryContent extends StatelessWidget {
+  const _LoginHistoryContent({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(height: 500.h, child: const LoginHistoryTable());
   }
 }

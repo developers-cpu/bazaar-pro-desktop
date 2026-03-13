@@ -1,29 +1,50 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/common_dilog_box.dart';
 import '../../../../../core/widget/custom_action_button.dart';
 import '../../../../../core/widget/custom_input_field.dart';
+import '../../bloc/group/group_bloc.dart';
 
-class ImportGroupDataDialog extends StatelessWidget {
-  const ImportGroupDataDialog({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return CommonDialog(
+class ImportGroupDataDialog {
+  static void show(BuildContext context, {GroupBloc? bloc}) {
+    CommonDialog.show(
+      context: context,
       title: 'Import Group Data',
       width: 500.w,
       showButtons: false,
-      content: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildInstructions(),
-          SizedBox(height: 15.h),
-          _buildImportSection(),
-          SizedBox(height: 20.h),
-          _buildUpdateButton(context),
-        ],
-      ),
+      contentBuilder: (context, onClose) {
+        final content = _ImportGroupDataContent(onClose: onClose);
+        if (bloc != null) {
+          return BlocProvider.value(value: bloc, child: content);
+        }
+        return content;
+      },
+    );
+  }
+}
+
+class _ImportGroupDataContent extends StatelessWidget {
+  final VoidCallback onClose;
+
+  const _ImportGroupDataContent({
+    Key? key,
+    required this.onClose,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildInstructions(),
+        SizedBox(height: 15.h),
+        _buildImportSection(),
+        SizedBox(height: 20.h),
+        _buildUpdateButton(context),
+      ],
     );
   }
 
@@ -88,9 +109,7 @@ class ImportGroupDataDialog extends StatelessWidget {
     return Center(
       child: CustomActionButton(
         text: 'Update',
-        onPressed: () {
-          Navigator.pop(context);
-        },
+        onPressed: onClose,
         width: 100.w,
         height: 36.h,
         borderRadius: 8.r,

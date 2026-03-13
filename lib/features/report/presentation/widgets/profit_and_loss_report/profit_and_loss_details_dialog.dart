@@ -14,32 +14,47 @@ import '../../../../users/presentation/widgets/create_user/master_form_dialog.da
 import '../../../../users/presentation/widgets/create_user/client_form_dialog.dart';
 import '../../../../users/presentation/widgets/create_user/update_access_dialog.dart';
 
-class ProfitAndLossDetailsDialog extends StatelessWidget {
-  final List<ProfitAndLossReport> reports;
-  final String userName;
-  final int level;
-  const ProfitAndLossDetailsDialog({
-    super.key,
-    required this.reports,
-    required this.userName,
-    this.level = 1,
-  });
+class ProfitAndLossDetailsDialog {
   static void show(
     BuildContext context,
     List<ProfitAndLossReport> reports,
     String userName, {
     int level = 1,
   }) {
-    showDialog(
+    final double dialogWidth = (1000 - ((level - 1) * 40)).w;
+    final double dialogHeight = (600 - ((level - 1) * 30)).h;
+
+    CommonDialog.show(
       context: context,
-      barrierColor: AppColors.black.withValues(alpha: 0.54),
-      builder: (_) => ProfitAndLossDetailsDialog(
+      title: 'Profit & Loss',
+      width: dialogWidth,
+      height: dialogHeight,
+      showButtons: false,
+      scrollable: false,
+      contentPadding: EdgeInsets.zero,
+      contentBuilder: (context, onClose) => _ProfitAndLossDetailsContent(
         reports: reports,
         userName: userName,
         level: level,
+        onClose: onClose,
       ),
     );
   }
+}
+
+class _ProfitAndLossDetailsContent extends StatelessWidget {
+  final List<ProfitAndLossReport> reports;
+  final String userName;
+  final int level;
+  final VoidCallback onClose;
+
+  const _ProfitAndLossDetailsContent({
+    Key? key,
+    required this.reports,
+    required this.userName,
+    this.level = 1,
+    required this.onClose,
+  }) : super(key: key);
 
   List<ViewTableColumn> _getColumns() {
     return const [
@@ -226,116 +241,107 @@ class ProfitAndLossDetailsDialog extends StatelessWidget {
       totalOurBrokerage += item.ourBrokerage;
       totalOurPercentage += item.ourPercentage;
     }
-    final double dialogWidth = (1000 - ((level - 1) * 40)).w;
-    final double dialogHeight = (600 - ((level - 1) * 30)).h;
-    return CommonDialog(
-      title: 'Profit & Loss',
-      width: dialogWidth,
-      height: dialogHeight,
-      showButtons: false,
-      scrollable: false,
-      contentPadding: EdgeInsets.zero,
-      content: Container(
-        padding: EdgeInsets.all(10.w),
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 8.h),
-              child: Row(
-                children: [
-                  InkWell(
-                    onTap: () => Navigator.pop(context),
-                    child: Icon(
-                      Icons.arrow_back,
-                      color: const Color(0xFF1F4A66),
-                      size: 18.sp,
-                    ),
+
+    return Container(
+      padding: EdgeInsets.all(10.w),
+      child: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 8.h),
+            child: Row(
+              children: [
+                InkWell(
+                  onTap: onClose,
+                  child: Icon(
+                    Icons.arrow_back,
+                    color: const Color(0xFF1F4A66),
+                    size: 18.sp,
                   ),
-                  SizedBox(width: 12.w),
-                  Text(
-                    userName,
-                    style: GoogleFonts.openSans(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w600,
-                      color: const Color(0xFF1F4A66),
-                    ),
+                ),
+                SizedBox(width: 12.w),
+                Text(
+                  userName,
+                  style: GoogleFonts.openSans(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w600,
+                    color: const Color(0xFF1F4A66),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-            ViewRecordCount(count: reports.length),
-            Flexible(
-              fit: FlexFit.loose,
-              child: ViewDataTable<ProfitAndLossReport>(
-                columns: _getColumns(),
-                data: reports,
-                idExtractor: (item) => item.id,
-                autoFit: true,
-                comparatorBuilder: (item, columnId) {
-                  switch (columnId) {
-                    case 'userName':
-                      return item.userName;
-                    case 'percentage':
-                      return item.percentage;
-                    case 'releasePL':
-                      return item.releasePL;
-                    case 'brokerage':
-                      return item.brokerage;
-                    case 'm2m':
-                      return item.m2m;
-                    case 'netPL':
-                      return item.netPL;
-                    case 'ourBrokerage':
-                      return item.ourBrokerage;
-                    case 'ourPercentage':
-                      return item.ourPercentage;
-                    default:
-                      return '';
-                  }
-                },
-                emptyMessage: 'No records found',
-                cellBuilder: (item, column) {
-                  final index = reports.indexOf(item);
-                  return _buildCell(context, item, column, false, index);
-                },
-                footerBuilder: (columns) {
-                  return ViewDataTableFooter(
-                    columns: columns,
-                    values: {
-                      'view': 'Total',
-                      'releasePL': totalReleasePL.toStringAsFixed(2),
-                      'brokerage': totalBrokerage.toStringAsFixed(2),
-                      'm2m': totalM2M.toStringAsFixed(2),
-                      'netPL': totalNetPL.toStringAsFixed(2),
-                      'ourBrokerage': totalOurBrokerage.toStringAsFixed(2),
-                      'ourPercentage': totalOurPercentage.toStringAsFixed(2),
-                    },
-                    columnColors: {
-                      'releasePL': totalReleasePL >= 0
-                          ? AppColors.buyColor
-                          : AppColors.sellColor,
-                      'brokerage': totalBrokerage >= 0
-                          ? AppColors.buyColor
-                          : AppColors.sellColor,
-                      'm2m': totalM2M >= 0
-                          ? AppColors.buyColor
-                          : AppColors.sellColor,
-                      'netPL': totalNetPL >= 0
-                          ? AppColors.buyColor
-                          : AppColors.sellColor,
-                      'ourBrokerage': totalOurBrokerage >= 0
-                          ? AppColors.buyColor
-                          : AppColors.sellColor,
-                      'ourPercentage': totalOurPercentage >= 0
-                          ? AppColors.buyColor
-                          : AppColors.sellColor,
-                    },
-                  );
-                },
-              ),
+          ),
+          ViewRecordCount(count: reports.length),
+          Flexible(
+            fit: FlexFit.loose,
+            child: ViewDataTable<ProfitAndLossReport>(
+              columns: _getColumns(),
+              data: reports,
+              idExtractor: (item) => item.id,
+              autoFit: true,
+              comparatorBuilder: (item, columnId) {
+                switch (columnId) {
+                  case 'userName':
+                    return item.userName;
+                  case 'percentage':
+                    return item.percentage;
+                  case 'releasePL':
+                    return item.releasePL;
+                  case 'brokerage':
+                    return item.brokerage;
+                  case 'm2m':
+                    return item.m2m;
+                  case 'netPL':
+                    return item.netPL;
+                  case 'ourBrokerage':
+                    return item.ourBrokerage;
+                  case 'ourPercentage':
+                    return item.ourPercentage;
+                  default:
+                    return '';
+                }
+              },
+              emptyMessage: 'No records found',
+              cellBuilder: (item, column) {
+                final index = reports.indexOf(item);
+                return _buildCell(context, item, column, false, index);
+              },
+              footerBuilder: (columns) {
+                return ViewDataTableFooter(
+                  columns: columns,
+                  values: {
+                    'view': 'Total',
+                    'releasePL': totalReleasePL.toStringAsFixed(2),
+                    'brokerage': totalBrokerage.toStringAsFixed(2),
+                    'm2m': totalM2M.toStringAsFixed(2),
+                    'netPL': totalNetPL.toStringAsFixed(2),
+                    'ourBrokerage': totalOurBrokerage.toStringAsFixed(2),
+                    'ourPercentage': totalOurPercentage.toStringAsFixed(2),
+                  },
+                  columnColors: {
+                    'releasePL': totalReleasePL >= 0
+                        ? AppColors.buyColor
+                        : AppColors.sellColor,
+                    'brokerage': totalBrokerage >= 0
+                        ? AppColors.buyColor
+                        : AppColors.sellColor,
+                    'm2m': totalM2M >= 0
+                        ? AppColors.buyColor
+                        : AppColors.sellColor,
+                    'netPL': totalNetPL >= 0
+                        ? AppColors.buyColor
+                        : AppColors.sellColor,
+                    'ourBrokerage': totalOurBrokerage >= 0
+                        ? AppColors.buyColor
+                        : AppColors.sellColor,
+                    'ourPercentage': totalOurPercentage >= 0
+                        ? AppColors.buyColor
+                        : AppColors.sellColor,
+                  },
+                );
+              },
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

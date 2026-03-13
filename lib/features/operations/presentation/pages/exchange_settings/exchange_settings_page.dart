@@ -93,15 +93,15 @@ class _ExchangeSettingsPageState extends State<ExchangeSettingsPage> {
     super.dispose();
   }
 
-  void _showPasswordDialog() async {
-    final result = await showDialog<bool>(
-      context: context,
-      barrierDismissible: false,
-      builder: (_) => const PasswordDialog(),
+  void _showPasswordDialog() {
+    PasswordDialog.show(
+      context,
+      onSuccess: (result) {
+        if (result && mounted) {
+          setState(() => _authenticated = true);
+        }
+      },
     );
-    if (result == true && mounted) {
-      setState(() => _authenticated = true);
-    }
   }
 
   @override

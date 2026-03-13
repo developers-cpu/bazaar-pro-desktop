@@ -277,29 +277,17 @@ class _GroupPageState extends State<GroupPage> {
     String? initialGroupName,
     bool initialIsDefault = false,
   }) {
-    final bloc = context.read<GroupBloc>();
-    showDialog(
+    AddGroupDialog.show(
       context: context,
-      barrierDismissible: false,
-      builder: (_) => BlocProvider.value(
-        value: bloc,
-        child: AddGroupDialog(
-          isEdit: isEdit,
-          initialExchange: initialExchange,
-          initialGroupName: initialGroupName,
-          initialIsDefault: initialIsDefault,
-        ),
-      ),
+      isEdit: isEdit,
+      initialExchange: initialExchange,
+      initialGroupName: initialGroupName,
+      initialIsDefault: initialIsDefault,
+      bloc: context.read<GroupBloc>(),
     );
   }
 
   void _showImportDialog() {
-    final bloc = context.read<GroupBloc>();
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (_) =>
-          BlocProvider.value(value: bloc, child: const ImportGroupDataDialog()),
-    );
+    ImportGroupDataDialog.show(context, bloc: context.read<GroupBloc>());
   }
 }

@@ -11,8 +11,7 @@ import '../../../../../../injection_container.dart';
 import '../../bloc/total_volume/total_volume_bloc.dart';
 import '../../../domain/entities/total_volume_entity.dart';
 
-class TotalVolumeDialog extends StatefulWidget {
-  const TotalVolumeDialog({Key? key}) : super(key: key);
+class TotalVolumeDialog {
   static void show(BuildContext context) {
     CommonDialog.show(
       context: context,
@@ -20,15 +19,19 @@ class TotalVolumeDialog extends StatefulWidget {
       width: 400.w,
       showButtons: false,
       contentPadding: EdgeInsets.all(20.w),
-      content: const TotalVolumeDialog(),
+      contentBuilder: (context, onClose) => const _TotalVolumeContent(),
     );
   }
-
-  @override
-  State<TotalVolumeDialog> createState() => _TotalVolumeDialogState();
 }
 
-class _TotalVolumeDialogState extends State<TotalVolumeDialog> {
+class _TotalVolumeContent extends StatefulWidget {
+  const _TotalVolumeContent({Key? key}) : super(key: key);
+
+  @override
+  State<_TotalVolumeContent> createState() => _TotalVolumeContentState();
+}
+
+class _TotalVolumeContentState extends State<_TotalVolumeContent> {
   String? _selectedExchange;
   @override
   Widget build(BuildContext context) {
@@ -39,9 +42,9 @@ class _TotalVolumeDialogState extends State<TotalVolumeDialog> {
         builder: (context, state) {
           final exchanges =
               state.exchanges.isEmpty &&
-                  state.exchangeStatus == ExchangeStatus.success
-              ? ['NSE', 'MCX']
-              : state.exchanges;
+                      state.exchangeStatus == ExchangeStatus.success
+                  ? ['NSE', 'MCX']
+                  : state.exchanges;
           return SizedBox(
             height: 220.h,
             child: Column(
@@ -63,8 +66,8 @@ class _TotalVolumeDialogState extends State<TotalVolumeDialog> {
                           _selectedExchange = value;
                         });
                         context.read<TotalVolumeBloc>().add(
-                          GetTotalVolumeEvent(value),
-                        );
+                              GetTotalVolumeEvent(value),
+                            );
                       }
                     },
                   ),

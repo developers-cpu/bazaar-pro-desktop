@@ -7,14 +7,38 @@ import '../../../../../../core/widget/custom_input_field.dart';
 import '../../../bloc/settlement_progress/settlement_progress_bloc.dart';
 import '../../../bloc/settlement_progress/settlement_progress_event.dart';
 
-class ImportFileDialog extends StatefulWidget {
-  const ImportFileDialog({super.key});
-
-  @override
-  State<ImportFileDialog> createState() => _ImportFileDialogState();
+class ImportFileDialog {
+  static void show(BuildContext context, {SettlementProgressBloc? bloc}) {
+    CommonDialog.show(
+      context: context,
+      title: 'Import File',
+      width: 500.w,
+      showButtons: false,
+      contentPadding: EdgeInsets.all(20.w),
+      contentBuilder: (context, onClose) {
+        final content = _ImportFileContent(onClose: onClose);
+        if (bloc != null) {
+          return BlocProvider.value(value: bloc, child: content);
+        }
+        return content;
+      },
+    );
+  }
 }
 
-class _ImportFileDialogState extends State<ImportFileDialog> {
+class _ImportFileContent extends StatefulWidget {
+  final VoidCallback onClose;
+
+  const _ImportFileContent({
+    Key? key,
+    required this.onClose,
+  }) : super(key: key);
+
+  @override
+  State<_ImportFileContent> createState() => _ImportFileContentState();
+}
+
+class _ImportFileContentState extends State<_ImportFileContent> {
   final _fileController = TextEditingController();
 
   @override
@@ -28,7 +52,7 @@ class _ImportFileDialogState extends State<ImportFileDialog> {
       context.read<SettlementProgressBloc>().add(
         ImportFileEvent(_fileController.text),
       );
-      Navigator.of(context).pop();
+      widget.onClose();
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Please choose a file or enter a path')),
@@ -38,29 +62,23 @@ class _ImportFileDialogState extends State<ImportFileDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return CommonDialog(
-      title: 'Import File',
-      width: 500.w,
-      showButtons: false,
-      contentPadding: EdgeInsets.all(20.w),
-      content: Row(
-        children: [
-          Expanded(
-            child: CustomInputField(
-              controller: _fileController,
-              hintText: 'Choose File',
-              height: 35.h,
-            ),
-          ),
-          SizedBox(width: 15.w),
-          CustomActionButton(
-            text: 'Import',
-            onPressed: _onImport,
-            width: 100.w,
+    return Row(
+      children: [
+        Expanded(
+          child: CustomInputField(
+            controller: _fileController,
+            hintText: 'Choose File',
             height: 35.h,
           ),
-        ],
-      ),
+        ),
+        SizedBox(width: 15.w),
+        CustomActionButton(
+          text: 'Import',
+          onPressed: _onImport,
+          width: 100.w,
+          height: 35.h,
+        ),
+      ],
     );
   }
 }

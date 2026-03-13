@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 
 import '../../../../core/routes/app_routes.dart';
 import '../../../../core/routes/navigator_key.dart';
+import '../../../../core/widget/common_dilog_box.dart';
 
 class GlobalEscapeIntent extends Intent {
   const GlobalEscapeIntent();
@@ -11,6 +12,10 @@ class GlobalEscapeIntent extends Intent {
 class GlobalEscapeAction extends Action<GlobalEscapeIntent> {
   @override
   Object? invoke(GlobalEscapeIntent intent) {
+    if (CommonDialog.closeRecent()) {
+      return null;
+    }
+
     final context = globalNavigatorKey.currentContext;
     if (context != null) {
       final canPop = Navigator.of(context).canPop();

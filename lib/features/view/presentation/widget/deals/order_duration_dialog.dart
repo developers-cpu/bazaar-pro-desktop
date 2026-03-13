@@ -6,32 +6,14 @@ import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import '../../../domain/entities/deals/deals.dart';
 import 'package:bazarpro/core/widget/common_dilog_box.dart';
 
-class OrderDurationDialog extends StatelessWidget {
-  final List<Deal> relatedOrders;
-  final bool isDarkMode;
-  const OrderDurationDialog({
-    Key? key,
-    required this.relatedOrders,
-    this.isDarkMode = false,
-  }) : super(key: key);
+class OrderDurationDialog {
   static void show({
     required BuildContext context,
     required List<Deal> relatedOrders,
     bool isDarkMode = false,
   }) {
-    showDialog(
+    CommonDialog.show(
       context: context,
-      barrierColor: AppColors.black.withOpacity(0.54),
-      builder: (_) => OrderDurationDialog(
-        relatedOrders: relatedOrders,
-        isDarkMode: isDarkMode,
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return CommonDialog(
       title: 'Order Duration',
       isDarkMode: isDarkMode,
       width: 1000.w,
@@ -40,7 +22,59 @@ class OrderDurationDialog extends StatelessWidget {
       showButtons: false,
       scrollable: false,
       contentPadding: EdgeInsets.zero,
-      content: _buildTable(),
+      content: _OrderDurationContent(
+        relatedOrders: relatedOrders,
+        isDarkMode: isDarkMode,
+      ),
+    );
+  }
+}
+
+class _OrderDurationContent extends StatelessWidget {
+  final List<Deal> relatedOrders;
+  final bool isDarkMode;
+  const _OrderDurationContent({
+    Key? key,
+    required this.relatedOrders,
+    this.isDarkMode = false,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 8.w),
+      child: ViewDataTable<Deal>(
+        columns: _getColumns(),
+        data: relatedOrders,
+        idExtractor: (item) => item.id,
+        isDarkMode: isDarkMode,
+        emptyMessage: 'No related orders found',
+        comparatorBuilder: (item, columnId) {
+          switch (columnId) {
+            case 'userName':
+              return item.userName;
+            case 'pUser':
+              return item.pUser;
+            case 'exchange':
+              return item.exchange;
+            case 'symbol':
+              return item.symbol;
+            case 'buySell':
+              return item.buySell;
+            case 'tradeType':
+              return item.orderType;
+            case 'qty':
+              return item.qty;
+            case 'lot':
+              return item.lot;
+            case 'pl':
+              return item.pl;
+            default:
+              return '';
+          }
+        },
+        cellBuilder: (item, column) => _buildCell(item, column, isDarkMode),
+      ),
     );
   }
 
@@ -109,43 +143,5 @@ class OrderDurationDialog extends StatelessWidget {
       default:
         return const SizedBox.shrink();
     }
-  }
-
-  Widget _buildTable() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 8.w),
-      child: ViewDataTable<Deal>(
-        columns: _getColumns(),
-        data: relatedOrders,
-        idExtractor: (item) => item.id,
-        isDarkMode: isDarkMode,
-        emptyMessage: 'No related orders found',
-        comparatorBuilder: (item, columnId) {
-          switch (columnId) {
-            case 'userName':
-              return item.userName;
-            case 'pUser':
-              return item.pUser;
-            case 'exchange':
-              return item.exchange;
-            case 'symbol':
-              return item.symbol;
-            case 'buySell':
-              return item.buySell;
-            case 'tradeType':
-              return item.orderType;
-            case 'qty':
-              return item.qty;
-            case 'lot':
-              return item.lot;
-            case 'pl':
-              return item.pl;
-            default:
-              return '';
-          }
-        },
-        cellBuilder: (item, column) => _buildCell(item, column, isDarkMode),
-      ),
-    );
   }
 }

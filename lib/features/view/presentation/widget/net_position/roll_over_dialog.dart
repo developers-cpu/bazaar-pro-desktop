@@ -14,42 +14,37 @@ import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
 import '../../../../../core/widget/table/view_table_cell_styles.dart';
 
-class RollOverDialog extends StatefulWidget {
-  const RollOverDialog({Key? key}) : super(key: key);
+class RollOverDialog {
   static void show({required BuildContext context}) {
-    showDialog(
+    CommonDialog.show(
       context: context,
-      barrierColor: AppColors.black.withOpacity(0.54),
-      builder: (_) => const RollOverDialog(),
+      title: 'Roll Over',
+      width: 800.w,
+      height: 600.h,
+      showButtons: false,
+      contentPadding: EdgeInsets.zero,
+      scrollable: false,
+      content: const _RollOverDialogContent(),
     );
   }
-
-  @override
-  State<RollOverDialog> createState() => _RollOverDialogState();
 }
 
-class _RollOverDialogState extends State<RollOverDialog> {
+class _RollOverDialogContent extends StatefulWidget {
+  const _RollOverDialogContent({Key? key}) : super(key: key);
+
+  @override
+  State<_RollOverDialogContent> createState() => _RollOverDialogContentState();
+}
+
+class _RollOverDialogContentState extends State<_RollOverDialogContent> {
   String _selectedExchange = 'Exchange';
   String _selectedSymbol = 'Symbol';
   final Color headerColor = AppColors.primaryBlue;
   Set<int> _selectedIndices = {
-    0,
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14,
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
   };
   bool _selectAll = true;
+
   void _toggleSelectAll() {
     setState(() {
       _selectAll = !_selectAll;
@@ -82,72 +77,51 @@ class _RollOverDialogState extends State<RollOverDialog> {
         authState is AuthAuthenticated &&
         authState.user.role.toLowerCase() == 'client';
 
-    return CommonDialog(
-      title: 'Roll Over',
-      width: 800.w,
-      height: 600.h,
-      showButtons: false,
-      contentPadding: EdgeInsets.zero,
-      scrollable: false,
-      content: Column(
-        children: [
-          if (!isClient)
-            Padding(
-              padding: EdgeInsets.all(16.w),
-              child: Row(
-                children: [
-                  SizedBox(
-                    width: 200.w,
-                    child: AppDropdown(
-                      type: AppDropdownType.simple,
-                      value: _selectedExchange,
-                      hintText: 'Exchange',
-                      items: const [
-                        'NSE',
-                        'MCX',
-                        'CE/PE',
-                        'OTHERS',
-                        'COMEX',
-                        'CRYPTO',
-                        'GIFT',
-                        'FOREX',
-                      ],
-                      onChanged: (val) {
-                        if (val != null)
-                          setState(() => _selectedExchange = val);
-                      },
-                    ),
+    return Column(
+      children: [
+        if (!isClient)
+          Padding(
+            padding: EdgeInsets.all(16.w),
+            child: Row(
+              children: [
+                SizedBox(
+                  width: 200.w,
+                  child: AppDropdown(
+                    type: AppDropdownType.simple,
+                    value: _selectedExchange,
+                    hintText: 'Exchange',
+                    items: const [
+                      'NSE', 'MCX', 'CE/PE', 'OTHERS', 'COMEX', 'CRYPTO', 'GIFT', 'FOREX',
+                    ],
+                    onChanged: (val) {
+                      if (val != null) setState(() => _selectedExchange = val);
+                    },
                   ),
-                  SizedBox(width: 16.w),
-                  SizedBox(
-                    width: 200.w,
-                    child: AppDropdown(
-                      type: AppDropdownType.search,
-                      value: _selectedSymbol,
-                      hintText: 'Symbol',
-                      items: const [
-                        'GIFTNIFTY Oct 28',
-                        'NIFTY Oct 28',
-                        'BANKNIFTY Oct 28',
-                        'MINI GOLDMINI Dec 05',
-                        'MINI SILVERMINI Dec 05',
-                        'DOW Dec 19',
-                        'NASDAQ Dec 19',
-                        'S & P Dec 19',
-                      ],
-                      onChanged: (val) {
-                        if (val != null) setState(() => _selectedSymbol = val);
-                      },
-                    ),
+                ),
+                SizedBox(width: 16.w),
+                SizedBox(
+                  width: 200.w,
+                  child: AppDropdown(
+                    type: AppDropdownType.search,
+                    value: _selectedSymbol,
+                    hintText: 'Symbol',
+                    items: const [
+                      'GIFTNIFTY Oct 28', 'NIFTY Oct 28', 'BANKNIFTY Oct 28',
+                      'MINI GOLDMINI Dec 05', 'MINI SILVERMINI Dec 05', 'DOW Dec 19',
+                      'NASDAQ Dec 19', 'S & P Dec 19',
+                    ],
+                    onChanged: (val) {
+                      if (val != null) setState(() => _selectedSymbol = val);
+                    },
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ViewRecordCount(count: 15),
-          Expanded(child: _buildTable()),
-          _buildFooter(),
-        ],
-      ),
+          ),
+        ViewRecordCount(count: 15),
+        Expanded(child: _buildTable()),
+        _buildFooter(),
+      ],
     );
   }
 

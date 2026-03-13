@@ -9,11 +9,7 @@ import '../../bloc/manual_trade/manual_trade_bloc.dart';
 import '../../bloc/manual_trade/manual_trade_event.dart';
 import '../../bloc/manual_trade/manual_trade_state.dart';
 
-class ConfirmOrderDialog extends StatelessWidget {
-  final ManualTradeState data;
-  final bool isBuy;
-  const ConfirmOrderDialog({Key? key, required this.data, required this.isBuy})
-    : super(key: key);
+class ConfirmOrderDialog {
   static void show(BuildContext context, ManualTradeState data, bool isBuy) {
     final manualTradeBloc = context.read<ManualTradeBloc>();
     CommonDialog.show(
@@ -26,14 +22,23 @@ class ConfirmOrderDialog extends StatelessWidget {
       saveText: 'Yes',
       onSave: () {
         manualTradeBloc.add(const ConfirmManualTradeEvent());
-        Navigator.pop(context);
       },
       content: BlocProvider.value(
         value: manualTradeBloc,
-        child: ConfirmOrderDialog(data: data, isBuy: isBuy),
+        child: _ConfirmOrderContent(data: data, isBuy: isBuy),
       ),
     );
   }
+}
+
+class _ConfirmOrderContent extends StatelessWidget {
+  final ManualTradeState data;
+  final bool isBuy;
+  const _ConfirmOrderContent({
+    Key? key,
+    required this.data,
+    required this.isBuy,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

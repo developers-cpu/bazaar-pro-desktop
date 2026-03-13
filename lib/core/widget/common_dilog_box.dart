@@ -5,7 +5,7 @@ import 'package:bazarpro/core/widget/custom_action_button.dart';
 import 'package:bazarpro/core/widget/custom_outlined_button.dart';
 import '../../../../core/constants/app_colors.dart';
 
-class CommonDialog extends StatelessWidget {
+class CommonDialog extends StatefulWidget {
   final String title;
   final Widget content;
   final VoidCallback? onCancel;
@@ -23,6 +23,9 @@ class CommonDialog extends StatelessWidget {
   final double? buttonHeight;
   final bool scrollable;
   final bool autoPop;
+  final VoidCallback? onClose;
+  final VoidCallback? onBringToFront;
+
   const CommonDialog({
     Key? key,
     required this.title,
@@ -42,13 +45,35 @@ class CommonDialog extends StatelessWidget {
     this.buttonHeight,
     this.scrollable = true,
     this.autoPop = true,
+    this.onClose,
+    this.onBringToFront,
   }) : super(key: key);
+
+  static final List<OverlayEntry> _activeDialogs = [];
+
+  static bool closeRecent() {
+    if (_activeDialogs.isNotEmpty) {
+      final entry = _activeDialogs.removeLast();
+      entry.remove();
+      return true;
+    }
+    return false;
+  }
+
+  static void closeAll() {
+    while (_activeDialogs.isNotEmpty) {
+      _activeDialogs.removeLast().remove();
+    }
+  }
+
   static void show({
     required BuildContext context,
     required String title,
-    required Widget content,
+    Widget? content,
+    Widget Function(BuildContext, VoidCallback)? contentBuilder,
     VoidCallback? onCancel,
     VoidCallback? onSave,
+    VoidCallback? onClose,
     double? width,
     double? height,
     Color? backgroundColor,
@@ -63,79 +88,158 @@ class CommonDialog extends StatelessWidget {
     bool scrollable = true,
     bool autoPop = true,
   }) {
-    showDialog(
-      context: context,
-      barrierColor: AppColors.black.withOpacity(0.54),
-      builder: (_) => CommonDialog(
-        title: title,
-        content: content,
-        onCancel: onCancel,
-        onSave: onSave,
-        width: width,
-        height: height,
-        backgroundColor: backgroundColor,
-        headerColor: headerColor,
-        showButtons: showButtons,
-        isDarkMode: isDarkMode,
-        cancelText: cancelText,
-        saveText: saveText,
-        contentPadding: contentPadding,
-        buttonWidth: buttonWidth,
-        buttonHeight: buttonHeight,
-        scrollable: scrollable,
-        autoPop: autoPop,
-      ),
+    late OverlayEntry overlayEntry;
+    overlayEntry = OverlayEntry(
+      builder:
+          (context) => CommonDialog(
+            title: title,
+            content:
+                content ??
+                (contentBuilder != null
+                    ? contentBuilder(context, () => overlayEntry.remove())
+                    : const SizedBox.shrink()),
+            onCancel: onCancel,
+            onSave: onSave,
+            width: width,
+            height: height,
+            backgroundColor: backgroundColor,
+            headerColor: headerColor,
+            showButtons: showButtons,
+            isDarkMode: isDarkMode,
+            cancelText: cancelText,
+            saveText: saveText,
+            contentPadding: contentPadding,
+            buttonWidth: buttonWidth,
+            buttonHeight: buttonHeight,
+            scrollable: scrollable,
+            autoPop: autoPop,
+            onClose: () {
+              if (_activeDialogs.contains(overlayEntry)) {
+                _activeDialogs.remove(overlayEntry);
+              }
+              if (onClose != null) onClose();
+              overlayEntry.remove();
+            },
+            onBringToFront: () {
+              if (_activeDialogs.contains(overlayEntry)) {
+                _activeDialogs.remove(overlayEntry);
+                _activeDialogs.add(overlayEntry);
+              }
+              overlayEntry.remove();
+              Overlay.of(context).insert(overlayEntry);
+            },
+          ),
     );
+
+    _activeDialogs.add(overlayEntry);
+    Overlay.of(context).insert(overlayEntry);
+  }
+
+  @override
+  State<CommonDialog> createState() => _CommonDialogState();
+}
+
+class _CommonDialogState extends State<CommonDialog> {
+  Offset? _position;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_position == null) {
+      final screenSize = MediaQuery.of(context).size;
+      final dialogWidth = widget.width ?? 400.w;
+      
+      _position = Offset(
+        (screenSize.width - dialogWidth) / 2,
+        (screenSize.height - (widget.height ?? 400.h)) / 2,
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final bgColor =
-        backgroundColor ??
-        (isDarkMode
+        widget.backgroundColor ??
+        (widget.isDarkMode
             ? DarkThemeColors.cardBackground
             : LightThemeColors.cardBackground);
     final headerBgColor =
-        headerColor ??
-        (isDarkMode ? LightThemeColors.primaryColor : AppColors.primaryBlue);
-    return Dialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
-      backgroundColor: Colors.transparent,
-      insetPadding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 24.h),
-      child: SizedBox(
-        width: width ?? 400.w,
-        height: height,
-        child: Container(
-          clipBehavior: Clip.antiAlias,
-          decoration: BoxDecoration(
-            color: bgColor,
-            borderRadius: BorderRadius.circular(16.r),
-          ),
-          child: Column(
-            mainAxisSize: height != null ? MainAxisSize.max : MainAxisSize.min,
-            children: [
-              _buildHeader(context, headerBgColor),
-              Flexible(
-                child: scrollable
-                    ? SingleChildScrollView(
-                        child: Padding(
-                          padding: contentPadding ?? EdgeInsets.all(20.w),
-                          child: content,
-                        ),
-                      )
-                    : Padding(
-                        padding: contentPadding ?? EdgeInsets.all(20.w),
-                        child: content,
+        widget.headerColor ??
+        (widget.isDarkMode
+            ? LightThemeColors.primaryColor
+            : AppColors.primaryBlue);
+
+    return Stack(
+      children: [
+        Positioned(
+          left: _position!.dx,
+          top: _position!.dy,
+          child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onPanUpdate: (details) {
+              setState(() {
+                _position = Offset(
+                  _position!.dx + details.delta.dx,
+                  _position!.dy + details.delta.dy,
+                );
+              });
+            },
+            onTapDown: (_) {
+              if (widget.onBringToFront != null) {
+                widget.onBringToFront!();
+              }
+            },
+            child: Material(
+              color: Colors.transparent,
+              child: SizedBox(
+                width: (widget.width ?? 400.w).clamp(200.w, MediaQuery.of(context).size.width * 0.9),
+                height: widget.height,
+                child: Container(
+                  clipBehavior: Clip.antiAlias,
+                  decoration: BoxDecoration(
+                    color: bgColor,
+                    borderRadius: BorderRadius.circular(16.r),
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.black.withOpacity(0.2),
+                        blurRadius: 12,
+                        offset: const Offset(0, 4),
                       ),
+                    ],
+                  ),
+                  child: Column(
+                    mainAxisSize: widget.height != null
+                        ? MainAxisSize.max
+                        : MainAxisSize.min,
+                    children: [
+                      _buildHeader(context, headerBgColor),
+                      Flexible(
+                        child: widget.scrollable
+                            ? SingleChildScrollView(
+                                child: Padding(
+                                  padding: widget.contentPadding ??
+                                      EdgeInsets.all(20.w),
+                                  child: widget.content,
+                                ),
+                              )
+                            : Padding(
+                                padding: widget.contentPadding ??
+                                    EdgeInsets.all(20.w),
+                                child: widget.content,
+                              ),
+                      ),
+                      if (widget.showButtons) ...[
+                        _buildButtons(context),
+                        SizedBox(height: 10.h),
+                      ],
+                    ],
+                  ),
+                ),
               ),
-              if (showButtons) ...[
-                _buildButtons(context),
-                SizedBox(height: 10.h),
-              ],
-            ],
+            ),
           ),
         ),
-      ),
+      ],
     );
   }
 
@@ -153,7 +257,7 @@ class CommonDialog extends StatelessWidget {
           children: [
             Expanded(
               child: Text(
-                title,
+                widget.title,
                 style: GoogleFonts.openSans(
                   fontSize: 14.sp,
                   color: AppColors.white,
@@ -162,10 +266,14 @@ class CommonDialog extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () {
-                if (onCancel != null) {
-                  onCancel!();
+                if (widget.onCancel != null) {
+                  widget.onCancel!();
                 }
-                Navigator.pop(context);
+                if (widget.onClose != null) {
+                  widget.onClose!();
+                } else {
+                  Navigator.pop(context);
+                }
               },
               child: Icon(Icons.close, size: 18.sp, color: AppColors.white),
             ),
@@ -176,10 +284,10 @@ class CommonDialog extends StatelessWidget {
   }
 
   Widget _buildButtons(BuildContext context) {
-    final primaryColor = isDarkMode
+    final primaryColor = widget.isDarkMode
         ? const Color(0xFF1F4A66)
-        : (headerColor ?? AppColors.primaryBlue);
-    final btnHeight = buttonHeight ?? 45.h;
+        : (widget.headerColor ?? AppColors.primaryBlue);
+    final btnHeight = widget.buttonHeight ?? 45.h;
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.w),
@@ -188,13 +296,17 @@ class CommonDialog extends StatelessWidget {
         children: [
           Expanded(
             child: CustomOutlinedActionButton(
-              text: cancelText,
+              text: widget.cancelText,
               onPressed: () {
-                if (onCancel != null) {
-                  onCancel!();
+                if (widget.onCancel != null) {
+                  widget.onCancel!();
                 }
-                if (autoPop) {
-                  Navigator.pop(context);
+                if (widget.autoPop) {
+                  if (widget.onClose != null) {
+                    widget.onClose!();
+                  } else {
+                    Navigator.pop(context);
+                  }
                 }
               },
               height: btnHeight,
@@ -207,13 +319,17 @@ class CommonDialog extends StatelessWidget {
           SizedBox(width: 16.w),
           Expanded(
             child: CustomActionButton(
-              text: saveText,
+              text: widget.saveText,
               onPressed: () {
-                if (onSave != null) {
-                  onSave!();
+                if (widget.onSave != null) {
+                  widget.onSave!();
                 }
-                if (autoPop) {
-                  Navigator.pop(context);
+                if (widget.autoPop) {
+                  if (widget.onClose != null) {
+                    widget.onClose!();
+                  } else {
+                    Navigator.pop(context);
+                  }
                 }
               },
               height: btnHeight,

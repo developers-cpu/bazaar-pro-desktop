@@ -303,9 +303,9 @@ class NetPositionTable extends StatelessWidget {
                 isDarkMode: isDarkMode,
                 headerTextSize: headerTextSize.sp,
                 bodyTextSize: bodyTextSize.sp,
-               // isStart: isStart,
+               
                  autoFit: true,
-               // isBorderFit: isBorderFit,
+               
                 emptyMessage: 'No net positions found',
                 cellBuilder: (item, column) =>
                     _buildCell(context, item, column, isDarkMode, isClient),

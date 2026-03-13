@@ -5,38 +5,57 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/app_calendar.dart';
+import '../../../../../core/widget/common_dilog_box.dart';
 import '../../../../../injection_container.dart';
 import 'package:bazarpro/features/tools/domain/entities/market_timing_entity.dart';
 import '../../bloc/market_timing/market_timing_bloc.dart';
 import '../../bloc/market_timing/market_timing_event.dart';
 import '../../bloc/market_timing/market_timing_state.dart';
 
-class MarketTimingDialog extends StatefulWidget {
-  final DateTime? initialDate;
-  final String exchange;
-  const MarketTimingDialog({Key? key, this.initialDate, required this.exchange})
-    : super(key: key);
-  static Future<DateTime?> show(
+class MarketTimingDialog {
+  static void show(
     BuildContext context, {
     DateTime? initialDate,
     required String exchange,
-  }) async {
-    return await showDialog<DateTime>(
+  }) {
+    CommonDialog.show(
       context: context,
-      barrierColor: AppColors.black.withOpacity(0.5),
-      builder: (context) => BlocProvider(
+      title: 'Market Timing',
+      width: 350.w,
+      showButtons: false,
+      scrollable: true,
+      contentPadding: EdgeInsets.zero,
+      contentBuilder: (context, onClose) => BlocProvider(
         create: (context) => sl<MarketTimingBloc>(),
-        child: MarketTimingDialog(initialDate: initialDate, exchange: exchange),
+        child: _MarketTimingContent(
+          initialDate: initialDate,
+          exchange: exchange,
+          onClose: onClose,
+        ),
       ),
     );
   }
-
-  @override
-  State<MarketTimingDialog> createState() => _MarketTimingDialogState();
 }
 
-class _MarketTimingDialogState extends State<MarketTimingDialog> {
+class _MarketTimingContent extends StatefulWidget {
+  final DateTime? initialDate;
+  final String exchange;
+  final VoidCallback onClose;
+
+  const _MarketTimingContent({
+    Key? key,
+    this.initialDate,
+    required this.exchange,
+    required this.onClose,
+  }) : super(key: key);
+
+  @override
+  State<_MarketTimingContent> createState() => _MarketTimingContentState();
+}
+
+class _MarketTimingContentState extends State<_MarketTimingContent> {
   DateTime? _selectedDate;
+
   @override
   void initState() {
     super.initState();
@@ -61,64 +80,52 @@ class _MarketTimingDialogState extends State<MarketTimingDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return Dialog(
-      backgroundColor: Colors.transparent,
-      insetPadding: EdgeInsets.symmetric(horizontal: 16.w),
-      child: Container(
-        width: 350.w,
-        decoration: BoxDecoration(
-          color: AppColors.white,
-          borderRadius: BorderRadius.circular(16.r),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _buildHeader(),
-            BlocConsumer<MarketTimingBloc, MarketTimingState>(
-              listener: (context, state) {},
-              builder: (context, state) {
-                Color Function(DateTime)? colorBuilder;
-                if (state is MarketTimingLoaded) {
-                  colorBuilder = (date) {
-                    if (_selectedDate != null &&
-                        date.year == _selectedDate!.year &&
-                        date.month == _selectedDate!.month &&
-                        date.day == _selectedDate!.day) {
-                      return state.data.isOpen
-                          ? AppColors.primaryBlue
-                          : AppColors.red;
-                    }
-                    final isWeekend =
-                        date.weekday == DateTime.sunday ||
-                        date.weekday == DateTime.saturday;
-                    return isWeekend ? AppColors.red : AppColors.primaryBlue;
-                  };
-                } else {
-                  colorBuilder = (date) {
-                    final isWeekend =
-                        date.weekday == DateTime.sunday ||
-                        date.weekday == DateTime.saturday;
-                    return isWeekend ? AppColors.red : AppColors.primaryBlue;
-                  };
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        BlocConsumer<MarketTimingBloc, MarketTimingState>(
+          listener: (context, state) {},
+          builder: (context, state) {
+            Color Function(DateTime)? colorBuilder;
+            if (state is MarketTimingLoaded) {
+              colorBuilder = (date) {
+                if (_selectedDate != null &&
+                    date.year == _selectedDate!.year &&
+                    date.month == _selectedDate!.month &&
+                    date.day == _selectedDate!.day) {
+                  return state.data.isOpen
+                      ? AppColors.primaryBlue
+                      : AppColors.red;
                 }
-                return Column(
-                  children: [
-                    AppCalendar(
-                      initialDate: _selectedDate ?? DateTime.now(),
-                      selectedDate: _selectedDate,
-                      onDateSelected: _onDateSelected,
-                      selectedDayColorBuilder: colorBuilder,
-                    ),
-                    SizedBox(height: 16.h),
-                    if (_selectedDate != null) _buildStateFooter(state),
-                  ],
-                );
-              },
-            ),
-            SizedBox(height: 24.h),
-          ],
+                final isWeekend =
+                    date.weekday == DateTime.sunday ||
+                    date.weekday == DateTime.saturday;
+                return isWeekend ? AppColors.red : AppColors.primaryBlue;
+              };
+            } else {
+              colorBuilder = (date) {
+                final isWeekend =
+                    date.weekday == DateTime.sunday ||
+                    date.weekday == DateTime.saturday;
+                return isWeekend ? AppColors.red : AppColors.primaryBlue;
+              };
+            }
+            return Column(
+              children: [
+                AppCalendar(
+                  initialDate: _selectedDate ?? DateTime.now(),
+                  selectedDate: _selectedDate,
+                  onDateSelected: _onDateSelected,
+                  selectedDayColorBuilder: colorBuilder,
+                ),
+                SizedBox(height: 16.h),
+                if (_selectedDate != null) _buildStateFooter(state),
+              ],
+            );
+          },
         ),
-      ),
+        SizedBox(height: 24.h),
+      ],
     );
   }
 
@@ -136,38 +143,6 @@ class _MarketTimingDialogState extends State<MarketTimingDialog> {
       return _buildFooterStatus(state.data);
     }
     return SizedBox(height: 100.h);
-  }
-
-  Widget _buildHeader() {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-      decoration: BoxDecoration(
-        color: const Color(0xFF1F4A66),
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(16.r),
-          topRight: Radius.circular(16.r),
-        ),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            'Market Timing',
-            style: GoogleFonts.openSans(
-              fontSize: 16.sp,
-              fontWeight: FontWeight.w400,
-              color: AppColors.white,
-            ),
-          ),
-          IconButton(
-            onPressed: () => Navigator.pop(context),
-            icon: Icon(Icons.close, size: 20.sp, color: AppColors.white),
-            padding: EdgeInsets.zero,
-            constraints: const BoxConstraints(),
-          ),
-        ],
-      ),
-    );
   }
 
   Widget _buildFooterStatus(MarketTimingEntity data) {

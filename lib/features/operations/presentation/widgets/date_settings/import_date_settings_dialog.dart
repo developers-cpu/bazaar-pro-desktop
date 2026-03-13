@@ -4,22 +4,36 @@ import '../../../../../core/widget/common_dilog_box.dart';
 import '../../../../../core/widget/custom_action_button.dart';
 import '../../../../../core/widget/custom_input_field.dart';
 
-class ImportDateSettingsDialog extends StatelessWidget {
-  const ImportDateSettingsDialog({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return CommonDialog(
+class ImportDateSettingsDialog {
+  static void show(BuildContext context) {
+    CommonDialog.show(
+      context: context,
       title: 'Import Data',
       width: 500.w,
       showButtons: false,
-      content: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildImportSection(),
-          SizedBox(height: 20.h),
-          _buildUpdateButton(context),
-        ],
-      ),
+      contentBuilder: (context, onClose) =>
+          _ImportDateSettingsContent(onClose: onClose),
+    );
+  }
+}
+
+class _ImportDateSettingsContent extends StatelessWidget {
+  final VoidCallback onClose;
+
+  const _ImportDateSettingsContent({
+    Key? key,
+    required this.onClose,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildImportSection(),
+        SizedBox(height: 20.h),
+        _buildUpdateButton(context),
+      ],
     );
   }
 
@@ -49,9 +63,7 @@ class ImportDateSettingsDialog extends StatelessWidget {
     return Center(
       child: CustomActionButton(
         text: 'Update',
-        onPressed: () {
-          Navigator.pop(context);
-        },
+        onPressed: onClose,
         width: 100.w,
         height: 36.h,
         borderRadius: 8.r,

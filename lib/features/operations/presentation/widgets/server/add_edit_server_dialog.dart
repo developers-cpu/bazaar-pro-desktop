@@ -4,25 +4,55 @@ import '../../../../../../core/widget/custom_action_button.dart';
 import '../../../../../../core/widget/custom_input_field.dart';
 import '../../../../../../core/widget/common_dilog_box.dart';
 
-class AddEditServerDialog extends StatefulWidget {
+class AddEditServerDialog {
+  static void show({
+    required BuildContext context,
+    required String title,
+    required String buttonText,
+    required Function(String serverName, String logoPath) onSubmit,
+    String initialServerName = '',
+  }) {
+    CommonDialog.show(
+      context: context,
+      title: title,
+      width: 400.w,
+      showButtons: false,
+      contentPadding: EdgeInsets.zero,
+      contentBuilder: (context, onClose) => _AddEditServerContent(
+        title: title,
+        buttonText: buttonText,
+        onSubmit: onSubmit,
+        initialServerName: initialServerName,
+        onClose: onClose,
+      ),
+    );
+  }
+}
+
+class _AddEditServerContent extends StatefulWidget {
   final String title;
   final String buttonText;
   final String initialServerName;
   final Function(String serverName, String logoPath) onSubmit;
-  const AddEditServerDialog({
-    super.key,
+  final VoidCallback onClose;
+
+  const _AddEditServerContent({
+    Key? key,
     required this.title,
     required this.buttonText,
     required this.onSubmit,
     this.initialServerName = '',
-  });
+    required this.onClose,
+  }) : super(key: key);
+
   @override
-  State<AddEditServerDialog> createState() => _AddEditServerDialogState();
+  State<_AddEditServerContent> createState() => _AddEditServerContentState();
 }
 
-class _AddEditServerDialogState extends State<AddEditServerDialog> {
+class _AddEditServerContentState extends State<_AddEditServerContent> {
   late TextEditingController _serverNameCtrl;
   final TextEditingController _logoFileCtrl = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -39,63 +69,57 @@ class _AddEditServerDialogState extends State<AddEditServerDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return CommonDialog(
-      title: widget.title,
-      width: 400.w,
-      showButtons: false,
-      contentPadding: EdgeInsets.zero,
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 20.h),
-            child: Row(
-              children: [
-                Expanded(
-                  child: CustomInputField(
-                    controller: _serverNameCtrl,
-                    hintText: 'Server Name',
-                    height: 35.h,
-                  ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 20.h),
+          child: Row(
+            children: [
+              Expanded(
+                child: CustomInputField(
+                  controller: _serverNameCtrl,
+                  hintText: 'Server Name',
+                  height: 35.h,
                 ),
-                SizedBox(width: 10.w),
-                Expanded(
-                  child: Stack(
-                    alignment: Alignment.centerRight,
-                    children: [
-                      CustomInputField(
-                        controller: _logoFileCtrl,
-                        hintText: 'Browse File (Server Logo)',
-                        height: 35.h,
-                      ),
-                      Positioned.fill(child: InkWell(onTap: () {})),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(bottom: 20.h),
-            child: Center(
-              child: CustomActionButton(
-                text: widget.buttonText,
-                onPressed: () {
-                  widget.onSubmit(
-                    _serverNameCtrl.text.trim(),
-                    _logoFileCtrl.text,
-                  );
-                  Navigator.of(context).pop();
-                },
-                width: 120.w,
-                height: 36.h,
-                borderRadius: 6.r,
               ),
+              SizedBox(width: 10.w),
+              Expanded(
+                child: Stack(
+                  alignment: Alignment.centerRight,
+                  children: [
+                    CustomInputField(
+                      controller: _logoFileCtrl,
+                      hintText: 'Browse File (Server Logo)',
+                      height: 35.h,
+                    ),
+                    Positioned.fill(child: InkWell(onTap: () {})),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(bottom: 20.h),
+          child: Center(
+            child: CustomActionButton(
+              text: widget.buttonText,
+              onPressed: () {
+                widget.onSubmit(
+                  _serverNameCtrl.text.trim(),
+                  _logoFileCtrl.text,
+                );
+                widget.onClose();
+              },
+              width: 120.w,
+              height: 36.h,
+              borderRadius: 6.r,
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

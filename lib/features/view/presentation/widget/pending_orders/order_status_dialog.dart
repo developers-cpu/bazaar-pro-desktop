@@ -9,12 +9,14 @@ class OrderStatusDialog extends StatefulWidget {
   final bool isSuccess;
   final PendingOrder order;
   final String actionName;
+  final VoidCallback? onClose;
 
   const OrderStatusDialog({
     Key? key,
     required this.isSuccess,
     required this.order,
     required this.actionName,
+    this.onClose,
   }) : super(key: key);
 
   static void show({
@@ -23,16 +25,23 @@ class OrderStatusDialog extends StatefulWidget {
     required PendingOrder order,
     required String actionName,
   }) {
-    showDialog(
-      context: context,
-      barrierColor: AppColors.black.withOpacity(0.54),
-      useRootNavigator: true,
-      builder: (_) => OrderStatusDialog(
-        isSuccess: isSuccess,
-        order: order,
-        actionName: actionName,
+    late OverlayEntry overlayEntry;
+    overlayEntry = OverlayEntry(
+      builder: (context) => Positioned(
+        bottom: 12.h,
+        right: 16.w,
+        child: OrderStatusDialog(
+          isSuccess: isSuccess,
+          order: order,
+          actionName: actionName,
+          onClose: () {
+            overlayEntry.remove();
+          },
+        ),
       ),
     );
+
+    Overlay.of(context).insert(overlayEntry);
   }
 
   @override
@@ -44,8 +53,8 @@ class _OrderStatusDialogState extends State<OrderStatusDialog> {
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 2), () {
-      if (mounted) {
-        Navigator.of(context, rootNavigator: true).pop();
+      if (mounted && widget.onClose != null) {
+        widget.onClose!();
       }
     });
   }
@@ -66,11 +75,8 @@ class _OrderStatusDialogState extends State<OrderStatusDialog> {
     final timeFormat = DateFormat('hh:mm:ss a');
     final now = DateTime.now();
 
-    return Dialog(
-      alignment: Alignment.bottomRight,
-      backgroundColor: Colors.transparent,
-      elevation: 0,
-      insetPadding: EdgeInsets.only(right: 16.w, bottom: 12.h),
+    return Material(
+      color: Colors.transparent,
       child: Container(
         width: 260.w,
         padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),

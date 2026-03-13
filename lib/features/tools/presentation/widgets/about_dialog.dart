@@ -5,18 +5,21 @@ import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_images.dart';
 import '../../../../core/widget/common_dilog_box.dart';
 
-class AboutDialogBox extends StatelessWidget {
-  const AboutDialogBox({Key? key}) : super(key: key);
+class AboutDialogBox {
   static void show(BuildContext context) {
     CommonDialog.show(
       context: context,
       title: 'About',
-      content: const AboutDialogBox(),
       showButtons: false,
       width: 520.w,
       height: 250.h,
+      contentBuilder: (context, onClose) => const _AboutContent(),
     );
   }
+}
+
+class _AboutContent extends StatelessWidget {
+  const _AboutContent({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

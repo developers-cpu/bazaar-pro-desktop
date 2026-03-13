@@ -7,18 +7,7 @@ import '../../../../../core/constants/app_images.dart';
 import '../../../../../core/widget/app_switch.dart';
 import '../../../../../core/widget/common_dilog_box.dart';
 
-class UpdateAccessDialog extends StatefulWidget {
-  final String userId;
-  final String userName;
-  final Map<String, bool> currentSettings;
-  final Function(Map<String, bool> updatedSettings) onUpdate;
-  const UpdateAccessDialog({
-    super.key,
-    required this.userId,
-    required this.userName,
-    required this.currentSettings,
-    required this.onUpdate,
-  });
+class UpdateAccessDialog {
   static void show({
     required BuildContext context,
     required String userId,
@@ -26,24 +15,54 @@ class UpdateAccessDialog extends StatefulWidget {
     required Map<String, bool> currentSettings,
     required Function(Map<String, bool> updatedSettings) onUpdate,
   }) {
-    showDialog(
+    CommonDialog.show(
       context: context,
-      barrierColor: AppColors.black.withValues(alpha: 0.54),
-      builder: (_) => UpdateAccessDialog(
+      title: 'Update Access ($userName)',
+      width: 500.w,
+      showButtons: true, 
+      onSave: () {
+        
+        
+        
+        
+      },
+      contentBuilder: (context, onClose) => _UpdateAccessContent(
         userId: userId,
         userName: userName,
         currentSettings: currentSettings,
-        onUpdate: onUpdate,
+        onUpdate: (updatedSettings) {
+          onUpdate(updatedSettings);
+          onClose();
+        },
+        onClose: onClose,
       ),
     );
   }
-
-  @override
-  State<UpdateAccessDialog> createState() => _UpdateAccessDialogState();
 }
 
-class _UpdateAccessDialogState extends State<UpdateAccessDialog> {
+class _UpdateAccessContent extends StatefulWidget {
+  final String userId;
+  final String userName;
+  final Map<String, bool> currentSettings;
+  final Function(Map<String, bool> updatedSettings) onUpdate;
+  final VoidCallback onClose;
+
+  const _UpdateAccessContent({
+    Key? key,
+    required this.userId,
+    required this.userName,
+    required this.currentSettings,
+    required this.onUpdate,
+    required this.onClose,
+  }) : super(key: key);
+
+  @override
+  State<_UpdateAccessContent> createState() => _UpdateAccessContentState();
+}
+
+class _UpdateAccessContentState extends State<_UpdateAccessContent> {
   late Map<String, bool> _settings;
+
   @override
   void initState() {
     super.initState();
@@ -52,24 +71,56 @@ class _UpdateAccessDialogState extends State<UpdateAccessDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return CommonDialog(
-      title: 'Update Access (${widget.userName})',
-      width: 500.w,
-      showButtons: false,
-      onSave: () {
-        widget.onUpdate(_settings);
-      },
-      content: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: _settings.keys.map((key) {
-            return Padding(
-              padding: EdgeInsets.only(bottom: 16.h),
-              child: _buildSettingRow(key),
-            );
-          }).toList(),
+    
+    
+    
+    
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: _settings.keys.map((key) {
+              return Padding(
+                padding: EdgeInsets.only(bottom: 16.h),
+                child: _buildSettingRow(key),
+              );
+            }).toList(),
+          ),
         ),
-      ),
+        SizedBox(height: 24.h),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            TextButton(
+              onPressed: widget.onClose,
+              child: Text(
+                'Cancel',
+                style: GoogleFonts.openSans(color: Colors.grey),
+              ),
+            ),
+            SizedBox(width: 16.w),
+            ElevatedButton(
+              onPressed: () {
+                widget.onUpdate(_settings);
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF1F4A66),
+                padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.r),
+                ),
+              ),
+              child: Text(
+                'Update',
+                style: GoogleFonts.openSans(color: Colors.white),
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 
@@ -84,7 +135,7 @@ class _UpdateAccessDialogState extends State<UpdateAccessDialog> {
             width: 32.w,
             height: 32.h,
             decoration: BoxDecoration(
-              color: AppColors.primaryBlue.withValues(alpha: 0.1),
+              color: AppColors.primaryBlue.withOpacity(0.1),
               borderRadius: BorderRadius.circular(8.r),
             ),
             padding: EdgeInsets.all(6.w),

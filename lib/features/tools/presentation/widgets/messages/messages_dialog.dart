@@ -10,44 +10,49 @@ import '../../../../../core/widget/common_dilog_box.dart';
 import '../../../../../injection_container.dart';
 import '../../../domain/entities/message_entity.dart';
 
-class MessagesDialog extends StatelessWidget {
-  const MessagesDialog({super.key});
+class MessagesDialog {
   static void show(BuildContext context) {
-    showDialog(
+    CommonDialog.show(
       context: context,
-      barrierDismissible: false,
-      builder: (context) => BlocProvider(
-        create: (context) => sl<MessageBloc>()..add(LoadMessages()),
-        child: const MessagesDialog(),
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return CommonDialog(
       title: 'Messages',
       width: 420.w,
       height: 650.h,
       showButtons: false,
       scrollable: false,
       contentPadding: EdgeInsets.zero,
-      content: BlocBuilder<MessageBloc, MessageState>(
-        builder: (context, state) {
-          if (state is MessageLoading) {
-            return const SizedBox.shrink();
-          } else if (state is MessageError) {
-            return Center(child: Text(state.message));
-          } else if (state is MessageLoaded) {
-            return _buildMessageList(state.messages);
-          }
-          return const SizedBox.shrink();
-        },
+      contentBuilder: (context, onClose) => BlocProvider(
+        create: (context) => sl<MessageBloc>()..add(LoadMessages()),
+        child: _MessagesContent(onClose: onClose),
       ),
     );
   }
+}
 
-  Widget _buildMessageList(List<MessageEntity> messages) {
+class _MessagesContent extends StatelessWidget {
+  final VoidCallback onClose;
+
+  const _MessagesContent({
+    Key? key,
+    required this.onClose,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<MessageBloc, MessageState>(
+      builder: (context, state) {
+        if (state is MessageLoading) {
+          return const SizedBox.shrink();
+        } else if (state is MessageError) {
+          return Center(child: Text(state.message));
+        } else if (state is MessageLoaded) {
+          return _buildMessageList(context, state.messages);
+        }
+        return const SizedBox.shrink();
+      },
+    );
+  }
+
+  Widget _buildMessageList(BuildContext context, List<MessageEntity> messages) {
     final groupedMessages = <String, List<MessageEntity>>{};
     for (var message in messages) {
       final dateKey = _getDateKey(message.timestamp);

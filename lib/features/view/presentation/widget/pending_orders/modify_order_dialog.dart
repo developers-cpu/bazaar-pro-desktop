@@ -11,31 +11,42 @@ import '../../../../auth/presentation/bloc/auth_bloc.dart';
 import '../../../../auth/presentation/bloc/auth_state.dart';
 import 'order_status_dialog.dart';
 
-class ModifyOrderDialog extends StatefulWidget {
-  final PendingOrder order;
-  final bool isDarkMode;
-  const ModifyOrderDialog({
-    Key? key,
-    required this.order,
-    this.isDarkMode = false,
-  }) : super(key: key);
+class ModifyOrderDialog {
   static void show({
     required BuildContext context,
     required PendingOrder order,
     bool isDarkMode = false,
   }) {
-    showDialog(
+    CommonDialog.show(
       context: context,
-      barrierColor: AppColors.black.withOpacity(0.54),
-      builder: (_) => ModifyOrderDialog(order: order, isDarkMode: isDarkMode),
+      title: 'Modify  Order',
+      isDarkMode: isDarkMode,
+      width: 450.w,
+      height: 780.h, 
+      headerColor: AppColors.primaryBlue,
+      showButtons: false,
+      scrollable: true,
+      contentPadding: EdgeInsets.zero,
+      content: _ModifyOrderDialogContent(order: order, isDarkMode: isDarkMode),
     );
   }
-
-  @override
-  State<ModifyOrderDialog> createState() => _ModifyOrderDialogState();
 }
 
-class _ModifyOrderDialogState extends State<ModifyOrderDialog> {
+class _ModifyOrderDialogContent extends StatefulWidget {
+  final PendingOrder order;
+  final bool isDarkMode;
+  const _ModifyOrderDialogContent({
+    Key? key,
+    required this.order,
+    this.isDarkMode = false,
+  }) : super(key: key);
+
+  @override
+  State<_ModifyOrderDialogContent> createState() =>
+      _ModifyOrderDialogContentState();
+}
+
+class _ModifyOrderDialogContentState extends State<_ModifyOrderDialogContent> {
   static const _depthData = [
     {'price': '25639', 'orders': '2', 'qty': '2'},
     {'price': '25639', 'orders': '1', 'qty': '1'},
@@ -46,6 +57,7 @@ class _ModifyOrderDialogState extends State<ModifyOrderDialog> {
   late int _price;
   late int _lot;
   bool _isLimit = false;
+
   @override
   void initState() {
     super.initState();
@@ -63,36 +75,26 @@ class _ModifyOrderDialogState extends State<ModifyOrderDialog> {
           authState.user.role.toLowerCase() == 'client';
     } catch (_) {}
 
-    return CommonDialog(
-      title: 'Modify  Order',
-      isDarkMode: widget.isDarkMode,
-      width: 450.w,
-      height: isClient ? 700.h : 780.h,
-      headerColor: AppColors.primaryBlue,
-      showButtons: false,
-      scrollable: true,
-      contentPadding: EdgeInsets.zero,
-      content: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-        child: Column(
-          children: [
-            _buildSymbolRow(),
-            if (!isClient) ...[
-              SizedBox(height: 10.h),
-              _buildUserIdField(isClient),
-            ],
-            SizedBox(height: 8.h),
-            _buildOrderControls(),
-            SizedBox(height: 12.h),
-            _buildActionButtons(),
-            SizedBox(height: 12.h),
-            _buildPositionInfo(),
-            SizedBox(height: 8.h),
-            _buildInfoCards(),
-            SizedBox(height: 8.h),
-            _buildDepthCards(),
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+      child: Column(
+        children: [
+          _buildSymbolRow(),
+          if (!isClient) ...[
+            SizedBox(height: 10.h),
+            _buildUserIdField(isClient),
           ],
-        ),
+          SizedBox(height: 8.h),
+          _buildOrderControls(),
+          SizedBox(height: 12.h),
+          _buildActionButtons(),
+          SizedBox(height: 12.h),
+          _buildPositionInfo(),
+          SizedBox(height: 8.h),
+          _buildInfoCards(),
+          SizedBox(height: 8.h),
+          _buildDepthCards(),
+        ],
       ),
     );
   }

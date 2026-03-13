@@ -10,44 +10,52 @@ import '../../../../../injection_container.dart';
 import '../../../domain/entities/announcement_entity.dart';
 import '../../bloc/announcement/announcement_bloc.dart';
 
-class AnnouncementDialog extends StatelessWidget {
-  const AnnouncementDialog({super.key});
+class AnnouncementDialog {
   static void show(BuildContext context) {
-    showDialog(
+    CommonDialog.show(
       context: context,
-      barrierDismissible: false,
-      builder: (context) => BlocProvider(
-        create: (context) => sl<AnnouncementBloc>()..add(LoadAnnouncements()),
-        child: const AnnouncementDialog(),
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return CommonDialog(
       title: 'Announcement',
       width: 420.w,
       height: 650.h,
       showButtons: false,
       scrollable: false,
       contentPadding: EdgeInsets.zero,
-      content: BlocBuilder<AnnouncementBloc, AnnouncementState>(
-        builder: (context, state) {
-          if (state is AnnouncementLoading) {
-            return const SizedBox.shrink();
-          } else if (state is AnnouncementError) {
-            return Center(child: Text(state.message));
-          } else if (state is AnnouncementLoaded) {
-            return _buildAnnouncementList(state.announcements);
-          }
-          return const SizedBox.shrink();
-        },
+      contentBuilder: (context, onClose) => BlocProvider(
+        create: (context) => sl<AnnouncementBloc>()..add(LoadAnnouncements()),
+        child: _AnnouncementContent(onClose: onClose),
       ),
     );
   }
+}
 
-  Widget _buildAnnouncementList(List<AnnouncementEntity> announcements) {
+class _AnnouncementContent extends StatelessWidget {
+  final VoidCallback onClose;
+
+  const _AnnouncementContent({
+    Key? key,
+    required this.onClose,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<AnnouncementBloc, AnnouncementState>(
+      builder: (context, state) {
+        if (state is AnnouncementLoading) {
+          return const SizedBox.shrink();
+        } else if (state is AnnouncementError) {
+          return Center(child: Text(state.message));
+        } else if (state is AnnouncementLoaded) {
+          return _buildAnnouncementList(context, state.announcements);
+        }
+        return const SizedBox.shrink();
+      },
+    );
+  }
+
+  Widget _buildAnnouncementList(
+    BuildContext context,
+    List<AnnouncementEntity> announcements,
+  ) {
     final groupedAnnouncements = <String, List<AnnouncementEntity>>{};
     for (var announcement in announcements) {
       final dateKey = _getDateKey(announcement.timestamp);

@@ -12,11 +12,14 @@ class AssignMasterDialog extends StatefulWidget {
   final String username;
   final List<AssignedMaster> assignedMasters;
   final List<MasterUser> availableMasters;
+  final VoidCallback onClose;
+
   const AssignMasterDialog({
     super.key,
     required this.username,
     required this.assignedMasters,
     required this.availableMasters,
+    required this.onClose,
   });
 
   static void show({
@@ -30,10 +33,11 @@ class AssignMasterDialog extends StatefulWidget {
       title: 'Assign master',
       showButtons: false,
       width: 500.w,
-      content: AssignMasterDialog(
+      contentBuilder: (context, onClose) => AssignMasterDialog(
         username: username,
         assignedMasters: assignedMasters,
         availableMasters: availableMasters,
+        onClose: onClose,
       ),
     );
   }
@@ -212,7 +216,7 @@ class _AssignMasterDialogState extends State<AssignMasterDialog> {
         Center(
           child: CustomActionButton(
             text: 'Update',
-            onPressed: () => Navigator.pop(context),
+            onPressed: widget.onClose,
             width: 120.w,
             height: 38.h,
             backgroundColor: AppColors.primaryBlue,
@@ -236,73 +240,100 @@ class AssignCountDialog {
     required BuildContext context,
     required Function(int count) onAssign,
   }) {
-    final controller = TextEditingController();
     CommonDialog.show(
       context: context,
       title: 'Assign master',
       showButtons: false,
       width: 350.w,
-      content: StatefulBuilder(
-        builder: (context, setState) {
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(
-                width: 280.w,
-                height: 38.h,
-                child: TextField(
-                  controller: controller,
-                  keyboardType: TextInputType.number,
-                  style: GoogleFonts.openSans(
-                    fontSize: 13.sp,
-                    color: AppColors.billDataText,
-                  ),
-                  decoration: InputDecoration(
-                    hintText: 'Count of Master to Assign',
-                    hintStyle: GoogleFonts.openSans(
-                      fontSize: 13.sp,
-                      color: Colors.grey,
-                    ),
-                    contentPadding: EdgeInsets.symmetric(
-                      horizontal: 12.w,
-                      vertical: 8.h,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.r),
-                      borderSide: BorderSide(color: AppColors.primaryBlue),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.r),
-                      borderSide: BorderSide(color: AppColors.primaryBlue),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.r),
-                      borderSide: BorderSide(
-                        color: AppColors.primaryBlue,
-                        width: 1.5,
-                      ),
-                    ),
-                  ),
+      contentBuilder: (context, onClose) => _AssignCountContent(
+        onAssign: onAssign,
+        onClose: onClose,
+      ),
+    );
+  }
+}
+
+class _AssignCountContent extends StatefulWidget {
+  final Function(int count) onAssign;
+  final VoidCallback onClose;
+
+  const _AssignCountContent({
+    Key? key,
+    required this.onAssign,
+    required this.onClose,
+  }) : super(key: key);
+
+  @override
+  State<_AssignCountContent> createState() => _AssignCountContentState();
+}
+
+class _AssignCountContentState extends State<_AssignCountContent> {
+  final _controller = TextEditingController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        SizedBox(
+          width: 280.w,
+          height: 38.h,
+          child: TextField(
+            controller: _controller,
+            keyboardType: TextInputType.number,
+            style: GoogleFonts.openSans(
+              fontSize: 13.sp,
+              color: AppColors.billDataText,
+            ),
+            decoration: InputDecoration(
+              hintText: 'Count of Master to Assign',
+              hintStyle: GoogleFonts.openSans(
+                fontSize: 13.sp,
+                color: Colors.grey,
+              ),
+              contentPadding: EdgeInsets.symmetric(
+                horizontal: 12.w,
+                vertical: 8.h,
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8.r),
+                borderSide: BorderSide(color: AppColors.primaryBlue),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8.r),
+                borderSide: BorderSide(color: AppColors.primaryBlue),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8.r),
+                borderSide: BorderSide(
+                  color: AppColors.primaryBlue,
+                  width: 1.5,
                 ),
               ),
-              SizedBox(height: 16.h),
-              CustomActionButton(
-                text: 'Assign',
-                onPressed: () {
-                  final count = int.tryParse(controller.text) ?? 0;
-                  onAssign(count);
-                  Navigator.pop(context);
-                },
-                width: 120.w,
-                height: 38.h,
-                backgroundColor: AppColors.primaryBlue,
-                borderRadius: 8.r,
-                fontSize: 13.sp,
-              ),
-            ],
-          );
-        },
-      ),
+            ),
+          ),
+        ),
+        SizedBox(height: 16.h),
+        CustomActionButton(
+          text: 'Assign',
+          onPressed: () {
+            final count = int.tryParse(_controller.text) ?? 0;
+            widget.onAssign(count);
+            widget.onClose();
+          },
+          width: 120.w,
+          height: 38.h,
+          backgroundColor: AppColors.primaryBlue,
+          borderRadius: 8.r,
+          fontSize: 13.sp,
+        ),
+      ],
     );
   }
 }

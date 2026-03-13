@@ -10,34 +10,25 @@ import 'package:bazarpro/features/users/presentation/bloc/user_intraday/user_int
 import 'package:bazarpro/features/users/presentation/bloc/user_intraday/user_intraday_event.dart';
 import 'package:bazarpro/features/users/presentation/bloc/user_intraday/user_intraday_state.dart';
 
-class UserIntradaySquareOffDialog extends StatelessWidget {
-  final User user;
-  const UserIntradaySquareOffDialog({super.key, required this.user});
+class UserIntradaySquareOffDialog {
   static void show(BuildContext context, User user) {
-    showDialog(
+    CommonDialog.show(
       context: context,
-      barrierDismissible: true,
-      builder: (context) => UserIntradaySquareOffDialog(user: user),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) =>
-          sl<UserIntradayBloc>()..add(LoadUserIntradaySettings(user.id)),
-      child: CommonDialog(
-        title: 'Intraday Square off',
-        width: 400.w,
-        showButtons: false,
-        content: const UserIntradaySquareOffDialogContent(),
+      title: 'Intraday Square off',
+      width: 400.w,
+      showButtons: false,
+      contentBuilder: (context, onClose) => BlocProvider(
+        create: (context) =>
+            sl<UserIntradayBloc>()..add(LoadUserIntradaySettings(user.id)),
+        child: const _UserIntradaySquareOffContent(),
       ),
     );
   }
 }
 
-class UserIntradaySquareOffDialogContent extends StatelessWidget {
-  const UserIntradaySquareOffDialogContent({super.key});
+class _UserIntradaySquareOffContent extends StatelessWidget {
+  const _UserIntradaySquareOffContent({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserIntradayBloc, UserIntradayState>(

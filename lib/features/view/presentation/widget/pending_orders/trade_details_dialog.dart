@@ -12,25 +12,34 @@ import 'delete_order_dialog.dart';
 import 'modify_order_dialog.dart';
 import 'pending_to_success_dialog.dart';
 
-class TradeDetailsDialog extends StatelessWidget {
-  final PendingOrder order;
-  final bool isDarkMode;
-  const TradeDetailsDialog({
-    Key? key,
-    required this.order,
-    this.isDarkMode = false,
-  }) : super(key: key);
+class TradeDetailsDialog {
   static void show({
     required BuildContext context,
     required PendingOrder order,
     bool isDarkMode = false,
   }) {
-    showDialog(
+    CommonDialog.show(
       context: context,
-      barrierColor: AppColors.black.withOpacity(0.54),
-      builder: (_) => TradeDetailsDialog(order: order, isDarkMode: isDarkMode),
+      title: 'Trade Details',
+      isDarkMode: isDarkMode,
+      width: 450.w,
+      headerColor: AppColors.primaryBlue,
+      showButtons: false,
+      scrollable: false,
+      contentPadding: EdgeInsets.zero,
+      content: _TradeDetailsContent(order: order, isDarkMode: isDarkMode),
     );
   }
+}
+
+class _TradeDetailsContent extends StatelessWidget {
+  final PendingOrder order;
+  final bool isDarkMode;
+  const _TradeDetailsContent({
+    Key? key,
+    required this.order,
+    this.isDarkMode = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -42,17 +51,9 @@ class TradeDetailsDialog extends StatelessWidget {
           authState.user.role.toLowerCase() == 'client';
     } catch (_) {}
 
-    return CommonDialog(
-      title: 'Trade Details',
-      isDarkMode: isDarkMode,
-      width: 450.w,
-      headerColor: AppColors.primaryBlue,
-      showButtons: false,
-      scrollable: false,
-      contentPadding: EdgeInsets.zero,
-      content: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-        child: Column(
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+      child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
@@ -188,7 +189,6 @@ class TradeDetailsDialog extends StatelessWidget {
               ],
             ),
           ],
-        ),
       ),
     );
   }

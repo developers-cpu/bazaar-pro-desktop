@@ -111,9 +111,6 @@ class _DateSettingsHeadersState extends State<DateSettingsHeaders> {
   }
 
   void _showImportDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (_) => const ImportDateSettingsDialog(),
-    );
+    ImportDateSettingsDialog.show(context);
   }
 }

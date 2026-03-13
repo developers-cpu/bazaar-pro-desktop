@@ -22,7 +22,7 @@ class ClientBreakdownService {
         build: (pw.Context context) {
           final items = <pw.Widget>[];
 
-          // Title
+          
           items.add(
             pw.Center(
               child: pw.Text(
@@ -37,7 +37,7 @@ class ClientBreakdownService {
           );
           items.add(pw.SizedBox(height: 20));
 
-          // Header Info
+          
           items.add(
             pw.Container(
               padding: const pw.EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -59,7 +59,7 @@ class ClientBreakdownService {
           );
           items.add(pw.SizedBox(height: 20));
 
-          // Sections
+          
           for (final section in breakdown.sections) {
             items.add(_buildSection(section));
             items.add(pw.SizedBox(height: 16));
@@ -78,7 +78,7 @@ class ClientBreakdownService {
   static pw.Widget _buildSection(ClientBreakdownSection section) {
     return pw.Column(
       children: [
-        // Section Title
+        
         pw.Container(
           width: double.infinity,
           padding: const pw.EdgeInsets.symmetric(vertical: 4),
@@ -91,7 +91,7 @@ class ClientBreakdownService {
             style: pw.TextStyle(fontSize: 12, fontWeight: pw.FontWeight.bold),
           ),
         ),
-        // Table
+        
         pw.TableHelper.fromTextArray(
           headers: [
             section.isSymbolBased ? 'SYMBOL' : 'EXCHNAGE',
@@ -108,7 +108,7 @@ class ClientBreakdownService {
           cellAlignment: pw.Alignment.center,
           border: pw.TableBorder.all(color: PdfColors.grey300, width: 0.5),
         ),
-        // Footer (if any - based on your dialog, some have totals)
+        
         if (section.hasFooter)
           pw.Container(
             padding: const pw.EdgeInsets.symmetric(vertical: 4, horizontal: 8),
@@ -125,7 +125,7 @@ class ClientBreakdownService {
                     style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
                   ),
                 ),
-                pw.Expanded(child: pw.SizedBox()), // Turnover column
+                pw.Expanded(child: pw.SizedBox()), 
                 pw.Expanded(
                   child: pw.Text(
                     section.rows.fold(0.0, (sum, row) => sum + row.brokerage).toStringAsFixed(0),

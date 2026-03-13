@@ -11,8 +11,7 @@ import '../../bloc/shortcuts/shortcuts_bloc.dart';
 import '../../bloc/shortcuts/shortcuts_event.dart';
 import '../../bloc/shortcuts/shortcuts_state.dart';
 
-class ShortcutsDialog extends StatelessWidget {
-  const ShortcutsDialog({Key? key}) : super(key: key);
+class ShortcutsDialog {
   static void show(BuildContext context) {
     CommonDialog.show(
       context: context,
@@ -20,12 +19,16 @@ class ShortcutsDialog extends StatelessWidget {
       width: 680.w,
       showButtons: false,
       contentPadding: EdgeInsets.all(16.w),
-      content: BlocProvider<ShortcutsBloc>(
+      contentBuilder: (context, onClose) => BlocProvider<ShortcutsBloc>(
         create: (context) => sl<ShortcutsBloc>()..add(GetShortcutsEvent()),
-        child: const ShortcutsDialog(),
+        child: const _ShortcutsContent(),
       ),
     );
   }
+}
+
+class _ShortcutsContent extends StatelessWidget {
+  const _ShortcutsContent({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../../../core/constants/app_colors.dart';
 import '../../../../../../core/widget/app_dropdown.dart';
 import '../../../../../../core/widget/common_dilog_box.dart';
 import '../../../../../../injection_container.dart';
@@ -12,34 +11,49 @@ import '../../bloc/brokerage/brokerage_state.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
 import '../../../../../core/widget/table/view_table_cell_styles.dart';
 
-class BrokerageDialog extends StatelessWidget {
-  final BrokerageLoaded? initialState;
-  const BrokerageDialog({super.key, this.initialState});
-
-  static Future<void> showFromPage(
+class BrokerageDialog {
+  static void showFromPage(
     BuildContext context,
-    BrokerageLoaded state,
-  ) {
-    return showDialog(
+    BrokerageLoaded state, {
+    VoidCallback? onClose,
+  }) {
+    final brokerageBloc = context.read<BrokerageBloc>();
+    CommonDialog.show(
       context: context,
-      barrierColor: AppColors.black.withOpacity(0.54),
-      builder: (_) => BlocProvider.value(
-        value: context.read<BrokerageBloc>(),
-        child: BrokerageDialog(initialState: state),
+      title: 'Brokerage',
+      width: 750.w,
+      height: 750.h,
+      showButtons: false,
+      scrollable: false,
+      contentPadding: EdgeInsets.zero,
+      onClose: onClose,
+      content: BlocProvider.value(
+        value: brokerageBloc,
+        child: _BrokerageContent(initialState: state),
       ),
     );
   }
 
-  static Future<void> show(BuildContext context) {
-    return showDialog(
+  static void show(BuildContext context) {
+    CommonDialog.show(
       context: context,
-      barrierColor: AppColors.black.withOpacity(0.54),
-      builder: (_) => BlocProvider(
+      title: 'Brokerage',
+      width: 750.w,
+      height: 750.h,
+      showButtons: false,
+      scrollable: false,
+      contentPadding: EdgeInsets.zero,
+      content: BlocProvider(
         create: (_) => sl<BrokerageBloc>(),
-        child: const BrokerageDialog(),
+        child: const _BrokerageContent(),
       ),
     );
   }
+}
+
+class _BrokerageContent extends StatelessWidget {
+  final BrokerageLoaded? initialState;
+  const _BrokerageContent({super.key, this.initialState});
 
   static const List<ViewTableColumn> _columns = [
     ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 250),

@@ -14,8 +14,7 @@ import '../../bloc/manual_trade/manual_trade_event.dart';
 import '../../bloc/manual_trade/manual_trade_state.dart';
 import 'confirm_order_dialog.dart';
 
-class ManualTradeDialog extends StatelessWidget {
-  const ManualTradeDialog({Key? key}) : super(key: key);
+class ManualTradeDialog {
   static void show(BuildContext context) {
     CommonDialog.show(
       context: context,
@@ -25,10 +24,14 @@ class ManualTradeDialog extends StatelessWidget {
       content: BlocProvider(
         create: (context) =>
             ManualTradeBloc()..add(const LoadManualTradeDataEvent()),
-        child: const ManualTradeDialog(),
+        child: const _ManualTradeContent(),
       ),
     );
   }
+}
+
+class _ManualTradeContent extends StatelessWidget {
+  const _ManualTradeContent({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

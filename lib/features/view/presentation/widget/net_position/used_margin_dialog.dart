@@ -10,26 +10,35 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
 
-class UsedMarginDialog extends StatefulWidget {
-  const UsedMarginDialog({Key? key}) : super(key: key);
+class UsedMarginDialog {
   static void show({required BuildContext context}) {
-    showDialog(
+    CommonDialog.show(
       context: context,
-      barrierColor: AppColors.black.withOpacity(0.54),
-      builder: (_) => const UsedMarginDialog(),
+      title: 'Used Margin',
+      width: 700.w,
+      height: 600.h,
+      showButtons: false,
+      contentPadding: EdgeInsets.zero,
+      scrollable: false,
+      content: const _UsedMarginDialogContent(),
     );
   }
-
-  @override
-  State<UsedMarginDialog> createState() => _UsedMarginDialogState();
 }
 
-class _UsedMarginDialogState extends State<UsedMarginDialog> {
+class _UsedMarginDialogContent extends StatefulWidget {
+  const _UsedMarginDialogContent({Key? key}) : super(key: key);
+
+  @override
+  State<_UsedMarginDialogContent> createState() => _UsedMarginDialogContentState();
+}
+
+class _UsedMarginDialogContentState extends State<_UsedMarginDialogContent> {
   String _selectedUserType = 'User Type';
   String _selectedUser = 'User';
   String _selectedExchange = 'Exchange';
   String _selectedSymbol = 'Symbol';
   final Color headerColor = const Color(0xFF2C5F7A);
+
   @override
   Widget build(BuildContext context) {
     final authState = context.read<AuthBloc>().state;
@@ -37,143 +46,107 @@ class _UsedMarginDialogState extends State<UsedMarginDialog> {
         authState is AuthAuthenticated &&
         authState.user.role.toLowerCase() == 'client';
 
-    return CommonDialog(
-      title: 'Used Margin',
-      width: 700.w,
-      height: 600.h,
-      showButtons: false,
-      contentPadding: EdgeInsets.zero,
-      scrollable: false,
-      content: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.all(16.w),
-            child: Row(
-              children: [
-                if (!isClient) ...[
-                  Expanded(
-                    child: AppDropdown(
-                      width: 200.w,
-                      value: _selectedUserType,
-                      hintText: 'User Type',
-                      items: const ['User Type', 'Client', 'Master'],
-                      onChanged: (val) {
-                        if (val != null)
-                          setState(() => _selectedUserType = val);
-                      },
-                    ),
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.all(16.w),
+          child: Row(
+            children: [
+              if (!isClient) ...[
+                Expanded(
+                  child: AppDropdown(
+                    width: 200.w,
+                    value: _selectedUserType,
+                    hintText: 'User Type',
+                    items: const ['User Type', 'Client', 'Master'],
+                    onChanged: (val) {
+                      if (val != null) setState(() => _selectedUserType = val);
+                    },
                   ),
-                  SizedBox(width: 8.w),
-                  Expanded(
-                    child: AppDropdown(
-                      width: 200.w,
-                      value: _selectedUser,
-                      hintText: 'Username',
-                      items: const ['User', 'John Doe', 'Jane Doe'],
-                      onChanged: (val) {
-                        if (val != null) setState(() => _selectedUser = val);
-                      },
-                    ),
+                ),
+                SizedBox(width: 8.w),
+                Expanded(
+                  child: AppDropdown(
+                    width: 200.w,
+                    value: _selectedUser,
+                    hintText: 'Username',
+                    items: const ['User', 'John Doe', 'Jane Doe'],
+                    onChanged: (val) {
+                      if (val != null) setState(() => _selectedUser = val);
+                    },
                   ),
-                  SizedBox(width: 8.w),
-                  Expanded(
-                    child: AppDropdown(
-                      value: _selectedExchange,
-                      width: 200.w,
-                      hintText: 'Exchange',
-                      items: const [
-                        'NSE',
-                        'MCX',
-                        'CE/PE',
-                        'OTHERS',
-                        'COMEX FUTURE',
-                        'COMEX SPOT',
-                        'CRYPTO',
-                        'GIFT',
-                        'FOREX',
-                      ],
-                      onChanged: (val) {
-                        if (val != null)
-                          setState(() => _selectedExchange = val);
-                      },
-                    ),
-                  ),
-                  SizedBox(width: 8.w),
-                  Expanded(
-                    child: AppDropdown(
-                      type: AppDropdownType.search,
-                      value: _selectedSymbol,
-                      width: 200.w,
-                      hintText: 'Symbol',
-                      items: const [
-                        'SGX GIFTNIFTY Oct 28',
-                        'NSE NIFTY Oct 28',
-                        'NSE BANKNIFTY Oct 28',
-                        'MINI GOLDMINI Dec 05',
-                        'MINI SILVERMINI Dec 05',
-                        'OTHER DOW Dec 19',
-                        'OTHER NASDAQ Dec 19',
-                        'OTHER S & P Dec 19',
-                      ],
-                      onChanged: (val) {
-                        if (val != null) setState(() => _selectedSymbol = val);
-                      },
-                    ),
-                  ),
-                ] else ...[
-                  AppDropdown(
+                ),
+                SizedBox(width: 8.w),
+                Expanded(
+                  child: AppDropdown(
                     value: _selectedExchange,
                     width: 200.w,
                     hintText: 'Exchange',
                     items: const [
-                      'NSE',
-                      'MCX',
-                      'CE/PE',
-                      'OTHERS',
-                      'COMEX FUTURE',
-                      'COMEX SPOT',
-                      'CRYPTO',
-                      'GIFT',
-                      'FOREX',
+                      'NSE', 'MCX', 'CE/PE', 'OTHERS', 'COMEX FUTURE', 'COMEX SPOT', 'CRYPTO', 'GIFT', 'FOREX',
                     ],
                     onChanged: (val) {
                       if (val != null) setState(() => _selectedExchange = val);
                     },
                   ),
-                  SizedBox(width: 8.w),
-                  AppDropdown(
+                ),
+                SizedBox(width: 8.w),
+                Expanded(
+                  child: AppDropdown(
                     type: AppDropdownType.search,
                     value: _selectedSymbol,
                     width: 200.w,
                     hintText: 'Symbol',
                     items: const [
-                      'SGX GIFTNIFTY Oct 28',
-                      'NSE NIFTY Oct 28',
-                      'NSE BANKNIFTY Oct 28',
-                      'MINI GOLDMINI Dec 05',
-                      'MINI SILVERMINI Dec 05',
-                      'OTHER DOW Dec 19',
-                      'OTHER NASDAQ Dec 19',
-                      'OTHER S & P Dec 19',
+                      'SGX GIFTNIFTY Oct 28', 'NSE NIFTY Oct 28', 'NSE BANKNIFTY Oct 28',
+                      'MINI GOLDMINI Dec 05', 'MINI SILVERMINI Dec 05', 'OTHER DOW Dec 19',
+                      'OTHER NASDAQ Dec 19', 'OTHER S & P Dec 19',
                     ],
                     onChanged: (val) {
                       if (val != null) setState(() => _selectedSymbol = val);
                     },
                   ),
-                ],
+                ),
+              ] else ...[
+                AppDropdown(
+                  value: _selectedExchange,
+                  width: 200.w,
+                  hintText: 'Exchange',
+                  items: const [
+                    'NSE', 'MCX', 'CE/PE', 'OTHERS', 'COMEX FUTURE', 'COMEX SPOT', 'CRYPTO', 'GIFT', 'FOREX',
+                  ],
+                  onChanged: (val) {
+                    if (val != null) setState(() => _selectedExchange = val);
+                  },
+                ),
+                SizedBox(width: 8.w),
+                AppDropdown(
+                  type: AppDropdownType.search,
+                  value: _selectedSymbol,
+                  width: 200.w,
+                  hintText: 'Symbol',
+                  items: const [
+                    'SGX GIFTNIFTY Oct 28', 'NSE NIFTY Oct 28', 'NSE BANKNIFTY Oct 28',
+                    'MINI GOLDMINI Dec 05', 'MINI SILVERMINI Dec 05', 'OTHER DOW Dec 19',
+                    'OTHER NASDAQ Dec 19', 'OTHER S & P Dec 19',
+                  ],
+                  onChanged: (val) {
+                    if (val != null) setState(() => _selectedSymbol = val);
+                  },
+                ),
               ],
-            ),
+            ],
           ),
-          SizedBox(height: 8.h),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: _buildTable(),
-            ),
+        ),
+        SizedBox(height: 8.h),
+        Expanded(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            child: _buildTable(),
           ),
-          SizedBox(height: 16.h),
-        ],
-      ),
+        ),
+        SizedBox(height: 16.h),
+      ],
     );
   }
 

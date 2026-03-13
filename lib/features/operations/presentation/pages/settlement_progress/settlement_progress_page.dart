@@ -45,35 +45,21 @@ class _SettlementProgressPageState extends State<SettlementProgressPage> {
   }
 
   void _showImportDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (_) => BlocProvider.value(
-        value: context.read<SettlementProgressBloc>(),
-        child: const ImportFileDialog(),
-      ),
-    );
+    ImportFileDialog.show(context, bloc: context.read<SettlementProgressBloc>());
   }
 
   void _showPreviewDialog(BuildContext context, List<BhavCopyEntity> data) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (_) => BlocProvider.value(
-        value: context.read<SettlementProgressBloc>(),
-        child: BhavCopyPreviewDialog(data: data),
-      ),
+    BhavCopyPreviewDialog.show(
+      context,
+      data: data,
+      bloc: context.read<SettlementProgressBloc>(),
     );
   }
 
   void _showProgressDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (_) => BlocProvider.value(
-        value: context.read<SettlementProgressBloc>(),
-        child: const SettlementProgressIndicatorDialog(),
-      ),
+    SettlementProgressIndicatorDialog.show(
+      context,
+      bloc: context.read<SettlementProgressBloc>(),
     );
   }
 
@@ -128,21 +114,14 @@ class _SettlementProgressPageState extends State<SettlementProgressPage> {
                   ),
                   if (hasData) ...[
                     SizedBox(width: 10.w),
-                    CustomActionButton(
-                      text: 'Download Database',
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          barrierDismissible: false,
-                          builder: (_) => BlocProvider.value(
-                            value: context.read<SettlementProgressBloc>(),
-                            child: const UpdateDatabaseDialog(),
-                          ),
-                        );
-                      },
-                      width: 160.w,
-                      height: 35.h,
-                    ),
+                      CustomActionButton(
+                        text: 'Download Database',
+                        onPressed: () {
+                          UpdateDatabaseDialog.show(context);
+                        },
+                        width: 160.w,
+                        height: 35.h,
+                      ),
                   ],
                 ],
               ),

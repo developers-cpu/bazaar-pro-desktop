@@ -8,20 +8,7 @@ import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import '../../../../../core/widget/common_dilog_box.dart';
 import '../../../domain/entities/script_quantity/script_quantity.dart';
 
-class ScriptQuantityDialog extends StatefulWidget {
-  final List<ScriptQuantity> quantities;
-  final String exchange;
-  final String group;
-  final int totalRecords;
-  final bool isClient;
-  const ScriptQuantityDialog({
-    Key? key,
-    required this.quantities,
-    required this.exchange,
-    required this.group,
-    required this.totalRecords,
-    this.isClient = false,
-  }) : super(key: key);
+class ScriptQuantityDialog {
   static void show({
     required BuildContext context,
     required List<ScriptQuantity> quantities,
@@ -30,10 +17,15 @@ class ScriptQuantityDialog extends StatefulWidget {
     required int totalRecords,
     bool isClient = false,
   }) {
-    showDialog(
+    CommonDialog.show(
       context: context,
-      barrierColor: AppColors.black.withOpacity(0.54),
-      builder: (_) => ScriptQuantityDialog(
+      title: 'Script Quantity',
+      width: 700.w,
+      height: 750.h,
+      showButtons: false,
+      scrollable: false,
+      contentPadding: EdgeInsets.zero,
+      content: _ScriptQuantityContent(
         quantities: quantities,
         exchange: exchange,
         group: group,
@@ -42,12 +34,28 @@ class ScriptQuantityDialog extends StatefulWidget {
       ),
     );
   }
-
-  @override
-  State<ScriptQuantityDialog> createState() => _ScriptQuantityDialogState();
 }
 
-class _ScriptQuantityDialogState extends State<ScriptQuantityDialog> {
+class _ScriptQuantityContent extends StatefulWidget {
+  final List<ScriptQuantity> quantities;
+  final String exchange;
+  final String group;
+  final int totalRecords;
+  final bool isClient;
+  const _ScriptQuantityContent({
+    Key? key,
+    required this.quantities,
+    required this.exchange,
+    required this.group,
+    required this.totalRecords,
+    this.isClient = false,
+  }) : super(key: key);
+
+  @override
+  State<_ScriptQuantityContent> createState() => _ScriptQuantityContentState();
+}
+
+class _ScriptQuantityContentState extends State<_ScriptQuantityContent> {
   static final List<ViewTableColumn> _columns = [
     const ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 200),
     const ViewTableColumn(
@@ -63,60 +71,48 @@ class _ScriptQuantityDialogState extends State<ScriptQuantityDialog> {
       isNumeric: true,
     ),
   ];
-  @override
-  void dispose() {
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
-    return CommonDialog(
-      title: 'Script Quantity',
-      width: 700.w,
-      height: 750.h,
-      showButtons: false,
-      scrollable: false,
-      contentPadding: EdgeInsets.zero,
-      content: Column(
-        children: [
-          SizedBox(height: 16.h),
-          _buildFilterInfo(context),
+    return Column(
+      children: [
+        SizedBox(height: 16.h),
+        _buildFilterInfo(context),
+        SizedBox(height: 8.h),
+        if (!widget.isClient) ...[
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            child: ViewRecordCount(count: widget.totalRecords),
+          ),
           SizedBox(height: 8.h),
-          if (!widget.isClient) ...[
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: ViewRecordCount(count: widget.totalRecords),
-            ),
-            SizedBox(height: 8.h),
-          ],
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: ViewDataTable<ScriptQuantity>(
-                columns: _columns,
-                data: widget.quantities,
-                comparatorBuilder: (item, columnId) {
-                  switch (columnId) {
-                    case 'symbol':
-                      return item.symbol;
-                    case 'breakupQty':
-                      return item.breakupQty;
-                    case 'maxQty':
-                      return item.maxQty;
-                    default:
-                      return '';
-                  }
-                },
-                cellBuilder: _buildCell,
-                idExtractor: (item) => item.symbol,
-                emptyMessage: 'No script quantities found',
-                autoFit: true,
-              ),
+        ],
+        Expanded(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            child: ViewDataTable<ScriptQuantity>(
+              columns: _columns,
+              data: widget.quantities,
+              comparatorBuilder: (item, columnId) {
+                switch (columnId) {
+                  case 'symbol':
+                    return item.symbol;
+                  case 'breakupQty':
+                    return item.breakupQty;
+                  case 'maxQty':
+                    return item.maxQty;
+                  default:
+                    return '';
+                }
+              },
+              cellBuilder: _buildCell,
+              idExtractor: (item) => item.symbol,
+              emptyMessage: 'No script quantities found',
+              autoFit: true,
             ),
           ),
-          SizedBox(height: 16.h),
-        ],
-      ),
+        ),
+        SizedBox(height: 16.h),
+      ],
     );
   }
 

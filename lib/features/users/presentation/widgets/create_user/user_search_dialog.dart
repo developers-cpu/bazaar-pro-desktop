@@ -11,43 +11,28 @@ import '../../../../../../core/constants/app_images.dart';
 import '../search/user_tree_view.dart';
 import '../../../../../../core/widget/custom_input_field.dart';
 
-class UserSearchDialog extends StatelessWidget {
-  const UserSearchDialog({super.key});
+class UserSearchDialog {
   static void show(BuildContext context) {
-    showDialog(
+    CommonDialog.show(
       context: context,
-      builder: (context) => const UserSearchDialog(),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) =>
-          sl<SearchUserBloc>()..add(const LoadUserHierarchyEvent()),
-      child: const UserSearchDialogContent(),
-    );
-  }
-}
-
-class UserSearchDialogContent extends StatelessWidget {
-  const UserSearchDialogContent({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return CommonDialog(
       title: 'Search Username',
       width: 450.w,
       height: 650.h,
       showButtons: false,
       scrollable: false,
       contentPadding: EdgeInsets.all(16.w),
-      content: const UserSearchView(),
+      contentBuilder: (context, onClose) => BlocProvider(
+        create: (context) =>
+            sl<SearchUserBloc>()..add(const LoadUserHierarchyEvent()),
+        child: const _UserSearchContent(),
+      ),
     );
   }
 }
 
-class UserSearchView extends StatelessWidget {
-  const UserSearchView({super.key});
+class _UserSearchContent extends StatelessWidget {
+  const _UserSearchContent({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Column(

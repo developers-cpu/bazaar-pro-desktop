@@ -50,7 +50,12 @@ class _NetPositionPageState extends State<NetPositionPage> {
             const Expanded(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.0),
-                child: NetPositionTable(showDeviceInfo: false),
+                child: NetPositionTable(
+                  showDeviceInfo: false,
+                  isStart: true,
+                  autoFit: false,
+                  isBorderFit: true,
+                ),
               ),
             ),
             _buildFooter(context),
@@ -131,41 +136,29 @@ class _NetPositionPageState extends State<NetPositionPage> {
                 },
               ),
               SizedBox(width: 8.w),
-              CustomActionButton(
-                text: 'Profit Position Square Off',
-                backgroundColor: AppColors.buyColor,
-                width: 170.w,
-                height: 36.h,
-                borderRadius: 8.r,
-                onPressed: () {
-                  if (isClient) {
+              if (isClient) ...[
+                CustomActionButton(
+                  text: 'Profit Position Square Off',
+                  backgroundColor: AppColors.buyColor,
+                  width: 170.w,
+                  height: 36.h,
+                  borderRadius: 8.r,
+                  onPressed: () {
                     _showSquareOffConfirmation(context, 'Profit');
-                  } else {
-                    SelectUserDialog.show(
-                      context: context,
-                      actionType: 'ProfitSquareOff',
-                    );
-                  }
-                },
-              ),
-              SizedBox(width: 8.w),
-              CustomActionButton(
-                text: 'Loss Position Square Off',
-                backgroundColor: AppColors.sellColor,
-                width: 170.w,
-                height: 36.h,
-                borderRadius: 8.r,
-                onPressed: () {
-                  if (isClient) {
+                  },
+                ),
+                SizedBox(width: 8.w),
+                CustomActionButton(
+                  text: 'Loss Position Square Off',
+                  backgroundColor: AppColors.sellColor,
+                  width: 170.w,
+                  height: 36.h,
+                  borderRadius: 8.r,
+                  onPressed: () {
                     _showSquareOffConfirmation(context, 'Loss');
-                  } else {
-                    SelectUserDialog.show(
-                      context: context,
-                      actionType: 'LossSquareOff',
-                    );
-                  }
-                },
-              ),
+                  },
+                ),
+              ],
             ],
           ),
           Container(

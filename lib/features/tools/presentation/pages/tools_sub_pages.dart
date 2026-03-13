@@ -42,12 +42,6 @@ class ShortcutsPage extends StatelessWidget {
       const Center(child: Text('Shortcuts Page - Coming Soon'));
 }
 
-class MyProfilePage extends StatelessWidget {
-  const MyProfilePage({Key? key}) : super(key: key);
-  @override
-  Widget build(BuildContext context) =>
-      const Center(child: Text('My Profile Page - Coming Soon'));
-}
 
 class TotalVolumePage extends StatelessWidget {
   const TotalVolumePage({Key? key}) : super(key: key);

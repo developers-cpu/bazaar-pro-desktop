@@ -525,7 +525,7 @@ class BillGenerateView extends StatelessWidget {
       text,
       textAlign: alignLeft ? TextAlign.left : TextAlign.right,
       style: GoogleFonts.openSans(
-        fontSize: 10.sp,
+        fontSize: 14.sp,
         fontWeight: FontWeight.w600,
         color: Colors.black87,
       ),
@@ -542,7 +542,7 @@ class BillGenerateView extends StatelessWidget {
       text,
       textAlign: alignLeft ? TextAlign.left : TextAlign.right,
       style: GoogleFonts.openSans(
-        fontSize: 11.sp,
+        fontSize: 14.sp,
         fontWeight: isBold ? FontWeight.bold : FontWeight.w500,
         color: color ?? Colors.black87,
       ),

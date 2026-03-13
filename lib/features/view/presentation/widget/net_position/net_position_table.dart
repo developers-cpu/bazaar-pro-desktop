@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,10 +19,20 @@ import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
 class NetPositionTable extends StatelessWidget {
   final bool showDeviceInfo;
   final bool isDarkMode;
+  final bool isStart;
+  final bool autoFit;
+  final bool isBorderFit;
+  final double headerTextSize;
+  final double bodyTextSize;
   const NetPositionTable({
     Key? key,
     this.showDeviceInfo = true,
     this.isDarkMode = false,
+    this.isStart = false,
+    this.autoFit = false,
+    this.isBorderFit = false,
+    this.headerTextSize = 14,
+    this.bodyTextSize = 14,
   }) : super(key: key);
 
   List<ViewTableColumn> _getColumns(bool isClient) {
@@ -32,13 +43,13 @@ class NetPositionTable extends StatelessWidget {
         ViewTableColumn(
           id: 'buyQty',
           label: 'BUY QTY',
-          width: 90,
+          width: 100,
           isNumeric: true,
         ),
         ViewTableColumn(
           id: 'sellQty',
           label: 'SELL QTY',
-          width: 90,
+          width: 100,
           isNumeric: true,
         ),
         ViewTableColumn(
@@ -121,18 +132,24 @@ class NetPositionTable extends StatelessWidget {
   ) {
     switch (column.id) {
       case 'exchange':
-        return ViewTextCell(text: item.exchange, isDark: isDark);
+        return ViewTextCell(
+          text: item.exchange,
+          isDark: isDark,
+          fontSize: bodyTextSize.sp,
+        );
       case 'symbol':
         return isClient
             ? ViewTextCell(
                 text: item.symbol,
                 isDark: isDark,
                 color: AppColors.primaryBlue,
+                fontSize: bodyTextSize.sp,
               )
             : ViewTextCell(
                 text: item.symbol,
                 isDark: isDark,
                 color: AppColors.primaryBlue,
+                fontSize: bodyTextSize.sp,
               );
       case 'buyQty':
         return ViewNumberCell(
@@ -141,6 +158,7 @@ class NetPositionTable extends StatelessWidget {
               ? AppColors.blue
               : AppColors.primaryTextColor,
           isDark: isDark,
+          fontSize: bodyTextSize.sp,
         );
       case 'sellQty':
         return ViewNumberCell(
@@ -149,6 +167,7 @@ class NetPositionTable extends StatelessWidget {
               ? AppColors.red
               : AppColors.primaryTextColor,
           isDark: isDark,
+          fontSize: bodyTextSize.sp,
         );
       case 'netQty':
         return _buildNetQtyCell(context, item, isDark, isClient);
@@ -159,24 +178,28 @@ class NetPositionTable extends StatelessWidget {
               ? AppColors.primaryBlue
               : AppColors.red,
           isDark: isDark,
+          fontSize: bodyTextSize.sp,
         );
       case 'cmp':
         return ViewNumberCell(
           value: item.cmp,
           fixedColor: AppColors.primaryBlue,
           isDark: isDark,
+          fontSize: bodyTextSize.sp,
         );
       case 'm2mAmount':
         return ViewNumberCell(
           value: item.m2mAmount,
           fixedColor: item.m2mAmount >= 0 ? AppColors.blue : AppColors.red,
           isDark: isDark,
+          fontSize: bodyTextSize.sp,
         );
       case 'ourPercentage':
         return ViewNumberCell(
           value: item.ourPercentage,
           fixedColor: item.ourPercentage >= 0 ? AppColors.blue : AppColors.red,
           isDark: isDark,
+          fontSize: bodyTextSize.sp,
         );
       case 'userCount':
         return ViewNumberCell(
@@ -184,6 +207,7 @@ class NetPositionTable extends StatelessWidget {
           displayText: item.userCount.toString(),
           colorByValue: false,
           isDark: isDark,
+          fontSize: bodyTextSize.sp,
         );
       case 'days':
         return ViewNumberCell(
@@ -192,6 +216,7 @@ class NetPositionTable extends StatelessWidget {
           colorByValue: false,
           isDark: isDark,
           padding: EdgeInsets.only(right: 15.w),
+          fontSize: bodyTextSize.sp,
         );
       default:
         return const SizedBox.shrink();
@@ -211,6 +236,7 @@ class NetPositionTable extends StatelessWidget {
         value: item.netQty,
         fixedColor: color,
         isDark: isDark,
+        fontSize: bodyTextSize.sp,
       );
     }
 
@@ -235,6 +261,7 @@ class NetPositionTable extends StatelessWidget {
             style: ViewTableCellStyles.getTextStyle(
               isDark: isDark,
               color: color,
+              fontSize: bodyTextSize.sp,
             ),
             maxLines: 1,
             softWrap: false,
@@ -274,7 +301,11 @@ class NetPositionTable extends StatelessWidget {
                 sortColumn: state.sortColumn,
                 sortAscending: state.sortAscending,
                 isDarkMode: isDarkMode,
-                autoFit: true,
+                headerTextSize: headerTextSize.sp,
+                bodyTextSize: bodyTextSize.sp,
+               // isStart: isStart,
+                 autoFit: true,
+               // isBorderFit: isBorderFit,
                 emptyMessage: 'No net positions found',
                 cellBuilder: (item, column) =>
                     _buildCell(context, item, column, isDarkMode, isClient),

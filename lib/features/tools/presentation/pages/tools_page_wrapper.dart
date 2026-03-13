@@ -117,16 +117,6 @@ class ShortcutsPageWithAppBar extends StatelessWidget {
   }
 }
 
-class MyProfilePageWithAppBar extends StatelessWidget {
-  const MyProfilePageWithAppBar({Key? key}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return const ToolsPageWrapper(
-      pageTitle: 'My Profile',
-      child: MyProfilePage(),
-    );
-  }
-}
 
 class ToolsTotalVolumePageWithAppBar extends StatelessWidget {
   const ToolsTotalVolumePageWithAppBar({Key? key}) : super(key: key);

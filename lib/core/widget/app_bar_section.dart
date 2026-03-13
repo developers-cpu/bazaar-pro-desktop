@@ -13,7 +13,6 @@ import '../../features/tools/presentation/widgets/messages/messages_dialog.dart'
 import '../../features/tools/presentation/widgets/announcement/announcement_dialog.dart';
 import '../../features/tools/presentation/widgets/shortcuts/shortcuts_dialog.dart';
 import '../../features/tools/presentation/widgets/total_volume/total_volume_dialog.dart';
-import '../../features/tools/presentation/widgets/my_profile/my_profile_dialog.dart';
 import '../../features/operations/presentation/widgets/inactivity_management/inactivity_management_dialog.dart';
 import '../../features/report/presentation/widgets/users_bill_summary/users_bill_summary_dialog.dart';
 import '../../features/view/presentation/widget/login_history/login_history_dialog.dart';
@@ -906,18 +905,6 @@ class AppBarSectionState extends State<AppBarSection> {
           if (toolsIndex != -1) {
             setState(() {
               _selectedDropdownItems[toolsIndex] = 'ShortCuts';
-            });
-          }
-        },
-      ),
-      MenuItemData(
-        title: 'My Profile',
-        onTap: () {
-          MyProfileDialog.show(context);
-          final toolsIndex = _getTabIndex(AppStrings.tools);
-          if (toolsIndex != -1) {
-            setState(() {
-              _selectedDropdownItems[toolsIndex] = 'My Profile';
             });
           }
         },

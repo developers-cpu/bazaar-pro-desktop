@@ -93,7 +93,12 @@ class _AppCalendarState extends State<AppCalendar> {
   Widget _buildWeekdayHeaders() {
     const weekdays = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 16.w),
+      margin: EdgeInsets.symmetric(horizontal: 16.w),
+      padding: EdgeInsets.symmetric(vertical: 6.h),
+      decoration: BoxDecoration(
+        color: AppColors.tableHeaderBackground,
+        borderRadius: BorderRadius.circular(20.r),
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: weekdays.asMap().entries.map((entry) {
@@ -106,7 +111,7 @@ class _AppCalendarState extends State<AppCalendar> {
               day,
               textAlign: TextAlign.center,
               style: GoogleFonts.openSans(
-                fontSize: 14.sp,
+                fontSize: 12.sp,
                 fontWeight: FontWeight.w600,
                 color: isWeekend ? AppColors.red : AppColors.primaryBlue,
               ),
@@ -205,14 +210,14 @@ class _AppCalendarState extends State<AppCalendar> {
     return GestureDetector(
       onTap: isCurrentMonth ? () => widget.onDateSelected(date) : null,
       child: Container(
-        width: 40.w,
-        height: 40.h,
+        width: 38.w,
+        height: 38.w,
         decoration: decoration,
         alignment: Alignment.center,
         child: Text(
           date.day.toString(),
           style: GoogleFonts.openSans(
-            fontSize: 14.sp,
+            fontSize: 12.sp,
             fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
             color: textColor,
           ),

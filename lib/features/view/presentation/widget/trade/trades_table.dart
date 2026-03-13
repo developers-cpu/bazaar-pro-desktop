@@ -26,9 +26,9 @@ class TradesTable extends StatelessWidget {
   List<ViewTableColumn> _getColumns(bool isClient) {
     if (isClient) {
       return const [
-        ViewTableColumn(id: 'userName', label: 'USER NAME', width: 90),
+        ViewTableColumn(id: 'userName', label: 'USER NAME', width: 100),
         ViewTableColumn(id: 'exchange', label: 'EXCH', width: 70),
-        ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 120),
+        ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 110),
         ViewTableColumn(id: 'qty', label: 'QTY', width: 90, isNumeric: true),
         ViewTableColumn(id: 'lot', label: 'Lot', width: 70, isNumeric: true),
         ViewTableColumn(
@@ -62,7 +62,7 @@ class TradesTable extends StatelessWidget {
     }
 
     final columns = <ViewTableColumn>[
-      const ViewTableColumn(id: 'userName', label: 'U. NAME', width: 90),
+      const ViewTableColumn(id: 'userName', label: 'U. NAME', width: 100),
       const ViewTableColumn(id: 'pUser', label: 'P USER', width: 90),
       const ViewTableColumn(id: 'exchange', label: 'EXCH', width: 70),
       const ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 120),

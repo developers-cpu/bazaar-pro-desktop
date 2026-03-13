@@ -67,7 +67,7 @@ class _ModifyOrderDialogState extends State<ModifyOrderDialog> {
       title: 'Modify  Order',
       isDarkMode: widget.isDarkMode,
       width: 450.w,
-      height: isClient ? 650.h : 780.h,
+      height: isClient ? 700.h : 780.h,
       headerColor: AppColors.primaryBlue,
       showButtons: false,
       scrollable: true,

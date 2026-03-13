@@ -68,7 +68,6 @@ class AppRoutes {
   static const String toolsAnnouncement = '/tools/announcement';
   static const String toolsRulesRegulations = '/tools/rules-regulations';
   static const String toolsShortcuts = '/tools/shortcuts';
-  static const String toolsMyProfile = '/tools/my-profile';
   static const String toolsTotalVolume = '/tools/total-volume';
   static Map<String, WidgetBuilder> getRoutes() {
     return {
@@ -131,7 +130,6 @@ class AppRoutes {
       toolsRulesRegulations: (context) =>
           const RulesRegulationsPageWithAppBar(),
       toolsShortcuts: (context) => const ShortcutsPageWithAppBar(),
-      toolsMyProfile: (context) => const MyProfilePageWithAppBar(),
       toolsTotalVolume: (context) => const ToolsTotalVolumePageWithAppBar(),
     };
   }

@@ -12,7 +12,7 @@ class ViewTableCellStyles {
     double? fontSize,
   }) {
     return GoogleFonts.openSans(
-      fontSize: fontSize ?? 11.sp,
+      fontSize: fontSize ?? 13.sp,
       fontWeight: fontWeight ?? FontWeight.w500,
       color:
           color ??
@@ -52,6 +52,7 @@ class ViewTextCell extends StatelessWidget {
   final FontWeight? fontWeight;
   final bool isDark;
   final bool isStart;
+  final double? fontSize;
 
   const ViewTextCell({
     Key? key,
@@ -60,6 +61,7 @@ class ViewTextCell extends StatelessWidget {
     this.fontWeight,
     this.isDark = false,
     this.isStart = false,
+    this.fontSize,
   }) : super(key: key);
 
   @override
@@ -73,6 +75,7 @@ class ViewTextCell extends StatelessWidget {
           isDark: isDark,
           color: color,
           fontWeight: fontWeight,
+          fontSize: fontSize,
         ),
         textAlign: TextAlign.start,
         maxLines: 1,
@@ -86,12 +89,14 @@ class ViewBuySellCell extends StatelessWidget {
   final String text;
   final bool isDark;
   final bool isStart;
+  final double? fontSize;
 
   const ViewBuySellCell({
     Key? key,
     required this.text,
     this.isDark = false,
     this.isStart = false,
+    this.fontSize,
   }) : super(key: key);
 
   @override
@@ -105,6 +110,7 @@ class ViewBuySellCell extends StatelessWidget {
         style: ViewTableCellStyles.getTextStyle(
           isDark: isDark,
           color: ViewTableCellStyles.getBuySellColor(text, isDark: isDark),
+          fontSize: fontSize,
         ),
         textAlign: TextAlign.start,
         maxLines: 1,
@@ -122,6 +128,7 @@ class ViewNumberCell extends StatelessWidget {
   final bool isDark;
   final bool isStart;
   final EdgeInsetsGeometry? padding;
+  final double? fontSize;
 
   const ViewNumberCell({
     Key? key,
@@ -132,6 +139,7 @@ class ViewNumberCell extends StatelessWidget {
     this.isDark = false,
     this.isStart = false,
     this.padding,
+    this.fontSize,
   }) : super(key: key);
 
   @override
@@ -149,7 +157,11 @@ class ViewNumberCell extends StatelessWidget {
       alignment: Alignment.centerRight,
       child: Text(
         text,
-        style: ViewTableCellStyles.getTextStyle(isDark: isDark, color: color),
+        style: ViewTableCellStyles.getTextStyle(
+          isDark: isDark,
+          color: color,
+          fontSize: fontSize,
+        ),
         textAlign: TextAlign.end,
         maxLines: 1,
         softWrap: false,
@@ -171,6 +183,8 @@ class ViewLinkCell extends StatelessWidget {
   final bool isStart;
   final bool isEnd;
   final bool isDark;
+  final double? fontSize;
+
   const ViewLinkCell({
     Key? key,
     required this.text,
@@ -178,7 +192,9 @@ class ViewLinkCell extends StatelessWidget {
     this.isDark = false,
     this.isStart = false,
     this.isEnd = false,
+    this.fontSize,
   }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -199,6 +215,7 @@ class ViewLinkCell extends StatelessWidget {
               isDark: isDark,
               color: AppColors.primaryBlue,
               fontWeight: FontWeight.w600,
+              fontSize: fontSize,
             ),
             textAlign: isEnd ? TextAlign.end : TextAlign.start,
             maxLines: 1,
@@ -215,13 +232,17 @@ class ViewDateTimeCell extends StatelessWidget {
   final String format;
   final bool isDark;
   final Color? color;
+  final double? fontSize;
+
   const ViewDateTimeCell({
     Key? key,
     required this.dateTime,
     this.format = 'dd/MM/yy hh:mm:ss a',
     this.isDark = false,
     this.color,
+    this.fontSize,
   }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -229,7 +250,11 @@ class ViewDateTimeCell extends StatelessWidget {
       alignment: Alignment.centerLeft,
       child: Text(
         _formatDateTime(),
-        style: ViewTableCellStyles.getTextStyle(isDark: isDark, color: color),
+        style: ViewTableCellStyles.getTextStyle(
+          isDark: isDark,
+          color: color,
+          fontSize: fontSize,
+        ),
         textAlign: TextAlign.start,
         maxLines: 1,
         softWrap: false,

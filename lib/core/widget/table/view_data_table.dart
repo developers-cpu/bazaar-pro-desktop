@@ -42,6 +42,10 @@ class ViewDataTable<T> extends StatefulWidget {
   final Color? headerBgColor;
   final bool shrinkWrap;
   final Comparable Function(T item, String columnId)? comparatorBuilder;
+  final bool isStart;
+  final bool isBorderFit;
+  final double? headerTextSize;
+  final double? bodyTextSize;
   const ViewDataTable({
     Key? key,
     required this.columns,
@@ -63,6 +67,10 @@ class ViewDataTable<T> extends StatefulWidget {
     this.headerBgColor,
     this.shrinkWrap = false,
     this.comparatorBuilder,
+    this.isStart = false,
+    this.isBorderFit = false,
+    this.headerTextSize,
+    this.bodyTextSize,
   }) : super(key: key);
   @override
   State<ViewDataTable<T>> createState() => _ViewDataTableState<T>();
@@ -215,38 +223,48 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
           thumbColor: MaterialStateProperty.all(AppColors.primaryBlue),
         ),
       ),
-      child: Container(
-        margin: EdgeInsets.fromLTRB(0.w, 4.h, 0.w, 10.h),
-        decoration: BoxDecoration(
-          color: _rowBgColor,
-          borderRadius: BorderRadius.circular(10.r),
-          border: Border.all(color: _dividerColor.withOpacity(0.5), width: 1),
-        ),
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            double scale = 1.0;
-            double totalWidth = _totalFixedScaleWidth;
-            if (widget.autoFit && constraints.maxWidth > totalWidth) {
-              scale = constraints.maxWidth / totalWidth;
-              totalWidth = constraints.maxWidth;
-            }
-            return ClipRRect(
-              borderRadius: BorderRadius.circular(10.r),
-              child: widget.shrinkWrap
-                  ? _buildShrinkWrapContent(
-                      headerHeight,
-                      rowHeight,
-                      totalWidth,
-                      scale,
-                    )
-                  : _buildExpandedContent(
-                      headerHeight,
-                      rowHeight,
-                      totalWidth,
-                      scale,
-                    ),
-            );
-          },
+      child: Align(
+        alignment: widget.isStart ? Alignment.centerLeft : Alignment.center,
+        child: Container(
+          margin: EdgeInsets.fromLTRB(0.w, 4.h, 0.w, 10.h),
+          decoration: BoxDecoration(
+            color: _rowBgColor,
+            borderRadius: BorderRadius.circular(10.r),
+            border: Border.all(color: _dividerColor.withOpacity(0.5), width: 1),
+          ),
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              double scale = 1.0;
+              double totalWidth = _totalFixedScaleWidth;
+
+              if (widget.autoFit && constraints.maxWidth > totalWidth) {
+                scale = constraints.maxWidth / totalWidth;
+                totalWidth = constraints.maxWidth;
+              }
+
+              final contentWidth =
+                  widget.isBorderFit
+                      ? constraints.maxWidth.clamp(totalWidth, double.infinity)
+                      : totalWidth;
+
+              return ClipRRect(
+                borderRadius: BorderRadius.circular(10.r),
+                child: widget.shrinkWrap
+                    ? _buildShrinkWrapContent(
+                        headerHeight,
+                        rowHeight,
+                        contentWidth,
+                        scale,
+                      )
+                    : _buildExpandedContent(
+                        headerHeight,
+                        rowHeight,
+                        contentWidth,
+                        scale,
+                      ),
+              );
+            },
+          ),
         ),
       ),
     );
@@ -367,7 +385,7 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
               child: Text(
                 column.label,
                 style: GoogleFonts.openSans(
-                  fontSize: 12.sp,
+                  fontSize: widget.headerTextSize ?? 14.sp,
                   fontWeight: FontWeight.w500,
                   color: _textColor,
                 ),
@@ -473,7 +491,7 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
               child: Text(
                 column.label,
                 style: GoogleFonts.openSans(
-                  fontSize: 12.sp,
+                  fontSize: (widget.headerTextSize ?? 12.sp) - 2.sp,
                   fontWeight: FontWeight.w500,
                   color: _textColor,
                 ),

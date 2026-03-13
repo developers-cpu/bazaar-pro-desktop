@@ -37,7 +37,7 @@ class _SelectUserDialogState extends State<SelectUserDialog> {
       content: AppDropdown(
         type: AppDropdownType.search,
         value: _selectedUser,
-        hintText: 'Select User',
+        hintText: 'Username',
         items: const [
           'Client 1',
           'Client 2',

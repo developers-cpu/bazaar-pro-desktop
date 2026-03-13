@@ -143,6 +143,11 @@ import 'features/view/presentation/bloc/script_master/script_master_bloc.dart';
 import 'features/view/presentation/bloc/script_quantity/script_quantity_bloc.dart';
 import 'features/view/presentation/bloc/trade/trades_bloc.dart';
 import 'features/view/presentation/bloc/broker_list/broker_list_bloc.dart';
+import 'features/view/presentation/bloc/broker_list/client_breakdown_bloc.dart';
+import 'features/view/domain/usecases/broker_list/get_client_breakdown.dart';
+import 'features/view/domain/repositories/broker_list/client_breakdown_repository.dart';
+import 'features/view/data/repositories/broker_list/client_breakdown_repository_impl.dart';
+import 'features/view/data/datasources/broker_list/client_breakdown_remote_datasource.dart';
 import 'features/users/data/repositories/user/user_repository_impl.dart';
 import 'features/users/domain/repositories/user/user_repository.dart';
 import 'features/users/presentation/bloc/user_list/user_list_bloc.dart';
@@ -655,6 +660,16 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<BrokerRemoteDataSource>(
     () => BrokerRemoteDataSourceImpl(),
+  );
+  sl.registerFactory(
+    () => ClientBreakdownBloc(getClientBreakdown: sl()),
+  );
+  sl.registerLazySingleton(() => GetClientBreakdown(sl()));
+  sl.registerLazySingleton<ClientBreakdownRepository>(
+    () => ClientBreakdownRepositoryImpl(remoteDataSource: sl()),
+  );
+  sl.registerLazySingleton<ClientBreakdownRemoteDataSource>(
+    () => ClientBreakdownRemoteDataSourceImpl(),
   );
   sl.registerFactory(() => BrokerageBloc(repository: sl()));
   sl.registerLazySingleton<BrokerageRepository>(

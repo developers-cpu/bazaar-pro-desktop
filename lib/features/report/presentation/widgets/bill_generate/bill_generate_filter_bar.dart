@@ -86,7 +86,7 @@ class _BillGenerateFilterBarState extends State<BillGenerateFilterBar> {
       if (!isClient) ...[
         AppDropdown(
           width: 200.w,
-          hintText: 'User',
+          hintText: 'Username',
           value: _selectedUser,
           items: const ['User 1', 'User 2', 'User 3'],
           type: AppDropdownType.search,

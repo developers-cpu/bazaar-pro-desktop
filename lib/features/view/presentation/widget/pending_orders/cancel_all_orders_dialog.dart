@@ -127,7 +127,7 @@ class _CancelAllOrdersDialogState extends State<CancelAllOrdersDialog> {
             height: 35.h,
             child: AppDropdown(
               type: AppDropdownType.search,
-              hintText: 'User',
+              hintText: 'Username',
               value: _tempSelectedUser,
               items: _users,
               onChanged: (value) {

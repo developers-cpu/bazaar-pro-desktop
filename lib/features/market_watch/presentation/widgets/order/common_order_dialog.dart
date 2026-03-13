@@ -232,7 +232,7 @@ class _CommonOrderDialogState extends State<CommonOrderDialog> {
               ? _buildStaticClientField(clientName)
               : AppDropdown(
                   type: AppDropdownType.simple,
-                  hintText: 'Client',
+                  hintText: 'Username',
                   value: state.clientName.isEmpty ? null : state.clientName,
                   items: const ['Client 1', 'Client 2', 'Client 3'],
                   label: 'Client Name',

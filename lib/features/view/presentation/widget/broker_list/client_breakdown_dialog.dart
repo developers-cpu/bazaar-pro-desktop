@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../../core/constants/app_colors.dart';
 import '../../../../../../core/widget/common_dilog_box.dart';
+import '../../../../../../injection_container.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
 import '../../../../../core/widget/table/view_data_table_footer.dart';
 import '../../../../../core/widget/table/view_table_cell_styles.dart';
+import '../../../domain/entities/broker_list/client_breakdown.dart';
+import '../../bloc/broker_list/client_breakdown_bloc.dart';
 
 class ClientBreakdownDialog extends StatelessWidget {
   final String brokerId;
@@ -36,51 +40,86 @@ class ClientBreakdownDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CommonDialog(
-      title: "Detailed Client Breakdown",
-      isDarkMode: isDarkMode,
-      width: 1000.w,
-      height: 800.h,
-      headerColor: const Color(0xFF2C5F7A),
-      showButtons: false,
-      scrollable: true,
-      contentPadding: EdgeInsets.zero,
-      content: Column(
-        children: [
-          _buildHeader(),
-          Padding(
-            padding: EdgeInsets.all(16.w),
-            child: Column(
-              children: [
-                _buildSection(context, "NSE", _getNSEData()),
-                SizedBox(height: 16.h),
-                _buildSection(
-                  context,
-                  "MCX",
-                  _getMCXData(),
-                  isSymbolBased: true,
-                ),
-                SizedBox(height: 16.h),
-                _buildSection(context, "CE/PE", _getCEPEData()),
-                SizedBox(height: 16.h),
-                _buildSection(context, "GIFTNIFTY", _getGIFTNIFTYData()),
-                SizedBox(height: 16.h),
-                _buildSection(
-                  context,
-                  "OTHER",
-                  _getOtherData(),
-                  isSymbolBased: true,
-                  hasFooter: true,
-                ),
-              ],
+    return BlocProvider(
+      create:
+          (context) => sl<ClientBreakdownBloc>()
+            ..add(
+              LoadClientBreakdownEvent(
+                brokerId: brokerId,
+                clientName: clientName,
+              ),
             ),
-          ),
-        ],
+      child: BlocBuilder<ClientBreakdownBloc, ClientBreakdownState>(
+        builder: (context, state) {
+          return CommonDialog(
+            title: "Detailed Client Breakdown",
+            isDarkMode: isDarkMode,
+            width: 1000.w,
+            height: 800.h,
+            headerColor: const Color(0xFF2C5F7A),
+            showButtons: false,
+            scrollable: true,
+            contentPadding: EdgeInsets.zero,
+            content: _buildContent(context, state),
+          );
+        },
       ),
     );
   }
 
-  Widget _buildHeader() {
+  Widget _buildContent(BuildContext context, ClientBreakdownState state) {
+    if (state is ClientBreakdownLoading) {
+      return SizedBox(
+        height: 600.h,
+        child: const Center(child: CircularProgressIndicator()),
+      );
+    }
+
+    if (state is ClientBreakdownError) {
+      return SizedBox(
+        height: 600.h,
+        child: Center(
+          child: Text(
+            state.message,
+            style: GoogleFonts.openSans(color: Colors.red),
+          ),
+        ),
+      );
+    }
+
+    if (state is ClientBreakdownLoaded) {
+      final breakdown = state.breakdown;
+      return Column(
+        children: [
+          _buildHeader(context, breakdown),
+          Padding(
+            padding: EdgeInsets.all(16.w),
+            child: Column(
+              children:
+                  breakdown.sections.map((section) {
+                    return Column(
+                      children: [
+                        _buildSection(
+                          context,
+                          section.title,
+                          section.rows,
+                          isSymbolBased: section.isSymbolBased,
+                          hasFooter: section.hasFooter,
+                        ),
+                        SizedBox(height: 16.h),
+                      ],
+                    );
+                  }).toList(),
+            ),
+          ),
+        ],
+      );
+    }
+
+    return const SizedBox.shrink();
+  }
+
+  Widget _buildHeader(BuildContext context, ClientBreakdown breakdown) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
       color: const Color(0xFF414C5D),
@@ -95,13 +134,43 @@ class ClientBreakdownDialog extends StatelessWidget {
               fontWeight: FontWeight.w600,
             ),
           ),
-          Text(
-            "Client name : $clientName",
-            style: GoogleFonts.openSans(
-              color: Colors.white,
-              fontSize: 12.sp,
-              fontWeight: FontWeight.w600,
-            ),
+          Row(
+            children: [
+              InkWell(
+                onTap: () {
+                  context.read<ClientBreakdownBloc>().add(
+                    ExportClientBreakdownPdfEvent(breakdown),
+                  );
+                },
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.picture_as_pdf,
+                      color: Colors.white,
+                      size: 20.sp,
+                    ),
+                    SizedBox(width: 6.w),
+                    Text(
+                      "Download PDF",
+                      style: GoogleFonts.openSans(
+                        color: Colors.white,
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(width: 20.w),
+              Text(
+                "Client name : $clientName",
+                style: GoogleFonts.openSans(
+                  color: Colors.white,
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -111,7 +180,7 @@ class ClientBreakdownDialog extends StatelessWidget {
   Widget _buildSection(
     BuildContext context,
     String title,
-    List<Map<String, dynamic>> data, {
+    List<ClientBreakdownRow> rows, {
     bool isSymbolBased = false,
     bool hasFooter = false,
   }) {
@@ -134,6 +203,19 @@ class ClientBreakdownDialog extends StatelessWidget {
         isNumeric: true,
       ),
     ];
+
+    // Convert entity rows to map format for ViewDataTable
+    final data =
+        rows
+            .map(
+              (row) => {
+                isSymbolBased ? 'symbol' : 'exchange': row.label,
+                'turnover': row.turnover,
+                'brokerage': row.brokerage,
+              },
+            )
+            .toList();
+
     return Column(
       children: [
         Container(
@@ -161,8 +243,8 @@ class ClientBreakdownDialog extends StatelessWidget {
         ViewDataTable<Map<String, dynamic>>(
           columns: columns,
           data: data,
-          idExtractor: (item) =>
-              (item['symbol'] ?? item['exchange']).toString(),
+          idExtractor:
+              (item) => (item['symbol'] ?? item['exchange']).toString(),
           isDarkMode: isDarkMode,
           shrinkWrap: true,
           autoFit: true,
@@ -182,33 +264,13 @@ class ClientBreakdownDialog extends StatelessWidget {
             columns: columns,
             values: {
               isSymbolBased ? 'symbol' : 'exchange': 'TOTAL',
-              'brokerage': '100000',
+              'brokerage': rows
+                  .fold(0.0, (sum, row) => sum + row.brokerage)
+                  .toStringAsFixed(0),
             },
             isDarkMode: isDarkMode,
           ),
       ],
     );
   }
-
-  List<Map<String, dynamic>> _getNSEData() => [
-    {"exchange": "NSE", "turnover": "100 CR", "brokerage": 2500},
-  ];
-  List<Map<String, dynamic>> _getMCXData() => [
-    {"symbol": "GOLD", "turnover": "500 LOT", "brokerage": 2500},
-    {"symbol": "GOLD MINI", "turnover": "500 LOT", "brokerage": 600},
-    {"symbol": "SILVER", "turnover": "500 LOT", "brokerage": 750},
-    {"symbol": "SILVER MINI", "turnover": "500 LOT", "brokerage": 1250},
-    {"symbol": "SILVER MIC", "turnover": "500 LOT", "brokerage": 5100},
-  ];
-  List<Map<String, dynamic>> _getCEPEData() => [
-    {"exchange": "CE/PE", "turnover": "100 CR", "brokerage": 2500},
-  ];
-  List<Map<String, dynamic>> _getGIFTNIFTYData() => [
-    {"exchange": "GIFTYNIFTY", "turnover": "100 CR", "brokerage": 2500},
-  ];
-  List<Map<String, dynamic>> _getOtherData() => [
-    {"symbol": "DOWJONSE", "turnover": "500 LOT", "brokerage": 2500},
-    {"symbol": "NASDQ", "turnover": "500 LOT", "brokerage": 600},
-    {"symbol": "S&P", "turnover": "500 LOT", "brokerage": 750},
-  ];
 }

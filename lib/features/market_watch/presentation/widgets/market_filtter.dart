@@ -192,7 +192,7 @@ class MarketFilters extends StatelessWidget {
                   else
                     AppDropdown(
                       type: AppDropdownType.search,
-                      hintText: 'Search User',
+                      hintText: 'Username',
                       value: state.selectedUser,
                       items: users,
                       width: 200.w,

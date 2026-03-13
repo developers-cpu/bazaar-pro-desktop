@@ -63,7 +63,7 @@ class UserScriptPositionTrackingFilterBar extends StatelessWidget {
               SizedBox(width: 10.w),
               AppDropdown(
                 value: selectedUser,
-                hintText: 'User',
+                hintText: 'Username',
                 items: userNames,
                 width: 200.w,
                 height: 35.h,

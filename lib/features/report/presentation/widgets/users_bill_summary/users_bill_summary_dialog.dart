@@ -56,7 +56,7 @@ class UsersBillSummaryDialog extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   AppDropdown(
-                    hintText: 'Select User',
+                    hintText: 'Username',
                     type: AppDropdownType.search,
                     width: 200.w,
                     items: users,

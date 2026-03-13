@@ -41,7 +41,7 @@ class TradeLogFilterBar extends StatelessWidget {
               if (!isClient) ...[
                 AppDropdown(
                   type: AppDropdownType.search,
-                  hintText: 'User',
+                  hintText: 'Username',
                   value: state.selectedUser,
                   items: state.users,
                   width: 200.w,

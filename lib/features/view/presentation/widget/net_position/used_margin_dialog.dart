@@ -68,7 +68,7 @@ class _UsedMarginDialogState extends State<UsedMarginDialog> {
                     child: AppDropdown(
                       width: 200.w,
                       value: _selectedUser,
-                      hintText: 'User',
+                      hintText: 'Username',
                       items: const ['User', 'John Doe', 'Jane Doe'],
                       onChanged: (val) {
                         if (val != null) setState(() => _selectedUser = val);

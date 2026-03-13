@@ -32,7 +32,7 @@ class ProfitAndLossFilterBar extends StatelessWidget {
             children: [
               AppDropdown(
                 value: selectedUser,
-                hintText: 'User',
+                hintText: 'Username',
                 items: users,
                 width: 200.w,
                 type: AppDropdownType.search,

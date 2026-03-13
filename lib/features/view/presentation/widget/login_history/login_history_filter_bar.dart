@@ -48,7 +48,7 @@ class LoginHistoryFilterBar extends StatelessWidget {
                 width: 200.w,
                 child: AppDropdown(
                   type: AppDropdownType.search,
-                  hintText: 'User',
+                  hintText: 'Username',
                   value: selectedClient,
                   items: clients,
                   onChanged: (value) {

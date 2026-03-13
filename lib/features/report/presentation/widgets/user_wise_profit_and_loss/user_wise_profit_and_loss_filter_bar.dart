@@ -40,7 +40,7 @@ class UserWiseProfitAndLossFilterBar extends StatelessWidget {
             children: [
               AppDropdown(
                 value: selectedUser,
-                hintText: 'User',
+                hintText: 'Username',
                 items: users,
                 width: 200.w,
                 height: 35.h,

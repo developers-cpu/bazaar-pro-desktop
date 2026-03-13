@@ -35,7 +35,7 @@ class UserSearchDialogContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CommonDialog(
-      title: 'Search User',
+      title: 'Search Username',
       width: 450.w,
       height: 650.h,
       showButtons: false,
@@ -54,7 +54,7 @@ class UserSearchView extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CustomInputField(
-          hintText: 'Search User',
+          hintText: 'Username',
           height: 35.h,
           width: 250.w,
           prefixSvgPath: AppImages.searchIcon,

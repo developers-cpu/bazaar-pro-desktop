@@ -64,7 +64,7 @@ class TradesFilterBar extends StatelessWidget {
                         AppDropdown(
                           width: 200.w,
                           type: AppDropdownType.search,
-                          hintText: 'Client',
+                          hintText: 'Username',
                           value: state.selectedClient,
                           items: state.clients,
                           onChanged: (value) {

@@ -70,7 +70,7 @@ class DealsFilterBar extends StatelessWidget {
                           width: 190.w,
                           child: AppDropdown(
                             type: AppDropdownType.search,
-                            hintText: 'Client',
+                            hintText: 'Username',
                             value: state.selectedClient,
                             items: state.clients,
                             onChanged: (value) {

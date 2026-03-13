@@ -302,7 +302,7 @@ class NetPositionFilterBar extends StatelessWidget {
           SizedBox(width: 8.w),
           AppDropdown(
             type: AppDropdownType.search,
-            hintText: 'Client',
+            hintText: 'Username',
             value: state.selectedClient,
             items: state.clients,
             width: 150.w,

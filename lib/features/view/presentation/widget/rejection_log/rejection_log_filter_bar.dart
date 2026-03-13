@@ -73,7 +73,7 @@ class RejectionLogFilterBar extends StatelessWidget {
                   width: 200.w,
                   child: AppDropdown(
                     type: AppDropdownType.search,
-                    hintText: 'User',
+                    hintText: 'Username',
                     value: state.selectedClient,
                     items: state.clients,
                     onChanged: (value) {

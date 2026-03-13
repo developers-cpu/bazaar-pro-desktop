@@ -72,7 +72,7 @@ class _DialogContentState extends State<_DialogContent> {
                       width: 200.w,
                       height: 40.h,
                       type: AppDropdownType.search,
-                      hintText: 'User',
+                      hintText: 'Username',
                       value: selectedUser,
                       items: positions.map((e) => e.name).toSet().toList(),
                       onChanged: (value) {

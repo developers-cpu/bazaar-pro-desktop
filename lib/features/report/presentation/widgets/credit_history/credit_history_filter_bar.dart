@@ -45,7 +45,7 @@ class CreditHistoryFilterBar extends StatelessWidget {
                 width: 200.w,
                 height: 35.h,
                 type: AppDropdownType.search,
-                hintText: 'User',
+                hintText: 'Username',
                 searchHint: 'Search & Add',
                 value: state.selectedUser,
                 items: state.users,

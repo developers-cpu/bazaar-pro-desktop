@@ -40,7 +40,7 @@ class PendingOrdersFilterBar extends StatelessWidget {
                           width: 200.w,
                           child: AppDropdown(
                             type: AppDropdownType.search,
-                            hintText: 'Client',
+                            hintText: 'Username',
                             value: state.selectedClient,
                             items: state.clients,
                             onChanged: (value) {

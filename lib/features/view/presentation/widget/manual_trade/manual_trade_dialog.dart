@@ -63,7 +63,7 @@ class ManualTradeDialog extends StatelessWidget {
           children: [
             AppDropdown(
               type: AppDropdownType.search,
-              hintText: 'User',
+              hintText: 'Username',
               height: 28.h,
               value: state.selectedUser,
               items: state.users,

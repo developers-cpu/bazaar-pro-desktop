@@ -47,7 +47,7 @@ class ActivityReportFilterBar extends StatelessWidget {
               if (!isClient) ...[
                 AppDropdown(
                   type: AppDropdownType.search,
-                  hintText: 'User',
+                  hintText: 'Username',
                   searchHint: 'Search & Add',
                   value: state.selectedUser,
                   items: state.users,

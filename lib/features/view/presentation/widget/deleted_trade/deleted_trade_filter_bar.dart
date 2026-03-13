@@ -51,7 +51,7 @@ class DeletedTradeFilterBar extends StatelessWidget {
                 width: 200.w,
                 child: AppDropdown(
                   type: AppDropdownType.search,
-                  hintText: 'User',
+                  hintText: 'Username',
                   value: state.selectedUser,
                   items: state.users,
                   onChanged: (value) {

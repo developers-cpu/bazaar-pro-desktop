@@ -112,8 +112,31 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
     _showMessage('Reset column sizes to default');
   }
 
-  void _openBuyOrderDialog() => CommonOrderDialog.showBuyOrder(context);
-  void _openSellOrderDialog() => CommonOrderDialog.showSellOrder(context);
+  void _openBuyOrderDialog() {
+    final state = context.read<MarketWatchBloc>().state;
+    final loadedState = state is MarketWatchSuccess
+        ? state.previousState
+        : (state is MarketWatchLoaded ? state : null);
+    final selectedItem = loadedState != null ? _getSelectedItem(loadedState) : null;
+    CommonOrderDialog.showBuyOrder(
+      context,
+      exchange: selectedItem?.exchange,
+      symbol: selectedItem?.symbol,
+    );
+  }
+
+  void _openSellOrderDialog() {
+    final state = context.read<MarketWatchBloc>().state;
+    final loadedState = state is MarketWatchSuccess
+        ? state.previousState
+        : (state is MarketWatchLoaded ? state : null);
+    final selectedItem = loadedState != null ? _getSelectedItem(loadedState) : null;
+    CommonOrderDialog.showSellOrder(
+      context,
+      exchange: selectedItem?.exchange,
+      symbol: selectedItem?.symbol,
+    );
+  }
   void _openMarketDepthDialog() => MarketDepthDialog.show(context);
   @override
   Widget build(BuildContext context) {

@@ -5,6 +5,10 @@ import 'package:bazarpro/features/report/presentation/pages/settlement_report_pa
 import 'package:bazarpro/features/report/presentation/pages/settlement_sharing_report_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../injection_container.dart';
+import '../bloc/bill_generate/bill_generate_bloc.dart';
+import '../bloc/bill_generate/bill_generate_event.dart';
+import '../bloc/bill_generate/bill_generate_state.dart';
 import '../../../../features/auth/presentation/bloc/auth_bloc.dart';
 import '../../../../features/auth/presentation/bloc/auth_state.dart';
 import '../../../../../core/constants/app_colors.dart';
@@ -111,11 +115,42 @@ class BillGeneratePageWithAppBar extends StatelessWidget {
   const BillGeneratePageWithAppBar({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return ReportPageWrapper(
-      pageTitle: 'Bill Generate',
-      onExportPdf: () {},
-      onExportExcel: () {},
-      child: BillGeneratePage(),
+    return BlocProvider(
+      create: (_) => sl<BillGenerateBloc>(),
+      child: Builder(
+        builder: (context) {
+          return ReportPageWrapper(
+            pageTitle: 'Bill Generate',
+            onExportPdf: () {
+              final state = context.read<BillGenerateBloc>().state;
+              if (state is BillGenerateLoaded) {
+                context.read<BillGenerateBloc>().add(
+                      LoadBillGenerateReport(
+                        userId: state.selectedUserId,
+                        billFormat: 'PDF',
+                        billType: state.selectedBillType,
+                        shouldExport: true,
+                      ),
+                    );
+              }
+            },
+            onExportExcel: () {
+              final state = context.read<BillGenerateBloc>().state;
+              if (state is BillGenerateLoaded) {
+                context.read<BillGenerateBloc>().add(
+                      LoadBillGenerateReport(
+                        userId: state.selectedUserId,
+                        billFormat: 'Excel',
+                        billType: state.selectedBillType,
+                        shouldExport: true,
+                      ),
+                    );
+              }
+            },
+            child: const BillGeneratePage(),
+          );
+        },
+      ),
     );
   }
 }

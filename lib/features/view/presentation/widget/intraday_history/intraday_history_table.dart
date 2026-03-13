@@ -19,7 +19,12 @@ class IntradayHistoryTable extends StatelessWidget {
       width: 80,
       sortable: false,
     ),
-    const ViewTableColumn(id: 'timestamp', label: 'TIME STAMP', width: 150),
+    const ViewTableColumn(
+      id: 'timestamp',
+      label: 'TIME STAMP',
+      width: 150,
+      alignment: Alignment.centerRight,
+    ),
     const ViewTableColumn(
       id: 'open',
       label: 'OPEN',

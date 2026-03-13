@@ -74,6 +74,7 @@ class TableCellBuilder extends StatelessWidget {
       case 'netChange':
         return _buildTextCell(
           NumberFormatter.formatChange(item.netChange),
+          color: _getChangeColor(item.netChange),
           alignRight: true,
         );
       case 'high':
@@ -101,6 +102,7 @@ class TableCellBuilder extends StatelessWidget {
       case 'netChangePercent':
         return _buildTextCell(
           NumberFormatter.formatPercentage(item.netChangePercent),
+          color: _getChangeColor(item.netChangePercent),
           alignRight: true,
         );
       case 'expiry':
@@ -192,6 +194,12 @@ class TableCellBuilder extends StatelessWidget {
       return FontWeight.w500;
     }
     return fontWeight;
+  }
+
+  Color _getChangeColor(double value) {
+    if (value > 0) return AppColors.buyColor;
+    if (value < 0) return AppColors.sellColor;
+    return _getTextColor();
   }
 
   Color _getTextColor() {

@@ -60,33 +60,45 @@ class BillExportService {
                   crossAxisAlignment: pw.CrossAxisAlignment.start,
                   children: [
                     pw.Container(
-                      padding: const pw.EdgeInsets.all(8),
+                      padding: const pw.EdgeInsets.all(6),
+                      width: double.infinity,
                       child: pw.Text(
                         '${trade.exchange} ${trade.script}',
                         style: pw.TextStyle(
-                          fontSize: 14,
+                          fontSize: 12,
                           fontWeight: pw.FontWeight.bold,
-                          color: PdfColors.blue,
+                          color: PdfColors.blue900,
                         ),
                       ),
                     ),
-                    pw.Container(
-                      padding: const pw.EdgeInsets.all(8),
+                    pw.Row(
+                      crossAxisAlignment: pw.CrossAxisAlignment.start,
+                      children: [
+                        pw.Expanded(
+                          child: _buildPdfTradeLegTable('Buy', trade.buyLegs, PdfColors.green900),
+                        ),
+                        pw.Container(width: 1, height: 40, color: PdfColors.grey300),
+                        pw.Expanded(
+                          child: _buildPdfTradeLegTable('Sell', trade.sellLegs, PdfColors.red900),
+                        ),
+                      ],
+                    ),
+                    pw.Divider(height: 1, color: PdfColors.grey300),
+                    pw.Padding(
+                      padding: const pw.EdgeInsets.all(6),
                       child: pw.Row(
-                        mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                         children: [
-                          pw.Text(
-                            'Buy Vol: ${trade.totalBuyVol.toStringAsFixed(2)}',
-                          ),
-                          pw.Text(
-                            'Sell Vol: ${trade.totalSellVol.toStringAsFixed(2)}',
-                          ),
-                          pw.Text(
-                            'Brokerage: ${trade.brokerage.toStringAsFixed(2)}',
-                          ),
-                          pw.Text(
-                            'P/L: ${trade.profitLoss.toStringAsFixed(2)}',
-                            style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                          pw.Spacer(),
+                          pw.Column(
+                            crossAxisAlignment: pw.CrossAxisAlignment.end,
+                            children: [
+                              _buildPdfSummaryRow('Total BVol:', trade.totalBuyVol.toStringAsFixed(2)),
+                              _buildPdfSummaryRow('Total SVol:', trade.totalSellVol.toStringAsFixed(2)),
+                              _buildPdfSummaryRow('Difference:', trade.netDifference.toStringAsFixed(2)),
+                              _buildPdfSummaryRow('Brokerage:', trade.brokerage.toStringAsFixed(2)),
+                              pw.SizedBox(height: 4),
+                              _buildPdfSummaryRow('PROFIT/LOSS:', trade.profitLoss.toStringAsFixed(2), isBold: true),
+                            ],
                           ),
                         ],
                       ),
@@ -173,17 +185,51 @@ class BillExportService {
     ]);
 
     for (final trade in report.scriptTrades) {
+      sheet.appendRow([TextCellValue('${trade.exchange} ${trade.script}')]);
+      
+      
+      sheet.appendRow([TextCellValue('BUY TRADES')]);
       sheet.appendRow([
-        TextCellValue('${trade.exchange} ${trade.script}'),
-        DoubleCellValue(trade.totalBuyVol),
-        DoubleCellValue(trade.totalSellVol),
-        DoubleCellValue(trade.netDifference),
-        DoubleCellValue(trade.brokerage),
-        DoubleCellValue(trade.profitLoss),
+        TextCellValue('Date'),
+        TextCellValue('Qty'),
+        TextCellValue('Price'),
+        TextCellValue('Volume'),
       ]);
+      for (final leg in trade.buyLegs) {
+        sheet.appendRow([
+          TextCellValue(leg.date),
+          DoubleCellValue(leg.qty.toDouble()),
+          DoubleCellValue(double.tryParse(leg.price) ?? 0.0),
+          DoubleCellValue(leg.vol),
+        ]);
+      }
+      
+      
+      sheet.appendRow([TextCellValue('SELL TRADES')]);
+      sheet.appendRow([
+        TextCellValue('Date'),
+        TextCellValue('Qty'),
+        TextCellValue('Price'),
+        TextCellValue('Volume'),
+      ]);
+      for (final leg in trade.sellLegs) {
+        sheet.appendRow([
+          TextCellValue(leg.date),
+          DoubleCellValue(leg.qty.toDouble()),
+          DoubleCellValue(double.tryParse(leg.price) ?? 0.0),
+          DoubleCellValue(leg.vol),
+        ]);
+      }
+      
+      
+      sheet.appendRow([TextCellValue('Script Summary')]);
+      sheet.appendRow([TextCellValue('Total BVol:'), DoubleCellValue(trade.totalBuyVol)]);
+      sheet.appendRow([TextCellValue('Total SVol:'), DoubleCellValue(trade.totalSellVol)]);
+      sheet.appendRow([TextCellValue('Difference:'), DoubleCellValue(trade.netDifference)]);
+      sheet.appendRow([TextCellValue('Brokerage:'), DoubleCellValue(trade.brokerage)]);
+      sheet.appendRow([TextCellValue('PROFIT/LOSS:'), DoubleCellValue(trade.profitLoss)]);
+      sheet.appendRow([TextCellValue('')]); 
     }
-
-    sheet.appendRow([TextCellValue('')]);
 
     sheet.appendRow([TextCellValue('General Summary')]);
     sheet.appendRow([
@@ -225,5 +271,63 @@ class BillExportService {
     final file = File('${directory.path}/$fileName');
     await file.writeAsBytes(bytes, flush: true);
     await OpenFilex.open(file.path);
+  }
+
+  static pw.Widget _buildPdfTradeLegTable(String side, List<BillTradeLeg> legs, PdfColor textColor) {
+    return pw.Column(
+      children: [
+        pw.Container(
+          color: PdfColors.grey200,
+          padding: const pw.EdgeInsets.symmetric(vertical: 4, horizontal: 4),
+          child: pw.Row(
+            children: [
+              pw.Expanded(flex: 3, child: pw.Text('Date', style: pw.TextStyle(fontSize: 8, fontWeight: pw.FontWeight.bold))),
+              pw.Expanded(flex: 2, child: pw.Text('Qty', style: pw.TextStyle(fontSize: 8, fontWeight: pw.FontWeight.bold), textAlign: pw.TextAlign.center)),
+              pw.Expanded(flex: 2, child: pw.Text('Price', style: pw.TextStyle(fontSize: 8, fontWeight: pw.FontWeight.bold), textAlign: pw.TextAlign.right)),
+              pw.Expanded(flex: 3, child: pw.Text('Vol', style: pw.TextStyle(fontSize: 8, fontWeight: pw.FontWeight.bold), textAlign: pw.TextAlign.right)),
+            ],
+          ),
+        ),
+        if (legs.isEmpty)
+          pw.Padding(
+            padding: const pw.EdgeInsets.all(4),
+            child: pw.Text('No trades', style: const pw.TextStyle(fontSize: 8, color: PdfColors.grey)),
+          ),
+        ...legs.map(
+          (leg) => pw.Container(
+            padding: const pw.EdgeInsets.symmetric(vertical: 2, horizontal: 4),
+            decoration: const pw.BoxDecoration(border: pw.Border(bottom: pw.BorderSide(color: PdfColors.grey200))),
+            child: pw.Row(
+              children: [
+                pw.Expanded(flex: 3, child: pw.Text(leg.date, style: const pw.TextStyle(fontSize: 8))),
+                pw.Expanded(flex: 2, child: pw.Text(leg.qty.toString(), style: pw.TextStyle(fontSize: 8, color: textColor), textAlign: pw.TextAlign.center)),
+                pw.Expanded(flex: 2, child: pw.Text(leg.price, style: const pw.TextStyle(fontSize: 8), textAlign: pw.TextAlign.right)),
+                pw.Expanded(flex: 3, child: pw.Text(leg.vol.toStringAsFixed(2), style: const pw.TextStyle(fontSize: 8), textAlign: pw.TextAlign.right)),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  static pw.Widget _buildPdfSummaryRow(String label, String value, {bool isBold = false}) {
+    return pw.Padding(
+      padding: const pw.EdgeInsets.symmetric(vertical: 1),
+      child: pw.Row(
+        mainAxisSize: pw.MainAxisSize.min,
+        children: [
+          pw.Text(
+            label,
+            style: pw.TextStyle(fontSize: 9, fontWeight: isBold ? pw.FontWeight.bold : pw.FontWeight.normal),
+          ),
+          pw.SizedBox(width: 20),
+          pw.Text(
+            value,
+            style: pw.TextStyle(fontSize: 9, fontWeight: isBold ? pw.FontWeight.bold : pw.FontWeight.normal),
+          ),
+        ],
+      ),
+    );
   }
 }

@@ -19,18 +19,19 @@ class RollOverDialog {
     CommonDialog.show(
       context: context,
       title: 'Roll Over',
-      width: 800.w,
+      width: 650.w,
       height: 600.h,
       showButtons: false,
       contentPadding: EdgeInsets.zero,
       scrollable: false,
-      content: const _RollOverDialogContent(),
+      content: _RollOverDialogContent(pageContext: context),
     );
   }
 }
 
 class _RollOverDialogContent extends StatefulWidget {
-  const _RollOverDialogContent({Key? key}) : super(key: key);
+  final BuildContext pageContext;
+  const _RollOverDialogContent({Key? key, required this.pageContext}) : super(key: key);
 
   @override
   State<_RollOverDialogContent> createState() => _RollOverDialogContentState();
@@ -160,9 +161,9 @@ class _RollOverDialogContentState extends State<_RollOverDialogContent> {
           child: _buildCheckbox(_selectAll),
         ),
       ),
-      ViewTableColumn(id: 'exchange', label: 'EXCH', width: 100.w),
-      ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 160.w),
-      ViewTableColumn(id: 'qty', label: 'QTY', width: 120.w, isNumeric: true),
+      ViewTableColumn(id: 'exchange', label: 'EXCH', width: 80.w),
+      ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 100.w),
+      ViewTableColumn(id: 'qty', label: 'QTY', width: 90.w, isNumeric: true),
       ViewTableColumn(id: 'cmp', label: 'CMP', width: 150.w, isNumeric: true),
       ViewTableColumn(
         id: 'rollOverPrice',
@@ -250,10 +251,10 @@ class _RollOverDialogContentState extends State<_RollOverDialogContent> {
                     borderRadius: BorderRadius.circular(16.r),
                   ),
                   child: Container(
-                    width: 700.w,
+                    width: 650.w,
                     height: 550.h,
                     padding: EdgeInsets.symmetric(vertical: 24.h),
-                    child: _buildConfirmationContent(),
+                    child: _buildConfirmationContent(context),
                   ),
                 ),
               );
@@ -278,7 +279,7 @@ class _RollOverDialogContentState extends State<_RollOverDialogContent> {
     );
   }
 
-  Widget _buildConfirmationContent() {
+  Widget _buildConfirmationContent(BuildContext dialogContext) {
     final selectedList = _selectedIndices.toList();
     return Column(
       children: [
@@ -301,12 +302,12 @@ class _RollOverDialogContentState extends State<_RollOverDialogContent> {
             padding: EdgeInsets.symmetric(horizontal: 16.w),
             child: ViewDataTable<int>(
               columns: const [
-                ViewTableColumn(id: 'exchange', label: 'EXCH', width: 100),
-                ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 180),
+                ViewTableColumn(id: 'exchange', label: 'EXCH', width: 80),
+                ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 100),
                 ViewTableColumn(
                   id: 'qty',
                   label: 'QTY',
-                  width: 140,
+                  width: 90,
                   isNumeric: true,
                 ),
                 ViewTableColumn(
@@ -344,7 +345,7 @@ class _RollOverDialogContentState extends State<_RollOverDialogContent> {
                   fontSize: 14.sp,
                   borderColor: headerColor,
                   textColor: headerColor,
-                  onPressed: () => Navigator.pop(context),
+                  onPressed: () => Navigator.pop(dialogContext),
                 ),
               ),
               SizedBox(width: 16.w),
@@ -357,10 +358,10 @@ class _RollOverDialogContentState extends State<_RollOverDialogContent> {
                   backgroundColor: headerColor,
                   textColor: Colors.white,
                   onPressed: () {
-                    Navigator.pop(context);
+                    Navigator.pop(dialogContext);
                     Future.delayed(Duration.zero, () {
                       SuccessDialog.show(
-                        context: context,
+                        context: widget.pageContext,
                         title: 'Successful !',
                         subtitle:
                             'Selected Position are Successfully Rolled over',

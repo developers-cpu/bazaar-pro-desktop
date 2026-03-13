@@ -27,9 +27,9 @@ class SymbolWisePositionReportBloc
         emit(
           SymbolWisePositionReportLoaded(
             reports: reports,
-            exchanges: exchanges,
+            exchanges: ['All', ...exchanges],
             symbols: ['All', ...symbols],
-            selectedExchange: null,
+            selectedExchange: 'All',
             selectedSymbol: 'All',
           ),
         );

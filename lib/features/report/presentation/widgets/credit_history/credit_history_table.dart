@@ -18,7 +18,12 @@ class CreditHistoryTable extends StatelessWidget {
   List<ViewTableColumn> _getColumns(bool isClient) {
     if (isClient) {
       return const [
-        ViewTableColumn(id: 'dateTime', label: 'DATE TIME', width: 200),
+        ViewTableColumn(
+          id: 'dateTime',
+          label: 'DATE TIME',
+          width: 200,
+          alignment: Alignment.centerRight,
+        ),
         ViewTableColumn(id: 'type', label: 'TYPE', width: 160),
         ViewTableColumn(
           id: 'amount',
@@ -37,7 +42,12 @@ class CreditHistoryTable extends StatelessWidget {
     }
     return const [
       ViewTableColumn(id: 'userName', label: 'U.NAME', width: 160),
-      ViewTableColumn(id: 'dateTime', label: 'DATE TIME', width: 200),
+      ViewTableColumn(
+        id: 'dateTime',
+        label: 'DATE TIME',
+        width: 200,
+        alignment: Alignment.centerRight,
+      ),
       ViewTableColumn(id: 'type', label: 'TYPE', width: 160),
       ViewTableColumn(
         id: 'amount',

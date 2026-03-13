@@ -95,9 +95,6 @@ class _BillGenerateFilterBarState extends State<BillGenerateFilterBar> {
             setState(() {
               _selectedUser = value;
             });
-            context.read<BillGenerateBloc>().add(
-              FilterBillGenerateReport(userId: value),
-            );
           },
           height: 35.h,
         ),
@@ -112,9 +109,6 @@ class _BillGenerateFilterBarState extends State<BillGenerateFilterBar> {
           setState(() {
             _selectedBillType = value;
           });
-          context.read<BillGenerateBloc>().add(
-            FilterBillGenerateReport(billType: value),
-          );
         },
         height: 35.h,
       ),
@@ -128,9 +122,6 @@ class _BillGenerateFilterBarState extends State<BillGenerateFilterBar> {
           setState(() {
             _selectedBillFormat = value;
           });
-          context.read<BillGenerateBloc>().add(
-            FilterBillGenerateReport(billFormat: value),
-          );
         },
         height: 35.h,
       ),
@@ -148,11 +139,11 @@ class _BillGenerateFilterBarState extends State<BillGenerateFilterBar> {
               _selectedBillFormat = null;
             });
             context.read<BillGenerateBloc>().add(
-              const LoadBillGenerateReport(),
+              const ResetBillGenerateReport(),
             );
           },
           style: OutlinedButton.styleFrom(
-            side: BorderSide(color: AppColors.primaryBlue),
+            side: const BorderSide(color: AppColors.primaryBlue),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8.r),
             ),
@@ -175,7 +166,12 @@ class _BillGenerateFilterBarState extends State<BillGenerateFilterBar> {
         child: ElevatedButton(
           onPressed: () {
             context.read<BillGenerateBloc>().add(
-              const LoadBillGenerateReport(shouldExport: true),
+              LoadBillGenerateReport(
+                userId: _selectedUser,
+                billFormat: _selectedBillFormat,
+                billType: _selectedBillType,
+                shouldExport: false,
+              ),
             );
           },
           style: ElevatedButton.styleFrom(

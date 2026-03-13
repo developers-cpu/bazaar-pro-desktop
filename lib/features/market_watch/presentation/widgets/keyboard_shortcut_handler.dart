@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../../tools/presentation/widgets/messages/messages_dialog.dart';
 import 'market_depth_dialog.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../bloc/marketwatch/market_watch_bloc.dart';
+import '../bloc/marketwatch/market_watch_state.dart';
 import 'order/common_order_dialog.dart';
 
 class KeyboardShortcutHandler extends StatelessWidget {
@@ -84,7 +87,25 @@ class BuyOrderAction extends Action<BuyOrderIntent> {
   BuyOrderAction(this.context);
   @override
   Object? invoke(BuyOrderIntent intent) {
-    CommonOrderDialog.showBuyOrder(context);
+    final state = context.read<MarketWatchBloc>().state;
+    final loadedState = state is MarketWatchSuccess
+        ? state.previousState
+        : (state is MarketWatchLoaded ? state : null);
+    
+    dynamic selectedItem;
+    if (loadedState != null && loadedState.selectedItemId != null) {
+      try {
+        selectedItem = loadedState.filteredItems.firstWhere(
+          (item) => item.id == loadedState.selectedItemId,
+        );
+      } catch (_) {}
+    }
+
+    CommonOrderDialog.showBuyOrder(
+      context,
+      exchange: selectedItem?.exchange,
+      symbol: selectedItem?.symbol,
+    );
     return null;
   }
 }
@@ -94,7 +115,25 @@ class SellOrderAction extends Action<SellOrderIntent> {
   SellOrderAction(this.context);
   @override
   Object? invoke(SellOrderIntent intent) {
-    CommonOrderDialog.showSellOrder(context);
+    final state = context.read<MarketWatchBloc>().state;
+    final loadedState = state is MarketWatchSuccess
+        ? state.previousState
+        : (state is MarketWatchLoaded ? state : null);
+    
+    dynamic selectedItem;
+    if (loadedState != null && loadedState.selectedItemId != null) {
+      try {
+        selectedItem = loadedState.filteredItems.firstWhere(
+          (item) => item.id == loadedState.selectedItemId,
+        );
+      } catch (_) {}
+    }
+
+    CommonOrderDialog.showSellOrder(
+      context,
+      exchange: selectedItem?.exchange,
+      symbol: selectedItem?.symbol,
+    );
     return null;
   }
 }
@@ -183,12 +222,46 @@ class _KeyboardShortcutListenerState extends State<KeyboardShortcutListener> {
           event.logicalKey == LogicalKeyboardKey.numpadAdd ||
           event.character == '+' ||
           event.character == '=') {
-        CommonOrderDialog.showBuyOrder(context);
+        final state = context.read<MarketWatchBloc>().state;
+        final loadedState = state is MarketWatchSuccess
+            ? state.previousState
+            : (state is MarketWatchLoaded ? state : null);
+        
+        dynamic selectedItem;
+        if (loadedState != null && loadedState.selectedItemId != null) {
+          try {
+            selectedItem = loadedState.filteredItems.firstWhere(
+              (item) => item.id == loadedState.selectedItemId,
+            );
+          } catch (_) {}
+        }
+        CommonOrderDialog.showBuyOrder(
+          context,
+          exchange: selectedItem?.exchange,
+          symbol: selectedItem?.symbol,
+        );
       } else if (event.logicalKey == LogicalKeyboardKey.f2 ||
           event.logicalKey == LogicalKeyboardKey.minus ||
           event.logicalKey == LogicalKeyboardKey.numpadSubtract ||
           event.character == '-') {
-        CommonOrderDialog.showSellOrder(context);
+        final state = context.read<MarketWatchBloc>().state;
+        final loadedState = state is MarketWatchSuccess
+            ? state.previousState
+            : (state is MarketWatchLoaded ? state : null);
+        
+        dynamic selectedItem;
+        if (loadedState != null && loadedState.selectedItemId != null) {
+          try {
+            selectedItem = loadedState.filteredItems.firstWhere(
+              (item) => item.id == loadedState.selectedItemId,
+            );
+          } catch (_) {}
+        }
+        CommonOrderDialog.showSellOrder(
+          context,
+          exchange: selectedItem?.exchange,
+          symbol: selectedItem?.symbol,
+        );
       } else if (event.logicalKey == LogicalKeyboardKey.f3) {
         Navigator.of(context).pushReplacementNamed('/pending_order-orders');
       } else if (event.logicalKey == LogicalKeyboardKey.f5) {

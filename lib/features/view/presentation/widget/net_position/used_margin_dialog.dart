@@ -15,7 +15,7 @@ class UsedMarginDialog {
     CommonDialog.show(
       context: context,
       title: 'Used Margin',
-      width: 700.w,
+      width: 500.w,
       height: 600.h,
       showButtons: false,
       contentPadding: EdgeInsets.zero,
@@ -173,18 +173,18 @@ class _UsedMarginDialogContentState extends State<_UsedMarginDialogContent> {
 
   List<ViewTableColumn> _getColumns() {
     return [
-      ViewTableColumn(id: 'exchange', label: 'EXCH', width: 100.w),
-      ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 180.w),
+      ViewTableColumn(id: 'exchange', label: 'EXCH', width: 80.w),
+      ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 110.w),
       ViewTableColumn(
         id: 'netQty',
         label: 'NET. QTY',
-        width: 140.w,
+        width: 90.w,
         isNumeric: true,
       ),
       ViewTableColumn(
         id: 'usedMargin',
         label: 'USED MARGIN',
-        width: 140.w,
+        width: 110.w,
         isNumeric: true,
       ),
     ];

@@ -8,19 +8,28 @@ import '../../bloc/brokerage/brokerage_state.dart';
 import '../../widget/brokerage/brokerage_dialog.dart';
 import '../../widget/brokerage/brokerage_filter_bar.dart';
 
-class BrokeragePage extends StatelessWidget {
+class BrokeragePage extends StatefulWidget {
   const BrokeragePage({super.key});
+
+  @override
+  State<BrokeragePage> createState() => _BrokeragePageState();
+}
+
+class _BrokeragePageState extends State<BrokeragePage> {
+  bool _isDialogShowing = false;
 
   @override
   Widget build(BuildContext context) {
     return BlocListener<BrokerageBloc, BrokerageState>(
       listener: (context, state) {
-        if (state is BrokerageLoaded) {
+        if (state is BrokerageLoaded && !_isDialogShowing) {
+          _isDialogShowing = true;
           final bloc = context.read<BrokerageBloc>();
           BrokerageDialog.showFromPage(
             context,
             state,
             onClose: () {
+              _isDialogShowing = false;
               if (context.mounted) {
                 bloc.add(
                   RestoreBrokerageFilterEvent(

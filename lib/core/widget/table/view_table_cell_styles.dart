@@ -53,6 +53,7 @@ class ViewTextCell extends StatelessWidget {
   final bool isDark;
   final bool isStart;
   final double? fontSize;
+  final Alignment? alignment;
 
   const ViewTextCell({
     Key? key,
@@ -62,13 +63,14 @@ class ViewTextCell extends StatelessWidget {
     this.isDark = false,
     this.isStart = false,
     this.fontSize,
+    this.alignment,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      alignment: Alignment.centerLeft,
+      alignment: alignment ?? (isStart ? Alignment.centerLeft : Alignment.centerLeft),
       child: Text(
         text,
         style: ViewTableCellStyles.getTextStyle(
@@ -77,7 +79,9 @@ class ViewTextCell extends StatelessWidget {
           fontWeight: fontWeight,
           fontSize: fontSize,
         ),
-        textAlign: TextAlign.start,
+        textAlign: alignment == Alignment.centerRight
+            ? TextAlign.end
+            : (alignment == Alignment.center ? TextAlign.center : TextAlign.start),
         maxLines: 1,
         softWrap: false,
       ),
@@ -247,7 +251,7 @@ class ViewDateTimeCell extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      alignment: Alignment.centerLeft,
+      alignment: Alignment.centerRight,
       child: Text(
         _formatDateTime(),
         style: ViewTableCellStyles.getTextStyle(
@@ -255,7 +259,7 @@ class ViewDateTimeCell extends StatelessWidget {
           color: color,
           fontSize: fontSize,
         ),
-        textAlign: TextAlign.start,
+        textAlign: TextAlign.end,
         maxLines: 1,
         softWrap: false,
       ),

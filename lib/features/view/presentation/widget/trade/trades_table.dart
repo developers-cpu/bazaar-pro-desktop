@@ -38,7 +38,12 @@ class TradesTable extends StatelessWidget {
           isNumeric: true,
         ),
         ViewTableColumn(id: 'buySell', label: 'B/S', width: 200),
-        ViewTableColumn(id: 'orderDateTime', label: 'Order D/T', width: 170),
+        ViewTableColumn(
+          id: 'orderDateTime',
+          label: 'Order D/T',
+          width: 170,
+          alignment: Alignment.centerRight,
+        ),
         ViewTableColumn(id: 'orderType', label: 'Type', width: 80),
         ViewTableColumn(id: 'pl', label: 'P/L', width: 90, isNumeric: true),
         ViewTableColumn(
@@ -51,6 +56,7 @@ class TradesTable extends StatelessWidget {
           id: 'executionDateTime',
           label: 'Execution D/T',
           width: 170,
+          alignment: Alignment.centerRight,
         ),
         ViewTableColumn(
           id: 'rPrice',
@@ -70,6 +76,7 @@ class TradesTable extends StatelessWidget {
         id: 'orderDateTime',
         label: 'ORDER D/T',
         width: 170,
+        alignment: Alignment.centerRight,
       ),
       const ViewTableColumn(id: 'buySell', label: 'B/S', width: 200),
       const ViewTableColumn(
@@ -111,6 +118,7 @@ class TradesTable extends StatelessWidget {
           id: 'executionDateTime',
           label: 'EXECUTION D/T',
           width: 170,
+          alignment: Alignment.centerRight,
         ),
         ViewTableColumn(id: 'deviceId', label: 'DEVICE ID', width: 300),
         ViewTableColumn(id: 'ipAddress', label: 'IP ADDRESS', width: 100),
@@ -196,7 +204,11 @@ class TradesTable extends StatelessWidget {
                 dateTime: item.executionDateTime!,
                 isDark: isDark,
               )
-            : ViewTextCell(text: '-', isDark: isDark);
+            : ViewTextCell(
+                text: '-',
+                isDark: isDark,
+                alignment: Alignment.centerRight,
+              );
       case 'deviceId':
         return ViewTextCell(text: item.deviceId ?? '-', isDark: isDark);
       case 'ipAddress':

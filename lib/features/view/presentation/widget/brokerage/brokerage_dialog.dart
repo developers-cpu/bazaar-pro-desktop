@@ -119,101 +119,91 @@ class _BrokerageContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CommonDialog(
-      title: 'Brokerage',
-      width: 750.w,
-      height: 750.h,
-      showButtons: false,
-      scrollable: false,
-      contentPadding: EdgeInsets.zero,
-      content: Column(
-        children: [
-          SizedBox(height: 16.h),
-          BlocBuilder<BrokerageBloc, BrokerageState>(
-            builder: (context, state) {
-              final current = state is BrokerageLoaded ? state : initialState;
-              if (current != null) {
-                return _buildExchangeInfo(current.selectedExchange ?? '');
-              }
+    return Column(
+      children: [
+        SizedBox(height: 16.h),
+        BlocBuilder<BrokerageBloc, BrokerageState>(
+          builder: (context, state) {
+            final current = state is BrokerageLoaded ? state : initialState;
+            if (current != null) {
+              return _buildExchangeInfo(current.selectedExchange ?? '');
+            }
 
-              return Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.w),
-                child: AppDropdown(
-                  width: double.infinity,
-                  height: 40.h,
-                  type: AppDropdownType.simple,
-                  hintText: 'Exchange',
-                  value: null,
-                  items: const [
-                    'NSE',
-                    'MCX',
-                    'CE/PE',
-                    'OTHERS',
-                    'COMEX',
-                    'CRYPTO',
-                    'GIFT',
-                    'FOREX',
-                  ],
-                  showAllOption: false,
-                  onChanged: (value) {
-                    if (value != null) {
-                      context.read<BrokerageBloc>().add(
-                        LoadBrokeragesEvent(exchange: value),
-                      );
-                    }
-                  },
-                ),
-              );
-            },
-          ),
-          SizedBox(height: 16.h),
-          Expanded(
-            child: Padding(
+            return Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: BlocBuilder<BrokerageBloc, BrokerageState>(
-                builder: (context, state) {
-                  if (state is BrokerageLoading) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                  final loaded = state is BrokerageLoaded
-                      ? state
-                      : initialState;
-                  if (loaded != null) {
-                    if (loaded.brokerages.isEmpty) {
-                      return const Center(
-                        child: Text('No brokerage data found'),
-                      );
-                    }
-                    return ViewDataTable<Brokerage>(
-                      columns: _columns,
-                      data: loaded.brokerages,
-                      comparatorBuilder: (item, columnId) {
-                        switch (columnId) {
-                          case 'exchange':
-                            return item.exchange;
-                          case 'symbol':
-                            return item.symbol;
-                          case 'brokeragePercentage':
-                            return item.brokeragePercentage;
-                          default:
-                            return '';
-                        }
-                      },
-                      cellBuilder: _buildCell,
-                      idExtractor: (item) =>
-                          '${item.exchange}_${item.symbol}_${item.brokeragePercentage}',
-                      emptyMessage: 'No brokerage data found',
-                      autoFit: true,
+              child: AppDropdown(
+                width: double.infinity,
+                height: 40.h,
+                type: AppDropdownType.simple,
+                hintText: 'Exchange',
+                value: null,
+                items: const [
+                  'NSE',
+                  'MCX',
+                  'CE/PE',
+                  'OTHERS',
+                  'COMEX',
+                  'CRYPTO',
+                  'GIFT',
+                  'FOREX',
+                ],
+                showAllOption: false,
+                onChanged: (value) {
+                  if (value != null) {
+                    context.read<BrokerageBloc>().add(
+                      LoadBrokeragesEvent(exchange: value),
                     );
                   }
-                  return const SizedBox.shrink();
                 },
               ),
+            );
+          },
+        ),
+        SizedBox(height: 16.h),
+        Expanded(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            child: BlocBuilder<BrokerageBloc, BrokerageState>(
+              builder: (context, state) {
+                if (state is BrokerageLoading) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                final loaded = state is BrokerageLoaded ? state : initialState;
+                if (loaded != null) {
+                  if (loaded.brokerages.isEmpty) {
+                    return const Center(
+                      child: Text('No brokerage data found'),
+                    );
+                  }
+                  return ViewDataTable<Brokerage>(
+                    columns: _columns,
+                    data: loaded.brokerages,
+                    comparatorBuilder: (item, columnId) {
+                      switch (columnId) {
+                        case 'exchange':
+                          return item.exchange;
+                        case 'symbol':
+                          return item.symbol;
+                        case 'brokeragePercentage':
+                          return item.brokeragePercentage;
+                        default:
+                          return '';
+                      }
+                    },
+                    cellBuilder: _buildCell,
+                    idExtractor: (item) =>
+                        '${item.exchange}_${item.symbol}_${item.brokeragePercentage}',
+                    emptyMessage: 'No brokerage data found',
+                    autoFit: true,
+                  );
+                }
+                return const SizedBox.shrink();
+              },
             ),
           ),
-          SizedBox(height: 16.h),
-        ],
-      ),
+        ),
+        SizedBox(height: 16.h),
+      ],
     );
   }
 }

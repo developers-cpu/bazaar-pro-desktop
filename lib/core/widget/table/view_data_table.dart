@@ -2,8 +2,10 @@ import 'package:bazarpro/core/constants/app_colors.dart';
 import 'package:bazarpro/core/constants/app_images.dart';
 import 'package:bazarpro/core/widget/svg_icon.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 
 class ViewTableColumn {
   final String id;
@@ -12,6 +14,8 @@ class ViewTableColumn {
   final bool isNumeric;
   final bool sortable;
   final Widget? customHeaderWidget;
+  final Alignment? alignment;
+
   const ViewTableColumn({
     required this.id,
     required this.label,
@@ -19,6 +23,7 @@ class ViewTableColumn {
     this.isNumeric = false,
     this.sortable = true,
     this.customHeaderWidget,
+    this.alignment,
   });
 }
 
@@ -82,9 +87,12 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
   String? _internalSortColumn;
   bool _internalSortAscending = true;
   List<T>? _sortedData;
+  String? _selectedId;
+  final FocusNode _focusNode = FocusNode();
 
   List<ViewTableColumn> _activeColumns = [];
   Map<String, double> _columnWidths = {};
+  final Set<String> _manuallyResizedColumns = {};
   String? _dragTargetColumnId;
 
   bool get _useInternalSort =>
@@ -109,6 +117,7 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
     for (var col in widget.columns) {
       _columnWidths[col.id] = col.width;
     }
+    _selectedId = widget.selectedId;
   }
 
   void _onColumnReorder(String fromId, String toId) {
@@ -123,11 +132,12 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
     });
   }
 
-  void _onColumnResize(String columnId, double delta, double minWidth) {
+  void _onColumnResize(String columnId, double delta, double minWidth, double scale) {
     setState(() {
-      final currentWidth = _columnWidths[columnId] ?? minWidth;
+      final currentWidth = (_columnWidths[columnId] ?? minWidth) * scale;
       final newWidth = (currentWidth + delta).clamp(minWidth, double.infinity);
-      _columnWidths[columnId] = newWidth;
+      _columnWidths[columnId] = newWidth / scale;
+      _manuallyResizedColumns.add(columnId);
     });
   }
 
@@ -184,13 +194,14 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
   void dispose() {
     _horizontalScrollController.dispose();
     _verticalScrollController.dispose();
+    _focusNode.dispose();
     super.dispose();
   }
 
-  double get _totalFixedScaleWidth {
+  double get _totalOriginalWidth {
     return _activeColumns.fold<double>(
       0,
-      (sum, col) => sum + (_columnWidths[col.id] ?? col.width),
+      (sum, col) => sum + col.width,
     );
   }
 
@@ -213,6 +224,7 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
   Color get _textColor => widget.isDarkMode
       ? DarkThemeColors.textColor
       : LightThemeColors.textColor;
+
   @override
   Widget build(BuildContext context) {
     final rowHeight = widget.rowHeight ?? 30.h;
@@ -220,53 +232,157 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
     return Theme(
       data: Theme.of(context).copyWith(
         scrollbarTheme: ScrollbarThemeData(
-          thumbColor: MaterialStateProperty.all(AppColors.primaryBlue),
+          thumbColor: WidgetStateProperty.all(AppColors.primaryBlue),
         ),
       ),
-      child: Align(
-        alignment: widget.isStart ? Alignment.centerLeft : Alignment.center,
-        child: Container(
-          margin: EdgeInsets.fromLTRB(0.w, 4.h, 0.w, 10.h),
-          decoration: BoxDecoration(
-            color: _rowBgColor,
-            borderRadius: BorderRadius.circular(10.r),
-            border: Border.all(color: _dividerColor.withOpacity(0.5), width: 1),
-          ),
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              double scale = 1.0;
-              double totalWidth = _totalFixedScaleWidth;
-
-              if (widget.autoFit && constraints.maxWidth > totalWidth) {
-                scale = constraints.maxWidth / totalWidth;
-                totalWidth = constraints.maxWidth;
-              }
-
-              final contentWidth =
-                  widget.isBorderFit
-                      ? constraints.maxWidth.clamp(totalWidth, double.infinity)
-                      : totalWidth;
-
-              return ClipRRect(
+      child: Focus(
+        focusNode: _focusNode,
+        onKeyEvent: (node, event) => _handleKeyEvent(event, rowHeight),
+        child: GestureDetector(
+          onTap: () {
+            if (!_focusNode.hasFocus) {
+              _focusNode.requestFocus();
+            }
+          },
+          child: Align(
+            alignment: widget.isStart ? Alignment.topLeft : Alignment.topCenter,
+            child: Container(
+              margin: EdgeInsets.fromLTRB(0.w, 4.h, 0.w, 10.h),
+              decoration: BoxDecoration(
+                color: _rowBgColor,
                 borderRadius: BorderRadius.circular(10.r),
-                child: widget.shrinkWrap
-                    ? _buildShrinkWrapContent(
-                        headerHeight,
-                        rowHeight,
-                        contentWidth,
-                        scale,
-                      )
-                    : _buildExpandedContent(
-                        headerHeight,
-                        rowHeight,
-                        contentWidth,
-                        scale,
-                      ),
-              );
-            },
+                border: Border.all(color: _dividerColor.withOpacity(0.5), width: 1),
+              ),
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  final totalOriginalWidth = _totalOriginalWidth;
+                  final scale =
+                      widget.autoFit && constraints.maxWidth > totalOriginalWidth
+                          ? constraints.maxWidth / totalOriginalWidth
+                          : 1.0;
+
+                  double totalWidth = 0;
+                  for (var col in _activeColumns) {
+                    totalWidth += (_columnWidths[col.id] ?? col.width) * scale;
+                  }
+
+                  final contentWidth =
+                      widget.isBorderFit
+                          ? constraints.maxWidth.clamp(totalWidth, double.infinity)
+                          : totalWidth;
+
+                  return ClipRRect(
+                    borderRadius: BorderRadius.circular(10.r),
+                    child: widget.shrinkWrap
+                        ? _buildShrinkWrapContent(
+                            headerHeight,
+                            rowHeight,
+                            contentWidth,
+                            scale,
+                          )
+                        : _buildExpandedContent(
+                            headerHeight,
+                            rowHeight,
+                            contentWidth,
+                            scale,
+                          ),
+                  );
+                },
+              ),
+            ),
           ),
         ),
       ),
+    );
+  }
+
+  KeyEventResult _handleKeyEvent(KeyEvent event, double rowHeight) {
+    if (event is! KeyDownEvent && event is! KeyRepeatEvent) {
+      return KeyEventResult.ignored;
+    }
+
+    final logicalKey = event.logicalKey;
+
+    if (logicalKey == LogicalKeyboardKey.arrowDown ||
+        logicalKey == LogicalKeyboardKey.arrowUp) {
+      _moveSelection(logicalKey == LogicalKeyboardKey.arrowDown, rowHeight);
+      return KeyEventResult.handled;
+    }
+
+    if (logicalKey == LogicalKeyboardKey.arrowLeft ||
+        logicalKey == LogicalKeyboardKey.arrowRight) {
+      _scrollHorizontal(logicalKey == LogicalKeyboardKey.arrowRight);
+      return KeyEventResult.handled;
+    }
+
+    return KeyEventResult.ignored;
+  }
+
+  void _moveSelection(bool down, double rowHeight) {
+    if (_displayData.isEmpty) return;
+
+    int currentIndex = -1;
+    if (_selectedId != null) {
+      currentIndex = _displayData.indexWhere(
+        (item) => widget.idExtractor(item) == _selectedId,
+      );
+    }
+
+    int nextIndex;
+    if (down) {
+      nextIndex = (currentIndex + 1).clamp(0, _displayData.length - 1);
+    } else {
+      nextIndex = (currentIndex - 1).clamp(0, _displayData.length - 1);
+    }
+
+    if (nextIndex != currentIndex) {
+      final item = _displayData[nextIndex];
+      setState(() {
+        _selectedId = widget.idExtractor(item);
+      });
+      if (widget.onRowTap != null) {
+        widget.onRowTap!(item);
+      }
+      _scrollToIndex(nextIndex, rowHeight);
+    }
+  }
+
+  void _scrollToIndex(int index, double rowHeight) {
+    if (!_verticalScrollController.hasClients) return;
+
+    final offset = index * rowHeight;
+    final viewportHeight = _verticalScrollController.position.viewportDimension;
+    final currentOffset = _verticalScrollController.offset;
+
+    if (offset < currentOffset) {
+      _verticalScrollController.animateTo(
+        offset,
+        duration: const Duration(milliseconds: 100),
+        curve: Curves.easeInOut,
+      );
+    } else if (offset + rowHeight > currentOffset + viewportHeight) {
+      _verticalScrollController.animateTo(
+        offset + rowHeight - viewportHeight,
+        duration: const Duration(milliseconds: 100),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
+
+  void _scrollHorizontal(bool right) {
+    if (!_horizontalScrollController.hasClients) return;
+
+    final delta = right ? 100.0 : -100.0;
+    final targetOffset =
+        (_horizontalScrollController.offset + delta).clamp(
+          0.0,
+          _horizontalScrollController.position.maxScrollExtent,
+        );
+
+    _horizontalScrollController.animateTo(
+      targetOffset,
+      duration: const Duration(milliseconds: 100),
+      curve: Curves.easeInOut,
     );
   }
 
@@ -279,7 +395,8 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Expanded(
+        Flexible(
+          fit: FlexFit.loose,
           child: Scrollbar(
             controller: _horizontalScrollController,
             thumbVisibility: true,
@@ -289,10 +406,11 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
               child: SizedBox(
                 width: totalWidth,
                 child: Column(
-                  mainAxisSize: MainAxisSize.max,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     _buildHeaderRow(headerHeight, scale),
-                    Expanded(
+                    Flexible(
+                      fit: FlexFit.loose,
                       child: _displayData.isEmpty
                           ? _buildEmptyState()
                           : _buildDataRows(rowHeight, scale),
@@ -442,8 +560,9 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
                   onHorizontalDragUpdate: (details) {
                     _onColumnResize(
                       column.id,
-                      details.delta.dx / scale,
+                      details.delta.dx,
                       originalWidth,
+                      scale,
                     );
                   },
                   child: Container(
@@ -543,15 +662,26 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
     double rowHeight,
     double scale,
   ) {
+    final effectiveIsSelected = widget.idExtractor(item) == _selectedId;
     return GestureDetector(
-      onTap: widget.onRowTap != null ? () => widget.onRowTap!(item) : null,
+      onTap: () {
+        setState(() {
+          _selectedId = widget.idExtractor(item);
+        });
+        if (!_focusNode.hasFocus) {
+          _focusNode.requestFocus();
+        }
+        if (widget.onRowTap != null) {
+          widget.onRowTap!(item);
+        }
+      },
       onSecondaryTapDown: widget.onRowSecondaryTap != null
           ? (details) => widget.onRowSecondaryTap!(item)
           : null,
       child: Container(
         height: rowHeight,
         decoration: BoxDecoration(
-          color: isSelected ? _selectedRowBgColor : _rowBgColor,
+          color: effectiveIsSelected ? _selectedRowBgColor : _rowBgColor,
           border: isLast
               ? null
               : Border(
@@ -564,9 +694,12 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
         child: Row(
           children: _activeColumns.map((column) {
             final colWidth = (_columnWidths[column.id] ?? column.width) * scale;
+            final effectiveAlignment =
+                column.alignment ??
+                (column.isNumeric ? Alignment.centerRight : Alignment.center);
             return Container(
               width: colWidth,
-              alignment: Alignment.center,
+              alignment: effectiveAlignment,
               padding: EdgeInsets.symmetric(
                 horizontal: column.width <= 50 ? 4.w : 16.w,
               ),

@@ -28,7 +28,12 @@ class DealsTable extends StatelessWidget {
       return const [
         ViewTableColumn(id: 'exchange', label: 'EXCH', width: 70),
         ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 120),
-        ViewTableColumn(id: 'orderDateTime', label: 'Order D/T', width: 170),
+        ViewTableColumn(
+          id: 'orderDateTime',
+          label: 'Order D/T',
+          width: 170,
+          alignment: Alignment.centerRight,
+        ),
         ViewTableColumn(id: 'buySell', label: 'B/S', width: 200),
         ViewTableColumn(id: 'qty', label: 'QTY', width: 90, isNumeric: true),
         ViewTableColumn(id: 'lot', label: 'Lot', width: 70, isNumeric: true),
@@ -50,6 +55,7 @@ class DealsTable extends StatelessWidget {
           id: 'executionDateTime',
           label: 'Execution D/T',
           width: 170,
+          alignment: Alignment.centerRight,
         ),
         ViewTableColumn(
           id: 'rPrice',
@@ -74,6 +80,7 @@ class DealsTable extends StatelessWidget {
         id: 'orderDateTime',
         label: 'ORDER D/T',
         width: 220,
+        alignment: Alignment.centerRight,
       ),
       const ViewTableColumn(id: 'buySell', label: 'B/S', width: 200),
       const ViewTableColumn(
@@ -111,6 +118,7 @@ class DealsTable extends StatelessWidget {
         id: 'executionDateTime',
         label: 'EXECUTION D/T',
         width: 220,
+        alignment: Alignment.centerRight,
       ),
       const ViewTableColumn(
         id: 'rPrice',
@@ -211,7 +219,11 @@ class DealsTable extends StatelessWidget {
                 dateTime: item.executionDateTime!,
                 isDark: isDark,
               )
-            : ViewTextCell(text: '-', isDark: isDark);
+            : ViewTextCell(
+                text: '-',
+                isDark: isDark,
+                alignment: Alignment.centerRight,
+              );
       case 'orderDuration':
         return _buildOrderDurationCell(context, item, isDark, isClient);
       case 'deviceId':

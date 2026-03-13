@@ -22,13 +22,14 @@ class SquareOffDialog {
       showButtons: false,
       contentPadding: EdgeInsets.zero,
       scrollable: false,
-      content: const _SquareOffDialogContent(),
+      content: _SquareOffDialogContent(pageContext: context),
     );
   }
 }
 
 class _SquareOffDialogContent extends StatefulWidget {
-  const _SquareOffDialogContent({Key? key}) : super(key: key);
+  final BuildContext pageContext;
+  const _SquareOffDialogContent({Key? key, required this.pageContext}) : super(key: key);
 
   @override
   State<_SquareOffDialogContent> createState() => _SquareOffDialogContentState();
@@ -265,7 +266,10 @@ class _SquareOffDialogContentState extends State<_SquareOffDialogContent> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16.r),
               ),
-              child: SizedBox(width: 500.w, child: _buildConfirmationContent()),
+              child: SizedBox(
+                width: 500.w,
+                child: _buildConfirmationContent(context),
+              ),
             ),
           );
         },
@@ -284,7 +288,7 @@ class _SquareOffDialogContentState extends State<_SquareOffDialogContent> {
     );
   }
 
-  Widget _buildConfirmationContent() {
+  Widget _buildConfirmationContent(BuildContext dialogContext) {
     String title = 'Square off All Positions';
     String message = 'Are You Sure you want to Square off all Positions?';
 
@@ -309,20 +313,20 @@ class _SquareOffDialogContentState extends State<_SquareOffDialogContent> {
             ),
           ),
           SizedBox(height: 24.h),
-          _buildConfirmationActions(),
+          _buildConfirmationActions(dialogContext),
         ],
       ),
     );
   }
 
-  Widget _buildConfirmationActions() {
+  Widget _buildConfirmationActions(BuildContext dialogContext) {
     return Row(
       children: [
         Expanded(
           child: SizedBox(
             height: 40.h,
             child: OutlinedButton(
-              onPressed: () => Navigator.pop(context),
+              onPressed: () => Navigator.pop(dialogContext),
               style: OutlinedButton.styleFrom(
                 side: BorderSide(color: AppColors.primaryBlue, width: 1.5),
                 shape: RoundedRectangleBorder(
@@ -346,10 +350,10 @@ class _SquareOffDialogContentState extends State<_SquareOffDialogContent> {
             height: 40.h,
             child: ElevatedButton(
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.pop(dialogContext);
                 Future.delayed(Duration.zero, () {
                   SuccessDialog.show(
-                    context: context,
+                    context: widget.pageContext,
                     title: 'Successful !',
                     subtitle: 'Selected Position are Successfully Squared off',
                   );

@@ -8,7 +8,7 @@ class BillGenerateBloc extends Bloc<BillGenerateEvent, BillGenerateState> {
   BillGenerateBloc({required this.getBillGenerateReport})
     : super(BillGenerateInitial()) {
     on<LoadBillGenerateReport>(_onLoadBillGenerateReport);
-    on<FilterBillGenerateReport>(_onFilterBillGenerateReport);
+    on<ResetBillGenerateReport>(_onResetBillGenerateReport);
   }
   Future<void> _onLoadBillGenerateReport(
     LoadBillGenerateReport event,
@@ -36,29 +36,11 @@ class BillGenerateBloc extends Bloc<BillGenerateEvent, BillGenerateState> {
     );
   }
 
-  Future<void> _onFilterBillGenerateReport(
-    FilterBillGenerateReport event,
+
+  void _onResetBillGenerateReport(
+    ResetBillGenerateReport event,
     Emitter<BillGenerateState> emit,
-  ) async {
-    final currentState = state;
-    if (currentState is BillGenerateLoaded) {
-      add(
-        LoadBillGenerateReport(
-          userId: event.userId ?? currentState.selectedUserId,
-          billFormat: event.billFormat ?? currentState.selectedBillFormat,
-          billType: event.billType ?? currentState.selectedBillType,
-          shouldExport: false,
-        ),
-      );
-    } else {
-      add(
-        LoadBillGenerateReport(
-          userId: event.userId,
-          billFormat: event.billFormat,
-          billType: event.billType,
-          shouldExport: false,
-        ),
-      );
-    }
+  ) {
+    emit(BillGenerateInitial());
   }
 }

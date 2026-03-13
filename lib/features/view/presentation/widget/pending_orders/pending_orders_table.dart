@@ -37,11 +37,17 @@ class PendingOrdersTable extends StatelessWidget {
           width: 130,
           isNumeric: true,
         ),
-        ViewTableColumn(id: 'orderDateTime', label: 'ORDER D/T', width: 220),
+        ViewTableColumn(
+          id: 'orderDateTime',
+          label: 'ORDER D/T',
+          width: 220,
+          alignment: Alignment.centerRight,
+        ),
         ViewTableColumn(
           id: 'modifyOrderDateTime',
           label: 'MODIFY ORDER',
           width: 240,
+          alignment: Alignment.centerRight,
         ),
         ViewTableColumn(id: 'cmp', label: 'CMP', width: 120, isNumeric: true),
       ];
@@ -75,11 +81,13 @@ class PendingOrdersTable extends StatelessWidget {
         id: 'orderDateTime',
         label: 'ORDER D/T',
         width: 220,
+        alignment: Alignment.centerRight,
       ),
       const ViewTableColumn(
         id: 'modifyOrderDateTime',
         label: 'MODIFY ORDER D/T',
         width: 240,
+        alignment: Alignment.centerRight,
       ),
       const ViewTableColumn(id: 'orderType', label: 'TYPE', width: 100),
       const ViewTableColumn(

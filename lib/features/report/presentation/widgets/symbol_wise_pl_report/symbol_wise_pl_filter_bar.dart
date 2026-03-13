@@ -78,7 +78,7 @@ class SymbolWisePLFilterBar extends StatelessWidget {
                       );
                     },
                     style: OutlinedButton.styleFrom(
-                      side: BorderSide(color: AppColors.primaryBlue),
+                      side: const BorderSide(color: AppColors.primaryBlue),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.r),
                       ),

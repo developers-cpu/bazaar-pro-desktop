@@ -18,8 +18,8 @@ class CommonOrderDialog extends StatefulWidget {
   final OrderDialogType type;
   const CommonOrderDialog({Key? key, required this.type}) : super(key: key);
 
-  static Future<void> showBuyOrder(BuildContext context) {
-    context.read<OrderDialogBloc>().add(const OpenBuyOrderEvent());
+  static Future<void> showBuyOrder(BuildContext context, {String? exchange, String? symbol}) {
+    context.read<OrderDialogBloc>().add(OpenBuyOrderEvent(exchange: exchange, symbol: symbol));
     return showDialog(
       context: context,
       barrierDismissible: true,
@@ -28,8 +28,8 @@ class CommonOrderDialog extends StatefulWidget {
     );
   }
 
-  static Future<void> showSellOrder(BuildContext context) {
-    context.read<OrderDialogBloc>().add(const OpenSellOrderEvent());
+  static Future<void> showSellOrder(BuildContext context, {String? exchange, String? symbol}) {
+    context.read<OrderDialogBloc>().add(OpenSellOrderEvent(exchange: exchange, symbol: symbol));
     return showDialog(
       context: context,
       barrierDismissible: true,

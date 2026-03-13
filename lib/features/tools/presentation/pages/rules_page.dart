@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -16,15 +17,21 @@ class RulesPage extends StatefulWidget {
 class _RulesPageState extends State<RulesPage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  late FocusNode _focusNode;
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
+    _focusNode = FocusNode();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _focusNode.requestFocus();
+    });
   }
 
   @override
   void dispose() {
     _tabController.dispose();
+    _focusNode.dispose();
     super.dispose();
   }
 
@@ -32,7 +39,22 @@ class _RulesPageState extends State<RulesPage>
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => sl<RulesBloc>()..add(LoadRules()),
-      child: Column(
+      child: KeyboardListener(
+        focusNode: _focusNode,
+        onKeyEvent: (event) {
+          if (event is KeyDownEvent) {
+            if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
+              final newIndex = (_tabController.index + 1) % _tabController.length;
+              _tabController.animateTo(newIndex);
+            } else if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
+              final newIndex =
+                  (_tabController.index - 1 + _tabController.length) %
+                  _tabController.length;
+              _tabController.animateTo(newIndex);
+            }
+          }
+        },
+        child: Column(
         children: [
           Container(
             width: double.infinity,
@@ -88,7 +110,8 @@ class _RulesPageState extends State<RulesPage>
               },
             ),
           ),
-        ],
+          ],
+        ),
       ),
     );
   }

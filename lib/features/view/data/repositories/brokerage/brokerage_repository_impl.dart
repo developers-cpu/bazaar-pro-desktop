@@ -1,6 +1,7 @@
 import 'package:bazarpro/features/view/domain/entities/brokerage/brokerage.dart';
 import 'package:bazarpro/features/view/domain/repositories/brokerage/brokerage_repository.dart';
 import 'package:bazarpro/features/view/data/datasources/brokerage/brokerage_remote_datasource.dart';
+
 class BrokerageRepositoryImpl implements BrokerageRepository {
   final BrokerageRemoteDataSource dataSource;
   BrokerageRepositoryImpl({required this.dataSource});

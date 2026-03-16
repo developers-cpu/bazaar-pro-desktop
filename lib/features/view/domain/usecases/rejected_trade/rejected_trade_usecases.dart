@@ -3,6 +3,7 @@ import '../../../../../core/errors/failures.dart';
 import '../../../../../core/usecases/usecase.dart';
 import '../../entities/rejected_trade/rejected_trade.dart';
 import '../../repositories/rejected_trade/rejected_trade_repository.dart';
+
 class GetRejectedTrades implements UseCase<List<RejectedTrade>, NoParams> {
   final RejectedTradeRepository repository;
   GetRejectedTrades(this.repository);
@@ -11,6 +12,7 @@ class GetRejectedTrades implements UseCase<List<RejectedTrade>, NoParams> {
     return repository.getRejectedTrades();
   }
 }
+
 class GetRejectedTradesWithFilters
     implements UseCase<List<RejectedTrade>, RejectedTradeFilterParams> {
   final RejectedTradeRepository repository;
@@ -27,6 +29,7 @@ class GetRejectedTradesWithFilters
     );
   }
 }
+
 class RejectedTradeFilterParams {
   final String? userType;
   final String? user;
@@ -39,6 +42,7 @@ class RejectedTradeFilterParams {
     this.symbol,
   });
 }
+
 class GetRejectedTradeUserTypes implements UseCase<List<String>, NoParams> {
   final RejectedTradeRepository repository;
   GetRejectedTradeUserTypes(this.repository);
@@ -47,6 +51,7 @@ class GetRejectedTradeUserTypes implements UseCase<List<String>, NoParams> {
     return repository.getUserTypes();
   }
 }
+
 class GetRejectedTradeUsers implements UseCase<List<String>, NoParams> {
   final RejectedTradeRepository repository;
   GetRejectedTradeUsers(this.repository);
@@ -55,6 +60,7 @@ class GetRejectedTradeUsers implements UseCase<List<String>, NoParams> {
     return repository.getUsers();
   }
 }
+
 class GetRejectedTradeExchanges implements UseCase<List<String>, NoParams> {
   final RejectedTradeRepository repository;
   GetRejectedTradeExchanges(this.repository);
@@ -63,6 +69,7 @@ class GetRejectedTradeExchanges implements UseCase<List<String>, NoParams> {
     return repository.getExchanges();
   }
 }
+
 class GetRejectedTradeSymbols implements UseCase<List<String>, NoParams> {
   final RejectedTradeRepository repository;
   GetRejectedTradeSymbols(this.repository);
@@ -71,6 +78,7 @@ class GetRejectedTradeSymbols implements UseCase<List<String>, NoParams> {
     return repository.getSymbols();
   }
 }
+
 class ExportRejectedTradesToPdf
     implements UseCase<String, List<RejectedTrade>> {
   final RejectedTradeRepository repository;
@@ -80,6 +88,7 @@ class ExportRejectedTradesToPdf
     return repository.exportToPdf(trades);
   }
 }
+
 class ExportRejectedTradesToExcel
     implements UseCase<String, List<RejectedTrade>> {
   final RejectedTradeRepository repository;

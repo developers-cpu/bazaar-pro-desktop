@@ -10,6 +10,7 @@ import '../../bloc/net_position/net_position_event.dart';
 import '../../bloc/net_position/net_position_state.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
+
 class NetPositionFilterBar extends StatelessWidget {
   final bool isDialog;
   const NetPositionFilterBar({Key? key, this.isDialog = false})
@@ -32,6 +33,7 @@ class NetPositionFilterBar extends StatelessWidget {
       },
     );
   }
+
   Widget _buildClientFilterBar(BuildContext context, NetPositionLoaded state) {
     double totalM2M = 0;
     double totalRealisedPnl = 0;
@@ -106,6 +108,7 @@ class NetPositionFilterBar extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildPageFormula(double realised, double m2m, double brokerage) {
     final total = realised + m2m + brokerage;
     final isNegative = total < 0;
@@ -148,6 +151,7 @@ class NetPositionFilterBar extends StatelessWidget {
       ],
     );
   }
+
   Widget _buildDialogFormula(
     double realised,
     double m2m,
@@ -200,6 +204,7 @@ class NetPositionFilterBar extends StatelessWidget {
       ),
     );
   }
+
   Widget _columnBox(String label, String value) {
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -233,6 +238,7 @@ class NetPositionFilterBar extends StatelessWidget {
       ],
     );
   }
+
   Widget _compactBox(String text) {
     return Container(
       height: 30.h,
@@ -252,6 +258,7 @@ class NetPositionFilterBar extends StatelessWidget {
       ),
     );
   }
+
   Widget _operator(String text) {
     return Text(
       text,
@@ -262,6 +269,7 @@ class NetPositionFilterBar extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildAdminFilterBar(BuildContext context, NetPositionLoaded state) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),

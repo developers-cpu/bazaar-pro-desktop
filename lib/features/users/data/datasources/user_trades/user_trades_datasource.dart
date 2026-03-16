@@ -1,9 +1,11 @@
 import 'package:bazarpro/features/users/data/models/user_trades/user_trade_model.dart';
 import '../../../domain/entities/user_trades/user_trades_metadata.dart';
+
 abstract class UserTradesDataSource {
   Future<List<UserTradeModel>> getUserTrades(String userId);
   Future<UserTradesMetadata> getUserTradesMetadata();
 }
+
 class UserTradesDataSourceImpl implements UserTradesDataSource {
   @override
   Future<List<UserTradeModel>> getUserTrades(String userId) async {
@@ -75,6 +77,7 @@ class UserTradesDataSourceImpl implements UserTradesDataSource {
       ),
     ];
   }
+
   @override
   Future<UserTradesMetadata> getUserTradesMetadata() async {
     await Future.delayed(const Duration(milliseconds: 500));

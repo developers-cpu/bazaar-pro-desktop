@@ -7,6 +7,7 @@ import '../../../../../core/widget/custom_action_button.dart';
 import '../../../../../core/widget/custom_outlined_button.dart';
 import '../../../domain/entities/pending_orders/pending_order.dart';
 import '../../../../../core/widget/table/success_dialog.dart';
+
 class PendingToSuccessDialog {
   static void show({
     required BuildContext context,
@@ -30,6 +31,7 @@ class PendingToSuccessDialog {
     );
   }
 }
+
 class _PendingToSuccessContent extends StatelessWidget {
   final PendingOrder order;
   final bool isDarkMode;
@@ -102,10 +104,7 @@ class _PendingToSuccessContent extends StatelessWidget {
               ),
               SizedBox(width: 32.w),
               Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 16.w,
-                  vertical: 12.h,
-                ),
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   border: Border.all(color: Colors.grey.shade100),
@@ -139,10 +138,12 @@ class _PendingToSuccessContent extends StatelessWidget {
                   height: 40.h,
                   borderRadius: 8.r,
                   fontSize: 14.sp,
-                  borderColor:
-                      isDarkMode ? Colors.white : const Color(0xFF1F4A66),
-                  textColor:
-                      isDarkMode ? Colors.white : const Color(0xFF1F4A66),
+                  borderColor: isDarkMode
+                      ? Colors.white
+                      : const Color(0xFF1F4A66),
+                  textColor: isDarkMode
+                      ? Colors.white
+                      : const Color(0xFF1F4A66),
                   onPressed: onClose,
                 ),
               ),

@@ -1,5 +1,6 @@
 import '../../models/script_settings/script_setting_model.dart';
 import 'script_settings_remote_data_source.dart';
+
 class ScriptSettingsRemoteDataSourceImpl
     implements ScriptSettingsRemoteDataSource {
   final List<ScriptSettingModel> _mockData = [
@@ -81,6 +82,7 @@ class ScriptSettingsRemoteDataSourceImpl
     await Future.delayed(const Duration(milliseconds: 500));
     return _mockData;
   }
+
   @override
   Future<void> updateScriptSettings(List<ScriptSettingModel> settings) async {
     await Future.delayed(const Duration(milliseconds: 500));

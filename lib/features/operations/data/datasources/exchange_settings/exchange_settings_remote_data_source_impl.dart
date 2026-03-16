@@ -1,5 +1,6 @@
 import 'exchange_settings_remote_data_source.dart';
 import '../../models/exchange_settings/exchange_setting_model.dart';
+
 class ExchangeSettingsRemoteDataSourceImpl
     implements ExchangeSettingsRemoteDataSource {
   final List<ExchangeSettingModel> _mockExchangeSettings = [
@@ -249,6 +250,7 @@ class ExchangeSettingsRemoteDataSourceImpl
     await Future.delayed(const Duration(milliseconds: 300));
     return true;
   }
+
   @override
   Future<List<DefaultSymbolModel>> getDefaultSymbols({
     required String exchange,

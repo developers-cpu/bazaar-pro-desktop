@@ -5,6 +5,7 @@ import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/app_switch.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
 import '../../../domain/entities/script_settings/script_setting.dart';
+
 class BanScriptDataTable extends StatelessWidget {
   final List<ScriptSetting> data;
   final Set<String> selectedIds;
@@ -77,6 +78,7 @@ class BanScriptDataTable extends StatelessWidget {
       autoFit: true,
     );
   }
+
   List<ViewTableColumn> _buildColumns() {
     return [
       ViewTableColumn(
@@ -105,6 +107,7 @@ class BanScriptDataTable extends StatelessWidget {
       ViewTableColumn(id: 'status', label: 'STATUS', width: 120.w),
     ];
   }
+
   Widget _buildCell(ScriptSetting item, String colId) {
     String text = '';
     switch (colId) {

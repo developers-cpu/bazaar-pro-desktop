@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+
 class ClientBreakdown extends Equatable {
   final String brokerId;
   final String clientName;
@@ -11,6 +12,7 @@ class ClientBreakdown extends Equatable {
   @override
   List<Object?> get props => [brokerId, clientName, sections];
 }
+
 class ClientBreakdownSection extends Equatable {
   final String title;
   final bool isSymbolBased;
@@ -25,6 +27,7 @@ class ClientBreakdownSection extends Equatable {
   @override
   List<Object?> get props => [title, isSymbolBased, hasFooter, rows];
 }
+
 class ClientBreakdownRow extends Equatable {
   final String label;
   final String turnover;

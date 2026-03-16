@@ -4,6 +4,7 @@ import '../../../../../core/errors/exceptions.dart';
 import '../../../domain/entities/users_bill_summary/users_bill_summary_entity.dart';
 import '../../../domain/repositories/users_bill_summary/users_bill_summary_repository.dart';
 import '../../datasources/users_bill_summary/users_bill_summary_remote_data_source.dart';
+
 class UsersBillSummaryRepositoryImpl implements UsersBillSummaryRepository {
   final UsersBillSummaryRemoteDataSource remoteDataSource;
   UsersBillSummaryRepositoryImpl(this.remoteDataSource);
@@ -18,6 +19,7 @@ class UsersBillSummaryRepositoryImpl implements UsersBillSummaryRepository {
       return Left(ServerFailure());
     }
   }
+
   @override
   Future<Either<Failure, List<String>>> getUsers() async {
     try {

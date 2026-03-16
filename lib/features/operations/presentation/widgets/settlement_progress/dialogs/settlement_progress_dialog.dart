@@ -5,6 +5,7 @@ import '../../../../../../core/constants/app_colors.dart';
 import '../../../../../../core/widget/common_dilog_box.dart';
 import '../../../../../../core/widget/table/view_data_table.dart';
 import '../../../../../../core/widget/table/success_dialog.dart';
+
 class SettlementProgressDialog {
   static void show(BuildContext context, List<String> exchanges) {
     CommonDialog.show(
@@ -15,13 +16,12 @@ class SettlementProgressDialog {
       showButtons: false,
       scrollable: false,
       contentPadding: EdgeInsets.zero,
-      contentBuilder: (context, onClose) => _SettlementProgressContent(
-        exchanges: exchanges,
-        onClose: onClose,
-      ),
+      contentBuilder: (context, onClose) =>
+          _SettlementProgressContent(exchanges: exchanges, onClose: onClose),
     );
   }
 }
+
 class _SettlementProgressContent extends StatefulWidget {
   final List<String> exchanges;
   final VoidCallback onClose;
@@ -34,7 +34,9 @@ class _SettlementProgressContent extends StatefulWidget {
   State<_SettlementProgressContent> createState() =>
       _SettlementProgressContentState();
 }
-class _SettlementProgressContentState extends State<_SettlementProgressContent> {
+
+class _SettlementProgressContentState
+    extends State<_SettlementProgressContent> {
   @override
   void initState() {
     super.initState();
@@ -49,6 +51,7 @@ class _SettlementProgressContentState extends State<_SettlementProgressContent> 
       }
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -144,7 +147,9 @@ class _SettlementProgressContentState extends State<_SettlementProgressContent> 
                   );
                 case 'status':
                   return Text(
-                    value == 1.0 ? 'Completed' : '${(value * 100).toInt()}% Done',
+                    value == 1.0
+                        ? 'Completed'
+                        : '${(value * 100).toInt()}% Done',
                     style: GoogleFonts.openSans(
                       fontSize: 12.sp,
                       color: AppColors.primaryBlue,

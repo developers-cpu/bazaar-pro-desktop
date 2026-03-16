@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+
 class IntradayHistory extends Equatable {
   final String id;
   final DateTime timestamp;
@@ -19,6 +20,7 @@ class IntradayHistory extends Equatable {
   @override
   List<Object?> get props => [id, timestamp, open, high, low, close, volume];
 }
+
 class TimeSlot extends Equatable {
   final DateTime startTime;
   final DateTime endTime;
@@ -30,6 +32,7 @@ class TimeSlot extends Equatable {
     final endFormat = _formatTime(endTime);
     return '$startFormat to $endFormat';
   }
+
   String _formatTime(DateTime time) {
     final hour = time.hour > 12
         ? time.hour - 12

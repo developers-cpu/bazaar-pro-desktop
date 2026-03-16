@@ -13,6 +13,7 @@ import '../../../../users/presentation/widgets/user_details/user_details_dialog.
 import '../../../../users/presentation/widgets/create_user/master_form_dialog.dart';
 import '../../../../users/presentation/widgets/create_user/client_form_dialog.dart';
 import '../../../../users/presentation/widgets/create_user/update_access_dialog.dart';
+
 class ProfitAndLossDetailsDialog {
   static void show(
     BuildContext context,
@@ -39,6 +40,7 @@ class ProfitAndLossDetailsDialog {
     );
   }
 }
+
 class _ProfitAndLossDetailsContent extends StatelessWidget {
   final List<ProfitAndLossReport> reports;
   final String userName;
@@ -89,6 +91,7 @@ class _ProfitAndLossDetailsContent extends StatelessWidget {
       ),
     ];
   }
+
   Widget _buildCell(
     BuildContext context,
     ProfitAndLossReport item,
@@ -199,7 +202,9 @@ class _ProfitAndLossDetailsContent extends StatelessWidget {
         return ViewNumberCell(
           value: item.releasePL,
           isDark: isDark,
-          fixedColor: item.releasePL >= 0 ? AppColors.buyColor : AppColors.sellColor,
+          fixedColor: item.releasePL >= 0
+              ? AppColors.buyColor
+              : AppColors.sellColor,
         );
       case 'brokerage':
         return ViewNumberCell(
@@ -219,6 +224,7 @@ class _ProfitAndLossDetailsContent extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
+
   @override
   Widget build(BuildContext context) {
     double totalReleasePL = 0;

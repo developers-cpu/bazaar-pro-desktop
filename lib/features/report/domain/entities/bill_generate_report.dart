@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+
 class BillGenerateReport extends Equatable {
   final BillHeaderInfo headerInfo;
   final List<BillScriptTrade> scriptTrades;
@@ -24,6 +25,7 @@ class BillGenerateReport extends Equatable {
     exchangeWisePL,
   ];
 }
+
 class BillHeaderInfo extends Equatable {
   final String userName;
   final String dateRange;
@@ -31,6 +33,7 @@ class BillHeaderInfo extends Equatable {
   @override
   List<Object?> get props => [userName, dateRange];
 }
+
 class BillScriptTrade extends Equatable {
   final String exchange;
   final String script;
@@ -71,6 +74,7 @@ class BillScriptTrade extends Equatable {
     profitLoss,
   ];
 }
+
 class BillTradeLeg extends Equatable {
   final String date;
   final int qty;
@@ -85,6 +89,7 @@ class BillTradeLeg extends Equatable {
   @override
   List<Object?> get props => [date, qty, price, vol];
 }
+
 class ScriptBillSummary extends Equatable {
   final String exchange;
   final String script;
@@ -101,6 +106,7 @@ class ScriptBillSummary extends Equatable {
   @override
   List<Object?> get props => [exchange, script, total, brokerage, net];
 }
+
 class BillTotal extends Equatable {
   final double total;
   final double totalBrokerage;
@@ -113,6 +119,7 @@ class BillTotal extends Equatable {
   @override
   List<Object?> get props => [total, totalBrokerage, totalNet];
 }
+
 class CarryForwardTrade extends Equatable {
   final String exchange;
   final String script;
@@ -129,6 +136,7 @@ class CarryForwardTrade extends Equatable {
   @override
   List<Object?> get props => [exchange, script, type, quantity, price];
 }
+
 class ExchangeWisePL extends Equatable {
   final String exchange;
   final double mtm;

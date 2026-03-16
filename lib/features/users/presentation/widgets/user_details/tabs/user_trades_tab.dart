@@ -14,6 +14,7 @@ import '../../../../domain/entities/user.dart';
 import '../../../bloc/user_trades/user_trades_bloc.dart';
 import '../../../bloc/user_trades/user_trades_event.dart';
 import '../../../bloc/user_trades/user_trades_state.dart';
+
 class UserTradesTab extends StatelessWidget {
   final User user;
   const UserTradesTab({super.key, required this.user});
@@ -25,6 +26,7 @@ class UserTradesTab extends StatelessWidget {
     );
   }
 }
+
 class UserTradesTabView extends StatelessWidget {
   const UserTradesTabView({super.key});
   @override
@@ -37,6 +39,7 @@ class UserTradesTabView extends StatelessWidget {
       ],
     );
   }
+
   Widget _buildFilterBar(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(12.w),
@@ -156,6 +159,7 @@ class UserTradesTabView extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildRecordCount(BuildContext context) {
     return Container(
       color: AppColors.white,
@@ -171,6 +175,7 @@ class UserTradesTabView extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildTable(BuildContext context) {
     return BlocBuilder<UserTradesBloc, UserTradesState>(
       builder: (context, state) {
@@ -187,10 +192,10 @@ class UserTradesTabView extends StatelessWidget {
         final isDark = Theme.of(context).brightness == Brightness.dark;
         return ViewDataTable<UserTrade>(
           columns: [
-            ViewTableColumn(id: 'userName', label: 'U. NAME', width: 100.w),
-            ViewTableColumn(id: 'parentUser', label: 'P USER', width: 100.w),
+            ViewTableColumn(id: 'userName', label: 'U. NAME', width: 90.w),
+            ViewTableColumn(id: 'parentUser', label: 'P USER', width: 90.w),
             ViewTableColumn(id: 'exchange', label: 'EXCH', width: 80.w),
-            ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 140.w),
+            ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 100.w),
             ViewTableColumn(id: 'buySell', label: 'B/S', width: 80.w),
             ViewTableColumn(id: 'tradeType', label: 'Trade Type', width: 100.w),
             ViewTableColumn(
@@ -201,47 +206,47 @@ class UserTradesTabView extends StatelessWidget {
             ),
             ViewTableColumn(
               id: 'lot',
-              label: 'Lot',
+              label: 'LOT',
               width: 60.w,
               isNumeric: true,
             ),
             ViewTableColumn(
               id: 'pnl',
               label: 'P/L',
-              width: 100.w,
+              width: 70.w,
               isNumeric: true,
             ),
-            ViewTableColumn(id: 'validity', label: 'Validity', width: 100.w),
+            ViewTableColumn(id: 'validity', label: 'VALIDITY', width: 90.w),
             ViewTableColumn(
               id: 'tradePrice',
               label: 'T. PRICE',
-              width: 100.w,
+              width: 90.w,
               isNumeric: true,
             ),
             ViewTableColumn(
               id: 'brk',
-              label: 'Brk',
-              width: 80.w,
+              label: 'BRK',
+              width: 70.w,
               isNumeric: true,
             ),
             ViewTableColumn(
               id: 'netPrice',
               label: 'NET P.',
-              width: 100.w,
+              width: 80.w,
               isNumeric: true,
             ),
-            ViewTableColumn(id: 'orderDt', label: 'Order D/T', width: 140.w),
-            ViewTableColumn(id: 'execDt', label: 'Execution D/T', width: 140.w),
+            ViewTableColumn(id: 'orderDt', label: 'Order D/T', width: 160.w),
+            ViewTableColumn(id: 'execDt', label: 'Execution D/T', width: 160.w),
             ViewTableColumn(
               id: 'reqPrice',
               label: 'R. PRICE',
-              width: 100.w,
+              width: 90.w,
               isNumeric: true,
             ),
             ViewTableColumn(
               id: 'duration',
               label: 'Order Duration',
-              width: 120.w,
+              width: 150.w,
             ),
           ],
           data: trades,
@@ -357,7 +362,7 @@ class UserTradesTabView extends StatelessWidget {
                 );
               case 'duration':
                 return ViewLinkCell(
-                  text: item.orderDuration,
+                  text: _formatDuration(item.orderDuration),
                   isDark: isDark,
                 );
               default:
@@ -367,5 +372,23 @@ class UserTradesTabView extends StatelessWidget {
         );
       },
     );
+  }
+
+  String _formatDuration(String durationStr) {
+    try {
+      final parts = durationStr.split(':');
+      if (parts.length != 3) return durationStr;
+      final hours = int.tryParse(parts[0]) ?? 0;
+      final minutes = int.tryParse(parts[1]) ?? 0;
+
+      String result = "";
+      if (hours > 0) {
+        result += "$hours ${hours == 1 ? 'hour' : 'hours'} ";
+      }
+      result += "$minutes ${minutes == 1 ? 'minute' : 'minutes'}";
+      return result.trim();
+    } catch (e) {
+      return durationStr;
+    }
   }
 }

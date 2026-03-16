@@ -5,6 +5,7 @@ import '../../../domain/entities/settlement_progress/bhav_copy_entity.dart';
 import '../../../domain/repositories/settlement_progress/settlement_progress_repository.dart';
 import '../../datasources/settlement_progress/settlement_progress_remote_data_source.dart';
 import '../../models/bhav_copy_model.dart';
+
 class SettlementProgressRepositoryImpl implements SettlementProgressRepository {
   final SettlementProgressRemoteDataSource remoteDataSource;
   SettlementProgressRepositoryImpl({required this.remoteDataSource});
@@ -21,6 +22,7 @@ class SettlementProgressRepositoryImpl implements SettlementProgressRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
   @override
   Future<Either<Failure, void>> submitBhavCopy(
     List<BhavCopyEntity> data,
@@ -46,6 +48,7 @@ class SettlementProgressRepositoryImpl implements SettlementProgressRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
   @override
   Future<Either<Failure, List<BhavCopyEntity>>> getSettlementData(
     String exchange,

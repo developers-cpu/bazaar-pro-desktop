@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../domain/repositories/brokerage/brokerage_repository.dart';
 import 'brokerage_event.dart';
 import 'brokerage_state.dart';
+
 class BrokerageBloc extends Bloc<BrokerageEvent, BrokerageState> {
   final BrokerageRepository repository;
   BrokerageBloc({required this.repository}) : super(BrokerageInitial()) {

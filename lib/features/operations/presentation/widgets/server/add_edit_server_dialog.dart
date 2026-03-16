@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../../core/widget/custom_action_button.dart';
 import '../../../../../../core/widget/custom_input_field.dart';
 import '../../../../../../core/widget/common_dilog_box.dart';
+
 class AddEditServerDialog {
   static void show({
     required BuildContext context,
@@ -27,6 +28,7 @@ class AddEditServerDialog {
     );
   }
 }
+
 class _AddEditServerContent extends StatefulWidget {
   final String title;
   final String buttonText;
@@ -44,6 +46,7 @@ class _AddEditServerContent extends StatefulWidget {
   @override
   State<_AddEditServerContent> createState() => _AddEditServerContentState();
 }
+
 class _AddEditServerContentState extends State<_AddEditServerContent> {
   late TextEditingController _serverNameCtrl;
   final TextEditingController _logoFileCtrl = TextEditingController();
@@ -53,12 +56,14 @@ class _AddEditServerContentState extends State<_AddEditServerContent> {
     _serverNameCtrl = TextEditingController(text: widget.initialServerName);
     _logoFileCtrl.text = 'Browse File (Server Logo)';
   }
+
   @override
   void dispose() {
     _serverNameCtrl.dispose();
     _logoFileCtrl.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Column(

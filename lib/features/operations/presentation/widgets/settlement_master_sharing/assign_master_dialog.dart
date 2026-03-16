@@ -7,6 +7,7 @@ import '../../../../../core/widget/common_dilog_box.dart';
 import '../../../../../core/widget/custom_action_button.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
 import '../../../domain/entities/settlement_master_sharing.dart';
+
 class AssignMasterDialog extends StatefulWidget {
   final String username;
   final List<AssignedMaster> assignedMasters;
@@ -38,9 +39,11 @@ class AssignMasterDialog extends StatefulWidget {
       ),
     );
   }
+
   @override
   State<AssignMasterDialog> createState() => _AssignMasterDialogState();
 }
+
 class _AssignMasterDialogState extends State<AssignMasterDialog> {
   late TextEditingController _percentSharingController;
   late List<_MasterRow> _rows;
@@ -59,11 +62,13 @@ class _AssignMasterDialogState extends State<AssignMasterDialog> {
         )
         .toList();
   }
+
   @override
   void dispose() {
     _percentSharingController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -220,11 +225,13 @@ class _AssignMasterDialogState extends State<AssignMasterDialog> {
     );
   }
 }
+
 class _MasterRow {
   final String? selectedMasterName;
   final double percentSharing;
   _MasterRow({this.selectedMasterName, required this.percentSharing});
 }
+
 class AssignCountDialog {
   static void show({
     required BuildContext context,
@@ -235,13 +242,12 @@ class AssignCountDialog {
       title: 'Assign master',
       showButtons: false,
       width: 350.w,
-      contentBuilder: (context, onClose) => _AssignCountContent(
-        onAssign: onAssign,
-        onClose: onClose,
-      ),
+      contentBuilder: (context, onClose) =>
+          _AssignCountContent(onAssign: onAssign, onClose: onClose),
     );
   }
 }
+
 class _AssignCountContent extends StatefulWidget {
   final Function(int count) onAssign;
   final VoidCallback onClose;
@@ -253,6 +259,7 @@ class _AssignCountContent extends StatefulWidget {
   @override
   State<_AssignCountContent> createState() => _AssignCountContentState();
 }
+
 class _AssignCountContentState extends State<_AssignCountContent> {
   final _controller = TextEditingController();
   @override
@@ -260,6 +267,7 @@ class _AssignCountContentState extends State<_AssignCountContent> {
     _controller.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Column(

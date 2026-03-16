@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/marketwatch/market_watch_bloc.dart';
 import '../bloc/marketwatch/market_watch_state.dart';
 import 'order/common_order_dialog.dart';
+
 class KeyboardShortcutHandler extends StatelessWidget {
   final Widget child;
   const KeyboardShortcutHandler({Key? key, required this.child})
@@ -16,12 +17,15 @@ class KeyboardShortcutHandler extends StatelessWidget {
       shortcuts: <ShortcutActivator, Intent>{
         const SingleActivator(LogicalKeyboardKey.f1): const BuyOrderIntent(),
         const SingleActivator(LogicalKeyboardKey.add): const BuyOrderIntent(),
-        const SingleActivator(LogicalKeyboardKey.numpadAdd): const BuyOrderIntent(),
+        const SingleActivator(LogicalKeyboardKey.numpadAdd):
+            const BuyOrderIntent(),
         CharacterActivator('+'): const BuyOrderIntent(),
         CharacterActivator('='): const BuyOrderIntent(),
         const SingleActivator(LogicalKeyboardKey.f2): const SellOrderIntent(),
-        const SingleActivator(LogicalKeyboardKey.minus): const SellOrderIntent(),
-        const SingleActivator(LogicalKeyboardKey.numpadSubtract): const SellOrderIntent(),
+        const SingleActivator(LogicalKeyboardKey.minus):
+            const SellOrderIntent(),
+        const SingleActivator(LogicalKeyboardKey.numpadSubtract):
+            const SellOrderIntent(),
         CharacterActivator('-'): const SellOrderIntent(),
         const SingleActivator(LogicalKeyboardKey.f3):
             const PendingOrdersIntent(),
@@ -48,30 +52,39 @@ class KeyboardShortcutHandler extends StatelessWidget {
     );
   }
 }
+
 class BuyOrderIntent extends Intent {
   const BuyOrderIntent();
 }
+
 class SellOrderIntent extends Intent {
   const SellOrderIntent();
 }
+
 class PendingOrdersIntent extends Intent {
   const PendingOrdersIntent();
 }
+
 class NetPositionsIntent extends Intent {
   const NetPositionsIntent();
 }
+
 class TradesIntent extends Intent {
   const TradesIntent();
 }
+
 class DealsIntent extends Intent {
   const DealsIntent();
 }
+
 class MessagesIntent extends Intent {
   const MessagesIntent();
 }
+
 class MarketDepthIntent extends Intent {
   const MarketDepthIntent();
 }
+
 class BuyOrderAction extends Action<BuyOrderIntent> {
   final BuildContext context;
   BuyOrderAction(this.context);
@@ -81,7 +94,7 @@ class BuyOrderAction extends Action<BuyOrderIntent> {
     final loadedState = state is MarketWatchSuccess
         ? state.previousState
         : (state is MarketWatchLoaded ? state : null);
-    
+
     dynamic selectedItem;
     if (loadedState != null && loadedState.selectedItemId != null) {
       try {
@@ -98,6 +111,7 @@ class BuyOrderAction extends Action<BuyOrderIntent> {
     return null;
   }
 }
+
 class SellOrderAction extends Action<SellOrderIntent> {
   final BuildContext context;
   SellOrderAction(this.context);
@@ -107,7 +121,7 @@ class SellOrderAction extends Action<SellOrderIntent> {
     final loadedState = state is MarketWatchSuccess
         ? state.previousState
         : (state is MarketWatchLoaded ? state : null);
-    
+
     dynamic selectedItem;
     if (loadedState != null && loadedState.selectedItemId != null) {
       try {
@@ -124,6 +138,7 @@ class SellOrderAction extends Action<SellOrderIntent> {
     return null;
   }
 }
+
 class MarketDepthAction extends Action<MarketDepthIntent> {
   final BuildContext context;
   MarketDepthAction(this.context);
@@ -133,6 +148,7 @@ class MarketDepthAction extends Action<MarketDepthIntent> {
     return null;
   }
 }
+
 class PendingOrdersAction extends Action<PendingOrdersIntent> {
   final BuildContext context;
   PendingOrdersAction(this.context);
@@ -142,6 +158,7 @@ class PendingOrdersAction extends Action<PendingOrdersIntent> {
     return null;
   }
 }
+
 class NetPositionsAction extends Action<NetPositionsIntent> {
   final BuildContext context;
   NetPositionsAction(this.context);
@@ -151,6 +168,7 @@ class NetPositionsAction extends Action<NetPositionsIntent> {
     return null;
   }
 }
+
 class TradesAction extends Action<TradesIntent> {
   final BuildContext context;
   TradesAction(this.context);
@@ -160,6 +178,7 @@ class TradesAction extends Action<TradesIntent> {
     return null;
   }
 }
+
 class DealsAction extends Action<DealsIntent> {
   final BuildContext context;
   DealsAction(this.context);
@@ -169,6 +188,7 @@ class DealsAction extends Action<DealsIntent> {
     return null;
   }
 }
+
 class MessagesAction extends Action<MessagesIntent> {
   final BuildContext context;
   MessagesAction(this.context);
@@ -178,6 +198,7 @@ class MessagesAction extends Action<MessagesIntent> {
     return null;
   }
 }
+
 class KeyboardShortcutListener extends StatefulWidget {
   final Widget child;
   const KeyboardShortcutListener({Key? key, required this.child})
@@ -186,6 +207,7 @@ class KeyboardShortcutListener extends StatefulWidget {
   State<KeyboardShortcutListener> createState() =>
       _KeyboardShortcutListenerState();
 }
+
 class _KeyboardShortcutListenerState extends State<KeyboardShortcutListener> {
   final FocusNode _focusNode = FocusNode();
   @override
@@ -193,6 +215,7 @@ class _KeyboardShortcutListenerState extends State<KeyboardShortcutListener> {
     _focusNode.dispose();
     super.dispose();
   }
+
   void _handleKeyEvent(KeyEvent event) {
     if (event is KeyDownEvent) {
       if (event.logicalKey == LogicalKeyboardKey.f1 ||
@@ -204,7 +227,7 @@ class _KeyboardShortcutListenerState extends State<KeyboardShortcutListener> {
         final loadedState = state is MarketWatchSuccess
             ? state.previousState
             : (state is MarketWatchLoaded ? state : null);
-        
+
         dynamic selectedItem;
         if (loadedState != null && loadedState.selectedItemId != null) {
           try {
@@ -226,7 +249,7 @@ class _KeyboardShortcutListenerState extends State<KeyboardShortcutListener> {
         final loadedState = state is MarketWatchSuccess
             ? state.previousState
             : (state is MarketWatchLoaded ? state : null);
-        
+
         dynamic selectedItem;
         if (loadedState != null && loadedState.selectedItemId != null) {
           try {
@@ -255,6 +278,7 @@ class _KeyboardShortcutListenerState extends State<KeyboardShortcutListener> {
       }
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return KeyboardListener(

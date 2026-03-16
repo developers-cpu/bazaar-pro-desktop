@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+
 class ManualTradeState extends Equatable {
   final bool isLoading;
   final String? error;
@@ -92,6 +93,7 @@ class ManualTradeState extends Equatable {
       ipAddress: ipAddress ?? this.ipAddress,
     );
   }
+
   @override
   List<Object?> get props => [
     isLoading,

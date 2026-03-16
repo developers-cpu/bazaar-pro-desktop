@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'manual_trade_event.dart';
 import 'manual_trade_state.dart';
+
 class ManualTradeBloc extends Bloc<ManualTradeEvent, ManualTradeState> {
   ManualTradeBloc() : super(const ManualTradeState()) {
     on<LoadManualTradeDataEvent>(_onLoadData);
@@ -40,6 +41,7 @@ class ManualTradeBloc extends Bloc<ManualTradeEvent, ManualTradeState> {
       emit(state.copyWith(isLoading: false, error: e.toString()));
     }
   }
+
   void _onUpdateField(
     UpdateManualTradeFieldEvent event,
     Emitter<ManualTradeState> emit,
@@ -86,6 +88,7 @@ class ManualTradeBloc extends Bloc<ManualTradeEvent, ManualTradeState> {
         break;
     }
   }
+
   void _onSubmitTrade(
     SubmitManualTradeEvent event,
     Emitter<ManualTradeState> emit,
@@ -96,6 +99,7 @@ class ManualTradeBloc extends Bloc<ManualTradeEvent, ManualTradeState> {
     }
     emit(state.copyWith(showConfirmDialog: true, error: null));
   }
+
   Future<void> _onConfirmTrade(
     ConfirmManualTradeEvent event,
     Emitter<ManualTradeState> emit,

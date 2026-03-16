@@ -10,6 +10,7 @@ import '../../bloc/brokerage/brokerage_event.dart';
 import '../../bloc/brokerage/brokerage_state.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
 import '../../../../../core/widget/table/view_table_cell_styles.dart';
+
 class BrokerageDialog {
   static void showFromPage(
     BuildContext context,
@@ -32,6 +33,7 @@ class BrokerageDialog {
       ),
     );
   }
+
   static void show(BuildContext context) {
     CommonDialog.show(
       context: context,
@@ -48,6 +50,7 @@ class BrokerageDialog {
     );
   }
 }
+
 class _BrokerageContent extends StatelessWidget {
   final BrokerageLoaded? initialState;
   const _BrokerageContent({super.key, this.initialState});
@@ -86,6 +89,7 @@ class _BrokerageContent extends StatelessWidget {
         return ViewTextCell(text: '');
     }
   }
+
   Widget _buildExchangeInfo(String exchange) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -110,6 +114,7 @@ class _BrokerageContent extends StatelessWidget {
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -163,9 +168,7 @@ class _BrokerageContent extends StatelessWidget {
                 final loaded = state is BrokerageLoaded ? state : initialState;
                 if (loaded != null) {
                   if (loaded.brokerages.isEmpty) {
-                    return const Center(
-                      child: Text('No brokerage data found'),
-                    );
+                    return const Center(child: Text('No brokerage data found'));
                   }
                   return ViewDataTable<Brokerage>(
                     columns: _columns,

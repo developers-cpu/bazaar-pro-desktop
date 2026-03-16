@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+
 class Brokerage extends Equatable {
   final String exchange;
   final String symbol;

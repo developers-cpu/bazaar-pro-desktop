@@ -2,6 +2,7 @@ import 'package:bazarpro/features/market_watch/presentation/bloc/watchlist/watch
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/constants/app_strings.dart';
 import 'watchlist_state.dart';
+
 class WatchlistBloc extends Bloc<WatchlistEvent, WatchlistState> {
   WatchlistBloc() : super(const WatchlistInitial()) {
     on<LoadWatchlistsEvent>(_onLoadWatchlists);
@@ -25,6 +26,7 @@ class WatchlistBloc extends Bloc<WatchlistEvent, WatchlistState> {
       ),
     );
   }
+
   void _onAddWatchlist(AddWatchlistEvent event, Emitter<WatchlistState> emit) {
     if (state is WatchlistLoaded) {
       final currentState = state as WatchlistLoaded;
@@ -35,6 +37,7 @@ class WatchlistBloc extends Bloc<WatchlistEvent, WatchlistState> {
       emit(currentState.copyWith(watchlists: updatedWatchlists));
     }
   }
+
   Future<void> _onRemoveWatchlist(
     RemoveWatchlistEvent event,
     Emitter<WatchlistState> emit,
@@ -63,6 +66,7 @@ class WatchlistBloc extends Bloc<WatchlistEvent, WatchlistState> {
       );
     }
   }
+
   void _onSelectWatchlist(
     SelectWatchlistEvent event,
     Emitter<WatchlistState> emit,
@@ -72,6 +76,7 @@ class WatchlistBloc extends Bloc<WatchlistEvent, WatchlistState> {
       emit(currentState.copyWith(selectedIndex: event.index));
     }
   }
+
   void _onRenameWatchlist(
     RenameWatchlistEvent event,
     Emitter<WatchlistState> emit,

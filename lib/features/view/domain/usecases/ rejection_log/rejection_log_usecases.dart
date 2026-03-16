@@ -3,6 +3,7 @@ import '../../../../../core/errors/failures.dart';
 import '../../../../../core/usecases/usecase.dart';
 import '../../entities/rejection_log/rejection_log.dart';
 import '../../repositories/rejection_log/rejection_log_repository.dart';
+
 class GetRejectionLogs implements UseCase<List<RejectionLog>, NoParams> {
   final RejectionLogRepository repository;
   GetRejectionLogs(this.repository);
@@ -11,6 +12,7 @@ class GetRejectionLogs implements UseCase<List<RejectionLog>, NoParams> {
     return repository.getRejectionLogs();
   }
 }
+
 class GetRejectionLogsWithFilters
     implements UseCase<List<RejectionLog>, RejectionLogFilterParams> {
   final RejectionLogRepository repository;
@@ -28,6 +30,7 @@ class GetRejectionLogsWithFilters
     );
   }
 }
+
 class RejectionLogFilterParams {
   final DateTime? startDate;
   final DateTime? endDate;
@@ -42,6 +45,7 @@ class RejectionLogFilterParams {
     this.symbol,
   });
 }
+
 class GetRejectionLogClients implements UseCase<List<String>, NoParams> {
   final RejectionLogRepository repository;
   GetRejectionLogClients(this.repository);
@@ -50,6 +54,7 @@ class GetRejectionLogClients implements UseCase<List<String>, NoParams> {
     return repository.getClients();
   }
 }
+
 class GetRejectionLogExchanges implements UseCase<List<String>, NoParams> {
   final RejectionLogRepository repository;
   GetRejectionLogExchanges(this.repository);
@@ -58,6 +63,7 @@ class GetRejectionLogExchanges implements UseCase<List<String>, NoParams> {
     return repository.getExchanges();
   }
 }
+
 class GetRejectionLogSymbols implements UseCase<List<String>, NoParams> {
   final RejectionLogRepository repository;
   GetRejectionLogSymbols(this.repository);
@@ -66,6 +72,7 @@ class GetRejectionLogSymbols implements UseCase<List<String>, NoParams> {
     return repository.getSymbols();
   }
 }
+
 class ExportRejectionLogsToPdf implements UseCase<String, List<RejectionLog>> {
   final RejectionLogRepository repository;
   ExportRejectionLogsToPdf(this.repository);
@@ -74,6 +81,7 @@ class ExportRejectionLogsToPdf implements UseCase<String, List<RejectionLog>> {
     return repository.exportToPdf(logs);
   }
 }
+
 class ExportRejectionLogsToExcel
     implements UseCase<String, List<RejectionLog>> {
   final RejectionLogRepository repository;

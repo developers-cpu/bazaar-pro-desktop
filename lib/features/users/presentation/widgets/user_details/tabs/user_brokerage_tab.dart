@@ -15,6 +15,7 @@ import '../../../bloc/user_brokerage/user_brokerage_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 class UserBrokerageTab extends StatelessWidget {
   final User user;
   const UserBrokerageTab({super.key, required this.user});
@@ -27,11 +28,13 @@ class UserBrokerageTab extends StatelessWidget {
     );
   }
 }
+
 class UserBrokerageTabView extends StatefulWidget {
   const UserBrokerageTabView({super.key});
   @override
   State<UserBrokerageTabView> createState() => _UserBrokerageTabViewState();
 }
+
 class _UserBrokerageTabViewState extends State<UserBrokerageTabView> {
   final TextEditingController _exchangeBrkController = TextEditingController();
   final TextEditingController _symbolBrkController = TextEditingController();
@@ -43,6 +46,7 @@ class _UserBrokerageTabViewState extends State<UserBrokerageTabView> {
     _symbolBrkController.dispose();
     super.dispose();
   }
+
   void _onSelectAll(bool? value, List<UserBrokerageSetting> allSettings) {
     setState(() {
       _isAllSelected = value ?? false;
@@ -53,6 +57,7 @@ class _UserBrokerageTabViewState extends State<UserBrokerageTabView> {
       }
     });
   }
+
   void _onRowSelect(bool? value, String id) {
     setState(() {
       if (value == true) {
@@ -63,6 +68,7 @@ class _UserBrokerageTabViewState extends State<UserBrokerageTabView> {
       }
     });
   }
+
   void _onUpdate(String viewType) {
     if (_selectedIds.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -89,6 +95,7 @@ class _UserBrokerageTabViewState extends State<UserBrokerageTabView> {
       _isAllSelected = false;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserBrokerageBloc, UserBrokerageState>(
@@ -114,6 +121,7 @@ class _UserBrokerageTabViewState extends State<UserBrokerageTabView> {
       },
     );
   }
+
   Widget _buildFilterBar(BuildContext context, UserBrokerageLoaded state) {
     return Container(
       padding: EdgeInsets.all(12.w),
@@ -168,6 +176,7 @@ class _UserBrokerageTabViewState extends State<UserBrokerageTabView> {
       ),
     );
   }
+
   Widget _buildHeader(BuildContext context, UserBrokerageLoaded state) {
     return Container(
       width: double.infinity,
@@ -214,6 +223,7 @@ class _UserBrokerageTabViewState extends State<UserBrokerageTabView> {
       ),
     );
   }
+
   Widget _buildRecordCount(BuildContext context, UserBrokerageLoaded state) {
     return Container(
       color: AppColors.white,
@@ -221,10 +231,12 @@ class _UserBrokerageTabViewState extends State<UserBrokerageTabView> {
       child: ViewRecordCount(count: state.filteredSettings.length),
     );
   }
+
   Widget _buildTable(BuildContext context, UserBrokerageLoaded state) {
     final isExchangeWise = state.viewType == 'Exchange';
     return Expanded(
       child: ViewDataTable<UserBrokerageSetting>(
+        autoFit: true,
         columns: [
           ViewTableColumn(
             id: 'checkbox',

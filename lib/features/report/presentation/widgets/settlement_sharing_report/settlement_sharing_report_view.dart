@@ -5,6 +5,7 @@ import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/constants/app_images.dart';
 import '../../../../../core/widget/svg_icon.dart';
 import '../../../domain/entities/settlement_sharing_report.dart';
+
 class SettlementSharingReportView extends StatelessWidget {
   final SettlementSharingReport report;
   final Function(String userId, String username) onUserSelected;
@@ -49,6 +50,7 @@ class SettlementSharingReportView extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildTable({
     required String title,
     required Color headerColor,
@@ -203,6 +205,7 @@ class SettlementSharingReportView extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildHeaderText(
     String text, {
     bool alignLeft = false,
@@ -228,6 +231,7 @@ class SettlementSharingReportView extends StatelessWidget {
       ],
     );
   }
+
   Widget _buildRow(
     SettlementSharingEntry entry,
     bool isProfitSection,

@@ -13,6 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
 import '../../../../../core/widget/table/view_table_cell_styles.dart';
+
 class RollOverDialog {
   static void show({required BuildContext context}) {
     CommonDialog.show(
@@ -27,18 +28,35 @@ class RollOverDialog {
     );
   }
 }
+
 class _RollOverDialogContent extends StatefulWidget {
   final BuildContext pageContext;
-  const _RollOverDialogContent({Key? key, required this.pageContext}) : super(key: key);
+  const _RollOverDialogContent({Key? key, required this.pageContext})
+    : super(key: key);
   @override
   State<_RollOverDialogContent> createState() => _RollOverDialogContentState();
 }
+
 class _RollOverDialogContentState extends State<_RollOverDialogContent> {
   String _selectedExchange = 'Exchange';
   String _selectedSymbol = 'Symbol';
   final Color headerColor = AppColors.primaryBlue;
   Set<int> _selectedIndices = {
-    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
   };
   bool _selectAll = true;
   void _toggleSelectAll() {
@@ -51,6 +69,7 @@ class _RollOverDialogContentState extends State<_RollOverDialogContent> {
       }
     });
   }
+
   void _toggleSelection(int index) {
     setState(() {
       if (_selectedIndices.contains(index)) {
@@ -64,6 +83,7 @@ class _RollOverDialogContentState extends State<_RollOverDialogContent> {
       }
     });
   }
+
   @override
   Widget build(BuildContext context) {
     final authState = context.read<AuthBloc>().state;
@@ -84,7 +104,14 @@ class _RollOverDialogContentState extends State<_RollOverDialogContent> {
                     value: _selectedExchange,
                     hintText: 'Exchange',
                     items: const [
-                      'NSE', 'MCX', 'CE/PE', 'OTHERS', 'COMEX', 'CRYPTO', 'GIFT', 'FOREX',
+                      'NSE',
+                      'MCX',
+                      'CE/PE',
+                      'OTHERS',
+                      'COMEX',
+                      'CRYPTO',
+                      'GIFT',
+                      'FOREX',
                     ],
                     onChanged: (val) {
                       if (val != null) setState(() => _selectedExchange = val);
@@ -99,9 +126,14 @@ class _RollOverDialogContentState extends State<_RollOverDialogContent> {
                     value: _selectedSymbol,
                     hintText: 'Symbol',
                     items: const [
-                      'GIFTNIFTY Oct 28', 'NIFTY Oct 28', 'BANKNIFTY Oct 28',
-                      'MINI GOLDMINI Dec 05', 'MINI SILVERMINI Dec 05', 'DOW Dec 19',
-                      'NASDAQ Dec 19', 'S & P Dec 19',
+                      'GIFTNIFTY Oct 28',
+                      'NIFTY Oct 28',
+                      'BANKNIFTY Oct 28',
+                      'MINI GOLDMINI Dec 05',
+                      'MINI SILVERMINI Dec 05',
+                      'DOW Dec 19',
+                      'NASDAQ Dec 19',
+                      'S & P Dec 19',
                     ],
                     onChanged: (val) {
                       if (val != null) setState(() => _selectedSymbol = val);
@@ -117,6 +149,7 @@ class _RollOverDialogContentState extends State<_RollOverDialogContent> {
       ],
     );
   }
+
   Widget _buildTable() {
     return Column(
       children: [
@@ -139,6 +172,7 @@ class _RollOverDialogContentState extends State<_RollOverDialogContent> {
       ],
     );
   }
+
   List<ViewTableColumn> _getColumns() {
     return [
       ViewTableColumn(
@@ -163,6 +197,7 @@ class _RollOverDialogContentState extends State<_RollOverDialogContent> {
       ),
     ];
   }
+
   Widget _buildCell(int index, ViewTableColumn column) {
     bool isEven = index % 2 == 0;
     bool isPositive = isEven;
@@ -206,6 +241,7 @@ class _RollOverDialogContentState extends State<_RollOverDialogContent> {
         return const SizedBox.shrink();
     }
   }
+
   Widget _buildCheckbox(bool value) {
     return Container(
       width: 18.w,
@@ -221,6 +257,7 @@ class _RollOverDialogContentState extends State<_RollOverDialogContent> {
       child: value ? Icon(Icons.check, size: 14.sp, color: Colors.white) : null,
     );
   }
+
   Widget _buildFooter() {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
@@ -265,6 +302,7 @@ class _RollOverDialogContentState extends State<_RollOverDialogContent> {
       ),
     );
   }
+
   Widget _buildConfirmationContent(BuildContext dialogContext) {
     final selectedList = _selectedIndices.toList();
     return Column(
@@ -362,6 +400,7 @@ class _RollOverDialogContentState extends State<_RollOverDialogContent> {
       ],
     );
   }
+
   Widget _buildConfirmationCell(int sourceIndex, ViewTableColumn column) {
     bool isPositive = sourceIndex % 2 == 0;
     String qty = sourceIndex == 0 ? '1000' : (isPositive ? '1.00' : '-1.00');

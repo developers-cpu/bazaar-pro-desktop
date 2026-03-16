@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/widget/common_dilog_box.dart';
 import '../../domain/entities/market_item.dart';
+
 class SymbolInfoDialog extends StatelessWidget {
   final MarketItem item;
   const SymbolInfoDialog({Key? key, required this.item}) : super(key: key);
@@ -21,6 +22,7 @@ class SymbolInfoDialog extends StatelessWidget {
       contentPadding: EdgeInsets.zero,
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return CommonDialog(
@@ -35,6 +37,7 @@ class SymbolInfoDialog extends StatelessWidget {
     );
   }
 }
+
 class _SymbolInfoContent extends StatelessWidget {
   final MarketItem item;
   const _SymbolInfoContent({Key? key, required this.item}) : super(key: key);
@@ -45,9 +48,11 @@ class _SymbolInfoContent extends StatelessWidget {
       children: [_buildDivider(), _buildInfoList()],
     );
   }
+
   Widget _buildDivider() {
     return Container(height: 1.h, color: AppColors.greyBorder);
   }
+
   Widget _buildInfoList() {
     final infoItems = [
       {'label': 'Exchange Name', 'value': item.exchange},
@@ -79,6 +84,7 @@ class _SymbolInfoContent extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildInfoRow(String label, String value) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
@@ -113,6 +119,7 @@ class _SymbolInfoContent extends StatelessWidget {
       ),
     );
   }
+
   String _formatQuantity(int value) {
     return NumberFormat('#,###').format(value);
   }

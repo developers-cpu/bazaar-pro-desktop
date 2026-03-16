@@ -1,12 +1,16 @@
 import 'package:equatable/equatable.dart';
 import '../../../domain/entities/bill_generate_report.dart';
+
 abstract class BillGenerateState extends Equatable {
   const BillGenerateState();
   @override
   List<Object?> get props => [];
 }
+
 class BillGenerateInitial extends BillGenerateState {}
+
 class BillGenerateLoading extends BillGenerateState {}
+
 class BillGenerateLoaded extends BillGenerateState {
   final BillGenerateReport report;
   final String? selectedUserId;
@@ -35,6 +39,7 @@ class BillGenerateLoaded extends BillGenerateState {
       shouldExport: shouldExport ?? this.shouldExport,
     );
   }
+
   @override
   List<Object?> get props => [
     report,
@@ -43,6 +48,7 @@ class BillGenerateLoaded extends BillGenerateState {
     selectedBillType,
   ];
 }
+
 class BillGenerateError extends BillGenerateState {
   final String message;
   const BillGenerateError({required this.message});

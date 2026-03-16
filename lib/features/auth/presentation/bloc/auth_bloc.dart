@@ -4,6 +4,7 @@ import '../../../../core/constants/auth_constants.dart';
 import '../../domain/usecases/login_user.dart';
 import 'auth_event.dart';
 import 'auth_state.dart';
+
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final LoginUser loginUser;
   AuthBloc({required this.loginUser}) : super(const AuthInitial()) {
@@ -43,6 +44,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       (user) => emit(AuthAuthenticated(user: user)),
     );
   }
+
   Future<void> _onDemoLogin(
     DemoLoginEvent event,
     Emitter<AuthState> emit,
@@ -51,6 +53,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final dummyUser = _createDummyUser(event.role, event.role.toLowerCase());
     emit(AuthAuthenticated(user: dummyUser));
   }
+
   User _createDummyUser(String role, String username) {
     return User(
       id: 0,
@@ -65,6 +68,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       role: role,
     );
   }
+
   Future<void> _onLogout(LogoutEvent event, Emitter<AuthState> emit) async {
     emit(const AuthUnauthenticated());
   }

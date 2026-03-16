@@ -10,6 +10,7 @@ import '../../bloc/net_position/net_position_state.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
 import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import '../../../../../core/widget/table/view_record_count.dart';
+
 class OpenPositionDialog {
   static void show({
     required BuildContext context,
@@ -34,14 +35,12 @@ class OpenPositionDialog {
     );
   }
 }
+
 class _OpenPositionContent extends StatelessWidget {
   final bool isDarkMode;
   final String? userName;
-  const _OpenPositionContent({
-    Key? key,
-    this.isDarkMode = false,
-    this.userName,
-  }) : super(key: key);
+  const _OpenPositionContent({Key? key, this.isDarkMode = false, this.userName})
+    : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -66,8 +65,8 @@ class _OpenPositionContent extends StatelessWidget {
               if (state is NetPositionLoaded) {
                 final positions = userName != null
                     ? state.filteredPositions
-                        .where((p) => p.userName == userName)
-                        .toList()
+                          .where((p) => p.userName == userName)
+                          .toList()
                     : state.filteredPositions;
                 return _buildTable(context, positions);
               }
@@ -78,6 +77,7 @@ class _OpenPositionContent extends StatelessWidget {
       ],
     );
   }
+
   Widget _buildTable(BuildContext context, List<NetPosition> positions) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 12.w),
@@ -129,6 +129,7 @@ class _OpenPositionContent extends StatelessWidget {
       ),
     );
   }
+
   List<ViewTableColumn> _getColumns() {
     return const [
       ViewTableColumn(id: 'exchange', label: 'EXCH', width: 80),
@@ -174,8 +175,12 @@ class _OpenPositionContent extends StatelessWidget {
       ViewTableColumn(id: 'days', label: 'DAYS', width: 60, isNumeric: true),
     ];
   }
+
   Widget _buildCell(
-      BuildContext context, NetPosition item, ViewTableColumn column) {
+    BuildContext context,
+    NetPosition item,
+    ViewTableColumn column,
+  ) {
     switch (column.id) {
       case 'exchange':
         return ViewTextCell(text: item.exchange, isDark: isDarkMode);
@@ -236,10 +241,7 @@ class _OpenPositionContent extends StatelessWidget {
           isDark: isDarkMode,
         );
       case 'netAvgPrice':
-        return ViewNumberCell(
-          value: item.netAvgPrice,
-          isDark: isDarkMode,
-        );
+        return ViewNumberCell(value: item.netAvgPrice, isDark: isDarkMode);
       case 'cmp':
         return ViewNumberCell(
           value: item.cmp,

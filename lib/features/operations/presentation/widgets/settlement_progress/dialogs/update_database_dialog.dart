@@ -5,6 +5,7 @@ import '../../../../../../core/constants/app_colors.dart';
 import '../../../../../../core/widget/common_dilog_box.dart';
 import '../../../../../../core/widget/custom_action_button.dart';
 import 'settlement_dialog.dart';
+
 class UpdateDatabaseDialog {
   static void show(BuildContext context) {
     CommonDialog.show(
@@ -20,12 +21,11 @@ class UpdateDatabaseDialog {
     );
   }
 }
+
 class _UpdateDatabaseContent extends StatelessWidget {
   final VoidCallback onClose;
-  const _UpdateDatabaseContent({
-    Key? key,
-    required this.onClose,
-  }) : super(key: key);
+  const _UpdateDatabaseContent({Key? key, required this.onClose})
+    : super(key: key);
   final List<String> _exchanges = const [
     'MCX',
     'NSE',
@@ -41,6 +41,7 @@ class _UpdateDatabaseContent extends StatelessWidget {
     onClose();
     SettlementDialog.show(context);
   }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -100,11 +101,12 @@ class _UpdateDatabaseContent extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(10.r),
                                 child: LinearProgressIndicator(
                                   value: value,
-                                  backgroundColor:
-                                      AppColors.primaryBlue.withOpacity(0.2),
-                                  valueColor: const AlwaysStoppedAnimation<Color>(
-                                    AppColors.primaryBlue,
-                                  ),
+                                  backgroundColor: AppColors.primaryBlue
+                                      .withOpacity(0.2),
+                                  valueColor:
+                                      const AlwaysStoppedAnimation<Color>(
+                                        AppColors.primaryBlue,
+                                      ),
                                   minHeight: 8.h,
                                 ),
                               ),

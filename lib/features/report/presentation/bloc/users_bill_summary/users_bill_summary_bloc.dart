@@ -3,6 +3,7 @@ import '../../../domain/usecases/users_bill_summary/get_bill_summary_data.dart';
 import '../../../domain/usecases/users_bill_summary/get_users.dart';
 import 'users_bill_summary_event.dart';
 import 'users_bill_summary_state.dart';
+
 class UsersBillSummaryBloc
     extends Bloc<UsersBillSummaryEvent, UsersBillSummaryState> {
   final GetUsers getUsers;
@@ -30,6 +31,7 @@ class UsersBillSummaryBloc
       },
     );
   }
+
   Future<void> _onGetUserBillSummary(
     GetUserBillSummaryEvent event,
     Emitter<UsersBillSummaryState> emit,

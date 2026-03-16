@@ -1,12 +1,16 @@
 import 'package:bazarpro/features/view/domain/entities/trade_margin/trade_margin.dart';
 import 'package:equatable/equatable.dart';
+
 abstract class TradeMarginState extends Equatable {
   const TradeMarginState();
   @override
   List<Object?> get props => [];
 }
+
 class TradeMarginInitial extends TradeMarginState {}
+
 class TradeMarginLoading extends TradeMarginState {}
+
 class TradeMarginLoaded extends TradeMarginState {
   final List<TradeMargin> tradeMargins;
   final String? selectedExchange;
@@ -43,6 +47,7 @@ class TradeMarginLoaded extends TradeMarginState {
       exchanges: exchanges,
     );
   }
+
   @override
   List<Object?> get props => [
     tradeMargins,
@@ -52,6 +57,7 @@ class TradeMarginLoaded extends TradeMarginState {
     exchanges,
   ];
 }
+
 class TradeMarginError extends TradeMarginState {
   final String message;
   const TradeMarginError({required this.message});

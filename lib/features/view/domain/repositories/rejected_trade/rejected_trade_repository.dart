@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import '../../../../../core/errors/failures.dart';
 import '../../entities/rejected_trade/rejected_trade.dart';
+
 abstract class RejectedTradeRepository {
   Future<Either<Failure, List<RejectedTrade>>> getRejectedTrades();
   Future<Either<Failure, List<RejectedTrade>>> getRejectedTradesWithFilters({

@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+
 class UsersBillSummaryEntity extends Equatable {
   final String puName;
   final String uName;

@@ -4,6 +4,7 @@ import 'package:bazarpro/features/report/data/models/symbol_trade_log_model.dart
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import '../../models/symbol_wise_pl/symbol_wise_pl_report_model.dart';
+
 abstract class SymbolWisePLRemoteDataSource {
   Future<Either<Failure, List<SymbolWisePLReportModel>>> getSymbolWisePLReport({
     String? exchange,
@@ -22,6 +23,7 @@ abstract class SymbolWisePLRemoteDataSource {
     String? user,
   });
 }
+
 class SymbolWisePLRemoteDataSourceImpl implements SymbolWisePLRemoteDataSource {
   @override
   Future<Either<Failure, List<SymbolWisePLReportModel>>> getSymbolWisePLReport({
@@ -156,6 +158,7 @@ class SymbolWisePLRemoteDataSourceImpl implements SymbolWisePLRemoteDataSource {
     }).toList();
     return Right(filtered);
   }
+
   @override
   Future<Either<Failure, List<SymbolTradeLogModel>>> getSymbolTradeLog({
     String? symbol,
@@ -256,6 +259,7 @@ class SymbolWisePLRemoteDataSourceImpl implements SymbolWisePLRemoteDataSource {
     }).toList();
     return Right(filtered);
   }
+
   @override
   Future<Either<Failure, List<SymbolOpenPositionModel>>> getSymbolOpenPosition({
     String? symbol,

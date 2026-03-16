@@ -7,6 +7,7 @@ import '../../../../../core/widget/custom_action_button.dart';
 import '../../../../../core/widget/custom_outlined_button.dart';
 import '../../../domain/entities/pending_orders/pending_order.dart';
 import '../../../../../core/widget/table/success_dialog.dart';
+
 class DeleteOrderDialog {
   static void show({
     required BuildContext context,
@@ -32,6 +33,7 @@ class DeleteOrderDialog {
     );
   }
 }
+
 class _DeleteOrderContent extends StatelessWidget {
   final PendingOrder order;
   final bool isDarkMode;
@@ -111,10 +113,7 @@ class _DeleteOrderContent extends StatelessWidget {
               ),
               SizedBox(width: 16.w),
               Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 16.w,
-                  vertical: 8.h,
-                ),
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
                 decoration: BoxDecoration(
                   color: AppColors.white,
                   border: Border.all(color: AppColors.greyBorder),
@@ -141,10 +140,10 @@ class _DeleteOrderContent extends StatelessWidget {
                 height: 40.h,
                 borderRadius: 8.r,
                 fontSize: 14.sp,
-                borderColor:
-                    isDarkMode ? Colors.white : const Color(0xFF1F4A66),
-                textColor:
-                    isDarkMode ? Colors.white : const Color(0xFF1F4A66),
+                borderColor: isDarkMode
+                    ? Colors.white
+                    : const Color(0xFF1F4A66),
+                textColor: isDarkMode ? Colors.white : const Color(0xFF1F4A66),
                 onPressed: () {
                   onClose();
                   if (onCancel != null) {

@@ -14,6 +14,7 @@ import '../../../../../../core/widget/date_range_picker_button.dart';
 import '../../../bloc/user_rejection_log/user_rejection_log_bloc.dart';
 import '../../../bloc/user_rejection_log/user_rejection_log_event.dart';
 import '../../../bloc/user_rejection_log/user_rejection_log_state.dart';
+
 class UserRejectionLogTab extends StatelessWidget {
   final User user;
   const UserRejectionLogTab({super.key, required this.user});
@@ -26,6 +27,7 @@ class UserRejectionLogTab extends StatelessWidget {
     );
   }
 }
+
 class UserRejectionLogTabView extends StatelessWidget {
   const UserRejectionLogTabView({super.key});
   @override
@@ -38,6 +40,7 @@ class UserRejectionLogTabView extends StatelessWidget {
       ],
     );
   }
+
   Widget _buildFilterBar(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(12.w),
@@ -129,6 +132,7 @@ class UserRejectionLogTabView extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildRecordCount(BuildContext context) {
     return Container(
       color: AppColors.white,
@@ -144,6 +148,7 @@ class UserRejectionLogTabView extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildTable(BuildContext context) {
     return BlocBuilder<UserRejectionLogBloc, UserRejectionLogState>(
       builder: (context, state) {
@@ -206,7 +211,10 @@ class UserRejectionLogTabView extends StatelessWidget {
           cellBuilder: (item, column) {
             switch (column.id) {
               case 'date':
-                return ViewDateTimeCell(dateTime: item.dateTime, isDark: isDark);
+                return ViewDateTimeCell(
+                  dateTime: item.dateTime,
+                  isDark: isDark,
+                );
               case 'status':
                 return ViewTextCell(text: item.status, isDark: isDark);
               case 'uName':

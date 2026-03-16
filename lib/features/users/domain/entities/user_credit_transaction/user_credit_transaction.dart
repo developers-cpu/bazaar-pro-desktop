@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+
 class UserCreditTransaction extends Equatable {
   final String id;
   final DateTime dateTime;

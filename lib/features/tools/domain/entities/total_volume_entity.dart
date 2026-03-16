@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+
 class TotalVolumeEntity extends Equatable {
   final String exchange;
   final String totalVolume;

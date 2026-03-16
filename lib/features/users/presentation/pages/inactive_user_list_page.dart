@@ -19,11 +19,13 @@ import '../widgets/create_user/leverage_update_dialog.dart';
 import '../widgets/create_user/change_password_dialog.dart';
 import '../widgets/create_user/update_access_dialog.dart';
 import '../widgets/user_details/user_details_dialog.dart';
+
 class InactiveUserListPage extends StatefulWidget {
   const InactiveUserListPage({super.key});
   @override
   State<InactiveUserListPage> createState() => _InactiveUserListPageState();
 }
+
 class _InactiveUserListPageState extends State<InactiveUserListPage> {
   String? _selectedUserType;
   String? _selectedUserStatus;
@@ -32,7 +34,8 @@ class _InactiveUserListPageState extends State<InactiveUserListPage> {
     super.initState();
     context.read<InactiveUserListBloc>().add(const LoadInactiveUsersEvent());
   }
-  void _showEditUserDialog(User user) {
+
+  void _showEditUserDialog(BuildContext context, User user) {
     final userData = {
       'name': user.name,
       'username': user.userName,
@@ -64,7 +67,8 @@ class _InactiveUserListPageState extends State<InactiveUserListPage> {
       );
     }
   }
-  void _showLeverageDialog(User user) {
+
+  void _showLeverageDialog(BuildContext context, User user) {
     LeverageUpdateDialog.show(
       context: context,
       userId: user.id,
@@ -77,20 +81,25 @@ class _InactiveUserListPageState extends State<InactiveUserListPage> {
       },
     );
   }
-  void _showChangePasswordDialog(User user) {
+
+  void _showChangePasswordDialog(BuildContext context, User user) {
+    debugPrint('Opening Change Password dialog for ${user.userName}');
     ChangePasswordDialog.show(
       context: context,
       userId: user.id,
       userName: user.userName,
       onChangePassword: (oldPassword, newPassword) {
-        Navigator.pop(context);
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Password updated successfully')),
-        );
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Password updated successfully')),
+          );
+        }
       },
     );
   }
-  void _showActionDialog(User user) {
+
+  void _showActionDialog(BuildContext context, User user) {
+    debugPrint('Opening Action dialog for ${user.userName}');
     final currentSettings = {
       'bet': true,
       'closeOnly': false,
@@ -107,22 +116,31 @@ class _InactiveUserListPageState extends State<InactiveUserListPage> {
       userName: user.userName,
       currentSettings: currentSettings,
       onUpdate: (updatedSettings) {
-        Navigator.pop(context);
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Access settings updated successfully')),
-        );
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Access settings updated successfully'),
+            ),
+          );
+        }
       },
     );
   }
-  void _showUserDetailsDialog(User user, {String? initialTab}) {
+
+  void _showUserDetailsDialog(
+    BuildContext context,
+    User user, {
+    String? initialTab,
+  }) {
     UserDetailsDialog.show(
       context,
       user,
       initialTab: initialTab,
-      onEdit: (_) => _showEditUserDialog(user),
-      onAction: (_) => _showActionDialog(user),
+      onEdit: (ctx) => _showEditUserDialog(ctx, user),
+      onAction: (ctx) => _showActionDialog(ctx, user),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -135,6 +153,7 @@ class _InactiveUserListPageState extends State<InactiveUserListPage> {
       ),
     );
   }
+
   Widget _buildFilterBar() {
     return Container(
       padding: EdgeInsets.all(12.w),
@@ -151,54 +170,6 @@ class _InactiveUserListPageState extends State<InactiveUserListPage> {
           }
           return Column(
             children: [
-              Row(
-                children: [
-                  AppDropdown(
-                    hintText: 'User Type',
-                    items: userTypes,
-                    value: _selectedUserType,
-                    onChanged: (val) {
-                      setState(() => _selectedUserType = val);
-                    },
-                    width: 160.w,
-                    height: 35.h,
-                    type: AppDropdownType.simple,
-                  ),
-                  SizedBox(width: 8.w),
-                  AppDropdown(
-                    hintText: 'User Status',
-                    items: userStatuses,
-                    value: _selectedUserStatus,
-                    onChanged: (val) {
-                      setState(() => _selectedUserStatus = val);
-                    },
-                    width: 160.w,
-                    height: 35.h,
-                    type: AppDropdownType.simple,
-                  ),
-                  const Spacer(),
-                  ViewResetButtons(
-                    onReset: () {
-                      setState(() {
-                        _selectedUserType = null;
-                        _selectedUserStatus = null;
-                      });
-                      context.read<InactiveUserListBloc>().add(
-                        const ResetInactiveFiltersEvent(),
-                      );
-                    },
-                    onView: () {
-                      context.read<InactiveUserListBloc>().add(
-                        ApplyInactiveFiltersEvent(
-                          userType: _selectedUserType,
-                          userStatus: _selectedUserStatus,
-                        ),
-                      );
-                    },
-                  ),
-                ],
-              ),
-              SizedBox(height: 8.h),
               Align(
                 alignment: Alignment.centerLeft,
                 child: ViewRecordCount(count: totalRecords),
@@ -209,6 +180,7 @@ class _InactiveUserListPageState extends State<InactiveUserListPage> {
       ),
     );
   }
+
   Widget _buildDataTable() {
     return BlocBuilder<InactiveUserListBloc, InactiveUserListState>(
       builder: (context, state) {
@@ -246,6 +218,7 @@ class _InactiveUserListPageState extends State<InactiveUserListPage> {
       },
     );
   }
+
   Widget _buildTable(InactiveUserListLoaded state) {
     final columns = _getColumns();
     final isDarkMode = AppColors.isDarkMode(context);
@@ -267,18 +240,14 @@ class _InactiveUserListPageState extends State<InactiveUserListPage> {
           SelectInactiveUserEvent(user.id),
         );
       },
-      cellBuilder: (user, column) => _buildCellContent(user, column.id, isDarkMode),
+      cellBuilder: (user, column) =>
+          _buildCellContent(user, column.id, isDarkMode),
       emptyMessage: 'No inactive users found',
     );
   }
+
   List<ViewTableColumn> _getColumns() {
     return [
-      const ViewTableColumn(
-        id: 'edit',
-        label: 'EDIT',
-        width: 60,
-        sortable: false,
-      ),
       const ViewTableColumn(
         id: 'action',
         label: 'ACTION',
@@ -286,13 +255,13 @@ class _InactiveUserListPageState extends State<InactiveUserListPage> {
         sortable: false,
       ),
       const ViewTableColumn(id: 'userName', label: 'USER NAME', width: 150),
-      const ViewTableColumn(id: 'parentUser', label: 'PAR.USER', width: 100),
+      const ViewTableColumn(id: 'parentUser', label: 'PAR.USER', width: 90),
       const ViewTableColumn(id: 'type', label: 'TYPE', width: 80),
-      const ViewTableColumn(id: 'name', label: 'NAME', width: 100),
+      const ViewTableColumn(id: 'name', label: 'NAME', width: 70),
       const ViewTableColumn(
         id: 'plPercent',
-        label: 'P/L %',
-        width: 80,
+        label: '%',
+        width: 70,
         isNumeric: true,
       ),
       const ViewTableColumn(
@@ -305,32 +274,32 @@ class _InactiveUserListPageState extends State<InactiveUserListPage> {
       const ViewTableColumn(
         id: 'credit',
         label: 'CREDIT',
-        width: 100,
+        width: 90,
         isNumeric: true,
       ),
-      const ViewTableColumn(id: 'pl', label: 'P/L', width: 80, isNumeric: true),
+      const ViewTableColumn(id: 'pl', label: 'P/L', width: 70, isNumeric: true),
       const ViewTableColumn(
         id: 'equity',
         label: 'EQUITY',
-        width: 100,
+        width: 90,
         isNumeric: true,
       ),
       const ViewTableColumn(
         id: 'totalMargin',
         label: 'TOT. MARGIN %',
-        width: 120,
+        width: 140,
         isNumeric: true,
       ),
       const ViewTableColumn(
         id: 'usedMargin',
         label: 'USED MARGIN %',
-        width: 120,
+        width: 150,
         isNumeric: true,
       ),
       const ViewTableColumn(
         id: 'freeMargin',
         label: 'FREE MARGIN %',
-        width: 120,
+        width: 140,
         isNumeric: true,
       ),
       const ViewTableColumn(
@@ -346,24 +315,19 @@ class _InactiveUserListPageState extends State<InactiveUserListPage> {
       const ViewTableColumn(
         id: 'deviceType',
         label: 'TY. OFF DEVICE',
-        width: 200,
+        width: 250,
       ),
-      const ViewTableColumn(id: 'ipAddress', label: 'IP ADDRESS', width: 130),
+      const ViewTableColumn(
+        id: 'ipAddress',
+        label: 'IP ADDRESS',
+        width: 130,
+        isNumeric: true,
+      ),
     ];
   }
+
   Widget _buildCellContent(User user, String columnId, bool isDark) {
     switch (columnId) {
-      case 'edit':
-        return Center(
-          child: GestureDetector(
-            onTap: () => _showEditUserDialog(user),
-            child: Icon(
-              Icons.edit_outlined,
-              size: 16.sp,
-              color: AppColors.primaryBlue,
-            ),
-          ),
-        );
       case 'action':
         return Center(
           child: Theme(
@@ -391,17 +355,28 @@ class _InactiveUserListPageState extends State<InactiveUserListPage> {
                 ),
               ),
               onSelected: (value) {
-                switch (value) {
-                  case 'change_password':
-                    _showChangePasswordDialog(user);
-                    break;
-                  case 'update_leverage':
-                    _showLeverageDialog(user);
-                    break;
-                  case 'action':
-                    _showActionDialog(user);
-                    break;
-                }
+                debugPrint('Action selected: $value');
+                Future.delayed(const Duration(milliseconds: 100), () {
+                  if (!mounted) {
+                    debugPrint('Widget NOT mounted after delay');
+                    return;
+                  }
+                  final hasOverlay =
+                      Overlay.maybeOf(context, rootOverlay: true) != null;
+                  debugPrint('Target context has overlay: $hasOverlay');
+
+                  switch (value) {
+                    case 'change_password':
+                      _showChangePasswordDialog(context, user);
+                      break;
+                    case 'update_leverage':
+                      _showLeverageDialog(context, user);
+                      break;
+                    case 'action':
+                      _showActionDialog(context, user);
+                      break;
+                  }
+                });
               },
               itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
                 PopupMenuItem<String>(
@@ -448,7 +423,7 @@ class _InactiveUserListPageState extends State<InactiveUserListPage> {
         return ViewLinkCell(
           text: user.userName,
           isDark: isDark,
-          onTap: () => _showUserDetailsDialog(user),
+          onTap: () => _showUserDetailsDialog(context, user),
         );
       case 'parentUser':
         return ViewTextCell(text: user.parentUser, isDark: isDark);
@@ -459,26 +434,29 @@ class _InactiveUserListPageState extends State<InactiveUserListPage> {
       case 'plPercent':
         return ViewNumberCell(
           value: user.plPercent,
-          displayText: '${user.plPercent}%',
+          displayText: '${user.plPercent}',
           isDark: isDark,
         );
       case 'brkPercent':
         return ViewNumberCell(
           value: user.brkPercent,
-          displayText: '${user.brkPercent}%',
+          displayText: '${user.brkPercent}',
           isDark: isDark,
         );
       case 'leverage':
         return ViewLinkCell(
-          text: '1:${user.leverage}',
+          text: '${user.leverage}',
           isDark: isDark,
-          onTap: () => _showLeverageDialog(user),
+          isNumeric: true,
+          onTap: () => _showLeverageDialog(context, user),
         );
       case 'credit':
         return ViewLinkCell(
           text: user.credit.toStringAsFixed(0),
           isDark: isDark,
-          onTap: () => _showUserDetailsDialog(user, initialTab: 'Credit'),
+          isNumeric: true,
+          onTap: () =>
+              _showUserDetailsDialog(context, user, initialTab: 'Credit'),
         );
       case 'pl':
         return ViewNumberCell(value: user.pl, isDark: isDark);
@@ -494,7 +472,10 @@ class _InactiveUserListPageState extends State<InactiveUserListPage> {
         return ViewDateTimeCell(dateTime: user.createdDate, isDark: isDark);
       case 'lastLoginDateTime':
         return user.lastLoginDateTime != null
-            ? ViewDateTimeCell(dateTime: user.lastLoginDateTime!, isDark: isDark)
+            ? ViewDateTimeCell(
+                dateTime: user.lastLoginDateTime!,
+                isDark: isDark,
+              )
             : ViewTextCell(
                 text: '',
                 isDark: isDark,
@@ -503,7 +484,11 @@ class _InactiveUserListPageState extends State<InactiveUserListPage> {
       case 'deviceType':
         return ViewTextCell(text: user.deviceType ?? '', isDark: isDark);
       case 'ipAddress':
-        return ViewTextCell(text: user.ipAddress ?? '', isDark: isDark);
+        return ViewTextCell(
+          text: user.ipAddress ?? '',
+          isDark: isDark,
+          isNumeric: true,
+        );
       default:
         return const SizedBox.shrink();
     }

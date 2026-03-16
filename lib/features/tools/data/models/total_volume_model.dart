@@ -1,4 +1,5 @@
 import '../../domain/entities/total_volume_entity.dart';
+
 class TotalVolumeModel extends TotalVolumeEntity {
   const TotalVolumeModel({
     required super.exchange,

@@ -4,20 +4,23 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/common_dilog_box.dart';
 import '../../../../../core/widget/custom_input_field.dart';
+
 class PasswordDialog {
-  static void show(BuildContext context, {required ValueChanged<bool> onSuccess}) {
+  static void show(
+    BuildContext context, {
+    required ValueChanged<bool> onSuccess,
+  }) {
     CommonDialog.show(
       context: context,
       title: 'Enter Password',
       width: 400.w,
       showButtons: false,
-      contentBuilder: (context, onClose) => _PasswordContent(
-        onClose: onClose,
-        onSuccess: onSuccess,
-      ),
+      contentBuilder: (context, onClose) =>
+          _PasswordContent(onClose: onClose, onSuccess: onSuccess),
     );
   }
 }
+
 class _PasswordContent extends StatefulWidget {
   final VoidCallback onClose;
   final ValueChanged<bool> onSuccess;
@@ -29,6 +32,7 @@ class _PasswordContent extends StatefulWidget {
   @override
   State<_PasswordContent> createState() => _PasswordContentState();
 }
+
 class _PasswordContentState extends State<_PasswordContent> {
   final _passwordCtrl = TextEditingController();
   final _confirmCtrl = TextEditingController();
@@ -41,6 +45,7 @@ class _PasswordContentState extends State<_PasswordContent> {
     _confirmCtrl.dispose();
     super.dispose();
   }
+
   void _onConfirm() {
     if (_passwordCtrl.text.isEmpty) {
       setState(() => _error = 'Password cannot be empty');
@@ -53,6 +58,7 @@ class _PasswordContentState extends State<_PasswordContent> {
     widget.onSuccess(true);
     widget.onClose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Column(

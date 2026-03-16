@@ -6,6 +6,7 @@ import '../../../../../../core/widget/custom_action_button.dart';
 import '../../../../../../core/widget/custom_input_field.dart';
 import '../../../bloc/settlement_progress/settlement_progress_bloc.dart';
 import '../../../bloc/settlement_progress/settlement_progress_event.dart';
+
 class ImportFileDialog {
   static void show(BuildContext context, {SettlementProgressBloc? bloc}) {
     CommonDialog.show(
@@ -24,15 +25,14 @@ class ImportFileDialog {
     );
   }
 }
+
 class _ImportFileContent extends StatefulWidget {
   final VoidCallback onClose;
-  const _ImportFileContent({
-    Key? key,
-    required this.onClose,
-  }) : super(key: key);
+  const _ImportFileContent({Key? key, required this.onClose}) : super(key: key);
   @override
   State<_ImportFileContent> createState() => _ImportFileContentState();
 }
+
 class _ImportFileContentState extends State<_ImportFileContent> {
   final _fileController = TextEditingController();
   @override
@@ -40,6 +40,7 @@ class _ImportFileContentState extends State<_ImportFileContent> {
     _fileController.dispose();
     super.dispose();
   }
+
   void _onImport() {
     if (_fileController.text.isNotEmpty) {
       context.read<SettlementProgressBloc>().add(
@@ -52,6 +53,7 @@ class _ImportFileContentState extends State<_ImportFileContent> {
       );
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Row(

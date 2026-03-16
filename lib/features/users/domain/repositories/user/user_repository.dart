@@ -1,6 +1,7 @@
 import 'package:bazarpro/core/errors/failures.dart';
 import 'package:bazarpro/features/users/domain/entities/user.dart';
 import 'package:dartz/dartz.dart';
+
 abstract class UserRepository {
   Future<Either<Failure, List<User>>> getUsers();
   Future<Either<Failure, List<User>>> getUsersWithFilters({

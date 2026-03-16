@@ -3,6 +3,7 @@ import '../../../../../core/errors/failures.dart';
 import '../../../../../core/usecases/usecase.dart';
 import '../../entities/deleted_trade/deleted_trade.dart';
 import '../../repositories/deleted_trade/deleted_trade_repository.dart';
+
 class GetDeletedTrades implements UseCase<List<DeletedTrade>, NoParams> {
   final DeletedTradeRepository repository;
   GetDeletedTrades(this.repository);
@@ -11,6 +12,7 @@ class GetDeletedTrades implements UseCase<List<DeletedTrade>, NoParams> {
     return repository.getDeletedTrades();
   }
 }
+
 class GetDeletedTradesWithFilters
     implements UseCase<List<DeletedTrade>, DeletedTradeFilterParams> {
   final DeletedTradeRepository repository;
@@ -27,6 +29,7 @@ class GetDeletedTradesWithFilters
     );
   }
 }
+
 class DeletedTradeFilterParams {
   final String? userType;
   final String? user;
@@ -39,6 +42,7 @@ class DeletedTradeFilterParams {
     this.symbol,
   });
 }
+
 class GetDeletedTradeUserTypes implements UseCase<List<String>, NoParams> {
   final DeletedTradeRepository repository;
   GetDeletedTradeUserTypes(this.repository);
@@ -47,6 +51,7 @@ class GetDeletedTradeUserTypes implements UseCase<List<String>, NoParams> {
     return repository.getUserTypes();
   }
 }
+
 class GetDeletedTradeUsers implements UseCase<List<String>, NoParams> {
   final DeletedTradeRepository repository;
   GetDeletedTradeUsers(this.repository);
@@ -55,6 +60,7 @@ class GetDeletedTradeUsers implements UseCase<List<String>, NoParams> {
     return repository.getUsers();
   }
 }
+
 class GetDeletedTradeExchanges implements UseCase<List<String>, NoParams> {
   final DeletedTradeRepository repository;
   GetDeletedTradeExchanges(this.repository);
@@ -63,6 +69,7 @@ class GetDeletedTradeExchanges implements UseCase<List<String>, NoParams> {
     return repository.getExchanges();
   }
 }
+
 class GetDeletedTradeSymbols implements UseCase<List<String>, NoParams> {
   final DeletedTradeRepository repository;
   GetDeletedTradeSymbols(this.repository);
@@ -71,6 +78,7 @@ class GetDeletedTradeSymbols implements UseCase<List<String>, NoParams> {
     return repository.getSymbols();
   }
 }
+
 class ExportDeletedTradesToPdf implements UseCase<String, List<DeletedTrade>> {
   final DeletedTradeRepository repository;
   ExportDeletedTradesToPdf(this.repository);
@@ -79,6 +87,7 @@ class ExportDeletedTradesToPdf implements UseCase<String, List<DeletedTrade>> {
     return repository.exportToPdf(trades);
   }
 }
+
 class ExportDeletedTradesToExcel
     implements UseCase<String, List<DeletedTrade>> {
   final DeletedTradeRepository repository;

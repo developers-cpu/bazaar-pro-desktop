@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+
 class UserSharingInfo extends Equatable {
   final String person;
   final String share;

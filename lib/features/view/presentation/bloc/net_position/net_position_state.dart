@@ -1,16 +1,20 @@
 import 'package:equatable/equatable.dart';
 import '../../../domain/entities/net_postion/net_position.dart';
+
 abstract class NetPositionState extends Equatable {
   const NetPositionState();
   @override
   List<Object?> get props => [];
 }
+
 class NetPositionInitial extends NetPositionState {
   const NetPositionInitial();
 }
+
 class NetPositionLoading extends NetPositionState {
   const NetPositionLoading();
 }
+
 class NetPositionLoaded extends NetPositionState {
   final List<NetPosition> positions;
   final List<NetPosition> filteredPositions;
@@ -93,12 +97,14 @@ class NetPositionLoaded extends NetPositionState {
     );
   }
 }
+
 class NetPositionError extends NetPositionState {
   final String message;
   const NetPositionError(this.message);
   @override
   List<Object?> get props => [message];
 }
+
 class NetPositionExportSuccess extends NetPositionState {
   final String message;
   final String filePath;
@@ -109,6 +115,7 @@ class NetPositionExportSuccess extends NetPositionState {
   @override
   List<Object?> get props => [message, filePath];
 }
+
 class PositionDetailsLoaded extends NetPositionState {
   final List<NetPosition> detailPositions;
   final String symbol;
@@ -121,9 +128,11 @@ class PositionDetailsLoaded extends NetPositionState {
   @override
   List<Object?> get props => [detailPositions, symbol, userName];
 }
+
 class PositionDetailsLoading extends NetPositionState {
   const PositionDetailsLoading();
 }
+
 class PositionDetailsError extends NetPositionState {
   final String message;
   const PositionDetailsError(this.message);

@@ -10,6 +10,7 @@ import '../bloc/settlement_report/settlement_report_state.dart';
 import '../widgets/settlement_report/settlement_filter_bar.dart';
 import '../widgets/settlement_report/settlement_report_view.dart';
 import '../../../../../../core/constants/app_colors.dart';
+
 class SettlementReportPage extends StatelessWidget {
   const SettlementReportPage({super.key});
   @override

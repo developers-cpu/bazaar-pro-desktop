@@ -5,6 +5,7 @@ import 'package:printing/printing.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:open_filex/open_filex.dart';
 import '../../domain/entities/broker_list/client_breakdown.dart';
+
 class ClientBreakdownService {
   static Future<void> exportAsPdf(ClientBreakdown breakdown) async {
     final fontRegular = await PdfGoogleFonts.openSansRegular();
@@ -18,7 +19,7 @@ class ClientBreakdownService {
         margin: const pw.EdgeInsets.all(32),
         build: (pw.Context context) {
           final items = <pw.Widget>[];
-          
+
           items.add(
             pw.Center(
               child: pw.Text(
@@ -32,10 +33,13 @@ class ClientBreakdownService {
             ),
           );
           items.add(pw.SizedBox(height: 20));
-          
+
           items.add(
             pw.Container(
-              padding: const pw.EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: const pw.EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 8,
+              ),
               color: PdfColors.blueGrey800,
               child: pw.Row(
                 mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
@@ -53,7 +57,7 @@ class ClientBreakdownService {
             ),
           );
           items.add(pw.SizedBox(height: 20));
-          
+
           for (final section in breakdown.sections) {
             items.add(_buildSection(section));
             items.add(pw.SizedBox(height: 16));
@@ -66,10 +70,10 @@ class ClientBreakdownService {
         'Client_Breakdown_${breakdown.clientName}_${DateTime.now().millisecondsSinceEpoch}.pdf';
     await _saveAndOpenFile(await pdf.save(), fileName);
   }
+
   static pw.Widget _buildSection(ClientBreakdownSection section) {
     return pw.Column(
       children: [
-        
         pw.Container(
           width: double.infinity,
           padding: const pw.EdgeInsets.symmetric(vertical: 4),
@@ -82,24 +86,28 @@ class ClientBreakdownService {
             style: pw.TextStyle(fontSize: 12, fontWeight: pw.FontWeight.bold),
           ),
         ),
-        
+
         pw.TableHelper.fromTextArray(
           headers: [
             section.isSymbolBased ? 'SYMBOL' : 'EXCHNAGE',
             'TURNOVER',
             'BROKRAGE',
           ],
-          data: section.rows.map((row) => [
-            row.label,
-            row.turnover,
-            row.brokerage.toStringAsFixed(0),
-          ]).toList(),
+          data: section.rows
+              .map(
+                (row) => [
+                  row.label,
+                  row.turnover,
+                  row.brokerage.toStringAsFixed(0),
+                ],
+              )
+              .toList(),
           headerStyle: pw.TextStyle(fontWeight: pw.FontWeight.bold),
           headerDecoration: const pw.BoxDecoration(color: PdfColors.blue50),
           cellAlignment: pw.Alignment.center,
           border: pw.TableBorder.all(color: PdfColors.grey300, width: 0.5),
         ),
-        
+
         if (section.hasFooter)
           pw.Container(
             padding: const pw.EdgeInsets.symmetric(vertical: 4, horizontal: 8),
@@ -116,10 +124,12 @@ class ClientBreakdownService {
                     style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
                   ),
                 ),
-                pw.Expanded(child: pw.SizedBox()), 
+                pw.Expanded(child: pw.SizedBox()),
                 pw.Expanded(
                   child: pw.Text(
-                    section.rows.fold(0.0, (sum, row) => sum + row.brokerage).toStringAsFixed(0),
+                    section.rows
+                        .fold(0.0, (sum, row) => sum + row.brokerage)
+                        .toStringAsFixed(0),
                     textAlign: pw.TextAlign.center,
                     style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
                   ),
@@ -130,6 +140,7 @@ class ClientBreakdownService {
       ],
     );
   }
+
   static Future<void> _saveAndOpenFile(List<int> bytes, String fileName) async {
     final directory = await getApplicationDocumentsDirectory();
     final file = File('${directory.path}/$fileName');

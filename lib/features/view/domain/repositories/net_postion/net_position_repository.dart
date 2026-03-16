@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import '../../../../../core/errors/failures.dart';
 import '../../entities/net_postion/net_position.dart';
+
 abstract class NetPositionRepository {
   Future<Either<Failure, List<NetPosition>>> getNetPositions();
   Future<Either<Failure, List<NetPosition>>> getNetPositionsWithFilters({

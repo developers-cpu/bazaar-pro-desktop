@@ -9,6 +9,7 @@ import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
+
 class UsedMarginDialog {
   static void show({required BuildContext context}) {
     CommonDialog.show(
@@ -23,11 +24,14 @@ class UsedMarginDialog {
     );
   }
 }
+
 class _UsedMarginDialogContent extends StatefulWidget {
   const _UsedMarginDialogContent({Key? key}) : super(key: key);
   @override
-  State<_UsedMarginDialogContent> createState() => _UsedMarginDialogContentState();
+  State<_UsedMarginDialogContent> createState() =>
+      _UsedMarginDialogContentState();
 }
+
 class _UsedMarginDialogContentState extends State<_UsedMarginDialogContent> {
   String _selectedUserType = 'User Type';
   String _selectedUser = 'User';
@@ -51,7 +55,7 @@ class _UsedMarginDialogContentState extends State<_UsedMarginDialogContent> {
                   child: AppDropdown(
                     value: _selectedUserType,
                     hintText: 'User Type',
-                    items: const [ 'Client', 'Master'],
+                    items: const ['Client', 'Master'],
                     onChanged: (val) {
                       if (val != null) setState(() => _selectedUserType = val);
                     },
@@ -62,7 +66,7 @@ class _UsedMarginDialogContentState extends State<_UsedMarginDialogContent> {
                   child: AppDropdown(
                     value: _selectedUser,
                     hintText: 'Username',
-                    items: const [ 'John Doe', 'Jane Doe'],
+                    items: const ['John Doe', 'Jane Doe'],
                     onChanged: (val) {
                       if (val != null) setState(() => _selectedUser = val);
                     },
@@ -74,7 +78,15 @@ class _UsedMarginDialogContentState extends State<_UsedMarginDialogContent> {
                     value: _selectedExchange,
                     hintText: 'Exchange',
                     items: const [
-                      'NSE', 'MCX', 'CE/PE', 'OTHERS', 'COMEX FUTURE', 'COMEX SPOT', 'CRYPTO', 'GIFT', 'FOREX',
+                      'NSE',
+                      'MCX',
+                      'CE/PE',
+                      'OTHERS',
+                      'COMEX FUTURE',
+                      'COMEX SPOT',
+                      'CRYPTO',
+                      'GIFT',
+                      'FOREX',
                     ],
                     onChanged: (val) {
                       if (val != null) setState(() => _selectedExchange = val);
@@ -88,9 +100,14 @@ class _UsedMarginDialogContentState extends State<_UsedMarginDialogContent> {
                     value: _selectedSymbol,
                     hintText: 'Symbol',
                     items: const [
-                      'SGX GIFTNIFTY Oct 28', 'NSE NIFTY Oct 28', 'NSE BANKNIFTY Oct 28',
-                      'MINI GOLDMINI Dec 05', 'MINI SILVERMINI Dec 05', 'OTHER DOW Dec 19',
-                      'OTHER NASDAQ Dec 19', 'OTHER S & P Dec 19',
+                      'SGX GIFTNIFTY Oct 28',
+                      'NSE NIFTY Oct 28',
+                      'NSE BANKNIFTY Oct 28',
+                      'MINI GOLDMINI Dec 05',
+                      'MINI SILVERMINI Dec 05',
+                      'OTHER DOW Dec 19',
+                      'OTHER NASDAQ Dec 19',
+                      'OTHER S & P Dec 19',
                     ],
                     onChanged: (val) {
                       if (val != null) setState(() => _selectedSymbol = val);
@@ -103,7 +120,15 @@ class _UsedMarginDialogContentState extends State<_UsedMarginDialogContent> {
                     value: _selectedExchange,
                     hintText: 'Exchange',
                     items: const [
-                      'NSE', 'MCX', 'CE/PE', 'OTHERS', 'COMEX FUTURE', 'COMEX SPOT', 'CRYPTO', 'GIFT', 'FOREX',
+                      'NSE',
+                      'MCX',
+                      'CE/PE',
+                      'OTHERS',
+                      'COMEX FUTURE',
+                      'COMEX SPOT',
+                      'CRYPTO',
+                      'GIFT',
+                      'FOREX',
                     ],
                     onChanged: (val) {
                       if (val != null) setState(() => _selectedExchange = val);
@@ -117,9 +142,14 @@ class _UsedMarginDialogContentState extends State<_UsedMarginDialogContent> {
                     value: _selectedSymbol,
                     hintText: 'Symbol',
                     items: const [
-                      'SGX GIFTNIFTY Oct 28', 'NSE NIFTY Oct 28', 'NSE BANKNIFTY Oct 28',
-                      'MINI GOLDMINI Dec 05', 'MINI SILVERMINI Dec 05', 'OTHER DOW Dec 19',
-                      'OTHER NASDAQ Dec 19', 'OTHER S & P Dec 19',
+                      'SGX GIFTNIFTY Oct 28',
+                      'NSE NIFTY Oct 28',
+                      'NSE BANKNIFTY Oct 28',
+                      'MINI GOLDMINI Dec 05',
+                      'MINI SILVERMINI Dec 05',
+                      'OTHER DOW Dec 19',
+                      'OTHER NASDAQ Dec 19',
+                      'OTHER S & P Dec 19',
                     ],
                     onChanged: (val) {
                       if (val != null) setState(() => _selectedSymbol = val);
@@ -141,6 +171,7 @@ class _UsedMarginDialogContentState extends State<_UsedMarginDialogContent> {
       ],
     );
   }
+
   Widget _buildTable() {
     return Column(
       children: [
@@ -161,6 +192,7 @@ class _UsedMarginDialogContentState extends State<_UsedMarginDialogContent> {
       ],
     );
   }
+
   List<ViewTableColumn> _getColumns() {
     return [
       ViewTableColumn(id: 'exchange', label: 'EXCH', width: 80.w),
@@ -179,6 +211,7 @@ class _UsedMarginDialogContentState extends State<_UsedMarginDialogContent> {
       ),
     ];
   }
+
   Widget _buildCell(int index, ViewTableColumn column) {
     bool isEven = index % 2 == 0;
     String qty = index % 3 == 0 ? '1000' : (isEven ? '1.00' : '-1.00');
@@ -204,6 +237,7 @@ class _UsedMarginDialogContentState extends State<_UsedMarginDialogContent> {
         return const SizedBox.shrink();
     }
   }
+
   Widget _buildTotalsRow(List<ViewTableColumn> columns) {
     final Map<String, String> values = {
       'exchange': 'TOTAL',

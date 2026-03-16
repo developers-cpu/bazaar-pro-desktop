@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+
 class ShortcutEntity extends Equatable {
   final String title;
   final String keyComb;

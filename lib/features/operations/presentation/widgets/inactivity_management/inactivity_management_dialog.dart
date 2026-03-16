@@ -5,6 +5,7 @@ import '../../../../../../core/constants/app_colors.dart';
 import '../../../../../../core/widget/common_dilog_box.dart';
 import '../../../../../../core/widget/custom_input_field.dart';
 import '../../../../../../core/widget/custom_action_button.dart';
+
 class InactivityManagementDialog {
   static void show(BuildContext context) {
     CommonDialog.show(
@@ -18,16 +19,16 @@ class InactivityManagementDialog {
     );
   }
 }
+
 class _InactivityManagementContent extends StatefulWidget {
   final VoidCallback onClose;
-  const _InactivityManagementContent({
-    Key? key,
-    required this.onClose,
-  }) : super(key: key);
+  const _InactivityManagementContent({Key? key, required this.onClose})
+    : super(key: key);
   @override
   State<_InactivityManagementContent> createState() =>
       _InactivityManagementContentState();
 }
+
 class _InactivityManagementContentState
     extends State<_InactivityManagementContent> {
   final TextEditingController _daysCtrl = TextEditingController();
@@ -36,6 +37,7 @@ class _InactivityManagementContentState
     _daysCtrl.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Column(

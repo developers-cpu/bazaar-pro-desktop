@@ -3,9 +3,11 @@ import 'package:flutter/services.dart';
 import '../../../../core/routes/app_routes.dart';
 import '../../../../core/routes/navigator_key.dart';
 import '../../../../core/widget/common_dilog_box.dart';
+
 class GlobalEscapeIntent extends Intent {
   const GlobalEscapeIntent();
 }
+
 class GlobalEscapeAction extends Action<GlobalEscapeIntent> {
   @override
   Object? invoke(GlobalEscapeIntent intent) {
@@ -31,6 +33,7 @@ class GlobalEscapeAction extends Action<GlobalEscapeIntent> {
     return null;
   }
 }
+
 class GlobalEscapeShortcut extends StatelessWidget {
   final Widget child;
   const GlobalEscapeShortcut({Key? key, required this.child}) : super(key: key);
@@ -38,7 +41,8 @@ class GlobalEscapeShortcut extends StatelessWidget {
   Widget build(BuildContext context) {
     return Shortcuts(
       shortcuts: <ShortcutActivator, Intent>{
-        const SingleActivator(LogicalKeyboardKey.escape): const GlobalEscapeIntent(),
+        const SingleActivator(LogicalKeyboardKey.escape):
+            const GlobalEscapeIntent(),
       },
       child: Actions(
         actions: <Type, Action<Intent>>{

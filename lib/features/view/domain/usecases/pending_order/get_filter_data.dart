@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import '../../../../../core/errors/failures.dart';
 import '../../../../../core/usecases/usecase.dart';
 import '../../repositories/pending_orders/pending_orders_repository.dart';
+
 class GetClients implements UseCase<List<String>, NoParams> {
   final PendingOrdersRepository repository;
   GetClients(this.repository);
@@ -10,6 +11,7 @@ class GetClients implements UseCase<List<String>, NoParams> {
     return await repository.getClients();
   }
 }
+
 class GetExchanges implements UseCase<List<String>, NoParams> {
   final PendingOrdersRepository repository;
   GetExchanges(this.repository);
@@ -18,6 +20,7 @@ class GetExchanges implements UseCase<List<String>, NoParams> {
     return await repository.getExchanges();
   }
 }
+
 class GetSymbols implements UseCase<List<String>, NoParams> {
   final PendingOrdersRepository repository;
   GetSymbols(this.repository);
@@ -26,6 +29,7 @@ class GetSymbols implements UseCase<List<String>, NoParams> {
     return await repository.getSymbols();
   }
 }
+
 class GetOrderTypes {
   final PendingOrdersRepository repository;
   GetOrderTypes(this.repository);

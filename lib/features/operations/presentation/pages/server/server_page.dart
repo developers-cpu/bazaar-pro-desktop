@@ -11,11 +11,13 @@ import '../../bloc/server/server_event.dart';
 import '../../bloc/server/server_state.dart';
 import '../../widgets/server/add_edit_server_dialog.dart';
 import '../../widgets/server/server_data_table.dart';
+
 class ServerPage extends StatefulWidget {
   const ServerPage({super.key});
   @override
   State<ServerPage> createState() => _ServerPageState();
 }
+
 class _ServerPageState extends State<ServerPage> {
   final TextEditingController _searchCtrl = TextEditingController();
   @override
@@ -26,11 +28,13 @@ class _ServerPageState extends State<ServerPage> {
       context.read<ServerBloc>().add(SearchServerEvent(_searchCtrl.text));
     });
   }
+
   @override
   void dispose() {
     _searchCtrl.dispose();
     super.dispose();
   }
+
   void _showAddServerDialog() {
     AddEditServerDialog.show(
       context: context,
@@ -43,6 +47,7 @@ class _ServerPageState extends State<ServerPage> {
       },
     );
   }
+
   void _showEditServerDialog(String id, String initialName) {
     AddEditServerDialog.show(
       context: context,
@@ -56,6 +61,7 @@ class _ServerPageState extends State<ServerPage> {
       },
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return Padding(

@@ -10,6 +10,7 @@ import '../../../../../core/widget/table/view_data_table_footer.dart';
 import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import '../../../domain/entities/broker_list/client_breakdown.dart';
 import '../../bloc/broker_list/client_breakdown_bloc.dart';
+
 class ClientBreakdownDialog {
   static void show({
     required BuildContext context,
@@ -28,14 +29,13 @@ class ClientBreakdownDialog {
       scrollable: true,
       contentPadding: EdgeInsets.zero,
       content: BlocProvider(
-        create:
-            (context) => sl<ClientBreakdownBloc>()
-              ..add(
-                LoadClientBreakdownEvent(
-                  brokerId: brokerId,
-                  clientName: clientName,
-                ),
-              ),
+        create: (context) => sl<ClientBreakdownBloc>()
+          ..add(
+            LoadClientBreakdownEvent(
+              brokerId: brokerId,
+              clientName: clientName,
+            ),
+          ),
         child: _ClientBreakdownContent(
           brokerId: brokerId,
           clientName: clientName,
@@ -45,6 +45,7 @@ class ClientBreakdownDialog {
     );
   }
 }
+
 class _ClientBreakdownContent extends StatelessWidget {
   final String brokerId;
   final String clientName;
@@ -84,21 +85,20 @@ class _ClientBreakdownContent extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.all(16.w),
                 child: Column(
-                  children:
-                      breakdown.sections.map((section) {
-                        return Column(
-                          children: [
-                            _buildSection(
-                              context,
-                              section.title,
-                              section.rows,
-                              isSymbolBased: section.isSymbolBased,
-                              hasFooter: section.hasFooter,
-                            ),
-                            SizedBox(height: 16.h),
-                          ],
-                        );
-                      }).toList(),
+                  children: breakdown.sections.map((section) {
+                    return Column(
+                      children: [
+                        _buildSection(
+                          context,
+                          section.title,
+                          section.rows,
+                          isSymbolBased: section.isSymbolBased,
+                          hasFooter: section.hasFooter,
+                        ),
+                        SizedBox(height: 16.h),
+                      ],
+                    );
+                  }).toList(),
                 ),
               ),
             ],
@@ -108,6 +108,7 @@ class _ClientBreakdownContent extends StatelessWidget {
       },
     );
   }
+
   Widget _buildHeader(BuildContext context, ClientBreakdown breakdown) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
@@ -165,6 +166,7 @@ class _ClientBreakdownContent extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildSection(
     BuildContext context,
     String title,
@@ -191,17 +193,16 @@ class _ClientBreakdownContent extends StatelessWidget {
         isNumeric: true,
       ),
     ];
-    
-    final data =
-        rows
-            .map(
-              (row) => {
-                isSymbolBased ? 'symbol' : 'exchange': row.label,
-                'turnover': row.turnover,
-                'brokerage': row.brokerage,
-              },
-            )
-            .toList();
+
+    final data = rows
+        .map(
+          (row) => {
+            isSymbolBased ? 'symbol' : 'exchange': row.label,
+            'turnover': row.turnover,
+            'brokerage': row.brokerage,
+          },
+        )
+        .toList();
     return Column(
       children: [
         Container(
@@ -229,8 +230,8 @@ class _ClientBreakdownContent extends StatelessWidget {
         ViewDataTable<Map<String, dynamic>>(
           columns: columns,
           data: data,
-          idExtractor:
-              (item) => (item['symbol'] ?? item['exchange']).toString(),
+          idExtractor: (item) =>
+              (item['symbol'] ?? item['exchange']).toString(),
           isDarkMode: isDarkMode,
           shrinkWrap: true,
           autoFit: true,

@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import '../../models/rejected_trade/rejected_trade_model.dart';
+
 abstract class RejectedTradeRemoteDataSource {
   Future<List<RejectedTradeModel>> getRejectedTrades();
   Future<List<RejectedTradeModel>> getRejectedTradesWithFilters({
@@ -15,6 +16,7 @@ abstract class RejectedTradeRemoteDataSource {
   Future<String> exportToPdf(List<RejectedTradeModel> trades);
   Future<String> exportToExcel(List<RejectedTradeModel> trades);
 }
+
 class RejectedTradeRemoteDataSourceImpl
     implements RejectedTradeRemoteDataSource {
   final Dio dio;
@@ -28,6 +30,7 @@ class RejectedTradeRemoteDataSourceImpl
       throw Exception('Failed to fetch rejected trades: $e');
     }
   }
+
   @override
   Future<List<RejectedTradeModel>> getRejectedTradesWithFilters({
     String? userType,
@@ -55,6 +58,7 @@ class RejectedTradeRemoteDataSourceImpl
       throw Exception('Failed to fetch filtered rejected trades: $e');
     }
   }
+
   @override
   Future<List<String>> getUserTypes() async {
     try {
@@ -64,6 +68,7 @@ class RejectedTradeRemoteDataSourceImpl
       throw Exception('Failed to fetch user types: $e');
     }
   }
+
   @override
   Future<List<String>> getUsers() async {
     try {
@@ -73,6 +78,7 @@ class RejectedTradeRemoteDataSourceImpl
       throw Exception('Failed to fetch users: $e');
     }
   }
+
   @override
   Future<List<String>> getExchanges() async {
     try {
@@ -82,6 +88,7 @@ class RejectedTradeRemoteDataSourceImpl
       throw Exception('Failed to fetch exchanges: $e');
     }
   }
+
   @override
   Future<List<String>> getSymbols() async {
     try {
@@ -91,6 +98,7 @@ class RejectedTradeRemoteDataSourceImpl
       throw Exception('Failed to fetch symbols: $e');
     }
   }
+
   @override
   Future<String> exportToPdf(List<RejectedTradeModel> trades) async {
     try {
@@ -100,6 +108,7 @@ class RejectedTradeRemoteDataSourceImpl
       throw Exception('Failed to export PDF: $e');
     }
   }
+
   @override
   Future<String> exportToExcel(List<RejectedTradeModel> trades) async {
     try {
@@ -109,6 +118,7 @@ class RejectedTradeRemoteDataSourceImpl
       throw Exception('Failed to export Excel: $e');
     }
   }
+
   List<RejectedTradeModel> _generateMockRejectedTrades() {
     final List<RejectedTradeModel> trades = [];
     final users = ['PATIL', 'DEMO4'];

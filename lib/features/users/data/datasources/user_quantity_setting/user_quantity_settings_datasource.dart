@@ -1,9 +1,11 @@
 import 'package:bazarpro/features/users/data/models/user_quantity_setting/user_quantity_setting_metadata_model.dart';
 import 'package:bazarpro/features/users/data/models/user_quantity_setting/user_quantity_setting_model.dart';
+
 abstract class UserQuantitySettingsDataSource {
   Future<List<UserQuantitySettingModel>> getUserQuantitySettings(String userId);
   Future<UserQuantitySettingMetadataModel> getQuantitySettingsMetadata();
 }
+
 class UserQuantitySettingsDataSourceImpl
     implements UserQuantitySettingsDataSource {
   @override
@@ -30,6 +32,7 @@ class UserQuantitySettingsDataSourceImpl
       ),
     ];
   }
+
   @override
   Future<UserQuantitySettingMetadataModel> getQuantitySettingsMetadata() async {
     await Future.delayed(const Duration(milliseconds: 500));

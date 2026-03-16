@@ -11,6 +11,7 @@ import '../../../../../../core/widget/table/view_data_table.dart';
 import '../../../../domain/entities/settlement_progress/bhav_copy_entity.dart';
 import '../../../bloc/settlement_progress/settlement_progress_bloc.dart';
 import '../../../bloc/settlement_progress/settlement_progress_event.dart';
+
 class BhavCopyPreviewDialog {
   static void show(
     BuildContext context, {
@@ -35,6 +36,7 @@ class BhavCopyPreviewDialog {
     );
   }
 }
+
 class _BhavCopyPreviewContent extends StatefulWidget {
   final List<BhavCopyEntity> data;
   final VoidCallback onClose;
@@ -47,6 +49,7 @@ class _BhavCopyPreviewContent extends StatefulWidget {
   State<_BhavCopyPreviewContent> createState() =>
       _BhavCopyPreviewContentState();
 }
+
 class _BhavCopyPreviewContentState extends State<_BhavCopyPreviewContent> {
   final _searchController = TextEditingController();
   List<BhavCopyEntity> _filteredData = [];
@@ -55,11 +58,13 @@ class _BhavCopyPreviewContentState extends State<_BhavCopyPreviewContent> {
     super.initState();
     _filteredData = widget.data;
   }
+
   @override
   void dispose() {
     _searchController.dispose();
     super.dispose();
   }
+
   void _onSearch(String query) {
     if (query.isEmpty) {
       setState(() {
@@ -75,12 +80,14 @@ class _BhavCopyPreviewContentState extends State<_BhavCopyPreviewContent> {
       }).toList();
     });
   }
+
   void _onSubmit(BuildContext context) {
     context.read<SettlementProgressBloc>().add(
       SubmitBhavCopyEvent(widget.data),
     );
     widget.onClose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -123,11 +130,7 @@ class _BhavCopyPreviewContentState extends State<_BhavCopyPreviewContent> {
                   label: 'EXPIRY DATE',
                   width: 120.w,
                 ),
-                ViewTableColumn(
-                  id: 'dayHigh',
-                  label: 'DAY HIGH',
-                  width: 120.w,
-                ),
+                ViewTableColumn(id: 'dayHigh', label: 'DAY HIGH', width: 120.w),
                 ViewTableColumn(id: 'dayLow', label: 'DAY LOW', width: 120.w),
                 ViewTableColumn(
                   id: 'dayClose',

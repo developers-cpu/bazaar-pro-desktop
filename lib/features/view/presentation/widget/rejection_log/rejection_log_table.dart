@@ -10,6 +10,7 @@ import '../../../../../core/widget/table/view_record_count.dart';
 import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import '../../../../auth/presentation/bloc/auth_bloc.dart';
 import '../../../../auth/presentation/bloc/auth_state.dart';
+
 class RejectionLogTable extends StatelessWidget {
   const RejectionLogTable({Key? key}) : super(key: key);
   List<ViewTableColumn> _getColumns(bool isClient, bool isMaster) {
@@ -29,7 +30,7 @@ class RejectionLogTable extends StatelessWidget {
         ViewTableColumn(id: 'comment', label: 'COMMENT', width: 500),
       ];
     }
-   
+
     return const [
       ViewTableColumn(id: 'orderDateTime', label: 'ORDER D/T', width: 170),
       ViewTableColumn(id: 'status', label: 'STATUS', width: 80),
@@ -46,6 +47,7 @@ class RejectionLogTable extends StatelessWidget {
       ViewTableColumn(id: 'date', label: 'DATE', width: 170),
     ];
   }
+
   @override
   Widget build(BuildContext context) {
     bool isClient = false;
@@ -105,6 +107,7 @@ class RejectionLogTable extends StatelessWidget {
       },
     );
   }
+
   Widget _buildCell(RejectionLog log, ViewTableColumn column) {
     switch (column.id) {
       case 'orderDateTime':

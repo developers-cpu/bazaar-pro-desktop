@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import '../../../data/models/order_dialog_type.dart';
+
 class OrderDialogState extends Equatable {
   final OrderDialogTypeEnum dialogType;
   final String clientName;
@@ -55,6 +56,7 @@ class OrderDialogState extends Equatable {
       errorMessage: errorMessage,
     );
   }
+
   @override
   List<Object?> get props => [
     dialogType,

@@ -11,6 +11,7 @@ import '../../../../../core/widget/table/animated_price_box.dart';
 import 'delete_order_dialog.dart';
 import 'modify_order_dialog.dart';
 import 'pending_to_success_dialog.dart';
+
 class TradeDetailsDialog {
   static void show({
     required BuildContext context,
@@ -30,6 +31,7 @@ class TradeDetailsDialog {
     );
   }
 }
+
 class _TradeDetailsContent extends StatelessWidget {
   final PendingOrder order;
   final bool isDarkMode;
@@ -50,141 +52,141 @@ class _TradeDetailsContent extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
       child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          order.symbol,
-                          style: GoogleFonts.openSans(
-                            fontSize: 16.sp,
-                            color: const Color(0xFF2C5F7A),
-                          ),
-                        ),
-                        SizedBox(height: 4.h),
-                        Text(
-                          'Q.${order.qty.toStringAsFixed(6)}',
-                          style: GoogleFonts.openSans(
-                            fontSize: 14.sp,
-                            color: const Color(0xFF2C5F7A),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      AnimatedPriceBox(
-                        price: order.triggerPrice.toStringAsFixed(0),
-                        isDarkMode: isDarkMode,
+                      Text(
+                        order.symbol,
+                        style: GoogleFonts.openSans(
+                          fontSize: 16.sp,
+                          color: const Color(0xFF2C5F7A),
+                        ),
                       ),
-                      SizedBox(width: 8.w),
-                      AnimatedPriceBox(
-                        price: order.triggerPrice.toStringAsFixed(0),
-                        isDarkMode: isDarkMode,
+                      SizedBox(height: 4.h),
+                      Text(
+                        'Q.${order.qty.toStringAsFixed(6)}',
+                        style: GoogleFonts.openSans(
+                          fontSize: 14.sp,
+                          color: const Color(0xFF2C5F7A),
+                        ),
                       ),
                     ],
                   ),
-                ],
+                ),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    AnimatedPriceBox(
+                      price: order.triggerPrice.toStringAsFixed(0),
+                      isDarkMode: isDarkMode,
+                    ),
+                    SizedBox(width: 8.w),
+                    AnimatedPriceBox(
+                      price: order.triggerPrice.toStringAsFixed(0),
+                      isDarkMode: isDarkMode,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          if (!isClient) ...[
+            SizedBox(height: 16.h),
+            Container(
+              width: double.infinity,
+              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+              decoration: BoxDecoration(
+                border: Border.all(color: AppColors.greyBorder),
+                borderRadius: BorderRadius.circular(8.r),
+              ),
+              child: Text(
+                order.userId,
+                style: GoogleFonts.openSans(
+                  fontSize: 16.sp,
+                  color: Colors.grey.shade600,
+                ),
               ),
             ),
-            if (!isClient) ...[
-              SizedBox(height: 16.h),
-              Container(
-                width: double.infinity,
-                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-                decoration: BoxDecoration(
-                  border: Border.all(color: AppColors.greyBorder),
-                  borderRadius: BorderRadius.circular(8.r),
-                ),
-                child: Text(
-                  order.userId,
-                  style: GoogleFonts.openSans(
-                    fontSize: 16.sp,
-                    color: Colors.grey.shade600,
+          ],
+          SizedBox(height: 12.h),
+          Row(
+            children: [
+              Expanded(
+                child: SizedBox(
+                  height: 40.h,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      ModifyOrderDialog.show(
+                        context: context,
+                        order: order,
+                        isDarkMode: isDarkMode,
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.blue,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.r),
+                      ),
+                    ),
+                    child: Text(
+                      'Modify Order',
+                      style: GoogleFonts.openSans(
+                        fontSize: 14.sp,
+                        color: AppColors.white,
+                      ),
+                    ),
                   ),
                 ),
               ),
-            ],
-            SizedBox(height: 12.h),
-            Row(
-              children: [
-                Expanded(
-                  child: SizedBox(
-                    height: 40.h,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        ModifyOrderDialog.show(
+              SizedBox(width: 16.w),
+              Expanded(
+                child: SizedBox(
+                  height: 40.h,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      if (isClient) {
+                        PendingToSuccessDialog.show(
                           context: context,
                           order: order,
                           isDarkMode: isDarkMode,
                         );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.blue,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.r),
-                        ),
+                        CommonDialog.closeRecent();
+                      } else {
+                        DeleteOrderDialog.show(
+                          context: context,
+                          order: order,
+                          isDarkMode: isDarkMode,
+                        );
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: isClient
+                          ? const Color(0xFF1F4A66)
+                          : AppColors.red,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.r),
                       ),
-                      child: Text(
-                        'Modify Order',
-                        style: GoogleFonts.openSans(
-                          fontSize: 14.sp,
-                          color: AppColors.white,
-                        ),
+                    ),
+                    child: Text(
+                      isClient ? 'Pending to Success' : 'Cancel Order',
+                      style: GoogleFonts.openSans(
+                        fontSize: 14.sp,
+                        color: AppColors.white,
                       ),
                     ),
                   ),
                 ),
-                SizedBox(width: 16.w),
-                Expanded(
-                  child: SizedBox(
-                    height: 40.h,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        if (isClient) {
-                          PendingToSuccessDialog.show(
-                            context: context,
-                            order: order,
-                            isDarkMode: isDarkMode,
-                          );
-                          CommonDialog.closeRecent();
-                        } else {
-                          DeleteOrderDialog.show(
-                            context: context,
-                            order: order,
-                            isDarkMode: isDarkMode,
-                          );
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: isClient
-                            ? const Color(0xFF1F4A66)
-                            : AppColors.red,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.r),
-                        ),
-                      ),
-                      child: Text(
-                        isClient ? 'Pending to Success' : 'Cancel Order',
-                        style: GoogleFonts.openSans(
-                          fontSize: 14.sp,
-                          color: AppColors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

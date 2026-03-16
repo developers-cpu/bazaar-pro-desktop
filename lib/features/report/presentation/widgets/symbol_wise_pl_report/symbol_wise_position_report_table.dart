@@ -9,6 +9,7 @@ import '../../../../../core/widget/table/view_data_table_footer.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../bloc/symbol_wise_position_report/symbol_wise_position_report_bloc.dart';
 import '../../bloc/symbol_wise_position_report/symbol_wise_position_report_state.dart';
+
 class SymbolWisePositionReportTable extends StatelessWidget {
   final bool isDarkMode;
   const SymbolWisePositionReportTable({super.key, this.isDarkMode = false});
@@ -57,6 +58,7 @@ class SymbolWisePositionReportTable extends StatelessWidget {
       ViewTableColumn(id: 'm2m', label: 'BRK%', width: 120, isNumeric: true),
     ];
   }
+
   Widget _buildClickableNumberCell(
     BuildContext context,
     double value,
@@ -77,6 +79,7 @@ class SymbolWisePositionReportTable extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildCell(
     BuildContext context,
     SymbolWisePositionReport item,
@@ -141,6 +144,7 @@ class SymbolWisePositionReportTable extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<

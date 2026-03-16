@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/constants/app_images.dart';
 import '../../../../../core/widget/custom_input_field.dart';
+
 class ExchangeSettingsToolbar extends StatelessWidget {
   final int activeTab;
   final int recordCount;

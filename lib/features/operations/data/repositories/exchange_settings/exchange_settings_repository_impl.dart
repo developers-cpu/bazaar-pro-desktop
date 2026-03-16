@@ -3,6 +3,7 @@ import '../../../../../core/errors/failures.dart';
 import '../../../domain/entities/exchange_settings/exchange_setting.dart';
 import '../../../domain/repositories/exchange_settings/exchange_settings_repository.dart';
 import '../../datasources/exchange_settings/exchange_settings_remote_data_source.dart';
+
 class ExchangeSettingsRepositoryImpl implements ExchangeSettingsRepository {
   final ExchangeSettingsRemoteDataSource remoteDataSource;
   ExchangeSettingsRepositoryImpl({required this.remoteDataSource});
@@ -15,6 +16,7 @@ class ExchangeSettingsRepositoryImpl implements ExchangeSettingsRepository {
       return Left(ServerFailure());
     }
   }
+
   @override
   Future<Either<Failure, bool>> updateExchangeSettings({
     required List<String> ids,
@@ -26,6 +28,7 @@ class ExchangeSettingsRepositoryImpl implements ExchangeSettingsRepository {
       return Left(ServerFailure());
     }
   }
+
   @override
   Future<Either<Failure, List<DefaultSymbol>>> getDefaultSymbols({
     required String exchange,

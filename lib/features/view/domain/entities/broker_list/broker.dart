@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+
 class Broker extends Equatable {
   final int index;
   final DateTime createdAt;

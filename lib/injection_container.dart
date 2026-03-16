@@ -345,6 +345,7 @@ import 'features/operations/domain/usecases/get_settlement_master_sharing.dart';
 import 'features/operations/domain/repositories/settlement_master_sharing_repository.dart';
 import 'features/operations/data/repositories/settlement_master_sharing_repository_impl.dart';
 import 'features/operations/data/datasources/settlement_master_sharing_datasource.dart';
+
 final sl = GetIt.instance;
 Future<void> init() async {
   sl.registerLazySingleton(() => ApiClient());
@@ -660,9 +661,7 @@ Future<void> init() async {
   sl.registerLazySingleton<BrokerRemoteDataSource>(
     () => BrokerRemoteDataSourceImpl(),
   );
-  sl.registerFactory(
-    () => ClientBreakdownBloc(getClientBreakdown: sl()),
-  );
+  sl.registerFactory(() => ClientBreakdownBloc(getClientBreakdown: sl()));
   sl.registerLazySingleton(() => GetClientBreakdown(sl()));
   sl.registerLazySingleton<ClientBreakdownRepository>(
     () => ClientBreakdownRepositoryImpl(remoteDataSource: sl()),

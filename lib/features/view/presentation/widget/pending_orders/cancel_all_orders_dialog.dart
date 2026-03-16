@@ -14,6 +14,7 @@ import 'trade_details_dialog.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/widget/custom_action_button.dart';
 import '../../../../../core/widget/custom_outlined_button.dart';
+
 class CancelAllOrdersDialog {
   static void show({
     required BuildContext context,
@@ -39,6 +40,7 @@ class CancelAllOrdersDialog {
     );
   }
 }
+
 class _CancelAllOrdersContent extends StatefulWidget {
   final List<PendingOrder> pendingOrders;
   final bool isDarkMode;
@@ -50,8 +52,10 @@ class _CancelAllOrdersContent extends StatefulWidget {
     required this.onClose,
   }) : super(key: key);
   @override
-  State<_CancelAllOrdersContent> createState() => _CancelAllOrdersContentState();
+  State<_CancelAllOrdersContent> createState() =>
+      _CancelAllOrdersContentState();
 }
+
 class _CancelAllOrdersContentState extends State<_CancelAllOrdersContent> {
   final Set<String> _selectedOrderIds = {};
   String? _selectedUser;
@@ -63,6 +67,7 @@ class _CancelAllOrdersContentState extends State<_CancelAllOrdersContent> {
     _users.addAll(widget.pendingOrders.map((o) => o.userId).toSet().toList());
     _tempSelectedUser = 'All Users';
   }
+
   List<PendingOrder> get _filteredOrders {
     if (_selectedUser == null || _selectedUser == 'All Users') {
       return widget.pendingOrders;
@@ -71,6 +76,7 @@ class _CancelAllOrdersContentState extends State<_CancelAllOrdersContent> {
         .where((o) => o.userId == _selectedUser)
         .toList();
   }
+
   @override
   Widget build(BuildContext context) {
     bool isClient = false;
@@ -95,6 +101,7 @@ class _CancelAllOrdersContentState extends State<_CancelAllOrdersContent> {
       ],
     );
   }
+
   Widget _buildFilterBar(bool isClient) {
     if (isClient) return const SizedBox.shrink();
     return Padding(
@@ -136,6 +143,7 @@ class _CancelAllOrdersContentState extends State<_CancelAllOrdersContent> {
       ),
     );
   }
+
   Widget _buildActionButtons(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -184,6 +192,7 @@ class _CancelAllOrdersContentState extends State<_CancelAllOrdersContent> {
       ),
     );
   }
+
   List<ViewTableColumn> _getColumns(bool isClient) {
     final allSelected =
         _filteredOrders.isNotEmpty &&
@@ -215,18 +224,43 @@ class _CancelAllOrdersContentState extends State<_CancelAllOrdersContent> {
       const ViewTableColumn(id: 'exchange', label: 'EXCH', width: 70),
       const ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 130),
       const ViewTableColumn(id: 'buySell', label: 'B/S', width: 160),
-      const ViewTableColumn(id: 'qty', label: 'QTY', width: 80, isNumeric: true),
-      const ViewTableColumn(id: 'lot', label: 'LOT', width: 80, isNumeric: true),
-      const ViewTableColumn(id: 'price', label: 'PRICE', width: 90, isNumeric: true),
-      const ViewTableColumn(id: 'orderDateTime', label: 'ORDER D/T', width: 160),
+      const ViewTableColumn(
+        id: 'qty',
+        label: 'QTY',
+        width: 80,
+        isNumeric: true,
+      ),
+      const ViewTableColumn(
+        id: 'lot',
+        label: 'LOT',
+        width: 80,
+        isNumeric: true,
+      ),
+      const ViewTableColumn(
+        id: 'price',
+        label: 'PRICE',
+        width: 90,
+        isNumeric: true,
+      ),
+      const ViewTableColumn(
+        id: 'orderDateTime',
+        label: 'ORDER D/T',
+        width: 160,
+      ),
       const ViewTableColumn(
         id: 'modifyOrderDateTime',
         label: 'MODIFY ORDER D/T',
         width: 160,
       ),
-      const ViewTableColumn(id: 'cmp', label: 'CMP', width: 90, isNumeric: true),
+      const ViewTableColumn(
+        id: 'cmp',
+        label: 'CMP',
+        width: 90,
+        isNumeric: true,
+      ),
     ];
   }
+
   Widget _buildCell(PendingOrder item, ViewTableColumn column, bool isDark) {
     switch (column.id) {
       case 'checkbox':
@@ -314,6 +348,7 @@ class _CancelAllOrdersContentState extends State<_CancelAllOrdersContent> {
         return const SizedBox.shrink();
     }
   }
+
   Widget _buildTable(bool isClient) {
     final data = _filteredOrders;
     return ViewDataTable<PendingOrder>(
@@ -359,6 +394,7 @@ class _CancelAllOrdersContentState extends State<_CancelAllOrdersContent> {
           _buildCell(item, column, widget.isDarkMode),
     );
   }
+
   void _showConfirmationDialog(BuildContext parentContext) {
     CommonDialog.show(
       context: parentContext,

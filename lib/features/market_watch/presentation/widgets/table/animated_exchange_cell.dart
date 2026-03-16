@@ -6,6 +6,7 @@ import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/constants/app_images.dart';
 import '../../../../../core/widget/svg_icon.dart';
 import 'table_text_style_helper.dart';
+
 class AnimatedExchangeCell extends StatefulWidget {
   final String text;
   final bool isDark;
@@ -25,6 +26,7 @@ class AnimatedExchangeCell extends StatefulWidget {
   @override
   State<AnimatedExchangeCell> createState() => _AnimatedExchangeCellState();
 }
+
 class _AnimatedExchangeCellState extends State<AnimatedExchangeCell> {
   final Random _random = Random();
   bool _isBuy = true;
@@ -35,11 +37,13 @@ class _AnimatedExchangeCellState extends State<AnimatedExchangeCell> {
     _isBuy = _random.nextBool();
     _scheduleNext();
   }
+
   @override
   void dispose() {
     _timer?.cancel();
     super.dispose();
   }
+
   void _scheduleNext() {
     final delayMs = 1500 + _random.nextInt(3000);
     _timer = Timer(Duration(milliseconds: delayMs), () {
@@ -56,6 +60,7 @@ class _AnimatedExchangeCellState extends State<AnimatedExchangeCell> {
       });
     });
   }
+
   @override
   Widget build(BuildContext context) {
     final iconColor = _isBuy

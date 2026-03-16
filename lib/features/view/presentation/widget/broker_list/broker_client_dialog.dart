@@ -15,6 +15,7 @@ import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import '../../../../../../core/widget/date_range_picker_dialog.dart';
 import 'package:intl/intl.dart';
 import 'client_breakdown_dialog.dart';
+
 class BrokerClientDialog {
   static void show({
     required BuildContext context,
@@ -34,9 +35,7 @@ class BrokerClientDialog {
       scrollable: false,
       contentPadding: EdgeInsets.zero,
       content: MultiBlocProvider(
-        providers: [
-          BlocProvider.value(value: context.read<BrokerListBloc>()),
-        ],
+        providers: [BlocProvider.value(value: context.read<BrokerListBloc>())],
         child: _BrokerClientContent(
           brokerName: brokerName,
           isDarkMode: isDarkMode,
@@ -45,6 +44,7 @@ class BrokerClientDialog {
     );
   }
 }
+
 class _BrokerClientContent extends StatefulWidget {
   final String brokerName;
   final bool isDarkMode;
@@ -56,6 +56,7 @@ class _BrokerClientContent extends StatefulWidget {
   @override
   State<_BrokerClientContent> createState() => _BrokerClientContentState();
 }
+
 class _BrokerClientContentState extends State<_BrokerClientContent> {
   String _customPeriodLabel = 'Select Date Range';
   String _selectedDateRange = 'This Week';
@@ -73,11 +74,7 @@ class _BrokerClientContentState extends State<_BrokerClientContent> {
                   type: AppDropdownType.simple,
                   hintText: 'This Week',
                   value: _selectedDateRange,
-                  items: const [
-                    'This Week',
-                    'Previous Week',
-                    'Custom Period',
-                  ],
+                  items: const ['This Week', 'Previous Week', 'Custom Period'],
                   subtitles: [
                     '27-10-25 to 02-11-25',
                     '20-10-25 to 26-10-25',

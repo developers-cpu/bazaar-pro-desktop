@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../domain/entities/pending_orders/pending_order.dart';
 import 'package:intl/intl.dart';
+
 class OrderStatusDialog extends StatefulWidget {
   final bool isSuccess;
   final PendingOrder order;
@@ -39,9 +40,11 @@ class OrderStatusDialog extends StatefulWidget {
     );
     Overlay.of(context).insert(overlayEntry);
   }
+
   @override
   State<OrderStatusDialog> createState() => _OrderStatusDialogState();
 }
+
 class _OrderStatusDialogState extends State<OrderStatusDialog> {
   @override
   void initState() {
@@ -52,6 +55,7 @@ class _OrderStatusDialogState extends State<OrderStatusDialog> {
       }
     });
   }
+
   @override
   Widget build(BuildContext context) {
     final statusColor = widget.isSuccess

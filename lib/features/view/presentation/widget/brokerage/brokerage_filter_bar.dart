@@ -9,6 +9,7 @@ import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
 import '../../bloc/brokerage/brokerage_bloc.dart';
 import '../../bloc/brokerage/brokerage_event.dart';
 import '../../bloc/brokerage/brokerage_state.dart';
+
 class BrokerageFilterBar extends StatelessWidget {
   const BrokerageFilterBar({super.key});
   static const List<String> _exchanges = [

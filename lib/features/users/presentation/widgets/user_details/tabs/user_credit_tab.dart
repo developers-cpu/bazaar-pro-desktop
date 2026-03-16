@@ -14,6 +14,7 @@ import '../../../../../../core/constants/app_colors.dart';
 import '../../../../../../core/widget/custom_input_field.dart';
 import '../../../../../../core/widget/custom_action_button.dart';
 import '../../../../../../core/widget/app_radio_button.dart';
+
 class UserCreditTab extends StatelessWidget {
   final User user;
   const UserCreditTab({super.key, required this.user});
@@ -25,11 +26,13 @@ class UserCreditTab extends StatelessWidget {
     );
   }
 }
+
 class UserCreditTabView extends StatefulWidget {
   const UserCreditTabView({super.key});
   @override
   State<UserCreditTabView> createState() => _UserCreditTabViewState();
 }
+
 class _UserCreditTabViewState extends State<UserCreditTabView> {
   String _transactionType = 'Credit';
   final TextEditingController _amountController = TextEditingController();
@@ -40,6 +43,7 @@ class _UserCreditTabViewState extends State<UserCreditTabView> {
     _commentController.dispose();
     super.dispose();
   }
+
   void _onSubmit() {
     final amount = double.tryParse(_amountController.text);
     if (amount == null) {
@@ -58,6 +62,7 @@ class _UserCreditTabViewState extends State<UserCreditTabView> {
     _amountController.clear();
     _commentController.clear();
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserCreditBloc, UserCreditState>(
@@ -76,7 +81,6 @@ class _UserCreditTabViewState extends State<UserCreditTabView> {
               _buildFilterBar(context),
               _buildRecordCount(context, state),
               Expanded(child: _buildTable(context, state)),
-              _buildFooterSummary(context, state.totalBalance),
             ],
           );
         }
@@ -84,6 +88,7 @@ class _UserCreditTabViewState extends State<UserCreditTabView> {
       },
     );
   }
+
   Widget _buildHeader(BuildContext context) {
     return Container(
       width: double.infinity,
@@ -122,6 +127,7 @@ class _UserCreditTabViewState extends State<UserCreditTabView> {
       ),
     );
   }
+
   Widget _buildFilterBar(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(12.w),
@@ -154,6 +160,7 @@ class _UserCreditTabViewState extends State<UserCreditTabView> {
       ),
     );
   }
+
   Widget _buildRecordCount(BuildContext context, UserCreditLoaded state) {
     return Container(
       color: AppColors.white,
@@ -161,9 +168,11 @@ class _UserCreditTabViewState extends State<UserCreditTabView> {
       child: ViewRecordCount(count: state.transactions.length),
     );
   }
+
   Widget _buildTable(BuildContext context, UserCreditLoaded state) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     return ViewDataTable<UserCreditTransaction>(
+      autoFit: true,
       columns: [
         ViewTableColumn(id: 'date', label: 'DATE TIME', width: 200.w),
         ViewTableColumn(id: 'type', label: 'TYPE', width: 100.w),
@@ -181,6 +190,58 @@ class _UserCreditTabViewState extends State<UserCreditTabView> {
         ),
         ViewTableColumn(id: 'comment', label: 'COMMENT', width: 250.w),
       ],
+      footerBuilder: (columns) {
+        return Container(
+          height: 35.h,
+          child: Row(
+            children: columns.asMap().entries.map((entry) {
+              final index = entry.key;
+              final column = entry.value;
+              final isLast = index == columns.length - 1;
+
+              Widget content;
+              if (column.id == 'date') {
+                content = Container(
+                  alignment: Alignment.centerRight,
+                  padding: EdgeInsets.only(right: 12.w),
+                  child: Text(
+                    'Total',
+                    style: TextStyle(
+                      fontSize: 13.sp,
+                      color: AppColors.primaryBlue,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                );
+              } else if (column.id == 'amount') {
+                content = Container(
+                  alignment: Alignment.centerRight,
+                  padding: EdgeInsets.only(right: 12.w),
+                  child: Text(
+                    state.totalBalance.toStringAsFixed(2),
+                    style: TextStyle(fontSize: 13.sp, color: AppColors.blue),
+                  ),
+                );
+              } else {
+                content = const SizedBox();
+              }
+
+              return Container(
+                width: column.width,
+                height: 35.h,
+                decoration: BoxDecoration(
+                  border: isLast
+                      ? null
+                      : const Border(
+                          right: BorderSide(color: Colors.white, width: 2),
+                        ),
+                ),
+                child: content,
+              );
+            }).toList(),
+          ),
+        );
+      },
       data: state.transactions,
       idExtractor: (item) => item.id,
       comparatorBuilder: (item, columnId) {
@@ -206,11 +267,7 @@ class _UserCreditTabViewState extends State<UserCreditTabView> {
           case 'date':
             return ViewDateTimeCell(dateTime: item.dateTime, isDark: isDark);
           case 'type':
-            return ViewTextCell(
-              text: item.type,
-              color: color,
-              isDark: isDark,
-            );
+            return ViewTextCell(text: item.type, color: color, isDark: isDark);
           case 'amount':
             return ViewNumberCell(
               value: item.amount,
@@ -229,44 +286,6 @@ class _UserCreditTabViewState extends State<UserCreditTabView> {
             return const SizedBox();
         }
       },
-    );
-  }
-  Widget _buildFooterSummary(BuildContext context, double totalBalance) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-      color: AppColors.white,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Container(
-            height: 35.h,
-            padding: EdgeInsets.symmetric(horizontal: 12.w),
-            decoration: BoxDecoration(
-              color: const Color(0xFFC6DBE8).withValues(alpha: 0.5),
-              borderRadius: BorderRadius.circular(6.r),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  'Total Balance : ',
-                  style: TextStyle(
-                    fontSize: 12.sp,
-                    color: AppColors.primaryBlue,
-                  ),
-                ),
-                Text(
-                  totalBalance.toStringAsFixed(2),
-                  style: TextStyle(
-                    fontSize: 12.sp,
-                    color: AppColors.primaryBlue,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

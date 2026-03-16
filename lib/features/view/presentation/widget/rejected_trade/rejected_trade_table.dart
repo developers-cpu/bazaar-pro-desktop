@@ -8,6 +8,7 @@ import '../../bloc/rejected_trade/rejected_trade_event.dart';
 import '../../bloc/rejected_trade/rejected_trade_state.dart';
 import '../../../../../core/widget/table/view_record_count.dart';
 import '../../../../../core/widget/table/view_table_cell_styles.dart';
+
 class RejectedTradeTable extends StatelessWidget {
   const RejectedTradeTable({Key? key}) : super(key: key);
   static final List<ViewTableColumn> _columns = [
@@ -97,6 +98,7 @@ class RejectedTradeTable extends StatelessWidget {
       },
     );
   }
+
   Widget _buildCell(RejectedTrade trade, ViewTableColumn column) {
     switch (column.id) {
       case 'userName':

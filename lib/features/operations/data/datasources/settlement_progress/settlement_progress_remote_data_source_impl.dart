@@ -1,5 +1,6 @@
 import '../../models/bhav_copy_model.dart';
 import 'settlement_progress_remote_data_source.dart';
+
 class SettlementProgressRemoteDataSourceImpl
     implements SettlementProgressRemoteDataSource {
   @override
@@ -17,11 +18,13 @@ class SettlementProgressRemoteDataSourceImpl
       ),
     );
   }
+
   @override
   Future<void> submitBhavCopy(List<BhavCopyModel> data) async {
     await Future.delayed(const Duration(seconds: 3));
     return;
   }
+
   @override
   Future<List<BhavCopyModel>> getSettlementData(String exchange) async {
     await Future.delayed(const Duration(milliseconds: 800));

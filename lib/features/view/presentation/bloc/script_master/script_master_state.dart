@@ -1,16 +1,20 @@
 import 'package:equatable/equatable.dart';
 import '../../../domain/entities/script_master/script_master.dart';
+
 abstract class ScriptMasterState extends Equatable {
   const ScriptMasterState();
   @override
   List<Object?> get props => [];
 }
+
 class ScriptMasterInitial extends ScriptMasterState {
   const ScriptMasterInitial();
 }
+
 class ScriptMasterLoading extends ScriptMasterState {
   const ScriptMasterLoading();
 }
+
 class ScriptMasterLoaded extends ScriptMasterState {
   final List<ScriptMaster> scripts;
   final List<ScriptMaster> filteredScripts;
@@ -78,12 +82,14 @@ class ScriptMasterLoaded extends ScriptMasterState {
     );
   }
 }
+
 class ScriptMasterError extends ScriptMasterState {
   final String message;
   const ScriptMasterError(this.message);
   @override
   List<Object?> get props => [message];
 }
+
 class ScriptMasterExportSuccess extends ScriptMasterState {
   final String message;
   final String filePath;

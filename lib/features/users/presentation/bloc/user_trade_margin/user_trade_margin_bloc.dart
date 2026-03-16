@@ -5,6 +5,7 @@ import 'package:bazarpro/core/usecases/usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'user_trade_margin_event.dart';
 import 'user_trade_margin_state.dart';
+
 class UserTradeMarginBloc
     extends Bloc<UserTradeMarginEvent, UserTradeMarginState> {
   final GetUserTradeMargin getUserTradeMargin;
@@ -48,6 +49,7 @@ class UserTradeMarginBloc
       },
     );
   }
+
   void _onFilterMargins(
     FilterUserTradeMargins event,
     Emitter<UserTradeMarginState> emit,
@@ -75,6 +77,7 @@ class UserTradeMarginBloc
       );
     }
   }
+
   void _onToggleSelectAll(
     ToggleAllUserTradeMarginSelection event,
     Emitter<UserTradeMarginState> emit,
@@ -92,6 +95,7 @@ class UserTradeMarginBloc
       );
     }
   }
+
   void _onToggleSelectRow(
     ToggleUserTradeMarginSelection event,
     Emitter<UserTradeMarginState> emit,
@@ -113,6 +117,7 @@ class UserTradeMarginBloc
       );
     }
   }
+
   void _onUpdateMargins(
     UpdateUserTradeMargins event,
     Emitter<UserTradeMarginState> emit,

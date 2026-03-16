@@ -4,6 +4,7 @@ import 'settlement_progress_state.dart';
 import '../../../domain/usecases/settlement_progress/import_bhav_copy_usecase.dart';
 import '../../../domain/usecases/settlement_progress/submit_bhav_copy_usecase.dart';
 import '../../../domain/usecases/settlement_progress/get_settlement_data_usecase.dart';
+
 class SettlementProgressBloc
     extends Bloc<SettlementProgressEvent, SettlementProgressState> {
   final ImportBhavCopyUseCase importBhavCopy;
@@ -27,6 +28,7 @@ class SettlementProgressBloc
     currentExchange = event.exchange;
     emit(SettlementProgressInitial());
   }
+
   Future<void> _onImportFile(
     ImportFileEvent event,
     Emitter<SettlementProgressState> emit,
@@ -38,6 +40,7 @@ class SettlementProgressBloc
       (data) => emit(BhavCopyPreviewReady(data)),
     );
   }
+
   Future<void> _onSubmitBhavCopy(
     SubmitBhavCopyEvent event,
     Emitter<SettlementProgressState> emit,
@@ -50,6 +53,7 @@ class SettlementProgressBloc
       emit(SettlementCompleted());
     });
   }
+
   Future<void> _onLoadSettlementData(
     LoadSettlementDataEvent event,
     Emitter<SettlementProgressState> emit,

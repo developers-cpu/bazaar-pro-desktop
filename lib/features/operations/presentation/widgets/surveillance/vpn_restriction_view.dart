@@ -8,6 +8,7 @@ import '../../../../../core/widget/custom_action_button.dart';
 import '../../bloc/surveillance/surveillance_bloc.dart';
 import '../../bloc/surveillance/surveillance_event.dart';
 import '../../../domain/entities/surveillance/surveillance_vpn.dart';
+
 class VpnRestrictionView extends StatelessWidget {
   final SurveillanceVpn vpnData;
   const VpnRestrictionView({super.key, required this.vpnData});
@@ -60,6 +61,7 @@ class VpnRestrictionView extends StatelessWidget {
       ],
     );
   }
+
   Widget _buildRadioGroup({
     required BuildContext context,
     required String title,

@@ -11,6 +11,7 @@ import 'package:bazarpro/features/tools/domain/entities/market_timing_entity.dar
 import '../../bloc/market_timing/market_timing_bloc.dart';
 import '../../bloc/market_timing/market_timing_event.dart';
 import '../../bloc/market_timing/market_timing_state.dart';
+
 class MarketTimingDialog {
   static void show(
     BuildContext context, {
@@ -35,6 +36,7 @@ class MarketTimingDialog {
     );
   }
 }
+
 class _MarketTimingContent extends StatefulWidget {
   final DateTime? initialDate;
   final String exchange;
@@ -48,6 +50,7 @@ class _MarketTimingContent extends StatefulWidget {
   @override
   State<_MarketTimingContent> createState() => _MarketTimingContentState();
 }
+
 class _MarketTimingContentState extends State<_MarketTimingContent> {
   DateTime? _selectedDate;
   @override
@@ -56,12 +59,14 @@ class _MarketTimingContentState extends State<_MarketTimingContent> {
     _selectedDate = widget.initialDate ?? DateTime.now();
     _fetchMarketTiming();
   }
+
   void _onDateSelected(DateTime date) {
     setState(() {
       _selectedDate = date;
     });
     _fetchMarketTiming();
   }
+
   void _fetchMarketTiming() {
     if (_selectedDate != null) {
       context.read<MarketTimingBloc>().add(
@@ -69,6 +74,7 @@ class _MarketTimingContentState extends State<_MarketTimingContent> {
       );
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -119,6 +125,7 @@ class _MarketTimingContentState extends State<_MarketTimingContent> {
       ],
     );
   }
+
   Widget _buildStateFooter(MarketTimingState state) {
     if (state is MarketTimingLoading) {
       return SizedBox(height: 100.h);
@@ -134,6 +141,7 @@ class _MarketTimingContentState extends State<_MarketTimingContent> {
     }
     return SizedBox(height: 100.h);
   }
+
   Widget _buildFooterStatus(MarketTimingEntity data) {
     final dateFormat = DateFormat('dd MMM');
     final dateStr = dateFormat.format(_selectedDate!).toUpperCase();
@@ -203,6 +211,7 @@ class _MarketTimingContentState extends State<_MarketTimingContent> {
       ),
     );
   }
+
   Widget _buildTimingRow(String start, String end) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,

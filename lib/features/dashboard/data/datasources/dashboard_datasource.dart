@@ -1,4 +1,5 @@
 import '../models/dashboard_model.dart';
+
 class DashboardDataSource {
   Future<List<TradeReportModel>> getTradeReports({
     String? clientId,
@@ -39,6 +40,7 @@ class DashboardDataSource {
       ),
     ];
   }
+
   Future<List<SymbolReportModel>> getSymbolReports({
     String? clientId,
     String? showPeriod,
@@ -140,6 +142,7 @@ class DashboardDataSource {
     ];
     return allSymbols.take(topCount).toList();
   }
+
   Future<DashboardSummaryModel> getDashboardSummary() async {
     await Future.delayed(const Duration(milliseconds: 300));
     return const DashboardSummaryModel(

@@ -4,6 +4,7 @@ import '../../../domain/entities/user_trades/user_trade.dart';
 import '../../../domain/entities/user_trades/user_trades_metadata.dart';
 import '../../../domain/repositories/user_trades/user_trades_repository.dart';
 import '../../datasources/user_trades/user_trades_datasource.dart';
+
 class UserTradesRepositoryImpl implements UserTradesRepository {
   final UserTradesDataSource dataSource;
   UserTradesRepositoryImpl({required this.dataSource});
@@ -16,6 +17,7 @@ class UserTradesRepositoryImpl implements UserTradesRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
   @override
   Future<Either<Failure, UserTradesMetadata>> getUserTradesMetadata() async {
     try {

@@ -8,11 +8,13 @@ import '../../bloc/pending_orders/pending_orders_event.dart';
 import '../../bloc/pending_orders/pending_orders_state.dart';
 import '../../widget/pending_orders/pending_orders_filter_bar.dart';
 import '../../widget/pending_orders/pending_orders_table.dart';
+
 class PendingOrdersPage extends StatefulWidget {
   const PendingOrdersPage({Key? key}) : super(key: key);
   @override
   State<PendingOrdersPage> createState() => _PendingOrdersPageState();
 }
+
 class _PendingOrdersPageState extends State<PendingOrdersPage> {
   @override
   void initState() {
@@ -27,6 +29,7 @@ class _PendingOrdersPageState extends State<PendingOrdersPage> {
       );
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<PendingOrdersBloc, PendingOrdersState>(
@@ -47,6 +50,7 @@ class _PendingOrdersPageState extends State<PendingOrdersPage> {
       ),
     );
   }
+
   void _handleStateChange(BuildContext context, PendingOrdersState state) {
     if (state is PendingOrdersExportSuccess) {
       ScaffoldMessenger.of(context).showSnackBar(

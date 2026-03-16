@@ -10,6 +10,7 @@ import 'exchange_open_position_dialog.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
 import 'package:bazarpro/features/view/presentation/widget/net_position/net_position_dialog.dart';
+
 class ExchangeWisePLTable extends StatelessWidget {
   final List<ExchangeWisePLReport> reports;
   final bool isDarkMode;
@@ -43,6 +44,7 @@ class ExchangeWisePLTable extends StatelessWidget {
       ),
     ];
   }
+
   Widget _buildClickableNumberCell(
     BuildContext context,
     double value,
@@ -75,6 +77,7 @@ class ExchangeWisePLTable extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildCell(
     BuildContext context,
     ExchangeWisePLReport item,
@@ -119,6 +122,7 @@ class ExchangeWisePLTable extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
+
   @override
   Widget build(BuildContext context) {
     final authState = context.read<AuthBloc>().state;

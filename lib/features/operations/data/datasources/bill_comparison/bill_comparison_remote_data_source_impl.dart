@@ -1,5 +1,6 @@
 import '../../models/bill_comparison/bill_comparison_model.dart';
 import 'bill_comparison_remote_data_source.dart';
+
 class BillComparisonRemoteDataSourceImpl
     implements BillComparisonRemoteDataSource {
   @override

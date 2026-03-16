@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+
 class BhavCopyEntity extends Equatable {
   final String exch;
   final String symbol;

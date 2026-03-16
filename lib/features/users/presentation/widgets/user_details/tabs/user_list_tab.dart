@@ -11,6 +11,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:bazarpro/features/users/presentation/bloc/nested_users/nested_users_bloc.dart';
 import 'package:bazarpro/features/users/presentation/bloc/nested_users/nested_users_event.dart';
 import 'package:bazarpro/features/users/presentation/bloc/nested_users/nested_users_state.dart';
+
 class UserListTab extends StatelessWidget {
   final User user;
   const UserListTab({super.key, required this.user});
@@ -22,6 +23,7 @@ class UserListTab extends StatelessWidget {
     );
   }
 }
+
 class UserListTabView extends StatelessWidget {
   const UserListTabView({super.key});
   @override
@@ -95,6 +97,7 @@ class UserListTabView extends StatelessWidget {
       ],
     );
   }
+
   List<ViewTableColumn> _getColumns() {
     return [
       ViewTableColumn(id: 'userName', label: 'USER NAME', width: 120.w),
@@ -130,6 +133,7 @@ class UserListTabView extends StatelessWidget {
       ViewTableColumn(id: 'ipAddress', label: 'IP ADDRESS', width: 130.w),
     ];
   }
+
   Widget _buildCellContent(BuildContext context, User user, String columnId) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     switch (columnId) {
@@ -181,6 +185,7 @@ class UserListTabView extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
+
   void _showUserDetailsDialog(
     BuildContext context,
     User user, {

@@ -16,11 +16,13 @@ import '../../../../../../core/widget/table/success_dialog.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
+
 class NetPositionPage extends StatefulWidget {
   const NetPositionPage({Key? key}) : super(key: key);
   @override
   State<NetPositionPage> createState() => _NetPositionPageState();
 }
+
 class _NetPositionPageState extends State<NetPositionPage> {
   @override
   void initState() {
@@ -35,6 +37,7 @@ class _NetPositionPageState extends State<NetPositionPage> {
       );
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<NetPositionBloc, NetPositionState>(
@@ -61,6 +64,7 @@ class _NetPositionPageState extends State<NetPositionPage> {
       ),
     );
   }
+
   void _handleStateChange(BuildContext context, NetPositionState state) {
     if (state is NetPositionExportSuccess) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -81,6 +85,7 @@ class _NetPositionPageState extends State<NetPositionPage> {
       );
     }
   }
+
   Widget _buildFooter(BuildContext context) {
     final authState = context.read<AuthBloc>().state;
     final isClient =
@@ -181,6 +186,7 @@ class _NetPositionPageState extends State<NetPositionPage> {
       ),
     );
   }
+
   void _showSquareOffConfirmation(BuildContext context, String type) {
     String title = 'Square off All Positions';
     String message = 'Are You Sure you want to Square off all Positions?';
@@ -290,6 +296,7 @@ class _NetPositionPageState extends State<NetPositionPage> {
       ),
     );
   }
+
   Widget _buildMarginItem(
     String text, {
     bool isUnderlined = false,
@@ -323,6 +330,7 @@ class _NetPositionPageState extends State<NetPositionPage> {
     }
     return container;
   }
+
   Widget _buildDivider() {
     return Container(
       width: 1.w,

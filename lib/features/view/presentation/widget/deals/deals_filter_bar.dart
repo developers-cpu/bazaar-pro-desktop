@@ -9,6 +9,7 @@ import '../../bloc/deals/deals_state.dart';
 import '../../../../../core/widget/table/view_reset_buttons.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
+
 class DealsFilterBar extends StatelessWidget {
   const DealsFilterBar({Key? key}) : super(key: key);
   @override

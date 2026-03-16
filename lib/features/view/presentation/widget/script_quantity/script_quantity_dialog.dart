@@ -7,6 +7,7 @@ import '../../../../../core/widget/table/view_record_count.dart';
 import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import '../../../../../core/widget/common_dilog_box.dart';
 import '../../../domain/entities/script_quantity/script_quantity.dart';
+
 class ScriptQuantityDialog {
   static void show({
     required BuildContext context,
@@ -34,6 +35,7 @@ class ScriptQuantityDialog {
     );
   }
 }
+
 class _ScriptQuantityContent extends StatefulWidget {
   final List<ScriptQuantity> quantities;
   final String exchange;
@@ -51,6 +53,7 @@ class _ScriptQuantityContent extends StatefulWidget {
   @override
   State<_ScriptQuantityContent> createState() => _ScriptQuantityContentState();
 }
+
 class _ScriptQuantityContentState extends State<_ScriptQuantityContent> {
   static final List<ViewTableColumn> _columns = [
     const ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 200),
@@ -110,6 +113,7 @@ class _ScriptQuantityContentState extends State<_ScriptQuantityContent> {
       ],
     );
   }
+
   Widget _buildCell(ScriptQuantity item, ViewTableColumn column) {
     switch (column.id) {
       case 'symbol':
@@ -125,6 +129,7 @@ class _ScriptQuantityContentState extends State<_ScriptQuantityContent> {
         return const SizedBox.shrink();
     }
   }
+
   Widget _buildFilterInfo(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -143,6 +148,7 @@ class _ScriptQuantityContentState extends State<_ScriptQuantityContent> {
       ),
     );
   }
+
   Widget _buildInfoBox(BuildContext context, String label, String value) {
     return Container(
       height: 48.h,

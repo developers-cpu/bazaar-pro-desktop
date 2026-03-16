@@ -4,6 +4,7 @@ import '../../../domain/entities/rejected_trade/rejected_trade.dart';
 import '../../../domain/repositories/rejected_trade/rejected_trade_repository.dart';
 import '../../datasources/rejected_trade/rejected_trade_remote_datasource.dart';
 import '../../models/rejected_trade/rejected_trade_model.dart';
+
 class RejectedTradeRepositoryImpl implements RejectedTradeRepository {
   final RejectedTradeRemoteDataSource remoteDataSource;
   RejectedTradeRepositoryImpl({required this.remoteDataSource});
@@ -16,6 +17,7 @@ class RejectedTradeRepositoryImpl implements RejectedTradeRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
   @override
   Future<Either<Failure, List<RejectedTrade>>> getRejectedTradesWithFilters({
     String? userType,
@@ -35,6 +37,7 @@ class RejectedTradeRepositoryImpl implements RejectedTradeRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
   @override
   Future<Either<Failure, List<String>>> getUserTypes() async {
     try {
@@ -44,6 +47,7 @@ class RejectedTradeRepositoryImpl implements RejectedTradeRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
   @override
   Future<Either<Failure, List<String>>> getUsers() async {
     try {
@@ -53,6 +57,7 @@ class RejectedTradeRepositoryImpl implements RejectedTradeRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
   @override
   Future<Either<Failure, List<String>>> getExchanges() async {
     try {
@@ -62,6 +67,7 @@ class RejectedTradeRepositoryImpl implements RejectedTradeRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
   @override
   Future<Either<Failure, List<String>>> getSymbols() async {
     try {
@@ -71,6 +77,7 @@ class RejectedTradeRepositoryImpl implements RejectedTradeRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
   @override
   Future<Either<Failure, String>> exportToPdf(
     List<RejectedTrade> trades,
@@ -85,6 +92,7 @@ class RejectedTradeRepositoryImpl implements RejectedTradeRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
   @override
   Future<Either<Failure, String>> exportToExcel(
     List<RejectedTrade> trades,

@@ -1,7 +1,9 @@
 import 'package:bazarpro/features/users/data/models/user_group_settings/user_group_settings_model.dart';
+
 abstract class UserGroupSettingsDataSource {
   Future<List<UserGroupSettingsModel>> getUserGroupSettings(String userId);
 }
+
 class UserGroupSettingsDataSourceImpl implements UserGroupSettingsDataSource {
   @override
   Future<List<UserGroupSettingsModel>> getUserGroupSettings(

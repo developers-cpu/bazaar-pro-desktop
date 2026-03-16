@@ -6,6 +6,7 @@ import '../../../../core/constants/app_strings.dart';
 import '../bloc/watchlist/watch_list_bloc.dart';
 import '../bloc/watchlist/watch_list_event.dart';
 import '../bloc/watchlist/watchlist_state.dart';
+
 class WatchlistWidget extends StatelessWidget {
   final Function(int)? onWatchlistSelected;
   const WatchlistWidget({Key? key, this.onWatchlistSelected}) : super(key: key);
@@ -28,6 +29,7 @@ class WatchlistWidget extends StatelessWidget {
       },
     );
   }
+
   void _handleStateChange(BuildContext context, WatchlistState state) {
     if (state is WatchlistError) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -42,6 +44,7 @@ class WatchlistWidget extends StatelessWidget {
       onWatchlistSelected?.call(state.selectedIndex);
     }
   }
+
   Widget _buildLoadingState() {
     return Container(
       height: 40.h,
@@ -50,6 +53,7 @@ class WatchlistWidget extends StatelessWidget {
       child: const Center(child: CircularProgressIndicator()),
     );
   }
+
   Widget _buildLoadedState(BuildContext context, WatchlistLoaded state) {
     return Container(
       height: 34.h,
@@ -84,6 +88,7 @@ class WatchlistWidget extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildAddButton(BuildContext context) {
     return InkWell(
       onTap: () {
@@ -129,6 +134,7 @@ class WatchlistWidget extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildWatchlistButton({
     required BuildContext context,
     required String label,
@@ -145,6 +151,7 @@ class WatchlistWidget extends StatelessWidget {
     );
   }
 }
+
 class _WatchlistTab extends StatefulWidget {
   final BuildContext blocContext;
   final String label;
@@ -162,6 +169,7 @@ class _WatchlistTab extends StatefulWidget {
   @override
   State<_WatchlistTab> createState() => _WatchlistTabState();
 }
+
 class _WatchlistTabState extends State<_WatchlistTab> {
   bool _isEditing = false;
   late TextEditingController _controller;
@@ -177,6 +185,7 @@ class _WatchlistTabState extends State<_WatchlistTab> {
       }
     });
   }
+
   @override
   void didUpdateWidget(_WatchlistTab oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -184,12 +193,14 @@ class _WatchlistTabState extends State<_WatchlistTab> {
       _controller.text = widget.label;
     }
   }
+
   @override
   void dispose() {
     _controller.dispose();
     _focusNode.dispose();
     super.dispose();
   }
+
   void _saveAndExitEditMode() {
     if (_isEditing) {
       final newName = _controller.text.trim();
@@ -205,6 +216,7 @@ class _WatchlistTabState extends State<_WatchlistTab> {
       });
     }
   }
+
   void _showEditMenu(Offset globalPosition) async {
     final RenderBox overlay =
         Overlay.of(context).context.findRenderObject() as RenderBox;
@@ -247,6 +259,7 @@ class _WatchlistTabState extends State<_WatchlistTab> {
       );
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(

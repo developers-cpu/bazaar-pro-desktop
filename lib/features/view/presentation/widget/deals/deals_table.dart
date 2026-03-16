@@ -13,6 +13,7 @@ import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import '../../../../auth/presentation/bloc/auth_bloc.dart';
 import '../../../../auth/presentation/bloc/auth_state.dart';
 import 'order_duration_dialog.dart';
+
 class DealsTable extends StatelessWidget {
   final bool showDeviceInfo;
   final bool isDarkMode;
@@ -93,12 +94,7 @@ class DealsTable extends StatelessWidget {
         isNumeric: true,
       ),
       const ViewTableColumn(id: 'orderType', label: 'TYPE', width: 100),
-      const ViewTableColumn(
-        id: 'pl',
-        label: 'P/L',
-        width: 90,
-        isNumeric: true,
-      ),
+      const ViewTableColumn(id: 'pl', label: 'P/L', width: 90, isNumeric: true),
       const ViewTableColumn(
         id: 'triggerPrice',
         label: 'T. PRICE',
@@ -137,6 +133,7 @@ class DealsTable extends StatelessWidget {
     }
     return columns;
   }
+
   Widget _buildCell(
     BuildContext context,
     Deal item,
@@ -230,6 +227,7 @@ class DealsTable extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
+
   Widget _buildOrderDurationCell(
     BuildContext context,
     Deal item,
@@ -274,6 +272,7 @@ class DealsTable extends StatelessWidget {
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     final authState = context.read<AuthBloc>().state;
@@ -325,6 +324,7 @@ class DealsTable extends StatelessWidget {
       },
     );
   }
+
   Widget _buildErrorState(BuildContext context, String message) {
     return Center(
       child: Column(

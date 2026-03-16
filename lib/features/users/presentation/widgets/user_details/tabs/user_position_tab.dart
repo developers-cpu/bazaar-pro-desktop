@@ -13,6 +13,7 @@ import '../../../../../../core/widget/app_dropdown.dart';
 import '../../../../domain/entities/user.dart';
 import '../../../../domain/entities/user_position/user_position.dart';
 import '../../../bloc/user_position/user_position_bloc.dart';
+
 class UserPositionTab extends StatelessWidget {
   final User user;
   const UserPositionTab({super.key, required this.user});
@@ -25,6 +26,7 @@ class UserPositionTab extends StatelessWidget {
     );
   }
 }
+
 class UserPositionTabView extends StatelessWidget {
   const UserPositionTabView({super.key});
   @override
@@ -38,6 +40,7 @@ class UserPositionTabView extends StatelessWidget {
       ],
     );
   }
+
   Widget _buildFilterBar(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(12.w),
@@ -108,6 +111,7 @@ class UserPositionTabView extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildRecordCount(BuildContext context) {
     return Container(
       color: AppColors.white,
@@ -123,6 +127,7 @@ class UserPositionTabView extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildTable(BuildContext context) {
     return BlocBuilder<UserPositionBloc, UserPositionState>(
       builder: (context, state) {
@@ -138,37 +143,38 @@ class UserPositionTabView extends StatelessWidget {
         }
         final isDark = Theme.of(context).brightness == Brightness.dark;
         return ViewDataTable<UserPosition>(
+          autoFit: true,
           columns: [
             ViewTableColumn(id: 'exch', label: 'EXCH', width: 80.w),
-            ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 120.w),
+            ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 100.w),
             ViewTableColumn(
               id: 'buyQty',
               label: 'BUY QTY',
-              width: 120.w,
+              width: 90.w,
               isNumeric: true,
             ),
             ViewTableColumn(
               id: 'sellQty',
               label: 'SELL QTY',
-              width: 120.w,
+              width: 100.w,
               isNumeric: true,
             ),
             ViewTableColumn(
               id: 'netQty',
               label: 'NET QTY',
-              width: 120.w,
+              width: 100.w,
               isNumeric: true,
             ),
             ViewTableColumn(
               id: 'netAp',
               label: 'NET A. P.',
-              width: 120.w,
+              width: 110.w,
               isNumeric: true,
             ),
             ViewTableColumn(
               id: 'cmp',
               label: 'CMP',
-              width: 120.w,
+              width: 100.w,
               isNumeric: true,
             ),
             ViewTableColumn(
@@ -179,7 +185,7 @@ class UserPositionTabView extends StatelessWidget {
             ),
             ViewTableColumn(
               id: 'lot',
-              label: 'Lot',
+              label: 'LOT',
               width: 80.w,
               isNumeric: true,
             ),
@@ -268,6 +274,7 @@ class UserPositionTabView extends StatelessWidget {
       },
     );
   }
+
   Widget _buildFooter(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(12.w),
@@ -307,13 +314,16 @@ class UserPositionTabView extends StatelessWidget {
                 SizedBox(width: 12.w),
                 _buildSummaryItem('M2M', '124536.00'),
                 SizedBox(width: 12.w),
-                Text('=', style: TextStyle(fontWeight: FontWeight.bold)),
+                Icon(Icons.add, size: 14.sp),
+                SizedBox(width: 12.w),
+                _buildSummaryItem('BRK', '124536.00'),
+                SizedBox(width: 12.w),
+                const Text('=', style: TextStyle(fontWeight: FontWeight.bold)),
                 SizedBox(width: 12.w),
                 Text(
                   '-81400.00',
                   style: GoogleFonts.openSans(
                     fontSize: 14.sp,
-                    fontWeight: FontWeight.bold,
                     color: AppColors.errorColor,
                   ),
                 ),
@@ -324,6 +334,7 @@ class UserPositionTabView extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildVerticalDivider() {
     return Container(
       height: 20.h,
@@ -332,6 +343,7 @@ class UserPositionTabView extends StatelessWidget {
       margin: EdgeInsets.symmetric(horizontal: 12.w),
     );
   }
+
   Widget _buildFooterItem(String label, String value) {
     return Row(
       children: [
@@ -339,21 +351,20 @@ class UserPositionTabView extends StatelessWidget {
           '$label: ',
           style: GoogleFonts.openSans(
             fontSize: 12.sp,
-            fontWeight: FontWeight.w600,
-            color: const Color(0xFF1F4A66),
+            color: AppColors.primaryBlue,
           ),
         ),
         Text(
           value,
           style: GoogleFonts.openSans(
             fontSize: 12.sp,
-            fontWeight: FontWeight.w600,
-            color: const Color(0xFF1F4A66),
+            color: AppColors.primaryBlue,
           ),
         ),
       ],
     );
   }
+
   Widget _buildSummaryItem(String label, String value) {
     return Row(
       children: [
@@ -361,16 +372,14 @@ class UserPositionTabView extends StatelessWidget {
           '$label : ',
           style: GoogleFonts.openSans(
             fontSize: 12.sp,
-            fontWeight: FontWeight.w600,
-            color: const Color(0xFF1F4A66),
+            color: AppColors.primaryBlue,
           ),
         ),
         Text(
           value,
           style: GoogleFonts.openSans(
             fontSize: 12.sp,
-            fontWeight: FontWeight.w600,
-            color: const Color(0xFF1F4A66),
+            color: AppColors.primaryBlue,
           ),
         ),
       ],

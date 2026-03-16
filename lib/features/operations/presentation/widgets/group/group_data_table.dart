@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/app_switch.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
+
 class GroupDataTable extends StatelessWidget {
   final int viewLevel;
   final List<dynamic> groups;
@@ -42,6 +43,7 @@ class GroupDataTable extends StatelessWidget {
       cellBuilder: (item, column) => _buildCell(item, column),
     );
   }
+
   List<ViewTableColumn> _buildColumns() {
     final List<ViewTableColumn> columns = [_checkboxColumn()];
     switch (viewLevel) {
@@ -56,6 +58,7 @@ class GroupDataTable extends StatelessWidget {
     }
     return columns;
   }
+
   ViewTableColumn _checkboxColumn() {
     return ViewTableColumn(
       id: 'checkbox',
@@ -76,6 +79,7 @@ class GroupDataTable extends StatelessWidget {
       ),
     );
   }
+
   List<ViewTableColumn> _level0Columns() => [
     ViewTableColumn(id: 'exchange', label: 'EXCHANGE', width: 120.w),
     ViewTableColumn(id: 'groups_summary', label: 'GROUP NAME', width: 350.w),
@@ -140,6 +144,7 @@ class GroupDataTable extends StatelessWidget {
       ),
     );
   }
+
   Widget _importCell() {
     return InkWell(
       onTap: onImportTap,
@@ -153,6 +158,7 @@ class GroupDataTable extends StatelessWidget {
       ),
     );
   }
+
   Widget _hideGroupCell(dynamic item) {
     final key = '${item.id}';
     final isHidden = hideGroupState[key] ?? false;
@@ -161,12 +167,14 @@ class GroupDataTable extends StatelessWidget {
       onChanged: (val) => onHideGroupChanged(MapEntry(key, val)),
     );
   }
+
   Widget _actionCell(dynamic item) {
     return IconButton(
       icon: Icon(Icons.edit, size: 18.sp, color: AppColors.primaryBlue),
       onPressed: () => onActionTap(item),
     );
   }
+
   _CellInfo _textCellInfo(dynamic item, String columnId) {
     switch (columnId) {
       case 'exchange':
@@ -207,6 +215,7 @@ class GroupDataTable extends StatelessWidget {
     }
   }
 }
+
 class _CellInfo {
   final String value;
   final bool underlined;

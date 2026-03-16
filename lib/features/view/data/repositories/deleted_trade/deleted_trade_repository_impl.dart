@@ -4,6 +4,7 @@ import '../../../domain/entities/deleted_trade/deleted_trade.dart';
 import '../../../domain/repositories/deleted_trade/deleted_trade_repository.dart';
 import '../../datasources/deleted_trade/deleted_trade_remote_datasource.dart';
 import '../../models/deleted_trade/deleted_trade_model.dart';
+
 class DeletedTradeRepositoryImpl implements DeletedTradeRepository {
   final DeletedTradeRemoteDataSource remoteDataSource;
   DeletedTradeRepositoryImpl({required this.remoteDataSource});
@@ -16,6 +17,7 @@ class DeletedTradeRepositoryImpl implements DeletedTradeRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
   @override
   Future<Either<Failure, List<DeletedTrade>>> getDeletedTradesWithFilters({
     String? userType,
@@ -35,6 +37,7 @@ class DeletedTradeRepositoryImpl implements DeletedTradeRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
   @override
   Future<Either<Failure, List<String>>> getUserTypes() async {
     try {
@@ -44,6 +47,7 @@ class DeletedTradeRepositoryImpl implements DeletedTradeRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
   @override
   Future<Either<Failure, List<String>>> getUsers() async {
     try {
@@ -53,6 +57,7 @@ class DeletedTradeRepositoryImpl implements DeletedTradeRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
   @override
   Future<Either<Failure, List<String>>> getExchanges() async {
     try {
@@ -62,6 +67,7 @@ class DeletedTradeRepositoryImpl implements DeletedTradeRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
   @override
   Future<Either<Failure, List<String>>> getSymbols() async {
     try {
@@ -71,6 +77,7 @@ class DeletedTradeRepositoryImpl implements DeletedTradeRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
   @override
   Future<Either<Failure, String>> exportToPdf(List<DeletedTrade> trades) async {
     try {
@@ -83,6 +90,7 @@ class DeletedTradeRepositoryImpl implements DeletedTradeRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
   @override
   Future<Either<Failure, String>> exportToExcel(
     List<DeletedTrade> trades,

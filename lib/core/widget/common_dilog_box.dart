@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:bazarpro/core/widget/custom_action_button.dart';
 import 'package:bazarpro/core/widget/custom_outlined_button.dart';
 import '../../../../core/constants/app_colors.dart';
+
 class CommonDialog extends StatefulWidget {
   final String title;
   final Widget content;
@@ -57,6 +58,7 @@ class CommonDialog extends StatefulWidget {
     }
     return false;
   }
+
   static void closeAll() {
     while (_activeDialogs.isNotEmpty) {
       final entry = _activeDialogs.removeLast();
@@ -65,6 +67,7 @@ class CommonDialog extends StatefulWidget {
       }
     }
   }
+
   static void show({
     required BuildContext context,
     required String title,
@@ -89,60 +92,61 @@ class CommonDialog extends StatefulWidget {
   }) {
     late OverlayEntry overlayEntry;
     overlayEntry = OverlayEntry(
-      builder:
-          (context) => CommonDialog(
-            title: title,
-            content:
-                content ??
-                (contentBuilder != null
-                    ? contentBuilder(context, () {
-                        if (overlayEntry.mounted) {
-                          overlayEntry.remove();
-                        }
-                      })
-                    : const SizedBox.shrink()),
-            onCancel: onCancel,
-            onSave: onSave,
-            width: width,
-            height: height,
-            backgroundColor: backgroundColor,
-            headerColor: headerColor,
-            showButtons: showButtons,
-            isDarkMode: isDarkMode,
-            cancelText: cancelText,
-            saveText: saveText,
-            contentPadding: contentPadding,
-            buttonWidth: buttonWidth,
-            buttonHeight: buttonHeight,
-            scrollable: scrollable,
-            autoPop: autoPop,
-            onClose: () {
-              if (_activeDialogs.contains(overlayEntry)) {
-                _activeDialogs.remove(overlayEntry);
-              }
-              if (onClose != null) onClose();
-              if (overlayEntry.mounted) {
-                overlayEntry.remove();
-              }
-            },
-            onBringToFront: () {
-              if (_activeDialogs.contains(overlayEntry)) {
-                _activeDialogs.remove(overlayEntry);
-                _activeDialogs.add(overlayEntry);
-              }
-              if (overlayEntry.mounted) {
-                overlayEntry.remove();
-              }
-              Overlay.of(context).insert(overlayEntry);
-            },
-          ),
+      builder: (context) => CommonDialog(
+        title: title,
+        content:
+            content ??
+            (contentBuilder != null
+                ? contentBuilder(context, () {
+                    if (overlayEntry.mounted) {
+                      overlayEntry.remove();
+                    }
+                  })
+                : const SizedBox.shrink()),
+        onCancel: onCancel,
+        onSave: onSave,
+        width: width,
+        height: height,
+        backgroundColor: backgroundColor,
+        headerColor: headerColor,
+        showButtons: showButtons,
+        isDarkMode: isDarkMode,
+        cancelText: cancelText,
+        saveText: saveText,
+        contentPadding: contentPadding,
+        buttonWidth: buttonWidth,
+        buttonHeight: buttonHeight,
+        scrollable: scrollable,
+        autoPop: autoPop,
+        onClose: () {
+          if (_activeDialogs.contains(overlayEntry)) {
+            _activeDialogs.remove(overlayEntry);
+          }
+          if (onClose != null) onClose();
+          if (overlayEntry.mounted) {
+            overlayEntry.remove();
+          }
+        },
+        onBringToFront: () {
+          if (_activeDialogs.contains(overlayEntry)) {
+            _activeDialogs.remove(overlayEntry);
+            _activeDialogs.add(overlayEntry);
+          }
+          if (overlayEntry.mounted) {
+            overlayEntry.remove();
+          }
+          Overlay.of(context).insert(overlayEntry);
+        },
+      ),
     );
     _activeDialogs.add(overlayEntry);
-    Overlay.of(context).insert(overlayEntry);
+    Overlay.of(context, rootOverlay: true).insert(overlayEntry);
   }
+
   @override
   State<CommonDialog> createState() => _CommonDialogState();
 }
+
 class _CommonDialogState extends State<CommonDialog> {
   Offset? _position;
   @override
@@ -151,13 +155,14 @@ class _CommonDialogState extends State<CommonDialog> {
     if (_position == null) {
       final screenSize = MediaQuery.of(context).size;
       final dialogWidth = widget.width ?? 400.w;
-      
+
       _position = Offset(
         (screenSize.width - dialogWidth) / 2,
         (screenSize.height - (widget.height ?? 400.h)) / 2,
       );
     }
   }
+
   @override
   Widget build(BuildContext context) {
     final bgColor =
@@ -193,7 +198,10 @@ class _CommonDialogState extends State<CommonDialog> {
             child: Material(
               color: Colors.transparent,
               child: SizedBox(
-                width: (widget.width ?? 400.w).clamp(200.w, MediaQuery.of(context).size.width * 0.9),
+                width: (widget.width ?? 400.w).clamp(
+                  200.w,
+                  MediaQuery.of(context).size.width * 0.9,
+                ),
                 height: widget.height,
                 child: Container(
                   clipBehavior: Clip.antiAlias,
@@ -218,13 +226,15 @@ class _CommonDialogState extends State<CommonDialog> {
                         child: widget.scrollable
                             ? SingleChildScrollView(
                                 child: Padding(
-                                  padding: widget.contentPadding ??
+                                  padding:
+                                      widget.contentPadding ??
                                       EdgeInsets.all(20.w),
                                   child: widget.content,
                                 ),
                               )
                             : Padding(
-                                padding: widget.contentPadding ??
+                                padding:
+                                    widget.contentPadding ??
                                     EdgeInsets.all(20.w),
                                 child: widget.content,
                               ),
@@ -243,6 +253,7 @@ class _CommonDialogState extends State<CommonDialog> {
       ],
     );
   }
+
   Widget _buildHeader(BuildContext context, Color headerBgColor) {
     return ClipRRect(
       borderRadius: BorderRadius.only(
@@ -282,6 +293,7 @@ class _CommonDialogState extends State<CommonDialog> {
       ),
     );
   }
+
   Widget _buildButtons(BuildContext context) {
     final primaryColor = widget.isDarkMode
         ? const Color(0xFF1F4A66)

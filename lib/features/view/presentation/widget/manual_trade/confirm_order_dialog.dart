@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import '../../bloc/manual_trade/manual_trade_bloc.dart';
 import '../../bloc/manual_trade/manual_trade_event.dart';
 import '../../bloc/manual_trade/manual_trade_state.dart';
+
 class ConfirmOrderDialog {
   static void show(BuildContext context, ManualTradeState data, bool isBuy) {
     final manualTradeBloc = context.read<ManualTradeBloc>();
@@ -29,6 +30,7 @@ class ConfirmOrderDialog {
     );
   }
 }
+
 class _ConfirmOrderContent extends StatelessWidget {
   final ManualTradeState data;
   final bool isBuy;
@@ -95,6 +97,7 @@ class _ConfirmOrderContent extends StatelessWidget {
       ],
     );
   }
+
   Widget _buildInfoRow(String label, String value) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 2.h),

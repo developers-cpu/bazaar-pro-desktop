@@ -10,6 +10,7 @@ import '../../../../auth/presentation/bloc/auth_bloc.dart';
 import '../../../../auth/presentation/bloc/auth_state.dart';
 import 'trade_margin_filter_bar.dart';
 import 'trade_margin_table.dart';
+
 class TradeMarginDialog {
   static void show(BuildContext context, {VoidCallback? onClose}) {
     CommonDialog.show(
@@ -32,6 +33,7 @@ class TradeMarginDialog {
     );
   }
 }
+
 class _TradeMarginContent extends StatelessWidget {
   const _TradeMarginContent({super.key});
   @override

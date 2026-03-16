@@ -8,6 +8,7 @@ import '../../bloc/rejected_trade/rejected_trade_state.dart';
 import '../../../../../core/widget/table/view_reset_buttons.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
+
 class RejectedTradeFilterBar extends StatelessWidget {
   const RejectedTradeFilterBar({Key? key}) : super(key: key);
   @override

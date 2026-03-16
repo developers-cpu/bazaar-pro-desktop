@@ -6,12 +6,14 @@ import '../../../../../../core/widget/custom_input_field.dart';
 import '../../../bloc/user_form/user_form_bloc.dart';
 import '../../../bloc/user_form/user_form_event.dart';
 import '../../../bloc/user_form/user_form_state.dart';
+
 class AdminPersonalDetailsStep extends StatefulWidget {
   const AdminPersonalDetailsStep({super.key});
   @override
   State<AdminPersonalDetailsStep> createState() =>
       _AdminPersonalDetailsStepState();
 }
+
 class _AdminPersonalDetailsStepState extends State<AdminPersonalDetailsStep> {
   late TextEditingController _nameController;
   late TextEditingController _usernameController;
@@ -34,6 +36,7 @@ class _AdminPersonalDetailsStepState extends State<AdminPersonalDetailsStep> {
     _mobileController = TextEditingController(text: state.mobile);
     _allowedDeviceController = TextEditingController(text: state.allowedDevice);
   }
+
   @override
   void dispose() {
     _nameController.dispose();
@@ -44,11 +47,13 @@ class _AdminPersonalDetailsStepState extends State<AdminPersonalDetailsStep> {
     _allowedDeviceController.dispose();
     super.dispose();
   }
+
   void _updateField(String field, String value) {
     context.read<UserFormBloc>().add(
       UpdateFormFieldEvent(fieldName: field, value: value),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserFormBloc, UserFormState>(

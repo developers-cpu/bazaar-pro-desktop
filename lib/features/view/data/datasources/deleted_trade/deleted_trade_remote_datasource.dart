@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import '../../models/deleted_trade/deleted_trade_model.dart';
+
 abstract class DeletedTradeRemoteDataSource {
   Future<List<DeletedTradeModel>> getDeletedTrades();
   Future<List<DeletedTradeModel>> getDeletedTradesWithFilters({
@@ -15,6 +16,7 @@ abstract class DeletedTradeRemoteDataSource {
   Future<String> exportToPdf(List<DeletedTradeModel> trades);
   Future<String> exportToExcel(List<DeletedTradeModel> trades);
 }
+
 class DeletedTradeRemoteDataSourceImpl implements DeletedTradeRemoteDataSource {
   final Dio dio;
   DeletedTradeRemoteDataSourceImpl({required this.dio});
@@ -27,6 +29,7 @@ class DeletedTradeRemoteDataSourceImpl implements DeletedTradeRemoteDataSource {
       throw Exception('Failed to fetch deleted trades: $e');
     }
   }
+
   @override
   Future<List<DeletedTradeModel>> getDeletedTradesWithFilters({
     String? userType,
@@ -54,6 +57,7 @@ class DeletedTradeRemoteDataSourceImpl implements DeletedTradeRemoteDataSource {
       throw Exception('Failed to fetch filtered deleted trades: $e');
     }
   }
+
   @override
   Future<List<String>> getUserTypes() async {
     try {
@@ -63,6 +67,7 @@ class DeletedTradeRemoteDataSourceImpl implements DeletedTradeRemoteDataSource {
       throw Exception('Failed to fetch user types: $e');
     }
   }
+
   @override
   Future<List<String>> getUsers() async {
     try {
@@ -72,6 +77,7 @@ class DeletedTradeRemoteDataSourceImpl implements DeletedTradeRemoteDataSource {
       throw Exception('Failed to fetch users: $e');
     }
   }
+
   @override
   Future<List<String>> getExchanges() async {
     try {
@@ -81,6 +87,7 @@ class DeletedTradeRemoteDataSourceImpl implements DeletedTradeRemoteDataSource {
       throw Exception('Failed to fetch exchanges: $e');
     }
   }
+
   @override
   Future<List<String>> getSymbols() async {
     try {
@@ -90,6 +97,7 @@ class DeletedTradeRemoteDataSourceImpl implements DeletedTradeRemoteDataSource {
       throw Exception('Failed to fetch symbols: $e');
     }
   }
+
   @override
   Future<String> exportToPdf(List<DeletedTradeModel> trades) async {
     try {
@@ -99,6 +107,7 @@ class DeletedTradeRemoteDataSourceImpl implements DeletedTradeRemoteDataSource {
       throw Exception('Failed to export PDF: $e');
     }
   }
+
   @override
   Future<String> exportToExcel(List<DeletedTradeModel> trades) async {
     try {
@@ -108,6 +117,7 @@ class DeletedTradeRemoteDataSourceImpl implements DeletedTradeRemoteDataSource {
       throw Exception('Failed to export Excel: $e');
     }
   }
+
   List<DeletedTradeModel> _generateMockDeletedTrades() {
     final List<DeletedTradeModel> trades = [];
     final users = ['PATIL', 'DEMO4'];

@@ -8,6 +8,7 @@ import '../../../bloc/user_sharing/user_sharing_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 class UserSharingDetailsTab extends StatelessWidget {
   final User user;
   const UserSharingDetailsTab({super.key, required this.user});
@@ -20,6 +21,7 @@ class UserSharingDetailsTab extends StatelessWidget {
     );
   }
 }
+
 class UserSharingDetailsTabView extends StatelessWidget {
   const UserSharingDetailsTabView({super.key});
   @override
@@ -61,13 +63,15 @@ class UserSharingDetailsTabView extends StatelessWidget {
       },
     );
   }
+
   Widget _buildSharingCard(
     BuildContext context, {
     required String title,
     required List<UserSharingInfo> data,
   }) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final labelColor = (isDark ? Colors.white : AppColors.primaryBlue).withValues(alpha: 0.8);
+    final labelColor = (isDark ? Colors.white : AppColors.primaryBlue)
+        .withValues(alpha: 0.8);
     return Container(
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(

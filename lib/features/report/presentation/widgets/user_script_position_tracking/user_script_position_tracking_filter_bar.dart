@@ -9,6 +9,7 @@ import '../../bloc/user_script_position_tracking/user_script_position_tracking_s
 import '../../../../../core/widget/table/view_reset_buttons.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
+
 class UserScriptPositionTrackingFilterBar extends StatelessWidget {
   const UserScriptPositionTrackingFilterBar({super.key});
   @override

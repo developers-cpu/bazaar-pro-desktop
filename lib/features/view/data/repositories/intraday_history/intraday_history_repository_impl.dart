@@ -4,6 +4,7 @@ import '../../../domain/entities/intraday_history/intraday_history.dart';
 import '../../../domain/repositories/intraday_history/intraday_history_repository.dart';
 import '../../datasources/intraday_history/intraday_history_remote_datasource.dart';
 import '../../models/intraday_history/intraday_history_model.dart';
+
 class IntradayHistoryRepositoryImpl implements IntradayHistoryRepository {
   final IntradayHistoryRemoteDataSource remoteDataSource;
   IntradayHistoryRepositoryImpl({required this.remoteDataSource});
@@ -26,6 +27,7 @@ class IntradayHistoryRepositoryImpl implements IntradayHistoryRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
   @override
   Future<Either<Failure, List<IntradayHistory>>> getIntradayHistoryInSeconds({
     required DateTime date,
@@ -47,6 +49,7 @@ class IntradayHistoryRepositoryImpl implements IntradayHistoryRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
   @override
   Future<Either<Failure, List<String>>> getExchanges() async {
     try {
@@ -56,6 +59,7 @@ class IntradayHistoryRepositoryImpl implements IntradayHistoryRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
   @override
   Future<Either<Failure, List<String>>> getSymbols() async {
     try {
@@ -65,6 +69,7 @@ class IntradayHistoryRepositoryImpl implements IntradayHistoryRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
   @override
   Future<Either<Failure, List<String>>> getTimings() async {
     try {
@@ -74,6 +79,7 @@ class IntradayHistoryRepositoryImpl implements IntradayHistoryRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
   @override
   Future<Either<Failure, List<TimeSlot>>> getAvailableTimeSlots(
     DateTime date,
@@ -85,6 +91,7 @@ class IntradayHistoryRepositoryImpl implements IntradayHistoryRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
   @override
   Future<Either<Failure, String>> exportToPdf(
     List<IntradayHistory> history,
@@ -99,6 +106,7 @@ class IntradayHistoryRepositoryImpl implements IntradayHistoryRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
   @override
   Future<Either<Failure, String>> exportToExcel(
     List<IntradayHistory> history,

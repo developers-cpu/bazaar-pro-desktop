@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
 import '../../../domain/entities/surveillance/surveillance_bulk_order.dart';
+
 class BulkOrderDataTable extends StatelessWidget {
   final List<SurveillanceBulkOrder> data;
   final Set<String> selectedIds;
@@ -74,6 +75,7 @@ class BulkOrderDataTable extends StatelessWidget {
       autoFit: true,
     );
   }
+
   List<ViewTableColumn> _buildColumns() {
     return [
       ViewTableColumn(
@@ -113,6 +115,7 @@ class BulkOrderDataTable extends StatelessWidget {
       ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 150.w),
     ];
   }
+
   Widget _buildCell(SurveillanceBulkOrder item, String colId) {
     String text = '';
     switch (colId) {

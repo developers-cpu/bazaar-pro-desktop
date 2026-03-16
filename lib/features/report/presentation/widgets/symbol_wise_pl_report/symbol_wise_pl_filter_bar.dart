@@ -9,6 +9,7 @@ import '../../bloc/symbol_wise_pl/symbol_wise_pl_event.dart';
 import '../../bloc/symbol_wise_pl/symbol_wise_pl_state.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
+
 class SymbolWisePLFilterBar extends StatelessWidget {
   const SymbolWisePLFilterBar({super.key});
   @override

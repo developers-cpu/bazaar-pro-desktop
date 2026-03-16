@@ -4,6 +4,7 @@ import '../../../../core/errors/failures.dart';
 import '../../domain/entities/settlement_master_sharing.dart';
 import '../../domain/repositories/settlement_master_sharing_repository.dart';
 import '../datasources/settlement_master_sharing_datasource.dart';
+
 class SettlementMasterSharingRepositoryImpl
     implements SettlementMasterSharingRepository {
   final SettlementMasterSharingDataSource dataSource;
@@ -21,6 +22,7 @@ class SettlementMasterSharingRepositoryImpl
       return Left(ServerFailure(e.toString()));
     }
   }
+
   @override
   Future<Either<Failure, List<MasterUser>>> getAvailableMasters() async {
     try {

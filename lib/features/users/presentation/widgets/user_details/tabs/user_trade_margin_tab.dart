@@ -16,6 +16,7 @@ import '../../../bloc/user_trade_margin/user_trade_margin_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 class UserTradeMarginTab extends StatelessWidget {
   final User user;
   const UserTradeMarginTab({super.key, required this.user});
@@ -28,11 +29,13 @@ class UserTradeMarginTab extends StatelessWidget {
     );
   }
 }
+
 class UserTradeMarginTabView extends StatefulWidget {
   const UserTradeMarginTabView({super.key});
   @override
   State<UserTradeMarginTabView> createState() => _UserTradeMarginTabViewState();
 }
+
 class _UserTradeMarginTabViewState extends State<UserTradeMarginTabView> {
   final TextEditingController _searchController = TextEditingController();
   final TextEditingController _intradayMarginController =
@@ -46,6 +49,7 @@ class _UserTradeMarginTabViewState extends State<UserTradeMarginTabView> {
     _carryForwardMarginController.dispose();
     super.dispose();
   }
+
   void _onUpdate(BuildContext context) {}
   @override
   Widget build(BuildContext context) {
@@ -57,6 +61,7 @@ class _UserTradeMarginTabViewState extends State<UserTradeMarginTabView> {
       ],
     );
   }
+
   Widget _buildFilterBar(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(12.w),
@@ -180,6 +185,7 @@ class _UserTradeMarginTabViewState extends State<UserTradeMarginTabView> {
       ),
     );
   }
+
   Widget _buildRecordCount(BuildContext context) {
     return Container(
       color: AppColors.white,
@@ -195,6 +201,7 @@ class _UserTradeMarginTabViewState extends State<UserTradeMarginTabView> {
       ),
     );
   }
+
   Widget _buildTable(BuildContext context) {
     return BlocBuilder<UserTradeMarginBloc, UserTradeMarginState>(
       builder: (context, state) {
@@ -234,26 +241,39 @@ class _UserTradeMarginTabViewState extends State<UserTradeMarginTabView> {
                 ),
               ),
             ),
-            ViewTableColumn(id: 'exchange', label: 'EXCH', width: 120.w),
-            ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 200.w),
+            ViewTableColumn(id: 'exchange', label: 'EXCH', width: 80.w),
+            ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 100.w),
             ViewTableColumn(
               id: 'expiryDate',
               label: 'EXPIRY DATE',
-              width: 250.w,
+              width: 100.w,
             ),
             ViewTableColumn(
-              id: 'marginPct',
-              label: 'MARGIN (%)',
+              id: 'intradayMarginAmt',
+              label: 'INTRADAY MARGIN (A.)',
+              width: 170.w,
+              isNumeric: true,
+            ),
+            ViewTableColumn(
+              id: 'intradayMarginPct',
+              label: 'INTRADAY MARGIN (%)',
               width: 150.w,
               isNumeric: true,
             ),
             ViewTableColumn(
-              id: 'marginAmt',
-              label: 'MARGIN (A.)',
+              id: 'cfMarginPct',
+              label: 'CF MARGIN (%)',
+              width: 150.w,
+              isNumeric: true,
+            ),
+            ViewTableColumn(
+              id: 'cfMarginAmt',
+              label: 'CF MARGIN (A.)',
               width: 150.w,
               isNumeric: true,
             ),
           ],
+          autoFit: true,
           data: data,
           idExtractor: (item) => item.id,
           comparatorBuilder: (item, columnId) {
@@ -264,10 +284,14 @@ class _UserTradeMarginTabViewState extends State<UserTradeMarginTabView> {
                 return item.symbol;
               case 'expiryDate':
                 return item.expiryDate;
-              case 'marginPct':
-                return item.marginPercentage;
-              case 'marginAmt':
-                return item.marginAmount;
+              case 'intradayMarginAmt':
+                return item.intradayMarginAmount;
+              case 'intradayMarginPct':
+                return item.intradayMarginPercentage;
+              case 'cfMarginPct':
+                return item.carryForwardMarginPercentage;
+              case 'cfMarginAmt':
+                return item.carryForwardMarginAmount;
               default:
                 return '';
             }
@@ -297,16 +321,31 @@ class _UserTradeMarginTabViewState extends State<UserTradeMarginTabView> {
               case 'symbol':
                 return ViewTextCell(text: item.symbol, isDark: isDark);
               case 'expiryDate':
-                return ViewDateTimeCell(dateTime: item.expiryDate, isDark: isDark);
-              case 'marginPct':
+                return ViewDateTimeCell(
+                  dateTime: item.expiryDate,
+                  isDark: isDark,
+                );
+              case 'intradayMarginAmt':
                 return ViewNumberCell(
-                  value: item.marginPercentage,
+                  value: item.intradayMarginAmount,
                   colorByValue: false,
                   isDark: isDark,
                 );
-              case 'marginAmt':
+              case 'intradayMarginPct':
                 return ViewNumberCell(
-                  value: item.marginAmount,
+                  value: item.intradayMarginPercentage,
+                  colorByValue: false,
+                  isDark: isDark,
+                );
+              case 'cfMarginPct':
+                return ViewNumberCell(
+                  value: item.carryForwardMarginPercentage,
+                  colorByValue: false,
+                  isDark: isDark,
+                );
+              case 'cfMarginAmt':
+                return ViewNumberCell(
+                  value: item.carryForwardMarginAmount,
                   colorByValue: false,
                   isDark: isDark,
                 );

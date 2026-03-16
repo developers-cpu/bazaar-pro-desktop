@@ -3,6 +3,7 @@ import '../../../../core/errors/failures.dart';
 import '../../../../core/usecases/usecase.dart';
 import '../entities/rule_entity.dart';
 import '../repositories/rules_repository.dart';
+
 class GetRulesUseCase implements UseCase<List<RuleEntity>, NoParams> {
   final RulesRepository repository;
   GetRulesUseCase({required this.repository});

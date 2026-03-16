@@ -1,6 +1,9 @@
 part of 'total_volume_bloc.dart';
+
 enum TotalVolumeStatus { initial, loading, success, error }
+
 enum ExchangeStatus { initial, loading, success, error }
+
 class TotalVolumeState extends Equatable {
   final TotalVolumeStatus status;
   final ExchangeStatus exchangeStatus;
@@ -29,6 +32,7 @@ class TotalVolumeState extends Equatable {
       errorMessage: errorMessage ?? this.errorMessage,
     );
   }
+
   @override
   List<Object?> get props => [
     status,

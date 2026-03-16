@@ -1,4 +1,5 @@
 import '../../../domain/entities/deleted_trade/deleted_trade.dart';
+
 class DeletedTradeModel extends DeletedTrade {
   const DeletedTradeModel({
     required super.id,
@@ -71,6 +72,7 @@ class DeletedTradeModel extends DeletedTrade {
       'ipAddress': ipAddress,
     };
   }
+
   factory DeletedTradeModel.fromEntity(DeletedTrade trade) {
     return DeletedTradeModel(
       id: trade.id,

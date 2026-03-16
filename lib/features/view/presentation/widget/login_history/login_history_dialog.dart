@@ -9,6 +9,7 @@ import '../../bloc/login_history/login_history_event.dart';
 import '../../../../auth/presentation/bloc/auth_bloc.dart';
 import '../../../../auth/presentation/bloc/auth_state.dart';
 import 'login_history_table.dart';
+
 class LoginHistoryDialog {
   static void show(BuildContext context) {
     final authState = context.read<AuthBloc>().state;
@@ -36,6 +37,7 @@ class LoginHistoryDialog {
     );
   }
 }
+
 class _LoginHistoryContent extends StatelessWidget {
   const _LoginHistoryContent({Key? key}) : super(key: key);
   @override

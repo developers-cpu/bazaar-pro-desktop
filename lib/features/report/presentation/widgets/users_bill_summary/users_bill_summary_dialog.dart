@@ -13,6 +13,7 @@ import '../../bloc/users_bill_summary/users_bill_summary_event.dart';
 import '../../bloc/users_bill_summary/users_bill_summary_state.dart';
 import '../../../domain/entities/users_bill_summary/users_bill_summary_entity.dart';
 import '../../../../../injection_container.dart';
+
 class UsersBillSummaryDialog {
   static void show(BuildContext context) {
     CommonDialog.show(
@@ -28,12 +29,11 @@ class UsersBillSummaryDialog {
     );
   }
 }
+
 class _UsersBillSummaryContent extends StatelessWidget {
   final VoidCallback onClose;
-  const _UsersBillSummaryContent({
-    Key? key,
-    required this.onClose,
-  }) : super(key: key);
+  const _UsersBillSummaryContent({Key? key, required this.onClose})
+    : super(key: key);
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UsersBillSummaryBloc, UsersBillSummaryState>(
@@ -115,6 +115,7 @@ class _UsersBillSummaryContent extends StatelessWidget {
       },
     );
   }
+
   List<ViewTableColumn> _getColumns() {
     return [
       const ViewTableColumn(id: 'puName', label: 'P.U. NAME', width: 150),
@@ -127,6 +128,7 @@ class _UsersBillSummaryContent extends StatelessWidget {
       ),
     ];
   }
+
   Widget _buildCell(
     BuildContext context,
     UsersBillSummaryEntity item,
@@ -145,6 +147,7 @@ class _UsersBillSummaryContent extends StatelessWidget {
     if (column.id == 'uName') text = item.uName;
     return ViewTextCell(text: text, isDark: isDark);
   }
+
   Widget _buildFooter(
     BuildContext context,
     List<UsersBillSummaryEntity> data,

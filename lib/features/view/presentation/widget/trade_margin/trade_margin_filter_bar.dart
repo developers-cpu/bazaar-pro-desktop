@@ -10,6 +10,7 @@ import '../../bloc/trade_margin/trade_margin_event.dart';
 import '../../bloc/trade_margin/trade_margin_state.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
+
 class TradeMarginFilterBar extends StatelessWidget {
   final bool isDialogMode;
   const TradeMarginFilterBar({super.key, this.isDialogMode = false});

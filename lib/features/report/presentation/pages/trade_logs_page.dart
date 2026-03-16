@@ -6,6 +6,7 @@ import '../bloc/trade_log/trade_log_bloc.dart';
 import '../bloc/trade_log/trade_log_event.dart';
 import '../widgets/trade_log/trade_log_filter_bar.dart';
 import '../widgets/trade_log/trade_log_table.dart';
+
 class TradeLogsPage extends StatelessWidget {
   const TradeLogsPage({Key? key}) : super(key: key);
   @override

@@ -9,12 +9,14 @@ import '../../bloc/script_quantity/script_quantity_event.dart';
 import '../../bloc/script_quantity/script_quantity_state.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
+
 class ScriptQuantityFilterBar extends StatefulWidget {
   const ScriptQuantityFilterBar({Key? key}) : super(key: key);
   @override
   State<ScriptQuantityFilterBar> createState() =>
       _ScriptQuantityFilterBarState();
 }
+
 class _ScriptQuantityFilterBarState extends State<ScriptQuantityFilterBar> {
   String? _tempSelectedGroup;
   @override

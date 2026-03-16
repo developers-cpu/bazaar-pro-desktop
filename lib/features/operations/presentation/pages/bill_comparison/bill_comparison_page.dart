@@ -10,11 +10,13 @@ import '../../bloc/bill_comparison/bill_comparison_bloc.dart';
 import '../../bloc/bill_comparison/bill_comparison_event.dart';
 import '../../bloc/bill_comparison/bill_comparison_state.dart';
 import '../../widgets/bill_comparison/bill_comparison_data_table.dart';
+
 class BillComparisonPage extends StatefulWidget {
   const BillComparisonPage({super.key});
   @override
   State<BillComparisonPage> createState() => _BillComparisonPageState();
 }
+
 class _BillComparisonPageState extends State<BillComparisonPage> {
   final TextEditingController _dateCtrl = TextEditingController();
   final TextEditingController _searchCtrl = TextEditingController();
@@ -26,6 +28,7 @@ class _BillComparisonPageState extends State<BillComparisonPage> {
     _searchCtrl.dispose();
     super.dispose();
   }
+
   void _onViewClicked() {
     if (_selectedStartDate.isNotEmpty && _selectedEndDate.isNotEmpty) {
       context.read<BillComparisonBloc>().add(
@@ -36,6 +39,7 @@ class _BillComparisonPageState extends State<BillComparisonPage> {
       );
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Padding(

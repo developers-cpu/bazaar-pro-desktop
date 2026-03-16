@@ -1,16 +1,20 @@
 import 'package:equatable/equatable.dart';
 import '../../../domain/entities/script_quantity/script_quantity.dart';
+
 abstract class ScriptQuantityState extends Equatable {
   const ScriptQuantityState();
   @override
   List<Object?> get props => [];
 }
+
 class ScriptQuantityInitial extends ScriptQuantityState {
   const ScriptQuantityInitial();
 }
+
 class ScriptQuantityLoading extends ScriptQuantityState {
   const ScriptQuantityLoading();
 }
+
 class ScriptQuantityFiltersLoaded extends ScriptQuantityState {
   final List<String> exchanges;
   final List<String> groups;
@@ -43,6 +47,7 @@ class ScriptQuantityFiltersLoaded extends ScriptQuantityState {
     );
   }
 }
+
 class ScriptQuantityDataLoaded extends ScriptQuantityState {
   final List<ScriptQuantity> quantities;
   final String exchange;
@@ -57,6 +62,7 @@ class ScriptQuantityDataLoaded extends ScriptQuantityState {
   @override
   List<Object?> get props => [quantities, exchange, group, totalRecords];
 }
+
 class ScriptQuantityError extends ScriptQuantityState {
   final String message;
   const ScriptQuantityError(this.message);

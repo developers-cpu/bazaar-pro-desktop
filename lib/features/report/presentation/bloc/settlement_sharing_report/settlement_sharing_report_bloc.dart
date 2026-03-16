@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../domain/usecases/get_settlement_sharing_report.dart';
 import 'settlement_sharing_report_event.dart';
 import 'settlement_sharing_report_state.dart';
+
 class SettlementSharingReportBloc
     extends Bloc<SettlementSharingReportEvent, SettlementSharingReportState> {
   final GetSettlementSharingReport getSettlementSharingReport;
@@ -35,6 +36,7 @@ class SettlementSharingReportBloc
       },
     );
   }
+
   Future<void> _onSelectUserForDetail(
     SelectUserForDetail event,
     Emitter<SettlementSharingReportState> emit,
@@ -62,6 +64,7 @@ class SettlementSharingReportBloc
       );
     }
   }
+
   Future<void> _onClearSelectedUser(
     ClearSelectedUser event,
     Emitter<SettlementSharingReportState> emit,

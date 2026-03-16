@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+
 class UserFormState extends Equatable {
   final bool isEditMode;
   final String userType;
@@ -41,6 +42,8 @@ class UserFormState extends Equatable {
   final List<String> exchangeGroupOptions;
   final String? selectedMaster;
   final List<String> masterOptions;
+  final String? selectedServer;
+  final List<String> serverOptions;
   const UserFormState({
     this.isEditMode = false,
     this.userType = 'Master',
@@ -97,6 +100,8 @@ class UserFormState extends Equatable {
       'Master 4',
       'Master 5',
     ],
+    this.selectedServer,
+    this.serverOptions = const ['RGX', 'TESTS', 'FOREXSERVER'],
   });
   static const List<String> availableExchanges = [
     'MCX',
@@ -113,7 +118,6 @@ class UserFormState extends Equatable {
     'Personal Details',
     'Profit & Loss Sharing Details',
     'Exchange Allow',
-    'Exchange Setting',
     'High Low Between Trade Limit',
     'Triggers Setting',
     'Brokerage Setting',
@@ -132,6 +136,7 @@ class UserFormState extends Equatable {
     'High Low Between Trade Limit',
     'Trigger Settings',
     'Brokerage Settings',
+    'Broker Settings',
   ];
   static const List<String> adminStepTitles = [
     'Personal Details',
@@ -220,17 +225,19 @@ class UserFormState extends Equatable {
     if (userType == 'Admin') return adminTriggerSettings;
     return userType == 'Master' ? masterTriggerSettings : clientTriggerSettings;
   }
+
   static List<String> getStepTitles(String userType) {
     if (userType == 'Master') return masterStepTitles;
     if (userType == "Master's Client") return mastersClientStepTitles;
     if (userType == 'Admin') return adminStepTitles;
     return clientStepTitles;
   }
+
   static int getTotalSteps(String userType) {
-    if (userType == 'Master') return 7;
     if (userType == 'Admin') return 2;
-    return 5;
+    return 6;
   }
+
   static const List<TriggerSetting> availableTriggerSettings =
       masterTriggerSettings;
   static Map<String, bool> get defaultTriggerSettings => {
@@ -290,6 +297,8 @@ class UserFormState extends Equatable {
     List<String>? exchangeGroupOptions,
     String? selectedMaster,
     List<String>? masterOptions,
+    String? selectedServer,
+    List<String>? serverOptions,
   }) {
     return UserFormState(
       isEditMode: isEditMode ?? this.isEditMode,
@@ -337,8 +346,11 @@ class UserFormState extends Equatable {
       exchangeGroupOptions: exchangeGroupOptions ?? this.exchangeGroupOptions,
       selectedMaster: selectedMaster ?? this.selectedMaster,
       masterOptions: masterOptions ?? this.masterOptions,
+      selectedServer: selectedServer ?? this.selectedServer,
+      serverOptions: serverOptions ?? this.serverOptions,
     );
   }
+
   @override
   List<Object?> get props => [
     isEditMode,
@@ -380,8 +392,11 @@ class UserFormState extends Equatable {
     error,
     selectedMaster,
     masterOptions,
+    selectedServer,
+    serverOptions,
   ];
 }
+
 class TriggerSetting {
   final String key;
   final String label;
@@ -392,6 +407,7 @@ class TriggerSetting {
     required this.icon,
   });
 }
+
 class BrokerageData extends Equatable {
   final String exchange;
   final String turnoverWise;
@@ -412,6 +428,7 @@ class BrokerageData extends Equatable {
       symbolWiseBrk: symbolWiseBrk ?? this.symbolWiseBrk,
     );
   }
+
   @override
   List<Object?> get props => [exchange, turnoverWise, symbolWiseBrk];
 }

@@ -10,6 +10,7 @@ import '../../bloc/symbol_wise_pl/symbol_wise_pl_state.dart';
 import '../../../domain/entities/symbol_wise_pl/symbol_wise_pl_report.dart';
 import 'symbol_open_position_dialog.dart';
 import 'symbol_trade_list_dialog.dart';
+
 class SymbolWisePLTable extends StatelessWidget {
   final bool isDarkMode;
   const SymbolWisePLTable({super.key, this.isDarkMode = false});
@@ -44,6 +45,7 @@ class SymbolWisePLTable extends StatelessWidget {
       ),
     ];
   }
+
   Widget _buildClickableNumberCell(
     BuildContext context,
     double value,
@@ -74,6 +76,7 @@ class SymbolWisePLTable extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildCell(
     BuildContext context,
     SymbolWisePLReport item,
@@ -115,6 +118,7 @@ class SymbolWisePLTable extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SymbolWisePLBloc, SymbolWisePLState>(

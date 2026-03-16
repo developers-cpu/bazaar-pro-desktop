@@ -10,12 +10,13 @@ import '../../bloc/search_user/search_user_state.dart';
 import '../../../../../../core/constants/app_images.dart';
 import '../search/user_tree_view.dart';
 import '../../../../../../core/widget/custom_input_field.dart';
+import 'package:bazarpro/features/users/domain/entities/user.dart';
 
-class UserSearchDialog {
-  static void show(BuildContext context) {
+class UserHierarchyDialog {
+  static void show(BuildContext context, User user) {
     CommonDialog.show(
       context: context,
-      title: 'Search Username',
+      title: "${user.userName}'s User list",
       width: 450.w,
       height: 650.h,
       showButtons: false,
@@ -23,24 +24,26 @@ class UserSearchDialog {
       contentPadding: EdgeInsets.all(16.w),
       contentBuilder: (context, onClose) => BlocProvider(
         create: (context) =>
-            sl<SearchUserBloc>()..add(const LoadUserHierarchyEvent()),
-        child: const _UserSearchContent(),
+            sl<SearchUserBloc>()
+              ..add(LoadUserHierarchyEvent(rootUserName: user.userName)),
+        child: const _UserHierarchyContent(),
       ),
     );
   }
 }
 
-class _UserSearchContent extends StatelessWidget {
-  const _UserSearchContent({Key? key}) : super(key: key);
+class _UserHierarchyContent extends StatelessWidget {
+  const _UserHierarchyContent({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CustomInputField(
-          hintText: 'Username',
+          hintText: 'Search User',
           height: 35.h,
-          width: 250.w,
+          width: 300.w,
           prefixSvgPath: AppImages.searchIcon,
           onChanged: (value) {
             context.read<SearchUserBloc>().add(SearchUserQueryEvent(value));

@@ -4,6 +4,7 @@ import '../../../../../core/errors/failures.dart';
 import '../../../../../core/usecases/usecase.dart';
 import '../entities/settlement_sharing_report.dart';
 import '../repositories/settlement_sharing_report_repository.dart';
+
 class GetSettlementSharingReport
     implements
         UseCase<SettlementSharingReport, GetSettlementSharingReportParams> {
@@ -19,6 +20,7 @@ class GetSettlementSharingReport
     );
   }
 }
+
 class GetSettlementSharingReportParams extends Equatable {
   final String dateRange;
   final String? userId;

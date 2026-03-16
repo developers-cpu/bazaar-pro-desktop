@@ -9,6 +9,7 @@ import '../../../../../../injection_container.dart';
 import '../../../../domain/entities/user.dart';
 import '../../../../domain/entities/user_group_settings/user_group_settings.dart';
 import '../../../bloc/user_group_settings/user_group_settings_bloc.dart';
+
 class UserGroupSettingsTab extends StatelessWidget {
   final User user;
   final Function(String groupName) onViewSettings;
@@ -26,6 +27,7 @@ class UserGroupSettingsTab extends StatelessWidget {
     );
   }
 }
+
 class UserGroupSettingsTabView extends StatelessWidget {
   final Function(String groupName) onViewSettings;
   const UserGroupSettingsTabView({super.key, required this.onViewSettings});
@@ -51,11 +53,12 @@ class UserGroupSettingsTabView extends StatelessWidget {
               ),
               Expanded(
                 child: ViewDataTable<UserGroupSettings>(
+                  autoFit: true,
                   columns: [
                     ViewTableColumn(id: 'name', label: 'Group', width: 400.w),
                     ViewTableColumn(
-                      id: 'quantity',
-                      label: 'MAX QUANTITY',
+                      id: 'lastUpdated',
+                      label: 'LAST UPDATED',
                       width: 400.w,
                     ),
                     ViewTableColumn(id: 'view', label: 'VIEW', width: 160.w),
@@ -66,14 +69,15 @@ class UserGroupSettingsTabView extends StatelessWidget {
                     switch (columnId) {
                       case 'name':
                         return item.groupName;
-                      case 'quantity':
-                        return item.maxQuantity;
+                      case 'lastUpdated':
+                        return item.lastUpdated ?? DateTime(0);
                       default:
                         return '';
                     }
                   },
                   cellBuilder: (item, column) {
-                    final isDark = Theme.of(context).brightness == Brightness.dark;
+                    final isDark =
+                        Theme.of(context).brightness == Brightness.dark;
                     switch (column.id) {
                       case 'name':
                         return ViewTextCell(
@@ -81,10 +85,9 @@ class UserGroupSettingsTabView extends StatelessWidget {
                           color: AppColors.primaryBlue,
                           isDark: isDark,
                         );
-                      case 'quantity':
-                        return ViewNumberCell(
-                          value: item.maxQuantity.toDouble(),
-                          colorByValue: false,
+                      case 'lastUpdated':
+                        return ViewDateTimeCell(
+                          dateTime: item.lastUpdated ?? DateTime.now(),
                           isDark: isDark,
                         );
                       case 'view':
@@ -104,9 +107,9 @@ class UserGroupSettingsTabView extends StatelessWidget {
                   },
                 ),
               ),
-              ],
-            );
-          }
+            ],
+          );
+        }
         return const SizedBox();
       },
     );

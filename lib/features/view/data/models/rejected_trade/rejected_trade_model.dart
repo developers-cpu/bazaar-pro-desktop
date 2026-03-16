@@ -1,4 +1,5 @@
 import '../../../domain/entities/rejected_trade/rejected_trade.dart';
+
 class RejectedTradeModel extends RejectedTrade {
   const RejectedTradeModel({
     required super.id,
@@ -71,6 +72,7 @@ class RejectedTradeModel extends RejectedTrade {
       'ipAddress': ipAddress,
     };
   }
+
   factory RejectedTradeModel.fromEntity(RejectedTrade trade) {
     return RejectedTradeModel(
       id: trade.id,

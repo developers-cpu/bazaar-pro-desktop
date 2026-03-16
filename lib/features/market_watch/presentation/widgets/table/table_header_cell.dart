@@ -4,6 +4,7 @@ import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/constants/app_images.dart';
 import '../../../../../core/widget/svg_icon.dart';
 import 'table_text_style_helper.dart';
+
 class TableHeaderCell extends StatefulWidget {
   final String title;
   final String columnId;
@@ -39,6 +40,7 @@ class TableHeaderCell extends StatefulWidget {
   @override
   State<TableHeaderCell> createState() => _TableHeaderCellState();
 }
+
 class _TableHeaderCellState extends State<TableHeaderCell> {
   bool _isDragOver = false;
   @override
@@ -147,9 +149,7 @@ class _TableHeaderCellState extends State<TableHeaderCell> {
                   left: widget.isFirst
                       ? BorderSide.none
                       : BorderSide(
-                          color: _isDragOver
-                              ? AppColors.blue
-                              :AppColors.white,
+                          color: _isDragOver ? AppColors.blue : AppColors.white,
                           width: _isDragOver ? 2.5 : 1.0,
                         ),
                 ),

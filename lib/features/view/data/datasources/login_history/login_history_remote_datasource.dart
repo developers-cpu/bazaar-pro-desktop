@@ -1,11 +1,13 @@
 import 'package:dio/dio.dart';
 import '../../models/login_history/login_history_model.dart';
+
 abstract class LoginHistoryRemoteDataSource {
   Future<List<LoginHistoryModel>> getLoginHistory(String client);
   Future<List<String>> getClients();
   Future<String> exportToPdf(List<LoginHistoryModel> history);
   Future<String> exportToExcel(List<LoginHistoryModel> history);
 }
+
 class LoginHistoryRemoteDataSourceImpl implements LoginHistoryRemoteDataSource {
   final Dio dio;
   LoginHistoryRemoteDataSourceImpl({required this.dio});
@@ -18,6 +20,7 @@ class LoginHistoryRemoteDataSourceImpl implements LoginHistoryRemoteDataSource {
       throw Exception('Failed to fetch login history: $e');
     }
   }
+
   @override
   Future<List<String>> getClients() async {
     try {
@@ -27,6 +30,7 @@ class LoginHistoryRemoteDataSourceImpl implements LoginHistoryRemoteDataSource {
       throw Exception('Failed to fetch clients: $e');
     }
   }
+
   @override
   Future<String> exportToPdf(List<LoginHistoryModel> history) async {
     try {
@@ -36,6 +40,7 @@ class LoginHistoryRemoteDataSourceImpl implements LoginHistoryRemoteDataSource {
       throw Exception('Failed to export PDF: $e');
     }
   }
+
   @override
   Future<String> exportToExcel(List<LoginHistoryModel> history) async {
     try {
@@ -45,6 +50,7 @@ class LoginHistoryRemoteDataSourceImpl implements LoginHistoryRemoteDataSource {
       throw Exception('Failed to export Excel: $e');
     }
   }
+
   List<LoginHistoryModel> _generateMockLoginHistory(String client) {
     final List<LoginHistoryModel> history = [];
     final userTypes = ['MASTER', 'CLIENT'];

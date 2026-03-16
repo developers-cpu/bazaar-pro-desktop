@@ -12,6 +12,7 @@ import '../../../../../core/widget/table/view_record_count.dart';
 import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import '../../../../auth/presentation/bloc/auth_bloc.dart';
 import '../../../../auth/presentation/bloc/auth_state.dart';
+
 class LoginHistoryTable extends StatelessWidget {
   const LoginHistoryTable({Key? key}) : super(key: key);
   List<ViewTableColumn> _getColumns(bool isClient) {
@@ -22,22 +23,23 @@ class LoginHistoryTable extends StatelessWidget {
       ];
     }
     return const [
-      ViewTableColumn(
-        id: 'index',
-        label: 'INDEX',
-        width: 60,
-        isNumeric: true,
-      ),
+      ViewTableColumn(id: 'index', label: 'INDEX', width: 60, isNumeric: true),
       ViewTableColumn(id: 'loginTime', label: 'LOGIN TIME', width: 140),
       ViewTableColumn(id: 'logoutTime', label: 'LOGOUT TIME', width: 140),
       ViewTableColumn(id: 'userName', label: 'USER NAME', width: 100),
       ViewTableColumn(id: 'userType', label: 'USER TYPE', width: 90),
-      ViewTableColumn(id: 'ipAddress', label: 'IP ADDRESS', width: 110, isNumeric: true),
+      ViewTableColumn(
+        id: 'ipAddress',
+        label: 'IP ADDRESS',
+        width: 110,
+        isNumeric: true,
+      ),
       ViewTableColumn(id: 'deviceId', label: 'DEVICE ID', width: 260),
       ViewTableColumn(id: 'device', label: 'DEVICE', width: 70),
       ViewTableColumn(id: 'city', label: 'CITY', width: 90),
     ];
   }
+
   @override
   Widget build(BuildContext context) {
     bool isClient = false;
@@ -105,6 +107,7 @@ class LoginHistoryTable extends StatelessWidget {
       },
     );
   }
+
   Widget _buildCell(
     LoginHistory history,
     ViewTableColumn column,

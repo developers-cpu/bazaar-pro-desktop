@@ -2,6 +2,7 @@ import 'package:bazarpro/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 class ViewResetButtons extends StatelessWidget {
   final VoidCallback? onView;
   final VoidCallback? onReset;
@@ -28,6 +29,7 @@ class ViewResetButtons extends StatelessWidget {
       ],
     );
   }
+
   Widget _buildResetButton() {
     return SizedBox(
       width: 90.w,
@@ -52,6 +54,7 @@ class ViewResetButtons extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildViewButton() {
     return SizedBox(
       width: 90.w,
@@ -87,6 +90,7 @@ class ViewResetButtons extends StatelessWidget {
     );
   }
 }
+
 class RecordCountWidget extends StatelessWidget {
   final int count;
   final String label;

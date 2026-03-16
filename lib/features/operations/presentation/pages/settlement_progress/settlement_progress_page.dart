@@ -14,11 +14,13 @@ import '../../widgets/settlement_progress/dialogs/bhav_copy_preview_dialog.dart'
 import '../../widgets/settlement_progress/dialogs/settlement_progress_indicator_dialog.dart';
 import '../../widgets/settlement_progress/dialogs/update_database_dialog.dart';
 import '../../../domain/entities/settlement_progress/bhav_copy_entity.dart';
+
 class SettlementProgressPage extends StatefulWidget {
   const SettlementProgressPage({super.key});
   @override
   State<SettlementProgressPage> createState() => _SettlementProgressPageState();
 }
+
 class _SettlementProgressPageState extends State<SettlementProgressPage> {
   int _activeTab = 0;
   final _exchanges = const [
@@ -37,9 +39,14 @@ class _SettlementProgressPageState extends State<SettlementProgressPage> {
   void initState() {
     super.initState();
   }
+
   void _showImportDialog(BuildContext context) {
-    ImportFileDialog.show(context, bloc: context.read<SettlementProgressBloc>());
+    ImportFileDialog.show(
+      context,
+      bloc: context.read<SettlementProgressBloc>(),
+    );
   }
+
   void _showPreviewDialog(BuildContext context, List<BhavCopyEntity> data) {
     BhavCopyPreviewDialog.show(
       context,
@@ -47,12 +54,14 @@ class _SettlementProgressPageState extends State<SettlementProgressPage> {
       bloc: context.read<SettlementProgressBloc>(),
     );
   }
+
   void _showProgressDialog(BuildContext context) {
     SettlementProgressIndicatorDialog.show(
       context,
       bloc: context.read<SettlementProgressBloc>(),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<SettlementProgressBloc, SettlementProgressState>(
@@ -103,14 +112,14 @@ class _SettlementProgressPageState extends State<SettlementProgressPage> {
                   ),
                   if (hasData) ...[
                     SizedBox(width: 10.w),
-                      CustomActionButton(
-                        text: 'Download Database',
-                        onPressed: () {
-                          UpdateDatabaseDialog.show(context);
-                        },
-                        width: 160.w,
-                        height: 35.h,
-                      ),
+                    CustomActionButton(
+                      text: 'Download Database',
+                      onPressed: () {
+                        UpdateDatabaseDialog.show(context);
+                      },
+                      width: 160.w,
+                      height: 35.h,
+                    ),
                   ],
                 ],
               ),
@@ -137,6 +146,7 @@ class _SettlementProgressPageState extends State<SettlementProgressPage> {
       },
     );
   }
+
   Widget _buildBody(
     SettlementProgressState state,
     List<BhavCopyEntity> displayData,

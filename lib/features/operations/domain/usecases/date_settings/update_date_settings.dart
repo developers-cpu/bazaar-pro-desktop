@@ -4,6 +4,7 @@ import 'package:bazarpro/features/operations/domain/entities/date_settings/date_
 import 'package:bazarpro/features/operations/domain/repositories/date_settings/date_settings_repository.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
+
 class UpdateDateSettings implements UseCase<bool, UpdateDateSettingsParams> {
   final DateSettingsRepository repository;
   UpdateDateSettings(this.repository);
@@ -15,6 +16,7 @@ class UpdateDateSettings implements UseCase<bool, UpdateDateSettingsParams> {
     );
   }
 }
+
 class UpdateDateSettingsParams extends Equatable {
   final List<String> ids;
   final DateSetting? details;

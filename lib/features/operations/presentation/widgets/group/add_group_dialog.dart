@@ -10,6 +10,7 @@ import '../../../../../core/widget/custom_input_field.dart'
     show CustomInputField;
 import '../../bloc/group/group_bloc.dart';
 import '../../bloc/group/group_event.dart';
+
 class AddGroupDialog {
   static void show({
     required BuildContext context,
@@ -40,6 +41,7 @@ class AddGroupDialog {
     );
   }
 }
+
 class _AddGroupContent extends StatefulWidget {
   final bool isEdit;
   final String? initialExchange;
@@ -57,6 +59,7 @@ class _AddGroupContent extends StatefulWidget {
   @override
   State<_AddGroupContent> createState() => _AddGroupContentState();
 }
+
 class _AddGroupContentState extends State<_AddGroupContent> {
   String? _selectedExchange;
   final TextEditingController _groupNameController = TextEditingController();
@@ -68,11 +71,13 @@ class _AddGroupContentState extends State<_AddGroupContent> {
     _groupNameController.text = widget.initialGroupName ?? '';
     _isDefault = widget.initialIsDefault;
   }
+
   @override
   void dispose() {
     _groupNameController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Column(

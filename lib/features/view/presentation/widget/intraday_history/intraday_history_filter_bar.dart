@@ -9,6 +9,7 @@ import '../../bloc/intraday_history/intraday_history_event.dart';
 import '../../bloc/intraday_history/intraday_history_state.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
+
 class IntradayHistoryFilterBar extends StatelessWidget {
   const IntradayHistoryFilterBar({Key? key}) : super(key: key);
   @override

@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import '../../models/pending_orders/pending_order_model.dart';
+
 abstract class PendingOrdersRemoteDataSource {
   Future<List<PendingOrderModel>> getPendingOrders();
   Future<List<PendingOrderModel>> getPendingOrdersWithFilters({
@@ -12,6 +13,7 @@ abstract class PendingOrdersRemoteDataSource {
   Future<List<String>> getExchanges();
   Future<List<String>> getSymbols();
 }
+
 class PendingOrdersRemoteDataSourceImpl
     implements PendingOrdersRemoteDataSource {
   final Dio dio;
@@ -25,6 +27,7 @@ class PendingOrdersRemoteDataSourceImpl
       throw Exception('Failed to fetch pending orders: $e');
     }
   }
+
   @override
   Future<List<PendingOrderModel>> getPendingOrdersWithFilters({
     String? client,
@@ -58,6 +61,7 @@ class PendingOrdersRemoteDataSourceImpl
       throw Exception('Failed to fetch filtered pending orders: $e');
     }
   }
+
   @override
   Future<List<String>> getClients() async {
     try {
@@ -67,6 +71,7 @@ class PendingOrdersRemoteDataSourceImpl
       throw Exception('Failed to fetch clients: $e');
     }
   }
+
   @override
   Future<List<String>> getExchanges() async {
     try {
@@ -85,6 +90,7 @@ class PendingOrdersRemoteDataSourceImpl
       throw Exception('Failed to fetch exchanges: $e');
     }
   }
+
   @override
   Future<List<String>> getSymbols() async {
     try {
@@ -106,6 +112,7 @@ class PendingOrdersRemoteDataSourceImpl
       throw Exception('Failed to fetch symbols: $e');
     }
   }
+
   List<PendingOrderModel> _generateDummyOrders() {
     final List<String> users = ['PATIL', 'DEMO4', 'DEMO49', 'DEMO12', 'DEMO'];
     final List<String> uplines = ['DEMO', 'DEMO49', 'DEMO12'];

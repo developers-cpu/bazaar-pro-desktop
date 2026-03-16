@@ -1,4 +1,5 @@
 import 'package:bazarpro/features/operations/domain/entities/date_settings/date_setting.dart';
+
 class DateSettingModel extends DateSetting {
   const DateSettingModel({
     required super.id,

@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../domain/entities/bill_generate_report.dart';
+
 class BillGenerateView extends StatelessWidget {
   final BillGenerateReport report;
   final String? billType;
@@ -23,6 +24,7 @@ class BillGenerateView extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildAdvanceBody() {
     return Column(
       children: [
@@ -32,7 +34,9 @@ class BillGenerateView extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 16.w),
           child: Column(
             children: [
-              ...report.scriptTrades.map((trade) => _buildScriptTradeSection(trade)),
+              ...report.scriptTrades.map(
+                (trade) => _buildScriptTradeSection(trade),
+              ),
               SizedBox(height: 16.h),
               _buildSummaryTable(
                 'General Summary',
@@ -54,6 +58,7 @@ class BillGenerateView extends StatelessWidget {
       ],
     );
   }
+
   Widget _buildRegularBody() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -86,12 +91,11 @@ class BillGenerateView extends StatelessWidget {
       ],
     );
   }
+
   Widget _buildRegularHeader(BillHeaderInfo info) {
     return Container(
       width: double.infinity,
-      decoration: const BoxDecoration(
-        color: Color(0xFF7E899B),
-      ),
+      decoration: const BoxDecoration(color: Color(0xFF7E899B)),
       padding: EdgeInsets.symmetric(vertical: 16.h),
       child: Column(
         children: [
@@ -116,6 +120,7 @@ class BillGenerateView extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildRegularSectionTitle(String title) {
     return Container(
       width: double.infinity,
@@ -138,6 +143,7 @@ class BillGenerateView extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildRegularTradesTable() {
     return Container(
       decoration: BoxDecoration(
@@ -145,40 +151,64 @@ class BillGenerateView extends StatelessWidget {
       ),
       child: Column(
         children: [
-          _buildRegularRow(
-            ['EXCHANGE', 'SCRIPT', 'BUY QTY', 'BUY PRICE', 'SELL QTY', 'SELL PRICE', 'BROKERAGE', 'PROFIT/LOSS'],
-            isHeader: true,
-          ),
+          _buildRegularRow([
+            'EXCHANGE',
+            'SCRIPT',
+            'BUY QTY',
+            'BUY PRICE',
+            'SELL QTY',
+            'SELL PRICE',
+            'BROKERAGE',
+            'PROFIT/LOSS',
+          ], isHeader: true),
           ...report.scriptTrades.expand((trade) {
             final List<Widget> legs = [];
-            final maxLen = trade.buyLegs.length > trade.sellLegs.length ? trade.buyLegs.length : trade.sellLegs.length;
+            final maxLen = trade.buyLegs.length > trade.sellLegs.length
+                ? trade.buyLegs.length
+                : trade.sellLegs.length;
             for (int i = 0; i < maxLen; i++) {
               final buyLeg = i < trade.buyLegs.length ? trade.buyLegs[i] : null;
-              final sellLeg = i < trade.sellLegs.length ? trade.sellLegs[i] : null;
-              legs.add(_buildRegularRow([
-                trade.exchange,
-                trade.script,
-                buyLeg?.qty.toString() ?? '',
-                buyLeg?.price ?? '',
-                sellLeg?.qty.toString() ?? '',
-                sellLeg?.price ?? '',
-                i == 0 ? trade.brokerage.toStringAsFixed(2) : '',
-                i == 0 ? trade.profitLoss.toStringAsFixed(2) : '',
-              ], colors: [
-                null,
-                null,
-                AppColors.blue,
-                AppColors.blue,
-                AppColors.red,
-                AppColors.red,
-                null,
-                trade.profitLoss >= 0 ? AppColors.blue : AppColors.red,
-              ]));
+              final sellLeg = i < trade.sellLegs.length
+                  ? trade.sellLegs[i]
+                  : null;
+              legs.add(
+                _buildRegularRow(
+                  [
+                    trade.exchange,
+                    trade.script,
+                    buyLeg?.qty.toString() ?? '',
+                    buyLeg?.price ?? '',
+                    sellLeg?.qty.toString() ?? '',
+                    sellLeg?.price ?? '',
+                    i == 0 ? trade.brokerage.toStringAsFixed(2) : '',
+                    i == 0 ? trade.profitLoss.toStringAsFixed(2) : '',
+                  ],
+                  colors: [
+                    null,
+                    null,
+                    AppColors.blue,
+                    AppColors.blue,
+                    AppColors.red,
+                    AppColors.red,
+                    null,
+                    trade.profitLoss >= 0 ? AppColors.blue : AppColors.red,
+                  ],
+                ),
+              );
             }
             return legs;
           }),
           _buildRegularRow(
-            ['TOTAL', '', '', '', '', '', report.summaryTotal.totalBrokerage.toStringAsFixed(2), report.summaryTotal.total.toStringAsFixed(2)],
+            [
+              'TOTAL',
+              '',
+              '',
+              '',
+              '',
+              '',
+              report.summaryTotal.totalBrokerage.toStringAsFixed(2),
+              report.summaryTotal.total.toStringAsFixed(2),
+            ],
             isBold: true,
             backgroundColor: const Color(0xFFF3F4F6),
             colors: [
@@ -196,6 +226,7 @@ class BillGenerateView extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildRegularScriptWiseSummary() {
     return Container(
       decoration: BoxDecoration(
@@ -203,25 +234,39 @@ class BillGenerateView extends StatelessWidget {
       ),
       child: Column(
         children: [
-          _buildRegularRow(
-            ['EXCHANGE', 'SCRIPT', 'MTM', 'BROKERAGE', 'NET AMOUNT'],
-            isHeader: true,
+          _buildRegularRow([
+            'EXCHANGE',
+            'SCRIPT',
+            'MTM',
+            'BROKERAGE',
+            'NET AMOUNT',
+          ], isHeader: true),
+          ...report.scriptWiseSummary.map(
+            (s) => _buildRegularRow(
+              [
+                s.exchange,
+                s.script,
+                s.total.toStringAsFixed(2),
+                s.brokerage.toStringAsFixed(2),
+                s.net.toStringAsFixed(2),
+              ],
+              colors: [
+                null,
+                null,
+                s.total >= 0 ? AppColors.blue : AppColors.red,
+                null,
+                s.net >= 0 ? AppColors.blue : AppColors.red,
+              ],
+            ),
           ),
-          ...report.scriptWiseSummary.map((s) => _buildRegularRow([
-            s.exchange,
-            s.script,
-            s.total.toStringAsFixed(2),
-            s.brokerage.toStringAsFixed(2),
-            s.net.toStringAsFixed(2),
-          ], colors: [
-            null,
-            null,
-            s.total >= 0 ? AppColors.blue : AppColors.red,
-            null,
-            s.net >= 0 ? AppColors.blue : AppColors.red,
-          ])),
           _buildRegularRow(
-            ['TOTAL', '', report.summaryTotal.total.toStringAsFixed(2), report.summaryTotal.totalBrokerage.toStringAsFixed(2), report.summaryTotal.totalNet.toStringAsFixed(2)],
+            [
+              'TOTAL',
+              '',
+              report.summaryTotal.total.toStringAsFixed(2),
+              report.summaryTotal.totalBrokerage.toStringAsFixed(2),
+              report.summaryTotal.totalNet.toStringAsFixed(2),
+            ],
             isBold: true,
             backgroundColor: const Color(0xFFF3F4F6),
             colors: [
@@ -229,13 +274,16 @@ class BillGenerateView extends StatelessWidget {
               null,
               report.summaryTotal.total >= 0 ? AppColors.blue : AppColors.red,
               null,
-              report.summaryTotal.totalNet >= 0 ? AppColors.blue : AppColors.red,
+              report.summaryTotal.totalNet >= 0
+                  ? AppColors.blue
+                  : AppColors.red,
             ],
           ),
         ],
       ),
     );
   }
+
   Widget _buildRegularCarryForward() {
     return Container(
       decoration: BoxDecoration(
@@ -243,27 +291,36 @@ class BillGenerateView extends StatelessWidget {
       ),
       child: Column(
         children: [
-          _buildRegularRow(
-            ['EXCHANGE', 'SCRIPT', 'POSITION', 'QTY', 'RATE'],
-            isHeader: true,
+          _buildRegularRow([
+            'EXCHANGE',
+            'SCRIPT',
+            'POSITION',
+            'QTY',
+            'RATE',
+          ], isHeader: true),
+          ...report.carryForward.map(
+            (cf) => _buildRegularRow(
+              [
+                cf.exchange,
+                cf.script,
+                cf.type.toUpperCase(),
+                cf.quantity.toStringAsFixed(2),
+                cf.price.toStringAsFixed(6),
+              ],
+              colors: [
+                null,
+                null,
+                cf.type.toLowerCase() == 'buy' ? AppColors.blue : AppColors.red,
+                null,
+                AppColors.blue,
+              ],
+            ),
           ),
-          ...report.carryForward.map((cf) => _buildRegularRow([
-            cf.exchange,
-            cf.script,
-            cf.type.toUpperCase(),
-            cf.quantity.toStringAsFixed(2),
-            cf.price.toStringAsFixed(6),
-          ], colors: [
-            null,
-            null,
-            cf.type.toLowerCase() == 'buy' ? AppColors.blue : AppColors.red,
-            null,
-            AppColors.blue,
-          ])),
         ],
       ),
     );
   }
+
   Widget _buildRegularExchangeSummary() {
     return Container(
       decoration: BoxDecoration(
@@ -271,37 +328,58 @@ class BillGenerateView extends StatelessWidget {
       ),
       child: Column(
         children: [
-          _buildRegularRow(
-            ['EXCHANGE', 'MTM', 'BROKERAGE', 'NET AMOUNT'],
-            isHeader: true,
+          _buildRegularRow([
+            'EXCHANGE',
+            'MTM',
+            'BROKERAGE',
+            'NET AMOUNT',
+          ], isHeader: true),
+          ...report.exchangeWisePL.map(
+            (pl) => _buildRegularRow(
+              [
+                pl.exchange,
+                pl.mtm.toStringAsFixed(2),
+                pl.brok.toStringAsFixed(2),
+                pl.pl.toStringAsFixed(2),
+              ],
+              colors: [
+                null,
+                pl.mtm >= 0 ? AppColors.blue : AppColors.red,
+                null,
+                pl.pl >= 0 ? AppColors.blue : AppColors.red,
+              ],
+            ),
           ),
-          ...report.exchangeWisePL.map((pl) => _buildRegularRow([
-            pl.exchange,
-            pl.mtm.toStringAsFixed(2),
-            pl.brok.toStringAsFixed(2),
-            pl.pl.toStringAsFixed(2),
-          ], colors: [
-            null,
-            pl.mtm >= 0 ? AppColors.blue : AppColors.red,
-            null,
-            pl.pl >= 0 ? AppColors.blue : AppColors.red,
-          ])),
           _buildRegularRow(
-            ['TOTAL', report.summaryTotal.total.toStringAsFixed(2), report.summaryTotal.totalBrokerage.toStringAsFixed(2), report.summaryTotal.totalNet.toStringAsFixed(2)],
+            [
+              'TOTAL',
+              report.summaryTotal.total.toStringAsFixed(2),
+              report.summaryTotal.totalBrokerage.toStringAsFixed(2),
+              report.summaryTotal.totalNet.toStringAsFixed(2),
+            ],
             isBold: true,
             backgroundColor: const Color(0xFFF3F4F6),
             colors: [
               null,
               report.summaryTotal.total >= 0 ? AppColors.blue : AppColors.red,
               null,
-              report.summaryTotal.totalNet >= 0 ? AppColors.blue : AppColors.red,
+              report.summaryTotal.totalNet >= 0
+                  ? AppColors.blue
+                  : AppColors.red,
             ],
           ),
         ],
       ),
     );
   }
-  Widget _buildRegularRow(List<String> values, {bool isHeader = false, bool isBold = false, List<Color?>? colors, Color? backgroundColor}) {
+
+  Widget _buildRegularRow(
+    List<String> values, {
+    bool isHeader = false,
+    bool isBold = false,
+    List<Color?>? colors,
+    Color? backgroundColor,
+  }) {
     return Container(
       decoration: BoxDecoration(
         color: backgroundColor ?? (isHeader ? Colors.white : null),
@@ -318,8 +396,12 @@ class BillGenerateView extends StatelessWidget {
               textAlign: i <= 1 ? TextAlign.left : TextAlign.right,
               style: GoogleFonts.openSans(
                 fontSize: 11.sp,
-                fontWeight: (isHeader || isBold) ? FontWeight.bold : FontWeight.w500,
-                color: colors != null && colors[i] != null ? colors[i] : (isHeader ? const Color(0xFF4B5563) : Colors.black87),
+                fontWeight: (isHeader || isBold)
+                    ? FontWeight.bold
+                    : FontWeight.w500,
+                color: colors != null && colors[i] != null
+                    ? colors[i]
+                    : (isHeader ? const Color(0xFF4B5563) : Colors.black87),
               ),
             ),
           );
@@ -327,12 +409,11 @@ class BillGenerateView extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildHeader(BillHeaderInfo info) {
     return Container(
       width: double.infinity,
-      decoration: const BoxDecoration(
-        color: Color(0xFF7E899B),
-      ),
+      decoration: const BoxDecoration(color: Color(0xFF7E899B)),
       padding: EdgeInsets.symmetric(vertical: 16.h),
       child: Column(
         children: [
@@ -357,6 +438,7 @@ class BillGenerateView extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildSectionHeader(String title) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 6.h, horizontal: 8.w),
@@ -371,6 +453,7 @@ class BillGenerateView extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildScriptTradeSection(BillScriptTrade trade) {
     return Container(
       margin: EdgeInsets.only(bottom: 16.h),
@@ -405,6 +488,7 @@ class BillGenerateView extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildTradeLegTable(bool isBuy, List<BillTradeLeg> legs) {
     return Column(
       children: [
@@ -468,6 +552,7 @@ class BillGenerateView extends StatelessWidget {
       ],
     );
   }
+
   Widget _buildTradeSummary(BillScriptTrade trade) {
     return Padding(
       padding: EdgeInsets.all(8.w),
@@ -511,6 +596,7 @@ class BillGenerateView extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildSummaryRowText(
     String label,
     String value, {
@@ -539,6 +625,7 @@ class BillGenerateView extends StatelessWidget {
       ],
     );
   }
+
   Widget _buildSummaryTable(
     String title,
     List<ScriptBillSummary> summaries,
@@ -655,6 +742,7 @@ class BillGenerateView extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildCarryForwardTable(List<CarryForwardTrade> cfTrades) {
     return Container(
       decoration: BoxDecoration(
@@ -723,6 +811,7 @@ class BillGenerateView extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildExchangeWisePLTable(List<ExchangeWisePL> plList) {
     return Container(
       decoration: BoxDecoration(
@@ -788,6 +877,7 @@ class BillGenerateView extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildTableHeaderText(String text, {bool alignLeft = false}) {
     return Text(
       text,
@@ -799,6 +889,7 @@ class BillGenerateView extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildDataText(
     String text, {
     bool alignLeft = false,

@@ -25,6 +25,7 @@ import 'features/view/presentation/bloc/script_quantity/script_quantity_bloc.dar
 import 'features/users/presentation/bloc/user_list/user_list_bloc.dart';
 import 'injection_container.dart' as di;
 import 'core/observers/dialog_navigator_observer.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
@@ -51,6 +52,7 @@ void main() async {
   await di.init();
   runApp(const MyApp());
 }
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
   @override

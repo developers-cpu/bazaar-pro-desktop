@@ -1,7 +1,9 @@
 import '../../models/brokerage/brokerage_model.dart';
+
 abstract class BrokerageRemoteDataSource {
   Future<List<BrokerageModel>> getBrokerages({String? exchange});
 }
+
 class BrokerageRemoteDataSourceImpl implements BrokerageRemoteDataSource {
   @override
   Future<List<BrokerageModel>> getBrokerages({String? exchange}) async {

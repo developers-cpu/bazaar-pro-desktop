@@ -1,4 +1,5 @@
 import '../../domain/entities/settlement_progress/bhav_copy_entity.dart';
+
 class BhavCopyModel extends BhavCopyEntity {
   const BhavCopyModel({
     required String exch,

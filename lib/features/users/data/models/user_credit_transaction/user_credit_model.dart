@@ -1,4 +1,5 @@
 import '../../../domain/entities/user_credit_transaction/user_credit_transaction.dart';
+
 class UserCreditTransactionModel extends UserCreditTransaction {
   const UserCreditTransactionModel({
     required super.id,

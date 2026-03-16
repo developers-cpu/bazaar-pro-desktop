@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 class ViewTableColumn {
   final String id;
   final String label;
@@ -23,6 +24,7 @@ class ViewTableColumn {
     this.alignment,
   });
 }
+
 class ViewDataTable<T> extends StatefulWidget {
   final List<ViewTableColumn> columns;
   final List<T> data;
@@ -76,6 +78,7 @@ class ViewDataTable<T> extends StatefulWidget {
   @override
   State<ViewDataTable<T>> createState() => _ViewDataTableState<T>();
 }
+
 class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
   final ScrollController _horizontalScrollController = ScrollController();
   final ScrollController _verticalScrollController = ScrollController();
@@ -100,6 +103,7 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
     }
     return widget.data;
   }
+
   @override
   void initState() {
     super.initState();
@@ -109,6 +113,7 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
     }
     _selectedId = widget.selectedId;
   }
+
   void _onColumnReorder(String fromId, String toId) {
     if (fromId == toId) return;
     setState(() {
@@ -120,7 +125,13 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
       }
     });
   }
-  void _onColumnResize(String columnId, double delta, double minWidth, double scale) {
+
+  void _onColumnResize(
+    String columnId,
+    double delta,
+    double minWidth,
+    double scale,
+  ) {
     setState(() {
       final currentWidth = (_columnWidths[columnId] ?? minWidth) * scale;
       final newWidth = (currentWidth + delta).clamp(minWidth, double.infinity);
@@ -128,6 +139,7 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
       _manuallyResizedColumns.add(columnId);
     });
   }
+
   void _handleSort(String columnId) {
     if (_useInternalSort) {
       setState(() {
@@ -152,6 +164,7 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
       widget.onSort!(columnId, newAscending);
     }
   }
+
   @override
   void didUpdateWidget(covariant ViewDataTable<T> oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -175,6 +188,7 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
       }
     }
   }
+
   @override
   void dispose() {
     _horizontalScrollController.dispose();
@@ -182,12 +196,11 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
     _focusNode.dispose();
     super.dispose();
   }
+
   double get _totalOriginalWidth {
-    return _activeColumns.fold<double>(
-      0,
-      (sum, col) => sum + col.width,
-    );
+    return _activeColumns.fold<double>(0, (sum, col) => sum + col.width);
   }
+
   Color get _headerBgColor =>
       widget.headerBgColor ??
       (widget.isDarkMode
@@ -233,23 +246,26 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
               decoration: BoxDecoration(
                 color: _rowBgColor,
                 borderRadius: BorderRadius.circular(10.r),
-                border: Border.all(color: _dividerColor.withOpacity(0.5), width: 1),
+                border: Border.all(
+                  color: _dividerColor.withOpacity(0.5),
+                  width: 1,
+                ),
               ),
               child: LayoutBuilder(
                 builder: (context, constraints) {
                   final totalOriginalWidth = _totalOriginalWidth;
                   final scale =
-                      widget.autoFit && constraints.maxWidth > totalOriginalWidth
-                          ? constraints.maxWidth / totalOriginalWidth
-                          : 1.0;
+                      widget.autoFit &&
+                          constraints.maxWidth > totalOriginalWidth
+                      ? constraints.maxWidth / totalOriginalWidth
+                      : 1.0;
                   double totalWidth = 0;
                   for (var col in _activeColumns) {
                     totalWidth += (_columnWidths[col.id] ?? col.width) * scale;
                   }
-                  final contentWidth =
-                      widget.isBorderFit
-                          ? constraints.maxWidth.clamp(totalWidth, double.infinity)
-                          : totalWidth;
+                  final contentWidth = widget.isBorderFit
+                      ? constraints.maxWidth.clamp(totalWidth, double.infinity)
+                      : totalWidth;
                   return ClipRRect(
                     borderRadius: BorderRadius.circular(10.r),
                     child: widget.shrinkWrap
@@ -274,6 +290,7 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
       ),
     );
   }
+
   KeyEventResult _handleKeyEvent(KeyEvent event, double rowHeight) {
     if (event is! KeyDownEvent && event is! KeyRepeatEvent) {
       return KeyEventResult.ignored;
@@ -291,6 +308,7 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
     }
     return KeyEventResult.ignored;
   }
+
   void _moveSelection(bool down, double rowHeight) {
     if (_displayData.isEmpty) return;
     int currentIndex = -1;
@@ -316,6 +334,7 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
       _scrollToIndex(nextIndex, rowHeight);
     }
   }
+
   void _scrollToIndex(int index, double rowHeight) {
     if (!_verticalScrollController.hasClients) return;
     final offset = index * rowHeight;
@@ -335,20 +354,21 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
       );
     }
   }
+
   void _scrollHorizontal(bool right) {
     if (!_horizontalScrollController.hasClients) return;
     final delta = right ? 100.0 : -100.0;
-    final targetOffset =
-        (_horizontalScrollController.offset + delta).clamp(
-          0.0,
-          _horizontalScrollController.position.maxScrollExtent,
-        );
+    final targetOffset = (_horizontalScrollController.offset + delta).clamp(
+      0.0,
+      _horizontalScrollController.position.maxScrollExtent,
+    );
     _horizontalScrollController.animateTo(
       targetOffset,
       duration: const Duration(milliseconds: 100),
       curve: Curves.easeInOut,
     );
   }
+
   Widget _buildExpandedContent(
     double headerHeight,
     double rowHeight,
@@ -389,6 +409,7 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
       ],
     );
   }
+
   Widget _buildShrinkWrapContent(
     double headerHeight,
     double rowHeight,
@@ -413,6 +434,7 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
       ),
     );
   }
+
   Widget _buildEmptyState() {
     return Center(
       child: Text(
@@ -426,6 +448,7 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
       ),
     );
   }
+
   Widget _buildHeaderRow(double headerHeight, double scale) {
     return Container(
       height: headerHeight,
@@ -443,27 +466,31 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
       ),
     );
   }
+
   Widget _buildHeaderCell(ViewTableColumn column, bool isLast, double scale) {
     final isSorted = _activeSortColumn == column.id;
     final originalWidth = widget.columns
         .firstWhere((c) => c.id == column.id)
         .width;
     final cellWidth = (_columnWidths[column.id] ?? originalWidth) * scale;
-    final effectiveAlignment = column.alignment ??
+    final effectiveAlignment =
+        column.alignment ??
         (column.isNumeric ? Alignment.centerRight : Alignment.center);
     Widget content = Align(
       alignment: effectiveAlignment,
       child: Padding(
         padding: EdgeInsets.only(
           left: 2.w + (effectiveAlignment == Alignment.centerLeft ? 8.w : 0),
-          right: (isLast ? 14.w : 2.w) + (effectiveAlignment == Alignment.centerRight ? 8.w : 0),
+          right:
+              (isLast ? 14.w : 2.w) +
+              (effectiveAlignment == Alignment.centerRight ? 8.w : 0),
         ),
         child: Row(
           mainAxisAlignment: effectiveAlignment == Alignment.centerRight
               ? MainAxisAlignment.end
               : (effectiveAlignment == Alignment.center
-                  ? MainAxisAlignment.center
-                  : MainAxisAlignment.start),
+                    ? MainAxisAlignment.center
+                    : MainAxisAlignment.start),
           mainAxisSize: MainAxisSize.min,
           children: [
             if (column.customHeaderWidget != null)
@@ -480,8 +507,8 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
                   textAlign: effectiveAlignment == Alignment.centerRight
                       ? TextAlign.end
                       : (effectiveAlignment == Alignment.center
-                          ? TextAlign.center
-                          : TextAlign.start),
+                            ? TextAlign.center
+                            : TextAlign.start),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -596,6 +623,7 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
       },
     );
   }
+
   Widget _buildDataRows(double rowHeight, double scale) {
     return Scrollbar(
       controller: widget.shrinkWrap ? null : _verticalScrollController,
@@ -625,6 +653,7 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
       ),
     );
   }
+
   Widget _buildDataRow(
     T item,
     int index,
@@ -673,8 +702,12 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
               width: colWidth,
               alignment: effectiveAlignment,
               padding: EdgeInsets.only(
-                left: 4.w + (effectiveAlignment == Alignment.centerLeft ? 8.w : 0),
-                right: (isLastColumn ? 14.w : 4.w) + (effectiveAlignment == Alignment.centerRight ? 8.w : 0),
+                left:
+                    4.w +
+                    (effectiveAlignment == Alignment.centerLeft ? 8.w : 0),
+                right:
+                    (isLastColumn ? 14.w : 4.w) +
+                    (effectiveAlignment == Alignment.centerRight ? 8.w : 0),
               ),
               child: widget.cellBuilder(item, column),
             );
@@ -683,6 +716,7 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
       ),
     );
   }
+
   Widget _buildFooterRow(double rowHeight, double scale) {
     final scaledColumns = _activeColumns
         .map(

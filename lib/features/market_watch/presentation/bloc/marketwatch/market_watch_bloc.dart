@@ -7,6 +7,7 @@ import '../../../domain/usecases/delete_market_item.dart';
 import '../../../domain/usecases/get_market_items.dart';
 import 'market_watch_event.dart';
 import 'market_watch_state.dart';
+
 class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
   final GetMarketItems getMarketItems;
   final AddMarketItem addMarketItem;
@@ -47,6 +48,7 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
       (items) => emit(MarketWatchLoaded(items: items, filteredItems: items)),
     );
   }
+
   void _onFilterByExchange(
     FilterByExchangeEvent event,
     Emitter<MarketWatchState> emit,
@@ -79,6 +81,7 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
       ),
     );
   }
+
   void _onFilterBySymbol(
     FilterBySymbolEvent event,
     Emitter<MarketWatchState> emit,
@@ -101,6 +104,7 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
       ),
     );
   }
+
   void _onFilterBySymbols(
     FilterBySymbolsEvent event,
     Emitter<MarketWatchState> emit,
@@ -126,6 +130,7 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
       ),
     );
   }
+
   void _onFilterByUser(
     FilterByUserEvent event,
     Emitter<MarketWatchState> emit,
@@ -134,6 +139,7 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
     if (currentState == null) return;
     emit(currentState.copyWith(selectedUser: event.user));
   }
+
   void _onFilterByExpiry(
     FilterByExpiryEvent event,
     Emitter<MarketWatchState> emit,
@@ -148,6 +154,7 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
       newState.copyWith(filteredItems: _applyFilters(newState.items, newState)),
     );
   }
+
   void _onFilterByType(
     FilterByTypeEvent event,
     Emitter<MarketWatchState> emit,
@@ -162,6 +169,7 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
       newState.copyWith(filteredItems: _applyFilters(newState.items, newState)),
     );
   }
+
   void _onFilterByPrice(
     FilterByPriceEvent event,
     Emitter<MarketWatchState> emit,
@@ -176,6 +184,7 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
       newState.copyWith(filteredItems: _applyFilters(newState.items, newState)),
     );
   }
+
   void _onSelectMarketItem(
     SelectMarketItemEvent event,
     Emitter<MarketWatchState> emit,
@@ -184,6 +193,7 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
     if (currentState == null) return;
     emit(currentState.copyWith(selectedItemId: event.itemId));
   }
+
   Future<void> _onCopyMarketItem(
     CopyMarketItemEvent event,
     Emitter<MarketWatchState> emit,
@@ -203,6 +213,7 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
     await Future.delayed(const Duration(milliseconds: 100));
     emit(newState);
   }
+
   Future<void> _onCutMarketItem(
     CutMarketItemEvent event,
     Emitter<MarketWatchState> emit,
@@ -219,6 +230,7 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
     await Future.delayed(const Duration(milliseconds: 100));
     emit(newState);
   }
+
   Future<void> _onPasteMarketItem(
     PasteMarketItemEvent event,
     Emitter<MarketWatchState> emit,
@@ -279,6 +291,7 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
     await Future.delayed(const Duration(milliseconds: 100));
     emit(newState);
   }
+
   Future<void> _onDeleteMarketItem(
     DeleteMarketItemEvent event,
     Emitter<MarketWatchState> emit,
@@ -325,6 +338,7 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
     await Future.delayed(const Duration(milliseconds: 100));
     emit(newState);
   }
+
   Future<void> _onUndoAction(
     UndoActionEvent event,
     Emitter<MarketWatchState> emit,
@@ -375,6 +389,7 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
     await Future.delayed(const Duration(milliseconds: 100));
     emit(newState);
   }
+
   Future<void> _onRedoAction(
     RedoActionEvent event,
     Emitter<MarketWatchState> emit,
@@ -425,6 +440,7 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
     await Future.delayed(const Duration(milliseconds: 100));
     emit(newState);
   }
+
   Future<void> _onAddMarketItem(
     AddMarketItemEvent event,
     Emitter<MarketWatchState> emit,
@@ -451,6 +467,7 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
       );
     });
   }
+
   void _onClearFilters(
     ClearFiltersEvent event,
     Emitter<MarketWatchState> emit,
@@ -465,17 +482,20 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
       ),
     );
   }
+
   void _onToggleGrid(ToggleGridEvent event, Emitter<MarketWatchState> emit) {
     final currentState = _getLoadedState();
     if (currentState == null) return;
     emit(currentState.copyWith(showGrid: !currentState.showGrid));
   }
+
   MarketWatchLoaded? _getLoadedState() {
     if (state is MarketWatchLoaded) return state as MarketWatchLoaded;
     if (state is MarketWatchSuccess)
       return (state as MarketWatchSuccess).previousState;
     return null;
   }
+
   List<MarketItem> _applyFilters(
     List<MarketItem> items,
     MarketWatchLoaded currentState,
@@ -520,6 +540,7 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
     }
     return filtered;
   }
+
   void _onReorderMarketItems(
     ReorderMarketItemsEvent event,
     Emitter<MarketWatchState> emit,

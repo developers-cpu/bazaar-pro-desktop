@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../domain/entities/dashboard_entity.dart';
+
 class SymbolWiseChart extends StatelessWidget {
   final List<SymbolReportData> data;
   const SymbolWiseChart({Key? key, required this.data}) : super(key: key);
@@ -72,6 +73,7 @@ class SymbolWiseChart extends StatelessWidget {
       },
     );
   }
+
   Widget _buildLegend() {
     final halfLen = (data.length / 2).ceil();
     final col1 = data.take(halfLen).toList();
@@ -100,6 +102,7 @@ class SymbolWiseChart extends StatelessWidget {
       ),
     );
   }
+
   Widget _legendItem(SymbolReportData item) {
     final color = _chartColors[item.colorIndex % _chartColors.length];
     return Padding(
@@ -129,6 +132,7 @@ class SymbolWiseChart extends StatelessWidget {
     );
   }
 }
+
 class _PieChartPainter extends CustomPainter {
   final List<SymbolReportData> data;
   final List<Color> colors;
@@ -197,6 +201,7 @@ class _PieChartPainter extends CustomPainter {
       }
       return ys;
     }
+
     final leftYs = resolveOverlaps(leftIndices);
     final rightYs = resolveOverlaps(rightIndices);
     void drawLabel(int dataIndex, double labelY, bool isLeft) {
@@ -277,6 +282,7 @@ class _PieChartPainter extends CustomPainter {
         );
       }
     }
+
     for (int ii = 0; ii < leftIndices.length; ii++) {
       drawLabel(leftIndices[ii], leftYs[ii], true);
     }
@@ -284,6 +290,7 @@ class _PieChartPainter extends CustomPainter {
       drawLabel(rightIndices[ii], rightYs[ii], false);
     }
   }
+
   @override
   bool shouldRepaint(_PieChartPainter oldDelegate) => oldDelegate.data != data;
 }

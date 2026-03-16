@@ -1,15 +1,18 @@
 import 'package:equatable/equatable.dart';
+
 abstract class UserPendingOrderEvent extends Equatable {
   const UserPendingOrderEvent();
   @override
   List<Object> get props => [];
 }
+
 class LoadUserPendingOrders extends UserPendingOrderEvent {
   final String userId;
   const LoadUserPendingOrders(this.userId);
   @override
   List<Object> get props => [userId];
 }
+
 class FilterUserPendingOrders extends UserPendingOrderEvent {
   final String? exchange;
   final String? symbol;

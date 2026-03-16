@@ -1,4 +1,5 @@
 import '../../domain/entities/bill_generate_report.dart';
+
 class BillGenerateReportModel extends BillGenerateReport {
   const BillGenerateReportModel({
     required BillHeaderInfoModel headerInfo,
@@ -42,6 +43,7 @@ class BillGenerateReportModel extends BillGenerateReport {
     );
   }
 }
+
 class BillHeaderInfoModel extends BillHeaderInfo {
   const BillHeaderInfoModel({
     required String userName,
@@ -54,6 +56,7 @@ class BillHeaderInfoModel extends BillHeaderInfo {
     );
   }
 }
+
 class BillScriptTradeModel extends BillScriptTrade {
   const BillScriptTradeModel({
     required String exchange,
@@ -104,6 +107,7 @@ class BillScriptTradeModel extends BillScriptTrade {
     );
   }
 }
+
 class BillTradeLegModel extends BillTradeLeg {
   const BillTradeLegModel({
     required String date,
@@ -120,6 +124,7 @@ class BillTradeLegModel extends BillTradeLeg {
     );
   }
 }
+
 class ScriptBillSummaryModel extends ScriptBillSummary {
   const ScriptBillSummaryModel({
     required String exchange,
@@ -144,6 +149,7 @@ class ScriptBillSummaryModel extends ScriptBillSummary {
     );
   }
 }
+
 class BillTotalModel extends BillTotal {
   const BillTotalModel({
     required double total,
@@ -158,6 +164,7 @@ class BillTotalModel extends BillTotal {
     );
   }
 }
+
 class CarryForwardTradeModel extends CarryForwardTrade {
   const CarryForwardTradeModel({
     required String exchange,
@@ -182,6 +189,7 @@ class CarryForwardTradeModel extends CarryForwardTrade {
     );
   }
 }
+
 class ExchangeWisePLModel extends ExchangeWisePL {
   const ExchangeWisePLModel({
     required String exchange,

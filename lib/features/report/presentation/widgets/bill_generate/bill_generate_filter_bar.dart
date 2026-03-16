@@ -10,11 +10,13 @@ import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
 import '../../../../../../core/widget/date_range_picker_dialog.dart';
 import 'package:intl/intl.dart';
+
 class BillGenerateFilterBar extends StatefulWidget {
   const BillGenerateFilterBar({super.key});
   @override
   State<BillGenerateFilterBar> createState() => _BillGenerateFilterBarState();
 }
+
 class _BillGenerateFilterBarState extends State<BillGenerateFilterBar> {
   String _customPeriodLabel = 'Select Date Range';
   String _selectedDateRange = 'This Week';

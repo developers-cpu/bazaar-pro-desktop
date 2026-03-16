@@ -6,6 +6,7 @@ import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/constants/app_images.dart';
 import '../../../../../core/widget/app_switch.dart';
 import '../../../../../core/widget/common_dilog_box.dart';
+
 class UpdateAccessDialog {
   static void show({
     required BuildContext context,
@@ -18,26 +19,21 @@ class UpdateAccessDialog {
       context: context,
       title: 'Update Access ($userName)',
       width: 500.w,
-      showButtons: true, 
-      onSave: () {
-        
-        
-        
-        
-      },
+      showButtons: false,
+      onSave: () {},
       contentBuilder: (context, onClose) => _UpdateAccessContent(
         userId: userId,
         userName: userName,
         currentSettings: currentSettings,
         onUpdate: (updatedSettings) {
           onUpdate(updatedSettings);
-          onClose();
         },
         onClose: onClose,
       ),
     );
   }
 }
+
 class _UpdateAccessContent extends StatefulWidget {
   final String userId;
   final String userName;
@@ -55,6 +51,7 @@ class _UpdateAccessContent extends StatefulWidget {
   @override
   State<_UpdateAccessContent> createState() => _UpdateAccessContentState();
 }
+
 class _UpdateAccessContentState extends State<_UpdateAccessContent> {
   late Map<String, bool> _settings;
   @override
@@ -62,12 +59,9 @@ class _UpdateAccessContentState extends State<_UpdateAccessContent> {
     super.initState();
     _settings = Map.from(widget.currentSettings);
   }
+
   @override
   Widget build(BuildContext context) {
-    
-    
-    
-    
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -82,39 +76,10 @@ class _UpdateAccessContentState extends State<_UpdateAccessContent> {
             }).toList(),
           ),
         ),
-        SizedBox(height: 24.h),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            TextButton(
-              onPressed: widget.onClose,
-              child: Text(
-                'Cancel',
-                style: GoogleFonts.openSans(color: Colors.grey),
-              ),
-            ),
-            SizedBox(width: 16.w),
-            ElevatedButton(
-              onPressed: () {
-                widget.onUpdate(_settings);
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF1F4A66),
-                padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.r),
-                ),
-              ),
-              child: Text(
-                'Update',
-                style: GoogleFonts.openSans(color: Colors.white),
-              ),
-            ),
-          ],
-        ),
       ],
     );
   }
+
   Widget _buildSettingRow(String key) {
     final label = _getLabel(key);
     final iconPath = _getIconPath(key);
@@ -150,11 +115,13 @@ class _UpdateAccessContentState extends State<_UpdateAccessContent> {
             setState(() {
               _settings[key] = value;
             });
+            widget.onUpdate(_settings);
           },
         ),
       ],
     );
   }
+
   String _getLabel(String key) {
     switch (key) {
       case 'bet':
@@ -177,6 +144,7 @@ class _UpdateAccessContentState extends State<_UpdateAccessContent> {
         return key;
     }
   }
+
   String? _getIconPath(String key) {
     switch (key) {
       case 'bet':

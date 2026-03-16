@@ -1,4 +1,5 @@
 import '../../../domain/entities/rejection_log/rejection_log.dart';
+
 class RejectionLogModel extends RejectionLog {
   const RejectionLogModel({
     required super.id,
@@ -59,6 +60,7 @@ class RejectionLogModel extends RejectionLog {
       'date': date.toIso8601String(),
     };
   }
+
   factory RejectionLogModel.fromEntity(RejectionLog log) {
     return RejectionLogModel(
       id: log.id,

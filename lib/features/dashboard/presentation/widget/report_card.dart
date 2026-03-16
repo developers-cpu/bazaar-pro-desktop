@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/widget/app_dropdown.dart';
 import 'exchange_chips.dart';
+
 class ReportCard extends StatelessWidget {
   final String title;
   final Widget chart;
@@ -72,6 +73,7 @@ class ReportCard extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildHeader() {
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -120,6 +122,7 @@ class ReportCard extends StatelessWidget {
       },
     );
   }
+
   Widget _buildDropdowns(double dropdownWidth) {
     return Row(
       mainAxisSize: MainAxisSize.min,

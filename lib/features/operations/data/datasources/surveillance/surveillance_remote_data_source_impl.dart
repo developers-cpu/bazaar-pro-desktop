@@ -2,6 +2,7 @@ import '../../models/surveillance/surveillance_data_model.dart';
 import '../../models/surveillance/surveillance_bulk_order_model.dart';
 import '../../models/surveillance/surveillance_vpn_model.dart';
 import 'surveillance_remote_data_source.dart';
+
 class SurveillanceRemoteDataSourceImpl implements SurveillanceRemoteDataSource {
   SurveillanceDataModel _mockData = SurveillanceDataModel(
     bulkOrders: [
@@ -66,6 +67,7 @@ class SurveillanceRemoteDataSourceImpl implements SurveillanceRemoteDataSource {
     await Future.delayed(const Duration(milliseconds: 500));
     return _mockData;
   }
+
   @override
   Future<void> updateSurveillanceData(SurveillanceDataModel data) async {
     await Future.delayed(const Duration(milliseconds: 500));

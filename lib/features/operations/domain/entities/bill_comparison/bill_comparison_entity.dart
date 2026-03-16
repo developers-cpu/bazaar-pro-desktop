@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+
 class BillComparisonEntity extends Equatable {
   final int index;
   final String username;

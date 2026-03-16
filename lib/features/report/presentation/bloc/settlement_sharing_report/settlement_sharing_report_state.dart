@@ -1,12 +1,16 @@
 import 'package:equatable/equatable.dart';
 import '../../../domain/entities/settlement_sharing_report.dart';
+
 abstract class SettlementSharingReportState extends Equatable {
   const SettlementSharingReportState();
   @override
   List<Object?> get props => [];
 }
+
 class SettlementSharingReportInitial extends SettlementSharingReportState {}
+
 class SettlementSharingReportLoading extends SettlementSharingReportState {}
+
 class SettlementSharingReportLoaded extends SettlementSharingReportState {
   final SettlementSharingReport report;
   final String selectedDateRange;
@@ -26,6 +30,7 @@ class SettlementSharingReportLoaded extends SettlementSharingReportState {
     selectedUserName,
   ];
 }
+
 class SettlementSharingReportError extends SettlementSharingReportState {
   final String message;
   const SettlementSharingReportError({required this.message});

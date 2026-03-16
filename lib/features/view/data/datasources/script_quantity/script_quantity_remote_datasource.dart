@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import '../../models/script_quantity/script_quantity_model.dart';
+
 abstract class ScriptQuantityRemoteDataSource {
   Future<List<ScriptQuantityModel>> getScriptQuantities({
     required String exchange,
@@ -8,6 +9,7 @@ abstract class ScriptQuantityRemoteDataSource {
   Future<List<String>> getExchanges();
   Future<List<String>> getGroups(String exchange);
 }
+
 class ScriptQuantityRemoteDataSourceImpl
     implements ScriptQuantityRemoteDataSource {
   final Dio dio;
@@ -24,6 +26,7 @@ class ScriptQuantityRemoteDataSourceImpl
       throw Exception('Failed to fetch script quantities: $e');
     }
   }
+
   @override
   Future<List<String>> getExchanges() async {
     try {
@@ -42,6 +45,7 @@ class ScriptQuantityRemoteDataSourceImpl
       throw Exception('Failed to fetch exchanges: $e');
     }
   }
+
   @override
   Future<List<String>> getGroups(String exchange) async {
     try {
@@ -58,6 +62,7 @@ class ScriptQuantityRemoteDataSourceImpl
       throw Exception('Failed to fetch groups: $e');
     }
   }
+
   List<ScriptQuantityModel> _generateMockData(String exchange, String group) {
     final List<ScriptQuantityModel> quantities = [];
     final symbols = [

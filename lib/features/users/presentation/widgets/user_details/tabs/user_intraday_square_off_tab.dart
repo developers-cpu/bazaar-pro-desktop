@@ -8,6 +8,7 @@ import '../../../../domain/entities/user.dart';
 import '../../../bloc/user_intraday/user_intraday_bloc.dart';
 import '../../../bloc/user_intraday/user_intraday_event.dart';
 import '../../../bloc/user_intraday/user_intraday_state.dart';
+
 class UserIntradaySquareOffTab extends StatelessWidget {
   final User user;
   const UserIntradaySquareOffTab({super.key, required this.user});
@@ -20,6 +21,7 @@ class UserIntradaySquareOffTab extends StatelessWidget {
     );
   }
 }
+
 class UserIntradaySquareOffTabView extends StatelessWidget {
   const UserIntradaySquareOffTabView({super.key});
   @override

@@ -2,6 +2,7 @@ import 'package:bazarpro/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 class ViewTableCellStyles {
   ViewTableCellStyles._();
   static TextStyle getTextStyle({
@@ -18,6 +19,7 @@ class ViewTableCellStyles {
           (isDark ? DarkThemeColors.textColor : LightThemeColors.textColor),
     );
   }
+
   static Color getValueColor(double value, {bool isDark = false}) {
     if (value > 0) {
       return isDark
@@ -30,6 +32,7 @@ class ViewTableCellStyles {
     }
     return isDark ? DarkThemeColors.textColor : LightThemeColors.textColor;
   }
+
   static Color getBuySellColor(String text, {bool isDark = false}) {
     final isBuy = text.toUpperCase().startsWith('BUY');
     if (isBuy) {
@@ -42,6 +45,7 @@ class ViewTableCellStyles {
         : LightThemeColors.negativeTextColor;
   }
 }
+
 class ViewTextCell extends StatelessWidget {
   final String text;
   final Color? color;
@@ -65,8 +69,7 @@ class ViewTextCell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final effectiveAlignment =
-        alignment ??
-        (isNumeric ? Alignment.centerRight : Alignment.centerLeft);
+        alignment ?? (isNumeric ? Alignment.centerRight : Alignment.centerLeft);
     return Container(
       width: double.infinity,
       alignment: effectiveAlignment,
@@ -81,14 +84,15 @@ class ViewTextCell extends StatelessWidget {
         textAlign: effectiveAlignment == Alignment.centerRight
             ? TextAlign.end
             : (effectiveAlignment == Alignment.center
-                ? TextAlign.center
-                : TextAlign.start),
+                  ? TextAlign.center
+                  : TextAlign.start),
         maxLines: 1,
         softWrap: false,
       ),
     );
   }
 }
+
 class ViewBuySellCell extends StatelessWidget {
   final String text;
   final bool isDark;
@@ -121,6 +125,7 @@ class ViewBuySellCell extends StatelessWidget {
     );
   }
 }
+
 class ViewNumberCell extends StatelessWidget {
   final double value;
   final String? displayText;
@@ -166,6 +171,7 @@ class ViewNumberCell extends StatelessWidget {
       ),
     );
   }
+
   String _formatNumber(double value) {
     if (value == value.toInt()) {
       return value.toInt().toString();
@@ -173,6 +179,7 @@ class ViewNumberCell extends StatelessWidget {
     return value.toStringAsFixed(2);
   }
 }
+
 class ViewLinkCell extends StatelessWidget {
   final String text;
   final VoidCallback? onTap;
@@ -197,7 +204,9 @@ class ViewLinkCell extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: double.infinity,
-        alignment: isEnd || isNumeric ? Alignment.centerRight : Alignment.centerLeft,
+        alignment: isEnd || isNumeric
+            ? Alignment.centerRight
+            : Alignment.centerLeft,
         child: Container(
           padding: const EdgeInsets.only(bottom: 2),
           decoration: const BoxDecoration(
@@ -222,6 +231,7 @@ class ViewLinkCell extends StatelessWidget {
     );
   }
 }
+
 class ViewDateTimeCell extends StatelessWidget {
   final DateTime dateTime;
   final String format;
@@ -254,6 +264,7 @@ class ViewDateTimeCell extends StatelessWidget {
       ),
     );
   }
+
   String _formatDateTime() {
     final day = dateTime.day.toString().padLeft(2, '0');
     final month = dateTime.month.toString().padLeft(2, '0');

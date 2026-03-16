@@ -35,12 +35,12 @@ class CreditHistoryRemoteDataSourceImpl
         balance = 0.00;
       return CreditHistoryModel(
         id: index.toString(),
-        userName: 'User $index',
+        userName: 'DEMO',
         type: type,
         comment: comment,
         amount: index == 3 ? 5500000.00 : amount,
         balance: balance,
-        dateTime: DateTime(2025, 11, 4, 13, 25, 35),
+        dateTime: DateTime(2025, 4, 11, 15, 6, 34),
         parentUserName: 'DEMO',
       );
     });

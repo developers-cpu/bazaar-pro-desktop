@@ -15,10 +15,10 @@ class ActivityReportTable extends StatelessWidget {
   List<ViewTableColumn> _getColumns() {
     return const [
       ViewTableColumn(id: 'activityName', label: 'ACTIVITY', width: 150),
-      ViewTableColumn(id: 'createdOn', label: 'CREATED ON', width: 200),
-      ViewTableColumn(id: 'createdBy', label: 'CREATED BY', width: 200),
-      ViewTableColumn(id: 'updatedOn', label: 'UPDATED ON', width: 200),
-      ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 200),
+      ViewTableColumn(id: 'createdOn', label: 'CREATED ON', width: 100),
+      ViewTableColumn(id: 'createdBy', label: 'CREATED BY', width: 100),
+      ViewTableColumn(id: 'updatedOn', label: 'UPDATED ON', width: 100),
+      ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 100),
     ];
   }
 

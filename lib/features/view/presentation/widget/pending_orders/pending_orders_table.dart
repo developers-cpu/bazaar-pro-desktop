@@ -102,7 +102,12 @@ class PendingOrdersTable extends StatelessWidget {
         isNumeric: true,
       ),
       const ViewTableColumn(id: 'deviceId', label: 'DEVICE ID', width: 280),
-      const ViewTableColumn(id: 'ipAddress', label: 'IP ADDRESS', width: 130),
+      const ViewTableColumn(
+        id: 'ipAddress',
+        label: 'IP ADDRESS',
+        width: 130,
+        isNumeric: true,
+      ),
     ];
     return columns;
   }
@@ -175,7 +180,11 @@ class PendingOrdersTable extends StatelessWidget {
       case 'deviceId':
         return ViewTextCell(text: item.deviceId ?? '-', isDark: isDark);
       case 'ipAddress':
-        return ViewTextCell(text: item.ipAddress ?? '-', isDark: isDark);
+        return ViewTextCell(
+          text: item.ipAddress ?? '-',
+          isDark: isDark,
+          isNumeric: true,
+        );
       default:
         return const SizedBox.shrink();
     }

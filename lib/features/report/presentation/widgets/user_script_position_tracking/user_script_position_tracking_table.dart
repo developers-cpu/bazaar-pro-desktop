@@ -16,12 +16,12 @@ class UserScriptPositionTrackingTable extends StatelessWidget {
   const UserScriptPositionTrackingTable({super.key, this.isDarkMode = false});
   List<ViewTableColumn> _getColumns() {
     return const [
-      ViewTableColumn(id: 'positionDate', label: 'POSITION DATE', width: 180),
-      ViewTableColumn(id: 'userName', label: 'USERNAME', width: 150),
-      ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 150),
-      ViewTableColumn(id: 'position', label: 'POSITION', width: 100),
-      ViewTableColumn(id: 'openAPrice', label: 'OPEN A PRICE', width: 120),
-      ViewTableColumn(id: 'days', label: 'DAYS', width: 80),
+      ViewTableColumn(id: 'positionDate', label: 'POSITION DATE', width: 100),
+      ViewTableColumn(id: 'userName', label: 'USERNAME', width: 90),
+      ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 90),
+      ViewTableColumn(id: 'position', label: 'POSITION', width: 90),
+      ViewTableColumn(id: 'openAPrice', label: 'OPEN A PRICE', width: 80),
+      ViewTableColumn(id: 'days', label: 'DAYS', width: 80, isNumeric: true),
     ];
   }
 
@@ -104,7 +104,11 @@ class UserScriptPositionTrackingTable extends StatelessWidget {
           colorByValue: false,
         );
       case 'days':
-        return ViewTextCell(text: item.days.toString(), isDark: isDark);
+        return ViewTextCell(
+          text: item.days.toString(),
+          isDark: isDark,
+          isNumeric: true,
+        );
       default:
         return const SizedBox.shrink();
     }

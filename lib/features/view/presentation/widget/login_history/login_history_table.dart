@@ -135,7 +135,7 @@ class LoginHistoryTable extends StatelessWidget {
       case 'userType':
         return ViewTextCell(text: history.userType);
       case 'ipAddress':
-        return ViewTextCell(text: history.ipAddress);
+        return ViewTextCell(text: history.ipAddress, isNumeric: true);
       case 'deviceId':
         return ViewTextCell(text: history.deviceId);
       case 'device':

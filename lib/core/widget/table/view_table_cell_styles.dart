@@ -188,6 +188,7 @@ class ViewLinkCell extends StatelessWidget {
   final bool isNumeric;
   final bool isDark;
   final double? fontSize;
+  final Color? color;
   const ViewLinkCell({
     Key? key,
     required this.text,
@@ -197,6 +198,7 @@ class ViewLinkCell extends StatelessWidget {
     this.isEnd = false,
     this.isNumeric = false,
     this.fontSize,
+    this.color,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -209,16 +211,19 @@ class ViewLinkCell extends StatelessWidget {
             : Alignment.centerLeft,
         child: Container(
           padding: const EdgeInsets.only(bottom: 2),
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             border: Border(
-              bottom: BorderSide(color: AppColors.primaryBlue, width: 2.0),
+              bottom: BorderSide(
+                color: color ?? AppColors.primaryBlue,
+                width: 2.0,
+              ),
             ),
           ),
           child: Text(
             text,
             style: ViewTableCellStyles.getTextStyle(
               isDark: isDark,
-              color: AppColors.primaryBlue,
+              color: color ?? AppColors.primaryBlue,
               fontWeight: FontWeight.w600,
               fontSize: fontSize,
             ),

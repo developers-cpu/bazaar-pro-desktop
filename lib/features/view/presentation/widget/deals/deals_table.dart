@@ -128,7 +128,12 @@ class DealsTable extends StatelessWidget {
     if (showDeviceInfo) {
       columns.addAll(const [
         ViewTableColumn(id: 'deviceId', label: 'DEVICE ID', width: 300),
-        ViewTableColumn(id: 'ipAddress', label: 'IP ADDRESS', width: 120),
+        ViewTableColumn(
+          id: 'ipAddress',
+          label: 'IP ADDRESS',
+          width: 130,
+          isNumeric: true,
+        ),
       ]);
     }
     return columns;
@@ -222,7 +227,11 @@ class DealsTable extends StatelessWidget {
       case 'deviceId':
         return ViewTextCell(text: item.deviceId ?? '-', isDark: isDark);
       case 'ipAddress':
-        return ViewTextCell(text: item.ipAddress ?? '-', isDark: isDark);
+        return ViewTextCell(
+          text: item.ipAddress ?? '-',
+          isDark: isDark,
+          isNumeric: true,
+        );
       default:
         return const SizedBox.shrink();
     }

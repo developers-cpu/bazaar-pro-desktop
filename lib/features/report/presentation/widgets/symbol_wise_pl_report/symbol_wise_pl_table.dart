@@ -16,31 +16,31 @@ class SymbolWisePLTable extends StatelessWidget {
   const SymbolWisePLTable({super.key, this.isDarkMode = false});
   List<ViewTableColumn> _getColumns() {
     return const [
-      ViewTableColumn(id: 'exchange', label: 'EXCH', width: 100),
-      ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 220),
+      ViewTableColumn(id: 'exchange', label: 'EXCH', width: 80),
+      ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 100),
       ViewTableColumn(
         id: 'releasePL',
         label: 'RELEASE PL',
-        width: 140,
+        width: 100,
         isNumeric: true,
       ),
-      ViewTableColumn(id: 'm2m', label: 'M2M', width: 140, isNumeric: true),
+      ViewTableColumn(id: 'm2m', label: 'M2M', width: 100, isNumeric: true),
       ViewTableColumn(
         id: 'brokerage',
         label: 'BRK',
-        width: 120,
+        width: 100,
         isNumeric: true,
       ),
       ViewTableColumn(
         id: 'netPL',
         label: 'NET PL',
-        width: 140,
+        width: 100,
         isNumeric: true,
       ),
       ViewTableColumn(
         id: 'ourPercent',
         label: 'OUR %',
-        width: 140,
+        width: 100,
         isNumeric: true,
       ),
     ];
@@ -52,28 +52,12 @@ class SymbolWisePLTable extends StatelessWidget {
     VoidCallback onTap,
     bool isDark,
   ) {
-    return InkWell(
+    return ViewLinkCell(
+      text: value.toStringAsFixed(2),
       onTap: onTap,
-      child: Center(
-        child: Container(
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(
-                color: ViewTableCellStyles.getValueColor(value, isDark: isDark),
-                width: 1.5,
-              ),
-            ),
-          ),
-          child: Text(
-            value.toStringAsFixed(2),
-            style: ViewTableCellStyles.getTextStyle(
-              isDark: isDark,
-              color: ViewTableCellStyles.getValueColor(value, isDark: isDark),
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ),
-      ),
+      isDark: isDark,
+      isNumeric: true,
+      color: ViewTableCellStyles.getValueColor(value, isDark: isDark),
     );
   }
 

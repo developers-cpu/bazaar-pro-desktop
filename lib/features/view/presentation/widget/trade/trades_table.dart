@@ -61,7 +61,7 @@ class TradesTable extends StatelessWidget {
         ViewTableColumn(
           id: 'rPrice',
           label: 'R. PRICE',
-          width: 90,
+          width: 100,
           isNumeric: true,
         ),
       ];
@@ -120,7 +120,12 @@ class TradesTable extends StatelessWidget {
           alignment: Alignment.centerRight,
         ),
         ViewTableColumn(id: 'deviceId', label: 'DEVICE ID', width: 300),
-        ViewTableColumn(id: 'ipAddress', label: 'IP ADDRESS', width: 120),
+        ViewTableColumn(
+          id: 'ipAddress',
+          label: 'IP ADDRESS',
+          width: 130,
+          isNumeric: true,
+        ),
       ]);
     }
     return columns;
@@ -211,7 +216,11 @@ class TradesTable extends StatelessWidget {
       case 'deviceId':
         return ViewTextCell(text: item.deviceId ?? '-', isDark: isDark);
       case 'ipAddress':
-        return ViewTextCell(text: item.ipAddress ?? '-', isDark: isDark);
+        return ViewTextCell(
+          text: item.ipAddress ?? '-',
+          isDark: isDark,
+          isNumeric: true,
+        );
       default:
         return const SizedBox.shrink();
     }

@@ -65,18 +65,12 @@ class SymbolWisePositionReportTable extends StatelessWidget {
     VoidCallback onTap,
     bool isDark,
   ) {
-    return InkWell(
+    return ViewLinkCell(
+      text: value.toStringAsFixed(2),
       onTap: onTap,
-      child: Center(
-        child: Text(
-          value.toStringAsFixed(2),
-          style: ViewTableCellStyles.getTextStyle(
-            isDark: isDark,
-            color: ViewTableCellStyles.getValueColor(value, isDark: isDark),
-          ).copyWith(decoration: TextDecoration.underline),
-          textAlign: TextAlign.center,
-        ),
-      ),
+      isDark: isDark,
+      isNumeric: true,
+      color: ViewTableCellStyles.getValueColor(value, isDark: isDark),
     );
   }
 

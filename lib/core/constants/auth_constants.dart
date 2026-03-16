@@ -1,6 +1,6 @@
 class AuthConstants {
   AuthConstants._();
-  static const String baseUrl = 'https:
+  static const String baseUrl = 'https://bazarpro.in';
   static const String loginEndpoint = '/auth/login';
   static const String refreshTokenEndpoint = '';
   static const String demoUsername = 'emilys';

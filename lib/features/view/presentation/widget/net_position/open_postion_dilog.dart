@@ -162,7 +162,7 @@ class _OpenPositionContent extends StatelessWidget {
       ViewTableColumn(
         id: 'mToMAmt',
         label: 'M2M AMT',
-        width: 120,
+        width: 100,
         isNumeric: true,
       ),
       ViewTableColumn(
@@ -172,7 +172,7 @@ class _OpenPositionContent extends StatelessWidget {
         isNumeric: true,
       ),
       ViewTableColumn(id: 'user', label: 'USER', width: 60, isNumeric: true),
-      ViewTableColumn(id: 'days', label: 'DAYS', width: 60, isNumeric: true),
+      ViewTableColumn(id: 'days', label: 'DAYS', width: 80, isNumeric: true),
     ];
   }
 

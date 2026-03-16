@@ -21,25 +21,25 @@ class ExchangeWisePLTable extends StatelessWidget {
   });
   List<ViewTableColumn> _getColumns() {
     return const [
-      ViewTableColumn(id: 'exchange', label: 'EXCH', width: 120),
-      ViewTableColumn(id: 'm2m', label: 'M2M', width: 140, isNumeric: true),
+      ViewTableColumn(id: 'exchange', label: 'EXCH', width: 100),
+      ViewTableColumn(id: 'm2m', label: 'M2M', width: 100, isNumeric: true),
       ViewTableColumn(
         id: 'realisedPL',
         label: 'REALISED P/L',
-        width: 140,
+        width: 100,
         isNumeric: true,
       ),
       ViewTableColumn(
         id: 'brokerage',
         label: 'BRK',
-        width: 120,
+        width: 100,
         isNumeric: true,
       ),
-      ViewTableColumn(id: 'total', label: 'TOTAL', width: 140, isNumeric: true),
+      ViewTableColumn(id: 'total', label: 'TOTAL', width: 100, isNumeric: true),
       ViewTableColumn(
         id: 'ourPercent',
         label: 'OUR %',
-        width: 140,
+        width: 100,
         isNumeric: true,
       ),
     ];
@@ -51,30 +51,12 @@ class ExchangeWisePLTable extends StatelessWidget {
     VoidCallback onTap,
     bool isDark,
   ) {
-    return InkWell(
+    return ViewLinkCell(
+      text: value.toStringAsFixed(2),
       onTap: onTap,
-      child: Container(
-        width: double.infinity,
-        alignment: Alignment.centerRight,
-        child: Container(
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(
-                color: ViewTableCellStyles.getValueColor(value, isDark: isDark),
-                width: 1.5,
-              ),
-            ),
-          ),
-          child: Text(
-            value.toStringAsFixed(2),
-            style: ViewTableCellStyles.getTextStyle(
-              isDark: isDark,
-              color: ViewTableCellStyles.getValueColor(value, isDark: isDark),
-            ).copyWith(fontWeight: FontWeight.bold),
-            textAlign: TextAlign.right,
-          ),
-        ),
-      ),
+      isDark: isDark,
+      isNumeric: true,
+      color: ViewTableCellStyles.getValueColor(value, isDark: isDark),
     );
   }
 

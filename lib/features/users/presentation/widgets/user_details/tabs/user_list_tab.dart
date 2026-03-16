@@ -130,7 +130,12 @@ class UserListTabView extends StatelessWidget {
       ),
       ViewTableColumn(id: 'deviceId', label: 'DEVICE ID', width: 150.w),
       ViewTableColumn(id: 'createdDate', label: 'CREATED DATE', width: 150.w),
-      ViewTableColumn(id: 'ipAddress', label: 'IP ADDRESS', width: 130.w),
+      ViewTableColumn(
+        id: 'ipAddress',
+        label: 'IP ADDRESS',
+        width: 130.w,
+        isNumeric: true,
+      ),
     ];
   }
 
@@ -180,7 +185,11 @@ class UserListTabView extends StatelessWidget {
       case 'createdDate':
         return ViewDateTimeCell(dateTime: user.createdDate, isDark: isDark);
       case 'ipAddress':
-        return ViewTextCell(text: user.ipAddress ?? '', isDark: isDark);
+        return ViewTextCell(
+          text: user.ipAddress ?? '',
+          isDark: isDark,
+          isNumeric: true,
+        );
       default:
         return const SizedBox.shrink();
     }

@@ -19,19 +19,19 @@ class UserWiseProfitAndLossReportTable extends StatelessWidget {
   const UserWiseProfitAndLossReportTable({super.key, this.isDarkMode = false});
   List<ViewTableColumn> _getColumns() {
     return const [
-      ViewTableColumn(id: 'userName', label: 'U. NAME', width: 150),
-      ViewTableColumn(id: 'parentUser', label: 'P.USER', width: 150),
-      ViewTableColumn(id: 'mtm', label: 'MTM', width: 100, isNumeric: true),
+      ViewTableColumn(id: 'userName', label: 'U. NAME', width: 90),
+      ViewTableColumn(id: 'parentUser', label: 'P.USER', width: 90),
+      ViewTableColumn(id: 'mtm', label: 'MTM', width: 110, isNumeric: true),
       ViewTableColumn(
         id: 'releasedPL',
         label: 'REL.PL',
-        width: 120,
+        width: 110,
         isNumeric: true,
       ),
       ViewTableColumn(
         id: 'brokerage',
         label: 'BRK',
-        width: 80,
+        width: 100,
         isNumeric: true,
       ),
       ViewTableColumn(
@@ -40,8 +40,8 @@ class UserWiseProfitAndLossReportTable extends StatelessWidget {
         width: 120,
         isNumeric: true,
       ),
-      ViewTableColumn(id: 'credit', label: 'CRD', width: 120, isNumeric: true),
-      ViewTableColumn(id: 'equity', label: 'EQTY', width: 120, isNumeric: true),
+      ViewTableColumn(id: 'credit', label: 'CRD', width: 130, isNumeric: true),
+      ViewTableColumn(id: 'equity', label: 'EQTY', width: 130, isNumeric: true),
       ViewTableColumn(
         id: 'margin',
         label: 'MARGIN',
@@ -51,19 +51,19 @@ class UserWiseProfitAndLossReportTable extends StatelessWidget {
       ViewTableColumn(
         id: 'usedMargin',
         label: 'USED MARGIN',
-        width: 120,
+        width: 130,
         isNumeric: true,
       ),
       ViewTableColumn(
         id: 'freeMargin',
         label: 'FREE MARGIN',
-        width: 120,
+        width: 130,
         isNumeric: true,
       ),
       ViewTableColumn(
         id: 'standingVolume',
         label: 'STANDING VOL',
-        width: 120,
+        width: 140,
         isNumeric: true,
       ),
       ViewTableColumn(
@@ -72,8 +72,8 @@ class UserWiseProfitAndLossReportTable extends StatelessWidget {
         width: 150,
         isNumeric: true,
       ),
-      ViewTableColumn(id: 'createdBy', label: 'CREATED BY', width: 150),
-      ViewTableColumn(id: 'createdDate', label: 'CREATE DATE', width: 150),
+      ViewTableColumn(id: 'createdBy', label: 'CREATED BY', width: 120),
+      ViewTableColumn(id: 'createdDate', label: 'CREATE DATE', width: 160),
     ];
   }
 

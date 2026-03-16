@@ -43,7 +43,12 @@ class RejectionLogTable extends StatelessWidget {
       ViewTableColumn(id: 'deviceId', label: 'DEVICE ID', width: 300),
       ViewTableColumn(id: 'device', label: 'DEVICE', width: 80),
       ViewTableColumn(id: 'city', label: 'CITY', width: 100),
-      ViewTableColumn(id: 'ipAddress', label: 'IP ADDRESS', width: 120),
+      ViewTableColumn(
+        id: 'ipAddress',
+        label: 'IP ADDRESS',
+        width: 120,
+        isNumeric: true,
+      ),
       ViewTableColumn(id: 'date', label: 'DATE', width: 170),
     ];
   }
@@ -135,7 +140,7 @@ class RejectionLogTable extends StatelessWidget {
       case 'city':
         return ViewTextCell(text: log.city);
       case 'ipAddress':
-        return ViewTextCell(text: log.ipAddress);
+        return ViewTextCell(text: log.ipAddress, isNumeric: true);
       case 'date':
         return ViewDateTimeCell(dateTime: log.date);
       default:

@@ -14,9 +14,35 @@ import '../../bloc/credit_history/credit_history_state.dart';
 class CreditHistoryTable extends StatelessWidget {
   final bool isDarkMode;
   const CreditHistoryTable({super.key, this.isDarkMode = false});
-  List<ViewTableColumn> _getColumns(bool isClient) {
-    if (isClient) {
+  List<ViewTableColumn> _getColumns(String role) {
+    if (role == 'client') {
       return const [
+        ViewTableColumn(
+          id: 'dateTime',
+          label: 'DATE TIME',
+          width: 200,
+          alignment: Alignment.centerRight,
+        ),
+        ViewTableColumn(id: 'type', label: 'TYPE', width: 160),
+        ViewTableColumn(
+          id: 'amount',
+          label: 'AMOUNT',
+          width: 200,
+          isNumeric: true,
+        ),
+        ViewTableColumn(
+          id: 'balance',
+          label: 'BALANCE',
+          width: 200,
+          isNumeric: true,
+        ),
+        ViewTableColumn(id: 'comment', label: 'COMMENT', width: 250),
+      ];
+    }
+    if (role == 'master') {
+      return const [
+        ViewTableColumn(id: 'userName', label: 'U.NAME', width: 160),
+        ViewTableColumn(id: 'parentUserName', label: 'P.U.NAME', width: 160),
         ViewTableColumn(
           id: 'dateTime',
           label: 'DATE TIME',
@@ -68,6 +94,8 @@ class CreditHistoryTable extends StatelessWidget {
     switch (column.id) {
       case 'userName':
         return ViewTextCell(text: item.userName, isDark: isDark);
+      case 'parentUserName':
+        return ViewTextCell(text: item.parentUserName, isDark: isDark);
       case 'dateTime':
         return ViewDateTimeCell(dateTime: item.dateTime, isDark: isDark);
       case 'type':
@@ -100,10 +128,6 @@ class CreditHistoryTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final authState = context.read<AuthBloc>().state;
-    final isClient =
-        authState is AuthAuthenticated &&
-        authState.user.role.toLowerCase() == 'client';
     return BlocBuilder<CreditHistoryBloc, CreditHistoryState>(
       builder: (context, state) {
         if (state is CreditHistoryLoading) {
@@ -115,17 +139,17 @@ class CreditHistoryTable extends StatelessWidget {
         if (state is! CreditHistoryLoaded) {
           return const SizedBox.shrink();
         }
-        double totalAmount = state.creditHistory.fold(
-          0,
-          (sum, item) => sum + item.amount,
-        );
+        final authState = context.read<AuthBloc>().state;
+        final role = authState is AuthAuthenticated
+            ? authState.user.role.toLowerCase()
+            : '';
         return Column(
           children: [
             ViewRecordCount(count: state.creditHistory.length),
             Flexible(
               fit: FlexFit.loose,
               child: ViewDataTable<CreditHistory>(
-                columns: _getColumns(isClient),
+                columns: _getColumns(role),
                 data: state.creditHistory,
                 idExtractor: (item) => item.id,
                 autoFit: true,
@@ -137,6 +161,8 @@ class CreditHistoryTable extends StatelessWidget {
                   switch (columnId) {
                     case 'userName':
                       return item.userName;
+                    case 'parentUserName':
+                      return item.parentUserName;
                     case 'dateTime':
                       return item.dateTime;
                     case 'type':
@@ -152,22 +178,19 @@ class CreditHistoryTable extends StatelessWidget {
                   }
                 },
                 footerBuilder: (columns) {
+                  double totalBalance = state.creditHistory.isNotEmpty
+                      ? state.creditHistory.first.balance
+                      : 0.0;
                   return ViewDataTableFooter(
                     columns: columns,
                     values: {
-                      if (isClient)
+                      if (role == 'client')
                         'dateTime': 'Total'
                       else
                         'userName': 'Total',
-                      'amount': totalAmount.toStringAsFixed(2),
+                      'balance': totalBalance.toStringAsFixed(2),
                     },
                     isDarkMode: isDarkMode,
-                    columnColors: {
-                      'amount': ViewTableCellStyles.getValueColor(
-                        totalAmount,
-                        isDark: isDarkMode,
-                      ),
-                    },
                   );
                 },
               ),

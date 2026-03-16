@@ -21,8 +21,8 @@ class ProfitAndLossDetailsDialog {
     String userName, {
     int level = 1,
   }) {
-    final double dialogWidth = (1000 - ((level - 1) * 40)).w;
-    final double dialogHeight = (600 - ((level - 1) * 30)).h;
+    final double dialogWidth = 1000.w;
+    final double dialogHeight = 600.h;
     CommonDialog.show(
       context: context,
       title: 'Profit & Loss',
@@ -55,13 +55,13 @@ class _ProfitAndLossDetailsContent extends StatelessWidget {
   }) : super(key: key);
   List<ViewTableColumn> _getColumns() {
     return const [
-      ViewTableColumn(id: 'view', label: 'VIEW', width: 120),
-      ViewTableColumn(id: 'userName', label: 'U. NAME', width: 120),
+      ViewTableColumn(id: 'view', label: 'VIEW', width: 80),
+      ViewTableColumn(id: 'userName', label: 'U. NAME', width: 100),
       ViewTableColumn(id: 'percentage', label: '%', width: 80, isNumeric: true),
       ViewTableColumn(
         id: 'releasePL',
         label: 'RELEASE P/L',
-        width: 120,
+        width: 100,
         isNumeric: true,
       ),
       ViewTableColumn(
@@ -74,19 +74,19 @@ class _ProfitAndLossDetailsContent extends StatelessWidget {
       ViewTableColumn(
         id: 'netPL',
         label: 'NET P/L',
-        width: 120,
+        width: 100,
         isNumeric: true,
       ),
       ViewTableColumn(
         id: 'ourBrokerage',
         label: 'OUR BRK',
-        width: 120,
+        width: 100,
         isNumeric: true,
       ),
       ViewTableColumn(
         id: 'ourPercentage',
         label: 'OUR',
-        width: 120,
+        width: 100,
         isNumeric: true,
       ),
     ];

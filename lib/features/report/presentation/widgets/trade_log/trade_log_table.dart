@@ -16,28 +16,28 @@ class TradeLogTable extends StatelessWidget {
   const TradeLogTable({Key? key, this.isDarkMode = false}) : super(key: key);
   List<ViewTableColumn> _getColumns() {
     return const [
-      ViewTableColumn(id: 'userName', label: 'U. NAME', width: 120),
-      ViewTableColumn(id: 'exchange', label: 'EXCH', width: 100),
-      ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 150),
-      ViewTableColumn(id: 'orderUpdateType', label: 'O.U. Type', width: 120),
-      ViewTableColumn(id: 'userType', label: 'U. Type', width: 120),
+      ViewTableColumn(id: 'userName', label: 'U. NAME', width: 90),
+      ViewTableColumn(id: 'exchange', label: 'EXCH', width: 80),
+      ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 130),
+      ViewTableColumn(id: 'orderUpdateType', label: 'O.U. Type', width: 90),
+      ViewTableColumn(id: 'userType', label: 'U. Type', width: 90),
       ViewTableColumn(
         id: 'oldQty',
         label: 'OLD QTY',
-        width: 100,
+        width: 90,
         isNumeric: true,
       ),
-      ViewTableColumn(id: 'qty', label: 'QTY', width: 100, isNumeric: true),
+      ViewTableColumn(id: 'qty', label: 'QTY', width: 90, isNumeric: true),
       ViewTableColumn(
         id: 'oldPrice',
         label: 'OLD PRICE',
-        width: 120,
+        width: 100,
         isNumeric: true,
       ),
-      ViewTableColumn(id: 'price', label: 'PRICE', width: 120, isNumeric: true),
-      ViewTableColumn(id: 'updateTime', label: 'UPDATE TIME', width: 200),
-      ViewTableColumn(id: 'orderDateTime', label: 'Order D/T', width: 200),
-      ViewTableColumn(id: 'modifyBy', label: 'MODIFY BY', width: 120),
+      ViewTableColumn(id: 'price', label: 'PRICE', width: 90, isNumeric: true),
+      ViewTableColumn(id: 'updateTime', label: 'UPDATE TIME', width: 150),
+      ViewTableColumn(id: 'orderDateTime', label: 'Order D/T', width: 150),
+      ViewTableColumn(id: 'modifyBy', label: 'MODIFY BY', width: 100),
     ];
   }
 

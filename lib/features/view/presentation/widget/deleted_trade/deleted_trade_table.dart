@@ -48,7 +48,12 @@ class DeletedTradeTable extends StatelessWidget {
     const ViewTableColumn(id: 'deviceId', label: 'DEVICE ID', width: 280),
     const ViewTableColumn(id: 'city', label: 'CITY', width: 100),
     const ViewTableColumn(id: 'device', label: 'DEVICE', width: 80),
-    const ViewTableColumn(id: 'ipAddress', label: 'IP ADDRESS', width: 120),
+    const ViewTableColumn(
+      id: 'ipAddress',
+      label: 'IP ADDRESS',
+      width: 120,
+      isNumeric: true,
+    ),
   ];
   @override
   Widget build(BuildContext context) {
@@ -140,7 +145,7 @@ class DeletedTradeTable extends StatelessWidget {
       case 'device':
         return ViewTextCell(text: trade.device);
       case 'ipAddress':
-        return ViewTextCell(text: trade.ipAddress);
+        return ViewTextCell(text: trade.ipAddress, isNumeric: true);
       default:
         return const ViewTextCell(text: '-');
     }

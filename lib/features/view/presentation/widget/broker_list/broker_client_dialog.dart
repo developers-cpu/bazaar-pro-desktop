@@ -15,7 +15,6 @@ import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import '../../../../../../core/widget/date_range_picker_dialog.dart';
 import 'package:intl/intl.dart';
 import 'client_breakdown_dialog.dart';
-
 class BrokerClientDialog {
   static void show({
     required BuildContext context,
@@ -46,7 +45,6 @@ class BrokerClientDialog {
     );
   }
 }
-
 class _BrokerClientContent extends StatefulWidget {
   final String brokerName;
   final bool isDarkMode;
@@ -55,15 +53,12 @@ class _BrokerClientContent extends StatefulWidget {
     required this.brokerName,
     this.isDarkMode = false,
   }) : super(key: key);
-
   @override
   State<_BrokerClientContent> createState() => _BrokerClientContentState();
 }
-
 class _BrokerClientContentState extends State<_BrokerClientContent> {
   String _customPeriodLabel = 'Select Date Range';
   String _selectedDateRange = 'This Week';
-
   @override
   Widget build(BuildContext context) {
     return Padding(

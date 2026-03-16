@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import '../../models/deals/deals_model.dart';
-
 abstract class DealsRemoteDataSource {
   Future<List<DealModel>> getDeals();
   Future<List<DealModel>> getDealsWithFilters({
@@ -20,7 +19,6 @@ abstract class DealsRemoteDataSource {
   Future<String> exportToPdf(List<DealModel> deals);
   Future<String> exportToExcel(List<DealModel> deals);
 }
-
 class DealsRemoteDataSourceImpl implements DealsRemoteDataSource {
   final Dio dio;
   DealsRemoteDataSourceImpl({required this.dio});
@@ -33,7 +31,6 @@ class DealsRemoteDataSourceImpl implements DealsRemoteDataSource {
       throw Exception('Failed to fetch deals: $e');
     }
   }
-
   @override
   Future<List<DealModel>> getDealsWithFilters({
     DateTime? startDate,
@@ -80,7 +77,6 @@ class DealsRemoteDataSourceImpl implements DealsRemoteDataSource {
       throw Exception('Failed to fetch filtered deals: $e');
     }
   }
-
   @override
   Future<List<String>> getClients() async {
     try {
@@ -90,7 +86,6 @@ class DealsRemoteDataSourceImpl implements DealsRemoteDataSource {
       throw Exception('Failed to fetch clients: $e');
     }
   }
-
   @override
   Future<List<String>> getExchanges() async {
     try {
@@ -109,7 +104,6 @@ class DealsRemoteDataSourceImpl implements DealsRemoteDataSource {
       throw Exception('Failed to fetch exchanges: $e');
     }
   }
-
   @override
   Future<List<String>> getSymbols() async {
     try {
@@ -127,7 +121,6 @@ class DealsRemoteDataSourceImpl implements DealsRemoteDataSource {
       throw Exception('Failed to fetch symbols: $e');
     }
   }
-
   @override
   Future<List<String>> getOrderTypes() async {
     try {
@@ -137,7 +130,6 @@ class DealsRemoteDataSourceImpl implements DealsRemoteDataSource {
       throw Exception('Failed to fetch order types: $e');
     }
   }
-
   @override
   Future<List<String>> getStatuses() async {
     try {
@@ -154,7 +146,6 @@ class DealsRemoteDataSourceImpl implements DealsRemoteDataSource {
       throw Exception('Failed to fetch statuses: $e');
     }
   }
-
   @override
   Future<String> exportToPdf(List<DealModel> deals) async {
     try {
@@ -164,7 +155,6 @@ class DealsRemoteDataSourceImpl implements DealsRemoteDataSource {
       throw Exception('Failed to export PDF: $e');
     }
   }
-
   @override
   Future<String> exportToExcel(List<DealModel> deals) async {
     try {
@@ -174,7 +164,6 @@ class DealsRemoteDataSourceImpl implements DealsRemoteDataSource {
       throw Exception('Failed to export Excel: $e');
     }
   }
-
   List<DealModel> _generateMockDeals() {
     final List<DealModel> deals = [];
     final symbols = [

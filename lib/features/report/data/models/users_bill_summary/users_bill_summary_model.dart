@@ -1,5 +1,4 @@
 import '../../../domain/entities/users_bill_summary/users_bill_summary_entity.dart';
-
 class UsersBillSummaryModel extends UsersBillSummaryEntity {
   const UsersBillSummaryModel({
     required String puName,

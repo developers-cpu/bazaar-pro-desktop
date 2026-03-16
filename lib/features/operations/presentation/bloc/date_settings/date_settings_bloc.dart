@@ -4,7 +4,6 @@ import '../../../domain/usecases/date_settings/get_date_settings.dart';
 import '../../../domain/usecases/date_settings/update_date_settings.dart';
 import 'date_settings_event.dart';
 import 'date_settings_state.dart';
-
 class DateSettingsBloc extends Bloc<DateSettingsEvent, DateSettingsState> {
   final GetDateSettings getDateSettings;
   final UpdateDateSettings updateDateSettings;

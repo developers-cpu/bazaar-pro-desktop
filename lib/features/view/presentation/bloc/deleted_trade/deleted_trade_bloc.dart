@@ -4,7 +4,6 @@ import '../../../domain/entities/deleted_trade/deleted_trade.dart';
 import '../../../domain/usecases/deleted_trade/deleted_trade_usecases.dart';
 import 'deleted_trade_event.dart';
 import 'deleted_trade_state.dart';
-
 class DeletedTradeBloc extends Bloc<DeletedTradeEvent, DeletedTradeState> {
   final GetDeletedTrades getDeletedTrades;
   final GetDeletedTradesWithFilters getDeletedTradesWithFilters;
@@ -89,7 +88,6 @@ class DeletedTradeBloc extends Bloc<DeletedTradeEvent, DeletedTradeState> {
       emit(DeletedTradeError(e.toString()));
     }
   }
-
   Future<void> _onApplyFilters(
     ApplyDeletedTradeFiltersEvent event,
     Emitter<DeletedTradeState> emit,
@@ -119,7 +117,6 @@ class DeletedTradeBloc extends Bloc<DeletedTradeEvent, DeletedTradeState> {
       ),
     );
   }
-
   Future<void> _onResetFilters(
     ResetDeletedTradeFiltersEvent event,
     Emitter<DeletedTradeState> emit,
@@ -138,7 +135,6 @@ class DeletedTradeBloc extends Bloc<DeletedTradeEvent, DeletedTradeState> {
       ),
     );
   }
-
   void _onSortByColumn(
     SortDeletedTradesByColumnEvent event,
     Emitter<DeletedTradeState> emit,
@@ -216,7 +212,6 @@ class DeletedTradeBloc extends Bloc<DeletedTradeEvent, DeletedTradeState> {
       ),
     );
   }
-
   Future<void> _onExportToPdf(
     ExportDeletedTradesToPdfEvent event,
     Emitter<DeletedTradeState> emit,
@@ -234,7 +229,6 @@ class DeletedTradeBloc extends Bloc<DeletedTradeEvent, DeletedTradeState> {
       emit(currentState);
     });
   }
-
   Future<void> _onExportToExcel(
     ExportDeletedTradesToExcelEvent event,
     Emitter<DeletedTradeState> emit,

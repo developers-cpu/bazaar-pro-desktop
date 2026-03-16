@@ -1,5 +1,4 @@
 import '../../../domain/entities/bill_comparison/bill_comparison_entity.dart';
-
 class BillComparisonModel extends BillComparisonEntity {
   const BillComparisonModel({
     required super.index,

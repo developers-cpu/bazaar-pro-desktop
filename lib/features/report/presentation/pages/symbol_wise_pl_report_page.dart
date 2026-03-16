@@ -8,7 +8,6 @@ import '../widgets/symbol_wise_pl_report/symbol_wise_pl_table.dart';
 import '../widgets/symbol_wise_pl_report/client_symbol_wise_pl_table.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
-
 class SymbolWisePLReportPage extends StatelessWidget {
   const SymbolWisePLReportPage({super.key});
   @override
@@ -17,7 +16,6 @@ class SymbolWisePLReportPage extends StatelessWidget {
     final isClient =
         authState is AuthAuthenticated &&
         authState.user.role.toLowerCase() == 'client';
-
     return BlocProvider(
       create: (_) => sl<SymbolWisePLBloc>()..add(const LoadSymbolWisePL()),
       child: Column(

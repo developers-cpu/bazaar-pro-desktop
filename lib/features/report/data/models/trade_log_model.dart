@@ -1,5 +1,4 @@
 import '../../domain/entities/trade_log.dart';
-
 class TradeLogModel extends TradeLog {
   const TradeLogModel({
     required String id,

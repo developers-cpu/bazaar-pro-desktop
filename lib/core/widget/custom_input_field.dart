@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'svg_icon.dart';
-
 class CustomInputField extends StatelessWidget {
   final String hintText;
   final String? svgIconPath;
@@ -116,7 +115,6 @@ class CustomInputField extends StatelessWidget {
       ),
     );
   }
-
   Widget? _buildPrefixIcon() {
     if (prefixSvgPath != null) {
       return Padding(
@@ -126,7 +124,6 @@ class CustomInputField extends StatelessWidget {
     }
     return null;
   }
-
   Widget? _buildSuffixIcon() {
     if (suffixIcon != null) {
       return IconButton(
@@ -145,7 +142,6 @@ class CustomInputField extends StatelessWidget {
     }
     return null;
   }
-
   OutlineInputBorder _buildBorder({
     bool isError = false,
     bool isDisabled = false,

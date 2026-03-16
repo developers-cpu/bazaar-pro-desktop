@@ -10,63 +10,42 @@ import '../../../../../core/widget/table/view_record_count.dart';
 import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import '../../../../auth/presentation/bloc/auth_bloc.dart';
 import '../../../../auth/presentation/bloc/auth_state.dart';
-
 class RejectionLogTable extends StatelessWidget {
   const RejectionLogTable({Key? key}) : super(key: key);
-
   List<ViewTableColumn> _getColumns(bool isClient, bool isMaster) {
     if (isClient) {
       return const [
-        ViewTableColumn(id: 'orderDateTime', label: 'ORDER D/T', width: 170),
+        ViewTableColumn(id: 'orderDateTime', label: 'ORDER D/T', width: 130),
         ViewTableColumn(id: 'exchange', label: 'EXCH', width: 100),
-        ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 170),
+        ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 130),
         ViewTableColumn(id: 'type', label: 'B/S', width: 80),
-        ViewTableColumn(id: 'qty', label: 'QTY', width: 100, isNumeric: true),
+        ViewTableColumn(id: 'qty', label: 'QTY', width: 80, isNumeric: true),
         ViewTableColumn(
           id: 'price',
           label: 'PRICE',
-          width: 100,
+          width: 80,
           isNumeric: true,
         ),
-        ViewTableColumn(id: 'comment', label: 'COMMENT', width: 400),
+        ViewTableColumn(id: 'comment', label: 'COMMENT', width: 500),
       ];
     }
-
-    if (isMaster) {
-      return const [
-        ViewTableColumn(id: 'orderDateTime', label: 'ORDER D/T', width: 170),
-        ViewTableColumn(id: 'userName', label: 'U.NAME', width: 100),
-        ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 170),
-        ViewTableColumn(id: 'type', label: 'TYPE', width: 80),
-        ViewTableColumn(id: 'qty', label: 'QTY', width: 100, isNumeric: true),
-        ViewTableColumn(
-          id: 'price',
-          label: 'PRICE',
-          width: 100,
-          isNumeric: true,
-        ),
-        ViewTableColumn(id: 'comment', label: 'COMMENT', width: 400),
-        ViewTableColumn(id: 'date', label: 'DATE', width: 170),
-      ];
-    }
-
+   
     return const [
       ViewTableColumn(id: 'orderDateTime', label: 'ORDER D/T', width: 170),
       ViewTableColumn(id: 'status', label: 'STATUS', width: 80),
-      ViewTableColumn(id: 'userName', label: 'U.NAME', width: 100),
-      ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 170),
+      ViewTableColumn(id: 'userName', label: 'U.NAME', width: 80),
+      ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 130),
       ViewTableColumn(id: 'type', label: 'TYPE', width: 80),
-      ViewTableColumn(id: 'qty', label: 'QTY', width: 100, isNumeric: true),
-      ViewTableColumn(id: 'price', label: 'PRICE', width: 100, isNumeric: true),
-      ViewTableColumn(id: 'comment', label: 'COMMENT', width: 400),
-      ViewTableColumn(id: 'deviceId', label: 'DEVICE ID', width: 280),
+      ViewTableColumn(id: 'qty', label: 'QTY', width: 80, isNumeric: true),
+      ViewTableColumn(id: 'price', label: 'PRICE', width: 80, isNumeric: true),
+      ViewTableColumn(id: 'comment', label: 'COMMENT', width: 450),
+      ViewTableColumn(id: 'deviceId', label: 'DEVICE ID', width: 300),
       ViewTableColumn(id: 'device', label: 'DEVICE', width: 80),
       ViewTableColumn(id: 'city', label: 'CITY', width: 100),
       ViewTableColumn(id: 'ipAddress', label: 'IP ADDRESS', width: 120),
       ViewTableColumn(id: 'date', label: 'DATE', width: 170),
     ];
   }
-
   @override
   Widget build(BuildContext context) {
     bool isClient = false;
@@ -80,7 +59,6 @@ class RejectionLogTable extends StatelessWidget {
           authState is AuthAuthenticated &&
           authState.user.role.toLowerCase() == 'master';
     } catch (_) {}
-
     return BlocBuilder<RejectionLogBloc, RejectionLogState>(
       builder: (context, state) {
         if (state is RejectionLogLoading) {
@@ -127,7 +105,6 @@ class RejectionLogTable extends StatelessWidget {
       },
     );
   }
-
   Widget _buildCell(RejectionLog log, ViewTableColumn column) {
     switch (column.id) {
       case 'orderDateTime':

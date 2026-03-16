@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../domain/entities/dashboard_entity.dart';
-
 class WeeklyProgressChart extends StatelessWidget {
   final List<WeeklyProgressData> data;
   const WeeklyProgressChart({Key? key, required this.data}) : super(key: key);

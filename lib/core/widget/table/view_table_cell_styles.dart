@@ -2,7 +2,6 @@ import 'package:bazarpro/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 class ViewTableCellStyles {
   ViewTableCellStyles._();
   static TextStyle getTextStyle({
@@ -19,7 +18,6 @@ class ViewTableCellStyles {
           (isDark ? DarkThemeColors.textColor : LightThemeColors.textColor),
     );
   }
-
   static Color getValueColor(double value, {bool isDark = false}) {
     if (value > 0) {
       return isDark
@@ -32,7 +30,6 @@ class ViewTableCellStyles {
     }
     return isDark ? DarkThemeColors.textColor : LightThemeColors.textColor;
   }
-
   static Color getBuySellColor(String text, {bool isDark = false}) {
     final isBuy = text.toUpperCase().startsWith('BUY');
     if (isBuy) {
@@ -45,16 +42,15 @@ class ViewTableCellStyles {
         : LightThemeColors.negativeTextColor;
   }
 }
-
 class ViewTextCell extends StatelessWidget {
   final String text;
   final Color? color;
   final FontWeight? fontWeight;
   final bool isDark;
   final bool isStart;
+  final bool isNumeric;
   final double? fontSize;
   final Alignment? alignment;
-
   const ViewTextCell({
     Key? key,
     required this.text,
@@ -62,15 +58,18 @@ class ViewTextCell extends StatelessWidget {
     this.fontWeight,
     this.isDark = false,
     this.isStart = false,
+    this.isNumeric = false,
     this.fontSize,
     this.alignment,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
+    final effectiveAlignment =
+        alignment ??
+        (isNumeric ? Alignment.centerRight : Alignment.centerLeft);
     return Container(
       width: double.infinity,
-      alignment: alignment ?? (isStart ? Alignment.centerLeft : Alignment.centerLeft),
+      alignment: effectiveAlignment,
       child: Text(
         text,
         style: ViewTableCellStyles.getTextStyle(
@@ -79,22 +78,22 @@ class ViewTextCell extends StatelessWidget {
           fontWeight: fontWeight,
           fontSize: fontSize,
         ),
-        textAlign: alignment == Alignment.centerRight
+        textAlign: effectiveAlignment == Alignment.centerRight
             ? TextAlign.end
-            : (alignment == Alignment.center ? TextAlign.center : TextAlign.start),
+            : (effectiveAlignment == Alignment.center
+                ? TextAlign.center
+                : TextAlign.start),
         maxLines: 1,
         softWrap: false,
       ),
     );
   }
 }
-
 class ViewBuySellCell extends StatelessWidget {
   final String text;
   final bool isDark;
   final bool isStart;
   final double? fontSize;
-
   const ViewBuySellCell({
     Key? key,
     required this.text,
@@ -102,7 +101,6 @@ class ViewBuySellCell extends StatelessWidget {
     this.isStart = false,
     this.fontSize,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -123,7 +121,6 @@ class ViewBuySellCell extends StatelessWidget {
     );
   }
 }
-
 class ViewNumberCell extends StatelessWidget {
   final double value;
   final String? displayText;
@@ -133,7 +130,6 @@ class ViewNumberCell extends StatelessWidget {
   final bool isStart;
   final EdgeInsetsGeometry? padding;
   final double? fontSize;
-
   const ViewNumberCell({
     Key? key,
     required this.value,
@@ -145,7 +141,6 @@ class ViewNumberCell extends StatelessWidget {
     this.padding,
     this.fontSize,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     final text = displayText ?? _formatNumber(value);
@@ -154,7 +149,6 @@ class ViewNumberCell extends StatelessWidget {
         (colorByValue
             ? ViewTableCellStyles.getValueColor(value, isDark: isDark)
             : null);
-
     return Container(
       width: double.infinity,
       padding: padding,
@@ -172,7 +166,6 @@ class ViewNumberCell extends StatelessWidget {
       ),
     );
   }
-
   String _formatNumber(double value) {
     if (value == value.toInt()) {
       return value.toInt().toString();
@@ -180,15 +173,14 @@ class ViewNumberCell extends StatelessWidget {
     return value.toStringAsFixed(2);
   }
 }
-
 class ViewLinkCell extends StatelessWidget {
   final String text;
   final VoidCallback? onTap;
   final bool isStart;
   final bool isEnd;
+  final bool isNumeric;
   final bool isDark;
   final double? fontSize;
-
   const ViewLinkCell({
     Key? key,
     required this.text,
@@ -196,16 +188,16 @@ class ViewLinkCell extends StatelessWidget {
     this.isDark = false,
     this.isStart = false,
     this.isEnd = false,
+    this.isNumeric = false,
     this.fontSize,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
         width: double.infinity,
-        alignment: isEnd ? Alignment.centerRight : Alignment.centerLeft,
+        alignment: isEnd || isNumeric ? Alignment.centerRight : Alignment.centerLeft,
         child: Container(
           padding: const EdgeInsets.only(bottom: 2),
           decoration: const BoxDecoration(
@@ -221,7 +213,7 @@ class ViewLinkCell extends StatelessWidget {
               fontWeight: FontWeight.w600,
               fontSize: fontSize,
             ),
-            textAlign: isEnd ? TextAlign.end : TextAlign.start,
+            textAlign: isEnd || isNumeric ? TextAlign.end : TextAlign.start,
             maxLines: 1,
             softWrap: false,
           ),
@@ -230,14 +222,12 @@ class ViewLinkCell extends StatelessWidget {
     );
   }
 }
-
 class ViewDateTimeCell extends StatelessWidget {
   final DateTime dateTime;
   final String format;
   final bool isDark;
   final Color? color;
   final double? fontSize;
-
   const ViewDateTimeCell({
     Key? key,
     required this.dateTime,
@@ -246,7 +236,6 @@ class ViewDateTimeCell extends StatelessWidget {
     this.color,
     this.fontSize,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -265,7 +254,6 @@ class ViewDateTimeCell extends StatelessWidget {
       ),
     );
   }
-
   String _formatDateTime() {
     final day = dateTime.day.toString().padLeft(2, '0');
     final month = dateTime.month.toString().padLeft(2, '0');

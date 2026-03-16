@@ -1,5 +1,4 @@
 import '../../../domain/entities/surveillance/surveillance_vpn.dart';
-
 class SurveillanceVpnModel extends SurveillanceVpn {
   const SurveillanceVpnModel({
     required super.masterRestriction,
@@ -17,7 +16,6 @@ class SurveillanceVpnModel extends SurveillanceVpn {
       'clientRestriction': clientRestriction,
     };
   }
-
   factory SurveillanceVpnModel.fromEntity(SurveillanceVpn entity) {
     return SurveillanceVpnModel(
       masterRestriction: entity.masterRestriction,

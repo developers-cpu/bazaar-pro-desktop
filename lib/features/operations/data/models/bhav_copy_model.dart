@@ -1,5 +1,4 @@
 import '../../domain/entities/settlement_progress/bhav_copy_entity.dart';
-
 class BhavCopyModel extends BhavCopyEntity {
   const BhavCopyModel({
     required String exch,
@@ -16,7 +15,6 @@ class BhavCopyModel extends BhavCopyEntity {
          dayLow: dayLow,
          dayClose: dayClose,
        );
-
   factory BhavCopyModel.fromJson(Map<String, dynamic> json) {
     return BhavCopyModel(
       exch: json['exch'] ?? '',
@@ -27,7 +25,6 @@ class BhavCopyModel extends BhavCopyEntity {
       dayClose: (json['dayClose'] ?? 0).toDouble(),
     );
   }
-
   Map<String, dynamic> toJson() {
     return {
       'exch': exch,

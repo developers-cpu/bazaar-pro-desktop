@@ -1,13 +1,11 @@
 import '../models/settlement_master_sharing_model.dart';
 import '../../../../core/errors/exceptions.dart';
-
 abstract class SettlementMasterSharingDataSource {
   Future<SettlementMasterSharingDataModel> getMasterSharingData({
     String? masterId,
   });
   Future<List<MasterUserModel>> getAvailableMasters();
 }
-
 class SettlementMasterSharingDataSourceImpl
     implements SettlementMasterSharingDataSource {
   @override
@@ -18,7 +16,6 @@ class SettlementMasterSharingDataSourceImpl
       (i) => MasterUserModel(id: '${i + 1}', name: 'User ${i + 1}'),
     );
   }
-
   @override
   Future<SettlementMasterSharingDataModel> getMasterSharingData({
     String? masterId,

@@ -7,7 +7,6 @@ import '../../../../../core/widget/common_dilog_box.dart';
 import '../../../../../core/widget/custom_action_button.dart';
 import '../../../../../core/widget/custom_input_field.dart';
 import '../../bloc/group/group_bloc.dart';
-
 class ImportGroupDataDialog {
   static void show(BuildContext context, {GroupBloc? bloc}) {
     CommonDialog.show(
@@ -25,15 +24,12 @@ class ImportGroupDataDialog {
     );
   }
 }
-
 class _ImportGroupDataContent extends StatelessWidget {
   final VoidCallback onClose;
-
   const _ImportGroupDataContent({
     Key? key,
     required this.onClose,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -47,7 +43,6 @@ class _ImportGroupDataContent extends StatelessWidget {
       ],
     );
   }
-
   Widget _buildInstructions() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,7 +63,6 @@ class _ImportGroupDataContent extends StatelessWidget {
       ],
     );
   }
-
   Widget _buildInstructionItem(String text) {
     return Padding(
       padding: EdgeInsets.only(bottom: 3.h),
@@ -82,7 +76,6 @@ class _ImportGroupDataContent extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildImportSection() {
     return Row(
       children: [
@@ -104,7 +97,6 @@ class _ImportGroupDataContent extends StatelessWidget {
       ],
     );
   }
-
   Widget _buildUpdateButton(BuildContext context) {
     return Center(
       child: CustomActionButton(

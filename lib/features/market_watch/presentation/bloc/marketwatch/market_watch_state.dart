@@ -1,20 +1,16 @@
 import 'package:equatable/equatable.dart';
 import '../../../domain/entities/market_item.dart';
-
 abstract class MarketWatchState extends Equatable {
   const MarketWatchState();
   @override
   List<Object?> get props => [];
 }
-
 class MarketWatchInitial extends MarketWatchState {
   const MarketWatchInitial();
 }
-
 class MarketWatchLoading extends MarketWatchState {
   const MarketWatchLoading();
 }
-
 class MarketWatchLoaded extends MarketWatchState {
   final List<MarketItem> items;
   final List<MarketItem> filteredItems;
@@ -26,7 +22,6 @@ class MarketWatchLoaded extends MarketWatchState {
   final DateTime? selectedExpiry;
   final String? selectedType;
   final double? selectedPrice;
-
   final MarketItem? clipboardItem;
   final bool isClipboardCut;
   final List<MarketWatchAction> undoStack;
@@ -105,7 +100,6 @@ class MarketWatchLoaded extends MarketWatchState {
       showGrid: showGrid ?? this.showGrid,
     );
   }
-
   @override
   List<Object?> get props => [
     items,
@@ -125,14 +119,12 @@ class MarketWatchLoaded extends MarketWatchState {
     showGrid,
   ];
 }
-
 class MarketWatchError extends MarketWatchState {
   final String message;
   const MarketWatchError({required this.message});
   @override
   List<Object> get props => [message];
 }
-
 class MarketWatchSuccess extends MarketWatchState {
   final String message;
   final MarketWatchLoaded previousState;
@@ -143,7 +135,6 @@ class MarketWatchSuccess extends MarketWatchState {
   @override
   List<Object> get props => [message, previousState];
 }
-
 class MarketWatchAction extends Equatable {
   final MarketWatchActionType type;
   final MarketItem? item;
@@ -152,5 +143,4 @@ class MarketWatchAction extends Equatable {
   @override
   List<Object?> get props => [type, item, index];
 }
-
 enum MarketWatchActionType { add, delete, paste }

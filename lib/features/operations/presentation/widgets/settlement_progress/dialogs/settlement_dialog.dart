@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../../../../../../core/constants/app_colors.dart';
 import '../../../../../../core/widget/common_dilog_box.dart';
 import '../../../../../../core/widget/custom_action_button.dart';
 import '../../../../../../core/widget/table/view_data_table.dart';
 import 'settlement_progress_dialog.dart';
-
 class SettlementDialog {
   static void show(BuildContext context) {
     CommonDialog.show(
@@ -23,19 +21,15 @@ class SettlementDialog {
     );
   }
 }
-
 class _SettlementContent extends StatefulWidget {
   final VoidCallback onClose;
-
   const _SettlementContent({
     Key? key,
     required this.onClose,
   }) : super(key: key);
-
   @override
   State<_SettlementContent> createState() => _SettlementContentState();
 }
-
 class _SettlementContentState extends State<_SettlementContent> {
   final List<String> _exchanges = const [
     'MCX',
@@ -48,9 +42,7 @@ class _SettlementContentState extends State<_SettlementContent> {
     'FOREX',
     'USSTOCK',
   ];
-
   Set<String> _selectedIds = {};
-
   @override
   Widget build(BuildContext context) {
     return Column(

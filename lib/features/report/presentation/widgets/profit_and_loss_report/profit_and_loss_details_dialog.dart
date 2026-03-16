@@ -13,7 +13,6 @@ import '../../../../users/presentation/widgets/user_details/user_details_dialog.
 import '../../../../users/presentation/widgets/create_user/master_form_dialog.dart';
 import '../../../../users/presentation/widgets/create_user/client_form_dialog.dart';
 import '../../../../users/presentation/widgets/create_user/update_access_dialog.dart';
-
 class ProfitAndLossDetailsDialog {
   static void show(
     BuildContext context,
@@ -23,7 +22,6 @@ class ProfitAndLossDetailsDialog {
   }) {
     final double dialogWidth = (1000 - ((level - 1) * 40)).w;
     final double dialogHeight = (600 - ((level - 1) * 30)).h;
-
     CommonDialog.show(
       context: context,
       title: 'Profit & Loss',
@@ -41,13 +39,11 @@ class ProfitAndLossDetailsDialog {
     );
   }
 }
-
 class _ProfitAndLossDetailsContent extends StatelessWidget {
   final List<ProfitAndLossReport> reports;
   final String userName;
   final int level;
   final VoidCallback onClose;
-
   const _ProfitAndLossDetailsContent({
     Key? key,
     required this.reports,
@@ -55,7 +51,6 @@ class _ProfitAndLossDetailsContent extends StatelessWidget {
     this.level = 1,
     required this.onClose,
   }) : super(key: key);
-
   List<ViewTableColumn> _getColumns() {
     return const [
       ViewTableColumn(id: 'view', label: 'VIEW', width: 120),
@@ -94,7 +89,6 @@ class _ProfitAndLossDetailsContent extends StatelessWidget {
       ),
     ];
   }
-
   Widget _buildCell(
     BuildContext context,
     ProfitAndLossReport item,
@@ -196,15 +190,16 @@ class _ProfitAndLossDetailsContent extends StatelessWidget {
           },
         );
       case 'percentage':
-        return ViewTextCell(
-          text: item.percentage.toStringAsFixed(2),
+        return ViewNumberCell(
+          value: item.percentage,
           isDark: isDark,
+          colorByValue: false,
         );
       case 'releasePL':
-        return ViewTextCell(
-          text: item.releasePL.toStringAsFixed(2),
+        return ViewNumberCell(
+          value: item.releasePL,
           isDark: isDark,
-          color: item.releasePL >= 0 ? Colors.blue : Colors.red,
+          fixedColor: item.releasePL >= 0 ? AppColors.buyColor : AppColors.sellColor,
         );
       case 'brokerage':
         return ViewNumberCell(
@@ -224,7 +219,6 @@ class _ProfitAndLossDetailsContent extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
-
   @override
   Widget build(BuildContext context) {
     double totalReleasePL = 0;
@@ -241,7 +235,6 @@ class _ProfitAndLossDetailsContent extends StatelessWidget {
       totalOurBrokerage += item.ourBrokerage;
       totalOurPercentage += item.ourPercentage;
     }
-
     return Container(
       padding: EdgeInsets.all(10.w),
       child: Column(

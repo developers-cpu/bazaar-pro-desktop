@@ -1,20 +1,16 @@
 import 'package:equatable/equatable.dart';
 import '../../../domain/entities/rejection_log/rejection_log.dart';
-
 abstract class RejectionLogState extends Equatable {
   const RejectionLogState();
   @override
   List<Object?> get props => [];
 }
-
 class RejectionLogInitial extends RejectionLogState {
   const RejectionLogInitial();
 }
-
 class RejectionLogLoading extends RejectionLogState {
   const RejectionLogLoading();
 }
-
 class RejectionLogLoaded extends RejectionLogState {
   final List<RejectionLog> logs;
   final List<RejectionLog> filteredLogs;
@@ -92,14 +88,12 @@ class RejectionLogLoaded extends RejectionLogState {
     );
   }
 }
-
 class RejectionLogError extends RejectionLogState {
   final String message;
   const RejectionLogError(this.message);
   @override
   List<Object?> get props => [message];
 }
-
 class RejectionLogExportSuccess extends RejectionLogState {
   final String message;
   final String filePath;

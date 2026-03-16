@@ -2,7 +2,6 @@ import 'package:bazarpro/features/report/domain/usecases/symbol_wise_pl/get_symb
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'symbol_wise_pl_event.dart';
 import 'symbol_wise_pl_state.dart';
-
 class SymbolWisePLBloc extends Bloc<SymbolWisePLEvent, SymbolWisePLState> {
   final GetSymbolWisePLReport getSymbolWisePLReport;
   SymbolWisePLBloc({required this.getSymbolWisePLReport})
@@ -11,7 +10,6 @@ class SymbolWisePLBloc extends Bloc<SymbolWisePLEvent, SymbolWisePLState> {
     on<FilterSymbolWisePL>(_onFilterSymbolWisePL);
     on<SymbolWisePLFilter>(_onSymbolWisePLFilter);
   }
-
   void _onSymbolWisePLFilter(
     SymbolWisePLFilter event,
     Emitter<SymbolWisePLState> emit,
@@ -26,7 +24,6 @@ class SymbolWisePLBloc extends Bloc<SymbolWisePLEvent, SymbolWisePLState> {
       );
     }
   }
-
   Future<void> _onLoadSymbolWisePL(
     LoadSymbolWisePL event,
     Emitter<SymbolWisePLState> emit,
@@ -61,7 +58,6 @@ class SymbolWisePLBloc extends Bloc<SymbolWisePLEvent, SymbolWisePLState> {
       },
     );
   }
-
   Future<void> _onFilterSymbolWisePL(
     FilterSymbolWisePL event,
     Emitter<SymbolWisePLState> emit,
@@ -71,24 +67,19 @@ class SymbolWisePLBloc extends Bloc<SymbolWisePLEvent, SymbolWisePLState> {
     List<String> symbols = [];
     String? currentExchange;
     String? currentSymbol;
-
     if (currentState is SymbolWisePLLoaded) {
       exchanges = currentState.exchanges;
       symbols = currentState.symbols;
       currentExchange = currentState.selectedExchange;
       currentSymbol = currentState.selectedSymbol;
     }
-
     emit(SymbolWisePLLoading());
-
     final newExchange = event.exchange ?? currentExchange;
     final newSymbol = event.symbol ?? currentSymbol;
-
     final result = await getSymbolWisePLReport(
       exchange: newExchange == 'All' ? null : newExchange,
       symbol: newSymbol == 'All' ? null : newSymbol,
     );
-
     result.fold(
       (failure) => emit(SymbolWisePLError(message: failure.message)),
       (reports) {

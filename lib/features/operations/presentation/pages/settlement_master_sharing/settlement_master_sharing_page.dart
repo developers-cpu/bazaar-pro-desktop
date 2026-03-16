@@ -11,18 +11,15 @@ import '../../bloc/settlement_master_sharing/settlement_master_sharing_bloc.dart
 import '../../bloc/settlement_master_sharing/settlement_master_sharing_event.dart';
 import '../../bloc/settlement_master_sharing/settlement_master_sharing_state.dart';
 import '../../widgets/settlement_master_sharing/assign_master_dialog.dart';
-
 class SettlementMasterSharingPage extends StatefulWidget {
   const SettlementMasterSharingPage({super.key});
   @override
   State<SettlementMasterSharingPage> createState() =>
       _SettlementMasterSharingPageState();
 }
-
 class _SettlementMasterSharingPageState
     extends State<SettlementMasterSharingPage> {
   String? _selectedMasterName;
-
   @override
   void initState() {
     super.initState();
@@ -30,7 +27,6 @@ class _SettlementMasterSharingPageState
       LoadMasterSharingDataEvent(),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<
@@ -41,13 +37,11 @@ class _SettlementMasterSharingPageState
         List<MasterUser> masters = [];
         List<MasterSharingEntry> entries = [];
         int totalRecords = 0;
-
         if (state is SettlementMasterSharingLoaded) {
           masters = state.masters;
           entries = state.entries;
           totalRecords = state.totalRecords;
         }
-
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -105,7 +99,6 @@ class _SettlementMasterSharingPageState
       },
     );
   }
-
   Widget _buildTable(
     List<MasterSharingEntry> entries,
     List<MasterUser> masters,
@@ -139,7 +132,6 @@ class _SettlementMasterSharingPageState
       autoFit: true,
     );
   }
-
   Widget _buildCell(
     MasterSharingEntry item,
     String colId,
@@ -202,7 +194,6 @@ class _SettlementMasterSharingPageState
         return const SizedBox.shrink();
     }
   }
-
   void _openAssignMasterDialog(
     MasterSharingEntry entry,
     List<MasterUser> masters,
@@ -214,7 +205,6 @@ class _SettlementMasterSharingPageState
       availableMasters: masters,
     );
   }
-
   void _openAssignCountDialog() {
     AssignCountDialog.show(context: context, onAssign: (count) {});
   }

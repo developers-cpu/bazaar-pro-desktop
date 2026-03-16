@@ -14,13 +14,11 @@ import '../../widgets/trade_settings/trade_settings_tab_bar.dart';
 import '../../widgets/script_settings/ban_script_data_table.dart';
 import '../../widgets/script_settings/dividend_script_data_table.dart';
 import '../../../domain/entities/script_settings/script_setting.dart';
-
 class ScriptSettingsPage extends StatefulWidget {
   const ScriptSettingsPage({super.key});
   @override
   State<ScriptSettingsPage> createState() => _ScriptSettingsPageState();
 }
-
 class _ScriptSettingsPageState extends State<ScriptSettingsPage> {
   int _activeTab = 0;
   final _searchCtrl = TextEditingController();
@@ -32,7 +30,6 @@ class _ScriptSettingsPageState extends State<ScriptSettingsPage> {
     _searchCtrl.dispose();
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ScriptSettingsBloc, ScriptSettingsState>(
@@ -119,7 +116,6 @@ class _ScriptSettingsPageState extends State<ScriptSettingsPage> {
       },
     );
   }
-
   Widget _buildBody(
     BuildContext context,
     ScriptSettingsState state,

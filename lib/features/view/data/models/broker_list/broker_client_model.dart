@@ -1,5 +1,4 @@
 import '../../../domain/entities/broker_list/broker_client.dart';
-
 class BrokerClientModel extends BrokerClient {
   const BrokerClientModel({required String name, required double brokerage})
     : super(name: name, brokerage: brokerage);

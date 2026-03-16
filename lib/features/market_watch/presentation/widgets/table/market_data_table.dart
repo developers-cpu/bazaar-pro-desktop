@@ -21,7 +21,6 @@ import 'table_column_helper.dart';
 import 'table_header_cell.dart';
 import 'table_text_style_helper.dart';
 import 'package:flutter/services.dart';
-
 class MarketDataTable extends StatefulWidget {
   final MarketWatchLoaded state;
   final Function(Offset) onRightClick;
@@ -35,7 +34,6 @@ class MarketDataTable extends StatefulWidget {
   @override
   State<MarketDataTable> createState() => _MarketDataTableState();
 }
-
 class _MarketDataTableState extends State<MarketDataTable> {
   int? _sortColumnIndex;
   bool _sortAscending = true;
@@ -43,7 +41,6 @@ class _MarketDataTableState extends State<MarketDataTable> {
   final FocusNode _focusNode = FocusNode();
   final ScrollController _scrollController = ScrollController();
   final ScrollController _horizontalScrollController = ScrollController();
-
   @override
   void dispose() {
     _focusNode.dispose();
@@ -51,29 +48,23 @@ class _MarketDataTableState extends State<MarketDataTable> {
     _horizontalScrollController.dispose();
     super.dispose();
   }
-
   void _scrollToCurrentIndex(
     int index,
     double rowHeight,
     List<MarketItem> sortedItems,
   ) {
     if (!_scrollController.hasClients) return;
-
     double itemTop = 0;
     for (int i = 0; i < index; i++) {
       itemTop += rowHeight;
       final spacerCount = widget.expandedRowCounts[sortedItems[i].id] ?? 0;
       itemTop += spacerCount * rowHeight;
     }
-
     
     itemTop += _selectedSubIndex * rowHeight;
-
     final itemBottom = itemTop + rowHeight;
-
     final currentPosition = _scrollController.position.pixels;
     final viewportHeight = _scrollController.position.viewportDimension;
-
     if (itemTop < currentPosition) {
       _scrollController.animateTo(
         itemTop,
@@ -88,14 +79,11 @@ class _MarketDataTableState extends State<MarketDataTable> {
       );
     }
   }
-
   void _selectNextRow(List<ColumnItem> visibleColumns, double rowHeight) {
     final sortedItems = _getSortedItems(visibleColumns: visibleColumns);
     if (sortedItems.isEmpty) return;
-
     final selectedId = widget.state.selectedItemId;
     int currentIndex = sortedItems.indexWhere((item) => item.id == selectedId);
-
     if (currentIndex == -1) {
       context.read<MarketWatchBloc>().add(
         SelectMarketItemEvent(itemId: sortedItems.first.id),
@@ -104,10 +92,8 @@ class _MarketDataTableState extends State<MarketDataTable> {
       _scrollToCurrentIndex(0, rowHeight, sortedItems);
       return;
     }
-
     final currentItem = sortedItems[currentIndex];
     final expandedCount = widget.expandedRowCounts[currentItem.id] ?? 0;
-
     if (_selectedSubIndex < expandedCount) {
       setState(() => _selectedSubIndex++);
       _scrollToCurrentIndex(currentIndex, rowHeight, sortedItems);
@@ -121,14 +107,11 @@ class _MarketDataTableState extends State<MarketDataTable> {
       _scrollToCurrentIndex(currentIndex, rowHeight, sortedItems);
     }
   }
-
   void _selectPreviousRow(List<ColumnItem> visibleColumns, double rowHeight) {
     final sortedItems = _getSortedItems(visibleColumns: visibleColumns);
     if (sortedItems.isEmpty) return;
-
     final selectedId = widget.state.selectedItemId;
     int currentIndex = sortedItems.indexWhere((item) => item.id == selectedId);
-
     if (currentIndex == -1) {
       context.read<MarketWatchBloc>().add(
         SelectMarketItemEvent(itemId: sortedItems.last.id),
@@ -139,7 +122,6 @@ class _MarketDataTableState extends State<MarketDataTable> {
       _scrollToCurrentIndex(sortedItems.length - 1, rowHeight, sortedItems);
       return;
     }
-
     if (_selectedSubIndex > 0) {
       setState(() => _selectedSubIndex--);
       _scrollToCurrentIndex(currentIndex, rowHeight, sortedItems);
@@ -154,7 +136,6 @@ class _MarketDataTableState extends State<MarketDataTable> {
       _scrollToCurrentIndex(currentIndex, rowHeight, sortedItems);
     }
   }
-
   void _scrollHorizontal(double delta) {
     if (!_horizontalScrollController.hasClients) return;
     final target = (_horizontalScrollController.offset + delta).clamp(
@@ -167,7 +148,6 @@ class _MarketDataTableState extends State<MarketDataTable> {
       curve: Curves.easeInOut,
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ThemeBloc, ThemeState>(
@@ -214,7 +194,6 @@ class _MarketDataTableState extends State<MarketDataTable> {
       },
     );
   }
-
   Widget _buildEmptyState(bool isDark) {
     return Container(
       color: isDark
@@ -233,7 +212,6 @@ class _MarketDataTableState extends State<MarketDataTable> {
       ),
     );
   }
-
   Widget _buildTableContainer({
     required bool isDark,
     required bool showGrid,
@@ -292,7 +270,6 @@ class _MarketDataTableState extends State<MarketDataTable> {
       ),
     );
   }
-
   Widget _buildDataTable({
     required bool isDark,
     required bool showGrid,
@@ -404,7 +381,6 @@ class _MarketDataTableState extends State<MarketDataTable> {
       ),
     );
   }
-
   List<DataColumn2> _buildColumns({
     required List<ColumnItem> visibleColumns,
     required bool isDark,
@@ -418,7 +394,6 @@ class _MarketDataTableState extends State<MarketDataTable> {
       final column = entry.value;
       final label = TableColumnHelper.getLabel(column.id);
       final config = TableColumnHelper.getConfig(column.id);
-
       final isLut = column.id == 'lut';
       final baseWidth = config?.baseWidth ?? 100;
       ColumnSize size = ColumnSize.M;
@@ -427,7 +402,6 @@ class _MarketDataTableState extends State<MarketDataTable> {
       } else if (baseWidth <= 100) {
         size = ColumnSize.S;
       }
-
       return DataColumn2(
         label: TableHeaderCell(
           title: label,
@@ -456,7 +430,6 @@ class _MarketDataTableState extends State<MarketDataTable> {
       );
     }).toList();
   }
-
   void _onColumnReorder(
     String fromColumnId,
     String toColumnId,
@@ -473,7 +446,6 @@ class _MarketDataTableState extends State<MarketDataTable> {
       _performReorder(fromColumnId, toColumnId);
     }
   }
-
   void _performReorder(String fromColumnId, String toColumnId) {
     final bloc = context.read<ArrangeSymbolBloc>();
     final allColumns = bloc.state.columns;
@@ -489,7 +461,6 @@ class _MarketDataTableState extends State<MarketDataTable> {
     );
     bloc.add(const SaveColumnsEvent());
   }
-
   void _onSort(int columnIndex, bool ascending) {
     setState(() {
       if (_sortColumnIndex == columnIndex) {
@@ -500,7 +471,6 @@ class _MarketDataTableState extends State<MarketDataTable> {
       }
     });
   }
-
   Comparable? _getColumnValue(MarketItem item, String columnId) {
     switch (columnId) {
       case 'exchange':
@@ -547,7 +517,6 @@ class _MarketDataTableState extends State<MarketDataTable> {
         return null;
     }
   }
-
   List<MarketItem> _getSortedItems({required List<ColumnItem> visibleColumns}) {
     final items = List<MarketItem>.from(widget.state.filteredItems);
     if (_sortColumnIndex == null ||
@@ -566,7 +535,6 @@ class _MarketDataTableState extends State<MarketDataTable> {
     });
     return items;
   }
-
   List<DataRow2> _buildRows({
     required List<ColumnItem> visibleColumns,
     required bool isDark,
@@ -606,7 +574,6 @@ class _MarketDataTableState extends State<MarketDataTable> {
           ),
         ),
       );
-
       final spacerCount = widget.expandedRowCounts[item.id] ?? 0;
       for (int i = 1; i <= spacerCount; i++) {
         final isSubSelected = isSelected && _selectedSubIndex == i;
@@ -637,18 +604,15 @@ class _MarketDataTableState extends State<MarketDataTable> {
     }
     return rows;
   }
-
   void _onRowTap(String itemId, {int subIndex = 0}) {
     context.read<MarketWatchBloc>().add(SelectMarketItemEvent(itemId: itemId));
     setState(() => _selectedSubIndex = subIndex);
   }
-
   void _onRowRightClick(TapDownDetails details, String itemId) {
     widget.onRightClick(details.globalPosition);
     context.read<MarketWatchBloc>().add(SelectMarketItemEvent(itemId: itemId));
     setState(() => _selectedSubIndex = 0);
   }
-
   List<DataCell> _buildCells({
     required List<ColumnItem> visibleColumns,
     required MarketItem item,
@@ -661,7 +625,6 @@ class _MarketDataTableState extends State<MarketDataTable> {
       final index = entry.key;
       final column = entry.value;
       final isLast = index == visibleColumns.length - 1;
-
       final cellContent = TableCellBuilder(
         columnId: column.id,
         item: item,
@@ -670,7 +633,6 @@ class _MarketDataTableState extends State<MarketDataTable> {
         fontSize: fontSize,
         fontWeight: fontWeight,
       );
-
       return DataCell(
         DragTarget<String>(
           onWillAcceptWithDetails: (details) {

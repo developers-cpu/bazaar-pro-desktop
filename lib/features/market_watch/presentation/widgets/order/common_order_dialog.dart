@@ -13,11 +13,9 @@ import '../../../../auth/presentation/bloc/auth_state.dart';
 import 'order_number_field.dart';
 import 'order_action_button.dart';
 import 'order_success_dialog.dart';
-
 class CommonOrderDialog extends StatefulWidget {
   final OrderDialogType type;
   const CommonOrderDialog({Key? key, required this.type}) : super(key: key);
-
   static Future<void> showBuyOrder(BuildContext context, {String? exchange, String? symbol}) {
     context.read<OrderDialogBloc>().add(OpenBuyOrderEvent(exchange: exchange, symbol: symbol));
     return showDialog(
@@ -27,7 +25,6 @@ class CommonOrderDialog extends StatefulWidget {
       builder: (context) => const CommonOrderDialog(type: OrderDialogType.buy),
     );
   }
-
   static Future<void> showSellOrder(BuildContext context, {String? exchange, String? symbol}) {
     context.read<OrderDialogBloc>().add(OpenSellOrderEvent(exchange: exchange, symbol: symbol));
     return showDialog(
@@ -37,15 +34,12 @@ class CommonOrderDialog extends StatefulWidget {
       builder: (context) => const CommonOrderDialog(type: OrderDialogType.sell),
     );
   }
-
   @override
   State<CommonOrderDialog> createState() => _CommonOrderDialogState();
 }
-
 class _CommonOrderDialogState extends State<CommonOrderDialog> {
   Offset? _position;
   bool _isDragging = false;
-
   Color get _primaryColor => widget.type == OrderDialogType.buy
       ? AppColors.buyColor
       : AppColors.sellColor;
@@ -56,7 +50,6 @@ class _CommonOrderDialogState extends State<CommonOrderDialog> {
       widget.type == OrderDialogType.buy ? 'Buy' : 'Sell';
   OrderType get _orderType =>
       widget.type == OrderDialogType.buy ? OrderType.buy : OrderType.sell;
-
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -65,7 +58,6 @@ class _CommonOrderDialogState extends State<CommonOrderDialog> {
       _position = Offset(20, screenSize.height * 0.75);
     }
   }
-
   @override
   Widget build(BuildContext context) {
     bool isClient = false;
@@ -78,7 +70,6 @@ class _CommonOrderDialogState extends State<CommonOrderDialog> {
         }
       }
     } catch (_) {}
-
     return BlocConsumer<OrderDialogBloc, OrderDialogState>(
       listener: (context, state) {
         if (state.isSubmitted) {
@@ -152,7 +143,6 @@ class _CommonOrderDialogState extends State<CommonOrderDialog> {
       },
     );
   }
-
   Widget _buildHeader(BuildContext context) {
     return GestureDetector(
       onPanUpdate: (details) {
@@ -194,7 +184,6 @@ class _CommonOrderDialogState extends State<CommonOrderDialog> {
       ),
     );
   }
-
   Widget _buildContent(
     BuildContext context,
     OrderDialogState state,
@@ -217,7 +206,6 @@ class _CommonOrderDialogState extends State<CommonOrderDialog> {
       ),
     );
   }
-
   Widget _buildFirstRow(
     BuildContext context,
     OrderDialogState state,
@@ -313,7 +301,6 @@ class _CommonOrderDialogState extends State<CommonOrderDialog> {
       ],
     );
   }
-
   Widget _buildStaticClientField(String clientName) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -353,7 +340,6 @@ class _CommonOrderDialogState extends State<CommonOrderDialog> {
       ],
     );
   }
-
   Widget _buildSecondRow(BuildContext context, OrderDialogState state) {
     return Row(
       children: [

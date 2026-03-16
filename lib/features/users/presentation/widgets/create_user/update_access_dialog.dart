@@ -6,7 +6,6 @@ import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/constants/app_images.dart';
 import '../../../../../core/widget/app_switch.dart';
 import '../../../../../core/widget/common_dilog_box.dart';
-
 class UpdateAccessDialog {
   static void show({
     required BuildContext context,
@@ -39,14 +38,12 @@ class UpdateAccessDialog {
     );
   }
 }
-
 class _UpdateAccessContent extends StatefulWidget {
   final String userId;
   final String userName;
   final Map<String, bool> currentSettings;
   final Function(Map<String, bool> updatedSettings) onUpdate;
   final VoidCallback onClose;
-
   const _UpdateAccessContent({
     Key? key,
     required this.userId,
@@ -55,27 +52,22 @@ class _UpdateAccessContent extends StatefulWidget {
     required this.onUpdate,
     required this.onClose,
   }) : super(key: key);
-
   @override
   State<_UpdateAccessContent> createState() => _UpdateAccessContentState();
 }
-
 class _UpdateAccessContentState extends State<_UpdateAccessContent> {
   late Map<String, bool> _settings;
-
   @override
   void initState() {
     super.initState();
     _settings = Map.from(widget.currentSettings);
   }
-
   @override
   Widget build(BuildContext context) {
     
     
     
     
-
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -123,7 +115,6 @@ class _UpdateAccessContentState extends State<_UpdateAccessContent> {
       ],
     );
   }
-
   Widget _buildSettingRow(String key) {
     final label = _getLabel(key);
     final iconPath = _getIconPath(key);
@@ -164,7 +155,6 @@ class _UpdateAccessContentState extends State<_UpdateAccessContent> {
       ],
     );
   }
-
   String _getLabel(String key) {
     switch (key) {
       case 'bet':
@@ -187,7 +177,6 @@ class _UpdateAccessContentState extends State<_UpdateAccessContent> {
         return key;
     }
   }
-
   String? _getIconPath(String key) {
     switch (key) {
       case 'bet':

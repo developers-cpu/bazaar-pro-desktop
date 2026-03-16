@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:bazarpro/core/widget/custom_action_button.dart';
 import 'package:bazarpro/core/widget/custom_outlined_button.dart';
 import '../../../../core/constants/app_colors.dart';
-
 class CommonDialog extends StatefulWidget {
   final String title;
   final Widget content;
@@ -25,7 +24,6 @@ class CommonDialog extends StatefulWidget {
   final bool autoPop;
   final VoidCallback? onClose;
   final VoidCallback? onBringToFront;
-
   const CommonDialog({
     Key? key,
     required this.title,
@@ -48,24 +46,25 @@ class CommonDialog extends StatefulWidget {
     this.onClose,
     this.onBringToFront,
   }) : super(key: key);
-
   static final List<OverlayEntry> _activeDialogs = [];
-
   static bool closeRecent() {
     if (_activeDialogs.isNotEmpty) {
       final entry = _activeDialogs.removeLast();
-      entry.remove();
+      if (entry.mounted) {
+        entry.remove();
+      }
       return true;
     }
     return false;
   }
-
   static void closeAll() {
     while (_activeDialogs.isNotEmpty) {
-      _activeDialogs.removeLast().remove();
+      final entry = _activeDialogs.removeLast();
+      if (entry.mounted) {
+        entry.remove();
+      }
     }
   }
-
   static void show({
     required BuildContext context,
     required String title,
@@ -96,7 +95,11 @@ class CommonDialog extends StatefulWidget {
             content:
                 content ??
                 (contentBuilder != null
-                    ? contentBuilder(context, () => overlayEntry.remove())
+                    ? contentBuilder(context, () {
+                        if (overlayEntry.mounted) {
+                          overlayEntry.remove();
+                        }
+                      })
                     : const SizedBox.shrink()),
             onCancel: onCancel,
             onSave: onSave,
@@ -118,30 +121,30 @@ class CommonDialog extends StatefulWidget {
                 _activeDialogs.remove(overlayEntry);
               }
               if (onClose != null) onClose();
-              overlayEntry.remove();
+              if (overlayEntry.mounted) {
+                overlayEntry.remove();
+              }
             },
             onBringToFront: () {
               if (_activeDialogs.contains(overlayEntry)) {
                 _activeDialogs.remove(overlayEntry);
                 _activeDialogs.add(overlayEntry);
               }
-              overlayEntry.remove();
+              if (overlayEntry.mounted) {
+                overlayEntry.remove();
+              }
               Overlay.of(context).insert(overlayEntry);
             },
           ),
     );
-
     _activeDialogs.add(overlayEntry);
     Overlay.of(context).insert(overlayEntry);
   }
-
   @override
   State<CommonDialog> createState() => _CommonDialogState();
 }
-
 class _CommonDialogState extends State<CommonDialog> {
   Offset? _position;
-
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -155,7 +158,6 @@ class _CommonDialogState extends State<CommonDialog> {
       );
     }
   }
-
   @override
   Widget build(BuildContext context) {
     final bgColor =
@@ -168,7 +170,6 @@ class _CommonDialogState extends State<CommonDialog> {
         (widget.isDarkMode
             ? LightThemeColors.primaryColor
             : AppColors.primaryBlue);
-
     return Stack(
       children: [
         Positioned(
@@ -242,7 +243,6 @@ class _CommonDialogState extends State<CommonDialog> {
       ],
     );
   }
-
   Widget _buildHeader(BuildContext context, Color headerBgColor) {
     return ClipRRect(
       borderRadius: BorderRadius.only(
@@ -282,13 +282,11 @@ class _CommonDialogState extends State<CommonDialog> {
       ),
     );
   }
-
   Widget _buildButtons(BuildContext context) {
     final primaryColor = widget.isDarkMode
         ? const Color(0xFF1F4A66)
         : (widget.headerColor ?? AppColors.primaryBlue);
     final btnHeight = widget.buttonHeight ?? 45.h;
-
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.w),
       child: Row(

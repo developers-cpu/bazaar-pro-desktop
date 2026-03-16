@@ -1,9 +1,7 @@
 import '../models/rule_model.dart';
-
 abstract class RulesRemoteDataSource {
   Future<List<RuleModel>> getRules();
 }
-
 class RulesRemoteDataSourceImpl implements RulesRemoteDataSource {
   @override
   Future<List<RuleModel>> getRules() async {

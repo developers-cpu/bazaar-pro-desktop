@@ -1,20 +1,16 @@
 import 'package:equatable/equatable.dart';
 import '../../../domain/entities/trades/trade.dart';
-
 abstract class TradesState extends Equatable {
   const TradesState();
   @override
   List<Object?> get props => [];
 }
-
 class TradesInitial extends TradesState {
   const TradesInitial();
 }
-
 class TradesLoading extends TradesState {
   const TradesLoading();
 }
-
 class TradesLoaded extends TradesState {
   final List<Trade> trades;
   final List<Trade> filteredTrades;
@@ -107,14 +103,12 @@ class TradesLoaded extends TradesState {
     );
   }
 }
-
 class TradesError extends TradesState {
   final String message;
   const TradesError(this.message);
   @override
   List<Object?> get props => [message];
 }
-
 class TradesExportSuccess extends TradesState {
   final String message;
   final String filePath;

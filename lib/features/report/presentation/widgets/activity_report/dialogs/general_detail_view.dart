@@ -7,7 +7,6 @@ import '../../../../../../core/widget/table/view_table_cell_styles.dart';
 import '../../../../domain/entities/activity_report.dart';
 import '../../../bloc/activity_detail/activity_detail_bloc.dart';
 import '../../../bloc/activity_detail/activity_detail_state.dart';
-
 class GeneralDetailView extends StatelessWidget {
   final ActivityReport activity;
   final bool isDarkMode;

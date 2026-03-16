@@ -10,13 +10,11 @@ import '../../bloc/message/operations_message_event.dart';
 import '../../bloc/message/operations_message_state.dart';
 import '../../widgets/message/custom_rich_text_editor.dart';
 import '../../widgets/trade_settings/trade_settings_tab_bar.dart';
-
 class OperationsMessagePage extends StatefulWidget {
   const OperationsMessagePage({super.key});
   @override
   State<OperationsMessagePage> createState() => _OperationsMessagePageState();
 }
-
 class _OperationsMessagePageState extends State<OperationsMessagePage> {
   final _tabs = const ['Announcement', 'Rules & Regulation', 'Messages'];
   final _announcementCtrl = TextEditingController();
@@ -29,7 +27,6 @@ class _OperationsMessagePageState extends State<OperationsMessagePage> {
     _messagesCtrl.dispose();
     super.dispose();
   }
-
   void _onUpdate(BuildContext context, int activeTab, String rollType) {
     String content = '';
     if (activeTab == 0) content = _announcementCtrl.text;
@@ -37,7 +34,6 @@ class _OperationsMessagePageState extends State<OperationsMessagePage> {
     if (activeTab == 2) content = _messagesCtrl.text;
     context.read<OperationsMessageBloc>().add(UpdateMessageEvent(content));
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<OperationsMessageBloc, OperationsMessageState>(
@@ -82,7 +78,6 @@ class _OperationsMessagePageState extends State<OperationsMessagePage> {
       },
     );
   }
-
   Widget _buildAnnouncementTab(
     BuildContext context,
     String rollType,
@@ -126,7 +121,6 @@ class _OperationsMessagePageState extends State<OperationsMessagePage> {
       ),
     );
   }
-
   Widget _buildRadio(BuildContext context, String value, String groupValue) {
     return AppRadioButton<String>(
       value: value,
@@ -140,7 +134,6 @@ class _OperationsMessagePageState extends State<OperationsMessagePage> {
       },
     );
   }
-
   Widget _buildRulesTab(BuildContext context, bool isLoading) {
     return Expanded(
       child: Column(
@@ -169,7 +162,6 @@ class _OperationsMessagePageState extends State<OperationsMessagePage> {
       ),
     );
   }
-
   Widget _buildMessagesTab(BuildContext context, bool isLoading) {
     return Expanded(
       child: Column(

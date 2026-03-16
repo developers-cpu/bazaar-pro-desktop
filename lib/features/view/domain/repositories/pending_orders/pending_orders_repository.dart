@@ -1,7 +1,6 @@
 import 'package:dartz/dartz.dart';
 import '../../../../../core/errors/failures.dart';
 import '../../entities/pending_orders/pending_order.dart';
-
 abstract class PendingOrdersRepository {
   Future<Either<Failure, List<PendingOrder>>> getPendingOrders();
   Future<Either<Failure, List<PendingOrder>>> getPendingOrdersWithFilters({

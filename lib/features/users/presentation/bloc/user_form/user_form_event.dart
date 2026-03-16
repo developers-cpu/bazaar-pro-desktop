@@ -1,11 +1,9 @@
 import 'package:equatable/equatable.dart';
-
 abstract class UserFormEvent extends Equatable {
   const UserFormEvent();
   @override
   List<Object?> get props => [];
 }
-
 class InitializeFormEvent extends UserFormEvent {
   final bool isEditMode;
   final String userType;
@@ -18,26 +16,21 @@ class InitializeFormEvent extends UserFormEvent {
   @override
   List<Object?> get props => [isEditMode, userType, userData];
 }
-
 class LoadFormDataEvent extends UserFormEvent {
   const LoadFormDataEvent();
 }
-
 class UpdateStepEvent extends UserFormEvent {
   final int step;
   const UpdateStepEvent(this.step);
   @override
   List<Object?> get props => [step];
 }
-
 class NextStepEvent extends UserFormEvent {
   const NextStepEvent();
 }
-
 class PreviousStepEvent extends UserFormEvent {
   const PreviousStepEvent();
 }
-
 class UpdateFormFieldEvent extends UserFormEvent {
   final String fieldName;
   final dynamic value;
@@ -45,7 +38,6 @@ class UpdateFormFieldEvent extends UserFormEvent {
   @override
   List<Object?> get props => [fieldName, value];
 }
-
 class UpdateExchangeSelectionEvent extends UserFormEvent {
   final String exchange;
   final bool isSelected;
@@ -56,14 +48,12 @@ class UpdateExchangeSelectionEvent extends UserFormEvent {
   @override
   List<Object?> get props => [exchange, isSelected];
 }
-
 class ToggleAllExchangesEvent extends UserFormEvent {
   final bool selectAll;
   const ToggleAllExchangesEvent(this.selectAll);
   @override
   List<Object?> get props => [selectAll];
 }
-
 class UpdateExchangeGroupEvent extends UserFormEvent {
   final String exchange;
   final dynamic group;
@@ -71,7 +61,6 @@ class UpdateExchangeGroupEvent extends UserFormEvent {
   @override
   List<Object?> get props => [exchange, group];
 }
-
 class UpdateTradeLimitEvent extends UserFormEvent {
   final String exchange;
   final bool isSelected;
@@ -82,14 +71,12 @@ class UpdateTradeLimitEvent extends UserFormEvent {
   @override
   List<Object?> get props => [exchange, isSelected];
 }
-
 class ToggleAllTradeLimitsEvent extends UserFormEvent {
   final bool selectAll;
   const ToggleAllTradeLimitsEvent(this.selectAll);
   @override
   List<Object?> get props => [selectAll];
 }
-
 class UpdateTriggerSettingEvent extends UserFormEvent {
   final String settingName;
   final bool isEnabled;
@@ -100,7 +87,6 @@ class UpdateTriggerSettingEvent extends UserFormEvent {
   @override
   List<Object?> get props => [settingName, isEnabled];
 }
-
 class UpdateExchangeSettingEvent extends UserFormEvent {
   final String settingName;
   final dynamic value;
@@ -111,7 +97,6 @@ class UpdateExchangeSettingEvent extends UserFormEvent {
   @override
   List<Object?> get props => [settingName, value];
 }
-
 class UpdateBrokerageEvent extends UserFormEvent {
   final String exchange;
   final bool isSelected;
@@ -131,22 +116,18 @@ class UpdateBrokerageEvent extends UserFormEvent {
     symbolWiseBrk,
   ];
 }
-
 class UpdateBrokerageViewModeEvent extends UserFormEvent {
   final String mode;
   const UpdateBrokerageViewModeEvent(this.mode);
   @override
   List<Object?> get props => [mode];
 }
-
 class SubmitFormEvent extends UserFormEvent {
   const SubmitFormEvent();
 }
-
 class ResetFormEvent extends UserFormEvent {
   const ResetFormEvent();
 }
-
 class ToggleAllBrokerageExchangesEvent extends UserFormEvent {
   final bool selectAll;
   const ToggleAllBrokerageExchangesEvent(this.selectAll);

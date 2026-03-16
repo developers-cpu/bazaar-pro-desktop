@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import '../constants/app_colors.dart';
-
 class CustomDateRangePickerDialog extends StatefulWidget {
   final DateTime? initialStartDate;
   final DateTime? initialEndDate;
@@ -30,12 +29,10 @@ class CustomDateRangePickerDialog extends StatefulWidget {
       ),
     );
   }
-
   @override
   State<CustomDateRangePickerDialog> createState() =>
       _CustomDateRangePickerDialogState();
 }
-
 class _CustomDateRangePickerDialogState
     extends State<CustomDateRangePickerDialog> {
   late DateTime _currentMonth;
@@ -49,7 +46,6 @@ class _CustomDateRangePickerDialogState
     _endDate = widget.initialEndDate;
     _currentMonth = _startDate ?? DateTime.now();
   }
-
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -75,7 +71,6 @@ class _CustomDateRangePickerDialogState
       ),
     );
   }
-
   Widget _buildHeader() {
     return Container(
       padding: EdgeInsets.all(16.w),
@@ -107,7 +102,6 @@ class _CustomDateRangePickerDialogState
       ),
     );
   }
-
   Widget _buildMonthNavigation() {
     final monthFormat = DateFormat('MMMM yy');
     return Container(
@@ -157,7 +151,6 @@ class _CustomDateRangePickerDialogState
       ),
     );
   }
-
   Widget _buildWeekdayHeaders() {
     const weekdays = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
     return Padding(
@@ -187,7 +180,6 @@ class _CustomDateRangePickerDialogState
       ),
     );
   }
-
   Widget _buildCalendarGrid() {
     final firstDayOfMonth = DateTime(
       _currentMonth.year,
@@ -249,7 +241,6 @@ class _CustomDateRangePickerDialogState
       child: Column(children: rows),
     );
   }
-
   Widget _buildDayCell(DateTime date, {required bool isCurrentMonth}) {
     final isStartDate = _startDate != null && _isSameDay(date, _startDate!);
     final isEndDate = _endDate != null && _isSameDay(date, _endDate!);
@@ -301,16 +292,13 @@ class _CustomDateRangePickerDialogState
       ),
     );
   }
-
   bool _isSameDay(DateTime a, DateTime b) {
     return a.year == b.year && a.month == b.month && a.day == b.day;
   }
-
   bool _isDateInRange(DateTime date) {
     if (_startDate == null || _endDate == null) return false;
     return date.isAfter(_startDate!) && date.isBefore(_endDate!);
   }
-
   void _onDayTap(DateTime date) {
     setState(() {
       if (_startDate == null || _selectingEndDate == false) {
@@ -325,7 +313,6 @@ class _CustomDateRangePickerDialogState
           _endDate = date;
         }
         _selectingEndDate = false;
-
         if (widget.showSimpleUI) {
           Future.delayed(const Duration(milliseconds: 100), () {
             if (mounted) {
@@ -339,7 +326,6 @@ class _CustomDateRangePickerDialogState
       }
     });
   }
-
   Widget _buildSelectedDateDisplay() {
     final dayFormat = DateFormat('dd MMM');
     return Container(
@@ -408,7 +394,6 @@ class _CustomDateRangePickerDialogState
       ),
     );
   }
-
   Widget _buildButtons() {
     return Padding(
       padding: EdgeInsets.all(16.w),

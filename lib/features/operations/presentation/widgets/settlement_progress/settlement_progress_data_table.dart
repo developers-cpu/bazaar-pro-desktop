@@ -4,12 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../../../core/constants/app_colors.dart';
 import '../../../../../../core/widget/table/view_data_table.dart';
 import '../../../domain/entities/settlement_progress/bhav_copy_entity.dart';
-
 class SettlementProgressDataTable extends StatelessWidget {
   final List<BhavCopyEntity> data;
-
   const SettlementProgressDataTable({super.key, required this.data});
-
   @override
   Widget build(BuildContext context) {
     if (data.isEmpty) {
@@ -23,7 +20,6 @@ class SettlementProgressDataTable extends StatelessWidget {
         ),
       );
     }
-
     return ViewDataTable<BhavCopyEntity>(
       columns: [
         ViewTableColumn(id: 'exch', label: 'EXCH', width: 80.w),

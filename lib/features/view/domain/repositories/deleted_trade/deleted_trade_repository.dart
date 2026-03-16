@@ -1,7 +1,6 @@
 import 'package:dartz/dartz.dart';
 import '../../../../../core/errors/failures.dart';
 import '../../entities/deleted_trade/deleted_trade.dart';
-
 abstract class DeletedTradeRepository {
   Future<Either<Failure, List<DeletedTrade>>> getDeletedTrades();
   Future<Either<Failure, List<DeletedTrade>>> getDeletedTradesWithFilters({

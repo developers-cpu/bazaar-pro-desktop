@@ -4,7 +4,6 @@ import '../../../domain/entities/deals/deals.dart';
 import '../../../domain/repositories/deals/deals_repository.dart';
 import '../../datasources/deals/deals_remote_datasource.dart';
 import '../../models/deals/deals_model.dart';
-
 class DealsRepositoryImpl implements DealsRepository {
   final DealsRemoteDataSource remoteDataSource;
   DealsRepositoryImpl({required this.remoteDataSource});
@@ -17,7 +16,6 @@ class DealsRepositoryImpl implements DealsRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
-
   @override
   Future<Either<Failure, List<Deal>>> getDealsWithFilters({
     DateTime? startDate,
@@ -43,7 +41,6 @@ class DealsRepositoryImpl implements DealsRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
-
   @override
   Future<Either<Failure, List<String>>> getClients() async {
     try {
@@ -53,7 +50,6 @@ class DealsRepositoryImpl implements DealsRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
-
   @override
   Future<Either<Failure, List<String>>> getExchanges() async {
     try {
@@ -63,7 +59,6 @@ class DealsRepositoryImpl implements DealsRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
-
   @override
   Future<Either<Failure, List<String>>> getSymbols() async {
     try {
@@ -73,7 +68,6 @@ class DealsRepositoryImpl implements DealsRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
-
   @override
   Future<Either<Failure, List<String>>> getOrderTypes() async {
     try {
@@ -83,7 +77,6 @@ class DealsRepositoryImpl implements DealsRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
-
   @override
   Future<Either<Failure, List<String>>> getStatuses() async {
     try {
@@ -93,7 +86,6 @@ class DealsRepositoryImpl implements DealsRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
-
   @override
   Future<Either<Failure, String>> exportToPdf(List<Deal> deals) async {
     try {
@@ -104,7 +96,6 @@ class DealsRepositoryImpl implements DealsRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
-
   @override
   Future<Either<Failure, String>> exportToExcel(List<Deal> deals) async {
     try {

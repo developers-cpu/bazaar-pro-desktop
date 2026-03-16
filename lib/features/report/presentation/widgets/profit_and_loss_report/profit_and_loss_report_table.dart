@@ -15,7 +15,6 @@ import '../../../domain/entities/profit_and_loss_report.dart';
 import '../../bloc/profit_and_loss_report/profit_and_loss_report_bloc.dart';
 import '../../bloc/profit_and_loss_report/profit_and_loss_report_state.dart';
 import 'profit_and_loss_details_dialog.dart';
-
 class ProfitAndLossReportTable extends StatelessWidget {
   final bool isDarkMode;
   const ProfitAndLossReportTable({super.key, this.isDarkMode = false});
@@ -62,7 +61,6 @@ class ProfitAndLossReportTable extends StatelessWidget {
       ),
     ];
   }
-
   Widget _buildCell(
     BuildContext context,
     ProfitAndLossReport item,
@@ -157,15 +155,16 @@ class ProfitAndLossReportTable extends StatelessWidget {
           },
         );
       case 'percentage':
-        return ViewTextCell(
-          text: item.percentage.toStringAsFixed(2),
+        return ViewNumberCell(
+          value: item.percentage,
           isDark: isDark,
+          colorByValue: false,
         );
       case 'releasePL':
-        return ViewTextCell(
-          text: item.releasePL.toStringAsFixed(2),
+        return ViewNumberCell(
+          value: item.releasePL,
           isDark: isDark,
-          color: item.releasePL >= 0 ? Colors.blue : Colors.red,
+          fixedColor: item.releasePL >= 0 ? AppColors.buyColor : AppColors.sellColor,
         );
       case 'brokerage':
         return ViewNumberCell(
@@ -185,7 +184,6 @@ class ProfitAndLossReportTable extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ProfitAndLossReportBloc, ProfitAndLossReportState>(

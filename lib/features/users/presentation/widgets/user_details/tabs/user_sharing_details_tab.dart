@@ -1,15 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../../../../../core/constants/app_colors.dart';
+import '../../../../../../injection_container.dart';
 import '../../../../domain/entities/user.dart';
 import '../../../../domain/entities/user_sharing_info.dart';
 import '../../../bloc/user_sharing/user_sharing_bloc.dart';
 import '../../../bloc/user_sharing/user_sharing_event.dart';
 import '../../../bloc/user_sharing/user_sharing_state.dart';
-import '../../../../../../injection_container.dart';
-
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 class UserSharingDetailsTab extends StatelessWidget {
   final User user;
   const UserSharingDetailsTab({super.key, required this.user});
@@ -22,7 +20,6 @@ class UserSharingDetailsTab extends StatelessWidget {
     );
   }
 }
-
 class UserSharingDetailsTabView extends StatelessWidget {
   const UserSharingDetailsTabView({super.key});
   @override
@@ -64,18 +61,22 @@ class UserSharingDetailsTabView extends StatelessWidget {
       },
     );
   }
-
   Widget _buildSharingCard(
     BuildContext context, {
     required String title,
     required List<UserSharingInfo> data,
   }) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final labelColor = (isDark ? Colors.white : AppColors.primaryBlue).withValues(alpha: 0.8);
     return Container(
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: isDark ? const Color(0xFF1C1C1C) : AppColors.white,
         borderRadius: BorderRadius.circular(12.r),
-        border: Border.all(color: AppColors.primaryBlue, width: 1.5),
+        border: Border.all(
+          color: isDark ? Colors.white24 : AppColors.primaryBlue,
+          width: 1.5,
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -84,10 +85,10 @@ class UserSharingDetailsTabView extends StatelessWidget {
           Text(
             title,
             textAlign: TextAlign.center,
-            style: GoogleFonts.openSans(
+            style: TextStyle(
               fontSize: 16.sp,
               fontWeight: FontWeight.normal,
-              color: AppColors.primaryBlue,
+              color: isDark ? Colors.white : AppColors.primaryBlue,
             ),
           ),
           SizedBox(height: 24.h),
@@ -96,18 +97,18 @@ class UserSharingDetailsTabView extends StatelessWidget {
             children: [
               Text(
                 'Person',
-                style: GoogleFonts.openSans(
+                style: TextStyle(
                   fontSize: 11.sp,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.primaryBlue.withOpacity(0.8),
+                  color: labelColor,
                 ),
               ),
               Text(
                 'Share',
-                style: GoogleFonts.openSans(
+                style: TextStyle(
                   fontSize: 11.sp,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.primaryBlue.withOpacity(0.8),
+                  color: labelColor,
                 ),
               ),
             ],
@@ -125,18 +126,18 @@ class UserSharingDetailsTabView extends StatelessWidget {
                 children: [
                   Text(
                     info.person,
-                    style: GoogleFonts.openSans(
+                    style: TextStyle(
                       fontSize: 11.sp,
                       fontWeight: FontWeight.w600,
-                      color: AppColors.primaryBlue,
+                      color: isDark ? Colors.white : AppColors.primaryBlue,
                     ),
                   ),
                   Text(
                     info.share,
-                    style: GoogleFonts.openSans(
+                    style: TextStyle(
                       fontSize: 11.sp,
                       fontWeight: FontWeight.w600,
-                      color: AppColors.primaryBlue,
+                      color: isDark ? Colors.white : AppColors.primaryBlue,
                     ),
                   ),
                 ],

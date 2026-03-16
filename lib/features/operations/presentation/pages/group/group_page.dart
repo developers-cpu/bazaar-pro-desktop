@@ -14,7 +14,6 @@ import '../../widgets/group/import_group_data_dialog.dart';
 import '../../widgets/group/group_data_table.dart';
 import '../operations_page_wrapper.dart';
 import '../../../../../injection_container.dart';
-
 class GroupPageWithAppBar extends StatelessWidget {
   const GroupPageWithAppBar({super.key});
   @override
@@ -34,13 +33,11 @@ class GroupPageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class GroupPage extends StatefulWidget {
   const GroupPage({super.key});
   @override
   State<GroupPage> createState() => _GroupPageState();
 }
-
 class _GroupPageState extends State<GroupPage> {
   final _searchCtrl = TextEditingController();
   final _breakupQtyCtrl = TextEditingController();
@@ -57,7 +54,6 @@ class _GroupPageState extends State<GroupPage> {
     _maxQtyCtrl.dispose();
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<GroupBloc, GroupState>(
@@ -90,7 +86,6 @@ class _GroupPageState extends State<GroupPage> {
       },
     );
   }
-
   Widget _buildBackHeader() {
     final title = _viewLevel == 1
         ? 'Group Settings (${_selectedExchange ?? ''})'
@@ -120,7 +115,6 @@ class _GroupPageState extends State<GroupPage> {
       ),
     );
   }
-
   Widget _buildQuantityRow() {
     return Padding(
       padding: EdgeInsets.only(bottom: 15.h),
@@ -146,7 +140,6 @@ class _GroupPageState extends State<GroupPage> {
       ),
     );
   }
-
   Widget _labelledInput(String label, TextEditingController ctrl) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -169,7 +162,6 @@ class _GroupPageState extends State<GroupPage> {
       ],
     );
   }
-
   Widget _actionBtn(String text, VoidCallback onTap, {double? width}) {
     return CustomActionButton(
       text: text,
@@ -179,7 +171,6 @@ class _GroupPageState extends State<GroupPage> {
       borderRadius: 8.r,
     );
   }
-
   Widget _buildToolbar(int count) {
     return Column(
       children: [
@@ -218,7 +209,6 @@ class _GroupPageState extends State<GroupPage> {
       ],
     );
   }
-
   Widget _buildBody(GroupState state, List<dynamic> groups) {
     if (state is GroupLoading && state is! GroupsLoaded) {
       return const Center(child: CircularProgressIndicator());
@@ -261,7 +251,6 @@ class _GroupPageState extends State<GroupPage> {
       onImportTap: _showImportDialog,
     );
   }
-
   void _goBack() {
     setState(() {
       _viewLevel--;
@@ -270,7 +259,6 @@ class _GroupPageState extends State<GroupPage> {
       _selectedIds.clear();
     });
   }
-
   void _showAddGroupDialog({
     bool isEdit = false,
     String? initialExchange,
@@ -286,7 +274,6 @@ class _GroupPageState extends State<GroupPage> {
       bloc: context.read<GroupBloc>(),
     );
   }
-
   void _showImportDialog() {
     ImportGroupDataDialog.show(context, bloc: context.read<GroupBloc>());
   }

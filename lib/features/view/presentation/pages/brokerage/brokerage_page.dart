@@ -7,17 +7,13 @@ import '../../bloc/brokerage/brokerage_event.dart';
 import '../../bloc/brokerage/brokerage_state.dart';
 import '../../widget/brokerage/brokerage_dialog.dart';
 import '../../widget/brokerage/brokerage_filter_bar.dart';
-
 class BrokeragePage extends StatefulWidget {
   const BrokeragePage({super.key});
-
   @override
   State<BrokeragePage> createState() => _BrokeragePageState();
 }
-
 class _BrokeragePageState extends State<BrokeragePage> {
   bool _isDialogShowing = false;
-
   @override
   Widget build(BuildContext context) {
     return BlocListener<BrokerageBloc, BrokerageState>(

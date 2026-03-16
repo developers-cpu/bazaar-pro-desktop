@@ -1,20 +1,16 @@
 import 'package:equatable/equatable.dart';
 import '../../../domain/entities/deleted_trade/deleted_trade.dart';
-
 abstract class DeletedTradeState extends Equatable {
   const DeletedTradeState();
   @override
   List<Object?> get props => [];
 }
-
 class DeletedTradeInitial extends DeletedTradeState {
   const DeletedTradeInitial();
 }
-
 class DeletedTradeLoading extends DeletedTradeState {
   const DeletedTradeLoading();
 }
-
 class DeletedTradeLoaded extends DeletedTradeState {
   final List<DeletedTrade> trades;
   final List<DeletedTrade> filteredTrades;
@@ -92,14 +88,12 @@ class DeletedTradeLoaded extends DeletedTradeState {
     );
   }
 }
-
 class DeletedTradeError extends DeletedTradeState {
   final String message;
   const DeletedTradeError(this.message);
   @override
   List<Object?> get props => [message];
 }
-
 class DeletedTradeExportSuccess extends DeletedTradeState {
   final String message;
   final String filePath;

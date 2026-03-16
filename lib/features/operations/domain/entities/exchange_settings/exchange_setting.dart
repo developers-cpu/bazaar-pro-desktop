@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 class ExchangeSetting extends Equatable {
   final String id;
   final String exchange;
@@ -40,7 +39,6 @@ class ExchangeSetting extends Equatable {
     updatedBy,
   ];
 }
-
 class DefaultSymbol extends Equatable {
   final String id;
   final String symbol;

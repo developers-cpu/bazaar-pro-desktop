@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 class MasterUser extends Equatable {
   final String id;
   final String name;
@@ -7,7 +6,6 @@ class MasterUser extends Equatable {
   @override
   List<Object?> get props => [id, name];
 }
-
 class AssignedMaster extends Equatable {
   final String id;
   final String name;
@@ -20,7 +18,6 @@ class AssignedMaster extends Equatable {
   @override
   List<Object?> get props => [id, name, percentSharing];
 }
-
 class MasterSharingEntry extends Equatable {
   final int index;
   final String userId;
@@ -43,7 +40,6 @@ class MasterSharingEntry extends Equatable {
     assignedMasters,
   ];
 }
-
 class SettlementMasterSharingData extends Equatable {
   final List<MasterUser> masters;
   final List<MasterSharingEntry> entries;

@@ -2,7 +2,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../data/models/order_dialog_type.dart';
 import 'order_dialog_event.dart';
 import 'order_dialog_state.dart';
-
 class OrderDialogBloc extends Bloc<OrderDialogEvent, OrderDialogState> {
   OrderDialogBloc() : super(const OrderDialogState()) {
     on<OpenBuyOrderEvent>(_onOpenBuyOrder);
@@ -39,7 +38,6 @@ class OrderDialogBloc extends Bloc<OrderDialogEvent, OrderDialogState> {
       ),
     );
   }
-
   void _onOpenSellOrder(
     OpenSellOrderEvent event,
     Emitter<OrderDialogState> emit,
@@ -55,64 +53,54 @@ class OrderDialogBloc extends Bloc<OrderDialogEvent, OrderDialogState> {
       ),
     );
   }
-
   void _onCloseDialog(
     CloseOrderDialogEvent event,
     Emitter<OrderDialogState> emit,
   ) {
     emit(const OrderDialogState());
   }
-
   void _onUpdateClientName(
     UpdateClientNameEvent event,
     Emitter<OrderDialogState> emit,
   ) {
     emit(state.copyWith(clientName: event.clientName));
   }
-
   void _onUpdateOrderType(
     UpdateOrderTypeEvent event,
     Emitter<OrderDialogState> emit,
   ) {
     emit(state.copyWith(orderType: event.orderType));
   }
-
   void _onUpdateQuantity(
     UpdateQuantityEvent event,
     Emitter<OrderDialogState> emit,
   ) {
     emit(state.copyWith(quantity: event.quantity));
   }
-
   void _onUpdateLot(UpdateLotEvent event, Emitter<OrderDialogState> emit) {
     emit(state.copyWith(lot: event.lot));
   }
-
   void _onUpdatePrice(UpdatePriceEvent event, Emitter<OrderDialogState> emit) {
     emit(state.copyWith(price: event.price));
   }
-
   void _onUpdateExchange(
     UpdateExchangeEvent event,
     Emitter<OrderDialogState> emit,
   ) {
     emit(state.copyWith(exchange: event.exchange));
   }
-
   void _onUpdateSymbol(
     UpdateSymbolEvent event,
     Emitter<OrderDialogState> emit,
   ) {
     emit(state.copyWith(symbol: event.symbol));
   }
-
   void _onIncrementQuantity(
     IncrementQuantityEvent event,
     Emitter<OrderDialogState> emit,
   ) {
     emit(state.copyWith(quantity: state.quantity + 1));
   }
-
   void _onDecrementQuantity(
     DecrementQuantityEvent event,
     Emitter<OrderDialogState> emit,
@@ -121,14 +109,12 @@ class OrderDialogBloc extends Bloc<OrderDialogEvent, OrderDialogState> {
       emit(state.copyWith(quantity: state.quantity - 1));
     }
   }
-
   void _onIncrementLot(
     IncrementLotEvent event,
     Emitter<OrderDialogState> emit,
   ) {
     emit(state.copyWith(lot: state.lot + 1));
   }
-
   void _onDecrementLot(
     DecrementLotEvent event,
     Emitter<OrderDialogState> emit,
@@ -137,14 +123,12 @@ class OrderDialogBloc extends Bloc<OrderDialogEvent, OrderDialogState> {
       emit(state.copyWith(lot: state.lot - 1));
     }
   }
-
   void _onIncrementPrice(
     IncrementPriceEvent event,
     Emitter<OrderDialogState> emit,
   ) {
     emit(state.copyWith(price: state.price + 0.05));
   }
-
   void _onDecrementPrice(
     DecrementPriceEvent event,
     Emitter<OrderDialogState> emit,
@@ -153,7 +137,6 @@ class OrderDialogBloc extends Bloc<OrderDialogEvent, OrderDialogState> {
       emit(state.copyWith(price: state.price - 0.05));
     }
   }
-
   void _onSubmitOrder(
     SubmitOrderEvent event,
     Emitter<OrderDialogState> emit,
@@ -162,7 +145,6 @@ class OrderDialogBloc extends Bloc<OrderDialogEvent, OrderDialogState> {
     await Future.delayed(const Duration(milliseconds: 800));
     emit(state.copyWith(isLoading: false, isSubmitted: true));
   }
-
   void _onResetSubmitted(
     ResetSubmittedEvent event,
     Emitter<OrderDialogState> emit,

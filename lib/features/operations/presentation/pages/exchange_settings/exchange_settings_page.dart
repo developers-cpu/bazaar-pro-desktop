@@ -12,7 +12,6 @@ import '../../widgets/exchange_settings/exchange_settings_data_table.dart';
 import '../../widgets/exchange_settings/password_dialog.dart';
 import '../operations_page_wrapper.dart';
 import '../../../../../injection_container.dart';
-
 class ExchangeSettingsPageWithAppBar extends StatelessWidget {
   const ExchangeSettingsPageWithAppBar({super.key});
   @override
@@ -33,13 +32,11 @@ class ExchangeSettingsPageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class ExchangeSettingsPage extends StatefulWidget {
   const ExchangeSettingsPage({super.key});
   @override
   State<ExchangeSettingsPage> createState() => _ExchangeSettingsPageState();
 }
-
 class _ExchangeSettingsPageState extends State<ExchangeSettingsPage> {
   bool _authenticated = false;
   int _activeTab = 0;
@@ -82,7 +79,6 @@ class _ExchangeSettingsPageState extends State<ExchangeSettingsPage> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) => _showPasswordDialog());
   }
-
   @override
   void dispose() {
     _searchCtrl.dispose();
@@ -92,7 +88,6 @@ class _ExchangeSettingsPageState extends State<ExchangeSettingsPage> {
     }
     super.dispose();
   }
-
   void _showPasswordDialog() {
     PasswordDialog.show(
       context,
@@ -103,7 +98,6 @@ class _ExchangeSettingsPageState extends State<ExchangeSettingsPage> {
       },
     );
   }
-
   @override
   Widget build(BuildContext context) {
     if (!_authenticated) {
@@ -189,7 +183,6 @@ class _ExchangeSettingsPageState extends State<ExchangeSettingsPage> {
       },
     );
   }
-
   void _initSeqControllers(List<dynamic> settings) {
     if (_seqControllers.isEmpty) {
       for (final s in settings) {
@@ -197,14 +190,12 @@ class _ExchangeSettingsPageState extends State<ExchangeSettingsPage> {
       }
     }
   }
-
   void _initWatchlistStates(List<dynamic> symbols) {
     _watchlistStates.clear();
     for (final s in symbols) {
       _watchlistStates[s.id] = s.showInWatchlist;
     }
   }
-
   Widget _buildBody(ExchangeSettingsState state, List<dynamic> displayData) {
     if (state is ExchangeSettingsLoading) {
       return const Center(child: CircularProgressIndicator());
@@ -230,7 +221,6 @@ class _ExchangeSettingsPageState extends State<ExchangeSettingsPage> {
       },
     );
   }
-
   List<ViewTableColumn> _columnsForTab() {
     switch (_activeTab) {
       case 0:

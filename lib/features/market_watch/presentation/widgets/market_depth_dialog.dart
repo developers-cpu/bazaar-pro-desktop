@@ -8,7 +8,6 @@ import '../../../../core/widget/common_dilog_box.dart';
 import '../bloc/market_depth/market_depth_bloc.dart';
 import '../bloc/market_depth/market_depth_event.dart';
 import '../bloc/market_depth/market_depth_state.dart';
-
 class MarketDepthDialog extends StatelessWidget {
   const MarketDepthDialog({Key? key}) : super(key: key);
   static Future<void> show(BuildContext context) async {
@@ -31,7 +30,6 @@ class MarketDepthDialog extends StatelessWidget {
       },
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<MarketDepthBloc, MarketDepthState>(
@@ -51,7 +49,6 @@ class MarketDepthDialog extends StatelessWidget {
       },
     );
   }
-
   Widget _buildDropdowns(BuildContext context, MarketDepthState state) {
     return Row(
       children: [
@@ -88,7 +85,6 @@ class MarketDepthDialog extends StatelessWidget {
       ],
     );
   }
-
   Widget _buildSymbolInfo(BuildContext context, MarketDepthState state) {
     return Row(
       children: [
@@ -114,7 +110,6 @@ class MarketDepthDialog extends StatelessWidget {
       ],
     );
   }
-
   Widget _buildMarketDataCards(BuildContext context, MarketDepthState state) {
     final data = state.marketDepthData;
     return Row(
@@ -165,7 +160,6 @@ class MarketDepthDialog extends StatelessWidget {
       ],
     );
   }
-
   Widget _buildDataRow(String label, String value) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 2.h),
@@ -191,7 +185,6 @@ class MarketDepthDialog extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildBidAskTable(BuildContext context, MarketDepthState state) {
     final data = state.marketDepthData;
     return Row(
@@ -253,7 +246,6 @@ class MarketDepthDialog extends StatelessWidget {
       ],
     );
   }
-
   Widget _buildTableHeader(
     String col1,
     String col2,
@@ -308,7 +300,6 @@ class MarketDepthDialog extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildTotalRow(String label, String value, Color accentColor) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
@@ -345,7 +336,6 @@ class MarketDepthDialog extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildBidRow(MarketDepthRow row) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 3.h),
@@ -386,7 +376,6 @@ class MarketDepthDialog extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildAskRow(MarketDepthRow row) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 3.h),

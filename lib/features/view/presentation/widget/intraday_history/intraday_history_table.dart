@@ -9,7 +9,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
 import '../../../../../core/widget/table/view_record_count.dart';
 import '../../../../../core/widget/table/view_table_cell_styles.dart';
-
 class IntradayHistoryTable extends StatelessWidget {
   const IntradayHistoryTable({Key? key}) : super(key: key);
   static final List<ViewTableColumn> _columns = [
@@ -100,7 +99,6 @@ class IntradayHistoryTable extends StatelessWidget {
       },
     );
   }
-
   Widget _buildCell(
     BuildContext context,
     IntradayHistory history,
@@ -137,7 +135,6 @@ class IntradayHistoryTable extends StatelessWidget {
         return const ViewTextCell(text: '-');
     }
   }
-
   void _onViewTap(
     BuildContext context,
     IntradayHistory history,

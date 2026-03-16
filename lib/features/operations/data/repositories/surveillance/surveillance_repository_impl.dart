@@ -4,7 +4,6 @@ import '../../../domain/entities/surveillance/surveillance_data.dart';
 import '../../../domain/repositories/surveillance/surveillance_repository.dart';
 import '../../datasources/surveillance/surveillance_remote_data_source.dart';
 import '../../models/surveillance/surveillance_data_model.dart';
-
 class SurveillanceRepositoryImpl implements SurveillanceRepository {
   final SurveillanceRemoteDataSource remoteDataSource;
   SurveillanceRepositoryImpl({required this.remoteDataSource});
@@ -17,7 +16,6 @@ class SurveillanceRepositoryImpl implements SurveillanceRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
-
   @override
   Future<Either<Failure, void>> updateSurveillanceData(
     SurveillanceData data,

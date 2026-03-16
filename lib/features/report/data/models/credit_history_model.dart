@@ -1,5 +1,4 @@
 import '../../domain/entities/credit_history.dart';
-
 class CreditHistoryModel extends CreditHistory {
   const CreditHistoryModel({
     required super.id,

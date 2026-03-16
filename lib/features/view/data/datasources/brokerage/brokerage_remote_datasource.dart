@@ -1,9 +1,7 @@
 import '../../models/brokerage/brokerage_model.dart';
-
 abstract class BrokerageRemoteDataSource {
   Future<List<BrokerageModel>> getBrokerages({String? exchange});
 }
-
 class BrokerageRemoteDataSourceImpl implements BrokerageRemoteDataSource {
   @override
   Future<List<BrokerageModel>> getBrokerages({String? exchange}) async {
@@ -106,7 +104,6 @@ class BrokerageRemoteDataSourceImpl implements BrokerageRemoteDataSource {
         brokerageAmount: 75,
       ),
     ];
-
     if (exchange != null && exchange.isNotEmpty && exchange != 'All') {
       return mockData.where((item) => item.exchange == exchange).toList();
     }

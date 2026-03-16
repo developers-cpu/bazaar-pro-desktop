@@ -4,13 +4,11 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../domain/entities/pending_orders/pending_order.dart';
 import 'package:intl/intl.dart';
-
 class OrderStatusDialog extends StatefulWidget {
   final bool isSuccess;
   final PendingOrder order;
   final String actionName;
   final VoidCallback? onClose;
-
   const OrderStatusDialog({
     Key? key,
     required this.isSuccess,
@@ -18,7 +16,6 @@ class OrderStatusDialog extends StatefulWidget {
     required this.actionName,
     this.onClose,
   }) : super(key: key);
-
   static void show({
     required BuildContext context,
     required bool isSuccess,
@@ -40,14 +37,11 @@ class OrderStatusDialog extends StatefulWidget {
         ),
       ),
     );
-
     Overlay.of(context).insert(overlayEntry);
   }
-
   @override
   State<OrderStatusDialog> createState() => _OrderStatusDialogState();
 }
-
 class _OrderStatusDialogState extends State<OrderStatusDialog> {
   @override
   void initState() {
@@ -58,7 +52,6 @@ class _OrderStatusDialogState extends State<OrderStatusDialog> {
       }
     });
   }
-
   @override
   Widget build(BuildContext context) {
     final statusColor = widget.isSuccess
@@ -67,14 +60,11 @@ class _OrderStatusDialogState extends State<OrderStatusDialog> {
     final titleText = widget.isSuccess
         ? 'Order Successful !'
         : 'Order Rejected !';
-
     final isBuy = widget.actionName.toLowerCase().contains('buy');
     final actionColor = isBuy ? const Color(0xFF0052FF) : AppColors.red;
-
     final dateFormat = DateFormat('dd/MM/yy');
     final timeFormat = DateFormat('hh:mm:ss a');
     final now = DateTime.now();
-
     return Material(
       color: Colors.transparent,
       child: Container(

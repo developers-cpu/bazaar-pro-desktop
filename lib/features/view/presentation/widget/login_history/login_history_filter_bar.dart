@@ -8,7 +8,6 @@ import '../../bloc/login_history/login_history_event.dart';
 import '../../bloc/login_history/login_history_state.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
-
 class LoginHistoryFilterBar extends StatelessWidget {
   const LoginHistoryFilterBar({Key? key}) : super(key: key);
   @override
@@ -17,7 +16,6 @@ class LoginHistoryFilterBar extends StatelessWidget {
     final isClient =
         authState is AuthAuthenticated &&
         authState.user.role.toLowerCase() == 'client';
-
     return BlocBuilder<LoginHistoryBloc, LoginHistoryState>(
       builder: (context, state) {
         final clients = state is LoginHistoryInitial

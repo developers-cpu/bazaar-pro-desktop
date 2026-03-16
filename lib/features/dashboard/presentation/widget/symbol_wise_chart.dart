@@ -4,11 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../domain/entities/dashboard_entity.dart';
-
 class SymbolWiseChart extends StatelessWidget {
   final List<SymbolReportData> data;
   const SymbolWiseChart({Key? key, required this.data}) : super(key: key);
-
   static const List<Color> _chartColors = [
     Color(0xFF5B8DEF),
     Color(0xFFB8A8E8),
@@ -26,7 +24,6 @@ class SymbolWiseChart extends StatelessWidget {
     Color(0xFF64B5F6),
     Color(0xFF81C784),
   ];
-
   @override
   Widget build(BuildContext context) {
     if (data.isEmpty) {
@@ -45,7 +42,6 @@ class SymbolWiseChart extends StatelessWidget {
         final availableWidth = constraints.maxWidth;
         final availableHeight = constraints.maxHeight;
         final showLegendSide = availableWidth > 500;
-
         if (showLegendSide) {
           return Row(
             children: [
@@ -61,7 +57,6 @@ class SymbolWiseChart extends StatelessWidget {
             ],
           );
         }
-
         return Column(
           children: [
             Expanded(
@@ -77,12 +72,10 @@ class SymbolWiseChart extends StatelessWidget {
       },
     );
   }
-
   Widget _buildLegend() {
     final halfLen = (data.length / 2).ceil();
     final col1 = data.take(halfLen).toList();
     final col2 = data.skip(halfLen).toList();
-
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 8.h),
       child: Row(
@@ -107,7 +100,6 @@ class SymbolWiseChart extends StatelessWidget {
       ),
     );
   }
-
   Widget _legendItem(SymbolReportData item) {
     final color = _chartColors[item.colorIndex % _chartColors.length];
     return Padding(
@@ -137,24 +129,18 @@ class SymbolWiseChart extends StatelessWidget {
     );
   }
 }
-
 class _PieChartPainter extends CustomPainter {
   final List<SymbolReportData> data;
   final List<Color> colors;
-
   _PieChartPainter({required this.data, required this.colors});
-
   @override
   void paint(Canvas canvas, Size size) {
     if (data.isEmpty) return;
     final n = data.length;
     final total = data.fold<double>(0, (s, d) => s + d.percentage);
-
     final labelFontSize = math.max(8.5, math.min(11.0, size.width / 55));
-
     final pieRadius = math.min(size.width, size.height) * 0.40;
     final center = Offset(size.width / 2, size.height / 2);
-
     final sweeps = <double>[];
     final midAngles = <double>[];
     double startAngle = -math.pi / 2;
@@ -164,7 +150,6 @@ class _PieChartPainter extends CustomPainter {
       midAngles.add(startAngle + sweep / 2);
       startAngle += sweep;
     }
-
     startAngle = -math.pi / 2;
     for (int i = 0; i < n; i++) {
       final color = colors[data[i].colorIndex % colors.length];
@@ -180,7 +165,6 @@ class _PieChartPainter extends CustomPainter {
       );
       startAngle += sweeps[i];
     }
-
     final leftIndices = <int>[];
     final rightIndices = <int>[];
     for (int i = 0; i < n; i++) {
@@ -192,16 +176,13 @@ class _PieChartPainter extends CustomPainter {
         rightIndices.add(i);
       }
     }
-
     leftIndices.sort(
       (a, b) => math.sin(midAngles[a]).compareTo(math.sin(midAngles[b])),
     );
     rightIndices.sort(
       (a, b) => math.sin(midAngles[a]).compareTo(math.sin(midAngles[b])),
     );
-
     final minLabelSpacing = labelFontSize * 2.8;
-
     List<double> resolveOverlaps(List<int> indices) {
       final ys = <double>[];
       for (final idx in indices) {
@@ -216,17 +197,13 @@ class _PieChartPainter extends CustomPainter {
       }
       return ys;
     }
-
     final leftYs = resolveOverlaps(leftIndices);
     final rightYs = resolveOverlaps(rightIndices);
-
     void drawLabel(int dataIndex, double labelY, bool isLeft) {
       final color = colors[data[dataIndex].colorIndex % colors.length];
       final midAngle = midAngles[dataIndex];
-
       final edgeX = center.dx + pieRadius * math.cos(midAngle);
       final edgeY = center.dy + pieRadius * math.sin(midAngle);
-
       final symbolPainter = TextPainter(
         text: TextSpan(
           text: data[dataIndex].symbol,
@@ -239,7 +216,6 @@ class _PieChartPainter extends CustomPainter {
         ),
         textDirection: TextDirection.ltr,
       )..layout(maxWidth: size.width * 0.28);
-
       final valuePainter = TextPainter(
         text: TextSpan(
           text:
@@ -252,37 +228,30 @@ class _PieChartPainter extends CustomPainter {
         ),
         textDirection: TextDirection.ltr,
       )..layout(maxWidth: size.width * 0.28);
-
       final textMaxWidth = math.max(symbolPainter.width, valuePainter.width);
-
       double hTurnX;
       if (isLeft) {
         hTurnX = math.min(edgeX, center.dx - pieRadius * 1.15);
       } else {
         hTurnX = math.max(edgeX, center.dx + pieRadius * 1.15);
       }
-
       final connectorPaint = Paint()
         ..color = color
         ..strokeWidth = 1.0
         ..style = PaintingStyle.stroke
         ..strokeCap = StrokeCap.round;
-
       canvas.drawLine(
         Offset(edgeX, edgeY),
         Offset(hTurnX, labelY),
         connectorPaint,
       );
-
       if (isLeft) {
         final textStartX = hTurnX - textMaxWidth;
-
         canvas.drawLine(
           Offset(hTurnX, labelY),
           Offset(textStartX, labelY),
           connectorPaint,
         );
-
         symbolPainter.paint(
           canvas,
           Offset(textStartX, labelY - 2 - symbolPainter.height),
@@ -290,13 +259,11 @@ class _PieChartPainter extends CustomPainter {
         valuePainter.paint(canvas, Offset(textStartX, labelY + 2));
       } else {
         final textEndX = hTurnX + textMaxWidth;
-
         canvas.drawLine(
           Offset(hTurnX, labelY),
           Offset(textEndX, labelY),
           connectorPaint,
         );
-
         symbolPainter.paint(
           canvas,
           Offset(
@@ -310,7 +277,6 @@ class _PieChartPainter extends CustomPainter {
         );
       }
     }
-
     for (int ii = 0; ii < leftIndices.length; ii++) {
       drawLabel(leftIndices[ii], leftYs[ii], true);
     }
@@ -318,7 +284,6 @@ class _PieChartPainter extends CustomPainter {
       drawLabel(rightIndices[ii], rightYs[ii], false);
     }
   }
-
   @override
   bool shouldRepaint(_PieChartPainter oldDelegate) => oldDelegate.data != data;
 }

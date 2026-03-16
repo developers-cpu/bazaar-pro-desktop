@@ -1,12 +1,10 @@
 import 'package:bazarpro/features/report/data/models/credit_history_model.dart';
-
 abstract class CreditHistoryRemoteDataSource {
   Future<List<CreditHistoryModel>> getCreditHistory({
     String? type,
     String? search,
   });
 }
-
 class CreditHistoryRemoteDataSourceImpl
     implements CreditHistoryRemoteDataSource {
   @override
@@ -20,7 +18,6 @@ class CreditHistoryRemoteDataSourceImpl
       final type = isCredit ? 'Credit' : 'Debit';
       final comment = isCredit ? 'Initial Credit' : 'Initial Debit';
       final amount = isCredit ? 500000.00 : -500000.00;
-
       double balance;
       if (index == 0)
         balance = 6000000.00;
@@ -34,7 +31,6 @@ class CreditHistoryRemoteDataSourceImpl
         balance = 500000.00;
       else
         balance = 0.00;
-
       return CreditHistoryModel(
         id: index.toString(),
         userName: 'User $index',

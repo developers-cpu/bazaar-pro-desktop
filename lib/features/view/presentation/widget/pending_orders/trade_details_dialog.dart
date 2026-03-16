@@ -11,7 +11,6 @@ import '../../../../../core/widget/table/animated_price_box.dart';
 import 'delete_order_dialog.dart';
 import 'modify_order_dialog.dart';
 import 'pending_to_success_dialog.dart';
-
 class TradeDetailsDialog {
   static void show({
     required BuildContext context,
@@ -31,7 +30,6 @@ class TradeDetailsDialog {
     );
   }
 }
-
 class _TradeDetailsContent extends StatelessWidget {
   final PendingOrder order;
   final bool isDarkMode;
@@ -40,7 +38,6 @@ class _TradeDetailsContent extends StatelessWidget {
     required this.order,
     this.isDarkMode = false,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     bool isClient = false;
@@ -50,7 +47,6 @@ class _TradeDetailsContent extends StatelessWidget {
           authState is AuthAuthenticated &&
           authState.user.role.toLowerCase() == 'client';
     } catch (_) {}
-
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
       child: Column(
@@ -154,12 +150,12 @@ class _TradeDetailsContent extends StatelessWidget {
                     child: ElevatedButton(
                       onPressed: () {
                         if (isClient) {
-                          Navigator.pop(context);
                           PendingToSuccessDialog.show(
                             context: context,
                             order: order,
                             isDarkMode: isDarkMode,
                           );
+                          CommonDialog.closeRecent();
                         } else {
                           DeleteOrderDialog.show(
                             context: context,

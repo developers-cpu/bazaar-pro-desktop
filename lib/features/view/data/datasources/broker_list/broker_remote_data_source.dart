@@ -1,11 +1,9 @@
 import '../../models/broker_list/broker_model.dart';
 import '../../models/broker_list/broker_client_model.dart';
-
 abstract class BrokerRemoteDataSource {
   Future<List<BrokerModel>> getBrokers();
   Future<List<BrokerClientModel>> getBrokerClients(String brokerName);
 }
-
 class BrokerRemoteDataSourceImpl implements BrokerRemoteDataSource {
   @override
   Future<List<BrokerModel>> getBrokers() async {
@@ -21,7 +19,6 @@ class BrokerRemoteDataSourceImpl implements BrokerRemoteDataSource {
       );
     });
   }
-
   @override
   Future<List<BrokerClientModel>> getBrokerClients(String brokerName) async {
     await Future.delayed(const Duration(milliseconds: 300));

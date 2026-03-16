@@ -7,7 +7,6 @@ import '../../../domain/usecases/user/get_symbols.dart' as user_symbols;
 import '../../../domain/entities/user_brokerage_setting/user_brokerage_setting.dart';
 import 'user_brokerage_event.dart';
 import 'user_brokerage_state.dart';
-
 class UserBrokerageBloc extends Bloc<UserBrokerageEvent, UserBrokerageState> {
   final GetUserBrokerageSettings getUserBrokerageSettings;
   final usecase.UpdateBrokerageSettings updateBrokerageSettings;
@@ -56,7 +55,6 @@ class UserBrokerageBloc extends Bloc<UserBrokerageEvent, UserBrokerageState> {
       ),
     );
   }
-
   void _onToggleBrokerageType(
     ToggleBrokerageType event,
     Emitter<UserBrokerageState> emit,
@@ -76,7 +74,6 @@ class UserBrokerageBloc extends Bloc<UserBrokerageEvent, UserBrokerageState> {
       );
     }
   }
-
   void _onFilterBrokerage(
     FilterBrokerage event,
     Emitter<UserBrokerageState> emit,
@@ -97,7 +94,6 @@ class UserBrokerageBloc extends Bloc<UserBrokerageEvent, UserBrokerageState> {
       );
     }
   }
-
   void _onUpdateBrokerageSettings(
     UpdateBrokerageSettings event,
     Emitter<UserBrokerageState> emit,
@@ -133,7 +129,6 @@ class UserBrokerageBloc extends Bloc<UserBrokerageEvent, UserBrokerageState> {
       });
     }
   }
-
   List<UserBrokerageSetting> _applyFilters(
     List<UserBrokerageSetting> all,
     String viewType,

@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../../../core/widget/table/view_data_table.dart'
     show ViewTableColumn, ViewDataTable;
 import '../../../../../../core/widget/table/view_record_count.dart';
+import '../../../../../../core/widget/table/view_table_cell_styles.dart';
 import '../../../../../../core/widget/table/view_reset_buttons.dart';
 import '../../../../../../injection_container.dart';
 import '../../../../../../core/constants/app_colors.dart';
@@ -12,7 +13,6 @@ import '../../../../../../core/widget/app_dropdown.dart';
 import '../../../../domain/entities/user.dart';
 import '../../../../domain/entities/user_position/user_position.dart';
 import '../../../bloc/user_position/user_position_bloc.dart';
-
 class UserPositionTab extends StatelessWidget {
   final User user;
   const UserPositionTab({super.key, required this.user});
@@ -25,7 +25,6 @@ class UserPositionTab extends StatelessWidget {
     );
   }
 }
-
 class UserPositionTabView extends StatelessWidget {
   const UserPositionTabView({super.key});
   @override
@@ -39,7 +38,6 @@ class UserPositionTabView extends StatelessWidget {
       ],
     );
   }
-
   Widget _buildFilterBar(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(12.w),
@@ -110,7 +108,6 @@ class UserPositionTabView extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildRecordCount(BuildContext context) {
     return Container(
       color: AppColors.white,
@@ -126,7 +123,6 @@ class UserPositionTabView extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildTable(BuildContext context) {
     return BlocBuilder<UserPositionBloc, UserPositionState>(
       builder: (context, state) {
@@ -140,6 +136,7 @@ class UserPositionTabView extends StatelessWidget {
         if (state is UserPositionLoaded) {
           positions = state.filteredPositions;
         }
+        final isDark = Theme.of(context).brightness == Brightness.dark;
         return ViewDataTable<UserPosition>(
           columns: [
             ViewTableColumn(id: 'exch', label: 'EXCH', width: 80.w),
@@ -217,41 +214,52 @@ class UserPositionTabView extends StatelessWidget {
           cellBuilder: (item, column) {
             switch (column.id) {
               case 'exch':
-                return Text(item.exchange, style: _cellStyle());
+                return ViewTextCell(text: item.exchange, isDark: isDark);
               case 'symbol':
-                return Text(
-                  item.symbol,
-                  style: _cellStyle(color: AppColors.primaryTextColor),
-                );
+                return ViewTextCell(text: item.symbol, isDark: isDark);
               case 'buyQty':
-                return Text(
-                  item.buyQty.toStringAsFixed(2),
-                  style: _cellStyle(color: AppColors.primaryBlue),
+                return ViewNumberCell(
+                  value: item.buyQty,
+                  colorByValue: true,
+                  isDark: isDark,
                 );
               case 'sellQty':
-                return Text(
-                  item.sellQty.toStringAsFixed(2),
-                  style: _cellStyle(color: AppColors.errorColor),
+                return ViewNumberCell(
+                  value: item.sellQty,
+                  colorByValue: true,
+                  isDark: isDark,
                 );
               case 'netQty':
-                return Text(
-                  item.netQty.toStringAsFixed(2),
-                  style: _cellStyle(),
+                return ViewNumberCell(
+                  value: item.netQty,
+                  colorByValue: true,
+                  isDark: isDark,
                 );
               case 'netAp':
-                return Text(item.netAp.toStringAsFixed(2), style: _cellStyle());
+                return ViewNumberCell(
+                  value: item.netAp,
+                  fixedColor: AppColors.primaryBlue,
+                  isDark: isDark,
+                );
               case 'cmp':
-                return Text(
-                  item.cmp.toStringAsFixed(2),
-                  style: _cellStyle(color: AppColors.errorColor),
+                return ViewNumberCell(
+                  value: item.cmp,
+                  fixedColor: AppColors.errorColor,
+                  isDark: isDark,
                 );
               case 'm2m':
-                return Text(
-                  item.m2m.toStringAsFixed(2),
-                  style: _cellStyle(color: AppColors.errorColor),
+                return ViewNumberCell(
+                  value: item.m2m,
+                  colorByValue: true,
+                  isDark: isDark,
                 );
               case 'lot':
-                return Text(item.lot.toStringAsFixed(2), style: _cellStyle());
+                return ViewNumberCell(
+                  value: item.lot,
+                  displayText: item.lot.toStringAsFixed(2),
+                  colorByValue: false,
+                  isDark: isDark,
+                );
               default:
                 return const SizedBox();
             }
@@ -260,15 +268,6 @@ class UserPositionTabView extends StatelessWidget {
       },
     );
   }
-
-  TextStyle _cellStyle({Color? color}) {
-    return GoogleFonts.openSans(
-      fontSize: 11.sp,
-      fontWeight: FontWeight.w500,
-      color: color ?? AppColors.primaryTextColor,
-    );
-  }
-
   Widget _buildFooter(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(12.w),
@@ -279,7 +278,7 @@ class UserPositionTabView extends StatelessWidget {
           Container(
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
             decoration: BoxDecoration(
-              color: const Color(0xFFC6DBE8).withOpacity(0.5),
+              color: const Color(0xFFC6DBE8).withValues(alpha: 0.5),
               borderRadius: BorderRadius.circular(8.r),
             ),
             child: Row(
@@ -296,7 +295,7 @@ class UserPositionTabView extends StatelessWidget {
           Container(
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
             decoration: BoxDecoration(
-              color: const Color(0xFFC6DBE8).withOpacity(0.5),
+              color: const Color(0xFFC6DBE8).withValues(alpha: 0.5),
               borderRadius: BorderRadius.circular(8.r),
             ),
             child: Row(
@@ -325,7 +324,6 @@ class UserPositionTabView extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildVerticalDivider() {
     return Container(
       height: 20.h,
@@ -334,7 +332,6 @@ class UserPositionTabView extends StatelessWidget {
       margin: EdgeInsets.symmetric(horizontal: 12.w),
     );
   }
-
   Widget _buildFooterItem(String label, String value) {
     return Row(
       children: [
@@ -357,7 +354,6 @@ class UserPositionTabView extends StatelessWidget {
       ],
     );
   }
-
   Widget _buildSummaryItem(String label, String value) {
     return Row(
       children: [

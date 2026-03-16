@@ -10,7 +10,6 @@ import '../../bloc/search_user/search_user_state.dart';
 import '../../../../../../core/constants/app_images.dart';
 import '../search/user_tree_view.dart';
 import '../../../../../../core/widget/custom_input_field.dart';
-
 class UserSearchDialog {
   static void show(BuildContext context) {
     CommonDialog.show(
@@ -29,10 +28,8 @@ class UserSearchDialog {
     );
   }
 }
-
 class _UserSearchContent extends StatelessWidget {
   const _UserSearchContent({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Column(

@@ -9,7 +9,6 @@ import '../../bloc/intraday_history/intraday_history_event.dart';
 import '../../bloc/intraday_history/intraday_history_state.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
-
 class IntradayHistoryFilterBar extends StatelessWidget {
   const IntradayHistoryFilterBar({Key? key}) : super(key: key);
   @override
@@ -26,7 +25,6 @@ class IntradayHistoryFilterBar extends StatelessWidget {
         final isMaster =
             authState is AuthAuthenticated &&
             authState.user.role.toLowerCase() == 'master';
-
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Row(
@@ -89,7 +87,6 @@ class IntradayHistoryFilterBar extends StatelessWidget {
                   },
                 ),
               ),
-
               SizedBox(width: 12.w),
               SizedBox(
                 width: 200.w,

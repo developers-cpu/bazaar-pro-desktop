@@ -9,7 +9,6 @@ import '../../bloc/symbol_wise_pl/symbol_wise_pl_event.dart';
 import '../../bloc/symbol_wise_pl/symbol_wise_pl_state.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
-
 class SymbolWisePLFilterBar extends StatelessWidget {
   const SymbolWisePLFilterBar({super.key});
   @override
@@ -18,7 +17,6 @@ class SymbolWisePLFilterBar extends StatelessWidget {
     final isClient =
         authState is AuthAuthenticated &&
         authState.user.role.toLowerCase() == 'client';
-
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
       child: BlocBuilder<SymbolWisePLBloc, SymbolWisePLState>(

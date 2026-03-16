@@ -25,7 +25,6 @@ import 'surveillance/surveillance_page.dart';
 import '../bloc/settlement_master_sharing/settlement_master_sharing_bloc.dart';
 import '../bloc/settlement_master_sharing/settlement_master_sharing_event.dart';
 import 'settlement_master_sharing/settlement_master_sharing_page.dart';
-
 class OperationsPageWrapper extends StatelessWidget {
   final String pageTitle;
   final Widget child;
@@ -63,7 +62,6 @@ class OperationsPageWrapper extends StatelessWidget {
     );
   }
 }
-
 class DateSettingsPageWithAppBar extends StatelessWidget {
   const DateSettingsPageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -81,7 +79,6 @@ class DateSettingsPageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class ScriptSettingsPageWithAppBar extends StatelessWidget {
   const ScriptSettingsPageWithAppBar({super.key});
   @override
@@ -99,7 +96,6 @@ class ScriptSettingsPageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class SurveillancePageWithAppBar extends StatelessWidget {
   const SurveillancePageWithAppBar({super.key});
   @override
@@ -117,7 +113,6 @@ class SurveillancePageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class OperationsMessagePageWithAppBar extends StatelessWidget {
   const OperationsMessagePageWithAppBar({super.key});
   @override
@@ -128,7 +123,6 @@ class OperationsMessagePageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class OperationsMessagePageWrapper extends StatelessWidget {
   const OperationsMessagePageWrapper({super.key});
   @override
@@ -139,7 +133,6 @@ class OperationsMessagePageWrapper extends StatelessWidget {
     );
   }
 }
-
 class SettlementProgressPageWithAppBar extends StatelessWidget {
   const SettlementProgressPageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -153,7 +146,6 @@ class SettlementProgressPageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class ServerPageWithAppBar extends StatelessWidget {
   const ServerPageWithAppBar({super.key});
   @override
@@ -167,7 +159,6 @@ class ServerPageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class BillComparisonPageWithAppBar extends StatelessWidget {
   const BillComparisonPageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -181,7 +172,6 @@ class BillComparisonPageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class SettlementMasterSharingPageWithAppBar extends StatelessWidget {
   const SettlementMasterSharingPageWithAppBar({Key? key}) : super(key: key);
   @override

@@ -1,5 +1,4 @@
 import '../../domain/entities/profit_and_loss_report.dart';
-
 class ProfitAndLossReportModel extends ProfitAndLossReport {
   const ProfitAndLossReportModel({
     required String id,

@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
 import '../../../domain/entities/date_settings/date_setting.dart';
-
 class DateSettingsDataTable extends StatelessWidget {
   final List<dynamic> data;
   final Set<String> selectedIds;
@@ -84,7 +83,6 @@ class DateSettingsDataTable extends StatelessWidget {
       autoFit: true,
     );
   }
-
   List<ViewTableColumn> _buildColumns() {
     return [
       ViewTableColumn(
@@ -119,7 +117,6 @@ class DateSettingsDataTable extends StatelessWidget {
       ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 120.w),
     ];
   }
-
   Widget _buildCell(DateSetting item, String colId) {
     String text = '';
     switch (colId) {

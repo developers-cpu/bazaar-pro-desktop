@@ -10,7 +10,6 @@ import '../../bloc/brokerage/brokerage_event.dart';
 import '../../bloc/brokerage/brokerage_state.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
 import '../../../../../core/widget/table/view_table_cell_styles.dart';
-
 class BrokerageDialog {
   static void showFromPage(
     BuildContext context,
@@ -33,7 +32,6 @@ class BrokerageDialog {
       ),
     );
   }
-
   static void show(BuildContext context) {
     CommonDialog.show(
       context: context,
@@ -50,11 +48,9 @@ class BrokerageDialog {
     );
   }
 }
-
 class _BrokerageContent extends StatelessWidget {
   final BrokerageLoaded? initialState;
   const _BrokerageContent({super.key, this.initialState});
-
   static const List<ViewTableColumn> _columns = [
     ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 250),
     ViewTableColumn(
@@ -70,7 +66,6 @@ class _BrokerageContent extends StatelessWidget {
       isNumeric: true,
     ),
   ];
-
   Widget _buildCell(Brokerage item, ViewTableColumn column) {
     switch (column.id) {
       case 'symbol':
@@ -91,7 +86,6 @@ class _BrokerageContent extends StatelessWidget {
         return ViewTextCell(text: '');
     }
   }
-
   Widget _buildExchangeInfo(String exchange) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -116,7 +110,6 @@ class _BrokerageContent extends StatelessWidget {
       ),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -128,7 +121,6 @@ class _BrokerageContent extends StatelessWidget {
             if (current != null) {
               return _buildExchangeInfo(current.selectedExchange ?? '');
             }
-
             return Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w),
               child: AppDropdown(

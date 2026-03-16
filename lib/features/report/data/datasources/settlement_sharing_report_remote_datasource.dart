@@ -1,13 +1,11 @@
 import '../models/settlement_sharing_report_model.dart';
 import '../../../../../core/errors/exceptions.dart';
-
 abstract class SettlementSharingReportRemoteDataSource {
   Future<SettlementSharingReportModel> getSettlementSharingReport({
     required String dateRange,
     String? userId,
   });
 }
-
 class SettlementSharingReportRemoteDataSourceImpl
     implements SettlementSharingReportRemoteDataSource {
   @override

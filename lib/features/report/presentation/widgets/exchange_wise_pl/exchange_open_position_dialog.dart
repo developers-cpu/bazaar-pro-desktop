@@ -13,7 +13,6 @@ import '../../../domain/entities/symbol_open_position.dart';
 import '../../bloc/symbol_wise_pl/open_postion/symbol_open_position_bloc.dart';
 import '../../bloc/symbol_wise_pl/open_postion/symbol_open_position_event.dart';
 import '../../bloc/symbol_wise_pl/open_postion/symbol_open_position_state.dart';
-
 class ExchangeOpenPositionDialog extends StatelessWidget {
   final String? symbol;
   final String? exchange;
@@ -29,7 +28,6 @@ class ExchangeOpenPositionDialog extends StatelessWidget {
       showButtons: false,
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -40,7 +38,6 @@ class ExchangeOpenPositionDialog extends StatelessWidget {
     );
   }
 }
-
 class _DialogContent extends StatefulWidget {
   final String? symbol;
   final String? exchange;
@@ -49,7 +46,6 @@ class _DialogContent extends StatefulWidget {
   @override
   State<_DialogContent> createState() => _DialogContentState();
 }
-
 class _DialogContentState extends State<_DialogContent> {
   String? selectedUser;
   @override

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../constants/app_colors.dart';
-
 class SuccessDialog {
   static void show({
     required BuildContext context,
@@ -12,7 +11,6 @@ class SuccessDialog {
   }) {
     final overlay = Overlay.of(context);
     late OverlayEntry entry;
-
     entry = OverlayEntry(
       builder: (context) => _SuccessNotification(
         title: title,
@@ -20,9 +18,7 @@ class SuccessDialog {
         onClose: () => entry.remove(),
       ),
     );
-
     overlay.insert(entry);
-
     Timer(const Duration(seconds: 2), () {
       if (entry.mounted) {
         entry.remove();
@@ -30,23 +26,19 @@ class SuccessDialog {
     });
   }
 }
-
 class _SuccessNotification extends StatelessWidget {
   final String title;
   final String subtitle;
   final VoidCallback onClose;
-
   const _SuccessNotification({
     Key? key,
     required this.title,
     required this.subtitle,
     required this.onClose,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     const statusColor = Color(0xFF0052FF);
-
     return Positioned(
       right: 16.w,
       bottom: 12.h,

@@ -1,16 +1,12 @@
 import 'package:bazarpro/features/users/domain/entities/user_brokerage_setting/user_brokerage_setting.dart';
 import 'package:equatable/equatable.dart';
-
 abstract class UserBrokerageState extends Equatable {
   const UserBrokerageState();
   @override
   List<Object?> get props => [];
 }
-
 class UserBrokerageInitial extends UserBrokerageState {}
-
 class UserBrokerageLoading extends UserBrokerageState {}
-
 class UserBrokerageLoaded extends UserBrokerageState {
   final List<UserBrokerageSetting> allSettings;
   final List<UserBrokerageSetting> filteredSettings;
@@ -47,7 +43,6 @@ class UserBrokerageLoaded extends UserBrokerageState {
       symbols: symbols ?? this.symbols,
     );
   }
-
   @override
   List<Object?> get props => [
     allSettings,
@@ -59,7 +54,6 @@ class UserBrokerageLoaded extends UserBrokerageState {
     symbols,
   ];
 }
-
 class UserBrokerageError extends UserBrokerageState {
   final String message;
   const UserBrokerageError(this.message);

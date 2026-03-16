@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 class LoginHistory extends Equatable {
   final String id;
   final int index;

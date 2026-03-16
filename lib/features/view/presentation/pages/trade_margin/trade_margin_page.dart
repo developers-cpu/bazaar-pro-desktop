@@ -7,20 +7,17 @@ import '../../bloc/trade_margin/trade_margin_event.dart';
 import '../../bloc/trade_margin/trade_margin_state.dart';
 import '../../widget/trade_margin/trade_margin_dialog.dart';
 import '../../widget/trade_margin/trade_margin_filter_bar.dart';
-
 class TradeMarginPage extends StatefulWidget {
   const TradeMarginPage({super.key});
   @override
   State<TradeMarginPage> createState() => _TradeMarginPageState();
 }
-
 class _TradeMarginPageState extends State<TradeMarginPage> {
   bool _isDialogOpen = false;
   @override
   void initState() {
     super.initState();
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -49,7 +46,6 @@ class _TradeMarginPageState extends State<TradeMarginPage> {
       ),
     );
   }
-
   void _handleStateChange(BuildContext context, TradeMarginState state) {
     if (state is TradeMarginLoaded && state.showDialog) {
       if (!_isDialogOpen) {

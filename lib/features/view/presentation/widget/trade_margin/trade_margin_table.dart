@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
 import '../../../../../core/widget/table/view_record_count.dart';
 import '../../../../../core/widget/table/view_table_cell_styles.dart';
-
 class TradeMarginTable extends StatelessWidget {
   final List<TradeMargin> tradeMargins;
   final bool isDarkMode;
@@ -50,7 +49,6 @@ class TradeMarginTable extends StatelessWidget {
       ),
     ];
   }
-
   Widget _buildCell(TradeMargin item, ViewTableColumn column, bool isDark) {
     switch (column.id) {
       case 'exchange':
@@ -78,7 +76,6 @@ class TradeMarginTable extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Column(

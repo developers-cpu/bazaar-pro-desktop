@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import '../../models/net_postion/net_position_model.dart';
-
 abstract class NetPositionRemoteDataSource {
   Future<List<NetPositionModel>> getNetPositions();
   Future<List<NetPositionModel>> getNetPositionsWithFilters({
@@ -20,7 +19,6 @@ abstract class NetPositionRemoteDataSource {
     required String userName,
   });
 }
-
 class NetPositionRemoteDataSourceImpl implements NetPositionRemoteDataSource {
   final Dio dio;
   NetPositionRemoteDataSourceImpl({required this.dio});
@@ -33,7 +31,6 @@ class NetPositionRemoteDataSourceImpl implements NetPositionRemoteDataSource {
       throw Exception('Failed to fetch net positions: $e');
     }
   }
-
   @override
   Future<List<NetPositionModel>> getNetPositionsWithFilters({
     String? userType,
@@ -61,7 +58,6 @@ class NetPositionRemoteDataSourceImpl implements NetPositionRemoteDataSource {
       throw Exception('Failed to fetch filtered net positions: $e');
     }
   }
-
   @override
   Future<List<String>> getClients() async {
     try {
@@ -79,7 +75,6 @@ class NetPositionRemoteDataSourceImpl implements NetPositionRemoteDataSource {
       throw Exception('Failed to fetch clients: $e');
     }
   }
-
   @override
   Future<List<String>> getExchanges() async {
     try {
@@ -98,7 +93,6 @@ class NetPositionRemoteDataSourceImpl implements NetPositionRemoteDataSource {
       throw Exception('Failed to fetch exchanges: $e');
     }
   }
-
   @override
   Future<List<String>> getSymbols() async {
     try {
@@ -116,7 +110,6 @@ class NetPositionRemoteDataSourceImpl implements NetPositionRemoteDataSource {
       throw Exception('Failed to fetch symbols: $e');
     }
   }
-
   @override
   Future<List<String>> getUserTypes() async {
     try {
@@ -126,7 +119,6 @@ class NetPositionRemoteDataSourceImpl implements NetPositionRemoteDataSource {
       throw Exception('Failed to fetch user types: $e');
     }
   }
-
   @override
   Future<String> exportToPdf(List<NetPositionModel> positions) async {
     try {
@@ -136,7 +128,6 @@ class NetPositionRemoteDataSourceImpl implements NetPositionRemoteDataSource {
       throw Exception('Failed to export PDF: $e');
     }
   }
-
   @override
   Future<String> exportToExcel(List<NetPositionModel> positions) async {
     try {
@@ -146,7 +137,6 @@ class NetPositionRemoteDataSourceImpl implements NetPositionRemoteDataSource {
       throw Exception('Failed to export Excel: $e');
     }
   }
-
   @override
   Future<List<NetPositionModel>> getPositionDetails({
     required String symbol,
@@ -166,7 +156,6 @@ class NetPositionRemoteDataSourceImpl implements NetPositionRemoteDataSource {
       throw Exception('Failed to fetch position details: $e');
     }
   }
-
   List<NetPositionModel> _generateMockNetPositions() {
     final List<NetPositionModel> positions = [];
     final symbols = [

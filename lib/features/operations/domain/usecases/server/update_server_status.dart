@@ -1,5 +1,4 @@
 import '../../repositories/server/server_repository.dart';
-
 class UpdateServerStatus {
   final ServerRepository repository;
   UpdateServerStatus(this.repository);

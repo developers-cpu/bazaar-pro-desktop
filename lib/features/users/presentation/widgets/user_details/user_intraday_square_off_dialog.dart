@@ -9,7 +9,6 @@ import 'package:bazarpro/features/users/domain/entities/user.dart';
 import 'package:bazarpro/features/users/presentation/bloc/user_intraday/user_intraday_bloc.dart';
 import 'package:bazarpro/features/users/presentation/bloc/user_intraday/user_intraday_event.dart';
 import 'package:bazarpro/features/users/presentation/bloc/user_intraday/user_intraday_state.dart';
-
 class UserIntradaySquareOffDialog {
   static void show(BuildContext context, User user) {
     CommonDialog.show(
@@ -25,10 +24,8 @@ class UserIntradaySquareOffDialog {
     );
   }
 }
-
 class _UserIntradaySquareOffContent extends StatelessWidget {
   const _UserIntradaySquareOffContent({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserIntradayBloc, UserIntradayState>(

@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../../../../../../core/constants/app_colors.dart';
 import '../../../../../../core/widget/common_dilog_box.dart';
 import '../../../../../../core/widget/custom_action_button.dart';
 import 'settlement_dialog.dart';
-
 class UpdateDatabaseDialog {
   static void show(BuildContext context) {
     CommonDialog.show(
@@ -22,15 +20,12 @@ class UpdateDatabaseDialog {
     );
   }
 }
-
 class _UpdateDatabaseContent extends StatelessWidget {
   final VoidCallback onClose;
-
   const _UpdateDatabaseContent({
     Key? key,
     required this.onClose,
   }) : super(key: key);
-
   final List<String> _exchanges = const [
     'MCX',
     'NSE',
@@ -42,12 +37,10 @@ class _UpdateDatabaseContent extends StatelessWidget {
     'FOREX',
     'USSTOCK',
   ];
-
   void _openSettlementDialog(BuildContext context) {
     onClose();
     SettlementDialog.show(context);
   }
-
   @override
   Widget build(BuildContext context) {
     return Padding(

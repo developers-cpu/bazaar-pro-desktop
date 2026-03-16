@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
 import '../../../../../core/widget/table/view_data_table_footer.dart';
@@ -11,7 +10,6 @@ import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
 import '../../../domain/entities/credit_history.dart';
 import '../../bloc/credit_history/credit_history_bloc.dart';
 import '../../bloc/credit_history/credit_history_state.dart';
-
 class CreditHistoryTable extends StatelessWidget {
   final bool isDarkMode;
   const CreditHistoryTable({super.key, this.isDarkMode = false});
@@ -64,7 +62,6 @@ class CreditHistoryTable extends StatelessWidget {
       ViewTableColumn(id: 'comment', label: 'COMMENT', width: 250),
     ];
   }
-
   Widget _buildCell(CreditHistory item, ViewTableColumn column, bool isDark) {
     switch (column.id) {
       case 'userName':
@@ -98,14 +95,12 @@ class CreditHistoryTable extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
-
   @override
   Widget build(BuildContext context) {
     final authState = context.read<AuthBloc>().state;
     final isClient =
         authState is AuthAuthenticated &&
         authState.user.role.toLowerCase() == 'client';
-
     return BlocBuilder<CreditHistoryBloc, CreditHistoryState>(
       builder: (context, state) {
         if (state is CreditHistoryLoading) {

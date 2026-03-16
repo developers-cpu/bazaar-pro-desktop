@@ -1,5 +1,4 @@
 import '../../../domain/entities/broker_list/broker.dart';
-
 class BrokerModel extends Broker {
   const BrokerModel({
     required int index,

@@ -14,7 +14,6 @@ import '../../widgets/trade_settings/trade_settings_toolbar.dart';
 import '../../widgets/trade_settings/trade_settings_data_table.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
 import '../../../domain/entities/trade_settings/trade_setting.dart';
-
 class TradeSettingsPageWithAppBar extends StatelessWidget {
   const TradeSettingsPageWithAppBar({super.key});
   @override
@@ -34,13 +33,11 @@ class TradeSettingsPageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class TradeSettingsPage extends StatefulWidget {
   const TradeSettingsPage({super.key});
   @override
   State<TradeSettingsPage> createState() => _TradeSettingsPageState();
 }
-
 class _TradeSettingsPageState extends State<TradeSettingsPage> {
   int _activeTab = 0;
   final _searchCtrl = TextEditingController();
@@ -54,7 +51,6 @@ class _TradeSettingsPageState extends State<TradeSettingsPage> {
     _searchCtrl.dispose();
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<TradeSettingsBloc, TradeSettingsState>(
@@ -119,7 +115,6 @@ class _TradeSettingsPageState extends State<TradeSettingsPage> {
       },
     );
   }
-
   Widget _buildDetailHeader() {
     return Row(
       children: [
@@ -147,7 +142,6 @@ class _TradeSettingsPageState extends State<TradeSettingsPage> {
       ],
     );
   }
-
   Widget _buildBody(TradeSettingsState state, List<dynamic> displayData) {
     if (state is TradeSettingsLoading) {
       return const Center(child: CircularProgressIndicator());
@@ -168,13 +162,11 @@ class _TradeSettingsPageState extends State<TradeSettingsPage> {
           : null,
     );
   }
-
   List<dynamic> _getDetailData(List<dynamic> settings) {
     return settings
         .where((s) => s is TradeSetting && s.exchange == _selectedExchange)
         .toList();
   }
-
   Widget _buildDetailBody(TradeSettingsState state, List<dynamic> settings) {
     if (state is TradeSettingsLoading) {
       return const Center(child: CircularProgressIndicator());
@@ -267,7 +259,6 @@ class _TradeSettingsPageState extends State<TradeSettingsPage> {
       autoFit: true,
     );
   }
-
   List<ViewTableColumn> _detailColumnsForTab() {
     switch (_activeTab) {
       case 0:
@@ -370,7 +361,6 @@ class _TradeSettingsPageState extends State<TradeSettingsPage> {
         ];
     }
   }
-
   Widget _buildDetailCell(TradeSetting item, String colId) {
     String text = '';
     switch (colId) {

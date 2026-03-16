@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 class BhavCopyEntity extends Equatable {
   final String exch;
   final String symbol;
@@ -7,7 +6,6 @@ class BhavCopyEntity extends Equatable {
   final double dayHigh;
   final double dayLow;
   final double dayClose;
-
   const BhavCopyEntity({
     required this.exch,
     required this.symbol,
@@ -16,7 +14,6 @@ class BhavCopyEntity extends Equatable {
     required this.dayLow,
     required this.dayClose,
   });
-
   @override
   List<Object?> get props => [
     exch,

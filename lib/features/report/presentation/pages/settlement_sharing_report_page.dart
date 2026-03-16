@@ -10,7 +10,6 @@ import '../bloc/settlement_sharing_report/settlement_sharing_report_state.dart';
 import '../widgets/settlement_sharing_report/settlement_sharing_filter_bar.dart';
 import '../widgets/settlement_sharing_report/settlement_sharing_report_view.dart';
 import '../../../../../../core/constants/app_colors.dart';
-
 class SettlementSharingReportPage extends StatelessWidget {
   const SettlementSharingReportPage({super.key});
   @override

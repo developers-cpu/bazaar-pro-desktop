@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../constants/app_colors.dart';
-
 class AnimatedPriceBox extends StatefulWidget {
   final String price;
   final bool isDarkMode;
@@ -18,7 +17,6 @@ class AnimatedPriceBox extends StatefulWidget {
   @override
   State<AnimatedPriceBox> createState() => _AnimatedPriceBoxState();
 }
-
 class _AnimatedPriceBoxState extends State<AnimatedPriceBox>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
@@ -105,13 +103,11 @@ class _AnimatedPriceBoxState extends State<AnimatedPriceBox>
       ),
     ]).animate(_controller);
   }
-
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(

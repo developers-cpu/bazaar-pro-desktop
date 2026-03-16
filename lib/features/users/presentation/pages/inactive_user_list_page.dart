@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl/intl.dart';
 import '../../../../core/constants/app_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/widget/app_dropdown.dart';
@@ -20,13 +19,11 @@ import '../widgets/create_user/leverage_update_dialog.dart';
 import '../widgets/create_user/change_password_dialog.dart';
 import '../widgets/create_user/update_access_dialog.dart';
 import '../widgets/user_details/user_details_dialog.dart';
-
 class InactiveUserListPage extends StatefulWidget {
   const InactiveUserListPage({super.key});
   @override
   State<InactiveUserListPage> createState() => _InactiveUserListPageState();
 }
-
 class _InactiveUserListPageState extends State<InactiveUserListPage> {
   String? _selectedUserType;
   String? _selectedUserStatus;
@@ -35,7 +32,6 @@ class _InactiveUserListPageState extends State<InactiveUserListPage> {
     super.initState();
     context.read<InactiveUserListBloc>().add(const LoadInactiveUsersEvent());
   }
-
   void _showEditUserDialog(User user) {
     final userData = {
       'name': user.name,
@@ -68,7 +64,6 @@ class _InactiveUserListPageState extends State<InactiveUserListPage> {
       );
     }
   }
-
   void _showLeverageDialog(User user) {
     LeverageUpdateDialog.show(
       context: context,
@@ -82,7 +77,6 @@ class _InactiveUserListPageState extends State<InactiveUserListPage> {
       },
     );
   }
-
   void _showChangePasswordDialog(User user) {
     ChangePasswordDialog.show(
       context: context,
@@ -96,7 +90,6 @@ class _InactiveUserListPageState extends State<InactiveUserListPage> {
       },
     );
   }
-
   void _showActionDialog(User user) {
     final currentSettings = {
       'bet': true,
@@ -121,7 +114,6 @@ class _InactiveUserListPageState extends State<InactiveUserListPage> {
       },
     );
   }
-
   void _showUserDetailsDialog(User user, {String? initialTab}) {
     UserDetailsDialog.show(
       context,
@@ -131,7 +123,6 @@ class _InactiveUserListPageState extends State<InactiveUserListPage> {
       onAction: (_) => _showActionDialog(user),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -144,7 +135,6 @@ class _InactiveUserListPageState extends State<InactiveUserListPage> {
       ),
     );
   }
-
   Widget _buildFilterBar() {
     return Container(
       padding: EdgeInsets.all(12.w),
@@ -219,7 +209,6 @@ class _InactiveUserListPageState extends State<InactiveUserListPage> {
       ),
     );
   }
-
   Widget _buildDataTable() {
     return BlocBuilder<InactiveUserListBloc, InactiveUserListState>(
       builder: (context, state) {
@@ -257,7 +246,6 @@ class _InactiveUserListPageState extends State<InactiveUserListPage> {
       },
     );
   }
-
   Widget _buildTable(InactiveUserListLoaded state) {
     final columns = _getColumns();
     final isDarkMode = AppColors.isDarkMode(context);
@@ -279,11 +267,10 @@ class _InactiveUserListPageState extends State<InactiveUserListPage> {
           SelectInactiveUserEvent(user.id),
         );
       },
-      cellBuilder: (user, column) => _buildCellContent(user, column.id),
+      cellBuilder: (user, column) => _buildCellContent(user, column.id, isDarkMode),
       emptyMessage: 'No inactive users found',
     );
   }
-
   List<ViewTableColumn> _getColumns() {
     return [
       const ViewTableColumn(
@@ -364,8 +351,7 @@ class _InactiveUserListPageState extends State<InactiveUserListPage> {
       const ViewTableColumn(id: 'ipAddress', label: 'IP ADDRESS', width: 130),
     ];
   }
-
-  Widget _buildCellContent(User user, String columnId) {
+  Widget _buildCellContent(User user, String columnId, bool isDark) {
     switch (columnId) {
       case 'edit':
         return Center(
@@ -459,146 +445,67 @@ class _InactiveUserListPageState extends State<InactiveUserListPage> {
           ),
         );
       case 'userName':
-        return InkWell(
+        return ViewLinkCell(
+          text: user.userName,
+          isDark: isDark,
           onTap: () => _showUserDetailsDialog(user),
-          child: Text(
-            user.userName,
-            style: GoogleFonts.openSans(
-              fontSize: 11.sp,
-              fontWeight: FontWeight.w500,
-              decoration: TextDecoration.underline,
-              color: AppColors.primaryBlue,
-            ),
-          ),
         );
       case 'parentUser':
-        return Text(user.parentUser, style: ViewTableCellStyles.getTextStyle());
+        return ViewTextCell(text: user.parentUser, isDark: isDark);
       case 'type':
-        return Text(user.type, style: ViewTableCellStyles.getTextStyle());
+        return ViewTextCell(text: user.type, isDark: isDark);
       case 'name':
-        return Text(user.name, style: ViewTableCellStyles.getTextStyle());
+        return ViewTextCell(text: user.name, isDark: isDark);
       case 'plPercent':
-        return Text(
-          '${user.plPercent}%',
-          style: ViewTableCellStyles.getTextStyle(),
+        return ViewNumberCell(
+          value: user.plPercent,
+          displayText: '${user.plPercent}%',
+          isDark: isDark,
         );
       case 'brkPercent':
-        return Text(
-          '${user.brkPercent}%',
-          style: ViewTableCellStyles.getTextStyle(),
+        return ViewNumberCell(
+          value: user.brkPercent,
+          displayText: '${user.brkPercent}%',
+          isDark: isDark,
         );
       case 'leverage':
-        return InkWell(
+        return ViewLinkCell(
+          text: '1:${user.leverage}',
+          isDark: isDark,
           onTap: () => _showLeverageDialog(user),
-          child: Text(
-            '1:${user.leverage}',
-            style: GoogleFonts.openSans(
-              fontSize: 11.sp,
-              fontWeight: FontWeight.w500,
-              decoration: TextDecoration.underline,
-              color: AppColors.primaryBlue,
-            ),
-          ),
         );
       case 'credit':
-        return InkWell(
+        return ViewLinkCell(
+          text: user.credit.toStringAsFixed(0),
+          isDark: isDark,
           onTap: () => _showUserDetailsDialog(user, initialTab: 'Credit'),
-          child: Text(
-            user.credit.toStringAsFixed(0),
-            style: GoogleFonts.openSans(
-              fontSize: 11.sp,
-              fontWeight: FontWeight.w500,
-              decoration: TextDecoration.underline,
-              color: AppColors.primaryBlue,
-            ),
-          ),
         );
       case 'pl':
-        return Text(
-          _formatNumber(user.pl),
-          style: TextStyle(
-            fontSize: 11.sp,
-            color: user.pl >= 0 ? AppColors.textColor(context) : Colors.red,
-          ),
-        );
+        return ViewNumberCell(value: user.pl, isDark: isDark);
       case 'equity':
-        return Text(
-          _formatNumber(user.equity),
-          style: TextStyle(
-            fontSize: 11.sp,
-            color: AppColors.textColor(context),
-          ),
-        );
+        return ViewNumberCell(value: user.equity, isDark: isDark);
       case 'totalMargin':
-        return Text(
-          _formatNumber(user.totalMargin),
-          style: TextStyle(
-            fontSize: 11.sp,
-            color: AppColors.textColor(context),
-          ),
-        );
+        return ViewNumberCell(value: user.totalMargin, isDark: isDark);
       case 'usedMargin':
-        return Text(
-          user.usedMargin.toStringAsFixed(2),
-          style: TextStyle(
-            fontSize: 11.sp,
-            color: user.usedMargin >= 0
-                ? AppColors.textColor(context)
-                : Colors.red,
-          ),
-        );
+        return ViewNumberCell(value: user.usedMargin, isDark: isDark);
       case 'freeMargin':
-        return Text(
-          _formatNumber(user.freeMargin),
-          style: TextStyle(
-            fontSize: 11.sp,
-            color: AppColors.textColor(context),
-          ),
-        );
+        return ViewNumberCell(value: user.freeMargin, isDark: isDark);
       case 'createdDate':
-        return Text(
-          DateFormat('dd/MM/yy hh:mm:ss a').format(user.createdDate),
-          style: TextStyle(
-            fontSize: 11.sp,
-            color: AppColors.textColor(context),
-          ),
-        );
+        return ViewDateTimeCell(dateTime: user.createdDate, isDark: isDark);
       case 'lastLoginDateTime':
-        return Text(
-          user.lastLoginDateTime != null
-              ? DateFormat(
-                  'dd/MM/yy hh:mm:ss a',
-                ).format(user.lastLoginDateTime!)
-              : '',
-          style: TextStyle(
-            fontSize: 11.sp,
-            color: AppColors.textColor(context),
-          ),
-        );
+        return user.lastLoginDateTime != null
+            ? ViewDateTimeCell(dateTime: user.lastLoginDateTime!, isDark: isDark)
+            : ViewTextCell(
+                text: '',
+                isDark: isDark,
+                alignment: Alignment.centerRight,
+              );
       case 'deviceType':
-        return Text(
-          user.deviceType ?? '',
-          style: TextStyle(
-            fontSize: 11.sp,
-            color: AppColors.textColor(context),
-          ),
-          overflow: TextOverflow.ellipsis,
-        );
+        return ViewTextCell(text: user.deviceType ?? '', isDark: isDark);
       case 'ipAddress':
-        return Text(
-          user.ipAddress ?? '',
-          style: TextStyle(
-            fontSize: 11.sp,
-            color: AppColors.textColor(context),
-          ),
-        );
+        return ViewTextCell(text: user.ipAddress ?? '', isDark: isDark);
       default:
         return const SizedBox.shrink();
     }
-  }
-
-  String _formatNumber(double value) {
-    if (value == 0) return '0';
-    return NumberFormat('#,##0').format(value.toInt());
   }
 }

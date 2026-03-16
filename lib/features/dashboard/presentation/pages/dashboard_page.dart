@@ -13,26 +13,22 @@ import '../widget/report_card.dart';
 import '../widget/symbol_wise_chart.dart';
 import '../widget/trade_reports_chart.dart';
 import '../widget/weekly_progress_chart.dart';
-
 class DashboardPage extends StatefulWidget {
   const DashboardPage({Key? key}) : super(key: key);
   @override
   State<DashboardPage> createState() => _DashboardPageState();
 }
-
 class _DashboardPageState extends State<DashboardPage> {
   @override
   void initState() {
     super.initState();
     context.read<DashboardBloc>().add(const LoadDashboardEvent());
   }
-
   @override
   Widget build(BuildContext context) {
     return const _DashboardView();
   }
 }
-
 class DashboardPageWithAppBar extends StatelessWidget {
   const DashboardPageWithAppBar({Key? key}) : super(key: key);
   @override
@@ -57,7 +53,6 @@ class DashboardPageWithAppBar extends StatelessWidget {
     );
   }
 }
-
 class _DashboardView extends StatelessWidget {
   const _DashboardView();
   @override
@@ -85,7 +80,6 @@ class _DashboardView extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildLoading() {
     return Center(
       child: Column(
@@ -105,7 +99,6 @@ class _DashboardView extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildError(String message) {
     return Center(
       child: Column(
@@ -133,7 +126,6 @@ class _DashboardView extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildContent(
     BuildContext context,
     DashboardLoaded state,
@@ -245,7 +237,6 @@ class _DashboardView extends StatelessWidget {
       },
     );
   }
-
   Widget _buildTradeReportsCard(
     BuildContext context,
     DashboardLoaded state,
@@ -280,7 +271,6 @@ class _DashboardView extends StatelessWidget {
       },
     );
   }
-
   Widget _buildSymbolWiseCard(
     BuildContext context,
     DashboardLoaded state,

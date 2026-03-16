@@ -1,13 +1,10 @@
 import 'package:equatable/equatable.dart';
-
 abstract class SurveillanceEvent extends Equatable {
   const SurveillanceEvent();
   @override
   List<Object> get props => [];
 }
-
 class LoadSurveillanceDataEvent extends SurveillanceEvent {}
-
 class UpdateVpnRestrictionEvent extends SurveillanceEvent {
   final bool? masterRestriction;
   final bool? clientRestriction;
@@ -21,5 +18,4 @@ class UpdateVpnRestrictionEvent extends SurveillanceEvent {
     clientRestriction ?? false,
   ];
 }
-
 class SaveSurveillanceDataEvent extends SurveillanceEvent {}

@@ -1,5 +1,4 @@
 import '../../../domain/entities/net_postion/net_position.dart';
-
 class NetPositionModel extends NetPosition {
   const NetPositionModel({
     required super.id,
@@ -63,7 +62,6 @@ class NetPositionModel extends NetPosition {
       'status': status,
     };
   }
-
   factory NetPositionModel.fromEntity(NetPosition position) {
     return NetPositionModel(
       id: position.id,

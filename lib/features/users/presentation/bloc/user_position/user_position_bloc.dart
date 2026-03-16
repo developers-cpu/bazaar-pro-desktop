@@ -6,7 +6,6 @@ import '../../../domain/usecases/user/get_symbols.dart';
 import '../../../domain/entities/user_position/user_position.dart';
 part 'user_position_event.dart';
 part 'user_position_state.dart';
-
 class UserPositionBloc extends Bloc<UserPositionEvent, UserPositionState> {
   final GetUserPositions getUserPositions;
   final GetExchanges getExchanges;
@@ -43,7 +42,6 @@ class UserPositionBloc extends Bloc<UserPositionEvent, UserPositionState> {
       ),
     );
   }
-
   void _onFilterUserPositions(
     FilterUserPositions event,
     Emitter<UserPositionState> emit,

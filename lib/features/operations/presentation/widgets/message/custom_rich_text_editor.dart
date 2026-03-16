@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
-
 class CustomRichTextEditor extends StatelessWidget {
   final TextEditingController? controller;
   final String hintText;
@@ -87,7 +86,6 @@ class CustomRichTextEditor extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildIcon(IconData icon) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 4.w),

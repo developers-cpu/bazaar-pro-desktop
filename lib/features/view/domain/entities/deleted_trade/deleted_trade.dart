@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 class DeletedTrade extends Equatable {
   final String id;
   final String userName;

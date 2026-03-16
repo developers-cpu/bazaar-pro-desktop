@@ -6,7 +6,6 @@ import '../../../../users/domain/usecases/user/get_exchanges.dart'
     as user_exchanges;
 part 'total_volume_event.dart';
 part 'total_volume_state.dart';
-
 class TotalVolumeBloc extends Bloc<TotalVolumeEvent, TotalVolumeState> {
   final GetTotalVolumeUseCase getTotalVolume;
   final user_exchanges.GetExchanges getExchanges;
@@ -38,7 +37,6 @@ class TotalVolumeBloc extends Bloc<TotalVolumeEvent, TotalVolumeState> {
       },
     );
   }
-
   Future<void> _onGetTotalVolume(
     GetTotalVolumeEvent event,
     Emitter<TotalVolumeState> emit,

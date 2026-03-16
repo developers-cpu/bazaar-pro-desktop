@@ -2,7 +2,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../domain/usecases/get_symbol_wise_position_report.dart';
 import 'symbol_wise_position_report_event.dart';
 import 'symbol_wise_position_report_state.dart';
-
 class SymbolWisePositionReportBloc
     extends Bloc<SymbolWisePositionReportEvent, SymbolWisePositionReportState> {
   final GetSymbolWisePositionReportUseCase getSymbolWisePositionReport;
@@ -36,7 +35,6 @@ class SymbolWisePositionReportBloc
       },
     );
   }
-
   Future<void> _onFilter(
     FilterSymbolWisePositionReport event,
     Emitter<SymbolWisePositionReportState> emit,
@@ -64,7 +62,6 @@ class SymbolWisePositionReportBloc
       );
     }
   }
-
   Future<void> _onReset(
     ResetSymbolWisePositionReportFilters event,
     Emitter<SymbolWisePositionReportState> emit,

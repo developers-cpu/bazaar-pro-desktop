@@ -13,7 +13,6 @@ import '../../bloc/manual_trade/manual_trade_bloc.dart';
 import '../../bloc/manual_trade/manual_trade_event.dart';
 import '../../bloc/manual_trade/manual_trade_state.dart';
 import 'confirm_order_dialog.dart';
-
 class ManualTradeDialog {
   static void show(BuildContext context) {
     CommonDialog.show(
@@ -29,10 +28,8 @@ class ManualTradeDialog {
     );
   }
 }
-
 class _ManualTradeContent extends StatelessWidget {
   const _ManualTradeContent({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ManualTradeBloc, ManualTradeState>(
@@ -408,13 +405,11 @@ class _ManualTradeContent extends StatelessWidget {
       },
     );
   }
-
   void _updateField(BuildContext context, String field, dynamic value) {
     context.read<ManualTradeBloc>().add(
       UpdateManualTradeFieldEvent(field: field, value: value),
     );
   }
-
   TextStyle _labelStyle() {
     return GoogleFonts.openSans(
       fontSize: 12.sp,
@@ -422,7 +417,6 @@ class _ManualTradeContent extends StatelessWidget {
       color: AppColors.primaryBlue,
     );
   }
-
   TextStyle _valueStyle() {
     return GoogleFonts.openSans(
       fontSize: 12.sp,

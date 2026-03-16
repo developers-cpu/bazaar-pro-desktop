@@ -2,7 +2,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../domain/usecases/get_bill_generate_report.dart';
 import 'bill_generate_event.dart';
 import 'bill_generate_state.dart';
-
 class BillGenerateBloc extends Bloc<BillGenerateEvent, BillGenerateState> {
   final GetBillGenerateReport getBillGenerateReport;
   BillGenerateBloc({required this.getBillGenerateReport})
@@ -35,8 +34,6 @@ class BillGenerateBloc extends Bloc<BillGenerateEvent, BillGenerateState> {
       ),
     );
   }
-
-
   void _onResetBillGenerateReport(
     ResetBillGenerateReport event,
     Emitter<BillGenerateState> emit,

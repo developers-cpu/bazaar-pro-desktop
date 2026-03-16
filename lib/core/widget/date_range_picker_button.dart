@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import '../constants/app_colors.dart';
-
 class DateRangePickerButton extends StatefulWidget {
   final DateTimeRange? selectedDateRange;
   final VoidCallback onTap;
@@ -23,12 +22,10 @@ class DateRangePickerButton extends StatefulWidget {
   @override
   State<DateRangePickerButton> createState() => _DateRangePickerButtonState();
 }
-
 class _DateRangePickerButtonState extends State<DateRangePickerButton> {
   final LayerLink _layerLink = LayerLink();
   OverlayEntry? _overlayEntry;
   bool _isOpen = false;
-
   void _toggleDropdown() {
     if (_isOpen) {
       _closeDropdown();
@@ -36,13 +33,11 @@ class _DateRangePickerButtonState extends State<DateRangePickerButton> {
       _openDropdown();
     }
   }
-
   void _openDropdown() {
     _overlayEntry = _createOverlayEntry();
     Overlay.of(context).insert(_overlayEntry!);
     setState(() => _isOpen = true);
   }
-
   void _closeDropdown() {
     _overlayEntry?.remove();
     _overlayEntry = null;
@@ -50,11 +45,9 @@ class _DateRangePickerButtonState extends State<DateRangePickerButton> {
       setState(() => _isOpen = false);
     }
   }
-
   OverlayEntry _createOverlayEntry() {
     final renderBox = context.findRenderObject() as RenderBox;
     final size = renderBox.size;
-
     return OverlayEntry(
       builder: (context) => Stack(
         children: [
@@ -91,14 +84,12 @@ class _DateRangePickerButtonState extends State<DateRangePickerButton> {
       ),
     );
   }
-
   @override
   void dispose() {
     _overlayEntry?.remove();
     _overlayEntry = null;
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     return CompositedTransformTarget(
@@ -150,30 +141,25 @@ class _DateRangePickerButtonState extends State<DateRangePickerButton> {
     );
   }
 }
-
 class DateRangeCalendarPopup extends StatefulWidget {
   final DateTime? initialStartDate;
   final DateTime? initialEndDate;
   final ValueChanged<DateTimeRange> onApply;
   final VoidCallback onCancel;
-
   const DateRangeCalendarPopup({
     this.initialStartDate,
     this.initialEndDate,
     required this.onApply,
     required this.onCancel,
   });
-
   @override
   State<DateRangeCalendarPopup> createState() => DateRangeCalendarPopupState();
 }
-
 class DateRangeCalendarPopupState extends State<DateRangeCalendarPopup> {
   late DateTime _currentMonth;
   DateTime? _startDate;
   DateTime? _endDate;
   bool _selectingEndDate = false;
-
   @override
   void initState() {
     super.initState();
@@ -181,7 +167,6 @@ class DateRangeCalendarPopupState extends State<DateRangeCalendarPopup> {
     _endDate = widget.initialEndDate;
     _currentMonth = _startDate ?? DateTime.now();
   }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -201,7 +186,6 @@ class DateRangeCalendarPopupState extends State<DateRangeCalendarPopup> {
       ),
     );
   }
-
   Widget _buildMonthNavigation() {
     final monthFormat = DateFormat('MMMM yy');
     return Container(
@@ -251,7 +235,6 @@ class DateRangeCalendarPopupState extends State<DateRangeCalendarPopup> {
       ),
     );
   }
-
   Widget _buildWeekdayHeaders() {
     const weekdays = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
     return Container(
@@ -283,7 +266,6 @@ class DateRangeCalendarPopupState extends State<DateRangeCalendarPopup> {
       ),
     );
   }
-
   Widget _buildCalendarGrid() {
     final firstDayOfMonth = DateTime(
       _currentMonth.year,
@@ -298,14 +280,12 @@ class DateRangeCalendarPopupState extends State<DateRangeCalendarPopup> {
     final firstWeekday = firstDayOfMonth.weekday % 7;
     final List<Widget> rows = [];
     List<Widget> currentRow = [];
-
     for (int i = 0; i < firstWeekday; i++) {
       final prevMonthDay = firstDayOfMonth.subtract(
         Duration(days: firstWeekday - i),
       );
       currentRow.add(_buildDayCell(prevMonthDay, isCurrentMonth: false));
     }
-
     for (int day = 1; day <= lastDayOfMonth.day; day++) {
       final date = DateTime(_currentMonth.year, _currentMonth.month, day);
       currentRow.add(_buildDayCell(date, isCurrentMonth: true));
@@ -322,7 +302,6 @@ class DateRangeCalendarPopupState extends State<DateRangeCalendarPopup> {
         currentRow = [];
       }
     }
-
     if (currentRow.isNotEmpty) {
       int nextMonthDay = 1;
       while (currentRow.length < 7) {
@@ -343,23 +322,19 @@ class DateRangeCalendarPopupState extends State<DateRangeCalendarPopup> {
         ),
       );
     }
-
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 2.h),
       child: Column(children: rows),
     );
   }
-
   Widget _buildDayCell(DateTime date, {required bool isCurrentMonth}) {
     final isStartDate = _startDate != null && _isSameDay(date, _startDate!);
     final isEndDate = _endDate != null && _isSameDay(date, _endDate!);
     final isInRange = _isDateInRange(date);
     final isWeekend =
         date.weekday == DateTime.sunday || date.weekday == DateTime.saturday;
-
     Color textColor;
     BoxDecoration? decoration;
-
     if (isStartDate || isEndDate) {
       textColor = AppColors.white;
       decoration = BoxDecoration(
@@ -378,7 +353,6 @@ class DateRangeCalendarPopupState extends State<DateRangeCalendarPopup> {
     } else {
       textColor = AppColors.primaryTextColor;
     }
-
     return GestureDetector(
       onTap: isCurrentMonth ? () => _onDayTap(date) : null,
       child: Container(
@@ -399,16 +373,13 @@ class DateRangeCalendarPopupState extends State<DateRangeCalendarPopup> {
       ),
     );
   }
-
   bool _isSameDay(DateTime a, DateTime b) {
     return a.year == b.year && a.month == b.month && a.day == b.day;
   }
-
   bool _isDateInRange(DateTime date) {
     if (_startDate == null || _endDate == null) return false;
     return date.isAfter(_startDate!) && date.isBefore(_endDate!);
   }
-
   void _onDayTap(DateTime date) {
     setState(() {
       if (_startDate == null || _selectingEndDate == false) {

@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../../core/constants/app_colors.dart';
 import '../../../../../../core/widget/app_dropdown.dart';
-
 class SettlementSharingFilterBar extends StatelessWidget {
   final String selectedDateRange;
   final ValueChanged<String?> onDateRangeChanged;

@@ -7,13 +7,11 @@ import '../../../../../core/constants/app_colors.dart';
 import '../../../../../injection_container.dart';
 import '../../domain/entities/rule_entity.dart';
 import '../bloc/rules/rules_bloc.dart';
-
 class RulesPage extends StatefulWidget {
   const RulesPage({super.key});
   @override
   State<RulesPage> createState() => _RulesPageState();
 }
-
 class _RulesPageState extends State<RulesPage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
@@ -27,14 +25,12 @@ class _RulesPageState extends State<RulesPage>
       _focusNode.requestFocus();
     });
   }
-
   @override
   void dispose() {
     _tabController.dispose();
     _focusNode.dispose();
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -115,7 +111,6 @@ class _RulesPageState extends State<RulesPage>
       ),
     );
   }
-
   Widget _buildRulesList(List<RuleEntity> allRules, String languageCode) {
     final rules = allRules.where((r) => r.language == languageCode).toList();
     return ListView.builder(

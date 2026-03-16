@@ -1,5 +1,4 @@
 import '../../../domain/entities/server/server_entity.dart';
-
 class ServerModel extends ServerEntity {
   const ServerModel({
     required super.id,

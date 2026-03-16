@@ -9,7 +9,6 @@ import '../../../../../core/widget/custom_action_button.dart';
 import '../../../../../core/widget/app_dropdown.dart';
 import '../../bloc/exchange_settings/exchange_settings_bloc.dart';
 import '../../bloc/exchange_settings/exchange_settings_event.dart';
-
 class ExchangeSettingsHeader extends StatelessWidget {
   final int activeTab;
   final bool tradeLimitYes;
@@ -75,7 +74,6 @@ class ExchangeSettingsHeader extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
-
   Widget _highLowHeader(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -106,7 +104,6 @@ class ExchangeSettingsHeader extends StatelessWidget {
       ],
     );
   }
-
   Widget _autoTickHeader(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -138,7 +135,6 @@ class ExchangeSettingsHeader extends StatelessWidget {
       ],
     );
   }
-
   Widget _orderTypeHeader(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -171,7 +167,6 @@ class ExchangeSettingsHeader extends StatelessWidget {
       ],
     );
   }
-
   Widget _oddLotHeader(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -202,7 +197,6 @@ class ExchangeSettingsHeader extends StatelessWidget {
       ],
     );
   }
-
   Widget _tradeAttributeHeader(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -239,7 +233,6 @@ class ExchangeSettingsHeader extends StatelessWidget {
       ],
     );
   }
-
   Widget _defaultSymbolHeader(BuildContext context) {
     return Row(
       children: [
@@ -272,7 +265,6 @@ class ExchangeSettingsHeader extends StatelessWidget {
       ],
     );
   }
-
   Widget _radioOption(
     String label,
     bool selected,
@@ -297,7 +289,6 @@ class ExchangeSettingsHeader extends StatelessWidget {
       ],
     );
   }
-
   Widget _checkOption(String label, bool value, ValueChanged<bool?> onChanged) {
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -320,7 +311,6 @@ class ExchangeSettingsHeader extends StatelessWidget {
       ],
     );
   }
-
   Widget _updateButton(BuildContext context) {
     return CustomActionButton(
       text: 'Update',
@@ -336,7 +326,6 @@ class ExchangeSettingsHeader extends StatelessWidget {
       borderRadius: 8.r,
     );
   }
-
   TextStyle _labelStyle() => GoogleFonts.openSans(
     fontSize: 12.sp,
     fontWeight: FontWeight.w600,

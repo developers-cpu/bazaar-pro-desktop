@@ -1,5 +1,4 @@
 import 'package:bazarpro/features/operations/domain/entities/trade_settings/trade_setting.dart';
-
 class TradeSettingModel extends TradeSetting {
   const TradeSettingModel({
     required super.id,

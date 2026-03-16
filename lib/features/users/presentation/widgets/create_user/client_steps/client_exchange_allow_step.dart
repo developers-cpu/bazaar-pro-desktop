@@ -8,7 +8,6 @@ import '../../../../../../core/widget/app_dropdown.dart';
 import '../../../bloc/user_form/user_form_bloc.dart';
 import '../../../bloc/user_form/user_form_event.dart';
 import '../../../bloc/user_form/user_form_state.dart';
-
 class ClientExchangeAllowStep extends StatelessWidget {
   const ClientExchangeAllowStep({super.key});
   @override
@@ -39,7 +38,6 @@ class ClientExchangeAllowStep extends StatelessWidget {
       },
     );
   }
-
   Widget _buildTableHeader(
     BuildContext context,
     UserFormState state,
@@ -148,7 +146,6 @@ class ClientExchangeAllowStep extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildTableRow(
     BuildContext context,
     UserFormState state,

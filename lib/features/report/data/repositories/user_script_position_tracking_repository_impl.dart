@@ -4,7 +4,6 @@ import '../../../../core/errors/failures.dart';
 import '../../domain/entities/user_script_position_tracking.dart';
 import '../../domain/repositories/user_script_position_tracking_repository.dart';
 import '../datasources/user_script_position_tracking/user_script_position_tracking_remote_datasource.dart';
-
 class UserScriptPositionTrackingRepositoryImpl
     implements UserScriptPositionTrackingRepository {
   final UserScriptPositionTrackingRemoteDataSource dataSource;

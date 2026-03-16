@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
 import '../../../domain/entities/script_settings/script_setting.dart';
-
 class DividendScriptDataTable extends StatelessWidget {
   final List<ScriptSetting> data;
   final Set<String> selectedIds;
@@ -69,7 +68,6 @@ class DividendScriptDataTable extends StatelessWidget {
       autoFit: true,
     );
   }
-
   List<ViewTableColumn> _buildColumns() {
     return [
       ViewTableColumn(
@@ -98,7 +96,6 @@ class DividendScriptDataTable extends StatelessWidget {
       ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 150.w),
     ];
   }
-
   Widget _buildCell(ScriptSetting item, String colId) {
     String text = '';
     switch (colId) {

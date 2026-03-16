@@ -1,5 +1,4 @@
 import '../../domain/entities/symbol_wise_position_report.dart';
-
 class SymbolWisePositionReportModel extends SymbolWisePositionReport {
   const SymbolWisePositionReportModel({
     required String id,

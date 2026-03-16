@@ -13,7 +13,6 @@ import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import '../../../../auth/presentation/bloc/auth_bloc.dart';
 import '../../../../auth/presentation/bloc/auth_state.dart';
 import 'order_duration_dialog.dart';
-
 class DealsTable extends StatelessWidget {
   final bool showDeviceInfo;
   final bool isDarkMode;
@@ -22,27 +21,26 @@ class DealsTable extends StatelessWidget {
     this.showDeviceInfo = true,
     this.isDarkMode = false,
   }) : super(key: key);
-
   List<ViewTableColumn> _getColumns(bool isClient) {
     if (isClient) {
       return const [
         ViewTableColumn(id: 'exchange', label: 'EXCH', width: 70),
-        ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 120),
+        ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 130),
         ViewTableColumn(
           id: 'orderDateTime',
           label: 'Order D/T',
           width: 170,
           alignment: Alignment.centerRight,
         ),
-        ViewTableColumn(id: 'buySell', label: 'B/S', width: 200),
-        ViewTableColumn(id: 'qty', label: 'QTY', width: 90, isNumeric: true),
+        ViewTableColumn(id: 'buySell', label: 'B/S', width: 170),
+        ViewTableColumn(id: 'qty', label: 'QTY', width: 80, isNumeric: true),
         ViewTableColumn(id: 'lot', label: 'Lot', width: 70, isNumeric: true),
-        ViewTableColumn(id: 'orderType', label: 'Type', width: 120),
+        ViewTableColumn(id: 'orderType', label: 'Type', width: 100),
         ViewTableColumn(id: 'pl', label: 'P/L', width: 90, isNumeric: true),
         ViewTableColumn(
           id: 'triggerPrice',
           label: 'T. PRICE',
-          width: 100,
+          width: 90,
           isNumeric: true,
         ),
         ViewTableColumn(
@@ -66,81 +64,79 @@ class DealsTable extends StatelessWidget {
         ViewTableColumn(
           id: 'orderDuration',
           label: 'ORDER DURATION',
-          width: 220,
+          width: 170,
         ),
       ];
     }
-
     final columns = <ViewTableColumn>[
       const ViewTableColumn(id: 'userName', label: 'U. NAME', width: 120),
       const ViewTableColumn(id: 'pUser', label: 'P USER', width: 120),
       const ViewTableColumn(id: 'exchange', label: 'EXCH', width: 100),
-      const ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 150),
+      const ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 130),
       const ViewTableColumn(
         id: 'orderDateTime',
         label: 'ORDER D/T',
-        width: 220,
+        width: 170,
         alignment: Alignment.centerRight,
       ),
-      const ViewTableColumn(id: 'buySell', label: 'B/S', width: 200),
+      const ViewTableColumn(id: 'buySell', label: 'B/S', width: 170),
       const ViewTableColumn(
         id: 'qty',
         label: 'QTY',
-        width: 120,
+        width: 80,
         isNumeric: true,
       ),
       const ViewTableColumn(
         id: 'lot',
         label: 'LOT',
-        width: 100,
+        width: 70,
         isNumeric: true,
       ),
-      const ViewTableColumn(id: 'orderType', label: 'TYPE', width: 120),
+      const ViewTableColumn(id: 'orderType', label: 'TYPE', width: 100),
       const ViewTableColumn(
         id: 'pl',
         label: 'P/L',
-        width: 120,
+        width: 90,
         isNumeric: true,
       ),
       const ViewTableColumn(
         id: 'triggerPrice',
         label: 'T. PRICE',
-        width: 130,
+        width: 90,
         isNumeric: true,
       ),
       const ViewTableColumn(
         id: 'brokerage',
         label: 'BRK',
-        width: 100,
+        width: 70,
         isNumeric: true,
       ),
       const ViewTableColumn(
         id: 'executionDateTime',
         label: 'EXECUTION D/T',
-        width: 220,
+        width: 170,
         alignment: Alignment.centerRight,
       ),
       const ViewTableColumn(
         id: 'rPrice',
         label: 'R. PRICE',
-        width: 120,
+        width: 90,
         isNumeric: true,
       ),
       const ViewTableColumn(
         id: 'orderDuration',
         label: 'ORDER DURATION',
-        width: 240,
+        width: 170,
       ),
     ];
     if (showDeviceInfo) {
       columns.addAll(const [
         ViewTableColumn(id: 'deviceId', label: 'DEVICE ID', width: 300),
-        ViewTableColumn(id: 'ipAddress', label: 'IP ADDRESS', width: 100),
+        ViewTableColumn(id: 'ipAddress', label: 'IP ADDRESS', width: 120),
       ]);
     }
     return columns;
   }
-
   Widget _buildCell(
     BuildContext context,
     Deal item,
@@ -234,7 +230,6 @@ class DealsTable extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
-
   Widget _buildOrderDurationCell(
     BuildContext context,
     Deal item,
@@ -279,14 +274,12 @@ class DealsTable extends StatelessWidget {
       ),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     final authState = context.read<AuthBloc>().state;
     final isClient =
         authState is AuthAuthenticated &&
         authState.user.role.toLowerCase() == 'client';
-
     return BlocBuilder<DealsBloc, DealsState>(
       builder: (context, state) {
         if (state is DealsLoading) {
@@ -332,7 +325,6 @@ class DealsTable extends StatelessWidget {
       },
     );
   }
-
   Widget _buildErrorState(BuildContext context, String message) {
     return Center(
       child: Column(

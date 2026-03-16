@@ -1,6 +1,5 @@
 import 'surveillance_bulk_order.dart';
 import 'surveillance_vpn.dart';
-
 class SurveillanceData {
   final List<SurveillanceBulkOrder> bulkOrders;
   final SurveillanceVpn vpnRestriction;

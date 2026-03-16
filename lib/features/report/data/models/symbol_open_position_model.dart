@@ -1,5 +1,4 @@
 import '../../domain/entities/symbol_open_position.dart';
-
 class SymbolOpenPositionModel extends SymbolOpenPosition {
   const SymbolOpenPositionModel({
     required String name,

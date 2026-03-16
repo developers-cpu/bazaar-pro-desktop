@@ -3,7 +3,6 @@ import '../../../domain/entities/user_wise_profit_and_loss_report.dart';
 import '../../../domain/usecases/get_user_wise_profit_and_loss_report.dart';
 import 'user_wise_profit_and_loss_event.dart';
 import 'user_wise_profit_and_loss_state.dart';
-
 class UserWiseProfitAndLossBloc
     extends Bloc<UserWiseProfitAndLossEvent, UserWiseProfitAndLossState> {
   final GetUserWiseProfitAndLossReportUseCase getUserWiseProfitAndLossReport;
@@ -32,7 +31,6 @@ class UserWiseProfitAndLossBloc
       },
     );
   }
-
   Future<void> _onFilterUserWiseProfitAndLoss(
     FilterUserWiseProfitAndLoss event,
     Emitter<UserWiseProfitAndLossState> emit,
@@ -60,7 +58,6 @@ class UserWiseProfitAndLossBloc
       },
     );
   }
-
   Future<void> _onResetFilters(
     ResetUserWiseProfitAndLossFilters event,
     Emitter<UserWiseProfitAndLossState> emit,

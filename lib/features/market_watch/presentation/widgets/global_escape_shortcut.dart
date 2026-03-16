@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import '../../../../core/routes/app_routes.dart';
 import '../../../../core/routes/navigator_key.dart';
 import '../../../../core/widget/common_dilog_box.dart';
-
 class GlobalEscapeIntent extends Intent {
   const GlobalEscapeIntent();
 }
-
 class GlobalEscapeAction extends Action<GlobalEscapeIntent> {
   @override
   Object? invoke(GlobalEscapeIntent intent) {
     if (CommonDialog.closeRecent()) {
       return null;
     }
-
     final context = globalNavigatorKey.currentContext;
     if (context != null) {
       final canPop = Navigator.of(context).canPop();
@@ -23,13 +19,11 @@ class GlobalEscapeAction extends Action<GlobalEscapeIntent> {
         Navigator.pop(context);
         return null;
       }
-
       String? topRouteName;
       Navigator.popUntil(context, (route) {
         topRouteName = route.settings.name;
         return true;
       });
-
       if (topRouteName != '/market-watch' && topRouteName != AppRoutes.login) {
         globalNavigatorKey.currentState?.pushReplacementNamed('/market-watch');
       }
@@ -37,12 +31,9 @@ class GlobalEscapeAction extends Action<GlobalEscapeIntent> {
     return null;
   }
 }
-
 class GlobalEscapeShortcut extends StatelessWidget {
   final Widget child;
-
   const GlobalEscapeShortcut({Key? key, required this.child}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Shortcuts(

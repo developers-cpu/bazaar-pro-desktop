@@ -5,7 +5,6 @@ import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_images.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/widget/svg_icon.dart';
-
 class ContextMenuWidget extends StatelessWidget {
   final Offset position;
   final VoidCallback onViewChart;
@@ -157,14 +156,12 @@ class ContextMenuWidget extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildDivider() {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 2.h),
       child: Divider(height: 1, color: AppColors.greyBorder),
     );
   }
-
   Widget _buildMenuItem({
     required IconData icon,
     required String text,
@@ -224,7 +221,6 @@ class ContextMenuWidget extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildMenuItemSvg({
     required String icon,
     required String text,

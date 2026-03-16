@@ -4,7 +4,6 @@ import 'package:bazarpro/features/operations/domain/entities/trade_settings/trad
 import 'package:bazarpro/features/operations/domain/repositories/trade_settings/trade_settings_repository.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-
 class UpdateTradeSettings implements UseCase<bool, UpdateTradeSettingsParams> {
   final TradeSettingsRepository repository;
   UpdateTradeSettings(this.repository);
@@ -16,7 +15,6 @@ class UpdateTradeSettings implements UseCase<bool, UpdateTradeSettingsParams> {
     );
   }
 }
-
 class UpdateTradeSettingsParams extends Equatable {
   final List<String> ids;
   final TradeSetting? details;

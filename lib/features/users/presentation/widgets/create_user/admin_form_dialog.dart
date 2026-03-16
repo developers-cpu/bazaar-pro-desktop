@@ -12,7 +12,6 @@ import '../../bloc/user_form/user_form_state.dart';
 import 'admin_steps/admin_personal_details_step.dart';
 import 'admin_steps/admin_trigger_settings_step.dart';
 import 'shared/profile_summary_dialog.dart';
-
 class AdminFormDialog extends StatelessWidget {
   final bool isEditMode;
   final Map<String, dynamic>? userData;
@@ -40,7 +39,6 @@ class AdminFormDialog extends StatelessWidget {
       ),
     );
   }
-
   static void showEdit({
     required BuildContext context,
     required Map<String, dynamic> userData,
@@ -67,7 +65,6 @@ class AdminFormDialog extends StatelessWidget {
       ),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<UserFormBloc, UserFormState>(
@@ -117,7 +114,6 @@ class AdminFormDialog extends StatelessWidget {
       },
     );
   }
-
   Widget _buildHeader(BuildContext context, UserFormState state) {
     final title = state.isEditMode ? 'Edit Admin' : 'Create Admin';
     return ClipRRect(
@@ -149,7 +145,6 @@ class AdminFormDialog extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildStepIndicator(UserFormState state) {
     return AppStepIndicator(
       currentStep: state.currentStep,
@@ -157,7 +152,6 @@ class AdminFormDialog extends StatelessWidget {
       stepTitles: UserFormState.adminStepTitles,
     );
   }
-
   Widget _buildStepContent(UserFormState state) {
     switch (state.currentStep) {
       case 0:
@@ -168,7 +162,6 @@ class AdminFormDialog extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
-
   Widget _buildNavigationButtons(BuildContext context, UserFormState state) {
     final isLastStep = state.currentStep == 1;
     final isFirstStep = state.currentStep == 0;

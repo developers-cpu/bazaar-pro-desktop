@@ -8,7 +8,6 @@ import 'package:bazarpro/features/view/presentation/bloc/net_position/net_positi
 import 'package:bazarpro/features/view/presentation/bloc/net_position/net_position_state.dart';
 import 'package:bazarpro/features/view/presentation/widget/net_position/net_position_filter_bar.dart';
 import 'package:bazarpro/features/view/presentation/widget/net_position/net_position_table.dart';
-
 class NetPositionDialog extends StatelessWidget {
   final String? exchange;
   final String? symbol;
@@ -24,7 +23,6 @@ class NetPositionDialog extends StatelessWidget {
       showButtons: false,
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

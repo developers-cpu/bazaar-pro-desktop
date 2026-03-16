@@ -9,10 +9,8 @@ import '../../../../../../core/widget/app_switch.dart';
 import '../../../bloc/user_form/user_form_bloc.dart';
 import '../../../bloc/user_form/user_form_event.dart';
 import '../../../bloc/user_form/user_form_state.dart';
-
 class AdminTriggerSettingsStep extends StatelessWidget {
   const AdminTriggerSettingsStep({super.key});
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserFormBloc, UserFormState>(
@@ -24,7 +22,6 @@ class AdminTriggerSettingsStep extends StatelessWidget {
         final rightSettings = settings
             .where((s) => settings.indexOf(s) % 2 == 1)
             .toList();
-
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
           decoration: BoxDecoration(
@@ -61,7 +58,6 @@ class AdminTriggerSettingsStep extends StatelessWidget {
       },
     );
   }
-
   Widget _buildSettingRow(
     BuildContext context,
     UserFormState state,
@@ -111,7 +107,6 @@ class AdminTriggerSettingsStep extends StatelessWidget {
       ],
     );
   }
-
   String _getSvgIconForSetting(String key) {
     switch (key) {
       case 'cmpOrder':

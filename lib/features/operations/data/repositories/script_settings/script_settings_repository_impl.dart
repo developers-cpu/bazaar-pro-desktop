@@ -4,7 +4,6 @@ import '../../../domain/entities/script_settings/script_setting.dart';
 import '../../../domain/repositories/script_settings/script_settings_repository.dart';
 import '../../datasources/script_settings/script_settings_remote_data_source.dart';
 import '../../models/script_settings/script_setting_model.dart';
-
 class ScriptSettingsRepositoryImpl implements ScriptSettingsRepository {
   final ScriptSettingsRemoteDataSource remoteDataSource;
   ScriptSettingsRepositoryImpl({required this.remoteDataSource});
@@ -17,7 +16,6 @@ class ScriptSettingsRepositoryImpl implements ScriptSettingsRepository {
       return Left(ServerFailure());
     }
   }
-
   @override
   Future<Either<Failure, void>> updateScriptSettings(
     List<ScriptSetting> settings,

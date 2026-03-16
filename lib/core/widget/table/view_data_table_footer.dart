@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'view_data_table.dart';
 import 'view_table_cell_styles.dart';
-
 class ViewDataTableFooter extends StatelessWidget {
   final List<ViewTableColumn> columns;
   final Map<String, String> values;
@@ -45,13 +44,16 @@ class ViewDataTableFooter extends StatelessWidget {
           final column = entry.value;
           final value = values[column.id] ?? '';
           final isLast = index == columns.length - 1;
+          final isNumeric = column.isNumeric;
+          final alignment = isNumeric ? Alignment.centerRight : Alignment.centerLeft;
+          final horizontalPadding = column.width <= 50 ? 4.w : 16.w;
           return Container(
+            height: 35.h,
             width: column.width,
-            alignment: column.isNumeric
-                ? Alignment.centerRight
-                : Alignment.centerLeft,
-            padding: EdgeInsets.symmetric(
-              horizontal: column.width <= 50 ? 4.w : 16.w,
+            alignment: alignment,
+            padding: EdgeInsets.only(
+              left: horizontalPadding + (alignment == Alignment.centerLeft ? 8.w : 0),
+              right: (isLast ? horizontalPadding + 14.w : horizontalPadding) + (alignment == Alignment.centerRight ? 8.w : 0),
             ),
             decoration: BoxDecoration(
               border: (isLast || !showDividers)

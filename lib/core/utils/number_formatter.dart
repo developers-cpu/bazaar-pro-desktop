@@ -1,26 +1,21 @@
 import 'package:intl/intl.dart';
-
 class NumberFormatter {
   NumberFormatter._();
   static String formatWithCommas(num number) {
     final formatter = NumberFormat('#,##,###');
     return formatter.format(number);
   }
-
   static String formatPrice(num price) {
     final formatter = NumberFormat('#,##,##0.00');
     return formatter.format(price);
   }
-
   static String formatPercentage(num percentage) {
     return '${(percentage).toStringAsFixed(2)}%';
   }
-
   static String formatQuantity(int quantity) {
     final formatter = NumberFormat('#,##,###');
     return formatter.format(quantity);
   }
-
   static String formatChange(num change) {
     if (change > 0) {
       return '+${change.toStringAsFixed(2)}';
@@ -29,12 +24,10 @@ class NumberFormatter {
     }
     return '0.00';
   }
-
   static String formatCompact(num number) {
     final formatter = NumberFormat.compact();
     return formatter.format(number);
   }
-
   static double? parseFormattedNumber(String formattedNumber) {
     try {
       final cleanNumber = formattedNumber.replaceAll(',', '');
@@ -43,7 +36,6 @@ class NumberFormatter {
       return null;
     }
   }
-
   static bool isPositive(num number) => number > 0;
   static bool isNegative(num number) => number < 0;
   static bool isZero(num number) => number == 0;

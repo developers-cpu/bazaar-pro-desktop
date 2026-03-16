@@ -2,7 +2,6 @@ import 'package:bazarpro/features/tools/domain/usecases/get_market_timing_usecas
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'market_timing_event.dart';
 import 'market_timing_state.dart';
-
 class MarketTimingBloc extends Bloc<MarketTimingEvent, MarketTimingState> {
   final GetMarketTimingUseCase getMarketTiming;
   MarketTimingBloc({required this.getMarketTiming})

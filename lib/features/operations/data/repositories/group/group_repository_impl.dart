@@ -3,7 +3,6 @@ import '../../../../../core/errors/failures.dart';
 import '../../../domain/entities/group/group.dart';
 import '../../../domain/repositories/group/group_repository.dart';
 import '../../datasources/group/group_remote_data_source.dart';
-
 class GroupRepositoryImpl implements GroupRepository {
   final GroupRemoteDataSource remoteDataSource;
   GroupRepositoryImpl({required this.remoteDataSource});
@@ -16,7 +15,6 @@ class GroupRepositoryImpl implements GroupRepository {
       return Left(ServerFailure());
     }
   }
-
   @override
   Future<Either<Failure, bool>> addGroup({
     required String exchange,

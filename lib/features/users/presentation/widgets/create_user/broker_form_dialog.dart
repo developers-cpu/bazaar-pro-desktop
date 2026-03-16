@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/custom_action_button.dart';
 import '../../../../../core/widget/custom_input_field.dart';
-
 class BrokerFormDialog extends StatefulWidget {
   final VoidCallback? onComplete;
   const BrokerFormDialog({super.key, this.onComplete});
@@ -19,11 +18,9 @@ class BrokerFormDialog extends StatefulWidget {
       builder: (_) => BrokerFormDialog(onComplete: onComplete),
     );
   }
-
   @override
   State<BrokerFormDialog> createState() => _BrokerFormDialogState();
 }
-
 class _BrokerFormDialogState extends State<BrokerFormDialog> {
   final _nameController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -38,7 +35,6 @@ class _BrokerFormDialogState extends State<BrokerFormDialog> {
     _confirmPasswordController.dispose();
     super.dispose();
   }
-
   Future<void> _submit() async {
     setState(() {
       _isSubmitting = true;
@@ -49,7 +45,6 @@ class _BrokerFormDialogState extends State<BrokerFormDialog> {
       widget.onComplete?.call();
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -147,7 +142,6 @@ class _BrokerFormDialogState extends State<BrokerFormDialog> {
       ),
     );
   }
-
   Widget _buildHeader(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.only(

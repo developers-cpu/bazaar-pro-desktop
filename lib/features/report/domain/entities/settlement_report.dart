@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 class SettlementReport extends Equatable {
   final List<SettlementEntry> profitList;
   final List<SettlementEntry> lossList;
@@ -14,7 +13,6 @@ class SettlementReport extends Equatable {
   @override
   List<Object?> get props => [profitList, lossList, profitTotal, lossTotal];
 }
-
 class SettlementEntry extends Equatable {
   final String userId;
   final String username;
@@ -40,7 +38,6 @@ class SettlementEntry extends Equatable {
     total,
   ];
 }
-
 class SettlementTotal extends Equatable {
   final double totalPnl;
   final double totalBrokerage;

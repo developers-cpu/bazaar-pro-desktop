@@ -1,18 +1,16 @@
-import 'package:bazarpro/features/users/presentation/bloc/nested_users/nested_users_bloc.dart';
-import 'package:bazarpro/features/users/presentation/bloc/nested_users/nested_users_event.dart';
-import 'package:bazarpro/features/users/presentation/bloc/nested_users/nested_users_state.dart';
-import 'package:bazarpro/injection_container.dart';
+import '../../../../../../core/widget/table/view_data_table.dart';
+import '../../../../../../core/widget/table/view_record_count.dart';
+import '../../../../../../core/widget/table/view_table_cell_styles.dart';
+import '../../../../../../injection_container.dart';
+import '../../../../../../core/constants/app_colors.dart';
+import '../../../../domain/entities/user.dart';
+import '../user_details_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
-import '../../../../../../core/constants/app_colors.dart';
-import '../../../../../../core/widget/table/view_data_table.dart';
-import '../../../../../../core/widget/table/view_record_count.dart';
-import '../../../../domain/entities/user.dart';
-import '../user_details_dialog.dart';
-
+import 'package:bazarpro/features/users/presentation/bloc/nested_users/nested_users_bloc.dart';
+import 'package:bazarpro/features/users/presentation/bloc/nested_users/nested_users_event.dart';
+import 'package:bazarpro/features/users/presentation/bloc/nested_users/nested_users_state.dart';
 class UserListTab extends StatelessWidget {
   final User user;
   const UserListTab({super.key, required this.user});
@@ -24,7 +22,6 @@ class UserListTab extends StatelessWidget {
     );
   }
 }
-
 class UserListTabView extends StatelessWidget {
   const UserListTabView({super.key});
   @override
@@ -98,7 +95,6 @@ class UserListTabView extends StatelessWidget {
       ],
     );
   }
-
   List<ViewTableColumn> _getColumns() {
     return [
       ViewTableColumn(id: 'userName', label: 'USER NAME', width: 120.w),
@@ -134,76 +130,57 @@ class UserListTabView extends StatelessWidget {
       ViewTableColumn(id: 'ipAddress', label: 'IP ADDRESS', width: 130.w),
     ];
   }
-
   Widget _buildCellContent(BuildContext context, User user, String columnId) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     switch (columnId) {
       case 'userName':
-        return InkWell(
+        return ViewLinkCell(
+          text: user.userName,
           onTap: () => _showUserDetailsDialog(context, user),
-          child: Text(
-            user.userName,
-            style: GoogleFonts.openSans(
-              fontSize: 11.sp,
-              fontWeight: FontWeight.w500,
-              color: AppColors.primaryBlue,
-              decoration: TextDecoration.underline,
-            ),
-          ),
+          isDark: isDark,
         );
       case 'name':
-        return Text(user.name, style: _textStyle(context));
+        return ViewTextCell(text: user.name, isDark: isDark);
       case 'type':
-        return Text(user.type, style: _textStyle(context));
+        return ViewTextCell(text: user.type, isDark: isDark);
       case 'parentUser':
-        return Text(user.parentUser, style: _textStyle(context));
+        return ViewTextCell(text: user.parentUser, isDark: isDark);
       case 'credit':
-        return InkWell(
+        return ViewLinkCell(
+          text: user.credit.toStringAsFixed(0),
           onTap: () =>
               _showUserDetailsDialog(context, user, initialTab: 'Credit'),
-          child: Text(
-            user.credit.toStringAsFixed(0),
-            style: GoogleFonts.openSans(
-              fontSize: 11.sp,
-              fontWeight: FontWeight.w500,
-              color: AppColors.primaryBlue,
-              decoration: TextDecoration.underline,
-            ),
-          ),
+          isDark: isDark,
+          isNumeric: true,
         );
       case 'balance':
-        return Text(user.equity.toStringAsFixed(0), style: _textStyle(context));
+        return ViewNumberCell(
+          value: user.equity,
+          colorByValue: false,
+          isDark: isDark,
+        );
       case 'brkPercent':
-        return Text(
-          user.brkPercent.toStringAsFixed(0),
-          style: _textStyle(context),
+        return ViewNumberCell(
+          value: user.brkPercent,
+          colorByValue: false,
+          isDark: isDark,
         );
       case 'plPercent':
-        return Text(
-          user.plPercent.toStringAsFixed(0),
-          style: _textStyle(context),
+        return ViewNumberCell(
+          value: user.plPercent,
+          colorByValue: false,
+          isDark: isDark,
         );
       case 'deviceId':
-        return Text(user.deviceType ?? 'N/A', style: _textStyle(context));
+        return ViewTextCell(text: user.deviceType ?? 'N/A', isDark: isDark);
       case 'createdDate':
-        return Text(
-          DateFormat('dd/MM/yy hh:mm:ss a').format(user.createdDate),
-          style: _textStyle(context),
-        );
+        return ViewDateTimeCell(dateTime: user.createdDate, isDark: isDark);
       case 'ipAddress':
-        return Text(user.ipAddress ?? '', style: _textStyle(context));
+        return ViewTextCell(text: user.ipAddress ?? '', isDark: isDark);
       default:
         return const SizedBox.shrink();
     }
   }
-
-  TextStyle _textStyle(BuildContext context) {
-    return GoogleFonts.openSans(
-      fontSize: 11.sp,
-      fontWeight: FontWeight.w500,
-      color: AppColors.primaryTextColor,
-    );
-  }
-
   void _showUserDetailsDialog(
     BuildContext context,
     User user, {

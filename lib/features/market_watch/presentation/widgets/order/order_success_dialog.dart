@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../data/models/order_dialog_type.dart';
-
 class OrderSuccessDialog extends StatefulWidget {
   final OrderType orderType;
   final String? symbol;
@@ -44,11 +43,9 @@ class OrderSuccessDialog extends StatefulWidget {
       ),
     );
   }
-
   @override
   State<OrderSuccessDialog> createState() => _OrderSuccessDialogState();
 }
-
 class _OrderSuccessDialogState extends State<OrderSuccessDialog> {
   @override
   void initState() {
@@ -59,7 +56,6 @@ class _OrderSuccessDialogState extends State<OrderSuccessDialog> {
       }
     });
   }
-
   @override
   Widget build(BuildContext context) {
     final statusColor = widget.orderType == OrderType.buy
@@ -67,11 +63,9 @@ class _OrderSuccessDialogState extends State<OrderSuccessDialog> {
         : AppColors.red;
     final titleText = 'Order Placed Successfully!';
     final actionName = widget.orderType == OrderType.buy ? 'Buy' : 'Sell';
-
     final dateFormat = DateFormat('dd/MM/yy');
     final timeFormat = DateFormat('hh:mm:ss a');
     final now = DateTime.now();
-
     return Dialog(
       alignment: Alignment.bottomRight,
       backgroundColor: Colors.transparent,

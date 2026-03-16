@@ -12,10 +12,8 @@ import '../../../../../core/widget/table/view_record_count.dart';
 import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import '../../../../auth/presentation/bloc/auth_bloc.dart';
 import '../../../../auth/presentation/bloc/auth_state.dart';
-
 class LoginHistoryTable extends StatelessWidget {
   const LoginHistoryTable({Key? key}) : super(key: key);
-
   List<ViewTableColumn> _getColumns(bool isClient) {
     if (isClient) {
       return const [
@@ -24,23 +22,22 @@ class LoginHistoryTable extends StatelessWidget {
       ];
     }
     return const [
-      const ViewTableColumn(
+      ViewTableColumn(
         id: 'index',
         label: 'INDEX',
         width: 60,
         isNumeric: true,
       ),
-      const ViewTableColumn(id: 'loginTime', label: 'LOGIN TIME', width: 160),
-      const ViewTableColumn(id: 'logoutTime', label: 'LOGOUT TIME', width: 160),
-      const ViewTableColumn(id: 'userName', label: 'USER NAME', width: 120),
-      const ViewTableColumn(id: 'userType', label: 'USER TYPE', width: 120),
-      const ViewTableColumn(id: 'ipAddress', label: 'IP ADDRESS', width: 120),
-      const ViewTableColumn(id: 'deviceId', label: 'DEVICE ID', width: 280),
-      const ViewTableColumn(id: 'device', label: 'DEVICE', width: 80),
-      const ViewTableColumn(id: 'city', label: 'City', width: 100),
+      ViewTableColumn(id: 'loginTime', label: 'LOGIN TIME', width: 140),
+      ViewTableColumn(id: 'logoutTime', label: 'LOGOUT TIME', width: 140),
+      ViewTableColumn(id: 'userName', label: 'USER NAME', width: 100),
+      ViewTableColumn(id: 'userType', label: 'USER TYPE', width: 90),
+      ViewTableColumn(id: 'ipAddress', label: 'IP ADDRESS', width: 110, isNumeric: true),
+      ViewTableColumn(id: 'deviceId', label: 'DEVICE ID', width: 260),
+      ViewTableColumn(id: 'device', label: 'DEVICE', width: 70),
+      ViewTableColumn(id: 'city', label: 'CITY', width: 90),
     ];
   }
-
   @override
   Widget build(BuildContext context) {
     bool isClient = false;
@@ -50,7 +47,6 @@ class LoginHistoryTable extends StatelessWidget {
           authState is AuthAuthenticated &&
           authState.user.role.toLowerCase() == 'client';
     } catch (_) {}
-
     return BlocBuilder<LoginHistoryBloc, LoginHistoryState>(
       builder: (context, state) {
         if (state is LoginHistoryInitial) {
@@ -109,7 +105,6 @@ class LoginHistoryTable extends StatelessWidget {
       },
     );
   }
-
   Widget _buildCell(
     LoginHistory history,
     ViewTableColumn column,

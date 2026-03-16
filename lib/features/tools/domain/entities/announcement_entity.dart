@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 class AnnouncementEntity extends Equatable {
   final String id;
   final String title;

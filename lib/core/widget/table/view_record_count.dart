@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 class ViewRecordCount extends StatelessWidget {
   final int count;
   final String label;
@@ -18,12 +17,10 @@ class ViewRecordCount extends StatelessWidget {
       final isClient =
           authState is AuthAuthenticated &&
           authState.user.role.toLowerCase() == 'client';
-
       if (isClient) {
         return const SizedBox.shrink();
       }
     } catch (_) {}
-
     return Align(
       alignment: Alignment.centerRight,
       child: Container(

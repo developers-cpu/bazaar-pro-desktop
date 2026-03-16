@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 class UserQuantitySetting extends Equatable {
   final String id;
   final String symbol;

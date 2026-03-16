@@ -13,7 +13,6 @@ import '../../../../../core/widget/table/view_record_count.dart';
 import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import '../../../../../core/widget/table/view_data_table_footer.dart';
 import '../../../../../core/constants/app_colors.dart';
-
 class UserWiseProfitAndLossReportTable extends StatelessWidget {
   final bool isDarkMode;
   const UserWiseProfitAndLossReportTable({super.key, this.isDarkMode = false});
@@ -76,7 +75,6 @@ class UserWiseProfitAndLossReportTable extends StatelessWidget {
       ViewTableColumn(id: 'createdDate', label: 'CREATE DATE', width: 150),
     ];
   }
-
   User _createDummyUser(UserWiseProfitAndLossReport item) {
     return User(
       id: item.id,
@@ -97,28 +95,18 @@ class UserWiseProfitAndLossReportTable extends StatelessWidget {
       status: 'Active',
     );
   }
-
   Widget _buildClickableNumberCell(
-    BuildContext context,
     double value,
     VoidCallback onTap,
     bool isDark,
   ) {
-    return InkWell(
+    return ViewLinkCell(
+      text: value.toStringAsFixed(2),
       onTap: onTap,
-      child: Center(
-        child: Text(
-          value.toStringAsFixed(2),
-          style: ViewTableCellStyles.getTextStyle(
-            isDark: isDark,
-            color: ViewTableCellStyles.getValueColor(value, isDark: isDark),
-          ).copyWith(decoration: TextDecoration.underline),
-          textAlign: TextAlign.center,
-        ),
-      ),
+      isNumeric: true,
+      isDark: isDark,
     );
   }
-
   Widget _buildCell(
     BuildContext context,
     UserWiseProfitAndLossReport item,
@@ -181,7 +169,7 @@ class UserWiseProfitAndLossReportTable extends StatelessWidget {
       case 'parentUser':
         return ViewTextCell(text: item.parentUser, isDark: isDark);
       case 'mtm':
-        return _buildClickableNumberCell(context, item.mtm, () {
+        return _buildClickableNumberCell(item.mtm, () {
           UserDetailsDialog.show(
             context,
             _createDummyUser(item),
@@ -204,7 +192,7 @@ class UserWiseProfitAndLossReportTable extends StatelessWidget {
           );
         }, isDark);
       case 'releasedPL':
-        return _buildClickableNumberCell(context, item.releasedPL, () {
+        return _buildClickableNumberCell(item.releasedPL, () {
           UserDetailsDialog.show(
             context,
             _createDummyUser(item),
@@ -236,7 +224,7 @@ class UserWiseProfitAndLossReportTable extends StatelessWidget {
       case 'netPL':
         return ViewNumberCell(value: item.netPL, isDark: isDark);
       case 'credit':
-        return _buildClickableNumberCell(context, item.credit, () {
+        return _buildClickableNumberCell(item.credit, () {
           UserDetailsDialog.show(
             context,
             _createDummyUser(item),
@@ -307,7 +295,6 @@ class UserWiseProfitAndLossReportTable extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserWiseProfitAndLossBloc, UserWiseProfitAndLossState>(

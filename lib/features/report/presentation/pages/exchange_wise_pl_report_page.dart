@@ -5,7 +5,6 @@ import '../bloc/exchange_wise_pl/exchange_wise_pl_bloc.dart';
 import '../bloc/exchange_wise_pl/exchange_wise_pl_event.dart';
 import '../bloc/exchange_wise_pl/exchange_wise_pl_state.dart';
 import '../widgets/exchange_wise_pl/exchange_wise_pl_table.dart';
-
 class ExchangeWisePLReportPage extends StatelessWidget {
   const ExchangeWisePLReportPage({super.key});
   @override

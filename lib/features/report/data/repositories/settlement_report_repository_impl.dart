@@ -4,7 +4,6 @@ import '../../../../../core/errors/failures.dart';
 import '../../domain/entities/settlement_report.dart';
 import '../../domain/repositories/settlement_report_repository.dart';
 import '../datasources/settlement_report_remote_datasource.dart';
-
 class SettlementReportRepositoryImpl implements SettlementReportRepository {
   final SettlementReportRemoteDataSource remoteDataSource;
   SettlementReportRepositoryImpl({required this.remoteDataSource});

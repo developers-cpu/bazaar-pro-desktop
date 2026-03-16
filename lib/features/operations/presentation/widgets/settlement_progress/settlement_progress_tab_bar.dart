@@ -2,27 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
-
 class SettlementProgressTabBar extends StatefulWidget {
   final List<String> tabs;
   final int activeTab;
   final ValueChanged<int> onTabChanged;
-
   const SettlementProgressTabBar({
     super.key,
     required this.tabs,
     required this.activeTab,
     required this.onTabChanged,
   });
-
   @override
   State<SettlementProgressTabBar> createState() =>
       _SettlementProgressTabBarState();
 }
-
 class _SettlementProgressTabBarState extends State<SettlementProgressTabBar> {
   int? _hoveredIndex;
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(

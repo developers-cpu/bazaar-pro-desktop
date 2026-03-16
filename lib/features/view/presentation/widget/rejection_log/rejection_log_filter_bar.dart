@@ -9,7 +9,6 @@ import '../../bloc/rejection_log/rejection_log_event.dart';
 import '../../bloc/rejection_log/rejection_log_state.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
-
 class RejectionLogFilterBar extends StatelessWidget {
   const RejectionLogFilterBar({Key? key}) : super(key: key);
   @override
@@ -26,7 +25,6 @@ class RejectionLogFilterBar extends StatelessWidget {
         final isMaster =
             authState is AuthAuthenticated &&
             authState.user.role.toLowerCase() == 'master';
-
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Row(

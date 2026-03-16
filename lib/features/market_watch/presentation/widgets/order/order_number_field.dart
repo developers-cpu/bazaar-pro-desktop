@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
-
 class OrderNumberField extends StatefulWidget {
   final String label;
   final int value;
@@ -29,7 +28,6 @@ class OrderNumberField extends StatefulWidget {
   @override
   State<OrderNumberField> createState() => _OrderNumberFieldState();
 }
-
 class _OrderNumberFieldState extends State<OrderNumberField> {
   late TextEditingController _controller;
   late FocusNode _focusNode;
@@ -41,7 +39,6 @@ class _OrderNumberFieldState extends State<OrderNumberField> {
     _focusNode = FocusNode();
     _focusNode.addListener(_onFocusChange);
   }
-
   @override
   void didUpdateWidget(OrderNumberField oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -49,7 +46,6 @@ class _OrderNumberFieldState extends State<OrderNumberField> {
       _controller.text = widget.value.toString();
     }
   }
-
   @override
   void dispose() {
     _controller.dispose();
@@ -57,7 +53,6 @@ class _OrderNumberFieldState extends State<OrderNumberField> {
     _focusNode.dispose();
     super.dispose();
   }
-
   void _onFocusChange() {
     if (!_focusNode.hasFocus) {
       _isEditing = false;
@@ -70,7 +65,6 @@ class _OrderNumberFieldState extends State<OrderNumberField> {
       );
     }
   }
-
   void _validateAndUpdate() {
     final text = _controller.text.trim();
     if (text.isEmpty) {
@@ -89,7 +83,6 @@ class _OrderNumberFieldState extends State<OrderNumberField> {
     }
     widget.onChanged(clamped);
   }
-
   void _increment() {
     final newValue = (widget.value + widget.step).clamp(
       widget.minValue,
@@ -98,7 +91,6 @@ class _OrderNumberFieldState extends State<OrderNumberField> {
     _controller.text = newValue.toString();
     widget.onChanged(newValue);
   }
-
   void _decrement() {
     final newValue = (widget.value - widget.step).clamp(
       widget.minValue,
@@ -107,7 +99,6 @@ class _OrderNumberFieldState extends State<OrderNumberField> {
     _controller.text = newValue.toString();
     widget.onChanged(newValue);
   }
-
   Color get _borderColor => widget.borderColor ?? LightThemeColors.primaryColor;
   Color get _textColor => LightThemeColors.textColor;
   @override
@@ -165,7 +156,6 @@ class _OrderNumberFieldState extends State<OrderNumberField> {
       ],
     );
   }
-
   Widget _buildButton({
     required String icon,
     required VoidCallback onTap,

@@ -2,7 +2,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../domain/usecases/get_settlement_master_sharing.dart';
 import 'settlement_master_sharing_event.dart';
 import 'settlement_master_sharing_state.dart';
-
 class SettlementMasterSharingBloc
     extends Bloc<SettlementMasterSharingEvent, SettlementMasterSharingState> {
   final GetSettlementMasterSharing getSettlementMasterSharing;
@@ -11,7 +10,6 @@ class SettlementMasterSharingBloc
     on<LoadMasterSharingDataEvent>(_onLoadData);
     on<SelectMasterEvent>(_onSelectMaster);
   }
-
   Future<void> _onLoadData(
     LoadMasterSharingDataEvent event,
     Emitter<SettlementMasterSharingState> emit,
@@ -31,7 +29,6 @@ class SettlementMasterSharingBloc
       ),
     );
   }
-
   Future<void> _onSelectMaster(
     SelectMasterEvent event,
     Emitter<SettlementMasterSharingState> emit,

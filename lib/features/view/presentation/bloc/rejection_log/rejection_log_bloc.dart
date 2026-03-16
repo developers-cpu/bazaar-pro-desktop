@@ -4,7 +4,6 @@ import '../../../domain/entities/rejection_log/rejection_log.dart';
 import '../../../domain/usecases/ rejection_log/rejection_log_usecases.dart';
 import 'rejection_log_event.dart';
 import 'rejection_log_state.dart';
-
 class RejectionLogBloc extends Bloc<RejectionLogEvent, RejectionLogState> {
   final GetRejectionLogs getRejectionLogs;
   final GetRejectionLogsWithFilters getRejectionLogsWithFilters;
@@ -86,7 +85,6 @@ class RejectionLogBloc extends Bloc<RejectionLogEvent, RejectionLogState> {
       emit(RejectionLogError(e.toString()));
     }
   }
-
   Future<void> _onApplyFilters(
     ApplyRejectionLogFiltersEvent event,
     Emitter<RejectionLogState> emit,
@@ -118,7 +116,6 @@ class RejectionLogBloc extends Bloc<RejectionLogEvent, RejectionLogState> {
       ),
     );
   }
-
   void _onUpdateFilters(
     UpdateRejectionLogFiltersEvent event,
     Emitter<RejectionLogState> emit,
@@ -135,7 +132,6 @@ class RejectionLogBloc extends Bloc<RejectionLogEvent, RejectionLogState> {
       ),
     );
   }
-
   Future<void> _onResetFilters(
     ResetRejectionLogFiltersEvent event,
     Emitter<RejectionLogState> emit,
@@ -153,7 +149,6 @@ class RejectionLogBloc extends Bloc<RejectionLogEvent, RejectionLogState> {
       ),
     );
   }
-
   void _onSortByColumn(
     SortRejectionLogsByColumnEvent event,
     Emitter<RejectionLogState> emit,
@@ -216,7 +211,6 @@ class RejectionLogBloc extends Bloc<RejectionLogEvent, RejectionLogState> {
       ),
     );
   }
-
   Future<void> _onExportToPdf(
     ExportRejectionLogsToPdfEvent event,
     Emitter<RejectionLogState> emit,
@@ -234,7 +228,6 @@ class RejectionLogBloc extends Bloc<RejectionLogEvent, RejectionLogState> {
       emit(currentState);
     });
   }
-
   Future<void> _onExportToExcel(
     ExportRejectionLogsToExcelEvent event,
     Emitter<RejectionLogState> emit,

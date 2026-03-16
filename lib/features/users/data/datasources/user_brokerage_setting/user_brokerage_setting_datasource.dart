@@ -1,6 +1,5 @@
 import 'package:bazarpro/features/users/data/models/user_brokerage_setting/user_brokerage_setting_model.dart';
 import 'package:dartz/dartz.dart';
-
 abstract class UserBrokerageSettingDataSource {
   Future<List<UserBrokerageSettingModel>> getUserBrokerageSettings(
     String userId,
@@ -11,7 +10,6 @@ abstract class UserBrokerageSettingDataSource {
     double? symbolWiseBrk,
   });
 }
-
 class UserBrokerageSettingDataSourceImpl
     implements UserBrokerageSettingDataSource {
   @override
@@ -38,7 +36,6 @@ class UserBrokerageSettingDataSourceImpl
       ),
     ];
   }
-
   @override
   Future<void> updateBrokerageSettings({
     required List<String> selectedIds,

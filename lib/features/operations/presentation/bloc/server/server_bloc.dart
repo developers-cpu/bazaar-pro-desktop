@@ -4,7 +4,6 @@ import '../../../domain/usecases/server/update_server_status.dart';
 import '../../../domain/repositories/server/server_repository.dart';
 import 'server_event.dart';
 import 'server_state.dart';
-
 class ServerBloc extends Bloc<ServerEvent, ServerState> {
   final GetServers getServers;
   final UpdateServerStatus updateServerStatus;
@@ -44,7 +43,6 @@ class ServerBloc extends Bloc<ServerEvent, ServerState> {
       );
     }
   }
-
   Future<void> _onUpdateServerStatus(
     UpdateServerStatusEvent event,
     Emitter<ServerState> emit,
@@ -61,7 +59,6 @@ class ServerBloc extends Bloc<ServerEvent, ServerState> {
       );
     }
   }
-
   Future<void> _onAddServer(
     AddServerEvent event,
     Emitter<ServerState> emit,
@@ -79,7 +76,6 @@ class ServerBloc extends Bloc<ServerEvent, ServerState> {
       );
     }
   }
-
   Future<void> _onEditServer(
     EditServerEvent event,
     Emitter<ServerState> emit,
@@ -97,7 +93,6 @@ class ServerBloc extends Bloc<ServerEvent, ServerState> {
       );
     }
   }
-
   void _onSearchServer(SearchServerEvent event, Emitter<ServerState> emit) {
     final query = event.query.toLowerCase();
     if (query.isEmpty) {

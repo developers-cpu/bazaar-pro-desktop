@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 class TradeReportData extends Equatable {
   final String date;
   final double deleted;
@@ -14,7 +13,6 @@ class TradeReportData extends Equatable {
   @override
   List<Object?> get props => [date, deleted, cancelled, success];
 }
-
 class SymbolReportData extends Equatable {
   final String symbol;
   final double value;
@@ -29,7 +27,6 @@ class SymbolReportData extends Equatable {
   @override
   List<Object?> get props => [symbol, value, percentage, colorIndex];
 }
-
 class DashboardSummary extends Equatable {
   final double pnl;
   final double bk;
@@ -44,7 +41,6 @@ class DashboardSummary extends Equatable {
   @override
   List<Object?> get props => [pnl, bk, other, balance];
 }
-
 class WeeklyProgressData extends Equatable {
   final String label;
   final double value;
@@ -52,7 +48,6 @@ class WeeklyProgressData extends Equatable {
   @override
   List<Object?> get props => [label, value];
 }
-
 class DashboardData extends Equatable {
   final List<TradeReportData> tradeReports;
   final List<SymbolReportData> symbolReports;

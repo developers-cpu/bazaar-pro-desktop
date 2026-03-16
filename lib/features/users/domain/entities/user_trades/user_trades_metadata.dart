@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 class UserTradesMetadata extends Equatable {
   final List<String> exchanges;
   final List<String> symbols;

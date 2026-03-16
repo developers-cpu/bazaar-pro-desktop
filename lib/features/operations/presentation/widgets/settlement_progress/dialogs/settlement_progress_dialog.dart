@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../../../../../../core/constants/app_colors.dart';
 import '../../../../../../core/widget/common_dilog_box.dart';
 import '../../../../../../core/widget/table/view_data_table.dart';
 import '../../../../../../core/widget/table/success_dialog.dart';
-
 class SettlementProgressDialog {
   static void show(BuildContext context, List<String> exchanges) {
     CommonDialog.show(
@@ -24,22 +22,18 @@ class SettlementProgressDialog {
     );
   }
 }
-
 class _SettlementProgressContent extends StatefulWidget {
   final List<String> exchanges;
   final VoidCallback onClose;
-
   const _SettlementProgressContent({
     Key? key,
     required this.exchanges,
     required this.onClose,
   }) : super(key: key);
-
   @override
   State<_SettlementProgressContent> createState() =>
       _SettlementProgressContentState();
 }
-
 class _SettlementProgressContentState extends State<_SettlementProgressContent> {
   @override
   void initState() {
@@ -55,7 +49,6 @@ class _SettlementProgressContentState extends State<_SettlementProgressContent> 
       }
     });
   }
-
   @override
   Widget build(BuildContext context) {
     return Padding(

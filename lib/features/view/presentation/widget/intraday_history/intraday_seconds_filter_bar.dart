@@ -11,14 +11,12 @@ import '../../bloc/intraday_history/intraday_history_event.dart';
 import '../../bloc/intraday_history/intraday_history_state.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
-
 class IntradaySecondsFilterBar extends StatefulWidget {
   const IntradaySecondsFilterBar({Key? key}) : super(key: key);
   @override
   State<IntradaySecondsFilterBar> createState() =>
       _IntradaySecondsFilterBarState();
 }
-
 class _IntradaySecondsFilterBarState extends State<IntradaySecondsFilterBar> {
   DateTime? _selectedDate;
   String? _selectedExchange;
@@ -57,7 +55,6 @@ class _IntradaySecondsFilterBarState extends State<IntradaySecondsFilterBar> {
         final isMaster =
             authState is AuthAuthenticated &&
             authState.user.role.toLowerCase() == 'master';
-
         _selectedDate ??= state.date;
         _selectedExchange ??= state.exchange.isNotEmpty ? state.exchange : null;
         _selectedSymbol ??= state.symbol.isNotEmpty ? state.symbol : null;
@@ -159,7 +156,6 @@ class _IntradaySecondsFilterBarState extends State<IntradaySecondsFilterBar> {
       },
     );
   }
-
   Widget _buildBackButton(BuildContext context) {
     return Row(
       mainAxisSize: MainAxisSize.min,

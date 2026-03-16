@@ -4,7 +4,6 @@ import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/constants/app_images.dart';
 import '../../../../../core/widget/svg_icon.dart';
 import 'table_text_style_helper.dart';
-
 class TableHeaderCell extends StatefulWidget {
   final String title;
   final String columnId;
@@ -37,14 +36,11 @@ class TableHeaderCell extends StatefulWidget {
     this.onSort,
     this.onColumnReorder,
   }) : super(key: key);
-
   @override
   State<TableHeaderCell> createState() => _TableHeaderCellState();
 }
-
 class _TableHeaderCellState extends State<TableHeaderCell> {
   bool _isDragOver = false;
-
   @override
   Widget build(BuildContext context) {
     if (widget.title.isEmpty) {
@@ -97,7 +93,6 @@ class _TableHeaderCellState extends State<TableHeaderCell> {
         ),
       );
     }
-
     Widget headerWidget = Container(
       constraints: const BoxConstraints.expand(),
       padding: EdgeInsets.only(left: widget.columnId == 'exchange' ? 8.w : 0.w),
@@ -108,7 +103,6 @@ class _TableHeaderCellState extends State<TableHeaderCell> {
         child: content,
       ),
     );
-
     if (widget.onColumnReorder != null) {
       final originalHeaderWidget = headerWidget;
       headerWidget = DragTarget<String>(
@@ -166,11 +160,9 @@ class _TableHeaderCellState extends State<TableHeaderCell> {
         },
       );
     }
-
     if (widget.onSort != null) {
       headerWidget = InkWell(onTap: widget.onSort, child: headerWidget);
     }
-
     return headerWidget;
   }
 }

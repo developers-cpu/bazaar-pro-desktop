@@ -9,7 +9,6 @@ import '../../../../../../core/widget/app_switch.dart';
 import '../../../bloc/user_form/user_form_bloc.dart';
 import '../../../bloc/user_form/user_form_event.dart';
 import '../../../bloc/user_form/user_form_state.dart';
-
 class MasterTriggerSettingsStep extends StatelessWidget {
   const MasterTriggerSettingsStep({super.key});
   @override
@@ -59,7 +58,6 @@ class MasterTriggerSettingsStep extends StatelessWidget {
       },
     );
   }
-
   Widget _buildSettingRow(
     BuildContext context,
     UserFormState state,
@@ -109,7 +107,6 @@ class MasterTriggerSettingsStep extends StatelessWidget {
       ],
     );
   }
-
   String _getSvgIconForSetting(String key) {
     switch (key) {
       case 'addMaster':

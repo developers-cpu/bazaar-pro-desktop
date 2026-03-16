@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/widget/common_dilog_box.dart';
 import '../../../../../core/widget/custom_action_button.dart';
 import '../../../../../core/widget/custom_input_field.dart';
-
 class ImportDateSettingsDialog {
   static void show(BuildContext context) {
     CommonDialog.show(
@@ -16,15 +15,12 @@ class ImportDateSettingsDialog {
     );
   }
 }
-
 class _ImportDateSettingsContent extends StatelessWidget {
   final VoidCallback onClose;
-
   const _ImportDateSettingsContent({
     Key? key,
     required this.onClose,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -36,7 +32,6 @@ class _ImportDateSettingsContent extends StatelessWidget {
       ],
     );
   }
-
   Widget _buildImportSection() {
     return Row(
       children: [
@@ -58,7 +53,6 @@ class _ImportDateSettingsContent extends StatelessWidget {
       ],
     );
   }
-
   Widget _buildUpdateButton(BuildContext context) {
     return Center(
       child: CustomActionButton(

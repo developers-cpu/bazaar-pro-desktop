@@ -3,7 +3,6 @@ import 'package:bazarpro/features/users/domain/repositories/user_brokerage_setti
 import 'package:dartz/dartz.dart';
 import '../../../../../../core/errors/failures.dart';
 import '../../../../../../core/usecases/usecase.dart';
-
 class GetUserBrokerageSettings
     implements UseCase<List<UserBrokerageSetting>, String> {
   final UserBrokerageSettingRepository repository;

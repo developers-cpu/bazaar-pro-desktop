@@ -4,7 +4,6 @@ import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/widget/svg_icon.dart' show SvgIcon;
 import '../../data/models/dropdown_option_model.dart';
-
 class CustomDropdownField extends StatefulWidget {
   final String hintText;
   final String? value;
@@ -24,7 +23,6 @@ class CustomDropdownField extends StatefulWidget {
   @override
   State<CustomDropdownField> createState() => _CustomDropdownFieldState();
 }
-
 class _CustomDropdownFieldState extends State<CustomDropdownField>
     with SingleTickerProviderStateMixin {
   final LayerLink _layerLink = LayerLink();
@@ -51,14 +49,12 @@ class _CustomDropdownFieldState extends State<CustomDropdownField>
     );
     _animation = CurvedAnimation(parent: _controller, curve: Curves.easeOut);
   }
-
   @override
   void dispose() {
     _removeOverlay();
     _controller.dispose();
     super.dispose();
   }
-
   void _toggle() => _isOpen ? _close() : _open();
   void _open() {
     _overlayEntry = _createOverlay();
@@ -66,20 +62,17 @@ class _CustomDropdownFieldState extends State<CustomDropdownField>
     setState(() => _isOpen = true);
     _controller.forward();
   }
-
   void _close() {
     _controller.reverse().then((_) {
       _removeOverlay();
       if (mounted) setState(() => _isOpen = false);
     });
   }
-
   void _removeOverlay() {
     _overlayEntry?.remove();
     _overlayEntry?.dispose();
     _overlayEntry = null;
   }
-
   bool _isSvg(String path) => path.toLowerCase().endsWith('.svg');
   Widget _buildLeftIcon(String? iconPath) {
     if (iconPath == null || iconPath.isEmpty) return const SizedBox.shrink();
@@ -104,7 +97,6 @@ class _CustomDropdownFieldState extends State<CustomDropdownField>
       ),
     );
   }
-
   Widget _buildTrailingIcon(String? iconPath) {
     if (iconPath == null || iconPath.isEmpty) return const SizedBox.shrink();
     return SizedBox(
@@ -126,7 +118,6 @@ class _CustomDropdownFieldState extends State<CustomDropdownField>
             ),
     );
   }
-
   bool get _hasSelection => widget.value != null && widget.value!.isNotEmpty;
   DropdownOption? get _selectedItem {
     if (!_hasSelection) return null;
@@ -136,7 +127,6 @@ class _CustomDropdownFieldState extends State<CustomDropdownField>
       return null;
     }
   }
-
   OverlayEntry _createOverlay() {
     final renderBox = context.findRenderObject() as RenderBox;
     final size = renderBox.size;
@@ -198,7 +188,6 @@ class _CustomDropdownFieldState extends State<CustomDropdownField>
       ),
     );
   }
-
   List<Widget> _buildDropdownItems(double dropdownHeight) {
     final List<Widget> children = [];
     final itemCount = widget.items.length;
@@ -244,7 +233,6 @@ class _CustomDropdownFieldState extends State<CustomDropdownField>
     }
     return children;
   }
-
   @override
   Widget build(BuildContext context) {
     final selected = _selectedItem;

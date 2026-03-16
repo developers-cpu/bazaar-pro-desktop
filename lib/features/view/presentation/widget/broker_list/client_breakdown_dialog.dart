@@ -10,7 +10,6 @@ import '../../../../../core/widget/table/view_data_table_footer.dart';
 import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import '../../../domain/entities/broker_list/client_breakdown.dart';
 import '../../bloc/broker_list/client_breakdown_bloc.dart';
-
 class ClientBreakdownDialog {
   static void show({
     required BuildContext context,
@@ -46,7 +45,6 @@ class ClientBreakdownDialog {
     );
   }
 }
-
 class _ClientBreakdownContent extends StatelessWidget {
   final String brokerId;
   final String clientName;
@@ -57,7 +55,6 @@ class _ClientBreakdownContent extends StatelessWidget {
     required this.clientName,
     this.isDarkMode = false,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ClientBreakdownBloc, ClientBreakdownState>(
@@ -68,7 +65,6 @@ class _ClientBreakdownContent extends StatelessWidget {
             child: const Center(child: CircularProgressIndicator()),
           );
         }
-
         if (state is ClientBreakdownError) {
           return SizedBox(
             height: 600.h,
@@ -80,7 +76,6 @@ class _ClientBreakdownContent extends StatelessWidget {
             ),
           );
         }
-
         if (state is ClientBreakdownLoaded) {
           final breakdown = state.breakdown;
           return Column(
@@ -109,12 +104,10 @@ class _ClientBreakdownContent extends StatelessWidget {
             ],
           );
         }
-
         return const SizedBox.shrink();
       },
     );
   }
-
   Widget _buildHeader(BuildContext context, ClientBreakdown breakdown) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
@@ -172,7 +165,6 @@ class _ClientBreakdownContent extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildSection(
     BuildContext context,
     String title,
@@ -199,7 +191,6 @@ class _ClientBreakdownContent extends StatelessWidget {
         isNumeric: true,
       ),
     ];
-
     
     final data =
         rows
@@ -211,7 +202,6 @@ class _ClientBreakdownContent extends StatelessWidget {
               },
             )
             .toList();
-
     return Column(
       children: [
         Container(

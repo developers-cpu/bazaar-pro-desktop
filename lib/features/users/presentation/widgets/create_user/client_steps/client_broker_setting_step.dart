@@ -10,14 +10,12 @@ import '../../../bloc/user_form/user_form_bloc.dart';
 import '../../../bloc/user_form/user_form_event.dart';
 import '../../../bloc/user_form/user_form_state.dart';
 import '../../../../../../core/widget/table/view_record_count.dart';
-
 class ClientBrokerSettingStep extends StatefulWidget {
   const ClientBrokerSettingStep({super.key});
   @override
   State<ClientBrokerSettingStep> createState() =>
       _ClientBrokerSettingStepState();
 }
-
 class _ClientBrokerSettingStepState extends State<ClientBrokerSettingStep> {
   late TextEditingController _brokerNameController;
   String _selectedExchange = 'NSE';
@@ -26,13 +24,11 @@ class _ClientBrokerSettingStepState extends State<ClientBrokerSettingStep> {
     super.initState();
     _brokerNameController = TextEditingController(text: 'Broker 1');
   }
-
   @override
   void dispose() {
     _brokerNameController.dispose();
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserFormBloc, UserFormState>(
@@ -96,7 +92,6 @@ class _ClientBrokerSettingStepState extends State<ClientBrokerSettingStep> {
       },
     );
   }
-
   Widget _buildExchangeTabs() {
     final exchanges = UserFormState.availableExchanges;
     return Row(
@@ -128,7 +123,6 @@ class _ClientBrokerSettingStepState extends State<ClientBrokerSettingStep> {
       }).toList(),
     );
   }
-
   List<ViewTableColumn> _getColumns() {
     final baseColumns = [
       ViewTableColumn(
@@ -168,7 +162,6 @@ class _ClientBrokerSettingStepState extends State<ClientBrokerSettingStep> {
     }
     return baseColumns;
   }
-
   List<Map<String, String>> _getDummySymbols() {
     if (_selectedExchange == 'NSE') {
       return [
@@ -263,7 +256,6 @@ class _ClientBrokerSettingStepState extends State<ClientBrokerSettingStep> {
     }
     return [];
   }
-
   Widget _buildCell(
     BuildContext context,
     Map<String, String> item,

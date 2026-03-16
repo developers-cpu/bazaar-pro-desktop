@@ -1,5 +1,4 @@
 import '../../domain/entities/bill_generate_report.dart';
-
 class BillGenerateReportModel extends BillGenerateReport {
   const BillGenerateReportModel({
     required BillHeaderInfoModel headerInfo,
@@ -16,7 +15,6 @@ class BillGenerateReportModel extends BillGenerateReport {
          carryForward: carryForward,
          exchangeWisePL: exchangeWisePL,
        );
-
   factory BillGenerateReportModel.fromJson(Map<String, dynamic> json) {
     return BillGenerateReportModel(
       headerInfo: BillHeaderInfoModel.fromJson(json['headerInfo']),
@@ -44,13 +42,11 @@ class BillGenerateReportModel extends BillGenerateReport {
     );
   }
 }
-
 class BillHeaderInfoModel extends BillHeaderInfo {
   const BillHeaderInfoModel({
     required String userName,
     required String dateRange,
   }) : super(userName: userName, dateRange: dateRange);
-
   factory BillHeaderInfoModel.fromJson(Map<String, dynamic> json) {
     return BillHeaderInfoModel(
       userName: json['userName'] ?? '',
@@ -58,7 +54,6 @@ class BillHeaderInfoModel extends BillHeaderInfo {
     );
   }
 }
-
 class BillScriptTradeModel extends BillScriptTrade {
   const BillScriptTradeModel({
     required String exchange,
@@ -85,7 +80,6 @@ class BillScriptTradeModel extends BillScriptTrade {
          brokerage: brokerage,
          profitLoss: profitLoss,
        );
-
   factory BillScriptTradeModel.fromJson(Map<String, dynamic> json) {
     return BillScriptTradeModel(
       exchange: json['exchange'] ?? '',
@@ -110,7 +104,6 @@ class BillScriptTradeModel extends BillScriptTrade {
     );
   }
 }
-
 class BillTradeLegModel extends BillTradeLeg {
   const BillTradeLegModel({
     required String date,
@@ -118,7 +111,6 @@ class BillTradeLegModel extends BillTradeLeg {
     required String price,
     required double vol,
   }) : super(date: date, qty: qty, price: price, vol: vol);
-
   factory BillTradeLegModel.fromJson(Map<String, dynamic> json) {
     return BillTradeLegModel(
       date: json['date'] ?? '',
@@ -128,7 +120,6 @@ class BillTradeLegModel extends BillTradeLeg {
     );
   }
 }
-
 class ScriptBillSummaryModel extends ScriptBillSummary {
   const ScriptBillSummaryModel({
     required String exchange,
@@ -143,7 +134,6 @@ class ScriptBillSummaryModel extends ScriptBillSummary {
          brokerage: brokerage,
          net: net,
        );
-
   factory ScriptBillSummaryModel.fromJson(Map<String, dynamic> json) {
     return ScriptBillSummaryModel(
       exchange: json['exchange'] ?? '',
@@ -154,14 +144,12 @@ class ScriptBillSummaryModel extends ScriptBillSummary {
     );
   }
 }
-
 class BillTotalModel extends BillTotal {
   const BillTotalModel({
     required double total,
     required double totalBrokerage,
     required double totalNet,
   }) : super(total: total, totalBrokerage: totalBrokerage, totalNet: totalNet);
-
   factory BillTotalModel.fromJson(Map<String, dynamic> json) {
     return BillTotalModel(
       total: (json['total'] as num?)?.toDouble() ?? 0.0,
@@ -170,7 +158,6 @@ class BillTotalModel extends BillTotal {
     );
   }
 }
-
 class CarryForwardTradeModel extends CarryForwardTrade {
   const CarryForwardTradeModel({
     required String exchange,
@@ -185,7 +172,6 @@ class CarryForwardTradeModel extends CarryForwardTrade {
          quantity: quantity,
          price: price,
        );
-
   factory CarryForwardTradeModel.fromJson(Map<String, dynamic> json) {
     return CarryForwardTradeModel(
       exchange: json['exchange'] ?? '',
@@ -196,7 +182,6 @@ class CarryForwardTradeModel extends CarryForwardTrade {
     );
   }
 }
-
 class ExchangeWisePLModel extends ExchangeWisePL {
   const ExchangeWisePLModel({
     required String exchange,
@@ -204,7 +189,6 @@ class ExchangeWisePLModel extends ExchangeWisePL {
     required double brok,
     required double pl,
   }) : super(exchange: exchange, mtm: mtm, brok: brok, pl: pl);
-
   factory ExchangeWisePLModel.fromJson(Map<String, dynamic> json) {
     return ExchangeWisePLModel(
       exchange: json['exchange'] ?? '',

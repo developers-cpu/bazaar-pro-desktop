@@ -1,28 +1,22 @@
 import 'package:equatable/equatable.dart';
 import '../../../domain/entities/brokerage/brokerage.dart';
-
 abstract class BrokerageState extends Equatable {
   const BrokerageState();
   @override
   List<Object?> get props => [];
 }
-
 class BrokerageInitial extends BrokerageState {}
-
 class BrokerageFilterUpdated extends BrokerageState {
   final String selectedExchange;
   const BrokerageFilterUpdated(this.selectedExchange);
   @override
   List<Object?> get props => [selectedExchange];
 }
-
 class BrokerageLoading extends BrokerageState {}
-
 class BrokerageLoaded extends BrokerageState {
   final List<Brokerage> brokerages;
   final String? selectedExchange;
   final List<String> exchanges;
-
   const BrokerageLoaded({
     required this.brokerages,
     this.selectedExchange,
@@ -37,7 +31,6 @@ class BrokerageLoaded extends BrokerageState {
       'FOREX',
     ],
   });
-
   BrokerageLoaded copyWith({
     List<Brokerage>? brokerages,
     String? selectedExchange,
@@ -48,11 +41,9 @@ class BrokerageLoaded extends BrokerageState {
       exchanges: exchanges,
     );
   }
-
   @override
   List<Object?> get props => [brokerages, selectedExchange, exchanges];
 }
-
 class BrokerageError extends BrokerageState {
   final String message;
   const BrokerageError({required this.message});

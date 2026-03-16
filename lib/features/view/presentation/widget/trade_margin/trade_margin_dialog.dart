@@ -10,7 +10,6 @@ import '../../../../auth/presentation/bloc/auth_bloc.dart';
 import '../../../../auth/presentation/bloc/auth_state.dart';
 import 'trade_margin_filter_bar.dart';
 import 'trade_margin_table.dart';
-
 class TradeMarginDialog {
   static void show(BuildContext context, {VoidCallback? onClose}) {
     CommonDialog.show(
@@ -33,10 +32,8 @@ class TradeMarginDialog {
     );
   }
 }
-
 class _TradeMarginContent extends StatelessWidget {
   const _TradeMarginContent({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -53,17 +50,13 @@ class _TradeMarginContent extends StatelessWidget {
                 final isClient =
                     authState is AuthAuthenticated &&
                     authState.user.role.toLowerCase() == 'client';
-
                 if (state is TradeMarginLoading) {
                   return const Center(child: CircularProgressIndicator());
                 } else if (state is TradeMarginLoaded) {
-                  if (state.showDialog) {
-                    return TradeMarginTable(
-                      tradeMargins: state.tradeMargins,
-                      isClient: isClient,
-                    );
-                  }
-                  return const SizedBox.shrink();
+                  return TradeMarginTable(
+                    tradeMargins: state.tradeMargins,
+                    isClient: isClient,
+                  );
                 }
                 return const SizedBox.shrink();
               },

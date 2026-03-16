@@ -1,9 +1,7 @@
 import '../models/market_timing_model.dart';
-
 abstract class MarketTimingRemoteDataSource {
   Future<MarketTimingModel> getMarketTiming(String exchange, DateTime date);
 }
-
 class MarketTimingRemoteDataSourceImpl implements MarketTimingRemoteDataSource {
   @override
   Future<MarketTimingModel> getMarketTiming(

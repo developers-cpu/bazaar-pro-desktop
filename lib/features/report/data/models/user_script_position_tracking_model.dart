@@ -1,5 +1,4 @@
 import '../../domain/entities/user_script_position_tracking.dart';
-
 class UserScriptPositionTrackingModel extends UserScriptPositionTracking {
   const UserScriptPositionTrackingModel({
     required super.id,

@@ -7,7 +7,6 @@ import '../../../../../core/widget/custom_action_button.dart';
 import '../../../../../core/widget/custom_outlined_button.dart';
 import '../../../domain/entities/pending_orders/pending_order.dart';
 import '../../../../../core/widget/table/success_dialog.dart';
-
 class PendingToSuccessDialog {
   static void show({
     required BuildContext context,
@@ -31,19 +30,16 @@ class PendingToSuccessDialog {
     );
   }
 }
-
 class _PendingToSuccessContent extends StatelessWidget {
   final PendingOrder order;
   final bool isDarkMode;
   final VoidCallback onClose;
-
   const _PendingToSuccessContent({
     Key? key,
     required this.order,
     this.isDarkMode = false,
     required this.onClose,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     final bool isBuy = order.isBuy;
@@ -51,7 +47,6 @@ class _PendingToSuccessContent extends StatelessWidget {
     String formattedQty = order.qty
         .toStringAsFixed(6)
         .replaceAll(RegExp(r"([.]*0+)(?!.*\d)"), "");
-
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 24.h),
       child: Column(

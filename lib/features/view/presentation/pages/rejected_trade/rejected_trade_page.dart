@@ -6,13 +6,11 @@ import '../../bloc/rejected_trade/rejected_trade_event.dart';
 import '../../bloc/rejected_trade/rejected_trade_state.dart';
 import '../../widget/rejected_trade/rejected_trade_filter_bar.dart';
 import '../../widget/rejected_trade/rejected_trade_table.dart';
-
 class RejectedTradePage extends StatefulWidget {
   const RejectedTradePage({Key? key}) : super(key: key);
   @override
   State<RejectedTradePage> createState() => _RejectedTradePageState();
 }
-
 class _RejectedTradePageState extends State<RejectedTradePage> {
   @override
   void initState() {
@@ -21,7 +19,6 @@ class _RejectedTradePageState extends State<RejectedTradePage> {
       context.read<RejectedTradeBloc>().add(const LoadRejectedTradesEvent());
     });
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocListener<RejectedTradeBloc, RejectedTradeState>(
@@ -42,7 +39,6 @@ class _RejectedTradePageState extends State<RejectedTradePage> {
       ),
     );
   }
-
   void _handleStateChange(BuildContext context, RejectedTradeState state) {
     if (state is RejectedTradeExportSuccess) {
       ScaffoldMessenger.of(context).showSnackBar(

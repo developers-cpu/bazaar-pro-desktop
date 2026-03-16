@@ -1,9 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../../domain/usecases/script_quantity/script_quantity_usecases.dart';
 import 'script_quantity_event.dart';
 import 'script_quantity_state.dart';
-
 class ScriptQuantityBloc
     extends Bloc<ScriptQuantityEvent, ScriptQuantityState> {
   final GetScriptQuantityExchanges getExchanges;
@@ -39,7 +37,6 @@ class ScriptQuantityBloc
     ];
     emit(ScriptQuantityFiltersLoaded(exchanges: exchanges));
   }
-
   Future<void> _onRestoreFilters(
     RestoreFiltersEvent event,
     Emitter<ScriptQuantityState> emit,
@@ -63,7 +60,6 @@ class ScriptQuantityBloc
       ),
     );
   }
-
   void _onUpdateScriptQuantityFilter(
     UpdateScriptQuantityFilterEvent event,
     Emitter<ScriptQuantityState> emit,
@@ -73,7 +69,6 @@ class ScriptQuantityBloc
       emit(currentState.copyWith(selectedExchange: event.exchange));
     }
   }
-
   Future<void> _onLoadGroups(
     LoadGroupsEvent event,
     Emitter<ScriptQuantityState> emit,
@@ -93,7 +88,6 @@ class ScriptQuantityBloc
       ),
     );
   }
-
   Future<void> _onLoadScriptQuantities(
     LoadScriptQuantitiesEvent event,
     Emitter<ScriptQuantityState> emit,
@@ -114,7 +108,6 @@ class ScriptQuantityBloc
       ),
     );
   }
-
   Future<void> _onResetFilters(
     ResetFiltersEvent event,
     Emitter<ScriptQuantityState> emit,

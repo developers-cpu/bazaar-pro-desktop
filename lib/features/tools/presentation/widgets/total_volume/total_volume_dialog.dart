@@ -10,7 +10,6 @@ import '../../../../../core/widget/svg_icon.dart';
 import '../../../../../../injection_container.dart';
 import '../../bloc/total_volume/total_volume_bloc.dart';
 import '../../../domain/entities/total_volume_entity.dart';
-
 class TotalVolumeDialog {
   static void show(BuildContext context) {
     CommonDialog.show(
@@ -23,14 +22,11 @@ class TotalVolumeDialog {
     );
   }
 }
-
 class _TotalVolumeContent extends StatefulWidget {
   const _TotalVolumeContent({Key? key}) : super(key: key);
-
   @override
   State<_TotalVolumeContent> createState() => _TotalVolumeContentState();
 }
-
 class _TotalVolumeContentState extends State<_TotalVolumeContent> {
   String? _selectedExchange;
   @override
@@ -82,7 +78,6 @@ class _TotalVolumeContentState extends State<_TotalVolumeContent> {
       ),
     );
   }
-
   Widget _buildContent(TotalVolumeState state) {
     if (state.status == TotalVolumeStatus.loading) {
       return const Center(child: CircularProgressIndicator());
@@ -96,7 +91,6 @@ class _TotalVolumeContentState extends State<_TotalVolumeContent> {
     }
     return const SizedBox.shrink();
   }
-
   Widget _buildVolumeCard(TotalVolumeEntity data) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 15.h),

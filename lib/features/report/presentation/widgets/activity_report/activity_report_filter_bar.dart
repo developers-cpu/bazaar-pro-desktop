@@ -9,7 +9,6 @@ import '../../bloc/activity_report/activity_report_event.dart';
 import '../../bloc/activity_report/activity_report_state.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
-
 class ActivityReportFilterBar extends StatelessWidget {
   const ActivityReportFilterBar({super.key});
   @override
@@ -23,7 +22,6 @@ class ActivityReportFilterBar extends StatelessWidget {
         final isClient =
             authState is AuthAuthenticated &&
             authState.user.role.toLowerCase() == 'client';
-
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Row(

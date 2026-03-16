@@ -1,5 +1,4 @@
 import '../../../domain/entities/user_brokerage_setting/user_brokerage_setting.dart';
-
 class UserBrokerageSettingModel extends UserBrokerageSetting {
   const UserBrokerageSettingModel({
     required super.id,

@@ -4,7 +4,6 @@ import '../../../domain/usecases/trade_settings/get_trade_settings.dart';
 import '../../../domain/usecases/trade_settings/update_trade_settings.dart';
 import 'trade_settings_event.dart';
 import 'trade_settings_state.dart';
-
 class TradeSettingsBloc extends Bloc<TradeSettingsEvent, TradeSettingsState> {
   final GetTradeSettings getTradeSettings;
   final UpdateTradeSettings updateTradeSettings;

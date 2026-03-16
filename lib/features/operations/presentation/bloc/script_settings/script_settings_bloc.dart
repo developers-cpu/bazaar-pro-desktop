@@ -5,7 +5,6 @@ import '../../../domain/usecases/script_settings/get_script_settings.dart';
 import '../../../domain/usecases/script_settings/update_script_settings.dart';
 import 'script_settings_event.dart';
 import 'script_settings_state.dart';
-
 class ScriptSettingsBloc
     extends Bloc<ScriptSettingsEvent, ScriptSettingsState> {
   final GetScriptSettings getScriptSettings;
@@ -36,7 +35,6 @@ class ScriptSettingsBloc
       },
     );
   }
-
   void _onUpdateStatus(
     UpdateScriptSettingStatusEvent event,
     Emitter<ScriptSettingsState> emit,
@@ -59,7 +57,6 @@ class ScriptSettingsBloc
       emit(ScriptSettingsLoaded(settings: _cachedSettings));
     }
   }
-
   void _onUpdateDate(
     UpdateScriptSettingDateEvent event,
     Emitter<ScriptSettingsState> emit,
@@ -82,7 +79,6 @@ class ScriptSettingsBloc
       emit(ScriptSettingsLoaded(settings: _cachedSettings));
     }
   }
-
   Future<void> _onSaveSettings(
     SaveScriptSettingsEvent event,
     Emitter<ScriptSettingsState> emit,

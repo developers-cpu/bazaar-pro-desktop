@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../constants/app_colors.dart';
-
 class AppSwitch extends StatelessWidget {
   final String? label;
   final Widget? icon;
@@ -61,7 +60,6 @@ class AppSwitch extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildSwitch(Color activeColor, Color inactiveColor) {
     return Container(
       width: width.w,
@@ -93,7 +91,6 @@ class AppSwitch extends StatelessWidget {
     );
   }
 }
-
 class AppSwitchRow extends StatelessWidget {
   final String label;
   final Widget? icon;

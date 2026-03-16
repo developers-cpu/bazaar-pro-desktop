@@ -5,9 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../../core/widget/table/view_data_table.dart';
 import '../../../../../../core/widget/table/view_record_count.dart';
+import '../../../../../../core/widget/table/view_table_cell_styles.dart';
 import '../../../../domain/entities/user_trades/user_trade.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 import '../../../../../../core/constants/app_colors.dart';
 import '../../../../../../core/widget/app_dropdown.dart';
 import '../../../../../../core/widget/date_range_picker_button.dart';
@@ -15,7 +14,6 @@ import '../../../../domain/entities/user.dart';
 import '../../../bloc/user_trades/user_trades_bloc.dart';
 import '../../../bloc/user_trades/user_trades_event.dart';
 import '../../../bloc/user_trades/user_trades_state.dart';
-
 class UserTradesTab extends StatelessWidget {
   final User user;
   const UserTradesTab({super.key, required this.user});
@@ -27,7 +25,6 @@ class UserTradesTab extends StatelessWidget {
     );
   }
 }
-
 class UserTradesTabView extends StatelessWidget {
   const UserTradesTabView({super.key});
   @override
@@ -40,7 +37,6 @@ class UserTradesTabView extends StatelessWidget {
       ],
     );
   }
-
   Widget _buildFilterBar(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(12.w),
@@ -160,7 +156,6 @@ class UserTradesTabView extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildRecordCount(BuildContext context) {
     return Container(
       color: AppColors.white,
@@ -176,7 +171,6 @@ class UserTradesTabView extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildTable(BuildContext context) {
     return BlocBuilder<UserTradesBloc, UserTradesState>(
       builder: (context, state) {
@@ -190,6 +184,7 @@ class UserTradesTabView extends StatelessWidget {
         if (state is UserTradesLoaded) {
           trades = state.filteredTrades;
         }
+        final isDark = Theme.of(context).brightness == Brightness.dark;
         return ViewDataTable<UserTrade>(
           columns: [
             ViewTableColumn(id: 'userName', label: 'U. NAME', width: 100.w),
@@ -269,21 +264,21 @@ class UserTradesTabView extends StatelessWidget {
                 return item.quantity;
               case 'lot':
                 return item.lot;
-              case 'pl':
+              case 'pnl':
                 return item.profitLoss;
               case 'validity':
                 return item.validity;
               case 'tradePrice':
                 return item.tradePrice;
-              case 'brokerage':
+              case 'brk':
                 return item.brokerage;
               case 'netPrice':
                 return item.netPrice;
-              case 'orderTime':
+              case 'orderDt':
                 return item.orderTime;
-              case 'executionTime':
+              case 'execDt':
                 return item.executionTime;
-              case 'referencePrice':
+              case 'reqPrice':
                 return item.requestPrice;
               default:
                 return '';
@@ -292,86 +287,78 @@ class UserTradesTabView extends StatelessWidget {
           cellBuilder: (item, column) {
             switch (column.id) {
               case 'userName':
-                return Text(item.userName, style: _cellStyle());
+                return ViewTextCell(text: item.userName, isDark: isDark);
               case 'parentUser':
-                return Text(item.parentUser, style: _cellStyle());
+                return ViewTextCell(text: item.parentUser, isDark: isDark);
               case 'exchange':
-                return Text(item.exchange, style: _cellStyle());
+                return ViewTextCell(text: item.exchange, isDark: isDark);
               case 'symbol':
-                return Text(
-                  item.symbol,
-                  style: _cellStyle(color: AppColors.primaryTextColor),
-                );
+                return ViewTextCell(text: item.symbol, isDark: isDark);
               case 'buySell':
-                return Text(
-                  item.buySell,
-                  style: _cellStyle(
-                    color: item.buySell == 'BUY'
-                        ? AppColors.primaryBlue
-                        : AppColors.errorColor,
-                  ),
-                );
+                return ViewBuySellCell(text: item.buySell, isDark: isDark);
               case 'tradeType':
-                return Text(item.tradeType, style: _cellStyle());
+                return ViewTextCell(text: item.tradeType, isDark: isDark);
               case 'qty':
-                return Text(
-                  item.quantity.toStringAsFixed(2),
-                  style: _cellStyle(
-                    color: item.quantity >= 0
-                        ? AppColors.primaryBlue
-                        : AppColors.errorColor,
-                  ),
+                return ViewNumberCell(
+                  value: item.quantity,
+                  colorByValue: true,
+                  isDark: isDark,
                 );
               case 'lot':
-                return Text(item.lot.toStringAsFixed(2), style: _cellStyle());
+                return ViewNumberCell(
+                  value: item.lot,
+                  displayText: item.lot.toStringAsFixed(2),
+                  colorByValue: false,
+                  isDark: isDark,
+                );
               case 'pnl':
-                return Text(
-                  item.profitLoss.toStringAsFixed(2),
-                  style: _cellStyle(
-                    color: item.profitLoss >= 0
-                        ? AppColors.primaryBlue
-                        : AppColors.errorColor,
-                  ),
+                return ViewNumberCell(
+                  value: item.profitLoss,
+                  colorByValue: true,
+                  isDark: isDark,
                 );
               case 'validity':
-                return Text(item.validity, style: _cellStyle());
+                return ViewTextCell(text: item.validity, isDark: isDark);
               case 'tradePrice':
-                return Text(
-                  item.tradePrice.toStringAsFixed(2),
-                  style: _cellStyle(color: AppColors.errorColor),
+                return ViewNumberCell(
+                  value: item.tradePrice,
+                  fixedColor: AppColors.errorColor,
+                  isDark: isDark,
                 );
               case 'brk':
-                return Text(
-                  item.brokerage.toStringAsFixed(2),
-                  style: _cellStyle(color: AppColors.errorColor),
+                return ViewNumberCell(
+                  value: item.brokerage,
+                  fixedColor: AppColors.errorColor,
+                  isDark: isDark,
                 );
               case 'netPrice':
-                return Text(
-                  item.netPrice.toStringAsFixed(2),
-                  style: _cellStyle(),
+                return ViewNumberCell(
+                  value: item.netPrice,
+                  fixedColor: AppColors.primaryBlue,
+                  isDark: isDark,
                 );
               case 'orderDt':
-                return Text(
-                  DateFormat('dd/MM/yy hh:mm:ss a').format(item.orderTime),
-                  style: _cellStyle(color: AppColors.errorColor),
+                return ViewDateTimeCell(
+                  dateTime: item.orderTime,
+                  isDark: isDark,
+                  color: AppColors.errorColor,
                 );
               case 'execDt':
-                return Text(
-                  DateFormat('dd/MM/yy hh:mm:ss a').format(item.executionTime),
-                  style: _cellStyle(color: AppColors.primaryBlue),
+                return ViewDateTimeCell(
+                  dateTime: item.executionTime,
+                  isDark: isDark,
+                  color: AppColors.primaryBlue,
                 );
               case 'reqPrice':
-                return Text(
-                  item.requestPrice.toStringAsFixed(2),
-                  style: _cellStyle(color: AppColors.errorColor),
+                return ViewNumberCell(
+                  value: item.requestPrice,
+                  fixedColor: AppColors.errorColor,
+                  isDark: isDark,
                 );
               case 'duration':
-                return Text(
-                  item.orderDuration,
-                  style: _cellStyle(
-                    isUnderline: true,
-                    color: AppColors.primaryTextColor,
-                  ),
+                return ViewLinkCell(
+                  text: item.orderDuration,
+                  isDark: isDark,
                 );
               default:
                 return const SizedBox();
@@ -379,15 +366,6 @@ class UserTradesTabView extends StatelessWidget {
           },
         );
       },
-    );
-  }
-
-  TextStyle _cellStyle({Color? color, bool isUnderline = false}) {
-    return GoogleFonts.openSans(
-      fontSize: 11.sp,
-      fontWeight: FontWeight.w500,
-      color: color ?? AppColors.primaryTextColor,
-      decoration: isUnderline ? TextDecoration.underline : null,
     );
   }
 }

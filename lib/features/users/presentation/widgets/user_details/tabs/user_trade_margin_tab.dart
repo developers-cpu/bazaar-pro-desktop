@@ -1,23 +1,21 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
+import '../../../../../../core/widget/table/view_data_table.dart';
+import '../../../../../../core/widget/table/view_record_count.dart';
+import '../../../../../../core/widget/table/view_reset_buttons.dart';
+import '../../../../../../core/widget/table/view_table_cell_styles.dart';
+import '../../../../../../injection_container.dart';
 import '../../../../../../core/constants/app_colors.dart';
 import '../../../../../../core/constants/app_images.dart';
 import '../../../../../../core/widget/app_dropdown.dart';
 import '../../../../../../core/widget/custom_input_field.dart';
 import '../../../../../../core/widget/custom_action_button.dart';
-import '../../../../../../core/widget/table/view_data_table.dart';
-import '../../../../../../core/widget/table/view_record_count.dart';
-import '../../../../../../core/widget/table/view_reset_buttons.dart';
 import '../../../../domain/entities/user.dart';
 import '../../../../domain/entities/user_trade_margin/user_trade_margin.dart';
 import '../../../bloc/user_trade_margin/user_trade_margin_bloc.dart';
 import '../../../bloc/user_trade_margin/user_trade_margin_event.dart';
 import '../../../bloc/user_trade_margin/user_trade_margin_state.dart';
-import '../../../../../../injection_container.dart';
-
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 class UserTradeMarginTab extends StatelessWidget {
   final User user;
   const UserTradeMarginTab({super.key, required this.user});
@@ -30,13 +28,11 @@ class UserTradeMarginTab extends StatelessWidget {
     );
   }
 }
-
 class UserTradeMarginTabView extends StatefulWidget {
   const UserTradeMarginTabView({super.key});
   @override
   State<UserTradeMarginTabView> createState() => _UserTradeMarginTabViewState();
 }
-
 class _UserTradeMarginTabViewState extends State<UserTradeMarginTabView> {
   final TextEditingController _searchController = TextEditingController();
   final TextEditingController _intradayMarginController =
@@ -50,7 +46,6 @@ class _UserTradeMarginTabViewState extends State<UserTradeMarginTabView> {
     _carryForwardMarginController.dispose();
     super.dispose();
   }
-
   void _onUpdate(BuildContext context) {}
   @override
   Widget build(BuildContext context) {
@@ -62,7 +57,6 @@ class _UserTradeMarginTabViewState extends State<UserTradeMarginTabView> {
       ],
     );
   }
-
   Widget _buildFilterBar(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(12.w),
@@ -186,7 +180,6 @@ class _UserTradeMarginTabViewState extends State<UserTradeMarginTabView> {
       ),
     );
   }
-
   Widget _buildRecordCount(BuildContext context) {
     return Container(
       color: AppColors.white,
@@ -202,7 +195,6 @@ class _UserTradeMarginTabViewState extends State<UserTradeMarginTabView> {
       ),
     );
   }
-
   Widget _buildTable(BuildContext context) {
     return BlocBuilder<UserTradeMarginBloc, UserTradeMarginState>(
       builder: (context, state) {
@@ -281,11 +273,7 @@ class _UserTradeMarginTabViewState extends State<UserTradeMarginTabView> {
             }
           },
           cellBuilder: (item, column) {
-            final commonStyle = GoogleFonts.openSans(
-              fontSize: 11.sp,
-              fontWeight: FontWeight.w500,
-              color: AppColors.primaryTextColor,
-            );
+            final isDark = Theme.of(context).brightness == Brightness.dark;
             switch (column.id) {
               case 'checkbox':
                 return Checkbox(
@@ -305,23 +293,22 @@ class _UserTradeMarginTabViewState extends State<UserTradeMarginTabView> {
                   ),
                 );
               case 'exchange':
-                return Text(item.exchange, style: commonStyle);
+                return ViewTextCell(text: item.exchange, isDark: isDark);
               case 'symbol':
-                return Text(item.symbol, style: commonStyle);
+                return ViewTextCell(text: item.symbol, isDark: isDark);
               case 'expiryDate':
-                return Text(
-                  DateFormat('dd/MM/yy | hh:mm:ss a').format(item.expiryDate),
-                  style: commonStyle,
-                );
+                return ViewDateTimeCell(dateTime: item.expiryDate, isDark: isDark);
               case 'marginPct':
-                return Text(
-                  item.marginPercentage.toStringAsFixed(0),
-                  style: commonStyle,
+                return ViewNumberCell(
+                  value: item.marginPercentage,
+                  colorByValue: false,
+                  isDark: isDark,
                 );
               case 'marginAmt':
-                return Text(
-                  item.marginAmount.toStringAsFixed(0),
-                  style: commonStyle,
+                return ViewNumberCell(
+                  value: item.marginAmount,
+                  colorByValue: false,
+                  isDark: isDark,
                 );
               default:
                 return const SizedBox();

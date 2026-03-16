@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/widget/common_dilog_box.dart';
 import '../../../../../core/widget/custom_action_button.dart';
 import '../../../../../core/widget/custom_input_field.dart';
-
 class ImportSurveillanceDialog {
   static void show(BuildContext context) {
     CommonDialog.show(
@@ -16,15 +15,12 @@ class ImportSurveillanceDialog {
     );
   }
 }
-
 class _ImportSurveillanceContent extends StatelessWidget {
   final VoidCallback onClose;
-
   const _ImportSurveillanceContent({
     Key? key,
     required this.onClose,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -36,7 +32,6 @@ class _ImportSurveillanceContent extends StatelessWidget {
       ],
     );
   }
-
   Widget _buildImportSection() {
     return Row(
       children: [
@@ -58,7 +53,6 @@ class _ImportSurveillanceContent extends StatelessWidget {
       ],
     );
   }
-
   Widget _buildUpdateButton(BuildContext context) {
     return Center(
       child: CustomActionButton(

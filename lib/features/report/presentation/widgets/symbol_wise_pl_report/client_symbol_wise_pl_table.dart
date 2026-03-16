@@ -10,7 +10,6 @@ import '../../bloc/symbol_wise_pl/symbol_wise_pl_state.dart';
 import '../../../domain/entities/symbol_wise_pl/symbol_wise_pl_report.dart';
 import '../../../../view/presentation/widget/net_position/net_position_dialog.dart';
 import '../../widgets/exchange_wise_pl/deals_dialog.dart';
-
 class ClientSymbolWisePLTable extends StatelessWidget {
   final bool isDarkMode;
   const ClientSymbolWisePLTable({super.key, this.isDarkMode = false});
@@ -34,7 +33,6 @@ class ClientSymbolWisePLTable extends StatelessWidget {
       ViewTableColumn(id: 'netPL', label: 'TOTAL', width: 140, isNumeric: true),
     ];
   }
-
   Widget _buildClickableNumberCell(
     BuildContext context,
     double value,
@@ -67,7 +65,6 @@ class ClientSymbolWisePLTable extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildCell(
     BuildContext context,
     SymbolWisePLReport item,
@@ -99,7 +96,6 @@ class ClientSymbolWisePLTable extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SymbolWisePLBloc, SymbolWisePLState>(

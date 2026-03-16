@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../../../../../core/constants/app_colors.dart';
 import '../../../../../../core/widget/table/view_data_table.dart';
 import '../../../../../../core/widget/table/view_record_count.dart';
+import '../../../../../../core/widget/table/view_table_cell_styles.dart';
 import '../../../../../../injection_container.dart';
 import '../../../../domain/entities/user.dart';
 import '../../../../domain/entities/user_group_settings/user_group_settings.dart';
 import '../../../bloc/user_group_settings/user_group_settings_bloc.dart';
-
 class UserGroupSettingsTab extends StatelessWidget {
   final User user;
   final Function(String groupName) onViewSettings;
@@ -27,7 +26,6 @@ class UserGroupSettingsTab extends StatelessWidget {
     );
   }
 }
-
 class UserGroupSettingsTabView extends StatelessWidget {
   final Function(String groupName) onViewSettings;
   const UserGroupSettingsTabView({super.key, required this.onViewSettings});
@@ -75,33 +73,29 @@ class UserGroupSettingsTabView extends StatelessWidget {
                     }
                   },
                   cellBuilder: (item, column) {
+                    final isDark = Theme.of(context).brightness == Brightness.dark;
                     switch (column.id) {
                       case 'name':
-                        return Text(
-                          item.groupName,
-                          style: GoogleFonts.openSans(
-                            fontSize: 12.sp,
-                            color: AppColors.primaryBlue,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          textAlign: TextAlign.center,
+                        return ViewTextCell(
+                          text: item.groupName,
+                          color: AppColors.primaryBlue,
+                          isDark: isDark,
                         );
                       case 'quantity':
-                        return Text(
-                          item.maxQuantity.toString(),
-                          style: GoogleFonts.openSans(
-                            fontSize: 12.sp,
-                            color: AppColors.textColor(context),
-                          ),
-                          textAlign: TextAlign.center,
+                        return ViewNumberCell(
+                          value: item.maxQuantity.toDouble(),
+                          colorByValue: false,
+                          isDark: isDark,
                         );
                       case 'view':
-                        return GestureDetector(
-                          onTap: () => onViewSettings(item.groupName),
-                          child: Icon(
-                            Icons.remove_red_eye,
-                            size: 16.sp,
-                            color: AppColors.primaryBlue,
+                        return Center(
+                          child: GestureDetector(
+                            onTap: () => onViewSettings(item.groupName),
+                            child: Icon(
+                              Icons.remove_red_eye,
+                              size: 16.sp,
+                              color: AppColors.primaryBlue,
+                            ),
                           ),
                         );
                       default:
@@ -110,9 +104,9 @@ class UserGroupSettingsTabView extends StatelessWidget {
                   },
                 ),
               ),
-            ],
-          );
-        }
+              ],
+            );
+          }
         return const SizedBox();
       },
     );

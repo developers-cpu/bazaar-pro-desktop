@@ -3,7 +3,6 @@ import '../../../../../core/errors/failures.dart';
 import '../../../../../core/usecases/usecase.dart';
 import '../../entities/pending_orders/pending_order.dart';
 import '../../repositories/pending_orders/pending_orders_repository.dart';
-
 class GetPendingOrders implements UseCase<List<PendingOrder>, NoParams> {
   final PendingOrdersRepository repository;
   GetPendingOrders(this.repository);
@@ -12,7 +11,6 @@ class GetPendingOrders implements UseCase<List<PendingOrder>, NoParams> {
     return await repository.getPendingOrders();
   }
 }
-
 class GetPendingOrdersWithFilters
     implements UseCase<List<PendingOrder>, FilterParams> {
   final PendingOrdersRepository repository;
@@ -27,7 +25,6 @@ class GetPendingOrdersWithFilters
     );
   }
 }
-
 class FilterParams {
   final String? client;
   final String? exchange;

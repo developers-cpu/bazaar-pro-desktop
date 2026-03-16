@@ -1,22 +1,20 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
-import '../../../../../../core/constants/app_colors.dart';
-import '../../../../../../core/constants/app_images.dart';
-import '../../../../../../core/widget/app_dropdown.dart';
 import '../../../../../../core/widget/table/view_data_table.dart';
 import '../../../../../../core/widget/table/view_record_count.dart';
 import '../../../../../../core/widget/table/view_reset_buttons.dart';
+import '../../../../../../core/widget/table/view_table_cell_styles.dart';
+import '../../../../../../injection_container.dart';
+import '../../../../../../core/constants/app_colors.dart';
+import '../../../../../../core/constants/app_images.dart';
+import '../../../../../../core/widget/app_dropdown.dart';
 import '../../../../domain/entities/user.dart';
 import '../../../../domain/entities/user_pending_order/user_pending_order.dart';
 import '../../../bloc/user_pending_order/user_pending_order_bloc.dart';
 import '../../../bloc/user_pending_order/user_pending_order_event.dart';
 import '../../../bloc/user_pending_order/user_pending_order_state.dart';
-import '../../../../../../injection_container.dart';
-
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 class UserPendingOrdersTab extends StatelessWidget {
   final User user;
   const UserPendingOrdersTab({super.key, required this.user});
@@ -29,7 +27,6 @@ class UserPendingOrdersTab extends StatelessWidget {
     );
   }
 }
-
 class UserPendingOrdersTabView extends StatelessWidget {
   const UserPendingOrdersTabView({super.key});
   @override
@@ -42,7 +39,6 @@ class UserPendingOrdersTabView extends StatelessWidget {
       ],
     );
   }
-
   Widget _buildFilterBar(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(12.w),
@@ -140,7 +136,6 @@ class UserPendingOrdersTabView extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildRecordCount(BuildContext context) {
     return Container(
       color: AppColors.white,
@@ -156,7 +151,6 @@ class UserPendingOrdersTabView extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildContent(BuildContext context) {
     return BlocBuilder<UserPendingOrderBloc, UserPendingOrderState>(
       builder: (context, state) {
@@ -219,29 +213,30 @@ class UserPendingOrdersTabView extends StatelessWidget {
             }
           },
           cellBuilder: (item, column) {
-            final commonStyle = GoogleFonts.openSans(
-              fontSize: 11.sp,
-              fontWeight: FontWeight.w500,
-              color: AppColors.primaryTextColor,
-            );
+            final isDark = Theme.of(context).brightness == Brightness.dark;
             switch (column.id) {
               case 'time':
-                return Text(
-                  DateFormat('dd/MM/yy | hh:mm:ss a').format(item.time),
-                  style: commonStyle,
-                );
+                return ViewDateTimeCell(dateTime: item.time, isDark: isDark);
               case 'exchange':
-                return Text(item.exchange, style: commonStyle);
+                return ViewTextCell(text: item.exchange, isDark: isDark);
               case 'symbol':
-                return Text(item.symbol, style: commonStyle);
+                return ViewTextCell(text: item.symbol, isDark: isDark);
               case 'type':
-                return Text(item.type, style: commonStyle);
+                return ViewBuySellCell(text: item.type, isDark: isDark);
               case 'lot':
-                return Text(item.lot, style: commonStyle);
+                return ViewNumberCell(
+                  value: double.tryParse(item.lot) ?? 0.0,
+                  colorByValue: false,
+                  isDark: isDark,
+                );
               case 'price':
-                return Text(item.price.toStringAsFixed(2), style: commonStyle);
+                return ViewNumberCell(
+                  value: item.price,
+                  colorByValue: false,
+                  isDark: isDark,
+                );
               case 'status':
-                return Text(item.status, style: commonStyle);
+                return ViewTextCell(text: item.status, isDark: isDark);
               default:
                 return const SizedBox();
             }

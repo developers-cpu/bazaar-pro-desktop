@@ -8,7 +8,6 @@ import '../../../../domain/entities/user.dart';
 import '../../../bloc/user_intraday/user_intraday_bloc.dart';
 import '../../../bloc/user_intraday/user_intraday_event.dart';
 import '../../../bloc/user_intraday/user_intraday_state.dart';
-
 class UserIntradaySquareOffTab extends StatelessWidget {
   final User user;
   const UserIntradaySquareOffTab({super.key, required this.user});
@@ -21,7 +20,6 @@ class UserIntradaySquareOffTab extends StatelessWidget {
     );
   }
 }
-
 class UserIntradaySquareOffTabView extends StatelessWidget {
   const UserIntradaySquareOffTabView({super.key});
   @override
@@ -48,13 +46,16 @@ class UserIntradaySquareOffTabView extends StatelessWidget {
               ),
               itemBuilder: (context, index) {
                 final setting = settings[index];
+                final isDark = Theme.of(context).brightness == Brightness.dark;
                 return Container(
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                   decoration: BoxDecoration(
-                    color: AppColors.white,
+                    color: isDark ? const Color(0xFF1C1C1C) : AppColors.white,
                     borderRadius: BorderRadius.circular(10.r),
                     border: Border.all(
-                      color: AppColors.primaryBlue.withOpacity(0.5),
+                      color: isDark
+                          ? Colors.white24
+                          : AppColors.primaryBlue.withValues(alpha: 0.5),
                     ),
                   ),
                   child: AppSwitchRow(

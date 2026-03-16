@@ -6,12 +6,10 @@ import '../../../../../core/widget/table/view_data_table_footer.dart';
 import '../../../../../core/widget/table/view_record_count.dart';
 import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import 'deals_dialog.dart';
-
 import 'exchange_open_position_dialog.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
 import 'package:bazarpro/features/view/presentation/widget/net_position/net_position_dialog.dart';
-
 class ExchangeWisePLTable extends StatelessWidget {
   final List<ExchangeWisePLReport> reports;
   final bool isDarkMode;
@@ -45,7 +43,6 @@ class ExchangeWisePLTable extends StatelessWidget {
       ),
     ];
   }
-
   Widget _buildClickableNumberCell(
     BuildContext context,
     double value,
@@ -78,7 +75,6 @@ class ExchangeWisePLTable extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildCell(
     BuildContext context,
     ExchangeWisePLReport item,
@@ -123,14 +119,12 @@ class ExchangeWisePLTable extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
-
   @override
   Widget build(BuildContext context) {
     final authState = context.read<AuthBloc>().state;
     final isClient =
         authState is AuthAuthenticated &&
         authState.user.role.toLowerCase() == 'client';
-
     double totalM2M = 0;
     double totalRealisedPL = 0;
     double totalBrokerage = 0;

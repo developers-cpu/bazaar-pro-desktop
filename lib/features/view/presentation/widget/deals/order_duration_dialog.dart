@@ -5,7 +5,6 @@ import '../../../../../core/widget/table/view_data_table.dart';
 import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import '../../../domain/entities/deals/deals.dart';
 import 'package:bazarpro/core/widget/common_dilog_box.dart';
-
 class OrderDurationDialog {
   static void show({
     required BuildContext context,
@@ -29,7 +28,6 @@ class OrderDurationDialog {
     );
   }
 }
-
 class _OrderDurationContent extends StatelessWidget {
   final List<Deal> relatedOrders;
   final bool isDarkMode;
@@ -38,7 +36,6 @@ class _OrderDurationContent extends StatelessWidget {
     required this.relatedOrders,
     this.isDarkMode = false,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -77,7 +74,6 @@ class _OrderDurationContent extends StatelessWidget {
       ),
     );
   }
-
   List<ViewTableColumn> _getColumns() {
     return const [
       ViewTableColumn(id: 'id', label: 'ID', width: 50, isNumeric: true),
@@ -94,7 +90,6 @@ class _OrderDurationContent extends StatelessWidget {
       ViewTableColumn(id: 'pl', label: 'P/L', width: 100, isNumeric: true),
     ];
   }
-
   Widget _buildCell(Deal item, ViewTableColumn column, bool isDark) {
     final index = relatedOrders.indexOf(item) + 1;
     switch (column.id) {

@@ -1,10 +1,8 @@
 import '../../models/users_bill_summary/users_bill_summary_model.dart';
-
 abstract class UsersBillSummaryRemoteDataSource {
   Future<List<UsersBillSummaryModel>> getBillSummary(String userId);
   Future<List<String>> getUsers();
 }
-
 class UsersBillSummaryRemoteDataSourceImpl
     implements UsersBillSummaryRemoteDataSource {
   @override
@@ -83,7 +81,6 @@ class UsersBillSummaryRemoteDataSourceImpl
       ),
     ];
   }
-
   @override
   Future<List<String>> getUsers() async {
     await Future.delayed(const Duration(milliseconds: 500));

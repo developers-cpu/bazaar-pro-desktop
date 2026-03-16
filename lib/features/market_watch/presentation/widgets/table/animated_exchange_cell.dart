@@ -6,7 +6,6 @@ import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/constants/app_images.dart';
 import '../../../../../core/widget/svg_icon.dart';
 import 'table_text_style_helper.dart';
-
 class AnimatedExchangeCell extends StatefulWidget {
   final String text;
   final bool isDark;
@@ -14,7 +13,6 @@ class AnimatedExchangeCell extends StatefulWidget {
   final double fontSize;
   final FontWeight fontWeight;
   final Color textColor;
-
   const AnimatedExchangeCell({
     Key? key,
     required this.text,
@@ -24,29 +22,24 @@ class AnimatedExchangeCell extends StatefulWidget {
     required this.fontWeight,
     required this.textColor,
   }) : super(key: key);
-
   @override
   State<AnimatedExchangeCell> createState() => _AnimatedExchangeCellState();
 }
-
 class _AnimatedExchangeCellState extends State<AnimatedExchangeCell> {
   final Random _random = Random();
   bool _isBuy = true;
   Timer? _timer;
-
   @override
   void initState() {
     super.initState();
     _isBuy = _random.nextBool();
     _scheduleNext();
   }
-
   @override
   void dispose() {
     _timer?.cancel();
     super.dispose();
   }
-
   void _scheduleNext() {
     final delayMs = 1500 + _random.nextInt(3000);
     _timer = Timer(Duration(milliseconds: delayMs), () {
@@ -54,7 +47,6 @@ class _AnimatedExchangeCellState extends State<AnimatedExchangeCell> {
       setState(() {
         _isBuy = _random.nextBool();
       });
-
       Future.delayed(const Duration(milliseconds: 500), () {
         if (!mounted) return;
         setState(() {
@@ -64,7 +56,6 @@ class _AnimatedExchangeCellState extends State<AnimatedExchangeCell> {
       });
     });
   }
-
   @override
   Widget build(BuildContext context) {
     final iconColor = _isBuy
@@ -74,7 +65,6 @@ class _AnimatedExchangeCellState extends State<AnimatedExchangeCell> {
         : (widget.isDark
               ? DarkThemeColors.negativeTextColor
               : LightThemeColors.negativeTextColor);
-
     return Padding(
       padding: EdgeInsets.only(left: 8.w),
       child: Row(

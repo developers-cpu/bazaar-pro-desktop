@@ -2,7 +2,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../widgets/table/table_column_helper.dart';
 import 'arrange_symbol_event.dart';
 import 'arrange_symbol_state.dart';
-
 class ArrangeSymbolBloc extends Bloc<ArrangeSymbolEvent, ArrangeSymbolState> {
   static final List<ColumnItem> _defaultColumns =
       TableColumnHelper.getDefaultColumns();
@@ -28,7 +27,6 @@ class ArrangeSymbolBloc extends Bloc<ArrangeSymbolEvent, ArrangeSymbolState> {
       ),
     );
   }
-
   void _onToggleColumn(
     ToggleColumnEvent event,
     Emitter<ArrangeSymbolState> emit,
@@ -45,7 +43,6 @@ class ArrangeSymbolBloc extends Bloc<ArrangeSymbolEvent, ArrangeSymbolState> {
     }
     emit(state.copyWith(columns: updatedColumns, isSaved: false));
   }
-
   void _onResizeColumn(
     ResizeColumnEvent event,
     Emitter<ArrangeSymbolState> emit,
@@ -58,7 +55,6 @@ class ArrangeSymbolBloc extends Bloc<ArrangeSymbolEvent, ArrangeSymbolState> {
     }).toList();
     emit(state.copyWith(columns: updatedColumns, isSaved: false));
   }
-
   void _onReorderColumn(
     ReorderColumnEvent event,
     Emitter<ArrangeSymbolState> emit,
@@ -72,7 +68,6 @@ class ArrangeSymbolBloc extends Bloc<ArrangeSymbolEvent, ArrangeSymbolState> {
     columns.insert(newIndex, item);
     emit(state.copyWith(columns: columns, isSaved: false));
   }
-
   void _onSaveColumns(
     SaveColumnsEvent event,
     Emitter<ArrangeSymbolState> emit,
@@ -80,7 +75,6 @@ class ArrangeSymbolBloc extends Bloc<ArrangeSymbolEvent, ArrangeSymbolState> {
     _savedColumns = List.from(state.columns);
     emit(state.copyWith(isSaved: true));
   }
-
   void _onResetColumns(
     ResetColumnsEvent event,
     Emitter<ArrangeSymbolState> emit,
@@ -94,14 +88,12 @@ class ArrangeSymbolBloc extends Bloc<ArrangeSymbolEvent, ArrangeSymbolState> {
       ),
     );
   }
-
   void _onResetColumnSizes(
     ResetColumnSizesEvent event,
     Emitter<ArrangeSymbolState> emit,
   ) {
     emit(state.copyWith(resetCount: state.resetCount + 1));
   }
-
   List<ColumnItem> get visibleColumns {
     return _savedColumns.where((c) => c.isVisible).toList();
   }

@@ -1,5 +1,4 @@
 import '../../../domain/entities/exchange_wise_pl/exchange_wise_pl_report.dart';
-
 class ExchangeWisePLReportModel extends ExchangeWisePLReport {
   const ExchangeWisePLReportModel({
     required super.exchange,

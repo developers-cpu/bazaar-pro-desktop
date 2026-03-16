@@ -8,7 +8,6 @@ import '../../bloc/deleted_trade/deleted_trade_event.dart';
 import '../../bloc/deleted_trade/deleted_trade_state.dart';
 import '../../../../../core/widget/table/view_record_count.dart';
 import '../../../../../core/widget/table/view_table_cell_styles.dart';
-
 class DeletedTradeTable extends StatelessWidget {
   const DeletedTradeTable({Key? key}) : super(key: key);
   static final List<ViewTableColumn> _columns = [
@@ -98,7 +97,6 @@ class DeletedTradeTable extends StatelessWidget {
       },
     );
   }
-
   Widget _buildCell(DeletedTrade trade, ViewTableColumn column) {
     switch (column.id) {
       case 'userName':

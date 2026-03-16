@@ -4,7 +4,6 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import '../../../../../../core/errors/failures.dart';
 import '../../../../../../core/usecases/usecase.dart';
-
 class GetUserPositions implements UseCase<List<UserPosition>, String> {
   final UserPositionRepository repository;
   GetUserPositions(this.repository);

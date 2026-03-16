@@ -15,7 +15,6 @@ import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import 'open_postion_dilog.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
-
 class NetPositionTable extends StatelessWidget {
   final bool showDeviceInfo;
   final bool isDarkMode;
@@ -34,7 +33,6 @@ class NetPositionTable extends StatelessWidget {
     this.headerTextSize = 14,
     this.bodyTextSize = 14,
   }) : super(key: key);
-
   List<ViewTableColumn> _getColumns(bool isClient) {
     if (isClient) {
       return const [
@@ -122,7 +120,6 @@ class NetPositionTable extends StatelessWidget {
       ),
     ];
   }
-
   Widget _buildCell(
     BuildContext context,
     NetPosition item,
@@ -222,7 +219,6 @@ class NetPositionTable extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
-
   Widget _buildNetQtyCell(
     BuildContext context,
     NetPosition item,
@@ -230,7 +226,6 @@ class NetPositionTable extends StatelessWidget {
     bool isClient,
   ) {
     final color = item.netQty > 0 ? AppColors.blue : AppColors.red;
-
     if (isClient) {
       return ViewNumberCell(
         value: item.netQty,
@@ -239,7 +234,6 @@ class NetPositionTable extends StatelessWidget {
         fontSize: bodyTextSize.sp,
       );
     }
-
     return GestureDetector(
       onTap: () {
         context.read<NetPositionBloc>().add(SelectPositionEvent(item.id));
@@ -270,14 +264,12 @@ class NetPositionTable extends StatelessWidget {
       ),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     final authState = context.read<AuthBloc>().state;
     final isClient =
         authState is AuthAuthenticated &&
         authState.user.role.toLowerCase() == 'client';
-
     return BlocBuilder<NetPositionBloc, NetPositionState>(
       builder: (context, state) {
         if (state is NetPositionLoading) {
@@ -333,7 +325,6 @@ class NetPositionTable extends StatelessWidget {
       },
     );
   }
-
   Widget _buildTotalsRow(
     List<ViewTableColumn> columns,
     List<NetPosition> positions,
@@ -360,7 +351,6 @@ class NetPositionTable extends StatelessWidget {
       isDarkMode: isDarkMode,
     );
   }
-
   Widget _buildErrorState(BuildContext context, String message) {
     return Center(
       child: Column(

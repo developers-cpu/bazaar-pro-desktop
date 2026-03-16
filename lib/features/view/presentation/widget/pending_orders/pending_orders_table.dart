@@ -13,7 +13,7 @@ import '../../bloc/pending_orders/pending_orders_bloc.dart';
 import '../../bloc/pending_orders/pending_orders_event.dart';
 import '../../bloc/pending_orders/pending_orders_state.dart';
 import 'trade_details_dialog.dart';
-
+import 'delete_order_dialog.dart';
 class PendingOrdersTable extends StatelessWidget {
   final bool showDeviceInfo;
   final bool isDarkMode;
@@ -22,92 +22,89 @@ class PendingOrdersTable extends StatelessWidget {
     this.showDeviceInfo = false,
     this.isDarkMode = false,
   }) : super(key: key);
-
   List<ViewTableColumn> _getColumns(bool isClient) {
     if (isClient) {
       return const [
         ViewTableColumn(id: 'exchange', label: 'EXCH', width: 100),
         ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 150),
         ViewTableColumn(id: 'buySell', label: 'B/S', width: 150),
-        ViewTableColumn(id: 'qty', label: 'QTY', width: 120, isNumeric: true),
-        ViewTableColumn(id: 'lot', label: 'LOT', width: 100, isNumeric: true),
+        ViewTableColumn(id: 'qty', label: 'QTY', width: 90, isNumeric: true),
+        ViewTableColumn(id: 'lot', label: 'LOT', width: 90, isNumeric: true),
         ViewTableColumn(
           id: 'triggerPrice',
           label: 'PRICE',
-          width: 130,
+          width: 90,
           isNumeric: true,
         ),
         ViewTableColumn(
           id: 'orderDateTime',
           label: 'ORDER D/T',
-          width: 220,
+          width: 170,
           alignment: Alignment.centerRight,
         ),
         ViewTableColumn(
           id: 'modifyOrderDateTime',
           label: 'MODIFY ORDER',
-          width: 240,
+          width: 170,
           alignment: Alignment.centerRight,
         ),
-        ViewTableColumn(id: 'cmp', label: 'CMP', width: 120, isNumeric: true),
+        ViewTableColumn(id: 'cmp', label: 'CMP', width: 90, isNumeric: true),
       ];
     }
-
     final columns = <ViewTableColumn>[
-      const ViewTableColumn(id: 'userId', label: 'USER ID', width: 120),
-      const ViewTableColumn(id: 'upline', label: 'UPLINE', width: 120),
-      const ViewTableColumn(id: 'exchange', label: 'EXCH', width: 100),
-      const ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 150),
-      const ViewTableColumn(id: 'buySell', label: 'B/S', width: 150),
+      const ViewTableColumn(id: 'userId', label: 'USER ID', width: 100),
+      const ViewTableColumn(id: 'upline', label: 'UPLINE', width: 100),
+      const ViewTableColumn(id: 'exchange', label: 'EXCH', width: 90),
+      const ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 130),
+      const ViewTableColumn(id: 'buySell', label: 'B/S', width: 170),
       const ViewTableColumn(
         id: 'qty',
         label: 'QTY',
-        width: 120,
+        width: 90,
         isNumeric: true,
       ),
       const ViewTableColumn(
         id: 'lot',
         label: 'LOT',
-        width: 100,
+        width: 90,
         isNumeric: true,
       ),
       const ViewTableColumn(
         id: 'triggerPrice',
         label: 'T. PRICE',
-        width: 130,
+        width: 90,
         isNumeric: true,
       ),
       const ViewTableColumn(
         id: 'orderDateTime',
         label: 'ORDER D/T',
-        width: 220,
+        width: 170,
         alignment: Alignment.centerRight,
       ),
       const ViewTableColumn(
         id: 'modifyOrderDateTime',
         label: 'MODIFY ORDER D/T',
-        width: 240,
+        width: 170,
         alignment: Alignment.centerRight,
       ),
-      const ViewTableColumn(id: 'orderType', label: 'TYPE', width: 100),
+      const ViewTableColumn(id: 'orderType', label: 'TYPE', width: 90),
       const ViewTableColumn(
         id: 'cmp',
         label: 'CMP',
-        width: 120,
+        width: 90,
         isNumeric: true,
       ),
       const ViewTableColumn(
         id: 'rPrice',
         label: 'R.PRICE',
-        width: 120,
+        width: 90,
         isNumeric: true,
       ),
       const ViewTableColumn(id: 'deviceId', label: 'DEVICE ID', width: 280),
-      const ViewTableColumn(id: 'ipAddress', label: 'IP ADDRESS', width: 160),
+      const ViewTableColumn(id: 'ipAddress', label: 'IP ADDRESS', width: 130),
     ];
     return columns;
   }
-
   Widget _buildCell(PendingOrder item, ViewTableColumn column, bool isDark) {
     switch (column.id) {
       case 'userId':
@@ -181,14 +178,12 @@ class PendingOrdersTable extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
-
   @override
   Widget build(BuildContext context) {
     final authState = context.read<AuthBloc>().state;
     final isClient =
         authState is AuthAuthenticated &&
         authState.user.role.toLowerCase() == 'client';
-
     return BlocBuilder<PendingOrdersBloc, PendingOrdersState>(
       builder: (context, state) {
         if (state is PendingOrdersLoading) {
@@ -220,23 +215,35 @@ class PendingOrdersTable extends StatelessWidget {
                   context.read<PendingOrdersBloc>().add(
                     SelectOrderEvent(item.id),
                   );
-                  if (!isClient) {
-                    TradeDetailsDialog.show(
-                      context: context,
-                      order: item,
-                      isDarkMode: isDarkMode,
-                    );
-                  }
                 },
                 onRowSecondaryTap: (item) {
                   context.read<PendingOrdersBloc>().add(
                     SelectOrderEvent(item.id),
                   );
-                  TradeDetailsDialog.show(
-                    context: context,
-                    order: item,
-                    isDarkMode: isDarkMode,
-                  );
+                  if (isClient) {
+                    TradeDetailsDialog.show(
+                      context: context,
+                      order: item,
+                      isDarkMode: isDarkMode,
+                    );
+                  } else {
+                    DeleteOrderDialog.show(
+                      context: context,
+                      order: item,
+                      isDarkMode: isDarkMode,
+                      onCancel: () {
+                        Future.delayed(const Duration(milliseconds: 100), () {
+                          if (context.mounted) {
+                            TradeDetailsDialog.show(
+                              context: context,
+                              order: item,
+                              isDarkMode: isDarkMode,
+                            );
+                          }
+                        });
+                      },
+                    );
+                  }
                 },
                 onSort: (columnId, ascending) {
                   context.read<PendingOrdersBloc>().add(
@@ -250,7 +257,6 @@ class PendingOrdersTable extends StatelessWidget {
       },
     );
   }
-
   Widget _buildErrorState(BuildContext context, String message) {
     return Center(
       child: Column(

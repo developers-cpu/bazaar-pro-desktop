@@ -1,20 +1,16 @@
 import 'package:equatable/equatable.dart';
 import '../../../domain/entities/user_hierarchy_node/user_hierarchy_node.dart';
-
 abstract class SearchUserState extends Equatable {
   const SearchUserState();
   @override
   List<Object?> get props => [];
 }
-
 class SearchUserInitial extends SearchUserState {
   const SearchUserInitial();
 }
-
 class SearchUserLoading extends SearchUserState {
   const SearchUserLoading();
 }
-
 class SearchUserLoaded extends SearchUserState {
   final List<UserHierarchyNode> nodes;
   final String searchQuery;
@@ -28,11 +24,9 @@ class SearchUserLoaded extends SearchUserState {
       searchQuery: searchQuery ?? this.searchQuery,
     );
   }
-
   @override
   List<Object?> get props => [nodes, searchQuery];
 }
-
 class SearchUserError extends SearchUserState {
   final String message;
   const SearchUserError(this.message);

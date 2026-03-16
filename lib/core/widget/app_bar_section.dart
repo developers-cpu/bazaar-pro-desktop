@@ -18,7 +18,6 @@ import '../../features/report/presentation/widgets/users_bill_summary/users_bill
 import '../../features/view/presentation/widget/login_history/login_history_dialog.dart';
 import '../../features/view/presentation/widget/manual_trade/manual_trade_dialog.dart';
 import '../../features/view/presentation/widget/trade_margin/trade_margin_dialog.dart';
-
 class AppBarSection extends StatefulWidget implements PreferredSizeWidget {
   final int selectedTabIndex;
   final String? userRole;
@@ -50,7 +49,6 @@ class AppBarSection extends StatefulWidget implements PreferredSizeWidget {
   @override
   State<AppBarSection> createState() => AppBarSectionState();
 }
-
 class AppBarSectionState extends State<AppBarSection> {
   late List<AppBarTab> _tabs;
   final Map<int, String> _selectedDropdownItems = {};
@@ -63,7 +61,6 @@ class AppBarSectionState extends State<AppBarSection> {
           widget.currentPageTitle!;
     }
   }
-
   @override
   void didUpdateWidget(AppBarSection oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -73,7 +70,6 @@ class AppBarSectionState extends State<AppBarSection> {
           widget.currentPageTitle!;
     }
   }
-
   void _initializeTabs() {
     final allTabs = [
       const AppBarTab(title: AppStrings.marketWatch),
@@ -132,14 +128,12 @@ class AppBarSectionState extends State<AppBarSection> {
       _tabs = [allTabs[0], allTabs[1]];
     }
   }
-
   int _getTabIndex(String title) {
     for (int i = 0; i < _tabs.length; i++) {
       if (_tabs[i].title == title) return i;
     }
     return -1;
   }
-
   void _navigateToPage(int tabIndex, String itemTitle, String routeName) {
     if (tabIndex == -1) return;
     setState(() {
@@ -148,7 +142,6 @@ class AppBarSectionState extends State<AppBarSection> {
     widget.onViewAction?.call(routeName);
     Navigator.of(context).pushReplacementNamed(routeName);
   }
-
   List<MenuItemData> _getOperationsDropdownItems() {
     return [
       MenuItemData(
@@ -241,7 +234,6 @@ class AppBarSectionState extends State<AppBarSection> {
       ),
     ];
   }
-
   List<MenuItemData> _getViewDropdownItems(String? role) {
     if (role == 'Client') {
       return [
@@ -529,7 +521,6 @@ class AppBarSectionState extends State<AppBarSection> {
       ];
     }
   }
-
   List<MenuItemData> _getReportDropdownItems(String? role) {
     if (role == 'Client') {
       return [
@@ -772,7 +763,6 @@ class AppBarSectionState extends State<AppBarSection> {
       ];
     }
   }
-
   void _onTabSelected(int index) {
     if (index == 0) {
       Navigator.of(context).pushReplacementNamed('/market-watch');
@@ -783,20 +773,16 @@ class AppBarSectionState extends State<AppBarSection> {
     }
     widget.onTabSelected(index);
   }
-
   bool hasDropdown(int index) {
     if (index < 0 || index >= _tabs.length) return false;
     return _tabs[index].hasDropdown;
   }
-
   bool get _shouldShowReloadIcon {
     return widget.selectedTabIndex == 0;
   }
-
   @override
   Widget build(BuildContext context) {
     final shouldShowExport = widget.showExportByDefault;
-
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, authState) {
         String username = AppStrings.defaultUsername;
@@ -821,7 +807,6 @@ class AppBarSectionState extends State<AppBarSection> {
       },
     );
   }
-
   List<MenuItemData> _getToolsDropdownItems() {
     final isClient = widget.userRole?.toLowerCase() == 'client';
     return [

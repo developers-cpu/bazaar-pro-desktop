@@ -5,23 +5,19 @@ import 'package:printing/printing.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:open_filex/open_filex.dart';
 import '../../domain/entities/broker_list/client_breakdown.dart';
-
 class ClientBreakdownService {
   static Future<void> exportAsPdf(ClientBreakdown breakdown) async {
     final fontRegular = await PdfGoogleFonts.openSansRegular();
     final fontBold = await PdfGoogleFonts.openSansBold();
-
     final pdf = pw.Document(
       theme: pw.ThemeData.withFont(base: fontRegular, bold: fontBold),
     );
-
     pdf.addPage(
       pw.MultiPage(
         pageFormat: PdfPageFormat.a4,
         margin: const pw.EdgeInsets.all(32),
         build: (pw.Context context) {
           final items = <pw.Widget>[];
-
           
           items.add(
             pw.Center(
@@ -36,7 +32,6 @@ class ClientBreakdownService {
             ),
           );
           items.add(pw.SizedBox(height: 20));
-
           
           items.add(
             pw.Container(
@@ -58,23 +53,19 @@ class ClientBreakdownService {
             ),
           );
           items.add(pw.SizedBox(height: 20));
-
           
           for (final section in breakdown.sections) {
             items.add(_buildSection(section));
             items.add(pw.SizedBox(height: 16));
           }
-
           return items;
         },
       ),
     );
-
     final fileName =
         'Client_Breakdown_${breakdown.clientName}_${DateTime.now().millisecondsSinceEpoch}.pdf';
     await _saveAndOpenFile(await pdf.save(), fileName);
   }
-
   static pw.Widget _buildSection(ClientBreakdownSection section) {
     return pw.Column(
       children: [
@@ -139,7 +130,6 @@ class ClientBreakdownService {
       ],
     );
   }
-
   static Future<void> _saveAndOpenFile(List<int> bytes, String fileName) async {
     final directory = await getApplicationDocumentsDirectory();
     final file = File('${directory.path}/$fileName');

@@ -3,7 +3,6 @@ import '../../../../../core/errors/failures.dart';
 import '../../../../../core/usecases/usecase.dart';
 import '../../entities/deals/deals.dart';
 import '../../repositories/deals/deals_repository.dart';
-
 class GetDeals implements UseCase<List<Deal>, NoParams> {
   final DealsRepository repository;
   GetDeals(this.repository);
@@ -12,7 +11,6 @@ class GetDeals implements UseCase<List<Deal>, NoParams> {
     return repository.getDeals();
   }
 }
-
 class GetDealsWithFilters implements UseCase<List<Deal>, DealsFilterParams> {
   final DealsRepository repository;
   GetDealsWithFilters(this.repository);
@@ -29,7 +27,6 @@ class GetDealsWithFilters implements UseCase<List<Deal>, DealsFilterParams> {
     );
   }
 }
-
 class DealsFilterParams {
   final DateTime? startDate;
   final DateTime? endDate;
@@ -48,7 +45,6 @@ class DealsFilterParams {
     this.status,
   });
 }
-
 class GetDealsClients implements UseCase<List<String>, NoParams> {
   final DealsRepository repository;
   GetDealsClients(this.repository);
@@ -57,7 +53,6 @@ class GetDealsClients implements UseCase<List<String>, NoParams> {
     return repository.getClients();
   }
 }
-
 class GetDealsExchanges implements UseCase<List<String>, NoParams> {
   final DealsRepository repository;
   GetDealsExchanges(this.repository);
@@ -66,7 +61,6 @@ class GetDealsExchanges implements UseCase<List<String>, NoParams> {
     return repository.getExchanges();
   }
 }
-
 class GetDealsSymbols implements UseCase<List<String>, NoParams> {
   final DealsRepository repository;
   GetDealsSymbols(this.repository);
@@ -75,7 +69,6 @@ class GetDealsSymbols implements UseCase<List<String>, NoParams> {
     return repository.getSymbols();
   }
 }
-
 class GetDealsOrderTypes implements UseCase<List<String>, NoParams> {
   final DealsRepository repository;
   GetDealsOrderTypes(this.repository);
@@ -84,7 +77,6 @@ class GetDealsOrderTypes implements UseCase<List<String>, NoParams> {
     return repository.getOrderTypes();
   }
 }
-
 class GetDealsStatuses implements UseCase<List<String>, NoParams> {
   final DealsRepository repository;
   GetDealsStatuses(this.repository);
@@ -93,7 +85,6 @@ class GetDealsStatuses implements UseCase<List<String>, NoParams> {
     return repository.getStatuses();
   }
 }
-
 class ExportDealsToPdf implements UseCase<String, List<Deal>> {
   final DealsRepository repository;
   ExportDealsToPdf(this.repository);
@@ -102,7 +93,6 @@ class ExportDealsToPdf implements UseCase<String, List<Deal>> {
     return repository.exportToPdf(deals);
   }
 }
-
 class ExportDealsToExcel implements UseCase<String, List<Deal>> {
   final DealsRepository repository;
   ExportDealsToExcel(this.repository);

@@ -2,7 +2,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../domain/usecases/bill_comparison/get_bill_comparison_data.dart';
 import 'bill_comparison_event.dart';
 import 'bill_comparison_state.dart';
-
 class BillComparisonBloc
     extends Bloc<BillComparisonEvent, BillComparisonState> {
   final GetBillComparisonData getBillComparisonData;
@@ -47,7 +46,6 @@ class BillComparisonBloc
       );
     }
   }
-
   void _onSearchBillComparison(
     SearchBillComparisonEvent event,
     Emitter<BillComparisonState> emit,

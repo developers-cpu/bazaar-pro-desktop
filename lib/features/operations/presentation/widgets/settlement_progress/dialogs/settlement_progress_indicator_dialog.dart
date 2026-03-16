@@ -4,11 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../../core/constants/app_colors.dart';
 import '../../../../../../core/widget/common_dilog_box.dart';
 import '../../../../../../core/widget/custom_action_button.dart';
-
 import '../../../bloc/settlement_progress/settlement_progress_bloc.dart';
 import '../../../bloc/settlement_progress/settlement_progress_state.dart';
 import '../../../bloc/settlement_progress/settlement_progress_event.dart';
-
 class SettlementProgressIndicatorDialog {
   static void show(BuildContext context, {SettlementProgressBloc? bloc}) {
     CommonDialog.show(
@@ -28,27 +26,22 @@ class SettlementProgressIndicatorDialog {
     );
   }
 }
-
 class _SettlementProgressIndicatorContent extends StatelessWidget {
   final VoidCallback onClose;
-
   const _SettlementProgressIndicatorContent({
     Key? key,
     required this.onClose,
   }) : super(key: key);
-
   void _onView(BuildContext context) {
     context.read<SettlementProgressBloc>().add(LoadSettlementDataEvent());
     onClose();
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SettlementProgressBloc, SettlementProgressState>(
       builder: (context, state) {
         final isCompleted = state is SettlementCompleted;
         final bloc = context.read<SettlementProgressBloc>();
-
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [

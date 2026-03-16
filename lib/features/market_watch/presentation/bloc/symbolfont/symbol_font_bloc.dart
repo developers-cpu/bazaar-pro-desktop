@@ -1,7 +1,6 @@
 import 'package:bazarpro/features/market_watch/presentation/bloc/symbolfont/symbol_font_event.dart';
 import 'package:bazarpro/features/market_watch/presentation/bloc/symbolfont/symbol_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 class SymbolFontBloc extends Bloc<SymbolFontEvent, SymbolFontState> {
   static const String _defaultFontFamily = 'Inter';
   static const String _defaultFontStyle = 'Regular';
@@ -68,28 +67,24 @@ class SymbolFontBloc extends Bloc<SymbolFontEvent, SymbolFontState> {
       ),
     );
   }
-
   void _onSelectFontFamily(
     SelectFontFamilyEvent event,
     Emitter<SymbolFontState> emit,
   ) {
     emit(state.copyWith(selectedFontFamily: event.fontFamily, isSaved: false));
   }
-
   void _onSelectFontStyle(
     SelectFontStyleEvent event,
     Emitter<SymbolFontState> emit,
   ) {
     emit(state.copyWith(selectedFontStyle: event.fontStyle, isSaved: false));
   }
-
   void _onSelectFontSize(
     SelectFontSizeEvent event,
     Emitter<SymbolFontState> emit,
   ) {
     emit(state.copyWith(selectedFontSize: event.fontSize, isSaved: false));
   }
-
   void _onSaveFontSettings(
     SaveFontSettingsEvent event,
     Emitter<SymbolFontState> emit,
@@ -99,7 +94,6 @@ class SymbolFontBloc extends Bloc<SymbolFontEvent, SymbolFontState> {
     _savedFontSize = state.selectedFontSize;
     emit(state.copyWith(isSaved: true));
   }
-
   void _onResetFontSettings(
     ResetFontSettingsEvent event,
     Emitter<SymbolFontState> emit,
@@ -116,7 +110,6 @@ class SymbolFontBloc extends Bloc<SymbolFontEvent, SymbolFontState> {
       ),
     );
   }
-
   String get savedFontFamily => _savedFontFamily;
   String get savedFontStyle => _savedFontStyle;
   int get savedFontSize => _savedFontSize;

@@ -9,7 +9,6 @@ import '../../bloc/deals/deals_state.dart';
 import '../../../../../core/widget/table/view_reset_buttons.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
-
 class DealsFilterBar extends StatelessWidget {
   const DealsFilterBar({Key? key}) : super(key: key);
   @override
@@ -23,7 +22,6 @@ class DealsFilterBar extends StatelessWidget {
         final isClient =
             authState is AuthAuthenticated &&
             authState.user.role.toLowerCase() == 'client';
-
         return Container(
           alignment: Alignment.centerLeft,
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),

@@ -1,7 +1,5 @@
 import 'package:equatable/equatable.dart';
-
 enum OperationsMessageStatus { initial, loading, success, failure }
-
 class OperationsMessageState extends Equatable {
   final int activeTab;
   final String rollType;
@@ -26,7 +24,6 @@ class OperationsMessageState extends Equatable {
       message: message,
     );
   }
-
   @override
   List<Object?> get props => [activeTab, rollType, status, message];
 }

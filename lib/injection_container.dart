@@ -345,7 +345,6 @@ import 'features/operations/domain/usecases/get_settlement_master_sharing.dart';
 import 'features/operations/domain/repositories/settlement_master_sharing_repository.dart';
 import 'features/operations/data/repositories/settlement_master_sharing_repository_impl.dart';
 import 'features/operations/data/datasources/settlement_master_sharing_datasource.dart';
-
 final sl = GetIt.instance;
 Future<void> init() async {
   sl.registerLazySingleton(() => ApiClient());
@@ -962,7 +961,6 @@ Future<void> init() async {
   sl.registerLazySingleton<SettlementReportRemoteDataSource>(
     () => SettlementReportRemoteDataSourceImpl(),
   );
-
   sl.registerFactory(
     () => SettlementSharingReportBloc(getSettlementSharingReport: sl()),
   );
@@ -992,7 +990,6 @@ Future<void> init() async {
   sl.registerLazySingleton<MarketTimingRemoteDataSource>(
     () => MarketTimingRemoteDataSourceImpl(),
   );
-
   sl.registerFactory(() => AnnouncementBloc(getAnnouncements: sl()));
   sl.registerLazySingleton(() => GetAnnouncementsUseCase(repository: sl()));
   sl.registerLazySingleton<AnnouncementRepository>(
@@ -1001,7 +998,6 @@ Future<void> init() async {
   sl.registerLazySingleton<AnnouncementRemoteDataSource>(
     () => AnnouncementRemoteDataSourceImpl(),
   );
-
   sl.registerFactory(() => MessageBloc(getMessages: sl()));
   sl.registerLazySingleton(() => GetMessagesUseCase(repository: sl()));
   sl.registerLazySingleton<MessageRepository>(
@@ -1010,7 +1006,6 @@ Future<void> init() async {
   sl.registerLazySingleton<MessageRemoteDataSource>(
     () => MessageRemoteDataSourceImpl(),
   );
-
   sl.registerFactory(() => RulesBloc(getRules: sl()));
   sl.registerLazySingleton(() => GetRulesUseCase(repository: sl()));
   sl.registerLazySingleton<RulesRepository>(
@@ -1019,7 +1014,6 @@ Future<void> init() async {
   sl.registerLazySingleton<RulesRemoteDataSource>(
     () => RulesRemoteDataSourceImpl(),
   );
-
   sl.registerFactory(() => ShortcutsBloc(getShortcuts: sl()));
   sl.registerLazySingleton(() => GetShortcutsUseCase(sl()));
   sl.registerLazySingleton<ShortcutsRepository>(
@@ -1028,8 +1022,6 @@ Future<void> init() async {
   sl.registerLazySingleton<ShortcutsRemoteDataSource>(
     () => ShortcutsRemoteDataSourceImpl(),
   );
-
-
   sl.registerFactory(
     () => TotalVolumeBloc(
       getTotalVolume: sl(),
@@ -1043,9 +1035,7 @@ Future<void> init() async {
   sl.registerLazySingleton<TotalVolumeRemoteDataSource>(
     () => TotalVolumeRemoteDataSourceImpl(),
   );
-
   sl.registerFactory(() => OperationsMessageBloc());
-
   sl.registerFactory(
     () => ExchangeSettingsBloc(
       getExchangeSettings: sl(),
@@ -1061,7 +1051,6 @@ Future<void> init() async {
   sl.registerLazySingleton<ExchangeSettingsRemoteDataSource>(
     () => ExchangeSettingsRemoteDataSourceImpl(),
   );
-
   sl.registerFactory(() => GroupBloc(getGroups: sl(), addGroup: sl()));
   sl.registerLazySingleton(() => GetGroups(sl()));
   sl.registerLazySingleton(() => AddGroup(sl()));
@@ -1071,7 +1060,6 @@ Future<void> init() async {
   sl.registerLazySingleton<GroupRemoteDataSource>(
     () => GroupRemoteDataSourceImpl(),
   );
-
   sl.registerFactory(
     () => TradeSettingsBloc(getTradeSettings: sl(), updateTradeSettings: sl()),
   );
@@ -1083,7 +1071,6 @@ Future<void> init() async {
   sl.registerLazySingleton<TradeSettingsRemoteDataSource>(
     () => TradeSettingsRemoteDataSourceImpl(),
   );
-
   sl.registerFactory(
     () => SettlementProgressBloc(
       importBhavCopy: sl(),
@@ -1100,7 +1087,6 @@ Future<void> init() async {
   sl.registerLazySingleton<SettlementProgressRemoteDataSource>(
     () => SettlementProgressRemoteDataSourceImpl(),
   );
-
   sl.registerFactory(
     () => DateSettingsBloc(getDateSettings: sl(), updateDateSettings: sl()),
   );
@@ -1112,7 +1098,6 @@ Future<void> init() async {
   sl.registerLazySingleton<DateSettingsRemoteDataSource>(
     () => DateSettingsRemoteDataSourceImpl(),
   );
-
   sl.registerFactory(
     () =>
         ScriptSettingsBloc(getScriptSettings: sl(), updateScriptSettings: sl()),
@@ -1125,7 +1110,6 @@ Future<void> init() async {
   sl.registerLazySingleton<ScriptSettingsRemoteDataSource>(
     () => ScriptSettingsRemoteDataSourceImpl(),
   );
-
   sl.registerFactory(
     () => SurveillanceBloc(
       getSurveillanceData: sl(),
@@ -1140,7 +1124,6 @@ Future<void> init() async {
   sl.registerLazySingleton<SurveillanceRemoteDataSource>(
     () => SurveillanceRemoteDataSourceImpl(),
   );
-
   sl.registerFactory(
     () => ServerBloc(
       getServers: sl(),
@@ -1156,7 +1139,6 @@ Future<void> init() async {
   sl.registerLazySingleton<ServerRemoteDataSource>(
     () => ServerRemoteDataSourceImpl(),
   );
-
   sl.registerFactory(() => BillComparisonBloc(getBillComparisonData: sl()));
   sl.registerLazySingleton(() => GetBillComparisonData(sl()));
   sl.registerLazySingleton<BillComparisonRepository>(
@@ -1165,7 +1147,6 @@ Future<void> init() async {
   sl.registerLazySingleton<BillComparisonRemoteDataSource>(
     () => BillComparisonRemoteDataSourceImpl(),
   );
-
   sl.registerFactory(
     () => SettlementMasterSharingBloc(getSettlementMasterSharing: sl()),
   );

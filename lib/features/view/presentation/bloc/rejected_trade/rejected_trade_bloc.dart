@@ -4,7 +4,6 @@ import '../../../domain/entities/rejected_trade/rejected_trade.dart';
 import '../../../domain/usecases/rejected_trade/rejected_trade_usecases.dart';
 import 'rejected_trade_event.dart';
 import 'rejected_trade_state.dart';
-
 class RejectedTradeBloc extends Bloc<RejectedTradeEvent, RejectedTradeState> {
   final GetRejectedTrades getRejectedTrades;
   final GetRejectedTradesWithFilters getRejectedTradesWithFilters;
@@ -89,7 +88,6 @@ class RejectedTradeBloc extends Bloc<RejectedTradeEvent, RejectedTradeState> {
       emit(RejectedTradeError(e.toString()));
     }
   }
-
   Future<void> _onApplyFilters(
     ApplyRejectedTradeFiltersEvent event,
     Emitter<RejectedTradeState> emit,
@@ -119,7 +117,6 @@ class RejectedTradeBloc extends Bloc<RejectedTradeEvent, RejectedTradeState> {
       ),
     );
   }
-
   Future<void> _onResetFilters(
     ResetRejectedTradeFiltersEvent event,
     Emitter<RejectedTradeState> emit,
@@ -138,7 +135,6 @@ class RejectedTradeBloc extends Bloc<RejectedTradeEvent, RejectedTradeState> {
       ),
     );
   }
-
   void _onSortByColumn(
     SortRejectedTradesByColumnEvent event,
     Emitter<RejectedTradeState> emit,
@@ -216,7 +212,6 @@ class RejectedTradeBloc extends Bloc<RejectedTradeEvent, RejectedTradeState> {
       ),
     );
   }
-
   Future<void> _onExportToPdf(
     ExportRejectedTradesToPdfEvent event,
     Emitter<RejectedTradeState> emit,
@@ -234,7 +229,6 @@ class RejectedTradeBloc extends Bloc<RejectedTradeEvent, RejectedTradeState> {
       emit(currentState);
     });
   }
-
   Future<void> _onExportToExcel(
     ExportRejectedTradesToExcelEvent event,
     Emitter<RejectedTradeState> emit,

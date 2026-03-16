@@ -1,13 +1,10 @@
 import 'package:equatable/equatable.dart';
-
 abstract class ServerEvent extends Equatable {
   const ServerEvent();
   @override
   List<Object?> get props => [];
 }
-
 class LoadServersEvent extends ServerEvent {}
-
 class UpdateServerStatusEvent extends ServerEvent {
   final String id;
   final bool status;
@@ -15,7 +12,6 @@ class UpdateServerStatusEvent extends ServerEvent {
   @override
   List<Object?> get props => [id, status];
 }
-
 class AddServerEvent extends ServerEvent {
   final String serverName;
   final String logoPath;
@@ -23,7 +19,6 @@ class AddServerEvent extends ServerEvent {
   @override
   List<Object?> get props => [serverName, logoPath];
 }
-
 class EditServerEvent extends ServerEvent {
   final String id;
   final String serverName;
@@ -36,7 +31,6 @@ class EditServerEvent extends ServerEvent {
   @override
   List<Object?> get props => [id, serverName, logoPath];
 }
-
 class SearchServerEvent extends ServerEvent {
   final String query;
   const SearchServerEvent(this.query);

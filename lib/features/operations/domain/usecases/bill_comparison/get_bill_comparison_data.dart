@@ -1,6 +1,5 @@
 import '../../entities/bill_comparison/bill_comparison_entity.dart';
 import '../../repositories/bill_comparison/bill_comparison_repository.dart';
-
 class GetBillComparisonData {
   final BillComparisonRepository repository;
   GetBillComparisonData(this.repository);

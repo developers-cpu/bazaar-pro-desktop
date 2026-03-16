@@ -1,6 +1,5 @@
 import 'trade_settings_remote_data_source.dart';
 import '../../models/trade_settings/trade_setting_model.dart';
-
 class TradeSettingsRemoteDataSourceImpl
     implements TradeSettingsRemoteDataSource {
   final List<TradeSettingModel> _mockTradeSettings = [
@@ -154,7 +153,6 @@ class TradeSettingsRemoteDataSourceImpl
     await Future.delayed(const Duration(milliseconds: 300));
     return _mockTradeSettings;
   }
-
   @override
   Future<bool> updateTradeSettings({
     required List<String> ids,

@@ -1,17 +1,13 @@
 import 'package:bazarpro/features/users/domain/entities/user_quantity_setting/user_quantity_setting.dart';
 import 'package:bazarpro/features/users/domain/entities/user_quantity_setting/user_quantity_setting_metadata.dart';
 import 'package:equatable/equatable.dart';
-
 abstract class UserQuantitySettingsState extends Equatable {
   const UserQuantitySettingsState();
   @override
   List<Object?> get props => [];
 }
-
 class UserQuantitySettingsInitial extends UserQuantitySettingsState {}
-
 class UserQuantitySettingsLoading extends UserQuantitySettingsState {}
-
 class UserQuantitySettingsLoaded extends UserQuantitySettingsState {
   final List<UserQuantitySetting> settings;
   final List<UserQuantitySetting> filteredSettings;
@@ -36,7 +32,6 @@ class UserQuantitySettingsLoaded extends UserQuantitySettingsState {
       selectedSymbol: selectedSymbol ?? this.selectedSymbol,
     );
   }
-
   @override
   List<Object?> get props => [
     settings,
@@ -45,7 +40,6 @@ class UserQuantitySettingsLoaded extends UserQuantitySettingsState {
     selectedSymbol,
   ];
 }
-
 class UserQuantitySettingsError extends UserQuantitySettingsState {
   final String message;
   const UserQuantitySettingsError(this.message);

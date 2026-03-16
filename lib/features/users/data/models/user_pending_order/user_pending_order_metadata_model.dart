@@ -1,5 +1,4 @@
 import '../../../domain/entities/user_pending_order/user_pending_order_metadata.dart';
-
 class UserPendingOrderMetadataModel extends UserPendingOrderMetadata {
   const UserPendingOrderMetadataModel({
     required super.exchanges,

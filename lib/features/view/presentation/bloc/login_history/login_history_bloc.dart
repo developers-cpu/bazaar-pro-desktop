@@ -4,7 +4,6 @@ import '../../../domain/entities/login_history/login_history.dart';
 import '../../../domain/usecases/login_history/login_history_usecases.dart';
 import 'login_history_event.dart';
 import 'login_history_state.dart';
-
 class LoginHistoryBloc extends Bloc<LoginHistoryEvent, LoginHistoryState> {
   final GetLoginHistory getLoginHistory;
   final GetLoginHistoryClients getClients;
@@ -38,7 +37,6 @@ class LoginHistoryBloc extends Bloc<LoginHistoryEvent, LoginHistoryState> {
       emit(LoginHistoryError(e.toString()));
     }
   }
-
   void _onSelectClient(
     SelectClientEvent event,
     Emitter<LoginHistoryState> emit,
@@ -58,14 +56,12 @@ class LoginHistoryBloc extends Bloc<LoginHistoryEvent, LoginHistoryState> {
       );
     }
   }
-
   Future<void> _onViewHistory(
     ViewLoginHistoryEvent event,
     Emitter<LoginHistoryState> emit,
   ) async {
     String? clientToFetch;
     List<String> clients = [];
-
     if (state is LoginHistoryInitial) {
       clientToFetch = (state as LoginHistoryInitial).selectedClient;
       clients = (state as LoginHistoryInitial).clients;
@@ -73,11 +69,9 @@ class LoginHistoryBloc extends Bloc<LoginHistoryEvent, LoginHistoryState> {
       clientToFetch = (state as LoginHistoryLoaded).selectedClient;
       clients = (state as LoginHistoryLoaded).clients;
     }
-
     if (clientToFetch == null || clientToFetch.isEmpty) {
       return;
     }
-
     emit(const LoginHistoryLoading());
     try {
       final historyResult = await getLoginHistory(clientToFetch);
@@ -97,7 +91,6 @@ class LoginHistoryBloc extends Bloc<LoginHistoryEvent, LoginHistoryState> {
       emit(LoginHistoryError(e.toString()));
     }
   }
-
   void _onResetHistory(
     ResetLoginHistoryEvent event,
     Emitter<LoginHistoryState> emit,
@@ -110,7 +103,6 @@ class LoginHistoryBloc extends Bloc<LoginHistoryEvent, LoginHistoryState> {
     }
     emit(LoginHistoryInitial(clients: clients, selectedClient: null));
   }
-
   void _onSortByColumn(
     SortLoginHistoryByColumnEvent event,
     Emitter<LoginHistoryState> emit,
@@ -152,7 +144,6 @@ class LoginHistoryBloc extends Bloc<LoginHistoryEvent, LoginHistoryState> {
       ),
     );
   }
-
   Future<void> _onExportToPdf(
     ExportLoginHistoryToPdfEvent event,
     Emitter<LoginHistoryState> emit,
@@ -170,7 +161,6 @@ class LoginHistoryBloc extends Bloc<LoginHistoryEvent, LoginHistoryState> {
       emit(currentState);
     });
   }
-
   Future<void> _onExportToExcel(
     ExportLoginHistoryToExcelEvent event,
     Emitter<LoginHistoryState> emit,

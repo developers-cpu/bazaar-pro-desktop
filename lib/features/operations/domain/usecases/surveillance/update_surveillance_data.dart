@@ -2,7 +2,6 @@ import 'package:dartz/dartz.dart';
 import '../../../../../core/errors/failures.dart';
 import '../../entities/surveillance/surveillance_data.dart';
 import '../../repositories/surveillance/surveillance_repository.dart';
-
 class UpdateSurveillanceData {
   final SurveillanceRepository repository;
   UpdateSurveillanceData(this.repository);

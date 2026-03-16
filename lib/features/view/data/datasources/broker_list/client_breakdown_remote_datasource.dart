@@ -1,9 +1,7 @@
 import '../../../domain/entities/broker_list/client_breakdown.dart';
-
 abstract class ClientBreakdownRemoteDataSource {
   Future<ClientBreakdown> getClientBreakdown(String brokerId, String clientName);
 }
-
 class ClientBreakdownRemoteDataSourceImpl implements ClientBreakdownRemoteDataSource {
   @override
   Future<ClientBreakdown> getClientBreakdown(String brokerId, String clientName) async {

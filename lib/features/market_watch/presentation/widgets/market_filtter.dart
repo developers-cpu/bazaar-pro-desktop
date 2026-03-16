@@ -12,7 +12,6 @@ import '../bloc/theme/theme_bloc.dart';
 import '../bloc/theme/theme_event.dart';
 import '../bloc/theme/theme_state.dart';
 import '../../../../core/widget/app_dropdown.dart';
-
 class MarketFilters extends StatelessWidget {
   final MarketWatchLoaded state;
   final String? userRole;
@@ -52,7 +51,6 @@ class MarketFilters extends StatelessWidget {
     return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (context, themeState) {
         final isCePe = state.selectedExchange == AppStrings.cePe;
-
         final expiries =
             state.items
                 .where((i) => i.expiry != null)
@@ -60,7 +58,6 @@ class MarketFilters extends StatelessWidget {
                 .toSet()
                 .toList()
               ..sort();
-
         final prices =
             state.items
                 .where((i) => i.strikePrice != null)
@@ -68,9 +65,7 @@ class MarketFilters extends StatelessWidget {
                 .toSet()
                 .toList()
               ..sort((a, b) => double.parse(a).compareTo(double.parse(b)));
-
         final types = ['CALL', 'PUT'];
-
         return Container(
           width: double.infinity,
           height: 40.h,
@@ -214,7 +209,6 @@ class MarketFilters extends StatelessWidget {
       },
     );
   }
-
   Widget _buildThemeToggle(BuildContext context) {
     return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (context, themeState) {
@@ -252,22 +246,17 @@ class MarketFilters extends StatelessWidget {
     );
   }
 }
-
 class ClientProfitLossWidget extends StatefulWidget {
   const ClientProfitLossWidget({Key? key}) : super(key: key);
-
   @override
   State<ClientProfitLossWidget> createState() => _ClientProfitLossWidgetState();
 }
-
 class _ClientProfitLossWidgetState extends State<ClientProfitLossWidget> {
   double _profitLoss = 81400.00;
   Timer? _timer;
-
   @override
   void initState() {
     super.initState();
-
     _timer = Timer.periodic(const Duration(seconds: 3), (timer) {
       if (mounted) {
         setState(() {
@@ -282,13 +271,11 @@ class _ClientProfitLossWidgetState extends State<ClientProfitLossWidget> {
       }
     });
   }
-
   @override
   void dispose() {
     _timer?.cancel();
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     return Row(

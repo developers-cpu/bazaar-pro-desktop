@@ -1,5 +1,4 @@
 import '../../models/user_script_position_tracking_model.dart';
-
 abstract class UserScriptPositionTrackingRemoteDataSource {
   Future<List<UserScriptPositionTrackingModel>> getUserScriptPositionTracking({
     String? startDate,
@@ -9,7 +8,6 @@ abstract class UserScriptPositionTrackingRemoteDataSource {
     String? symbol,
   });
 }
-
 class UserScriptPositionTrackingRemoteDataSourceImpl
     implements UserScriptPositionTrackingRemoteDataSource {
   @override

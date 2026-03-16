@@ -9,16 +9,12 @@ import '../../bloc/bill_generate/bill_generate_event.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
 import '../../../../../../core/widget/date_range_picker_dialog.dart';
-
 import 'package:intl/intl.dart';
-
 class BillGenerateFilterBar extends StatefulWidget {
   const BillGenerateFilterBar({super.key});
-
   @override
   State<BillGenerateFilterBar> createState() => _BillGenerateFilterBarState();
 }
-
 class _BillGenerateFilterBarState extends State<BillGenerateFilterBar> {
   String _customPeriodLabel = 'Select Date Range';
   String _selectedDateRange = 'This Week';
@@ -26,14 +22,12 @@ class _BillGenerateFilterBarState extends State<BillGenerateFilterBar> {
   String? _selectedUser;
   String? _selectedBillType;
   String? _selectedBillFormat;
-
   @override
   Widget build(BuildContext context) {
     final authState = context.read<AuthBloc>().state;
     final isClient =
         authState is AuthAuthenticated &&
         authState.user.role.toLowerCase() == 'client';
-
     final rowChildren = <Widget>[
       AppDropdown(
         width: 200.w,
@@ -192,7 +186,6 @@ class _BillGenerateFilterBarState extends State<BillGenerateFilterBar> {
         ),
       ),
     ];
-
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
       width: double.infinity,

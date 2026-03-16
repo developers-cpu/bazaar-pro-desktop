@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../constants/app_colors.dart';
-
 class AppCheckbox extends StatelessWidget {
   final String? label;
   final bool value;
@@ -76,7 +75,6 @@ class AppCheckbox extends StatelessWidget {
     );
   }
 }
-
 class AppCheckboxGroup extends StatelessWidget {
   final List<String> items;
   final Set<String> selectedItems;
@@ -105,7 +103,6 @@ class AppCheckboxGroup extends StatelessWidget {
       onChanged!({});
     }
   }
-
   void _onItemChanged(String item, bool? value) {
     if (onChanged == null) return;
     final newSelection = Set<String>.from(selectedItems);
@@ -116,7 +113,6 @@ class AppCheckboxGroup extends StatelessWidget {
     }
     onChanged!(newSelection);
   }
-
   @override
   Widget build(BuildContext context) {
     return Container(

@@ -1,5 +1,4 @@
 import '../../domain/entities/settlement_master_sharing.dart';
-
 class MasterUserModel extends MasterUser {
   const MasterUserModel({required super.id, required super.name});
   factory MasterUserModel.fromJson(Map<String, dynamic> json) {
@@ -9,7 +8,6 @@ class MasterUserModel extends MasterUser {
     );
   }
 }
-
 class AssignedMasterModel extends AssignedMaster {
   const AssignedMasterModel({
     required super.id,
@@ -24,7 +22,6 @@ class AssignedMasterModel extends AssignedMaster {
     );
   }
 }
-
 class MasterSharingEntryModel extends MasterSharingEntry {
   const MasterSharingEntryModel({
     required super.index,
@@ -45,7 +42,6 @@ class MasterSharingEntryModel extends MasterSharingEntry {
     );
   }
 }
-
 class SettlementMasterSharingDataModel extends SettlementMasterSharingData {
   const SettlementMasterSharingDataModel({
     required super.masters,

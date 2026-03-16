@@ -11,7 +11,6 @@ import '../../../../../core/widget/table/view_reset_buttons.dart';
 import 'cancel_all_orders_dialog.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
-
 class PendingOrdersFilterBar extends StatelessWidget {
   const PendingOrdersFilterBar({Key? key}) : super(key: key);
   @override
@@ -25,7 +24,6 @@ class PendingOrdersFilterBar extends StatelessWidget {
         final isClient =
             authState is AuthAuthenticated &&
             authState.user.role.toLowerCase() == 'client';
-
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Row(

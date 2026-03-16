@@ -7,12 +7,12 @@ import '../../../../../core/widget/custom_action_button.dart';
 import '../../../../../core/widget/custom_outlined_button.dart';
 import '../../../domain/entities/pending_orders/pending_order.dart';
 import '../../../../../core/widget/table/success_dialog.dart';
-
 class DeleteOrderDialog {
   static void show({
     required BuildContext context,
     required PendingOrder order,
     bool isDarkMode = false,
+    VoidCallback? onCancel,
   }) {
     CommonDialog.show(
       context: context,
@@ -27,22 +27,23 @@ class DeleteOrderDialog {
         order: order,
         isDarkMode: isDarkMode,
         onClose: onClose,
+        onCancel: onCancel,
       ),
     );
   }
 }
-
 class _DeleteOrderContent extends StatelessWidget {
   final PendingOrder order;
   final bool isDarkMode;
   final VoidCallback onClose;
+  final VoidCallback? onCancel;
   const _DeleteOrderContent({
     Key? key,
     required this.order,
     this.isDarkMode = false,
     required this.onClose,
+    this.onCancel,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -144,7 +145,12 @@ class _DeleteOrderContent extends StatelessWidget {
                     isDarkMode ? Colors.white : const Color(0xFF1F4A66),
                 textColor:
                     isDarkMode ? Colors.white : const Color(0xFF1F4A66),
-                onPressed: onClose,
+                onPressed: () {
+                  onClose();
+                  if (onCancel != null) {
+                    onCancel!();
+                  }
+                },
               ),
               SizedBox(width: 16.w),
               CustomActionButton(

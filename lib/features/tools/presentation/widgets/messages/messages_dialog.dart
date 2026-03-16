@@ -9,7 +9,6 @@ import 'package:intl/intl.dart';
 import '../../../../../core/widget/common_dilog_box.dart';
 import '../../../../../injection_container.dart';
 import '../../../domain/entities/message_entity.dart';
-
 class MessagesDialog {
   static void show(BuildContext context) {
     CommonDialog.show(
@@ -27,15 +26,12 @@ class MessagesDialog {
     );
   }
 }
-
 class _MessagesContent extends StatelessWidget {
   final VoidCallback onClose;
-
   const _MessagesContent({
     Key? key,
     required this.onClose,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<MessageBloc, MessageState>(
@@ -51,7 +47,6 @@ class _MessagesContent extends StatelessWidget {
       },
     );
   }
-
   Widget _buildMessageList(BuildContext context, List<MessageEntity> messages) {
     final groupedMessages = <String, List<MessageEntity>>{};
     for (var message in messages) {
@@ -76,7 +71,6 @@ class _MessagesContent extends StatelessWidget {
       },
     );
   }
-
   String _getDateKey(DateTime timestamp) {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
@@ -94,7 +88,6 @@ class _MessagesContent extends StatelessWidget {
       return DateFormat('dd/MM/yy').format(timestamp);
     }
   }
-
   Widget _buildDateHeader(String date) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 12.h),
@@ -117,7 +110,6 @@ class _MessagesContent extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildMessageCard(BuildContext context, MessageEntity message) {
     return Container(
       margin: EdgeInsets.only(bottom: 12.h),
@@ -191,18 +183,14 @@ class _MessagesContent extends StatelessWidget {
     );
   }
 }
-
 class _CopyButton extends StatefulWidget {
   final String text;
   const _CopyButton({required this.text});
-
   @override
   State<_CopyButton> createState() => _CopyButtonState();
 }
-
 class _CopyButtonState extends State<_CopyButton> {
   bool _copied = false;
-
   void _onCopy() {
     Clipboard.setData(ClipboardData(text: widget.text));
     setState(() => _copied = true);
@@ -210,7 +198,6 @@ class _CopyButtonState extends State<_CopyButton> {
       if (mounted) setState(() => _copied = false);
     });
   }
-
   @override
   Widget build(BuildContext context) {
     return InkWell(

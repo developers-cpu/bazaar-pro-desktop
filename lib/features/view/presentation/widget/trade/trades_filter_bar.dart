@@ -7,10 +7,8 @@ import '../../../../../core/widget/table/view_reset_buttons.dart';
 import '../../bloc/trade/trades_bloc.dart';
 import '../../bloc/trade/trades_event.dart';
 import '../../bloc/trade/trades_state.dart';
-
 import '../../../../auth/presentation/bloc/auth_bloc.dart';
 import '../../../../auth/presentation/bloc/auth_state.dart';
-
 class TradesFilterBar extends StatelessWidget {
   const TradesFilterBar({Key? key}) : super(key: key);
   @override

@@ -1,6 +1,5 @@
 import 'package:bazarpro/features/report/domain/entities/symbol_wise_position_report.dart';
 import 'package:bazarpro/features/report/presentation/widgets/symbol_wise_pl_report/symbol_open_position_dialog.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
@@ -10,7 +9,6 @@ import '../../../../../core/widget/table/view_data_table_footer.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../bloc/symbol_wise_position_report/symbol_wise_position_report_bloc.dart';
 import '../../bloc/symbol_wise_position_report/symbol_wise_position_report_state.dart';
-
 class SymbolWisePositionReportTable extends StatelessWidget {
   final bool isDarkMode;
   const SymbolWisePositionReportTable({super.key, this.isDarkMode = false});
@@ -59,7 +57,6 @@ class SymbolWisePositionReportTable extends StatelessWidget {
       ViewTableColumn(id: 'm2m', label: 'BRK%', width: 120, isNumeric: true),
     ];
   }
-
   Widget _buildClickableNumberCell(
     BuildContext context,
     double value,
@@ -80,7 +77,6 @@ class SymbolWisePositionReportTable extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildCell(
     BuildContext context,
     SymbolWisePositionReport item,
@@ -145,7 +141,6 @@ class SymbolWisePositionReportTable extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<

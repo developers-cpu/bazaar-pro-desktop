@@ -8,7 +8,6 @@ import '../../../domain/entities/market_item.dart';
 import 'animated_exchange_cell.dart';
 import 'animated_price_cell.dart';
 import 'table_text_style_helper.dart';
-
 class TableCellBuilder extends StatelessWidget {
   final String columnId;
   final MarketItem item;
@@ -29,7 +28,6 @@ class TableCellBuilder extends StatelessWidget {
   Widget build(BuildContext context) {
     return _buildCellContent();
   }
-
   Widget _buildCellContent() {
     switch (columnId) {
       case 'exchange':
@@ -72,10 +70,8 @@ class TableCellBuilder extends StatelessWidget {
           alignRight: true,
         );
       case 'netChange':
-        return _buildTextCell(
+        return _buildAnimatedPriceCell(
           NumberFormatter.formatChange(item.netChange),
-          color: _getChangeColor(item.netChange),
-          alignRight: true,
         );
       case 'high':
         return _buildTextCell(
@@ -102,7 +98,6 @@ class TableCellBuilder extends StatelessWidget {
       case 'netChangePercent':
         return _buildTextCell(
           NumberFormatter.formatPercentage(item.netChangePercent),
-          color: _getChangeColor(item.netChangePercent),
           alignRight: true,
         );
       case 'expiry':
@@ -140,7 +135,6 @@ class TableCellBuilder extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
-
   Widget _buildAnimatedPriceCell(String text) {
     return AnimatedPriceCell(
       text: text,
@@ -152,7 +146,6 @@ class TableCellBuilder extends StatelessWidget {
       padding: EdgeInsets.only(right: 8.w),
     );
   }
-
   Widget _buildTextCell(
     String text, {
     bool isBold = false,
@@ -187,7 +180,6 @@ class TableCellBuilder extends StatelessWidget {
       ),
     );
   }
-
   FontWeight get _effectiveFontWeight {
     if (isDark) return fontWeight;
     if (fontWeight == FontWeight.w400 || fontWeight == FontWeight.normal) {
@@ -195,13 +187,6 @@ class TableCellBuilder extends StatelessWidget {
     }
     return fontWeight;
   }
-
-  Color _getChangeColor(double value) {
-    if (value > 0) return AppColors.buyColor;
-    if (value < 0) return AppColors.sellColor;
-    return _getTextColor();
-  }
-
   Color _getTextColor() {
     return isDark ? DarkThemeColors.textColor : AppColors.black;
   }

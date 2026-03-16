@@ -6,13 +6,11 @@ import '../../bloc/deleted_trade/deleted_trade_event.dart';
 import '../../bloc/deleted_trade/deleted_trade_state.dart';
 import '../../widget/deleted_trade/deleted_trade_filter_bar.dart';
 import '../../widget/deleted_trade/deleted_trade_table.dart';
-
 class DeletedTradePage extends StatefulWidget {
   const DeletedTradePage({Key? key}) : super(key: key);
   @override
   State<DeletedTradePage> createState() => _DeletedTradePageState();
 }
-
 class _DeletedTradePageState extends State<DeletedTradePage> {
   @override
   void initState() {
@@ -21,7 +19,6 @@ class _DeletedTradePageState extends State<DeletedTradePage> {
       context.read<DeletedTradeBloc>().add(const LoadDeletedTradesEvent());
     });
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocListener<DeletedTradeBloc, DeletedTradeState>(
@@ -42,7 +39,6 @@ class _DeletedTradePageState extends State<DeletedTradePage> {
       ),
     );
   }
-
   void _handleStateChange(BuildContext context, DeletedTradeState state) {
     if (state is DeletedTradeExportSuccess) {
       ScaffoldMessenger.of(context).showSnackBar(

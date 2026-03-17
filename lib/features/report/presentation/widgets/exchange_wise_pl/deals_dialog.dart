@@ -28,7 +28,7 @@ class DealsDialog extends StatelessWidget {
     CommonDialog.show(
       context: context,
       title: title,
-      width: 1400.w,
+      width: 1300.w,
       height: 700.h,
       content: DealsDialog(exchange: exchange, symbol: symbol, title: title),
       showButtons: false,
@@ -47,7 +47,8 @@ class DealsDialog extends StatelessWidget {
             height: 600.h,
             child: Column(
               children: [
-                if (title != 'Realised P/L') const DealsFilterBar(),
+                if (title != 'Realised P/L')
+                  const DealsFilterBar(isDialog: true),
                 const Expanded(child: DealsTable(showDeviceInfo: true)),
               ],
             ),

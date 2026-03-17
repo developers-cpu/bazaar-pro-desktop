@@ -4,6 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../../core/constants/app_colors.dart';
 import '../../../../../../core/widget/app_dropdown.dart';
 import '../../../../../../core/widget/custom_input_field.dart';
+import '../../../../../auth/presentation/bloc/auth_bloc.dart';
+import '../../../../../auth/presentation/bloc/auth_state.dart';
 import '../../../bloc/user_form/user_form_bloc.dart';
 import '../../../bloc/user_form/user_form_event.dart';
 import '../../../bloc/user_form/user_form_state.dart';
@@ -72,6 +74,8 @@ class _PersonalDetailsStepState extends State<PersonalDetailsStep> {
       builder: (context, state) {
         final isClient = state.userType == 'Client';
         final isMastersClient = state.userType == "Master's Client";
+        final isMaster = state.userType == 'Master';
+        final isAdminRole = _isAdminRole(context);
         return Container(
           padding: EdgeInsets.all(16.w),
           decoration: BoxDecoration(
@@ -82,6 +86,15 @@ class _PersonalDetailsStepState extends State<PersonalDetailsStep> {
             children: [
               if (isMastersClient) ...[
                 _buildMasterSelector(state),
+                SizedBox(height: 4.h),
+              ] else if (isMaster && isAdminRole) ...[
+                Row(
+                  children: [
+                    Expanded(child: _buildServerSelector(state)),
+                    SizedBox(width: 8.w),
+                    const Expanded(child: SizedBox.shrink()),
+                  ],
+                ),
                 SizedBox(height: 4.h),
               ],
               Row(
@@ -170,7 +183,7 @@ class _PersonalDetailsStepState extends State<PersonalDetailsStep> {
                 ],
               ),
               SizedBox(height: 4.h),
-              if (isClient) ...[
+              if (isClient || isMastersClient) ...[
                 Row(
                   children: [
                     Expanded(
@@ -277,21 +290,29 @@ class _PersonalDetailsStepState extends State<PersonalDetailsStep> {
     );
   }
 
+  bool _isAdminRole(BuildContext context) {
+    final authState = context.read<AuthBloc>().state;
+    if (authState is AuthAuthenticated) {
+      return authState.user.role == 'Admin';
+    }
+    return false;
+  }
+
+  Widget _buildServerSelector(UserFormState state) {
+    return AppDropdown(
+      height: 35.h,
+      hintText: 'Select Server',
+      value: state.selectedServer,
+      items: state.serverOptions.isNotEmpty
+          ? state.serverOptions
+          : const ['RGX', 'TESTS', 'FOREXSERVER'],
+      onChanged: (v) => _updateField('selectedServer', v ?? ''),
+    );
+  }
+
   Widget _buildMasterSelector(UserFormState state) {
     return Row(
       children: [
-        Expanded(
-          child: AppDropdown(
-            type: AppDropdownType.search,
-            height: 35.h,
-            hintText: 'Master',
-            value: state.selectedMaster,
-            items: state.masterOptions,
-            searchHint: 'Search & Add',
-            onChanged: (v) => _updateField('selectedMaster', v ?? ''),
-          ),
-        ),
-        SizedBox(width: 8.w),
         Expanded(
           child: AppDropdown(
             height: 35.h,
@@ -301,6 +322,18 @@ class _PersonalDetailsStepState extends State<PersonalDetailsStep> {
                 ? state.serverOptions
                 : const ['RGX', 'TESTS', 'FOREXSERVER'],
             onChanged: (v) => _updateField('selectedServer', v ?? ''),
+          ),
+        ),
+        SizedBox(width: 8.w),
+        Expanded(
+          child: AppDropdown(
+            type: AppDropdownType.search,
+            height: 35.h,
+            hintText: 'Master',
+            value: state.selectedMaster,
+            items: state.masterOptions,
+            searchHint: 'Search & Add',
+            onChanged: (v) => _updateField('selectedMaster', v ?? ''),
           ),
         ),
       ],

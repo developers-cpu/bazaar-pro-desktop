@@ -17,6 +17,7 @@ class UserFormBloc extends Bloc<UserFormEvent, UserFormState> {
     on<ToggleAllTradeLimitsEvent>(_onToggleAllTradeLimits);
     on<UpdateTriggerSettingEvent>(_onUpdateTriggerSetting);
     on<UpdateExchangeSettingEvent>(_onUpdateExchangeSetting);
+    on<UpdateExchangeTableSettingEvent>(_onUpdateExchangeTableSetting);
     on<UpdateBrokerageEvent>(_onUpdateBrokerage);
     on<ToggleAllBrokerageExchangesEvent>(_onToggleAllBrokerageExchanges);
     on<UpdateBrokerageViewModeEvent>(_onUpdateBrokerageViewMode);
@@ -150,6 +151,9 @@ class UserFormBloc extends Bloc<UserFormEvent, UserFormState> {
       case 'selectedMaster':
         emit(state.copyWith(selectedMaster: event.value as String?));
         break;
+      case 'selectedServer':
+        emit(state.copyWith(selectedServer: event.value as String?));
+        break;
       case 'plSharing':
         emit(state.copyWith(plSharing: event.value as String));
         break;
@@ -260,6 +264,21 @@ class UserFormBloc extends Bloc<UserFormEvent, UserFormState> {
         emit(state.copyWith(marketOpenTimeRestriction: event.value as String));
         break;
     }
+  }
+
+  void _onUpdateExchangeTableSetting(
+    UpdateExchangeTableSettingEvent event,
+    Emitter<UserFormState> emit,
+  ) {
+    final newData = Map<String, Map<String, String>>.from(
+      state.exchangeSettingTableData,
+    );
+    final existingRow = Map<String, String>.from(
+      newData[event.exchange] ?? {'profitSquareOff': '', 'timeRestriction': ''},
+    );
+    existingRow[event.field] = event.value;
+    newData[event.exchange] = existingRow;
+    emit(state.copyWith(exchangeSettingTableData: newData));
   }
 
   void _onUpdateBrokerage(

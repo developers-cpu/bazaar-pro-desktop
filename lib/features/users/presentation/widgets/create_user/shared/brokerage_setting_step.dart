@@ -219,7 +219,7 @@ class _BrokerageSettingStepState extends State<BrokerageSettingStep> {
       ),
       ViewTableColumn(
         id: 'exchange',
-        label: 'EXCHANGE',
+        label: state.brokerageViewMode == 'Symbol Wise' ? 'SYMBOL' : 'EXCHANGE',
         width: 80,
         sortable: false,
       ),

@@ -147,6 +147,19 @@ class ResetFormEvent extends UserFormEvent {
   const ResetFormEvent();
 }
 
+class UpdateExchangeTableSettingEvent extends UserFormEvent {
+  final String exchange;
+  final String field; // 'profitSquareOff' or 'timeRestriction'
+  final String value;
+  const UpdateExchangeTableSettingEvent({
+    required this.exchange,
+    required this.field,
+    required this.value,
+  });
+  @override
+  List<Object?> get props => [exchange, field, value];
+}
+
 class ToggleAllBrokerageExchangesEvent extends UserFormEvent {
   final bool selectAll;
   const ToggleAllBrokerageExchangesEvent(this.selectAll);

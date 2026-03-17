@@ -36,7 +36,6 @@ class SymbolWisePLBloc extends Bloc<SymbolWisePLEvent, SymbolWisePLState> {
       (failure) => emit(SymbolWisePLError(message: failure.message)),
       (reports) {
         final exchanges = <String>[
-          'All',
           'NSE',
           'MCX',
           'CE/PE',
@@ -52,9 +51,9 @@ class SymbolWisePLBloc extends Bloc<SymbolWisePLEvent, SymbolWisePLState> {
           SymbolWisePLLoaded(
             reports: reports,
             exchanges: exchanges,
-            symbols: ['All', ...symbols],
-            selectedExchange: 'All',
-            selectedSymbol: 'All',
+            symbols: symbols,
+            selectedExchange: null,
+            selectedSymbol: null,
           ),
         );
       },
@@ -80,8 +79,8 @@ class SymbolWisePLBloc extends Bloc<SymbolWisePLEvent, SymbolWisePLState> {
     final newExchange = event.exchange ?? currentExchange;
     final newSymbol = event.symbol ?? currentSymbol;
     final result = await getSymbolWisePLReport(
-      exchange: newExchange == 'All' ? null : newExchange,
-      symbol: newSymbol == 'All' ? null : newSymbol,
+      exchange: newExchange,
+      symbol: newSymbol,
     );
     result.fold(
       (failure) => emit(SymbolWisePLError(message: failure.message)),

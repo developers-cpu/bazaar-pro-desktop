@@ -16,6 +16,7 @@ import '../../../../core/widget/app_bar_section.dart';
 import 'trade_logs_page.dart';
 import 'credit_history_page.dart';
 import 'activity_report_page.dart';
+import 'back_office_activity_report_page.dart';
 import 'symbol_wise_position_report_page.dart';
 import 'user_script_position_tracking_page.dart';
 import 'user_wise_profit_and_loss_page.dart';
@@ -248,6 +249,19 @@ class ExchangeWiseReportPageWithAppBar extends StatelessWidget {
       onExportPdf: () {},
       onExportExcel: () {},
       child: const ExchangeWisePLReportPage(),
+    );
+  }
+}
+
+class BackOfficeActivityReportPageWithAppBar extends StatelessWidget {
+  const BackOfficeActivityReportPageWithAppBar({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return ReportPageWrapper(
+      pageTitle: 'Back Office Activity Report',
+      onExportPdf: () {},
+      onExportExcel: () {},
+      child: const BackOfficeActivityReportPage(),
     );
   }
 }

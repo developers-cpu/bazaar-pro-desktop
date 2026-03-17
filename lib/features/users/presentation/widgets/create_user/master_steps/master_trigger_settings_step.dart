@@ -6,6 +6,8 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../../../core/constants/app_colors.dart';
 import '../../../../../../core/constants/app_images.dart';
 import '../../../../../../core/widget/app_switch.dart';
+import '../../../../../auth/presentation/bloc/auth_bloc.dart';
+import '../../../../../auth/presentation/bloc/auth_state.dart';
 import '../../../bloc/user_form/user_form_bloc.dart';
 import '../../../bloc/user_form/user_form_event.dart';
 import '../../../bloc/user_form/user_form_state.dart';
@@ -16,7 +18,10 @@ class MasterTriggerSettingsStep extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<UserFormBloc, UserFormState>(
       builder: (context, state) {
-        final settings = UserFormState.masterTriggerSettings;
+        final isAdminRole = _isAdminRole(context);
+        final settings = isAdminRole
+            ? UserFormState.masterTriggerSettings
+            : UserFormState.masterRoleTriggerSettings;
         final leftSettings = settings
             .where((s) => settings.indexOf(s) % 2 == 0)
             .toList();
@@ -110,34 +115,32 @@ class MasterTriggerSettingsStep extends StatelessWidget {
     );
   }
 
+  bool _isAdminRole(BuildContext context) {
+    final authState = context.read<AuthBloc>().state;
+    if (authState is AuthAuthenticated) {
+      return authState.user.role == 'Admin';
+    }
+    return false;
+  }
+
   String _getSvgIconForSetting(String key) {
     switch (key) {
       case 'addMaster':
         return AppImages.addMasterIcon;
-      case 'addClient':
-        return AppImages.addClientIcon;
-      case 'editPermission':
-        return AppImages.editPermissionIcon;
-      case 'fifteenDays':
-        return AppImages.fifteenDaysIcon;
       case 'freshLimitSL':
         return AppImages.freshLimitSlIcon;
-      case 'autoSquareOff':
-        return AppImages.autoSquareOffIcon;
-      case 'tradeLock':
-        return AppImages.tradeLockIcon;
-      case 'closeMode':
-        return AppImages.closeModeIcon;
       case 'symbolWiseSLLimit':
         return AppImages.symbolWiseIcon;
-      case 'canTradeForClient':
-        return AppImages.canTradeForClientIcon;
       case 'changePasswordFirstTime':
         return AppImages.changePasswordIcon;
-      case 'lockUser':
-        return AppImages.lockUserIcon;
-      case 'status':
-        return AppImages.statusIcon;
+      case 'fifteenDays':
+        return AppImages.fifteenDaysIcon;
+      case 'autoSquareOff':
+        return AppImages.autoSquareOffIcon;
+      case 'canTradeForClient':
+        return AppImages.canTradeForClientIcon;
+      case 'allowChatWithSuperAdmin':
+        return AppImages.messageIcon;
       default:
         return AppImages.statusIcon;
     }

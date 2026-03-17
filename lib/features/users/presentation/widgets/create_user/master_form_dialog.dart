@@ -6,11 +6,14 @@ import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/app_step_indicator.dart';
 import '../../../../../core/widget/custom_action_button.dart';
 import '../../../../../injection_container.dart';
+import '../../../../auth/presentation/bloc/auth_bloc.dart';
+import '../../../../auth/presentation/bloc/auth_state.dart';
 import '../../bloc/user_form/user_form_bloc.dart';
 import '../../bloc/user_form/user_form_event.dart';
 import '../../bloc/user_form/user_form_state.dart';
 import 'shared/personal_details_step.dart';
 import 'master_steps/master_exchange_allow_step.dart';
+import 'master_steps/master_exchange_setting_table_step.dart';
 import 'shared/high_low_limit_step.dart';
 import 'shared/brokerage_setting_step.dart';
 import 'master_steps/pnl_sharing_step.dart';
@@ -74,6 +77,7 @@ class MasterFormDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isAdmin = _isAdminRole(context);
     return BlocConsumer<UserFormBloc, UserFormState>(
       listener: (context, state) {
         if (state.isSuccess) {
@@ -103,17 +107,17 @@ class MasterFormDialog extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 _buildHeader(context, state),
-                _buildStepIndicator(state),
+                _buildStepIndicator(isAdmin, state),
                 Flexible(
                   child: SingleChildScrollView(
                     padding: EdgeInsets.symmetric(
                       horizontal: 24.w,
                       vertical: 16.h,
                     ),
-                    child: _buildStepContent(state),
+                    child: _buildStepContent(isAdmin, state),
                   ),
                 ),
-                _buildNavigationButtons(context, state),
+                _buildNavigationButtons(context, isAdmin, state),
               ],
             ),
           ),
@@ -154,35 +158,80 @@ class MasterFormDialog extends StatelessWidget {
     );
   }
 
-  Widget _buildStepIndicator(UserFormState state) {
+  bool _isAdminRole(BuildContext context) {
+    final authState = context.read<AuthBloc>().state;
+    if (authState is AuthAuthenticated) {
+      return authState.user.role == 'Admin';
+    }
+    return false;
+  }
+
+  List<String> _getStepTitles(bool isAdmin) {
+    if (isAdmin) return UserFormState.masterStepTitles;
+    return UserFormState.masterStepTitles
+        .where((t) => t != 'Exchange Setting')
+        .toList();
+  }
+
+  int _getTotalSteps(bool isAdmin) {
+    return isAdmin ? 7 : 6;
+  }
+
+  Widget _buildStepIndicator(bool isAdmin, UserFormState state) {
     return AppStepIndicator(
       currentStep: state.currentStep,
-      totalSteps: 7,
-      stepTitles: UserFormState.masterStepTitles,
+      totalSteps: _getTotalSteps(isAdmin),
+      stepTitles: _getStepTitles(isAdmin),
     );
   }
 
-  Widget _buildStepContent(UserFormState state) {
-    switch (state.currentStep) {
-      case 0:
-        return const PersonalDetailsStep();
-      case 1:
-        return const PnlSharingStep();
-      case 2:
-        return const MasterExchangeAllowStep();
-      case 3:
-        return const HighLowLimitStep();
-      case 4:
-        return const MasterTriggerSettingsStep();
-      case 5:
-        return const BrokerageSettingStep();
-      default:
-        return const SizedBox.shrink();
+  Widget _buildStepContent(bool isAdmin, UserFormState state) {
+    if (isAdmin) {
+      switch (state.currentStep) {
+        case 0:
+          return const PersonalDetailsStep();
+        case 1:
+          return const PnlSharingStep();
+        case 2:
+          return const MasterExchangeAllowStep();
+        case 3:
+          return const MasterExchangeSettingTableStep();
+        case 4:
+          return const HighLowLimitStep();
+        case 5:
+          return const MasterTriggerSettingsStep();
+        case 6:
+          return const BrokerageSettingStep();
+        default:
+          return const SizedBox.shrink();
+      }
+    } else {
+      switch (state.currentStep) {
+        case 0:
+          return const PersonalDetailsStep();
+        case 1:
+          return const PnlSharingStep();
+        case 2:
+          return const MasterExchangeAllowStep();
+        case 3:
+          return const HighLowLimitStep();
+        case 4:
+          return const MasterTriggerSettingsStep();
+        case 5:
+          return const BrokerageSettingStep();
+        default:
+          return const SizedBox.shrink();
+      }
     }
   }
 
-  Widget _buildNavigationButtons(BuildContext context, UserFormState state) {
-    final isLastStep = state.currentStep == 5;
+  Widget _buildNavigationButtons(
+    BuildContext context,
+    bool isAdmin,
+    UserFormState state,
+  ) {
+    final totalSteps = _getTotalSteps(isAdmin);
+    final isLastStep = state.currentStep == totalSteps - 1;
     final isFirstStep = state.currentStep == 0;
     return Container(
       padding: EdgeInsets.all(20.w),

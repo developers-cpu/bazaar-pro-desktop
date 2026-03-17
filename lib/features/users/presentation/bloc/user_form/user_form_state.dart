@@ -44,6 +44,7 @@ class UserFormState extends Equatable {
   final List<String> masterOptions;
   final String? selectedServer;
   final List<String> serverOptions;
+  final Map<String, Map<String, String>> exchangeSettingTableData;
   const UserFormState({
     this.isEditMode = false,
     this.userType = 'Master',
@@ -102,6 +103,7 @@ class UserFormState extends Equatable {
     ],
     this.selectedServer,
     this.serverOptions = const ['RGX', 'TESTS', 'FOREXSERVER'],
+    this.exchangeSettingTableData = const {},
   });
   static const List<String> availableExchanges = [
     'NSE',
@@ -118,10 +120,24 @@ class UserFormState extends Equatable {
     'Personal Details',
     'Profit & Loss Sharing Details',
     'Exchange Allow',
+    'Exchange Setting',
     'High Low Between Trade Limit',
     'Triggers Setting',
     'Brokerage Setting',
   ];
+  static const List<String> exchangeSettingTableExchanges = [
+    'NSE',
+    'MCX',
+    'OTHERS',
+    'FOREX',
+    'USSTOCKS',
+    'CRYPTO',
+  ];
+  static Map<String, Map<String, String>> get defaultExchangeSettingTableData =>
+      {
+        for (var ex in exchangeSettingTableExchanges)
+          ex: {'profitSquareOff': '', 'timeRestriction': ''},
+      };
   static const List<String> clientStepTitles = [
     'Personal Details',
     'Exchange Allow',
@@ -143,6 +159,39 @@ class UserFormState extends Equatable {
     'Triggers Setting',
   ];
   static const List<TriggerSetting> masterTriggerSettings = [
+    TriggerSetting(key: 'addMaster', label: 'Add Master', icon: 'add_master'),
+    TriggerSetting(
+      key: 'freshLimitSL',
+      label: 'Fresh Limit SL',
+      icon: 'fresh_limit',
+    ),
+    TriggerSetting(
+      key: 'symbolWiseSLLimit',
+      label: 'Symbol wise SL/Limit (%)',
+      icon: 'symbol_wise',
+    ),
+    TriggerSetting(
+      key: 'changePasswordFirstTime',
+      label: 'Change Password at first time',
+      icon: 'change_password',
+    ),
+    TriggerSetting(
+      key: 'fifteenDays',
+      label: 'Fifteen Days',
+      icon: 'fifteen_days',
+    ),
+    TriggerSetting(
+      key: 'canTradeForClient',
+      label: 'Can Trade For Client',
+      icon: 'can_trade_for_client',
+    ),
+    TriggerSetting(
+      key: 'allowChatWithSuperAdmin',
+      label: 'Allow Chat with Super Admin',
+      icon: 'message',
+    ),
+  ];
+  static const List<TriggerSetting> masterRoleTriggerSettings = [
     TriggerSetting(
       key: 'fifteenDays',
       label: 'Fifteen Days',
@@ -235,6 +284,7 @@ class UserFormState extends Equatable {
 
   static int getTotalSteps(String userType) {
     if (userType == 'Admin') return 2;
+    if (userType == 'Master') return 7;
     return 6;
   }
 
@@ -242,6 +292,8 @@ class UserFormState extends Equatable {
       masterTriggerSettings;
   static Map<String, bool> get defaultTriggerSettings => {
     for (var setting in masterTriggerSettings) setting.key: false,
+    for (var setting in masterRoleTriggerSettings) setting.key: false,
+    for (var setting in clientTriggerSettings) setting.key: false,
     for (var setting in adminTriggerSettings) setting.key: false,
   };
   static Map<String, BrokerageData> get defaultBrokerageData => {
@@ -299,6 +351,7 @@ class UserFormState extends Equatable {
     List<String>? masterOptions,
     String? selectedServer,
     List<String>? serverOptions,
+    Map<String, Map<String, String>>? exchangeSettingTableData,
   }) {
     return UserFormState(
       isEditMode: isEditMode ?? this.isEditMode,
@@ -348,6 +401,8 @@ class UserFormState extends Equatable {
       masterOptions: masterOptions ?? this.masterOptions,
       selectedServer: selectedServer ?? this.selectedServer,
       serverOptions: serverOptions ?? this.serverOptions,
+      exchangeSettingTableData:
+          exchangeSettingTableData ?? this.exchangeSettingTableData,
     );
   }
 
@@ -394,6 +449,7 @@ class UserFormState extends Equatable {
     masterOptions,
     selectedServer,
     serverOptions,
+    exchangeSettingTableData,
   ];
 }
 

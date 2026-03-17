@@ -251,6 +251,11 @@ import 'features/report/domain/usecases/get_activity_report.dart';
 import 'features/view/presentation/bloc/trade_margin/trade_margin_bloc.dart';
 import 'features/report/presentation/bloc/credit_history/credit_history_bloc.dart';
 import 'features/report/presentation/bloc/activity_report/activity_report_bloc.dart';
+import 'features/report/data/datasources/back_office_activity_report/back_office_activity_report_remote_datasource.dart';
+import 'features/report/data/repositories/back_office_activity_report_repository_impl.dart';
+import 'features/report/domain/repositories/back_office_activity_report_repository.dart';
+import 'features/report/domain/usecases/get_back_office_activity_report.dart';
+import 'features/report/presentation/bloc/back_office_activity_report/back_office_activity_report_bloc.dart';
 import 'features/report/domain/repositories/symbol_wise_position_report_repository.dart';
 import 'features/report/domain/usecases/get_symbol_wise_position_report.dart';
 import 'features/report/data/datasources/symbol_wise_pl/symbol_wise_position_report_remote_datasource.dart';
@@ -870,6 +875,18 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<ActivityReportRemoteDataSource>(
     () => ActivityReportRemoteDataSourceImpl(),
+  );
+  sl.registerFactory(
+    () => BackOfficeActivityReportBloc(getBackOfficeActivityReport: sl()),
+  );
+  sl.registerLazySingleton(
+    () => GetBackOfficeActivityReportUseCase(repository: sl()),
+  );
+  sl.registerLazySingleton<BackOfficeActivityReportRepository>(
+    () => BackOfficeActivityReportRepositoryImpl(dataSource: sl()),
+  );
+  sl.registerLazySingleton<BackOfficeActivityReportRemoteDataSource>(
+    () => BackOfficeActivityReportRemoteDataSourceImpl(),
   );
   sl.registerFactory(
     () => SymbolWisePositionReportBloc(getSymbolWisePositionReport: sl()),

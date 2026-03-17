@@ -98,7 +98,7 @@ class _BillGenerateFilterBarState extends State<BillGenerateFilterBar> {
       ],
       AppDropdown(
         width: 200.w,
-        hintText: 'Bill Type',
+        hintText: 'Bill Format',
         value: _selectedBillType,
         items: const ['Advance', 'Regular'],
         onChanged: (value) {
@@ -111,7 +111,7 @@ class _BillGenerateFilterBarState extends State<BillGenerateFilterBar> {
       SizedBox(width: 16.w),
       AppDropdown(
         width: 200.w,
-        hintText: 'Bill Format',
+        hintText: 'Bill Type',
         value: _selectedBillFormat,
         items: const ['PDF', 'Excel'],
         onChanged: (value) {

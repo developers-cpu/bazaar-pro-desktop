@@ -75,7 +75,6 @@ class SettlementSharingReportPage extends StatelessWidget {
                         ),
                       if (state is SettlementSharingReportLoaded)
                         SettlementSharingFilterBar(
-                          selectedDateRange: state.selectedDateRange,
                           onDateRangeChanged: (value) {
                             if (value != null) {
                               context.read<SettlementSharingReportBloc>().add(

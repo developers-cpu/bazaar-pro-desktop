@@ -41,6 +41,7 @@ class AppRoutes {
   static const String creditHistory = '/credit-history';
   static const String billGenerate = '/bill-generate';
   static const String activityReport = '/activity-report';
+  static const String backOfficeActivityReport = '/back-office-activity-report';
   static const String profitLoss = '/profit-loss';
   static const String userWisePL = '/user-wise-pl';
   static const String userScriptPosition = '/user-script-position';
@@ -99,6 +100,8 @@ class AppRoutes {
       creditHistory: (context) => const CreditHistoryPageWithAppBar(),
       billGenerate: (context) => const BillGeneratePageWithAppBar(),
       activityReport: (context) => const ActivityReportPageWithAppBar(),
+      backOfficeActivityReport: (context) =>
+          const BackOfficeActivityReportPageWithAppBar(),
       profitLoss: (context) => const ProfitAndLossPageWithAppBar(),
       userWisePL: (context) => const UserWisePLPageWithAppBar(),
       userScriptPosition: (context) =>

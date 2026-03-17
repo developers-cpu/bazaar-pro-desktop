@@ -173,9 +173,7 @@ class SettlementSharingReportView extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.openSans(
                             fontSize: 13.sp,
-                            color: isProfitSection
-                                ? AppColors.buyColor
-                                : AppColors.sellColor,
+                            color: AppColors.billDataText,
                           ),
                         ),
                       ),
@@ -295,9 +293,7 @@ class SettlementSharingReportView extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: GoogleFonts.openSans(
                 fontSize: 13.sp,
-                color: isProfitSection
-                    ? AppColors.buyColor
-                    : AppColors.sellColor,
+                color: AppColors.billDataText,
               ),
             ),
           ),

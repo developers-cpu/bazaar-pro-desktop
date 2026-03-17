@@ -14,11 +14,16 @@ class ActivityReportTable extends StatelessWidget {
   const ActivityReportTable({super.key, this.isDarkMode = false});
   List<ViewTableColumn> _getColumns() {
     return const [
-      ViewTableColumn(id: 'activityName', label: 'ACTIVITY', width: 150),
+      ViewTableColumn(
+        id: 'activityName',
+        label: 'ACTIVITY',
+        width: 150,
+        alignment: Alignment.centerLeft,
+      ),
       ViewTableColumn(id: 'createdOn', label: 'CREATED ON', width: 100),
       ViewTableColumn(id: 'createdBy', label: 'CREATED BY', width: 100),
-      const ViewTableColumn(id: 'updatedOn', label: 'UPDATED ON', width: 100),
-      const ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 100),
+      ViewTableColumn(id: 'updatedOn', label: 'UPDATED ON', width: 100),
+      ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 100),
     ];
   }
 
@@ -39,13 +44,29 @@ class ActivityReportTable extends StatelessWidget {
           },
         );
       case 'createdOn':
-        return ViewDateTimeCell(dateTime: item.createdOn, isDark: isDark);
+        return ViewDateTimeCell(
+          dateTime: item.createdOn,
+          isDark: isDark,
+          alignment: Alignment.center,
+        );
       case 'createdBy':
-        return ViewTextCell(text: item.createdBy, isDark: isDark);
+        return ViewTextCell(
+          text: item.createdBy,
+          isDark: isDark,
+          alignment: Alignment.center,
+        );
       case 'updatedOn':
-        return ViewDateTimeCell(dateTime: item.updatedOn, isDark: isDark);
+        return ViewDateTimeCell(
+          dateTime: item.updatedOn,
+          isDark: isDark,
+          alignment: Alignment.center,
+        );
       case 'updatedBy':
-        return ViewTextCell(text: item.updatedBy, isDark: isDark);
+        return ViewTextCell(
+          text: item.updatedBy,
+          isDark: isDark,
+          alignment: Alignment.center,
+        );
       default:
         return const SizedBox.shrink();
     }

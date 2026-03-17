@@ -235,8 +235,8 @@ class UserTradesTabView extends StatelessWidget {
               width: 80.w,
               isNumeric: true,
             ),
-            ViewTableColumn(id: 'orderDt', label: 'Order D/T', width: 160.w),
-            ViewTableColumn(id: 'execDt', label: 'Execution D/T', width: 160.w),
+            ViewTableColumn(id: 'orderDt', label: 'Order D/T', width: 180.w),
+            ViewTableColumn(id: 'execDt', label: 'Execution D/T', width: 180.w),
             ViewTableColumn(
               id: 'reqPrice',
               label: 'R. PRICE',

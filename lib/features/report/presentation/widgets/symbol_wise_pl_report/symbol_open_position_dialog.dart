@@ -50,16 +50,8 @@ class SymbolOpenPositionDialog extends StatelessWidget {
                     fit: FlexFit.loose,
                     child: ViewDataTable<SymbolOpenPosition>(
                       columns: const [
-                        ViewTableColumn(
-                          id: 'name',
-                          label: 'U.NAME',
-                          width: 120,
-                        ),
-                        ViewTableColumn(
-                          id: 'type',
-                          label: 'U.TYPE',
-                          width: 100,
-                        ),
+                        ViewTableColumn(id: 'name', label: 'U.NAME', width: 90),
+                        ViewTableColumn(id: 'type', label: 'U.TYPE', width: 90),
                         ViewTableColumn(
                           id: 'exchange',
                           label: 'EXCH',
@@ -68,41 +60,62 @@ class SymbolOpenPositionDialog extends StatelessWidget {
                         ViewTableColumn(
                           id: 'symbol',
                           label: 'SYMBOL',
-                          width: 150,
+                          width: 110,
                         ),
                         ViewTableColumn(
                           id: 'buyQty',
                           label: 'BUY QTY',
-                          width: 100,
+                          width: 90,
+                          isNumeric: true,
                         ),
                         ViewTableColumn(
                           id: 'sellQty',
                           label: 'SELL QTY',
-                          width: 100,
+                          width: 90,
+                          isNumeric: true,
                         ),
                         ViewTableColumn(
                           id: 'netQty',
                           label: 'NET QTY',
-                          width: 100,
+                          width: 90,
+                          isNumeric: true,
                         ),
                         ViewTableColumn(
                           id: 'netAvgPrice',
                           label: 'NET AVG PRICE',
-                          width: 120,
+                          width: 130,
+                          isNumeric: true,
                         ),
-                        ViewTableColumn(id: 'cmp', label: 'CMP', width: 100),
+                        ViewTableColumn(
+                          id: 'cmp',
+                          label: 'CMP',
+                          width: 90,
+                          isNumeric: true,
+                        ),
                         ViewTableColumn(
                           id: 'm2m',
                           label: 'M2M AMT',
-                          width: 120,
+                          width: 100,
+                          isNumeric: true,
                         ),
                         ViewTableColumn(
                           id: 'ourPercent',
                           label: 'OUR %',
                           width: 80,
+                          isNumeric: true,
                         ),
-                        ViewTableColumn(id: 'user', label: 'USER', width: 80),
-                        ViewTableColumn(id: 'days', label: 'DAYS', width: 80),
+                        ViewTableColumn(
+                          id: 'user',
+                          label: 'USER',
+                          width: 80,
+                          isNumeric: true,
+                        ),
+                        ViewTableColumn(
+                          id: 'days',
+                          label: 'DAYS',
+                          width: 80,
+                          isNumeric: true,
+                        ),
                       ],
                       data: state.positions,
                       idExtractor: (item) => item.hashCode.toString(),
@@ -162,7 +175,6 @@ class SymbolOpenPositionDialog extends StatelessWidget {
                                 return ViewTextCell(
                                   text: item.symbol,
                                   isDark: isDark,
-                                  fontWeight: FontWeight.bold,
                                 );
                               case 'buyQty':
                                 return ViewNumberCell(
@@ -171,19 +183,15 @@ class SymbolOpenPositionDialog extends StatelessWidget {
                                   colorByValue: false,
                                 );
                               case 'sellQty':
-                                return ViewTextCell(
-                                  text: item.sellQty.toStringAsFixed(2),
+                                return ViewNumberCell(
+                                  value: item.sellQty,
                                   isDark: isDark,
-                                  color: Colors.red,
+                                  fixedColor: AppColors.sellColor,
                                 );
                               case 'netQty':
-                                return InkWell(
-                                  child: ViewTextCell(
-                                    text: item.netQty.toString(),
-                                    isDark: isDark,
-                                    color: AppColors.primaryBlue,
-                                    fontWeight: FontWeight.w600,
-                                  ),
+                                return ViewNumberCell(
+                                  value: item.netQty,
+                                  isDark: isDark,
                                 );
                               case 'netAvgPrice':
                                 return ViewNumberCell(
@@ -195,13 +203,13 @@ class SymbolOpenPositionDialog extends StatelessWidget {
                                 return ViewNumberCell(
                                   value: item.cmp,
                                   isDark: isDark,
-                                  fixedColor: Colors.blue,
+                                  fixedColor: AppColors.buyColor,
                                 );
                               case 'm2m':
                                 return ViewNumberCell(
                                   value: item.m2m,
                                   isDark: isDark,
-                                  fixedColor: Colors.blue,
+                                  fixedColor: AppColors.buyColor,
                                 );
                               case 'ourPercent':
                                 return ViewNumberCell(
@@ -213,11 +221,13 @@ class SymbolOpenPositionDialog extends StatelessWidget {
                                 return ViewTextCell(
                                   text: item.user,
                                   isDark: isDark,
+                                  isNumeric: true,
                                 );
                               case 'days':
                                 return ViewTextCell(
                                   text: item.days.toString(),
                                   isDark: isDark,
+                                  isNumeric: true,
                                 );
                               default:
                                 return const SizedBox.shrink();

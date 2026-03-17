@@ -176,7 +176,7 @@ class _UserDetailsDialogState extends State<UserDetailsDialog>
       },
       child: CommonDialog(
         title: 'User Details',
-        width: 1200.w,
+        width: 1350.w,
         height: 700.h,
         showButtons: false,
         scrollable: false,
@@ -376,7 +376,7 @@ class _UserDetailsDialogState extends State<UserDetailsDialog>
           ),
           indicatorSize: TabBarIndicatorSize.tab,
           indicatorWeight: 1.0,
-          labelPadding: EdgeInsets.symmetric(horizontal: 4.w),
+          labelPadding: EdgeInsets.symmetric(horizontal: 10.w),
           labelStyle: GoogleFonts.openSans(
             fontSize: 13.sp,
             fontWeight: FontWeight.w600,

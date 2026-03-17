@@ -243,6 +243,7 @@ class ViewDateTimeCell extends StatelessWidget {
   final bool isDark;
   final Color? color;
   final double? fontSize;
+  final Alignment? alignment;
   const ViewDateTimeCell({
     Key? key,
     required this.dateTime,
@@ -250,12 +251,19 @@ class ViewDateTimeCell extends StatelessWidget {
     this.isDark = false,
     this.color,
     this.fontSize,
+    this.alignment,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final effectiveAlignment = alignment ?? Alignment.centerRight;
+    final effectiveTextAlign = effectiveAlignment == Alignment.centerRight
+        ? TextAlign.end
+        : (effectiveAlignment == Alignment.center
+              ? TextAlign.center
+              : TextAlign.start);
     return Container(
       width: double.infinity,
-      alignment: Alignment.centerRight,
+      alignment: effectiveAlignment,
       child: Text(
         _formatDateTime(),
         style: ViewTableCellStyles.getTextStyle(
@@ -263,7 +271,7 @@ class ViewDateTimeCell extends StatelessWidget {
           color: color,
           fontSize: fontSize,
         ),
-        textAlign: TextAlign.end,
+        textAlign: effectiveTextAlign,
         maxLines: 1,
         softWrap: false,
       ),

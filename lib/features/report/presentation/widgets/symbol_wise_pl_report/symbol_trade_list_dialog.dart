@@ -19,7 +19,7 @@ class SymbolTradeListDialog extends StatelessWidget {
   static void show(BuildContext context, {String? symbol, String? exchange}) {
     CommonDialog.show(
       context: context,
-      title: 'User Details',
+      title: 'Open Position',
       width: 1200.w,
       height: 700.h,
       content: SymbolTradeListDialog(symbol: symbol, exchange: exchange),
@@ -52,17 +52,18 @@ class SymbolTradeListDialog extends StatelessWidget {
                         ViewTableColumn(
                           id: 'sequence',
                           label: 'SEQUENCE',
-                          width: 100,
+                          width: 110,
+                          isNumeric: true,
                         ),
                         ViewTableColumn(
                           id: 'userName',
                           label: 'U. NAME',
-                          width: 120,
+                          width: 90,
                         ),
                         ViewTableColumn(
                           id: 'pUser',
                           label: 'P USER',
-                          width: 120,
+                          width: 90,
                         ),
                         ViewTableColumn(
                           id: 'exchange',
@@ -72,7 +73,7 @@ class SymbolTradeListDialog extends StatelessWidget {
                         ViewTableColumn(
                           id: 'symbol',
                           label: 'SYMBOL',
-                          width: 150,
+                          width: 100,
                         ),
                         ViewTableColumn(id: 'buySell', label: 'B/S', width: 80),
                         ViewTableColumn(
@@ -80,18 +81,18 @@ class SymbolTradeListDialog extends StatelessWidget {
                           label: 'Trade Type',
                           width: 100,
                         ),
-                        ViewTableColumn(id: 'qty', label: 'QTY', width: 100),
+                        ViewTableColumn(id: 'qty', label: 'QTY', width: 80),
                         ViewTableColumn(id: 'lot', label: 'Lot', width: 80),
-                        ViewTableColumn(id: 'pl', label: 'P/L', width: 100),
+                        ViewTableColumn(id: 'pl', label: 'P/L', width: 80),
                         ViewTableColumn(
                           id: 'validity',
                           label: 'Validity',
-                          width: 100,
+                          width: 90,
                         ),
                         ViewTableColumn(
                           id: 'tradePrice',
                           label: 'T. PRICE',
-                          width: 100,
+                          width: 90,
                         ),
                         ViewTableColumn(
                           id: 'brokerage',
@@ -101,17 +102,17 @@ class SymbolTradeListDialog extends StatelessWidget {
                         ViewTableColumn(
                           id: 'netPrice',
                           label: 'NET P',
-                          width: 100,
+                          width: 90,
                         ),
                         ViewTableColumn(
                           id: 'orderDateTime',
                           label: 'Order D/T',
-                          width: 180,
+                          width: 150,
                         ),
                         ViewTableColumn(
                           id: 'executionDateTime',
                           label: 'Execution D/T',
-                          width: 180,
+                          width: 150,
                         ),
                         ViewTableColumn(
                           id: 'referencePrice',
@@ -170,12 +171,12 @@ class SymbolTradeListDialog extends StatelessWidget {
                                 return ViewTextCell(
                                   text: item.sequence,
                                   isDark: isDark,
+                                  isNumeric: true,
                                 );
                               case 'userName':
                                 return ViewTextCell(
                                   text: item.userName,
                                   isDark: isDark,
-                                  fontWeight: FontWeight.bold,
                                 );
                               case 'pUser':
                                 return ViewTextCell(

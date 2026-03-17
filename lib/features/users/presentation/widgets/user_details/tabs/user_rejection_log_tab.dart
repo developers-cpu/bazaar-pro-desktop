@@ -186,6 +186,7 @@ class UserRejectionLogTabView extends StatelessWidget {
           ],
           data: logs,
           idExtractor: (item) => item.id,
+          autoFit: true,
           comparatorBuilder: (item, columnId) {
             switch (columnId) {
               case 'date':

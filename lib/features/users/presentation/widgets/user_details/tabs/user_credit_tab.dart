@@ -37,8 +37,130 @@ class _UserCreditTabViewState extends State<UserCreditTabView> {
   String _transactionType = 'Credit';
   final TextEditingController _amountController = TextEditingController();
   final TextEditingController _commentController = TextEditingController();
+  OverlayEntry? _overlayEntry;
+  final LayerLink _layerLink = LayerLink();
+
+  @override
+  void initState() {
+    super.initState();
+    _amountController.addListener(_updateAmountWords);
+  }
+
+  void _updateAmountWords() {
+    final text = _amountController.text.trim();
+    if (text.isEmpty) {
+      _removeOverlay();
+      return;
+    }
+    final value = double.tryParse(text);
+    final words = value != null ? _toIndianWords(value) : null;
+    if (words != null) {
+      _showOverlay(words);
+    } else {
+      _removeOverlay();
+    }
+  }
+
+  void _showOverlay(String words) {
+    _removeOverlay();
+    _overlayEntry = OverlayEntry(
+      builder: (context) => Positioned(
+        width: 200.w,
+        child: CompositedTransformFollower(
+          link: _layerLink,
+          showWhenUnlinked: false,
+          offset: Offset(0, 35.h + 4.h),
+          child: Material(
+            elevation: 4,
+            borderRadius: BorderRadius.circular(6.r),
+            child: Container(
+              width: 200.w,
+              padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(color: const Color(0xFFCCCCCC)),
+                borderRadius: BorderRadius.circular(6.r),
+              ),
+              child: Text(
+                words,
+                style: TextStyle(
+                  fontSize: 12.sp,
+                  color: const Color(0xFF333333),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+    Overlay.of(context).insert(_overlayEntry!);
+  }
+
+  void _removeOverlay() {
+    _overlayEntry?.remove();
+    _overlayEntry = null;
+  }
+
+  String _toIndianWords(double amount) {
+    if (amount == 0) return 'zero';
+    final intPart = amount.toInt();
+    final decimalPart = ((amount - intPart) * 100).round();
+    String result = _intToWords(intPart);
+    if (decimalPart > 0) result += ' point ${_intToWords(decimalPart)}';
+    return result;
+  }
+
+  String _intToWords(int n) {
+    if (n == 0) return '';
+    const ones = [
+      '',
+      'one',
+      'two',
+      'three',
+      'four',
+      'five',
+      'six',
+      'seven',
+      'eight',
+      'nine',
+      'ten',
+      'eleven',
+      'twelve',
+      'thirteen',
+      'fourteen',
+      'fifteen',
+      'sixteen',
+      'seventeen',
+      'eighteen',
+      'nineteen',
+    ];
+    const tens = [
+      '',
+      '',
+      'twenty',
+      'thirty',
+      'forty',
+      'fifty',
+      'sixty',
+      'seventy',
+      'eighty',
+      'ninety',
+    ];
+    if (n < 20) return ones[n];
+    if (n < 100) return tens[n ~/ 10] + (n % 10 != 0 ? ' ${ones[n % 10]}' : '');
+    if (n < 1000)
+      return '${ones[n ~/ 100]} hundred${n % 100 != 0 ? ' ${_intToWords(n % 100)}' : ''}';
+    if (n < 100000)
+      return '${_intToWords(n ~/ 1000)} thousand${n % 1000 != 0 ? ' ${_intToWords(n % 1000)}' : ''}';
+    if (n < 10000000)
+      return '${_intToWords(n ~/ 100000)} lac${n % 100000 != 0 ? ' ${_intToWords(n % 100000)}' : ''}';
+    return '${_intToWords(n ~/ 10000000)} crore${n % 10000000 != 0 ? ' ${_intToWords(n % 10000000)}' : ''}';
+  }
+
   @override
   void dispose() {
+    _removeOverlay();
+    _amountController.removeListener(_updateAmountWords);
     _amountController.dispose();
     _commentController.dispose();
     super.dispose();
@@ -134,11 +256,14 @@ class _UserCreditTabViewState extends State<UserCreditTabView> {
       color: AppColors.white,
       child: Row(
         children: [
-          CustomInputField(
-            controller: _amountController,
-            hintText: 'Amount',
-            height: 35.h,
-            width: 200.w,
+          CompositedTransformTarget(
+            link: _layerLink,
+            child: CustomInputField(
+              controller: _amountController,
+              hintText: 'Amount',
+              height: 35.h,
+              width: 200.w,
+            ),
           ),
           SizedBox(width: 8.w),
           CustomInputField(

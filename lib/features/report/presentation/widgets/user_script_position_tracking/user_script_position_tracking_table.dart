@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
 import '../../../../../core/widget/table/view_record_count.dart';
 import '../../../../../core/widget/table/view_table_cell_styles.dart';
@@ -18,7 +19,7 @@ class UserScriptPositionTrackingTable extends StatelessWidget {
     return const [
       ViewTableColumn(id: 'positionDate', label: 'POSITION DATE', width: 100),
       ViewTableColumn(id: 'userName', label: 'USERNAME', width: 90),
-      ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 90),
+      ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 110),
       ViewTableColumn(id: 'position', label: 'POSITION', width: 90),
       ViewTableColumn(id: 'openAPrice', label: 'OPEN A PRICE', width: 80),
       ViewTableColumn(id: 'days', label: 'DAYS', width: 80, isNumeric: true),
@@ -142,8 +143,10 @@ class UserScriptPositionTrackingTable extends StatelessWidget {
                 autoFit: true,
                 isDarkMode: isDarkMode,
                 emptyMessage: 'No records found',
-                cellBuilder: (item, column) =>
-                    _buildCell(context, item, column, isDarkMode),
+                cellBuilder: (item, column) => Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 50.w),
+                  child: _buildCell(context, item, column, isDarkMode),
+                ),
                 comparatorBuilder: (item, columnId) {
                   switch (columnId) {
                     case 'positionDate':

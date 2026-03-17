@@ -18,14 +18,14 @@ class DeletedTradeTable extends StatelessWidget {
     const ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 120),
     const ViewTableColumn(id: 'orderDateTime', label: 'ORDER D/T', width: 170),
     const ViewTableColumn(id: 'buySell', label: 'B/S', width: 180),
-    const ViewTableColumn(id: 'qty', label: 'QTY', width: 100, isNumeric: true),
+    const ViewTableColumn(id: 'qty', label: 'QTY', width: 90, isNumeric: true),
     const ViewTableColumn(id: 'lot', label: 'LOT', width: 70, isNumeric: true),
     const ViewTableColumn(id: 'type', label: 'TYPE', width: 80),
     const ViewTableColumn(id: 'pl', label: 'P/L', width: 100, isNumeric: true),
     const ViewTableColumn(
       id: 'tradePrice',
       label: 'T. PRICE',
-      width: 110,
+      width: 100,
       isNumeric: true,
     ),
     const ViewTableColumn(
@@ -51,7 +51,7 @@ class DeletedTradeTable extends StatelessWidget {
     const ViewTableColumn(
       id: 'ipAddress',
       label: 'IP ADDRESS',
-      width: 120,
+      width: 140,
       isNumeric: true,
     ),
   ];

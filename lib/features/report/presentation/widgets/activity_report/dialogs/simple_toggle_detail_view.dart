@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../../../core/widget/date_range_picker_button.dart';
 import '../../../../../../core/widget/table/view_data_table.dart';
 import '../../../../../../core/widget/table/view_record_count.dart';
+import '../../../../../../core/widget/table/view_reset_buttons.dart';
 import '../../../../../../core/widget/table/view_table_cell_styles.dart';
 import '../../../bloc/activity_detail/activity_detail_bloc.dart';
+import '../../../bloc/activity_detail/activity_detail_event.dart';
 import '../../../bloc/activity_detail/activity_detail_state.dart';
 
-class SimpleToggleDetailView extends StatelessWidget {
+class SimpleToggleDetailView extends StatefulWidget {
   final String oldLabel;
   final String newLabel;
   final String valueType;
@@ -20,12 +23,19 @@ class SimpleToggleDetailView extends StatelessWidget {
     this.isDarkMode = false,
   });
   @override
+  State<SimpleToggleDetailView> createState() => _SimpleToggleDetailViewState();
+}
+
+class _SimpleToggleDetailViewState extends State<SimpleToggleDetailView> {
+  DateTimeRange? _selectedDateRange;
+
+  @override
   Widget build(BuildContext context) {
     final columns = [
-      ViewTableColumn(id: 'old', label: oldLabel, width: 220),
-      ViewTableColumn(id: 'new', label: newLabel, width: 220),
-      const ViewTableColumn(id: 'updatedOn', label: 'UPDATED ON', width: 250),
-      const ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 150),
+      ViewTableColumn(id: 'old', label: widget.oldLabel, width: 220),
+      ViewTableColumn(id: 'new', label: widget.newLabel, width: 220),
+      const ViewTableColumn(id: 'updatedOn', label: 'UPDATED ON', width: 150),
+      const ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 100),
     ];
     return BlocBuilder<ActivityDetailBloc, ActivityDetailState>(
       builder: (context, state) {
@@ -41,15 +51,16 @@ class SimpleToggleDetailView extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
+            _buildFilterBar(context),
             ViewRecordCount(count: state.recordCount),
             SizedBox(height: 10.h),
             Container(
-              constraints: BoxConstraints(maxHeight: 450.h),
+              constraints: BoxConstraints(maxHeight: 410.h),
               child: ViewDataTable<Map<String, dynamic>>(
                 columns: columns,
                 data: state.details,
                 idExtractor: (item) => state.details.indexOf(item).toString(),
-                isDarkMode: isDarkMode,
+                isDarkMode: widget.isDarkMode,
                 autoFit: true,
                 comparatorBuilder: (item, columnId) {
                   final val = item[columnId];
@@ -62,12 +73,12 @@ class SimpleToggleDetailView extends StatelessWidget {
                     case 'updatedOn':
                       return ViewDateTimeCell(
                         dateTime: item['updatedOn'],
-                        isDark: isDarkMode,
+                        isDark: widget.isDarkMode,
                       );
                     default:
                       return ViewTextCell(
                         text: item[column.id].toString(),
-                        isDark: isDarkMode,
+                        isDark: widget.isDarkMode,
                       );
                   }
                 },
@@ -76,6 +87,39 @@ class SimpleToggleDetailView extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+
+  Widget _buildFilterBar(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: 12.h),
+      child: Row(
+        children: [
+          DateRangePickerButton(
+            width: 200.w,
+            height: 35.h,
+            selectedDateRange: _selectedDateRange,
+            onTap: () {},
+            onDateRangeSelected: (range) {
+              setState(() => _selectedDateRange = range);
+            },
+          ),
+          const Spacer(),
+          ViewResetButtons(
+            onReset: () {
+              setState(() => _selectedDateRange = null);
+              context.read<ActivityDetailBloc>().add(
+                const FilterActivityDetails(),
+              );
+            },
+            onView: () {
+              context.read<ActivityDetailBloc>().add(
+                FilterActivityDetails(dateRange: _selectedDateRange),
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 }

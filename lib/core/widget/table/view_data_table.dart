@@ -14,6 +14,8 @@ class ViewTableColumn {
   final bool sortable;
   final Widget? customHeaderWidget;
   final Alignment? alignment;
+
+  final int headerLines;
   const ViewTableColumn({
     required this.id,
     required this.label,
@@ -22,6 +24,7 @@ class ViewTableColumn {
     this.sortable = true,
     this.customHeaderWidget,
     this.alignment,
+    this.headerLines = 1,
   });
 }
 
@@ -223,7 +226,11 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
   @override
   Widget build(BuildContext context) {
     final rowHeight = widget.rowHeight ?? 30.h;
-    final headerHeight = widget.headerHeight ?? 35.h;
+    final bool hasTwoLineHeaders = widget.columns.any(
+      (c) => c.headerLines >= 2,
+    );
+    final headerHeight =
+        widget.headerHeight ?? (hasTwoLineHeaders ? 50.h : 35.h);
     return Theme(
       data: Theme.of(context).copyWith(
         scrollbarTheme: ScrollbarThemeData(
@@ -500,7 +507,11 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
                 child: Text(
                   column.label,
                   style: GoogleFonts.openSans(
-                    fontSize: widget.headerTextSize ?? 14.sp,
+                    fontSize: column.headerLines >= 2
+                        ? (widget.headerTextSize != null
+                              ? widget.headerTextSize! - 1.sp
+                              : 11.sp)
+                        : (widget.headerTextSize ?? 14.sp),
                     fontWeight: FontWeight.w500,
                     color: _textColor,
                   ),
@@ -509,7 +520,7 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
                       : (effectiveAlignment == Alignment.center
                             ? TextAlign.center
                             : TextAlign.start),
-                  maxLines: 1,
+                  maxLines: column.headerLines,
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
@@ -630,7 +641,9 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
       thumbVisibility: !widget.shrinkWrap,
       child: ListView.builder(
         controller: widget.shrinkWrap ? null : _verticalScrollController,
-        padding: EdgeInsets.only(bottom: 14.h),
+        padding: EdgeInsets.only(
+          bottom: widget.footerBuilder != null ? 0 : 14.h,
+        ),
         shrinkWrap: true,
         physics: widget.shrinkWrap
             ? const NeverScrollableScrollPhysics()

@@ -67,7 +67,6 @@ class SettlementReportPage extends StatelessWidget {
                     ),
                   if (state is SettlementReportLoaded)
                     SettlementFilterBar(
-                      selectedDateRange: state.selectedDateRange,
                       onDateRangeChanged: (value) {
                         if (value != null) {
                           context.read<SettlementReportBloc>().add(

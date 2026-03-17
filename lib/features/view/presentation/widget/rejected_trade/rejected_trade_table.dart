@@ -51,7 +51,7 @@ class RejectedTradeTable extends StatelessWidget {
     const ViewTableColumn(
       id: 'ipAddress',
       label: 'IP ADDRESS',
-      width: 120,
+      width: 140,
       isNumeric: true,
     ),
   ];

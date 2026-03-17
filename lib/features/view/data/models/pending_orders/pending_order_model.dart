@@ -17,6 +17,8 @@ class PendingOrderModel extends PendingOrder {
     required super.cmp,
     required super.rPrice,
     super.deviceId,
+    super.device,
+    super.city,
     super.ipAddress,
   });
   factory PendingOrderModel.fromJson(Map<String, dynamic> json) {
@@ -38,6 +40,8 @@ class PendingOrderModel extends PendingOrder {
       cmp: _parseDouble(json['cmp']),
       rPrice: _parseDouble(json['r_price'] ?? json['rPrice']),
       deviceId: json['device_id'] ?? json['deviceId'],
+      device: json['device'],
+      city: json['city'],
       ipAddress: json['ip_address'] ?? json['ipAddress'],
     );
   }
@@ -58,6 +62,8 @@ class PendingOrderModel extends PendingOrder {
       'cmp': cmp,
       'r_price': rPrice,
       'device_id': deviceId,
+      'device': device,
+      'city': city,
       'ip_address': ipAddress,
     };
   }
@@ -79,6 +85,8 @@ class PendingOrderModel extends PendingOrder {
       cmp: entity.cmp,
       rPrice: entity.rPrice,
       deviceId: entity.deviceId,
+      device: entity.device,
+      city: entity.city,
       ipAddress: entity.ipAddress,
     );
   }

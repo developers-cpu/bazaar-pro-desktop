@@ -32,10 +32,10 @@ class RejectionLogTable extends StatelessWidget {
     }
 
     return const [
-      ViewTableColumn(id: 'orderDateTime', label: 'ORDER D/T', width: 170),
+      ViewTableColumn(id: 'orderDateTime', label: 'ORDER D/T', width: 150),
       ViewTableColumn(id: 'status', label: 'STATUS', width: 80),
       ViewTableColumn(id: 'userName', label: 'U.NAME', width: 80),
-      ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 130),
+      ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 150),
       ViewTableColumn(id: 'type', label: 'TYPE', width: 80),
       ViewTableColumn(id: 'qty', label: 'QTY', width: 80, isNumeric: true),
       ViewTableColumn(id: 'price', label: 'PRICE', width: 80, isNumeric: true),

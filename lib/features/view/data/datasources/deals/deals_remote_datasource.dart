@@ -237,6 +237,8 @@ class DealsRemoteDataSourceImpl implements DealsRemoteDataSource {
           rPrice: 0.0,
           executionDateTime: executionDate,
           deviceId: 'E621E1F8-C36C-495A-93FC-0C247A3E6E5F',
+          device: i % 2 == 0 ? 'IOS' : 'ANDROID',
+          city: i % 2 == 0 ? 'Abu Dhabi' : 'Dubai',
           ipAddress: '192.0.2.1',
           orderDuration: i % 2 == 0 ? orderDuration : '3 hours 20 min',
           status: statuses[i % statuses.length],

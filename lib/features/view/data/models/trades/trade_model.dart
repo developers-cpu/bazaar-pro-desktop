@@ -18,6 +18,8 @@ class TradeModel extends Trade {
     required super.rPrice,
     super.executionDateTime,
     super.deviceId,
+    super.device,
+    super.city,
     super.ipAddress,
   });
   factory TradeModel.fromJson(Map<String, dynamic> json) {
@@ -42,6 +44,8 @@ class TradeModel extends Trade {
           ? DateTime.parse(json['executionDateTime'])
           : null,
       deviceId: json['deviceId'],
+      device: json['device'],
+      city: json['city'],
       ipAddress: json['ipAddress'],
     );
   }
@@ -63,6 +67,8 @@ class TradeModel extends Trade {
       'rPrice': rPrice,
       'executionDateTime': executionDateTime?.toIso8601String(),
       'deviceId': deviceId,
+      'device': device,
+      'city': city,
       'ipAddress': ipAddress,
     };
   }
@@ -85,6 +91,8 @@ class TradeModel extends Trade {
       rPrice: trade.rPrice,
       executionDateTime: trade.executionDateTime,
       deviceId: trade.deviceId,
+      device: trade.device,
+      city: trade.city,
       ipAddress: trade.ipAddress,
     );
   }

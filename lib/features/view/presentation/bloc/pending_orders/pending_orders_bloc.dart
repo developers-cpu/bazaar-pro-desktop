@@ -48,6 +48,8 @@ class PendingOrdersBloc extends Bloc<PendingOrdersEvent, PendingOrdersState> {
       dynamic ordersResult;
       if (event.isClient) {
         ordersResult = await getPendingOrders(NoParams());
+      } else {
+        ordersResult = await getPendingOrdersWithFilters(const FilterParams());
       }
       final results = await Future.wait([
         getClients(NoParams()),
@@ -328,6 +330,12 @@ class PendingOrdersBloc extends Bloc<PendingOrdersEvent, PendingOrdersState> {
             break;
           case 'rPrice':
             comparison = a.rPrice.compareTo(b.rPrice);
+            break;
+          case 'device':
+            comparison = (a.device ?? '').compareTo(b.device ?? '');
+            break;
+          case 'city':
+            comparison = (a.city ?? '').compareTo(b.city ?? '');
             break;
         }
         return event.ascending ? comparison : -comparison;

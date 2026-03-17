@@ -42,6 +42,8 @@ class TradesBloc extends Bloc<TradesEvent, TradesState> {
       dynamic tradesResult;
       if (event.isClient) {
         tradesResult = await getTrades(NoParams());
+      } else {
+        tradesResult = await getTradesWithFilters(const TradesFilterParams());
       }
       final results = await Future.wait([
         getClients(NoParams()),
@@ -204,6 +206,12 @@ class TradesBloc extends Bloc<TradesEvent, TradesState> {
           break;
         case 'rPrice':
           comparison = a.rPrice.compareTo(b.rPrice);
+          break;
+        case 'device':
+          comparison = (a.device ?? '').compareTo(b.device ?? '');
+          break;
+        case 'city':
+          comparison = (a.city ?? '').compareTo(b.city ?? '');
           break;
         default:
           comparison = 0;

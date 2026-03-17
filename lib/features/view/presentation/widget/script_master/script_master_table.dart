@@ -18,11 +18,16 @@ class ScriptMasterTable extends StatelessWidget {
     : super(key: key);
   List<ViewTableColumn> _getColumns() {
     return const [
-      ViewTableColumn(id: 'exchange', label: 'EXCH', width: 100),
-      ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 100),
-      ViewTableColumn(id: 'expiryDate', label: 'EXPIRY DATE', width: 150),
-      ViewTableColumn(id: 'tradeAttribute', label: 'TRADE ATTR.', width: 120),
-      ViewTableColumn(id: 'allowTrade', label: 'ALLOW TRADE', width: 120),
+      ViewTableColumn(id: 'exchange', label: 'EXCH', width: 80),
+      ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 80),
+      ViewTableColumn(
+        id: 'expiryDate',
+        label: 'EXPIRY DATE',
+        width: 80,
+        isNumeric: true,
+      ),
+      ViewTableColumn(id: 'tradeAttribute', label: 'TRADE ATTR.', width: 80),
+      ViewTableColumn(id: 'allowTrade', label: 'ALLOW TRADE', width: 80),
     ];
   }
 
@@ -67,16 +72,11 @@ class ScriptMasterTable extends StatelessWidget {
 
   Widget _buildExpiryDateCell(ScriptMaster item, bool isDark) {
     final dateFormat = DateFormat('dd/MM/yy');
-    final timeFormat = DateFormat('h:mm:ss a');
     final formattedDate = dateFormat.format(item.expiryDate);
-    final formattedTime = timeFormat.format(item.expiryDate);
-    return Padding(
-      padding: const EdgeInsets.only(left: 12),
-      child: ViewTextCell(
-        text: '$formattedDate | $formattedTime',
-        isDark: isDark,
-        isStart: true,
-      ),
+    return ViewTextCell(
+      text: formattedDate,
+      isDark: isDark,
+      isNumeric: true,
     );
   }
 

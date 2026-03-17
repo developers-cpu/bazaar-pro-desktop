@@ -62,34 +62,10 @@ class _ClientBrokerSettingStepState extends State<ClientBrokerSettingStep> {
               SizedBox(height: 8.h),
               _buildExchangeTabs(),
               SizedBox(height: 4.h),
-              ViewRecordCount(count: _getDummySymbols().length),
-              SizedBox(
-                height: 260.h,
-                child: ViewDataTable<Map<String, String>>(
-                  shrinkWrap: false,
-                  autoFit: true,
-                  comparatorBuilder: (item, columnId) {
-                    return item[columnId] ?? '';
-                  },
-                  rowHeight: 28.h,
-                  headerHeight: 32.h,
-                  columns: _getColumns(),
-                  data: _getDummySymbols(),
-                  idExtractor: (item) => item['symbol'] ?? '',
-                  emptyMessage: 'No symbols found',
-                  cellBuilder: (item, column) =>
-                      _buildCell(context, item, column),
-                ),
-              ),
-              Center(
-                child: CustomActionButton(
-                  text: 'Add',
-                  width: 200.w,
-                  height: 35.h,
-                  borderRadius: 10.r,
-                  onPressed: () {},
-                ),
-              ),
+              if (_selectedExchange == 'NSE')
+                _buildNseContent()
+              else
+                _buildTableContent(context),
             ],
           ),
         );
@@ -130,7 +106,7 @@ class _ClientBrokerSettingStepState extends State<ClientBrokerSettingStep> {
   }
 
   List<ViewTableColumn> _getColumns() {
-    final baseColumns = [
+    return [
       ViewTableColumn(
         id: 'symbol',
         label: 'SYMBOL',
@@ -142,80 +118,34 @@ class _ClientBrokerSettingStepState extends State<ClientBrokerSettingStep> {
         label: 'MASTER BRK\n(% Wise)',
         width: 120,
         sortable: false,
+        headerLines: 2,
       ),
       ViewTableColumn(
         id: 'brokerBrkPercent',
         label: 'BROKER BRK\n(% Wise)',
         width: 120,
         sortable: false,
+        headerLines: 2,
+      ),
+      ViewTableColumn(
+        id: 'masterBrkLot',
+        label: 'MASTER BRK\n(Lot Wise)',
+        width: 120,
+        sortable: false,
+        headerLines: 2,
+      ),
+      ViewTableColumn(
+        id: 'brokerBrkLot',
+        label: 'BROKER BRK\n(Lot Wise)',
+        width: 120,
+        sortable: false,
+        headerLines: 2,
       ),
     ];
-    if (_selectedExchange != 'NSE') {
-      baseColumns.addAll([
-        ViewTableColumn(
-          id: 'masterBrkLot',
-          label: 'MASTER BRK\n(Lot Wise)',
-          width: 120,
-          sortable: false,
-        ),
-        ViewTableColumn(
-          id: 'brokerBrkLot',
-          label: 'BROKER BRK\n(Lot Wise)',
-          width: 120,
-          sortable: false,
-        ),
-      ]);
-    }
-    return baseColumns;
   }
 
   List<Map<String, String>> _getDummySymbols() {
-    if (_selectedExchange == 'NSE') {
-      return [
-        {
-          'symbol': 'RELIANCE',
-          'masterBrkPercent': '500',
-          'brokerBrkPercent': '500',
-          'masterBrkLot': '500',
-          'brokerBrkLot': '500',
-        },
-        {
-          'symbol': 'HDFC BANK',
-          'masterBrkPercent': '500',
-          'brokerBrkPercent': '500',
-          'masterBrkLot': '500',
-          'brokerBrkLot': '500',
-        },
-        {
-          'symbol': 'ICICI BANK',
-          'masterBrkPercent': '500',
-          'brokerBrkPercent': '500',
-          'masterBrkLot': '500',
-          'brokerBrkLot': '500',
-        },
-        {
-          'symbol': 'GOLD',
-          'masterBrkPercent': '500',
-          'brokerBrkPercent': '500',
-          'masterBrkLot': '500',
-          'brokerBrkLot': '500',
-        },
-        {
-          'symbol': 'GOLD',
-          'masterBrkPercent': '500',
-          'brokerBrkPercent': '500',
-          'masterBrkLot': '500',
-          'brokerBrkLot': '500',
-        },
-        {
-          'symbol': 'GOLD',
-          'masterBrkPercent': '500',
-          'brokerBrkPercent': '500',
-          'masterBrkLot': '500',
-          'brokerBrkLot': '500',
-        },
-      ];
-    } else if (_selectedExchange == 'MCX') {
+    if (_selectedExchange == 'MCX') {
       return [
         {
           'symbol': 'GOLD',
@@ -261,7 +191,99 @@ class _ClientBrokerSettingStepState extends State<ClientBrokerSettingStep> {
         },
       ];
     }
-    return [];
+    return List.generate(
+      6,
+      (_) => {
+        'symbol': 'GOLD',
+        'masterBrkPercent': '-',
+        'brokerBrkPercent': '-',
+        'masterBrkLot': '500',
+        'brokerBrkLot': '500',
+      },
+    );
+  }
+
+  Widget _buildNseContent() {
+    final types = [
+      'MASTER BRK (% Wise)',
+      'MASTER BRK (Lot Wise)',
+      'BROKER BRK (% Wise)',
+      'BROKER BRK (Lot Wise)',
+    ];
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Wrap(
+          spacing: 8.w,
+          runSpacing: 8.h,
+          children: types
+              .map(
+                (type) => Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 12.w,
+                    vertical: 8.h,
+                  ),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: AppColors.primaryBlue),
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                  child: Text(
+                    type,
+                    style: GoogleFonts.openSans(
+                      fontSize: 11.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.primaryBlue,
+                    ),
+                  ),
+                ),
+              )
+              .toList(),
+        ),
+        SizedBox(height: 16.h),
+        Center(
+          child: CustomActionButton(
+            text: 'Add',
+            width: 200.w,
+            height: 35.h,
+            borderRadius: 10.r,
+            onPressed: () {},
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTableContent(BuildContext context) {
+    return Column(
+      children: [
+        ViewRecordCount(count: _getDummySymbols().length),
+        SizedBox(
+          height: 260.h,
+          child: ViewDataTable<Map<String, String>>(
+            shrinkWrap: false,
+            autoFit: true,
+            comparatorBuilder: (item, columnId) {
+              return item[columnId] ?? '';
+            },
+            rowHeight: 28.h,
+            columns: _getColumns(),
+            data: _getDummySymbols(),
+            idExtractor: (item) => item['symbol'] ?? '',
+            emptyMessage: 'No symbols found',
+            cellBuilder: (item, column) => _buildCell(context, item, column),
+          ),
+        ),
+        Center(
+          child: CustomActionButton(
+            text: 'Add',
+            width: 200.w,
+            height: 35.h,
+            borderRadius: 10.r,
+            onPressed: () {},
+          ),
+        ),
+      ],
+    );
   }
 
   Widget _buildCell(

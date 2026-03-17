@@ -203,7 +203,8 @@ class SettlementReportView extends StatelessWidget {
   }
 
   Widget _buildRow(SettlementEntry entry, bool isProfitSection, int index) {
-    final isMaster = entry.userType.toUpperCase() != 'C';
+    final isMaster =
+        entry.userType.isNotEmpty && entry.userType.toUpperCase() != 'C';
     final rowContent = Container(
       padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
       decoration: BoxDecoration(

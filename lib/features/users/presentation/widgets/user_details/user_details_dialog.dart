@@ -66,6 +66,7 @@ class _UserDetailsDialogState extends State<UserDetailsDialog>
     'Group Settings',
     'Brk',
     'Credit',
+    'User List',
     'Rejection Log',
     'Sharing Details',
     'Trade Margin',
@@ -73,7 +74,6 @@ class _UserDetailsDialogState extends State<UserDetailsDialog>
     'Change Password',
     'INT. Square off',
     'Ex. Wise Position Lmt',
-    'User List',
   ];
   late List<String> _currentTabs;
   String? _selectedQuantityGroup;
@@ -84,6 +84,9 @@ class _UserDetailsDialogState extends State<UserDetailsDialog>
     _currentTabs = List.from(_baseTabs);
     if (widget.user.type != 'Master') {
       _currentTabs.remove('User List');
+    }
+    if (widget.user.type.toLowerCase() == 'client') {
+      _currentTabs.remove('Sharing Details');
     }
     int initialIndex = 0;
     if (widget.initialTab != null) {
@@ -366,21 +369,21 @@ class _UserDetailsDialogState extends State<UserDetailsDialog>
           dividerColor: Colors.transparent,
           overlayColor: WidgetStateProperty.all(Colors.transparent),
           labelColor: AppColors.primaryBlue,
-          unselectedLabelColor: const Color(0xFF9E9E9E),
+          unselectedLabelColor: const Color(0xFF333333),
           indicator: UnderlineTabIndicator(
             borderSide: BorderSide(color: AppColors.primaryBlue, width: 1.5),
             insets: EdgeInsets.only(bottom: 2.h),
           ),
           indicatorSize: TabBarIndicatorSize.tab,
           indicatorWeight: 1.0,
-          labelPadding: EdgeInsets.symmetric(horizontal: 20.w),
+          labelPadding: EdgeInsets.symmetric(horizontal: 4.w),
           labelStyle: GoogleFonts.openSans(
-            fontSize: 12.sp,
-            fontWeight: FontWeight.normal,
+            fontSize: 13.sp,
+            fontWeight: FontWeight.w600,
           ),
           unselectedLabelStyle: GoogleFonts.openSans(
-            fontSize: 12.sp,
-            fontWeight: FontWeight.normal,
+            fontSize: 13.sp,
+            fontWeight: FontWeight.w600,
           ),
           tabs: _currentTabs
               .map((tab) => Tab(height: 26.h, text: tab))

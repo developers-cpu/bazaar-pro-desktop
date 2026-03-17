@@ -49,17 +49,14 @@ class ViewDataTableFooter extends StatelessWidget {
           final alignment = isNumeric
               ? Alignment.centerRight
               : Alignment.centerLeft;
-          final horizontalPadding = column.width <= 50 ? 4.w : 16.w;
           return Container(
             height: 35.h,
             width: column.width,
             alignment: alignment,
             padding: EdgeInsets.only(
-              left:
-                  horizontalPadding +
-                  (alignment == Alignment.centerLeft ? 8.w : 0),
+              left: 4.w + (alignment == Alignment.centerLeft ? 8.w : 0),
               right:
-                  (isLast ? horizontalPadding + 14.w : horizontalPadding) +
+                  (isLast ? 14.w : 4.w) +
                   (alignment == Alignment.centerRight ? 8.w : 0),
             ),
             decoration: BoxDecoration(

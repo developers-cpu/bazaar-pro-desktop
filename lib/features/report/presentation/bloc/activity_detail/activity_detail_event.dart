@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 
 abstract class ActivityDetailEvent extends Equatable {
   const ActivityDetailEvent();
@@ -12,4 +13,11 @@ class FetchActivityDetails extends ActivityDetailEvent {
   const FetchActivityDetails({required this.activityName, this.valueType});
   @override
   List<Object?> get props => [activityName, valueType];
+}
+
+class FilterActivityDetails extends ActivityDetailEvent {
+  final DateTimeRange? dateRange;
+  const FilterActivityDetails({this.dateRange});
+  @override
+  List<Object?> get props => [dateRange];
 }

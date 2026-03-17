@@ -13,7 +13,7 @@ import '../../../../../core/widget/table/view_table_cell_styles.dart';
 class IntradayHistoryTable extends StatelessWidget {
   const IntradayHistoryTable({Key? key}) : super(key: key);
   static final List<ViewTableColumn> _columns = [
-  
+
     const ViewTableColumn(
       id: 'view',
       label: 'VIEW',

@@ -218,6 +218,12 @@ class DealsBloc extends Bloc<DealsEvent, DealsState> {
         case 'status':
           comparison = a.status.compareTo(b.status);
           break;
+        case 'device':
+          comparison = (a.device ?? '').compareTo(b.device ?? '');
+          break;
+        case 'city':
+          comparison = (a.city ?? '').compareTo(b.city ?? '');
+          break;
         default:
           comparison = 0;
       }

@@ -17,8 +17,8 @@ class ActivityReportTable extends StatelessWidget {
       ViewTableColumn(id: 'activityName', label: 'ACTIVITY', width: 150),
       ViewTableColumn(id: 'createdOn', label: 'CREATED ON', width: 100),
       ViewTableColumn(id: 'createdBy', label: 'CREATED BY', width: 100),
-      ViewTableColumn(id: 'updatedOn', label: 'UPDATED ON', width: 100),
-      ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 100),
+      const ViewTableColumn(id: 'updatedOn', label: 'UPDATED ON', width: 100),
+      const ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 100),
     ];
   }
 
@@ -30,16 +30,13 @@ class ActivityReportTable extends StatelessWidget {
   ) {
     switch (column.id) {
       case 'activityName':
-        return Padding(
-          padding: EdgeInsets.only(left: 16.w),
-          child: ViewLinkCell(
-            text: item.activityName,
-            isDark: isDark,
-            isStart: true,
-            onTap: () {
-              _showDetailDialog(context, item);
-            },
-          ),
+        return ViewLinkCell(
+          text: item.activityName,
+          isDark: isDark,
+          isStart: true,
+          onTap: () {
+            _showDetailDialog(context, item);
+          },
         );
       case 'createdOn':
         return ViewDateTimeCell(dateTime: item.createdOn, isDark: isDark);
@@ -76,31 +73,34 @@ class ActivityReportTable extends StatelessWidget {
             ViewRecordCount(count: state.reports.length),
             Flexible(
               fit: FlexFit.loose,
-              child: ViewDataTable<ActivityReport>(
-                columns: _getColumns(),
-                data: state.reports,
-                idExtractor: (item) => item.id,
-                autoFit: true,
-                isDarkMode: isDarkMode,
-                emptyMessage: 'No activity report found',
-                cellBuilder: (item, column) =>
-                    _buildCell(context, item, column, isDarkMode),
-                comparatorBuilder: (item, columnId) {
-                  switch (columnId) {
-                    case 'activityName':
-                      return item.activityName;
-                    case 'createdOn':
-                      return item.createdOn;
-                    case 'createdBy':
-                      return item.createdBy;
-                    case 'updatedOn':
-                      return item.updatedOn;
-                    case 'updatedBy':
-                      return item.updatedBy;
-                    default:
-                      return '';
-                  }
-                },
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                child: ViewDataTable<ActivityReport>(
+                  columns: _getColumns(),
+                  data: state.reports,
+                  idExtractor: (item) => item.id,
+                  autoFit: true,
+                  isDarkMode: isDarkMode,
+                  emptyMessage: 'No activity report found',
+                  cellBuilder: (item, column) =>
+                      _buildCell(context, item, column, isDarkMode),
+                  comparatorBuilder: (item, columnId) {
+                    switch (columnId) {
+                      case 'activityName':
+                        return item.activityName;
+                      case 'createdOn':
+                        return item.createdOn;
+                      case 'createdBy':
+                        return item.createdBy;
+                      case 'updatedOn':
+                        return item.updatedOn;
+                      case 'updatedBy':
+                        return item.updatedBy;
+                      default:
+                        return '';
+                    }
+                  },
+                ),
               ),
             ),
           ],

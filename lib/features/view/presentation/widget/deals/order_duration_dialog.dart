@@ -43,6 +43,7 @@ class _OrderDurationContent extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 8.w),
       child: ViewDataTable<Deal>(
+        autoFit: true,
         columns: _getColumns(),
         data: relatedOrders,
         idExtractor: (item) => item.id,
@@ -80,11 +81,11 @@ class _OrderDurationContent extends StatelessWidget {
   List<ViewTableColumn> _getColumns() {
     return const [
       ViewTableColumn(id: 'id', label: 'ID', width: 50, isNumeric: true),
-      ViewTableColumn(id: 'duration', label: 'DURATION', width: 140),
-      ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 190),
-      ViewTableColumn(id: 'type', label: 'TYPE', width: 110),
-      ViewTableColumn(id: 'qty', label: 'QTY', width: 100, isNumeric: true),
-      ViewTableColumn(id: 'price', label: 'PRICE', width: 110, isNumeric: true),
+      ViewTableColumn(id: 'duration', label: 'DURATION', width: 170),
+      ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 110),
+      ViewTableColumn(id: 'type', label: 'TYPE', width: 90),
+      ViewTableColumn(id: 'qty', label: 'QTY', width: 90, isNumeric: true),
+      ViewTableColumn(id: 'price', label: 'PRICE', width: 90, isNumeric: true),
       ViewTableColumn(
         id: 'executionDateTime',
         label: 'EXECUTION D/T',

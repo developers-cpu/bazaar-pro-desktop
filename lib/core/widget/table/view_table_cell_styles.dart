@@ -273,13 +273,13 @@ class ViewDateTimeCell extends StatelessWidget {
   String _formatDateTime() {
     final day = dateTime.day.toString().padLeft(2, '0');
     final month = dateTime.month.toString().padLeft(2, '0');
-    final year = (dateTime.year % 100).toString().padLeft(2, '0');
+    final year = dateTime.year.toString();
     final hour = dateTime.hour > 12
         ? dateTime.hour - 12
         : (dateTime.hour == 0 ? 12 : dateTime.hour);
     final minute = dateTime.minute.toString().padLeft(2, '0');
     final second = dateTime.second.toString().padLeft(2, '0');
     final amPm = dateTime.hour >= 12 ? 'PM' : 'AM';
-    return '$day/$month/$year ${hour.toString().padLeft(2, '0')}:$minute:$second $amPm';
+    return '$day/$month/$year | ${hour.toString().padLeft(2, '0')}:$minute:$second $amPm';
   }
 }

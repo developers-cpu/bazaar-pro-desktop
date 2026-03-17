@@ -120,6 +120,8 @@ class TradesTable extends StatelessWidget {
           alignment: Alignment.centerRight,
         ),
         ViewTableColumn(id: 'deviceId', label: 'DEVICE ID', width: 300),
+        ViewTableColumn(id: 'device', label: 'DEVICE', width: 100),
+        ViewTableColumn(id: 'city', label: 'CITY', width: 150),
         ViewTableColumn(
           id: 'ipAddress',
           label: 'IP ADDRESS',
@@ -215,6 +217,10 @@ class TradesTable extends StatelessWidget {
               );
       case 'deviceId':
         return ViewTextCell(text: item.deviceId ?? '-', isDark: isDark);
+      case 'device':
+        return ViewTextCell(text: item.device ?? '-', isDark: isDark);
+      case 'city':
+        return ViewTextCell(text: item.city ?? '-', isDark: isDark);
       case 'ipAddress':
         return ViewTextCell(
           text: item.ipAddress ?? '-',

@@ -16,6 +16,8 @@ class PendingOrder extends Equatable {
   final double cmp;
   final double rPrice;
   final String? deviceId;
+  final String? device;
+  final String? city;
   final String? ipAddress;
   const PendingOrder({
     required this.id,
@@ -33,6 +35,8 @@ class PendingOrder extends Equatable {
     required this.cmp,
     required this.rPrice,
     this.deviceId,
+    this.device,
+    this.city,
     this.ipAddress,
   });
   bool get isBuy => buySell.toUpperCase().startsWith('BUY');
@@ -54,6 +58,8 @@ class PendingOrder extends Equatable {
     cmp,
     rPrice,
     deviceId,
+    device,
+    city,
     ipAddress,
   ];
 }

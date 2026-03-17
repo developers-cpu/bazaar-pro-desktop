@@ -17,6 +17,8 @@ class Deal extends Equatable {
   final double rPrice;
   final DateTime? executionDateTime;
   final String? deviceId;
+  final String? device;
+  final String? city;
   final String? ipAddress;
   final String orderDuration;
   final String status;
@@ -37,6 +39,8 @@ class Deal extends Equatable {
     required this.rPrice,
     this.executionDateTime,
     this.deviceId,
+    this.device,
+    this.city,
     this.ipAddress,
     required this.orderDuration,
     required this.status,
@@ -59,6 +63,8 @@ class Deal extends Equatable {
     rPrice,
     executionDateTime,
     deviceId,
+    device,
+    city,
     ipAddress,
     orderDuration,
     status,
@@ -80,6 +86,8 @@ class Deal extends Equatable {
     double? rPrice,
     DateTime? executionDateTime,
     String? deviceId,
+    String? device,
+    String? city,
     String? ipAddress,
     String? orderDuration,
     String? status,
@@ -101,6 +109,8 @@ class Deal extends Equatable {
       rPrice: rPrice ?? this.rPrice,
       executionDateTime: executionDateTime ?? this.executionDateTime,
       deviceId: deviceId ?? this.deviceId,
+      device: device ?? this.device,
+      city: city ?? this.city,
       ipAddress: ipAddress ?? this.ipAddress,
       orderDuration: orderDuration ?? this.orderDuration,
       status: status ?? this.status,

@@ -16,7 +16,6 @@ class ManualTradeBloc extends Bloc<ManualTradeEvent, ManualTradeState> {
   ) async {
     emit(state.copyWith(isLoading: true, error: null));
     try {
-      await Future.delayed(const Duration(milliseconds: 500));
       final users = ['Demo02', 'Demo03', 'Client01'];
       final exchanges = ['NSE', 'MCX', 'CE/PE', 'OTHERS'];
       final symbols = ['REALINCE31DEC2025', 'NIFTY25N042555OCE', 'GOLD05DEC'];

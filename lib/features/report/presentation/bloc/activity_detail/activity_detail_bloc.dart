@@ -4,13 +4,35 @@ import 'activity_detail_state.dart';
 
 class ActivityDetailBloc
     extends Bloc<ActivityDetailEvent, ActivityDetailState> {
+  String? _lastActivityName;
+  String? _lastValueType;
+
   ActivityDetailBloc() : super(ActivityDetailInitial()) {
     on<FetchActivityDetails>(_onFetchActivityDetails);
+    on<FilterActivityDetails>(_onFilterActivityDetails);
   }
+
+  void _onFilterActivityDetails(
+    FilterActivityDetails event,
+    Emitter<ActivityDetailState> emit,
+  ) {
+    if (_lastActivityName != null) {
+      _onFetchActivityDetails(
+        FetchActivityDetails(
+          activityName: _lastActivityName!,
+          valueType: _lastValueType,
+        ),
+        emit,
+      );
+    }
+  }
+
   void _onFetchActivityDetails(
     FetchActivityDetails event,
     Emitter<ActivityDetailState> emit,
   ) {
+    _lastActivityName = event.activityName;
+    _lastValueType = event.valueType;
     emit(ActivityDetailLoading());
     try {
       List<Map<String, dynamic>> data = [];
@@ -58,10 +80,14 @@ class ActivityDetailBloc
             } else if (event.activityName == 'Trade margin') {
               return {
                 'exchange': ex,
-                'oldA': '2500',
-                'newA': '1500',
-                'oldP': '2500',
-                'newP': '1500',
+                'intOldA': ex == 'MCX' ? '500' : '2500',
+                'intNewA': ex == 'MCX' ? '1000' : '1500',
+                'intOldP': ex == 'MCX' ? '500' : '2500',
+                'intNewP': ex == 'MCX' ? '1000' : '1500',
+                'cfOldA': ex == 'MCX' ? '500' : '2500',
+                'cfNewA': ex == 'MCX' ? '1000' : '1500',
+                'cfOldP': ex == 'MCX' ? '500' : '2500',
+                'cfNewP': ex == 'MCX' ? '1000' : '1500',
                 'updatedOn': DateTime(2026, 2, 12, 12, 30, 52),
                 'updatedBy': 'Admin',
               };
@@ -171,7 +197,44 @@ class ActivityDetailBloc
         default:
           data = [];
       }
-      emit(ActivityDetailLoaded(details: data, recordCount: data.length));
+      List<Map<String, dynamic>>? intradayDetails;
+      List<Map<String, dynamic>>? cfDetails;
+      if (event.activityName == 'Trade margin') {
+        intradayDetails = data
+            .map(
+              (e) => {
+                'exchange': e['exchange'],
+                'oldA': e['intOldA'],
+                'newA': e['intNewA'],
+                'oldP': e['intOldP'],
+                'newP': e['intNewP'],
+                'updatedOn': e['updatedOn'],
+                'updatedBy': e['updatedBy'],
+              },
+            )
+            .toList();
+        cfDetails = data
+            .map(
+              (e) => {
+                'exchange': e['exchange'],
+                'oldA': e['cfOldA'],
+                'newA': e['cfNewA'],
+                'oldP': e['cfOldP'],
+                'newP': e['cfNewP'],
+                'updatedOn': e['updatedOn'],
+                'updatedBy': e['updatedBy'],
+              },
+            )
+            .toList();
+      }
+      emit(
+        ActivityDetailLoaded(
+          details: data,
+          recordCount: data.length,
+          intradayDetails: intradayDetails,
+          cfDetails: cfDetails,
+        ),
+      );
     } catch (e) {
       emit(ActivityDetailError(e.toString()));
     }

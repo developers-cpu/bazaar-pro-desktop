@@ -24,17 +24,17 @@ class LoginHistoryTable extends StatelessWidget {
     }
     return const [
       ViewTableColumn(id: 'index', label: 'INDEX', width: 60, isNumeric: true),
-      ViewTableColumn(id: 'loginTime', label: 'LOGIN TIME', width: 140),
-      ViewTableColumn(id: 'logoutTime', label: 'LOGOUT TIME', width: 140),
-      ViewTableColumn(id: 'userName', label: 'USER NAME', width: 100),
-      ViewTableColumn(id: 'userType', label: 'USER TYPE', width: 90),
+      ViewTableColumn(id: 'loginTime', label: 'LOGIN TIME', width: 110),
+      ViewTableColumn(id: 'logoutTime', label: 'LOGOUT TIME', width: 110),
+      ViewTableColumn(id: 'userName', label: 'USER NAME', width: 80),
+      ViewTableColumn(id: 'userType', label: 'USER TYPE', width: 70),
       ViewTableColumn(
         id: 'ipAddress',
         label: 'IP ADDRESS',
-        width: 110,
+        width: 80,
         isNumeric: true,
       ),
-      ViewTableColumn(id: 'deviceId', label: 'DEVICE ID', width: 260),
+      ViewTableColumn(id: 'deviceId', label: 'DEVICE ID', width: 160),
       ViewTableColumn(id: 'device', label: 'DEVICE', width: 70),
       ViewTableColumn(id: 'city', label: 'CITY', width: 90),
     ];
@@ -115,7 +115,7 @@ class LoginHistoryTable extends StatelessWidget {
   ) {
     switch (column.id) {
       case 'index':
-        return ViewTextCell(text: history.index.toString());
+        return ViewTextCell(text: history.index.toString(), isNumeric: true);
       case 'loginTime':
         return isClient
             ? ViewDateTimeCell(

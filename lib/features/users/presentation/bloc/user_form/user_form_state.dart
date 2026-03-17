@@ -104,8 +104,8 @@ class UserFormState extends Equatable {
     this.serverOptions = const ['RGX', 'TESTS', 'FOREXSERVER'],
   });
   static const List<String> availableExchanges = [
-    'MCX',
     'NSE',
+    'MCX',
     'CE/PE',
     'OTHERS',
     'COMEX',

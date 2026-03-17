@@ -1,4 +1,3 @@
-import 'package:bazarpro/core/constants/app_colors.dart';
 import 'package:bazarpro/core/widget/app_dropdown.dart';
 import 'package:bazarpro/core/widget/common_dilog_box.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +21,7 @@ class ExchangeOpenPositionDialog extends StatelessWidget {
   static void show(BuildContext context, {String? symbol, String? exchange}) {
     CommonDialog.show(
       context: context,
-      title: 'Order Position',
+      title: 'Position',
       width: 1400.w,
       height: 700.h,
       content: ExchangeOpenPositionDialog(symbol: symbol, exchange: exchange),
@@ -129,28 +128,43 @@ class _DialogContentState extends State<_DialogContent> {
                         id: 'buyQty',
                         label: 'BUY QTY',
                         width: 100,
+                        isNumeric: true,
                       ),
                       ViewTableColumn(
                         id: 'sellQty',
                         label: 'SELL QTY',
                         width: 100,
+                        isNumeric: true,
                       ),
                       ViewTableColumn(
                         id: 'netQty',
                         label: 'NET QTY',
                         width: 100,
+                        isNumeric: true,
                       ),
                       ViewTableColumn(
                         id: 'netAvgPrice',
                         label: 'NET AVG PRICE',
                         width: 120,
+                        isNumeric: true,
                       ),
-                      ViewTableColumn(id: 'cmp', label: 'CMP', width: 100),
-                      ViewTableColumn(id: 'm2m', label: 'M2M AMT', width: 120),
+                      ViewTableColumn(
+                        id: 'cmp',
+                        label: 'CMP',
+                        width: 100,
+                        isNumeric: true,
+                      ),
+                      ViewTableColumn(
+                        id: 'm2m',
+                        label: 'M2M AMT',
+                        width: 120,
+                        isNumeric: true,
+                      ),
                       ViewTableColumn(
                         id: 'ourPercent',
                         label: 'OUR %',
                         width: 80,
+                        isNumeric: true,
                       ),
                     ],
                     data: positions,
@@ -206,7 +220,6 @@ class _DialogContentState extends State<_DialogContent> {
                               return ViewTextCell(
                                 text: item.symbol,
                                 isDark: isDark,
-                                fontWeight: FontWeight.bold,
                               );
                             case 'buyQty':
                               return ViewNumberCell(
@@ -215,19 +228,16 @@ class _DialogContentState extends State<_DialogContent> {
                                 colorByValue: false,
                               );
                             case 'sellQty':
-                              return ViewTextCell(
-                                text: item.sellQty.toStringAsFixed(2),
+                              return ViewNumberCell(
+                                value: item.sellQty,
                                 isDark: isDark,
-                                color: Colors.red,
+                                colorByValue: false,
                               );
                             case 'netQty':
-                              return InkWell(
-                                child: ViewTextCell(
-                                  text: item.netQty.toString(),
-                                  isDark: isDark,
-                                  color: AppColors.primaryBlue,
-                                  fontWeight: FontWeight.w600,
-                                ),
+                              return ViewNumberCell(
+                                value: item.netQty,
+                                isDark: isDark,
+                                colorByValue: true,
                               );
                             case 'netAvgPrice':
                               return ViewNumberCell(
@@ -239,13 +249,13 @@ class _DialogContentState extends State<_DialogContent> {
                               return ViewNumberCell(
                                 value: item.cmp,
                                 isDark: isDark,
-                                fixedColor: Colors.blue,
+                                colorByValue: false,
                               );
                             case 'm2m':
                               return ViewNumberCell(
                                 value: item.m2m,
                                 isDark: isDark,
-                                fixedColor: Colors.blue,
+                                colorByValue: true,
                               );
                             case 'ourPercent':
                               return ViewNumberCell(

@@ -157,6 +157,8 @@ class PendingOrdersRemoteDataSourceImpl
           cmp: 36200.00,
           rPrice: 36200.00,
           deviceId: 'E621E1F8-C36C-495A-93FC-0C247A3E6E5F',
+          device: i % 2 == 0 ? 'IOS' : 'ANDROID',
+          city: i % 2 == 0 ? 'Abu Dhabi' : 'Dubai',
           ipAddress: '192.0.2.1',
         ),
       );

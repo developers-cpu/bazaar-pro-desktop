@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
+import '../../../../../core/widget/app_tab_bar.dart';
 import '../../../../../injection_container.dart';
 import '../../domain/entities/rule_entity.dart';
 import '../bloc/rules/rules_bloc.dart';
@@ -14,105 +14,37 @@ class RulesPage extends StatefulWidget {
   State<RulesPage> createState() => _RulesPageState();
 }
 
-class _RulesPageState extends State<RulesPage>
-    with SingleTickerProviderStateMixin {
-  late TabController _tabController;
-  late FocusNode _focusNode;
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(length: 3, vsync: this);
-    _focusNode = FocusNode();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _focusNode.requestFocus();
-    });
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    _focusNode.dispose();
-    super.dispose();
-  }
+class _RulesPageState extends State<RulesPage> {
+  int _activeTab = 0;
+  static const _tabs = ['ENGLISH', 'HINDI', 'GUJARATI'];
+  static const _languages = ['en', 'hi', 'gu'];
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => sl<RulesBloc>()..add(LoadRules()),
-      child: KeyboardListener(
-        focusNode: _focusNode,
-        onKeyEvent: (event) {
-          if (event is KeyDownEvent) {
-            if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
-              final newIndex =
-                  (_tabController.index + 1) % _tabController.length;
-              _tabController.animateTo(newIndex);
-            } else if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
-              final newIndex =
-                  (_tabController.index - 1 + _tabController.length) %
-                  _tabController.length;
-              _tabController.animateTo(newIndex);
-            }
-          }
-        },
-        child: Column(
-          children: [
-            Container(
-              width: double.infinity,
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: TabBar(
-                  controller: _tabController,
-                  isScrollable: true,
-                  dividerColor: Colors.transparent,
-                  overlayColor: MaterialStateProperty.all(Colors.transparent),
-                  indicatorWeight: 1.0,
-                  labelColor: AppColors.primaryBlue,
-                  unselectedLabelColor: const Color(0xFF9E9E9E),
-                  indicator: UnderlineTabIndicator(
-                    borderSide: BorderSide(
-                      color: AppColors.primaryBlue,
-                      width: 1.5,
-                    ),
-                    insets: EdgeInsets.only(bottom: 2.h),
-                  ),
-                  indicatorSize: TabBarIndicatorSize.tab,
-                  labelPadding: EdgeInsets.symmetric(horizontal: 40.w),
-                  labelStyle: GoogleFonts.openSans(
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.normal,
-                  ),
-                  tabs: [
-                    Tab(height: 26.h, text: 'ENGLISH'),
-                    Tab(height: 26.h, text: 'HINDI'),
-                    Tab(height: 26.h, text: 'GUJARATI'),
-                  ],
-                ),
-              ),
-            ),
-            Expanded(
-              child: BlocBuilder<RulesBloc, RulesState>(
-                builder: (context, state) {
-                  if (state is RulesLoading) {
-                    return const SizedBox.shrink();
-                  } else if (state is RulesError) {
-                    return Center(child: Text(state.message));
-                  } else if (state is RulesLoaded) {
-                    return TabBarView(
-                      controller: _tabController,
-                      children: [
-                        _buildRulesList(state.rules, 'en'),
-                        _buildRulesList(state.rules, 'hi'),
-                        _buildRulesList(state.rules, 'gu'),
-                      ],
-                    );
-                  }
+      child: Column(
+        children: [
+          AppTabBar(
+            tabs: _tabs,
+            activeTab: _activeTab,
+            onTabChanged: (i) => setState(() => _activeTab = i),
+          ),
+          Expanded(
+            child: BlocBuilder<RulesBloc, RulesState>(
+              builder: (context, state) {
+                if (state is RulesLoading) {
                   return const SizedBox.shrink();
-                },
-              ),
+                } else if (state is RulesError) {
+                  return Center(child: Text(state.message));
+                } else if (state is RulesLoaded) {
+                  return _buildRulesList(state.rules, _languages[_activeTab]);
+                }
+                return const SizedBox.shrink();
+              },
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

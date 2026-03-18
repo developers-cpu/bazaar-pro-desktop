@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/app_dropdown.dart';
+import '../../../../../core/widget/app_tab_bar.dart';
 import '../../../../../core/widget/common_dilog_box.dart';
 import '../../../../../core/widget/date_range_picker_button.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
@@ -34,9 +35,8 @@ class ExchangeSettingsDetailDialog extends StatefulWidget {
 }
 
 class _ExchangeSettingsDetailDialogState
-    extends State<ExchangeSettingsDetailDialog>
-    with SingleTickerProviderStateMixin {
-  late TabController _tabController;
+    extends State<ExchangeSettingsDetailDialog> {
+  int _activeTab = 0;
   DateTimeRange? _selectedDateRange;
   String? _tradeAttrExchange;
   String? _defaultSymbolExchange;
@@ -66,15 +66,10 @@ class _ExchangeSettingsDetailDialogState
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: _tabs.length, vsync: this);
-    _tabController.addListener(() {
-      if (!_tabController.indexIsChanging) setState(() {});
-    });
   }
 
   @override
   void dispose() {
-    _tabController.dispose();
     super.dispose();
   }
 
@@ -362,7 +357,7 @@ class _ExchangeSettingsDetailDialogState
 
   @override
   Widget build(BuildContext context) {
-    final currentTab = _tabController.index;
+    final currentTab = _activeTab;
     final data = _getDataForTab(currentTab);
     final columns = _getColumnsForTab(currentTab);
     final hasExchangeFilter = _tabHasExchangeFilter(currentTab);
@@ -443,37 +438,10 @@ class _ExchangeSettingsDetailDialogState
   }
 
   Widget _buildTabBar() {
-    return Container(
-      color: AppColors.white,
-      width: double.infinity,
-      child: Align(
-        alignment: Alignment.centerLeft,
-        child: TabBar(
-          controller: _tabController,
-          isScrollable: true,
-          dividerColor: Colors.transparent,
-          overlayColor: WidgetStateProperty.all(Colors.transparent),
-          labelColor: AppColors.primaryBlue,
-          unselectedLabelColor: const Color(0xFF333333),
-          indicator: UnderlineTabIndicator(
-            borderSide: BorderSide(color: AppColors.primaryBlue, width: 1.5),
-            insets: EdgeInsets.only(bottom: 2.h),
-          ),
-          indicatorSize: TabBarIndicatorSize.tab,
-          indicatorWeight: 1.0,
-          labelPadding: EdgeInsets.symmetric(horizontal: 8.w),
-          labelStyle: GoogleFonts.openSans(
-            fontSize: 13.sp,
-            fontWeight: FontWeight.w600,
-          ),
-          unselectedLabelStyle: GoogleFonts.openSans(
-            fontSize: 13.sp,
-            fontWeight: FontWeight.w600,
-          ),
-          tabs: _tabs.map((tab) => Tab(height: 26.h, text: tab)).toList(),
-          tabAlignment: TabAlignment.start,
-        ),
-      ),
+    return AppTabBar(
+      tabs: _tabs.toList(),
+      activeTab: _activeTab,
+      onTabChanged: (i) => setState(() => _activeTab = i),
     );
   }
 

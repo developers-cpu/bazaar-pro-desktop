@@ -14,11 +14,9 @@ class BackOfficeActivityReportPage extends StatelessWidget {
       create: (_) =>
           sl<BackOfficeActivityReportBloc>()
             ..add(const LoadBackOfficeActivityReport()),
-      child: const Expanded(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.0),
-          child: BackOfficeActivityReportTable(),
-        ),
+      child: const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16.0),
+        child: BackOfficeActivityReportTable(),
       ),
     );
   }

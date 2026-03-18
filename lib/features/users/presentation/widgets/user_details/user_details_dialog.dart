@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../../core/constants/app_colors.dart';
+import '../../../../../../core/widget/app_tab_bar.dart';
 import '../../../../../../core/widget/common_dilog_box.dart';
 import 'package:bazarpro/features/users/domain/entities/user.dart';
 import 'tabs/user_placeholder_tab.dart';
@@ -56,10 +56,8 @@ class UserDetailsDialog extends StatefulWidget {
   State<UserDetailsDialog> createState() => _UserDetailsDialogState();
 }
 
-class _UserDetailsDialogState extends State<UserDetailsDialog>
-    with TickerProviderStateMixin {
-  late TabController _tabController;
-  late FocusNode _focusNode;
+class _UserDetailsDialogState extends State<UserDetailsDialog> {
+  int _activeTab = 0;
   final List<String> _baseTabs = [
     'Position',
     'Trades',
@@ -80,7 +78,6 @@ class _UserDetailsDialogState extends State<UserDetailsDialog>
   @override
   void initState() {
     super.initState();
-    _focusNode = FocusNode();
     _currentTabs = List.from(_baseTabs);
     if (widget.user.type != 'Master') {
       _currentTabs.remove('User List');
@@ -88,54 +85,14 @@ class _UserDetailsDialogState extends State<UserDetailsDialog>
     if (widget.user.type.toLowerCase() == 'client') {
       _currentTabs.remove('Sharing Details');
     }
-    int initialIndex = 0;
     if (widget.initialTab != null) {
-      initialIndex = _currentTabs.indexOf(widget.initialTab!);
-      if (initialIndex == -1) {
-        initialIndex = 0;
-      }
-    }
-    _initTabController(initialIndex: initialIndex);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _focusNode.requestFocus();
-    });
-  }
-
-  void _initTabController({int initialIndex = 0}) {
-    _tabController = TabController(
-      length: _currentTabs.length,
-      vsync: this,
-      initialIndex: initialIndex,
-    );
-    _tabController.addListener(_handleTabSelection);
-  }
-
-  void _handleTabSelection() {
-    if (_tabController.indexIsChanging) {
-      return;
-    }
-    final currentTabName = _currentTabs[_tabController.index];
-    if (currentTabName != 'Quantity Settings' &&
-        _currentTabs.contains('Quantity Settings')) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (!mounted) return;
-        setState(() {
-          _currentTabs.remove('Quantity Settings');
-          _selectedQuantityGroup = null;
-          int newIndex = _currentTabs.indexOf(currentTabName);
-          if (newIndex == -1) newIndex = 0;
-          _tabController.removeListener(_handleTabSelection);
-          _tabController.dispose();
-          _initTabController(initialIndex: newIndex);
-        });
-      });
+      _activeTab = _currentTabs.indexOf(widget.initialTab!);
+      if (_activeTab == -1) _activeTab = 0;
     }
   }
 
   @override
   void dispose() {
-    _tabController.dispose();
-    _focusNode.dispose();
     super.dispose();
   }
 
@@ -150,93 +107,77 @@ class _UserDetailsDialogState extends State<UserDetailsDialog>
           _currentTabs.add('Quantity Settings');
         }
       }
-      int qtyIndex = _currentTabs.indexOf('Quantity Settings');
-      _tabController.removeListener(_handleTabSelection);
-      _tabController.dispose();
-      _initTabController(initialIndex: qtyIndex);
+      _activeTab = _currentTabs.indexOf('Quantity Settings');
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return KeyboardListener(
-      focusNode: _focusNode,
-      onKeyEvent: (event) {
-        if (event is KeyDownEvent) {
-          if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
-            final newIndex = (_tabController.index + 1) % _tabController.length;
-            _handleTabChange(newIndex);
-          } else if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
-            final newIndex =
-                (_tabController.index - 1 + _tabController.length) %
-                _tabController.length;
-            _handleTabChange(newIndex);
-          }
-        }
-      },
-      child: CommonDialog(
-        title: 'User Details',
-        width: 1350.w,
-        height: 700.h,
-        showButtons: false,
-        scrollable: false,
-        contentPadding: EdgeInsets.zero,
-        content: Column(
-          children: [
-            _buildHeader(),
-            _buildTabBar(),
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 12.w),
-                child: TabBarView(
-                  controller: _tabController,
-                  children: _currentTabs.map((tab) {
-                    switch (tab) {
-                      case 'Position':
-                        return UserPositionTab(user: widget.user);
-                      case 'Trades':
-                        return UserTradesTab(user: widget.user);
-                      case 'Group Settings':
-                        return UserGroupSettingsTab(
-                          user: widget.user,
-                          onViewSettings: _onViewSettings,
-                        );
-                      case 'Quantity Settings':
-                        return UserQuantitySettingsTab(
-                          user: widget.user,
-                          groupName: _selectedQuantityGroup,
-                        );
-                      case 'Brk':
-                        return UserBrokerageTab(user: widget.user);
-                      case 'Credit':
-                        return UserCreditTab(user: widget.user);
-                      case 'User List':
-                        return const SizedBox();
-                      case 'Rejection Log':
-                        return UserRejectionLogTab(user: widget.user);
-                      case 'Sharing Details':
-                        return UserSharingDetailsTab(user: widget.user);
-                      case 'Trade Margin':
-                        return UserTradeMarginTab(user: widget.user);
-                      case 'Pending Orders':
-                        return UserPendingOrdersTab(user: widget.user);
-                      case 'Change Password':
-                        return const SizedBox();
-                      case 'INT. Square off':
-                        return const SizedBox();
-                      case 'Ex. Wise Position Lmt':
-                        return const SizedBox();
-                      default:
-                        return UserPlaceholderTab(title: tab);
-                    }
-                  }).toList(),
-                ),
-              ),
+    return CommonDialog(
+      title: 'User Details',
+      width: 1350.w,
+      height: 700.h,
+      showButtons: false,
+      scrollable: false,
+      contentPadding: EdgeInsets.zero,
+      content: Column(
+        children: [
+          _buildHeader(),
+          Padding(
+            padding: EdgeInsets.only(left: 16.w),
+            child: _buildTabBar(),
+          ),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 12.w),
+              child: _buildTabContent(),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
+  }
+
+  Widget _buildTabContent() {
+    final tab = _currentTabs[_activeTab];
+    switch (tab) {
+      case 'Position':
+        return UserPositionTab(user: widget.user);
+      case 'Trades':
+        return UserTradesTab(user: widget.user);
+      case 'Group Settings':
+        return UserGroupSettingsTab(
+          user: widget.user,
+          onViewSettings: _onViewSettings,
+        );
+      case 'Quantity Settings':
+        return UserQuantitySettingsTab(
+          user: widget.user,
+          groupName: _selectedQuantityGroup,
+        );
+      case 'Brk':
+        return UserBrokerageTab(user: widget.user);
+      case 'Credit':
+        return UserCreditTab(user: widget.user);
+      case 'User List':
+        return const SizedBox();
+      case 'Rejection Log':
+        return UserRejectionLogTab(user: widget.user);
+      case 'Sharing Details':
+        return UserSharingDetailsTab(user: widget.user);
+      case 'Trade Margin':
+        return UserTradeMarginTab(user: widget.user);
+      case 'Pending Orders':
+        return UserPendingOrdersTab(user: widget.user);
+      case 'Change Password':
+        return const SizedBox();
+      case 'INT. Square off':
+        return const SizedBox();
+      case 'Ex. Wise Position Lmt':
+        return const SizedBox();
+      default:
+        return UserPlaceholderTab(title: tab);
+    }
   }
 
   void _handleTabChange(int index) {
@@ -251,15 +192,27 @@ class _UserDetailsDialogState extends State<UserDetailsDialog>
           print('Change password: $oldPass -> $newPass');
         },
       );
+      return;
     } else if (tabName == 'INT. Square off') {
       UserIntradaySquareOffDialog.show(context, widget.user);
+      return;
     } else if (tabName == 'Ex. Wise Position Lmt') {
       UserExchangeWisePositionLimitDialog.show(context, widget.user);
+      return;
     } else if (tabName == 'User List') {
       UserHierarchyDialog.show(context, widget.user);
-    } else {
-      _tabController.animateTo(index);
+      return;
     }
+    setState(() {
+      if (tabName != 'Quantity Settings' &&
+          _currentTabs.contains('Quantity Settings')) {
+        _currentTabs.remove('Quantity Settings');
+        _selectedQuantityGroup = null;
+        index = _currentTabs.indexOf(tabName);
+        if (index == -1) index = 0;
+      }
+      _activeTab = index;
+    });
   }
 
   Widget _buildHeader() {
@@ -358,51 +311,10 @@ class _UserDetailsDialogState extends State<UserDetailsDialog>
   }
 
   Widget _buildTabBar() {
-    return Container(
-      color: AppColors.white,
-      width: double.infinity,
-      child: Align(
-        alignment: Alignment.centerLeft,
-        child: TabBar(
-          controller: _tabController,
-          isScrollable: true,
-          dividerColor: Colors.transparent,
-          overlayColor: WidgetStateProperty.all(Colors.transparent),
-          labelColor: AppColors.primaryBlue,
-          unselectedLabelColor: const Color(0xFF333333),
-          indicator: UnderlineTabIndicator(
-            borderSide: BorderSide(color: AppColors.primaryBlue, width: 1.5),
-            insets: EdgeInsets.only(bottom: 2.h),
-          ),
-          indicatorSize: TabBarIndicatorSize.tab,
-          indicatorWeight: 1.0,
-          labelPadding: EdgeInsets.symmetric(horizontal: 10.w),
-          labelStyle: GoogleFonts.openSans(
-            fontSize: 13.sp,
-            fontWeight: FontWeight.w600,
-          ),
-          unselectedLabelStyle: GoogleFonts.openSans(
-            fontSize: 13.sp,
-            fontWeight: FontWeight.w600,
-          ),
-          tabs: _currentTabs
-              .map((tab) => Tab(height: 26.h, text: tab))
-              .toList(),
-          tabAlignment: TabAlignment.start,
-          onTap: (index) {
-            _handleTabChange(index);
-
-            if ([
-              'Change Password',
-              'INT. Square off',
-              'Ex. Wise Position Lmt',
-              'User List',
-            ].contains(_currentTabs[index])) {
-              _tabController.index = _tabController.previousIndex;
-            }
-          },
-        ),
-      ),
+    return AppTabBar(
+      tabs: _currentTabs,
+      activeTab: _activeTab,
+      onTabChanged: _handleTabChange,
     );
   }
 }

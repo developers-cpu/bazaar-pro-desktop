@@ -9,7 +9,7 @@ import '../../bloc/message/operations_message_bloc.dart';
 import '../../bloc/message/operations_message_event.dart';
 import '../../bloc/message/operations_message_state.dart';
 import '../../widgets/message/custom_rich_text_editor.dart';
-import '../../widgets/trade_settings/trade_settings_tab_bar.dart';
+import '../../../../../core/widget/app_tab_bar.dart';
 
 class OperationsMessagePage extends StatefulWidget {
   const OperationsMessagePage({super.key});
@@ -64,7 +64,7 @@ class _OperationsMessagePageState extends State<OperationsMessagePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TradeSettingsTabBar(
+              AppTabBar(
                 tabs: _tabs,
                 activeTab: activeTab,
                 onTabChanged: (i) => context.read<OperationsMessageBloc>().add(

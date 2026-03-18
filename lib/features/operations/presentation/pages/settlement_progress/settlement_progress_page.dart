@@ -7,7 +7,7 @@ import '../../../../../core/widget/custom_action_button.dart';
 import '../../bloc/settlement_progress/settlement_progress_bloc.dart';
 import '../../bloc/settlement_progress/settlement_progress_event.dart';
 import '../../bloc/settlement_progress/settlement_progress_state.dart';
-import '../../widgets/settlement_progress/settlement_progress_tab_bar.dart';
+import '../../../../../core/widget/app_tab_bar.dart';
 import '../../widgets/settlement_progress/settlement_progress_data_table.dart';
 import '../../widgets/settlement_progress/dialogs/import_file_dialog.dart';
 import '../../widgets/settlement_progress/dialogs/bhav_copy_preview_dialog.dart';
@@ -92,9 +92,10 @@ class _SettlementProgressPageState extends State<SettlementProgressPage> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Expanded(
-                    child: SettlementProgressTabBar(
+                    child: AppTabBar(
                       tabs: _exchanges,
                       activeTab: _activeTab,
+                      style: AppTabBarStyle.pill,
                       onTabChanged: (i) {
                         setState(() => _activeTab = i);
                         context.read<SettlementProgressBloc>().add(

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../../core/constants/app_colors.dart';
+import '../../../../../../core/widget/app_tab_bar.dart';
 import '../../../../../../core/widget/date_range_picker_button.dart';
 import '../../../../../../core/widget/table/view_data_table.dart';
 import '../../../../../../core/widget/table/view_record_count.dart';
@@ -19,22 +20,19 @@ class TradeMarginDetailView extends StatefulWidget {
   State<TradeMarginDetailView> createState() => _TradeMarginDetailViewState();
 }
 
-class _TradeMarginDetailViewState extends State<TradeMarginDetailView>
-    with SingleTickerProviderStateMixin {
+class _TradeMarginDetailViewState extends State<TradeMarginDetailView> {
   DateTimeRange? _selectedDateRange;
-  late TabController _tabController;
+  int _activeTab = 0;
 
   static const _tabs = ['Intraday Margin', 'Carry Forward Margin'];
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: _tabs.length, vsync: this);
   }
 
   @override
   void dispose() {
-    _tabController.dispose();
     super.dispose();
   }
 
@@ -136,13 +134,9 @@ class _TradeMarginDetailViewState extends State<TradeMarginDetailView>
             SizedBox(height: 8.h),
             SizedBox(
               height: 390.h,
-              child: TabBarView(
-                controller: _tabController,
-                children: [
-                  _buildTable(context, intradayData, true),
-                  _buildTable(context, cfData, false),
-                ],
-              ),
+              child: _activeTab == 0
+                  ? _buildTable(context, intradayData, true)
+                  : _buildTable(context, cfData, false),
             ),
           ],
         );
@@ -151,37 +145,10 @@ class _TradeMarginDetailViewState extends State<TradeMarginDetailView>
   }
 
   Widget _buildTabBar() {
-    return Container(
-      color: AppColors.white,
-      width: double.infinity,
-      child: Align(
-        alignment: Alignment.centerLeft,
-        child: TabBar(
-          controller: _tabController,
-          isScrollable: true,
-          dividerColor: Colors.transparent,
-          overlayColor: WidgetStateProperty.all(Colors.transparent),
-          labelColor: AppColors.primaryBlue,
-          unselectedLabelColor: const Color(0xFF333333),
-          indicator: UnderlineTabIndicator(
-            borderSide: BorderSide(color: AppColors.primaryBlue, width: 1.5),
-            insets: EdgeInsets.only(bottom: 2.h),
-          ),
-          indicatorSize: TabBarIndicatorSize.tab,
-          indicatorWeight: 1.0,
-          labelPadding: EdgeInsets.symmetric(horizontal: 4.w),
-          labelStyle: GoogleFonts.openSans(
-            fontSize: 13.sp,
-            fontWeight: FontWeight.w600,
-          ),
-          unselectedLabelStyle: GoogleFonts.openSans(
-            fontSize: 13.sp,
-            fontWeight: FontWeight.w600,
-          ),
-          tabs: _tabs.map((tab) => Tab(height: 26.h, text: tab)).toList(),
-          tabAlignment: TabAlignment.start,
-        ),
-      ),
+    return AppTabBar(
+      tabs: _tabs.toList(),
+      activeTab: _activeTab,
+      onTabChanged: (i) => setState(() => _activeTab = i),
     );
   }
 

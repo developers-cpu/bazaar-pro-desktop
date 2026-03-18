@@ -10,7 +10,7 @@ import '../../../../../core/widget/app_dropdown.dart';
 import '../../bloc/surveillance/surveillance_bloc.dart';
 import '../../bloc/surveillance/surveillance_event.dart';
 import '../../bloc/surveillance/surveillance_state.dart';
-import '../../widgets/trade_settings/trade_settings_tab_bar.dart';
+import '../../../../../core/widget/app_tab_bar.dart';
 import '../../widgets/surveillance/bulk_order_data_table.dart';
 import '../../widgets/surveillance/vpn_restriction_view.dart';
 import '../../widgets/surveillance/import_surveillance_dialog.dart';
@@ -82,7 +82,7 @@ class _SurveillancePageState extends State<SurveillancePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TradeSettingsTabBar(
+              AppTabBar(
                 tabs: _tabs,
                 activeTab: _activeTab,
                 onTabChanged: (i) => setState(() {

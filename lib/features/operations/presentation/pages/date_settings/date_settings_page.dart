@@ -7,7 +7,7 @@ import '../../../../../core/constants/app_images.dart';
 import '../../../../../core/widget/custom_input_field.dart';
 import '../../bloc/date_settings/date_settings_bloc.dart';
 import '../../bloc/date_settings/date_settings_state.dart';
-import '../../widgets/date_settings/date_settings_tab_bar.dart';
+import '../../../../../core/widget/app_tab_bar.dart';
 import '../../widgets/date_settings/date_settings_headers.dart';
 import '../../widgets/date_settings/date_settings_data_table.dart';
 import '../../../domain/entities/date_settings/date_setting.dart';
@@ -66,9 +66,10 @@ class _DateSettingsPageState extends State<DateSettingsPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              DateSettingsTabBar(
+              AppTabBar(
                 tabs: _exchanges,
                 activeTab: _activeTab,
+                style: AppTabBarStyle.pill,
                 onTabChanged: (i) => setState(() {
                   _activeTab = i;
                   _selectedIds.clear();

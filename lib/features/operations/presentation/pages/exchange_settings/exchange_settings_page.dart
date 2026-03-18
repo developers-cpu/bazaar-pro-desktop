@@ -5,7 +5,7 @@ import '../../../../../core/widget/table/view_data_table.dart';
 import '../../bloc/exchange_settings/exchange_settings_bloc.dart';
 import '../../bloc/exchange_settings/exchange_settings_event.dart';
 import '../../bloc/exchange_settings/exchange_settings_state.dart';
-import '../../widgets/exchange_settings/exchange_settings_tab_bar.dart';
+import '../../../../../core/widget/app_tab_bar.dart';
 import '../../widgets/exchange_settings/exchange_settings_headers.dart';
 import '../../widgets/exchange_settings/exchange_settings_toolbar.dart';
 import '../../widgets/exchange_settings/exchange_settings_data_table.dart';
@@ -139,7 +139,7 @@ class _ExchangeSettingsPageState extends State<ExchangeSettingsPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ExchangeSettingsTabBar(
+              AppTabBar(
                 tabs: _tabs,
                 activeTab: _activeTab,
                 onTabChanged: (i) => setState(() {

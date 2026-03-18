@@ -8,7 +8,7 @@ import '../../bloc/trade_settings/trade_settings_bloc.dart';
 import '../../bloc/trade_settings/trade_settings_event.dart';
 import '../../bloc/trade_settings/trade_settings_state.dart';
 import '../operations_page_wrapper.dart';
-import '../../widgets/trade_settings/trade_settings_tab_bar.dart';
+import '../../../../../core/widget/app_tab_bar.dart';
 import '../../widgets/trade_settings/trade_settings_headers.dart';
 import '../../widgets/trade_settings/trade_settings_toolbar.dart';
 import '../../widgets/trade_settings/trade_settings_data_table.dart';
@@ -77,7 +77,7 @@ class _TradeSettingsPageState extends State<TradeSettingsPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TradeSettingsTabBar(
+              AppTabBar(
                 tabs: _tabs,
                 activeTab: _activeTab,
                 onTabChanged: (i) => setState(() {

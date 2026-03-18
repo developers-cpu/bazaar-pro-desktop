@@ -11,7 +11,7 @@ import '../../../../../core/widget/custom_action_button.dart';
 import '../../bloc/script_settings/script_settings_bloc.dart';
 import '../../bloc/script_settings/script_settings_event.dart';
 import '../../bloc/script_settings/script_settings_state.dart';
-import '../../widgets/trade_settings/trade_settings_tab_bar.dart';
+import '../../../../../core/widget/app_tab_bar.dart';
 import '../../widgets/script_settings/ban_script_data_table.dart';
 import '../../widgets/script_settings/dividend_script_data_table.dart';
 import '../../widgets/script_settings/bonas_data_table.dart';
@@ -213,7 +213,7 @@ class _ScriptSettingsPageState extends State<ScriptSettingsPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TradeSettingsTabBar(
+              AppTabBar(
                 tabs: _tabs,
                 activeTab: _activeTab,
                 onTabChanged: (i) => setState(() {

@@ -10,6 +10,7 @@ import '../user_details/user_details_dialog.dart';
 import '../create_user/master_form_dialog.dart';
 import '../create_user/client_form_dialog.dart';
 import '../create_user/update_access_dialog.dart';
+import 'dotted_line_painter.dart';
 
 class UserTreeView extends StatelessWidget {
   final List<UserHierarchyNode> nodes;
@@ -18,27 +19,23 @@ class UserTreeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: nodes.where((n) => n.isVisible).map((node) {
-        return _buildNode(context, node);
+      children: nodes.where((n) => n.isVisible).toList().asMap().entries.map((
+        entry,
+      ) {
+        return _buildNode(context, entry.value, entry.key);
       }).toList(),
     );
   }
 
-  Widget _buildNode(BuildContext context, UserHierarchyNode node) {
+  Widget _buildNode(BuildContext context, UserHierarchyNode node, int index) {
     Color iconColor;
     Color textColor;
     if (node.user.type == 'Super Admin' || node.user.type == 'Master') {
-      iconColor = AppColors.errorColor;
-      textColor = AppColors.errorColor;
+      iconColor = AppColors.sellColor;
+      textColor = AppColors.sellColor;
     } else {
-      if (level % 3 == 0) {
-        iconColor = AppColors.primaryBlue;
-      } else if (level % 3 == 1) {
-        iconColor = AppColors.primaryBlue;
-      } else {
-        iconColor = Colors.orange;
-      }
-      textColor = iconColor;
+      iconColor = index % 2 == 0 ? Colors.green : Colors.orange;
+      textColor = AppColors.buyColor;
     }
     final isClient = node.user.type == 'Client';
     final shouldShowChildren =
@@ -67,10 +64,18 @@ class UserTreeView extends StatelessWidget {
   ) {
     final hasChildren = node.children.isNotEmpty;
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 4.h),
+      padding: EdgeInsets.symmetric(vertical: 2.h),
       child: Row(
         children: [
-          if (hasChildren && node.user.type != 'Client')
+          if (hasChildren && node.user.type != 'Client') ...[
+            if (level > 0)
+              CustomPaint(
+                size: Size(12.w, 1),
+                painter: DottedLinePainter(
+                  color: AppColors.greyBorder,
+                  isVertical: false,
+                ),
+              ),
             InkWell(
               onTap: () {
                 context.read<SearchUserBloc>().add(
@@ -83,13 +88,23 @@ class UserTreeView extends StatelessWidget {
                   node.isExpanded
                       ? Icons.keyboard_arrow_down
                       : Icons.keyboard_arrow_right,
-                  size: 20.sp,
+                  size: 18.sp,
                   color: AppColors.errorColor,
                 ),
               ),
-            )
-          else
-            SizedBox(width: 28.w),
+            ),
+          ] else ...[
+            if (level > 0)
+              CustomPaint(
+                size: Size(40.w, 1),
+                painter: DottedLinePainter(
+                  color: AppColors.greyBorder,
+                  isVertical: false,
+                ),
+              )
+            else
+              SizedBox(width: 40.w),
+          ],
           Expanded(
             child: InkWell(
               onTap: () {
@@ -107,16 +122,16 @@ class UserTreeView extends StatelessWidget {
                   Icon(
                     (node.user.type == 'Super Admin' ||
                             node.user.type == 'Master')
-                        ? Icons.groups
+                        ? Icons.group
                         : Icons.person,
-                    size: 18.sp,
+                    size: 16.sp,
                     color: iconColor,
                   ),
-                  SizedBox(width: 8.w),
+                  SizedBox(width: 6.w),
                   Text(
                     '${node.user.type} (${node.user.userName})',
                     style: GoogleFonts.openSans(
-                      fontSize: 14.sp,
+                      fontSize: 12.sp,
                       fontWeight: FontWeight.w600,
                       color: textColor,
                     ),
@@ -131,10 +146,8 @@ class UserTreeView extends StatelessWidget {
   }
 
   Widget _buildDottedLineWrapper(BuildContext context, Widget child) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border(left: BorderSide(color: AppColors.greyBorder, width: 1)),
-      ),
+    return CustomPaint(
+      painter: DottedLinePainter(color: AppColors.greyBorder, isVertical: true),
       child: child,
     );
   }

@@ -33,7 +33,7 @@ class _LeverageDetailViewState extends State<LeverageDetailView> {
         label: 'NEW LEVERAGE',
         width: 220,
       ),
-         const ViewTableColumn(id: 'updatedOn', label: 'UPDATED ON', width: 150),
+      const ViewTableColumn(id: 'updatedOn', label: 'UPDATED ON', width: 150),
       const ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 100),
     ];
     return BlocBuilder<ActivityDetailBloc, ActivityDetailState>(

@@ -39,7 +39,7 @@ class _TradeSettingDetailDialogState extends State<TradeSettingDetailDialog> {
   int _activeTab = 0;
   DateTimeRange? _selectedDateRange;
   String? _selectedExchange;
-  String _marginType = 'Percentage Wise'; // 'Percentage Wise' or 'Amount Wise'
+  String _marginType = 'Percentage Wise';
 
   static const _tabs = ['Margin', 'Brokerage', 'Leverage', 'Trade Seconds'];
 
@@ -193,7 +193,7 @@ class _TradeSettingDetailDialogState extends State<TradeSettingDetailDialog> {
 
   List<ViewTableColumn> _getColumnsForTab(int tabIndex) {
     switch (tabIndex) {
-      case 0: // Margin
+      case 0:
         final suffix = _marginType == 'Percentage Wise' ? '%' : '(A)';
         return [
           const ViewTableColumn(
@@ -241,7 +241,7 @@ class _TradeSettingDetailDialogState extends State<TradeSettingDetailDialog> {
             width: 100,
           ),
         ];
-      case 1: // Brokerage
+      case 1:
         return const [
           ViewTableColumn(
             id: 'symbol',
@@ -280,7 +280,7 @@ class _TradeSettingDetailDialogState extends State<TradeSettingDetailDialog> {
           ViewTableColumn(id: 'updatedOn', label: 'UPDATED ON', width: 150),
           ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 100),
         ];
-      case 2: // Leverage
+      case 2:
         return const [
           ViewTableColumn(
             id: 'exch',
@@ -293,7 +293,7 @@ class _TradeSettingDetailDialogState extends State<TradeSettingDetailDialog> {
           ViewTableColumn(id: 'updatedOn', label: 'UPDATED ON', width: 150),
           ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 120),
         ];
-      case 3: // Trade Seconds
+      case 3:
         return const [
           ViewTableColumn(
             id: 'symbol',

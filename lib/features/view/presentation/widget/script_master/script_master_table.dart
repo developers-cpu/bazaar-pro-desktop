@@ -57,10 +57,19 @@ class ScriptMasterTable extends StatelessWidget {
       case 'tradeAttribute':
         return _buildTradeAttributeCell(item, isDark);
       case 'allowTrade':
+        final text = item.allowTrade ? 'Yes' : 'No';
+        final textColor = item.allowTrade
+            ? (isDark
+                  ? DarkThemeColors.positiveTextColor
+                  : LightThemeColors.positiveTextColor)
+            : (isDark
+                  ? DarkThemeColors.negativeTextColor
+                  : LightThemeColors.negativeTextColor);
         return Padding(
           padding: const EdgeInsets.only(left: 12),
           child: ViewTextCell(
-            text: item.allowTrade ? 'Yes' : 'No',
+            text: text,
+            color: textColor,
             isDark: isDark,
             isStart: true,
           ),
@@ -73,18 +82,28 @@ class ScriptMasterTable extends StatelessWidget {
   Widget _buildExpiryDateCell(ScriptMaster item, bool isDark) {
     final dateFormat = DateFormat('dd/MM/yy');
     final formattedDate = dateFormat.format(item.expiryDate);
-    return ViewTextCell(
-      text: formattedDate,
-      isDark: isDark,
-      isNumeric: true,
-    );
+    return ViewTextCell(text: formattedDate, isDark: isDark, isNumeric: true);
   }
 
   Widget _buildTradeAttributeCell(ScriptMaster item, bool isDark) {
+    Color textColor = isDark
+        ? DarkThemeColors.textColor
+        : LightThemeColors.textColor;
+    if (item.tradeAttribute.toLowerCase() == 'full') {
+      textColor = isDark
+          ? DarkThemeColors.positiveTextColor
+          : LightThemeColors.positiveTextColor;
+    } else if (item.tradeAttribute.toLowerCase() == 'close') {
+      textColor = isDark
+          ? DarkThemeColors.negativeTextColor
+          : LightThemeColors.negativeTextColor;
+    }
+
     return Padding(
       padding: const EdgeInsets.only(left: 12),
       child: ViewTextCell(
         text: item.tradeAttribute,
+        color: textColor,
         isDark: isDark,
         isStart: true,
       ),

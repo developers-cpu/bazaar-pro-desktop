@@ -7,9 +7,7 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 import '../table/view_data_table.dart';
 
-
 class TableExportService {
-
   static Future<void> exportAsPdf<T>({
     required String title,
     required List<ViewTableColumn> columns,
@@ -107,7 +105,6 @@ class TableExportService {
     );
   }
 
-  /// Export table data as Excel.
   static Future<void> exportAsExcel<T>({
     required String title,
     required List<ViewTableColumn> columns,
@@ -119,7 +116,6 @@ class TableExportService {
     final sheet = excel[sheetName];
     excel.setDefaultSheet(sheetName);
 
-    // Header row
     final headerStyle = CellStyle(
       bold: true,
       fontColorHex: ExcelColor.white,
@@ -136,7 +132,6 @@ class TableExportService {
       cell.cellStyle = headerStyle;
     }
 
-    // Data rows
     for (final item in data) {
       sheet.appendRow(
         columns.map((col) {
@@ -150,12 +145,10 @@ class TableExportService {
       );
     }
 
-    // Auto-width columns
     for (int i = 0; i < columns.length; i++) {
       sheet.setColumnWidth(i, 18);
     }
 
-    // Remove default Sheet1 if we created a custom sheet
     if (excel.sheets.containsKey('Sheet1') && sheetName != 'Sheet1') {
       excel.delete('Sheet1');
     }

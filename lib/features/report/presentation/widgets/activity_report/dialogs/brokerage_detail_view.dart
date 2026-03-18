@@ -36,7 +36,7 @@ class _BrokerageDetailViewState extends State<BrokerageDetailView> {
         width: 200,
         isNumeric: true,
       ),
-        const ViewTableColumn(id: 'updatedOn', label: 'UPDATED ON', width: 150),
+      const ViewTableColumn(id: 'updatedOn', label: 'UPDATED ON', width: 150),
       const ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 100),
     ];
     return BlocBuilder<ActivityDetailBloc, ActivityDetailState>(

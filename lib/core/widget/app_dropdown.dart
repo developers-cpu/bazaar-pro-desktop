@@ -269,7 +269,6 @@ class _AppDropdownState extends State<AppDropdown>
         return KeyEventResult.handled;
       }
       if (event.logicalKey == LogicalKeyboardKey.tab) {
-        // Let default Tab behavior move to next focus
         return KeyEventResult.ignored;
       }
     }

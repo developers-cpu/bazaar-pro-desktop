@@ -233,7 +233,7 @@ class _ExchangeSettingsDetailDialogState
 
   List<ViewTableColumn> _getColumnsForTab(int tabIndex) {
     switch (tabIndex) {
-      case 0: // High Low Between Trade Limit
+      case 0:
         return const [
           ViewTableColumn(
             id: 'exch',
@@ -254,7 +254,7 @@ class _ExchangeSettingsDetailDialogState
           ViewTableColumn(id: 'updatedOn', label: 'UPDATED ON', width: 150),
           ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 120),
         ];
-      case 1: // Order Type
+      case 1:
         return const [
           ViewTableColumn(
             id: 'exch',
@@ -267,7 +267,7 @@ class _ExchangeSettingsDetailDialogState
           ViewTableColumn(id: 'updatedOn', label: 'UPDATED ON', width: 150),
           ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 120),
         ];
-      case 2: // Odd Lot
+      case 2:
         return const [
           ViewTableColumn(
             id: 'exch',
@@ -280,7 +280,7 @@ class _ExchangeSettingsDetailDialogState
           ViewTableColumn(id: 'updatedOn', label: 'UPDATED ON', width: 150),
           ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 120),
         ];
-      case 3: // Trade Attribute
+      case 3:
         return const [
           ViewTableColumn(
             id: 'symbol',
@@ -301,7 +301,7 @@ class _ExchangeSettingsDetailDialogState
           ViewTableColumn(id: 'updatedOn', label: 'UPDATED ON', width: 150),
           ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 120),
         ];
-      case 4: // Exchange Sequence
+      case 4:
         return const [
           ViewTableColumn(
             id: 'exch',
@@ -314,7 +314,7 @@ class _ExchangeSettingsDetailDialogState
           ViewTableColumn(id: 'updatedOn', label: 'UPDATED ON', width: 150),
           ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 120),
         ];
-      case 5: // Default Symbol
+      case 5:
         return const [
           ViewTableColumn(
             id: 'symbol',

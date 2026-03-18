@@ -36,7 +36,7 @@ class _ExchangeToggleDetailViewState extends State<ExchangeToggleDetailView> {
       const ViewTableColumn(id: 'exchange', label: 'EXCHANGE', width: 180),
       ViewTableColumn(id: 'oldDetails', label: widget.oldLabel, width: 180),
       ViewTableColumn(id: 'newDetails', label: widget.newLabel, width: 180),
-          const ViewTableColumn(id: 'updatedOn', label: 'UPDATED ON', width: 150),
+      const ViewTableColumn(id: 'updatedOn', label: 'UPDATED ON', width: 150),
       const ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 100),
     ];
     return BlocBuilder<ActivityDetailBloc, ActivityDetailState>(

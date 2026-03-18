@@ -149,7 +149,7 @@ class ResetFormEvent extends UserFormEvent {
 
 class UpdateExchangeTableSettingEvent extends UserFormEvent {
   final String exchange;
-  final String field; // 'profitSquareOff' or 'timeRestriction'
+  final String field;
   final String value;
   const UpdateExchangeTableSettingEvent({
     required this.exchange,

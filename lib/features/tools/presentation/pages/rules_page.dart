@@ -25,10 +25,13 @@ class _RulesPageState extends State<RulesPage> {
       create: (context) => sl<RulesBloc>()..add(LoadRules()),
       child: Column(
         children: [
-          AppTabBar(
-            tabs: _tabs,
-            activeTab: _activeTab,
-            onTabChanged: (i) => setState(() => _activeTab = i),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 24.w),
+            child: AppTabBar(
+              tabs: _tabs,
+              activeTab: _activeTab,
+              onTabChanged: (i) => setState(() => _activeTab = i),
+            ),
           ),
           Expanded(
             child: BlocBuilder<RulesBloc, RulesState>(

@@ -73,7 +73,7 @@ class _BulkOrderDetailDialogState extends State<BulkOrderDetailDialog> {
     ];
 
     switch (tabIndex) {
-      case 0: // Interval Time
+      case 0:
         return List.generate(
           symbols.length,
           (i) => {
@@ -84,7 +84,7 @@ class _BulkOrderDetailDialogState extends State<BulkOrderDetailDialog> {
             'updatedBy': 'DEMO4',
           },
         );
-      case 1: // Total Quantity
+      case 1:
         return List.generate(
           symbols.length,
           (i) => {
@@ -95,7 +95,7 @@ class _BulkOrderDetailDialogState extends State<BulkOrderDetailDialog> {
             'updatedBy': 'DEMO4',
           },
         );
-      case 2: // Trade SL/Limit%
+      case 2:
         return List.generate(
           symbols.length,
           (i) => {

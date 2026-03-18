@@ -189,7 +189,7 @@ class ScriptMasterRemoteDataSourceImpl implements ScriptMasterRemoteDataSource {
           symbol: symbols[i % symbols.length],
           expiryDate: expiryDate,
           tradeAttribute: tradeAttributes[i % tradeAttributes.length],
-          allowTrade: true,
+          allowTrade: i % 2 == 0,
           lastUpdated: DateTime.now().subtract(Duration(hours: i)),
         ),
       );

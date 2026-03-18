@@ -37,7 +37,7 @@ class GeneralDetailView extends StatelessWidget {
     final columns = [
       const ViewTableColumn(id: 'oldValue', label: 'OLD VALUE', width: 220),
       const ViewTableColumn(id: 'newValue', label: 'NEW VALUE', width: 220),
-        const ViewTableColumn(id: 'updatedOn', label: 'UPDATED ON', width: 150),
+      const ViewTableColumn(id: 'updatedOn', label: 'UPDATED ON', width: 150),
       const ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 100),
     ];
     return BlocBuilder<ActivityDetailBloc, ActivityDetailState>(

@@ -244,7 +244,7 @@ class _ScriptSettingsPageState extends State<ScriptSettingsPage> {
 
   Widget _buildFilterRow() {
     switch (_activeTab) {
-      case 0: // Ban Script
+      case 0:
         return Row(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
@@ -258,7 +258,7 @@ class _ScriptSettingsPageState extends State<ScriptSettingsPage> {
             ),
           ],
         );
-      case 1: // Split Script
+      case 1:
         return Row(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
@@ -319,7 +319,7 @@ class _ScriptSettingsPageState extends State<ScriptSettingsPage> {
             ),
           ],
         );
-      case 2: // Bonas
+      case 2:
         return Row(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
@@ -373,7 +373,7 @@ class _ScriptSettingsPageState extends State<ScriptSettingsPage> {
             ),
           ],
         );
-      case 3: // Dividend
+      case 3:
         return Row(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [

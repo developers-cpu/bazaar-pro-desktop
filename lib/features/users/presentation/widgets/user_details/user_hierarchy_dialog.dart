@@ -17,8 +17,8 @@ class UserHierarchyDialog {
     CommonDialog.show(
       context: context,
       title: "${user.userName}'s User list",
-      width: 450.w,
-      height: 650.h,
+      width: 380.w,
+      height: 600.h,
       showButtons: false,
       scrollable: false,
       contentPadding: EdgeInsets.all(16.w),
@@ -37,44 +37,47 @@ class _UserHierarchyContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        CustomInputField(
-          hintText: 'Search User',
-          height: 35.h,
-          width: 300.w,
-          prefixSvgPath: AppImages.searchIcon,
-          onChanged: (value) {
-            context.read<SearchUserBloc>().add(SearchUserQueryEvent(value));
-          },
-        ),
-        SizedBox(height: 12.h),
-        Expanded(
-          child: BlocBuilder<SearchUserBloc, SearchUserState>(
-            builder: (context, state) {
-              if (state is SearchUserLoading) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (state is SearchUserError) {
-                return Center(child: Text(state.message));
-              } else if (state is SearchUserLoaded) {
-                if (state.nodes.isEmpty) {
-                  return Center(
-                    child: Text(
-                      'No users found',
-                      style: GoogleFonts.openSans(color: Colors.grey),
-                    ),
-                  );
-                }
-                return SingleChildScrollView(
-                  child: UserTreeView(nodes: state.nodes),
-                );
-              }
-              return const SizedBox();
+    return SizedBox(
+      width: double.infinity,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          CustomInputField(
+            hintText: 'Search User',
+            height: 30.h,
+            width: 200.w,
+            prefixSvgPath: AppImages.searchIcon,
+            onChanged: (value) {
+              context.read<SearchUserBloc>().add(SearchUserQueryEvent(value));
             },
           ),
-        ),
-      ],
+          SizedBox(height: 12.h),
+          Expanded(
+            child: BlocBuilder<SearchUserBloc, SearchUserState>(
+              builder: (context, state) {
+                if (state is SearchUserLoading) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (state is SearchUserError) {
+                  return Center(child: Text(state.message));
+                } else if (state is SearchUserLoaded) {
+                  if (state.nodes.isEmpty) {
+                    return Center(
+                      child: Text(
+                        'No users found',
+                        style: GoogleFonts.openSans(color: Colors.grey),
+                      ),
+                    );
+                  }
+                  return SingleChildScrollView(
+                    child: UserTreeView(nodes: state.nodes),
+                  );
+                }
+                return const SizedBox();
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

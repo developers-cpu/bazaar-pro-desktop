@@ -167,7 +167,7 @@ class _ScriptSettingDetailDialogState extends State<ScriptSettingDetailDialog> {
 
   List<ViewTableColumn> _getColumnsForTab(int tabIndex) {
     switch (tabIndex) {
-      case 0: // Ban Script
+      case 0:
         return const [
           ViewTableColumn(
             id: 'symbol',
@@ -180,7 +180,7 @@ class _ScriptSettingDetailDialogState extends State<ScriptSettingDetailDialog> {
           ViewTableColumn(id: 'updatedOn', label: 'UPDATED ON', width: 160),
           ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 120),
         ];
-      case 1: // Split Script
+      case 1:
         return const [
           ViewTableColumn(
             id: 'symbol',
@@ -193,7 +193,7 @@ class _ScriptSettingDetailDialogState extends State<ScriptSettingDetailDialog> {
           ViewTableColumn(id: 'updatedOn', label: 'UPDATED ON', width: 160),
           ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 120),
         ];
-      case 2: // Bonus
+      case 2:
         return const [
           ViewTableColumn(
             id: 'symbol',
@@ -230,7 +230,7 @@ class _ScriptSettingDetailDialogState extends State<ScriptSettingDetailDialog> {
           ViewTableColumn(id: 'updatedOn', label: 'UPDATED ON', width: 150),
           ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 110),
         ];
-      case 3: // Dividend
+      case 3:
         return const [
           ViewTableColumn(
             id: 'symbol',

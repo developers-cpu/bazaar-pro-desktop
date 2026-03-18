@@ -12,6 +12,11 @@ import '../bloc/theme/theme_bloc.dart';
 import '../bloc/theme/theme_event.dart';
 import '../bloc/theme/theme_state.dart';
 import '../../../../core/widget/app_dropdown.dart';
+import '../../../users/domain/entities/user.dart';
+import '../../../users/presentation/widgets/user_details/user_details_dialog.dart';
+import '../../../users/presentation/widgets/create_user/master_form_dialog.dart';
+import '../../../users/presentation/widgets/create_user/client_form_dialog.dart';
+import '../../../users/presentation/widgets/create_user/update_access_dialog.dart';
 
 class MarketFilters extends StatelessWidget {
   final MarketWatchLoaded state;
@@ -198,6 +203,71 @@ class MarketFilters extends StatelessWidget {
                         context.read<MarketWatchBloc>().add(
                           FilterByUserEvent(user: user),
                         );
+                        if (user != null && user.isNotEmpty) {
+                          final dummyUser = User(
+                            id: user,
+                            userName: user,
+                            name: user,
+                            parentUser: '',
+                            type: 'Client',
+                            plPercent: 0,
+                            brkPercent: 0,
+                            leverage: '',
+                            credit: 0,
+                            pl: 0,
+                            equity: 0,
+                            totalMargin: 0,
+                            usedMargin: 0,
+                            freeMargin: 0,
+                            createdDate: DateTime.now(),
+                            status: 'Active',
+                          );
+                          UserDetailsDialog.show(
+                            context,
+                            dummyUser,
+                            onEdit: (ctx) {
+                              if (dummyUser.type == 'Master') {
+                                MasterFormDialog.showEdit(
+                                  context: ctx,
+                                  userData: {
+                                    'name': dummyUser.name,
+                                    'username': dummyUser.userName,
+                                  },
+                                  onComplete: () {},
+                                );
+                              } else {
+                                ClientFormDialog.showEdit(
+                                  context: ctx,
+                                  userData: {
+                                    'name': dummyUser.name,
+                                    'username': dummyUser.userName,
+                                  },
+                                  onComplete: () {},
+                                );
+                              }
+                            },
+                            onAction: (ctx) {
+                              UpdateAccessDialog.show(
+                                context: ctx,
+                                userId: dummyUser.id,
+                                userName: dummyUser.userName,
+                                currentSettings: {
+                                  'bet': true,
+                                  'closeOnly': false,
+                                  'viewOnly': false,
+                                  'status': true,
+                                  'allowChat': true,
+                                  'positionCut15Days': false,
+                                  'freshLimitSL': true,
+                                  'lockUser': false,
+                                },
+                                onUpdate: (settings) {
+                                  Navigator.pop(ctx);
+                                },
+                              );
+                            },
+                          );
+                        }
                       },
                     ),
                   SizedBox(width: 10.w),

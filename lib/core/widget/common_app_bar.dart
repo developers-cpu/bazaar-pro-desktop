@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../features/market_watch/data/models/menu_Item_data.dart';
@@ -547,7 +548,7 @@ class _ExportButton extends StatelessWidget {
   }
 }
 
-class _DropdownMenu extends StatelessWidget {
+class _DropdownMenu extends StatefulWidget {
   final List<MenuItemData> items;
   final VoidCallback onDismiss;
   final String? selectedItem;
@@ -557,41 +558,106 @@ class _DropdownMenu extends StatelessWidget {
     this.selectedItem,
   });
   @override
+  State<_DropdownMenu> createState() => _DropdownMenuState();
+}
+
+class _DropdownMenuState extends State<_DropdownMenu> {
+  int _highlightedIndex = -1;
+  final FocusNode _focusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _focusNode.requestFocus();
+    });
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  KeyEventResult _handleKeyEvent(FocusNode node, KeyEvent event) {
+    if (event is! KeyDownEvent && event is! KeyRepeatEvent) {
+      return KeyEventResult.ignored;
+    }
+    if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
+      setState(() {
+        _highlightedIndex = (_highlightedIndex + 1) % widget.items.length;
+      });
+      return KeyEventResult.handled;
+    }
+    if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
+      setState(() {
+        _highlightedIndex =
+            (_highlightedIndex - 1 + widget.items.length) % widget.items.length;
+      });
+      return KeyEventResult.handled;
+    }
+    if (event.logicalKey == LogicalKeyboardKey.enter ||
+        event.logicalKey == LogicalKeyboardKey.numpadEnter) {
+      if (_highlightedIndex >= 0 && _highlightedIndex < widget.items.length) {
+        widget.onDismiss();
+        widget.items[_highlightedIndex].onTap?.call();
+      }
+      return KeyEventResult.handled;
+    }
+    if (event.logicalKey == LogicalKeyboardKey.escape) {
+      widget.onDismiss();
+      return KeyEventResult.handled;
+    }
+    return KeyEventResult.ignored;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return TapRegion(
-      onTapOutside: (_) => onDismiss(),
-      child: Material(
-        elevation: 8,
-        borderRadius: BorderRadius.circular(12.r),
-        color: AppColors.white,
-        child: Container(
-          constraints: BoxConstraints(minWidth: 130.w, maxWidth: 200.w),
-          padding: EdgeInsets.symmetric(vertical: 6.h),
-          decoration: BoxDecoration(
-            color: AppColors.white,
-            borderRadius: BorderRadius.circular(12.r),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                blurRadius: 10,
-                offset: const Offset(0, 4),
-              ),
-            ],
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: items.map((item) {
-              final isSelected = selectedItem == item.title;
-              return _DropdownMenuItem(
-                title: item.title,
-                isSelected: isSelected,
-                onTap: () {
-                  onDismiss();
-                  item.onTap?.call();
-                },
-              );
-            }).toList(),
+    return Focus(
+      focusNode: _focusNode,
+      onKeyEvent: _handleKeyEvent,
+      child: TapRegion(
+        onTapOutside: (_) => widget.onDismiss(),
+        child: Material(
+          elevation: 8,
+          borderRadius: BorderRadius.circular(12.r),
+          color: AppColors.white,
+          child: Container(
+            constraints: BoxConstraints(minWidth: 130.w, maxWidth: 200.w),
+            padding: EdgeInsets.symmetric(vertical: 6.h),
+            decoration: BoxDecoration(
+              color: AppColors.white,
+              borderRadius: BorderRadius.circular(12.r),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: List.generate(widget.items.length, (index) {
+                final item = widget.items[index];
+                final isSelected = widget.selectedItem == item.title;
+                return _DropdownMenuItem(
+                  title: item.title,
+                  isSelected: isSelected,
+                  isHighlighted: index == _highlightedIndex,
+                  onTap: () {
+                    widget.onDismiss();
+                    item.onTap?.call();
+                  },
+                  onHover: (hovered) {
+                    if (hovered) {
+                      setState(() => _highlightedIndex = index);
+                    }
+                  },
+                );
+              }),
+            ),
           ),
         ),
       ),
@@ -603,30 +669,45 @@ class _DropdownMenuItem extends StatefulWidget {
   final String title;
   final VoidCallback? onTap;
   final bool isSelected;
+  final bool isHighlighted;
+  final ValueChanged<bool>? onHover;
   const _DropdownMenuItem({
     required this.title,
     this.onTap,
     this.isSelected = false,
+    this.isHighlighted = false,
+    this.onHover,
   });
   @override
   State<_DropdownMenuItem> createState() => _DropdownMenuItemState();
 }
 
 class _DropdownMenuItemState extends State<_DropdownMenuItem> {
-  bool _isHovered = false;
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
-      onEnter: (_) => setState(() => _isHovered = true),
-      onExit: (_) => setState(() => _isHovered = false),
+      onEnter: (_) => widget.onHover?.call(true),
+      onExit: (_) => widget.onHover?.call(false),
       child: GestureDetector(
         onTap: widget.onTap,
         child: Container(
           padding: EdgeInsets.only(left: 10.w, top: 5.h, bottom: 5.h),
-          decoration: BoxDecoration(
-            color: AppColors.transparent,
-            borderRadius: BorderRadius.circular(4.r),
-          ),
+          decoration: widget.isHighlighted
+              ? BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      AppColors.primaryBlue.withOpacity(0.0),
+                      AppColors.primaryBlue.withOpacity(0.5),
+                    ],
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                  ),
+                  borderRadius: BorderRadius.circular(4.r),
+                )
+              : BoxDecoration(
+                  color: AppColors.transparent,
+                  borderRadius: BorderRadius.circular(4.r),
+                ),
           child: Row(
             children: [
               Expanded(

@@ -1,3 +1,5 @@
+import 'package:bazarpro/core/widget/table/table_export_service.dart';
+import 'package:bazarpro/core/widget/table/view_data_table.dart';
 import 'package:dio/dio.dart';
 import '../../models/net_postion/net_position_model.dart';
 
@@ -129,22 +131,168 @@ class NetPositionRemoteDataSourceImpl implements NetPositionRemoteDataSource {
 
   @override
   Future<String> exportToPdf(List<NetPositionModel> positions) async {
-    try {
-      await Future.delayed(const Duration(seconds: 1));
-      return 'net_positions_export_${DateTime.now().millisecondsSinceEpoch}.pdf';
-    } catch (e) {
-      throw Exception('Failed to export PDF: $e');
-    }
+    const columns = [
+      ViewTableColumn(id: 'exchange', label: 'EXCH', width: 70),
+      ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 120),
+      ViewTableColumn(
+        id: 'buyQty',
+        label: 'BUY QTY',
+        width: 90,
+        isNumeric: true,
+      ),
+      ViewTableColumn(
+        id: 'sellQty',
+        label: 'SELL QTY',
+        width: 90,
+        isNumeric: true,
+      ),
+      ViewTableColumn(
+        id: 'netQty',
+        label: 'NET QTY',
+        width: 90,
+        isNumeric: true,
+      ),
+      ViewTableColumn(
+        id: 'netAvgPrice',
+        label: 'NET AVG',
+        width: 100,
+        isNumeric: true,
+      ),
+      ViewTableColumn(id: 'cmp', label: 'CMP', width: 90, isNumeric: true),
+      ViewTableColumn(
+        id: 'm2mAmount',
+        label: 'M2M AMT',
+        width: 100,
+        isNumeric: true,
+      ),
+      ViewTableColumn(
+        id: 'ourPercentage',
+        label: 'OUR %',
+        width: 80,
+        isNumeric: true,
+      ),
+      ViewTableColumn(
+        id: 'userCount',
+        label: 'USERS',
+        width: 70,
+        isNumeric: true,
+      ),
+    ];
+    await TableExportService.exportAsPdf<NetPositionModel>(
+      title: 'Net Position',
+      columns: columns,
+      data: positions,
+      cellValueExtractor: (p, col) {
+        switch (col.id) {
+          case 'exchange':
+            return p.exchange;
+          case 'symbol':
+            return p.symbol;
+          case 'buyQty':
+            return p.buyQty.toStringAsFixed(2);
+          case 'sellQty':
+            return p.sellQty.toStringAsFixed(2);
+          case 'netQty':
+            return p.netQty.toStringAsFixed(2);
+          case 'netAvgPrice':
+            return p.netAvgPrice.toStringAsFixed(2);
+          case 'cmp':
+            return p.cmp.toStringAsFixed(2);
+          case 'm2mAmount':
+            return p.m2mAmount.toStringAsFixed(2);
+          case 'ourPercentage':
+            return p.ourPercentage.toStringAsFixed(2);
+          case 'userCount':
+            return p.userCount.toString();
+          default:
+            return '-';
+        }
+      },
+    );
+    return 'net_position_${DateTime.now().millisecondsSinceEpoch}.pdf';
   }
 
   @override
   Future<String> exportToExcel(List<NetPositionModel> positions) async {
-    try {
-      await Future.delayed(const Duration(seconds: 1));
-      return 'net_positions_export_${DateTime.now().millisecondsSinceEpoch}.xlsx';
-    } catch (e) {
-      throw Exception('Failed to export Excel: $e');
-    }
+    const columns = [
+      ViewTableColumn(id: 'exchange', label: 'EXCH', width: 70),
+      ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 120),
+      ViewTableColumn(
+        id: 'buyQty',
+        label: 'BUY QTY',
+        width: 90,
+        isNumeric: true,
+      ),
+      ViewTableColumn(
+        id: 'sellQty',
+        label: 'SELL QTY',
+        width: 90,
+        isNumeric: true,
+      ),
+      ViewTableColumn(
+        id: 'netQty',
+        label: 'NET QTY',
+        width: 90,
+        isNumeric: true,
+      ),
+      ViewTableColumn(
+        id: 'netAvgPrice',
+        label: 'NET AVG',
+        width: 100,
+        isNumeric: true,
+      ),
+      ViewTableColumn(id: 'cmp', label: 'CMP', width: 90, isNumeric: true),
+      ViewTableColumn(
+        id: 'm2mAmount',
+        label: 'M2M AMT',
+        width: 100,
+        isNumeric: true,
+      ),
+      ViewTableColumn(
+        id: 'ourPercentage',
+        label: 'OUR %',
+        width: 80,
+        isNumeric: true,
+      ),
+      ViewTableColumn(
+        id: 'userCount',
+        label: 'USERS',
+        width: 70,
+        isNumeric: true,
+      ),
+    ];
+    await TableExportService.exportAsExcel<NetPositionModel>(
+      title: 'Net Position',
+      columns: columns,
+      data: positions,
+      cellValueExtractor: (p, col) {
+        switch (col.id) {
+          case 'exchange':
+            return p.exchange;
+          case 'symbol':
+            return p.symbol;
+          case 'buyQty':
+            return p.buyQty.toStringAsFixed(2);
+          case 'sellQty':
+            return p.sellQty.toStringAsFixed(2);
+          case 'netQty':
+            return p.netQty.toStringAsFixed(2);
+          case 'netAvgPrice':
+            return p.netAvgPrice.toStringAsFixed(2);
+          case 'cmp':
+            return p.cmp.toStringAsFixed(2);
+          case 'm2mAmount':
+            return p.m2mAmount.toStringAsFixed(2);
+          case 'ourPercentage':
+            return p.ourPercentage.toStringAsFixed(2);
+          case 'userCount':
+            return p.userCount.toString();
+          default:
+            return '-';
+        }
+      },
+    );
+    return 'net_position_${DateTime.now().millisecondsSinceEpoch}.xlsx';
   }
 
   @override

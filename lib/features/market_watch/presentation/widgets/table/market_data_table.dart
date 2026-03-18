@@ -431,6 +431,7 @@ class _MarketDataTableState extends State<MarketDataTable> {
             _onColumnReorder(fromId, toId, visibleColumns);
           },
         ),
+        tooltip: '',
         fixedWidth: isLut ? config?.getWidth(fontSize) : null,
         size: size,
         numeric: config?.isNumeric ?? false,

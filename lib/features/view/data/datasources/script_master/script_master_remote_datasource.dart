@@ -1,4 +1,7 @@
+import 'package:bazarpro/core/widget/table/table_export_service.dart';
+import 'package:bazarpro/core/widget/table/view_data_table.dart';
 import 'package:dio/dio.dart';
+import 'package:intl/intl.dart';
 import '../../models/script_master/script_master.dart';
 
 abstract class ScriptMasterRemoteDataSource {
@@ -93,22 +96,70 @@ class ScriptMasterRemoteDataSourceImpl implements ScriptMasterRemoteDataSource {
 
   @override
   Future<String> exportToPdf(List<ScriptMasterModel> scripts) async {
-    try {
-      await Future.delayed(const Duration(seconds: 1));
-      return 'script_masters_export_${DateTime.now().millisecondsSinceEpoch}.pdf';
-    } catch (e) {
-      throw Exception('Failed to export PDF: $e');
-    }
+    const columns = [
+      ViewTableColumn(id: 'exchange', label: 'EXCHANGE', width: 90),
+      ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 180),
+      ViewTableColumn(id: 'expiryDate', label: 'EXPIRY', width: 100),
+      ViewTableColumn(id: 'tradeAttribute', label: 'ATTRIBUTE', width: 120),
+      ViewTableColumn(id: 'allowTrade', label: 'ALLOW', width: 80),
+    ];
+    final df = DateFormat('dd/MM/yy');
+    await TableExportService.exportAsPdf<ScriptMasterModel>(
+      title: 'Script Master',
+      columns: columns,
+      data: scripts,
+      cellValueExtractor: (s, col) {
+        switch (col.id) {
+          case 'exchange':
+            return s.exchange;
+          case 'symbol':
+            return s.symbol;
+          case 'expiryDate':
+            return df.format(s.expiryDate);
+          case 'tradeAttribute':
+            return s.tradeAttribute;
+          case 'allowTrade':
+            return s.allowTrade ? 'Yes' : 'No';
+          default:
+            return '-';
+        }
+      },
+    );
+    return 'script_masters_export_${DateTime.now().millisecondsSinceEpoch}.pdf';
   }
 
   @override
   Future<String> exportToExcel(List<ScriptMasterModel> scripts) async {
-    try {
-      await Future.delayed(const Duration(seconds: 1));
-      return 'script_masters_export_${DateTime.now().millisecondsSinceEpoch}.xlsx';
-    } catch (e) {
-      throw Exception('Failed to export Excel: $e');
-    }
+    const columns = [
+      ViewTableColumn(id: 'exchange', label: 'EXCHANGE', width: 90),
+      ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 180),
+      ViewTableColumn(id: 'expiryDate', label: 'EXPIRY', width: 100),
+      ViewTableColumn(id: 'tradeAttribute', label: 'ATTRIBUTE', width: 120),
+      ViewTableColumn(id: 'allowTrade', label: 'ALLOW', width: 80),
+    ];
+    final df = DateFormat('dd/MM/yy');
+    await TableExportService.exportAsExcel<ScriptMasterModel>(
+      title: 'Script Master',
+      columns: columns,
+      data: scripts,
+      cellValueExtractor: (s, col) {
+        switch (col.id) {
+          case 'exchange':
+            return s.exchange;
+          case 'symbol':
+            return s.symbol;
+          case 'expiryDate':
+            return df.format(s.expiryDate);
+          case 'tradeAttribute':
+            return s.tradeAttribute;
+          case 'allowTrade':
+            return s.allowTrade ? 'Yes' : 'No';
+          default:
+            return '-';
+        }
+      },
+    );
+    return 'script_masters_export_${DateTime.now().millisecondsSinceEpoch}.xlsx';
   }
 
   List<ScriptMasterModel> _generateMockScriptMasters() {

@@ -1,4 +1,7 @@
+import 'package:bazarpro/core/widget/table/table_export_service.dart';
+import 'package:bazarpro/core/widget/table/view_data_table.dart';
 import 'package:dio/dio.dart';
+import 'package:intl/intl.dart';
 import '../../models/intraday_history/intraday_history_model.dart';
 import '../../../domain/entities/intraday_history/intraday_history.dart';
 
@@ -132,22 +135,86 @@ class IntradayHistoryRemoteDataSourceImpl
 
   @override
   Future<String> exportToPdf(List<IntradayHistoryModel> history) async {
-    try {
-      await Future.delayed(const Duration(seconds: 1));
-      return 'intraday_history_${DateTime.now().millisecondsSinceEpoch}.pdf';
-    } catch (e) {
-      throw Exception('Failed to export PDF: $e');
-    }
+    const columns = [
+      ViewTableColumn(id: 'timestamp', label: 'TIME', width: 150),
+      ViewTableColumn(id: 'open', label: 'OPEN', width: 90, isNumeric: true),
+      ViewTableColumn(id: 'high', label: 'HIGH', width: 90, isNumeric: true),
+      ViewTableColumn(id: 'low', label: 'LOW', width: 90, isNumeric: true),
+      ViewTableColumn(id: 'close', label: 'CLOSE', width: 90, isNumeric: true),
+      ViewTableColumn(
+        id: 'volume',
+        label: 'VOLUME',
+        width: 100,
+        isNumeric: true,
+      ),
+    ];
+    final dtf = DateFormat('dd/MM/yy HH:mm');
+    await TableExportService.exportAsPdf<IntradayHistoryModel>(
+      title: 'Intraday History',
+      columns: columns,
+      data: history,
+      cellValueExtractor: (h, col) {
+        switch (col.id) {
+          case 'timestamp':
+            return dtf.format(h.timestamp);
+          case 'open':
+            return h.open.toStringAsFixed(2);
+          case 'high':
+            return h.high.toStringAsFixed(2);
+          case 'low':
+            return h.low.toStringAsFixed(2);
+          case 'close':
+            return h.close.toStringAsFixed(2);
+          case 'volume':
+            return h.volume.toStringAsFixed(2);
+          default:
+            return '-';
+        }
+      },
+    );
+    return 'intraday_history_${DateTime.now().millisecondsSinceEpoch}.pdf';
   }
 
   @override
   Future<String> exportToExcel(List<IntradayHistoryModel> history) async {
-    try {
-      await Future.delayed(const Duration(seconds: 1));
-      return 'intraday_history_${DateTime.now().millisecondsSinceEpoch}.xlsx';
-    } catch (e) {
-      throw Exception('Failed to export Excel: $e');
-    }
+    const columns = [
+      ViewTableColumn(id: 'timestamp', label: 'TIME', width: 150),
+      ViewTableColumn(id: 'open', label: 'OPEN', width: 90, isNumeric: true),
+      ViewTableColumn(id: 'high', label: 'HIGH', width: 90, isNumeric: true),
+      ViewTableColumn(id: 'low', label: 'LOW', width: 90, isNumeric: true),
+      ViewTableColumn(id: 'close', label: 'CLOSE', width: 90, isNumeric: true),
+      ViewTableColumn(
+        id: 'volume',
+        label: 'VOLUME',
+        width: 100,
+        isNumeric: true,
+      ),
+    ];
+    final dtf = DateFormat('dd/MM/yy HH:mm');
+    await TableExportService.exportAsExcel<IntradayHistoryModel>(
+      title: 'Intraday History',
+      columns: columns,
+      data: history,
+      cellValueExtractor: (h, col) {
+        switch (col.id) {
+          case 'timestamp':
+            return dtf.format(h.timestamp);
+          case 'open':
+            return h.open.toStringAsFixed(2);
+          case 'high':
+            return h.high.toStringAsFixed(2);
+          case 'low':
+            return h.low.toStringAsFixed(2);
+          case 'close':
+            return h.close.toStringAsFixed(2);
+          case 'volume':
+            return h.volume.toStringAsFixed(2);
+          default:
+            return '-';
+        }
+      },
+    );
+    return 'intraday_history_${DateTime.now().millisecondsSinceEpoch}.xlsx';
   }
 
   List<IntradayHistoryModel> _generateMockIntradayHistory() {

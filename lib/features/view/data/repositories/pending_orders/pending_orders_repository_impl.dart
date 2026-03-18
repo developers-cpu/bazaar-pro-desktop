@@ -1,4 +1,7 @@
+import 'package:bazarpro/core/widget/table/table_export_service.dart';
+import 'package:bazarpro/core/widget/table/view_data_table.dart';
 import 'package:dartz/dartz.dart';
+import 'package:intl/intl.dart';
 import '../../../../../core/errors/failures.dart';
 import '../../../domain/entities/pending_orders/pending_order.dart';
 import '../../../domain/repositories/pending_orders/pending_orders_repository.dart';
@@ -83,10 +86,69 @@ class PendingOrdersRepositoryImpl implements PendingOrdersRepository {
   @override
   Future<Either<Failure, String>> exportToPdf(List<PendingOrder> orders) async {
     try {
-      await Future.delayed(const Duration(seconds: 1));
-      final filePath =
-          '/downloads/pending_orders_${DateTime.now().millisecondsSinceEpoch}.pdf';
-      return Right(filePath);
+      const columns = [
+        ViewTableColumn(id: 'userId', label: 'U.NAME', width: 100),
+        ViewTableColumn(id: 'upline', label: 'P.USER', width: 100),
+        ViewTableColumn(id: 'exchange', label: 'EXCH', width: 70),
+        ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 120),
+        ViewTableColumn(id: 'orderDateTime', label: 'ORDER D/T', width: 140),
+        ViewTableColumn(id: 'buySell', label: 'B/S', width: 120),
+        ViewTableColumn(id: 'qty', label: 'QTY', width: 80, isNumeric: true),
+        ViewTableColumn(id: 'lot', label: 'LOT', width: 70, isNumeric: true),
+        ViewTableColumn(id: 'orderType', label: 'TYPE', width: 100),
+        ViewTableColumn(
+          id: 'triggerPrice',
+          label: 'TRIG.',
+          width: 90,
+          isNumeric: true,
+        ),
+        ViewTableColumn(id: 'cmp', label: 'CMP', width: 90, isNumeric: true),
+        ViewTableColumn(
+          id: 'rPrice',
+          label: 'R.PRICE',
+          width: 90,
+          isNumeric: true,
+        ),
+      ];
+      final dtf = DateFormat('dd/MM/yy HH:mm');
+      await TableExportService.exportAsPdf<PendingOrder>(
+        title: 'Pending Orders',
+        columns: columns,
+        data: orders,
+        cellValueExtractor: (o, col) {
+          switch (col.id) {
+            case 'userId':
+              return o.userId;
+            case 'upline':
+              return o.upline;
+            case 'exchange':
+              return o.exchange;
+            case 'symbol':
+              return o.symbol;
+            case 'orderDateTime':
+              return dtf.format(o.orderDateTime);
+            case 'buySell':
+              return o.buySell;
+            case 'qty':
+              return o.qty.toStringAsFixed(2);
+            case 'lot':
+              return o.lot.toStringAsFixed(2);
+            case 'orderType':
+              return o.orderType;
+            case 'triggerPrice':
+              return o.triggerPrice.toStringAsFixed(2);
+            case 'cmp':
+              return o.cmp.toStringAsFixed(2);
+            case 'rPrice':
+              return o.rPrice.toStringAsFixed(2);
+            default:
+              return '-';
+          }
+        },
+      );
+      return Right(
+        'pending_orders_${DateTime.now().millisecondsSinceEpoch}.pdf',
+      );
     } catch (e) {
       return Left(ExportFailure('Failed to export PDF: $e'));
     }
@@ -97,10 +159,69 @@ class PendingOrdersRepositoryImpl implements PendingOrdersRepository {
     List<PendingOrder> orders,
   ) async {
     try {
-      await Future.delayed(const Duration(seconds: 1));
-      final filePath =
-          '/downloads/pending_orders_${DateTime.now().millisecondsSinceEpoch}.xlsx';
-      return Right(filePath);
+      const columns = [
+        ViewTableColumn(id: 'userId', label: 'U.NAME', width: 100),
+        ViewTableColumn(id: 'upline', label: 'P.USER', width: 100),
+        ViewTableColumn(id: 'exchange', label: 'EXCH', width: 70),
+        ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 120),
+        ViewTableColumn(id: 'orderDateTime', label: 'ORDER D/T', width: 140),
+        ViewTableColumn(id: 'buySell', label: 'B/S', width: 120),
+        ViewTableColumn(id: 'qty', label: 'QTY', width: 80, isNumeric: true),
+        ViewTableColumn(id: 'lot', label: 'LOT', width: 70, isNumeric: true),
+        ViewTableColumn(id: 'orderType', label: 'TYPE', width: 100),
+        ViewTableColumn(
+          id: 'triggerPrice',
+          label: 'TRIG.',
+          width: 90,
+          isNumeric: true,
+        ),
+        ViewTableColumn(id: 'cmp', label: 'CMP', width: 90, isNumeric: true),
+        ViewTableColumn(
+          id: 'rPrice',
+          label: 'R.PRICE',
+          width: 90,
+          isNumeric: true,
+        ),
+      ];
+      final dtf = DateFormat('dd/MM/yy HH:mm');
+      await TableExportService.exportAsExcel<PendingOrder>(
+        title: 'Pending Orders',
+        columns: columns,
+        data: orders,
+        cellValueExtractor: (o, col) {
+          switch (col.id) {
+            case 'userId':
+              return o.userId;
+            case 'upline':
+              return o.upline;
+            case 'exchange':
+              return o.exchange;
+            case 'symbol':
+              return o.symbol;
+            case 'orderDateTime':
+              return dtf.format(o.orderDateTime);
+            case 'buySell':
+              return o.buySell;
+            case 'qty':
+              return o.qty.toStringAsFixed(2);
+            case 'lot':
+              return o.lot.toStringAsFixed(2);
+            case 'orderType':
+              return o.orderType;
+            case 'triggerPrice':
+              return o.triggerPrice.toStringAsFixed(2);
+            case 'cmp':
+              return o.cmp.toStringAsFixed(2);
+            case 'rPrice':
+              return o.rPrice.toStringAsFixed(2);
+            default:
+              return '-';
+          }
+        },
+      );
+      return Right(
+        'pending_orders_${DateTime.now().millisecondsSinceEpoch}.xlsx',
+      );
     } catch (e) {
       return Left(ExportFailure('Failed to export Excel: $e'));
     }

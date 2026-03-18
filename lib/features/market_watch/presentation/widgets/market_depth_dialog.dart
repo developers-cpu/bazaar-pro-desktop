@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -9,7 +10,7 @@ import '../bloc/market_depth/market_depth_bloc.dart';
 import '../bloc/market_depth/market_depth_event.dart';
 import '../bloc/market_depth/market_depth_state.dart';
 
-class MarketDepthDialog extends StatelessWidget {
+class MarketDepthDialog extends StatefulWidget {
   const MarketDepthDialog({Key? key}) : super(key: key);
   static Future<void> show(BuildContext context) async {
     context.read<MarketDepthBloc>().add(const OpenMarketDepthEvent());
@@ -33,22 +34,69 @@ class MarketDepthDialog extends StatelessWidget {
   }
 
   @override
+  State<MarketDepthDialog> createState() => _MarketDepthDialogState();
+}
+
+class _MarketDepthDialogState extends State<MarketDepthDialog> {
+  final FocusScopeNode _dialogScopeNode = FocusScopeNode(
+    debugLabel: 'MarketDepthDialog',
+  );
+  final FocusNode _exchangeFocusNode = FocusNode();
+  final FocusNode _symbolFocusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        _dialogScopeNode.requestFocus();
+        _exchangeFocusNode.requestFocus();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _dialogScopeNode.dispose();
+    _exchangeFocusNode.dispose();
+    _symbolFocusNode.dispose();
+    super.dispose();
+  }
+
+  KeyEventResult _handleDialogKeyEvent(FocusNode node, KeyEvent event) {
+    if (event is! KeyDownEvent && event is! KeyRepeatEvent) {
+      return KeyEventResult.ignored;
+    }
+    if (event.logicalKey == LogicalKeyboardKey.arrowLeft ||
+        event.logicalKey == LogicalKeyboardKey.arrowRight ||
+        event.logicalKey == LogicalKeyboardKey.arrowUp ||
+        event.logicalKey == LogicalKeyboardKey.arrowDown) {
+      return KeyEventResult.skipRemainingHandlers;
+    }
+    return KeyEventResult.ignored;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocBuilder<MarketDepthBloc, MarketDepthState>(
-      builder: (context, state) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _buildDropdowns(context, state),
-            SizedBox(height: 8.h),
-            _buildSymbolInfo(context, state),
-            SizedBox(height: 8.h),
-            _buildMarketDataCards(context, state),
-            SizedBox(height: 8.h),
-            _buildBidAskTable(context, state),
-          ],
-        );
-      },
+    return FocusScope(
+      node: _dialogScopeNode,
+      onKeyEvent: _handleDialogKeyEvent,
+      child: BlocBuilder<MarketDepthBloc, MarketDepthState>(
+        builder: (context, state) {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _buildDropdowns(context, state),
+              SizedBox(height: 8.h),
+              _buildSymbolInfo(context, state),
+              SizedBox(height: 8.h),
+              _buildMarketDataCards(context, state),
+              SizedBox(height: 8.h),
+              _buildBidAskTable(context, state),
+            ],
+          );
+        },
+      ),
     );
   }
 
@@ -62,6 +110,7 @@ class MarketDepthDialog extends StatelessWidget {
             value: state.exchange.isEmpty ? null : state.exchange,
             items: const ['NSE', 'BSE', 'MCX', 'NFO'],
             height: 28.h,
+            focusNode: _exchangeFocusNode,
             onChanged: (value) {
               if (value != null) {
                 context.read<MarketDepthBloc>().add(UpdateExchangeEvent(value));
@@ -78,6 +127,7 @@ class MarketDepthDialog extends StatelessWidget {
             items: const ['NIFTY25NOV25', 'BANKNIFTY', 'RELIANCE', 'TCS'],
             height: 28.h,
             searchHint: 'Search Symbol',
+            focusNode: _symbolFocusNode,
             onChanged: (value) {
               if (value != null) {
                 context.read<MarketDepthBloc>().add(UpdateSymbolEvent(value));

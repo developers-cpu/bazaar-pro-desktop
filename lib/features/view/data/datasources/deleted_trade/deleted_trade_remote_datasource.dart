@@ -1,4 +1,7 @@
+import 'package:bazarpro/core/widget/table/table_export_service.dart';
+import 'package:bazarpro/core/widget/table/view_data_table.dart';
 import 'package:dio/dio.dart';
+import 'package:intl/intl.dart';
 import '../../models/deleted_trade/deleted_trade_model.dart';
 
 abstract class DeletedTradeRemoteDataSource {
@@ -100,22 +103,154 @@ class DeletedTradeRemoteDataSourceImpl implements DeletedTradeRemoteDataSource {
 
   @override
   Future<String> exportToPdf(List<DeletedTradeModel> trades) async {
-    try {
-      await Future.delayed(const Duration(seconds: 1));
-      return 'deleted_trades_${DateTime.now().millisecondsSinceEpoch}.pdf';
-    } catch (e) {
-      throw Exception('Failed to export PDF: $e');
-    }
+    const columns = [
+      ViewTableColumn(id: 'userName', label: 'U.NAME', width: 100),
+      ViewTableColumn(id: 'parentUser', label: 'P.USER', width: 100),
+      ViewTableColumn(id: 'exchange', label: 'EXCH', width: 70),
+      ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 120),
+      ViewTableColumn(id: 'orderDateTime', label: 'ORDER D/T', width: 140),
+      ViewTableColumn(id: 'buySell', label: 'B/S', width: 120),
+      ViewTableColumn(id: 'qty', label: 'QTY', width: 80, isNumeric: true),
+      ViewTableColumn(id: 'lot', label: 'LOT', width: 70, isNumeric: true),
+      ViewTableColumn(id: 'type', label: 'TYPE', width: 80),
+      ViewTableColumn(id: 'pl', label: 'P&L', width: 90, isNumeric: true),
+      ViewTableColumn(
+        id: 'tradePrice',
+        label: 'T.PRICE',
+        width: 90,
+        isNumeric: true,
+      ),
+      ViewTableColumn(
+        id: 'brokerage',
+        label: 'BROK',
+        width: 90,
+        isNumeric: true,
+      ),
+      ViewTableColumn(
+        id: 'ratePrice',
+        label: 'R.PRICE',
+        width: 90,
+        isNumeric: true,
+      ),
+      ViewTableColumn(id: 'executionDateTime', label: 'EXEC D/T', width: 140),
+    ];
+    final dtf = DateFormat('dd/MM/yy HH:mm');
+    await TableExportService.exportAsPdf<DeletedTradeModel>(
+      title: 'Deleted Trades',
+      columns: columns,
+      data: trades,
+      cellValueExtractor: (t, col) {
+        switch (col.id) {
+          case 'userName':
+            return t.userName;
+          case 'parentUser':
+            return t.parentUser;
+          case 'exchange':
+            return t.exchange;
+          case 'symbol':
+            return t.symbol;
+          case 'orderDateTime':
+            return dtf.format(t.orderDateTime);
+          case 'buySell':
+            return t.buySell;
+          case 'qty':
+            return t.qty.toStringAsFixed(2);
+          case 'lot':
+            return t.lot.toStringAsFixed(2);
+          case 'type':
+            return t.type;
+          case 'pl':
+            return t.pl.toStringAsFixed(2);
+          case 'tradePrice':
+            return t.tradePrice.toStringAsFixed(2);
+          case 'brokerage':
+            return t.brokerage.toStringAsFixed(2);
+          case 'ratePrice':
+            return t.ratePrice.toStringAsFixed(2);
+          case 'executionDateTime':
+            return dtf.format(t.executionDateTime);
+          default:
+            return '-';
+        }
+      },
+    );
+    return 'deleted_trades_${DateTime.now().millisecondsSinceEpoch}.pdf';
   }
 
   @override
   Future<String> exportToExcel(List<DeletedTradeModel> trades) async {
-    try {
-      await Future.delayed(const Duration(seconds: 1));
-      return 'deleted_trades_${DateTime.now().millisecondsSinceEpoch}.xlsx';
-    } catch (e) {
-      throw Exception('Failed to export Excel: $e');
-    }
+    const columns = [
+      ViewTableColumn(id: 'userName', label: 'U.NAME', width: 100),
+      ViewTableColumn(id: 'parentUser', label: 'P.USER', width: 100),
+      ViewTableColumn(id: 'exchange', label: 'EXCH', width: 70),
+      ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 120),
+      ViewTableColumn(id: 'orderDateTime', label: 'ORDER D/T', width: 140),
+      ViewTableColumn(id: 'buySell', label: 'B/S', width: 120),
+      ViewTableColumn(id: 'qty', label: 'QTY', width: 80, isNumeric: true),
+      ViewTableColumn(id: 'lot', label: 'LOT', width: 70, isNumeric: true),
+      ViewTableColumn(id: 'type', label: 'TYPE', width: 80),
+      ViewTableColumn(id: 'pl', label: 'P&L', width: 90, isNumeric: true),
+      ViewTableColumn(
+        id: 'tradePrice',
+        label: 'T.PRICE',
+        width: 90,
+        isNumeric: true,
+      ),
+      ViewTableColumn(
+        id: 'brokerage',
+        label: 'BROK',
+        width: 90,
+        isNumeric: true,
+      ),
+      ViewTableColumn(
+        id: 'ratePrice',
+        label: 'R.PRICE',
+        width: 90,
+        isNumeric: true,
+      ),
+      ViewTableColumn(id: 'executionDateTime', label: 'EXEC D/T', width: 140),
+    ];
+    final dtf = DateFormat('dd/MM/yy HH:mm');
+    await TableExportService.exportAsExcel<DeletedTradeModel>(
+      title: 'Deleted Trades',
+      columns: columns,
+      data: trades,
+      cellValueExtractor: (t, col) {
+        switch (col.id) {
+          case 'userName':
+            return t.userName;
+          case 'parentUser':
+            return t.parentUser;
+          case 'exchange':
+            return t.exchange;
+          case 'symbol':
+            return t.symbol;
+          case 'orderDateTime':
+            return dtf.format(t.orderDateTime);
+          case 'buySell':
+            return t.buySell;
+          case 'qty':
+            return t.qty.toStringAsFixed(2);
+          case 'lot':
+            return t.lot.toStringAsFixed(2);
+          case 'type':
+            return t.type;
+          case 'pl':
+            return t.pl.toStringAsFixed(2);
+          case 'tradePrice':
+            return t.tradePrice.toStringAsFixed(2);
+          case 'brokerage':
+            return t.brokerage.toStringAsFixed(2);
+          case 'ratePrice':
+            return t.ratePrice.toStringAsFixed(2);
+          case 'executionDateTime':
+            return dtf.format(t.executionDateTime);
+          default:
+            return '-';
+        }
+      },
+    );
+    return 'deleted_trades_${DateTime.now().millisecondsSinceEpoch}.xlsx';
   }
 
   List<DeletedTradeModel> _generateMockDeletedTrades() {

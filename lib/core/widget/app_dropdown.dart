@@ -1,5 +1,6 @@
 import 'package:bazarpro/core/widget/svg_icon.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
@@ -28,6 +29,8 @@ class AppDropdown extends StatefulWidget {
   final String? label;
   final Color? labelColor;
   final bool showSelectAll;
+  final FocusNode? focusNode;
+  final bool autofocus;
   const AppDropdown({
     Key? key,
     this.type = AppDropdownType.simple,
@@ -50,6 +53,8 @@ class AppDropdown extends StatefulWidget {
     this.label,
     this.labelColor,
     this.subtitles,
+    this.focusNode,
+    this.autofocus = false,
   }) : super(key: key);
   @override
   State<AppDropdown> createState() => _AppDropdownState();
@@ -66,6 +71,21 @@ class _AppDropdownState extends State<AppDropdown>
   Set<String> _selectedSet = {};
   late AnimationController _controller;
   late Animation<double> _animation;
+  FocusNode? _internalFocusNode;
+  FocusNode get _effectiveFocusNode =>
+      widget.focusNode ?? (_internalFocusNode ??= FocusNode());
+  int _highlightedIndex = -1;
+  FocusScopeNode? _overlayScopeNode;
+  FocusNode? _overlayItemsFocusNode;
+  FocusNode? _searchFieldFocusNode;
+  bool _moveToNextFocusOnClose = false;
+  bool _moveToPrevFocusOnClose = false;
+  bool _returnFocusOnClose = false;
+  bool _suppressAutoOpen = false;
+  static bool _keyboardNavigating = false;
+  bool get _hasSearchField =>
+      widget.type != AppDropdownType.simple &&
+      widget.type != AppDropdownType.multiSelectRightNoSearch;
   static const int _maxVisibleItems = 6;
   static double get _itemHeight => 26.h;
   static double get _searchFieldHeight => 32.h;
@@ -101,6 +121,10 @@ class _AppDropdownState extends State<AppDropdown>
     _controller.dispose();
     _searchController.dispose();
     _scrollController.dispose();
+    _internalFocusNode?.dispose();
+    _overlayScopeNode?.dispose();
+    _overlayItemsFocusNode?.dispose();
+    _searchFieldFocusNode?.dispose();
     super.dispose();
   }
 
@@ -108,16 +132,64 @@ class _AppDropdownState extends State<AppDropdown>
   void _open() {
     _searchController.clear();
     _filteredItems = List.from(widget.items);
+    _highlightedIndex = _getCurrentValueIndex();
+    _overlayScopeNode?.dispose();
+    _overlayScopeNode = FocusScopeNode(debugLabel: 'AppDropdown-overlay');
+    _overlayItemsFocusNode?.dispose();
+    _overlayItemsFocusNode = FocusNode(debugLabel: 'AppDropdown-items');
+    _searchFieldFocusNode?.dispose();
+    _searchFieldFocusNode = FocusNode(debugLabel: 'AppDropdown-search');
     _overlayEntry = _createOverlay();
     Overlay.of(context).insert(_overlayEntry!);
     setState(() => _isOpen = true);
     _controller.forward();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_hasSearchField) {
+        _searchFieldFocusNode?.requestFocus();
+      } else {
+        _overlayItemsFocusNode?.requestFocus();
+      }
+    });
   }
 
   void _close() {
+    final shouldMoveNext = _moveToNextFocusOnClose;
+    final shouldMovePrev = _moveToPrevFocusOnClose;
+    final shouldReturnFocus = _returnFocusOnClose;
+    _moveToNextFocusOnClose = false;
+    _moveToPrevFocusOnClose = false;
+    _returnFocusOnClose = false;
     _controller.reverse().then((_) {
       _removeOverlay();
-      if (mounted) setState(() => _isOpen = false);
+      if (mounted) {
+        setState(() => _isOpen = false);
+        if (shouldMoveNext) {
+          _keyboardNavigating = true;
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            _effectiveFocusNode.requestFocus();
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (mounted) {
+                _effectiveFocusNode.nextFocus();
+              }
+            });
+          });
+        } else if (shouldMovePrev) {
+          _keyboardNavigating = true;
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            _effectiveFocusNode.requestFocus();
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (mounted) {
+                _effectiveFocusNode.previousFocus();
+              }
+            });
+          });
+        } else if (shouldReturnFocus) {
+          _suppressAutoOpen = true;
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (mounted) _effectiveFocusNode.requestFocus();
+          });
+        }
+      }
     });
   }
 
@@ -136,6 +208,7 @@ class _AppDropdownState extends State<AppDropdown>
             .where((item) => item.toLowerCase().contains(query.toLowerCase()))
             .toList();
       }
+      _highlightedIndex = _filteredItems.isEmpty ? -1 : 0;
     });
     _overlayEntry?.markNeedsBuild();
   }
@@ -171,6 +244,147 @@ class _AppDropdownState extends State<AppDropdown>
   }
 
   Color get _borderColor => widget.borderColor ?? AppColors.primaryBlue;
+
+  KeyEventResult _handleKeyEvent(FocusNode node, KeyEvent event) {
+    if (event is! KeyDownEvent && event is! KeyRepeatEvent) {
+      return KeyEventResult.ignored;
+    }
+    if (!_isOpen) {
+      if (event.logicalKey == LogicalKeyboardKey.arrowDown ||
+          event.logicalKey == LogicalKeyboardKey.arrowUp ||
+          event.logicalKey == LogicalKeyboardKey.enter ||
+          event.logicalKey == LogicalKeyboardKey.numpadEnter ||
+          event.logicalKey == LogicalKeyboardKey.space) {
+        _open();
+        return KeyEventResult.handled;
+      }
+      if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
+        _keyboardNavigating = true;
+        _effectiveFocusNode.nextFocus();
+        return KeyEventResult.handled;
+      }
+      if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
+        _keyboardNavigating = true;
+        _effectiveFocusNode.previousFocus();
+        return KeyEventResult.handled;
+      }
+      if (event.logicalKey == LogicalKeyboardKey.tab) {
+        // Let default Tab behavior move to next focus
+        return KeyEventResult.ignored;
+      }
+    }
+    return KeyEventResult.ignored;
+  }
+
+  KeyEventResult _handleNavigationKey(KeyEvent event) {
+    final itemCount = _getItemCount();
+    if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
+      if (_highlightedIndex < itemCount - 1) {
+        _highlightedIndex++;
+        _overlayEntry?.markNeedsBuild();
+        _ensureHighlightedVisible();
+      }
+      return KeyEventResult.handled;
+    }
+    if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
+      if (_highlightedIndex > 0) {
+        _highlightedIndex--;
+        _overlayEntry?.markNeedsBuild();
+        _ensureHighlightedVisible();
+      }
+      return KeyEventResult.handled;
+    }
+    if (event.logicalKey == LogicalKeyboardKey.enter ||
+        event.logicalKey == LogicalKeyboardKey.numpadEnter) {
+      if (_highlightedIndex >= 0 && _highlightedIndex < itemCount) {
+        _returnFocusOnClose = true;
+        _selectHighlightedItem();
+      }
+      return KeyEventResult.handled;
+    }
+    if (event.logicalKey == LogicalKeyboardKey.arrowRight ||
+        event.logicalKey == LogicalKeyboardKey.arrowLeft) {
+      if (_searchFieldFocusNode?.hasFocus == true) {
+        return KeyEventResult.ignored;
+      }
+      if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
+        _moveToNextFocusOnClose = true;
+      } else {
+        _moveToPrevFocusOnClose = true;
+      }
+      _close();
+      return KeyEventResult.handled;
+    }
+    if (event.logicalKey == LogicalKeyboardKey.escape) {
+      _returnFocusOnClose = true;
+      _close();
+      return KeyEventResult.handled;
+    }
+    if (event.logicalKey == LogicalKeyboardKey.tab) {
+      _moveToNextFocusOnClose = true;
+      if (_highlightedIndex >= 0 && _highlightedIndex < itemCount) {
+        if (widget.type != AppDropdownType.multiSelect &&
+            widget.type != AppDropdownType.multiSelectRightNoSearch) {
+          _selectHighlightedItem();
+        } else {
+          _close();
+        }
+      } else {
+        _close();
+      }
+      return KeyEventResult.handled;
+    }
+    return KeyEventResult.ignored;
+  }
+
+  void _selectHighlightedItem() {
+    int effectiveIndex = _highlightedIndex;
+    if (widget.showAllOption && widget.type == AppDropdownType.simple) {
+      if (effectiveIndex == 0) {
+        _onItemSelected('');
+        return;
+      }
+      effectiveIndex -= 1;
+    }
+    if (effectiveIndex >= 0 && effectiveIndex < _filteredItems.length) {
+      _onItemSelected(_filteredItems[effectiveIndex]);
+    }
+  }
+
+  void _ensureHighlightedVisible() {
+    if (!_scrollController.hasClients) return;
+    final effectiveItemHeight = widget.subtitles != null
+        ? (_itemHeight + 10.h)
+        : _itemHeight;
+    final targetOffset = _highlightedIndex * effectiveItemHeight;
+    final maxScroll = _scrollController.position.maxScrollExtent;
+    final viewportHeight = _scrollController.position.viewportDimension;
+    final currentScroll = _scrollController.offset;
+    if (targetOffset < currentScroll) {
+      _scrollController.jumpTo(targetOffset.clamp(0.0, maxScroll));
+    } else if (targetOffset + effectiveItemHeight >
+        currentScroll + viewportHeight) {
+      _scrollController.jumpTo(
+        (targetOffset + effectiveItemHeight - viewportHeight).clamp(
+          0.0,
+          maxScroll,
+        ),
+      );
+    }
+  }
+
+  int _getCurrentValueIndex() {
+    if (widget.value != null && widget.value!.isNotEmpty) {
+      final offset =
+          (widget.showAllOption && widget.type == AppDropdownType.simple)
+          ? 1
+          : 0;
+      final idx = _filteredItems.indexOf(widget.value!);
+      return idx >= 0 ? idx + offset : 0;
+    }
+    return 0;
+  }
+
   Color get _textColor =>
       widget.textColor ??
       (widget.isDarkMode
@@ -229,75 +443,88 @@ class _AppDropdownState extends State<AppDropdown>
         final dropdownHeight =
             widget.dropdownHeight ??
             _calculateDropdownHeight(_filteredItems.length);
-        return Stack(
-          children: [
-            Positioned.fill(
-              child: GestureDetector(
-                onTap: _close,
-                behavior: HitTestBehavior.opaque,
-                child: Container(color: AppColors.transparent),
+        return FocusScope(
+          node: _overlayScopeNode!,
+          onKeyEvent: (node, event) {
+            if (event is! KeyDownEvent && event is! KeyRepeatEvent) {
+              return KeyEventResult.ignored;
+            }
+            return _handleNavigationKey(event);
+          },
+          child: Stack(
+            children: [
+              Positioned.fill(
+                child: GestureDetector(
+                  onTap: _close,
+                  behavior: HitTestBehavior.opaque,
+                  child: Container(color: AppColors.transparent),
+                ),
               ),
-            ),
-            Positioned(
-              left: offset.dx,
-              top: offset.dy + size.height + 3.h,
-              width: (widget.width == null || widget.width == double.infinity)
-                  ? size.width
-                  : widget.width,
-              child: FadeTransition(
-                opacity: _animation,
-                child: Material(
-                  color: AppColors.transparent,
-                  child: Container(
-                    constraints: BoxConstraints(maxHeight: dropdownHeight),
-                    decoration: BoxDecoration(
-                      color: _dropdownBgColor,
-                      borderRadius: BorderRadius.circular(8.r),
-                      border: Border.all(color: _borderColor, width: 1.4),
-                      boxShadow: [
-                        BoxShadow(
-                          color: AppColors.black.withOpacity(0.1),
-                          blurRadius: 8.r,
-                          offset: Offset(0, 4.h),
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        if (widget.type != AppDropdownType.simple &&
-                            widget.type !=
-                                AppDropdownType.multiSelectRightNoSearch)
-                          _buildSearchField(),
-                        if (widget.type == AppDropdownType.multiSelect &&
-                            widget.showSelectAll)
-                          _buildSelectAllOption(),
-                        Flexible(
-                          child: RawScrollbar(
-                            controller: _scrollController,
-                            thumbVisibility: _getItemCount() > _maxVisibleItems,
-                            thickness: 6.w,
-                            radius: Radius.circular(3.r),
-                            thumbColor: _borderColor.withOpacity(0.5),
-                            child: ListView.builder(
-                              controller: _scrollController,
-                              padding: EdgeInsets.zero,
-                              shrinkWrap: true,
-                              physics: const ClampingScrollPhysics(),
-                              itemCount: _getItemCount(),
-                              itemBuilder: (context, index) {
-                                return _buildListItem(index);
-                              },
+              Positioned(
+                left: offset.dx,
+                top: offset.dy + size.height + 3.h,
+                width: (widget.width == null || widget.width == double.infinity)
+                    ? size.width
+                    : widget.width,
+                child: Focus(
+                  focusNode: _overlayItemsFocusNode,
+                  child: FadeTransition(
+                    opacity: _animation,
+                    child: Material(
+                      color: AppColors.transparent,
+                      child: Container(
+                        constraints: BoxConstraints(maxHeight: dropdownHeight),
+                        decoration: BoxDecoration(
+                          color: _dropdownBgColor,
+                          borderRadius: BorderRadius.circular(8.r),
+                          border: Border.all(color: _borderColor, width: 1.4),
+                          boxShadow: [
+                            BoxShadow(
+                              color: AppColors.black.withOpacity(0.1),
+                              blurRadius: 8.r,
+                              offset: Offset(0, 4.h),
                             ),
-                          ),
+                          ],
                         ),
-                      ],
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            if (widget.type != AppDropdownType.simple &&
+                                widget.type !=
+                                    AppDropdownType.multiSelectRightNoSearch)
+                              _buildSearchField(),
+                            if (widget.type == AppDropdownType.multiSelect &&
+                                widget.showSelectAll)
+                              _buildSelectAllOption(),
+                            Flexible(
+                              child: RawScrollbar(
+                                controller: _scrollController,
+                                thumbVisibility:
+                                    _getItemCount() > _maxVisibleItems,
+                                thickness: 6.w,
+                                radius: Radius.circular(3.r),
+                                thumbColor: _borderColor.withOpacity(0.5),
+                                child: ListView.builder(
+                                  controller: _scrollController,
+                                  padding: EdgeInsets.zero,
+                                  shrinkWrap: true,
+                                  physics: const ClampingScrollPhysics(),
+                                  itemCount: _getItemCount(),
+                                  itemBuilder: (context, index) {
+                                    return _buildListItem(index);
+                                  },
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         );
       },
     );
@@ -311,10 +538,15 @@ class _AppDropdownState extends State<AppDropdown>
   }
 
   Widget _buildListItem(int index) {
+    final isHighlighted = index == _highlightedIndex;
     if (widget.showAllOption &&
         widget.type == AppDropdownType.simple &&
         index == 0) {
-      return _buildSimpleItem(widget.allOptionText, isAllOption: true);
+      return _buildSimpleItem(
+        widget.allOptionText,
+        isAllOption: true,
+        isHighlighted: isHighlighted,
+      );
     }
     final itemIndex =
         (widget.showAllOption && widget.type == AppDropdownType.simple)
@@ -326,9 +558,13 @@ class _AppDropdownState extends State<AppDropdown>
     final item = _filteredItems[itemIndex];
     if (widget.type == AppDropdownType.multiSelect ||
         widget.type == AppDropdownType.multiSelectRightNoSearch) {
-      return _buildCheckboxItem(item);
+      return _buildCheckboxItem(item, isHighlighted: isHighlighted);
     }
-    return _buildSimpleItem(item, index: itemIndex);
+    return _buildSimpleItem(
+      item,
+      index: itemIndex,
+      isHighlighted: isHighlighted,
+    );
   }
 
   Widget _buildSearchField() {
@@ -352,6 +588,7 @@ class _AppDropdownState extends State<AppDropdown>
           Expanded(
             child: TextField(
               controller: _searchController,
+              focusNode: _searchFieldFocusNode,
               onChanged: _onSearch,
               style: GoogleFonts.openSans(fontSize: 12.sp, color: _textColor),
               decoration: InputDecoration(
@@ -397,7 +634,7 @@ class _AppDropdownState extends State<AppDropdown>
     );
   }
 
-  Widget _buildCheckboxItem(String item) {
+  Widget _buildCheckboxItem(String item, {bool isHighlighted = false}) {
     final isSelected = _selectedSet.contains(item);
     final isRightAlign =
         widget.type == AppDropdownType.multiSelectRightNoSearch;
@@ -406,6 +643,19 @@ class _AppDropdownState extends State<AppDropdown>
       child: Container(
         height: _itemHeight,
         padding: EdgeInsets.symmetric(horizontal: 10.w),
+        decoration: isHighlighted
+            ? BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    _borderColor.withOpacity(0.0),
+                    _borderColor.withOpacity(0.5),
+                  ],
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                ),
+                borderRadius: BorderRadius.circular(4.r),
+              )
+            : null,
         child: Row(
           children: [
             if (!isRightAlign) ...[
@@ -455,6 +705,7 @@ class _AppDropdownState extends State<AppDropdown>
     String item, {
     bool isAllOption = false,
     int index = -1,
+    bool isHighlighted = false,
   }) {
     final isSelected =
         widget.value == item || (isAllOption && widget.value == null);
@@ -470,11 +721,23 @@ class _AppDropdownState extends State<AppDropdown>
       child: Container(
         height: subtitle != null ? _itemHeight + 10.h : _itemHeight,
         padding: EdgeInsets.symmetric(horizontal: 10.w),
-        decoration: BoxDecoration(
-          color: isSelected
-              ? _borderColor.withOpacity(0.1)
-              : AppColors.transparent,
-        ),
+        decoration: isHighlighted
+            ? BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    _borderColor.withOpacity(0.0),
+                    _borderColor.withOpacity(0.5),
+                  ],
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                ),
+                borderRadius: BorderRadius.circular(4.r),
+              )
+            : BoxDecoration(
+                color: isSelected
+                    ? _borderColor.withOpacity(0.1)
+                    : AppColors.transparent,
+              ),
         alignment: Alignment.centerLeft,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -510,68 +773,89 @@ class _AppDropdownState extends State<AppDropdown>
     final bool hasValue =
         (widget.value != null && widget.value!.isNotEmpty) ||
         _selectedSet.isNotEmpty;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        if (widget.label != null) ...[
-          Text(
-            widget.label!,
-            style: GoogleFonts.openSans(
-              fontSize: 12.sp,
-              fontWeight: FontWeight.w400,
-              color: widget.labelColor ?? AppColors.white,
+    return Focus(
+      focusNode: _effectiveFocusNode,
+      autofocus: widget.autofocus,
+      onKeyEvent: _handleKeyEvent,
+      onFocusChange: (hasFocus) {
+        if (hasFocus && !_isOpen) {
+          if (_suppressAutoOpen) {
+            _suppressAutoOpen = false;
+            return;
+          }
+          if (_keyboardNavigating) {
+            _keyboardNavigating = false;
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (mounted && !_isOpen) _open();
+            });
+          }
+        }
+      },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (widget.label != null) ...[
+            Text(
+              widget.label!,
+              style: GoogleFonts.openSans(
+                fontSize: 12.sp,
+                fontWeight: FontWeight.w400,
+                color: widget.labelColor ?? AppColors.white,
+              ),
             ),
-          ),
-          SizedBox(height: 5.h),
-        ],
-        SizedBox(
-          width: (widget.width == null || widget.width == double.infinity)
-              ? null
-              : widget.width,
-          height: widget.height ?? 35.h,
-          child: CompositedTransformTarget(
-            link: _layerLink,
-            child: GestureDetector(
-              onTap: _toggle,
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 10.w),
-                decoration: BoxDecoration(
-                  color: _bgColor,
-                  borderRadius: BorderRadius.circular(8.r),
-                  border: Border.all(color: _borderColor, width: 1.4),
-                ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        _displayText,
-                        style: GoogleFonts.openSans(
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w600,
-                          height: 1.0,
-                          letterSpacing: 0.15,
-                          color: hasValue ? _textColor : AppColors.primaryBlue,
+            SizedBox(height: 5.h),
+          ],
+          SizedBox(
+            width: (widget.width == null || widget.width == double.infinity)
+                ? null
+                : widget.width,
+            height: widget.height ?? 35.h,
+            child: CompositedTransformTarget(
+              link: _layerLink,
+              child: GestureDetector(
+                onTap: _toggle,
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10.w),
+                  decoration: BoxDecoration(
+                    color: _bgColor,
+                    borderRadius: BorderRadius.circular(8.r),
+                    border: Border.all(color: _borderColor, width: 1.4),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          _displayText,
+                          style: GoogleFonts.openSans(
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w600,
+                            height: 1.0,
+                            letterSpacing: 0.15,
+                            color: hasValue
+                                ? _textColor
+                                : AppColors.primaryBlue,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
                         ),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
                       ),
-                    ),
-                    SizedBox(width: 4.w),
-                    Icon(
-                      _isOpen
-                          ? Icons.keyboard_arrow_up
-                          : Icons.keyboard_arrow_down,
-                      color: AppColors.primaryBlue,
-                      size: 20.sp,
-                    ),
-                  ],
+                      SizedBox(width: 4.w),
+                      Icon(
+                        _isOpen
+                            ? Icons.keyboard_arrow_up
+                            : Icons.keyboard_arrow_down,
+                        color: AppColors.primaryBlue,
+                        size: 20.sp,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

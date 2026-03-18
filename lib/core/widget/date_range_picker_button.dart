@@ -44,6 +44,7 @@ class _DateRangePickerButtonState extends State<DateRangePickerButton> {
 
   void _closeDropdown() {
     _overlayEntry?.remove();
+    _overlayEntry?.dispose();
     _overlayEntry = null;
     if (mounted) {
       setState(() => _isOpen = false);
@@ -93,6 +94,7 @@ class _DateRangePickerButtonState extends State<DateRangePickerButton> {
   @override
   void dispose() {
     _overlayEntry?.remove();
+    _overlayEntry?.dispose();
     _overlayEntry = null;
     super.dispose();
   }

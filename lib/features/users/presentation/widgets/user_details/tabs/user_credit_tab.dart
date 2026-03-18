@@ -98,6 +98,7 @@ class _UserCreditTabViewState extends State<UserCreditTabView> {
 
   void _removeOverlay() {
     _overlayEntry?.remove();
+    _overlayEntry?.dispose();
     _overlayEntry = null;
   }
 

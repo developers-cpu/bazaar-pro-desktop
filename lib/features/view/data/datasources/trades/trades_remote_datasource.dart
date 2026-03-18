@@ -1,4 +1,7 @@
+import 'package:bazarpro/core/widget/table/table_export_service.dart';
+import 'package:bazarpro/core/widget/table/view_data_table.dart';
 import 'package:dio/dio.dart';
+import 'package:intl/intl.dart';
 import '../../models/trades/trade_model.dart';
 
 abstract class TradesRemoteDataSource {
@@ -135,22 +138,148 @@ class TradesRemoteDataSourceImpl implements TradesRemoteDataSource {
 
   @override
   Future<String> exportToPdf(List<TradeModel> trades) async {
-    try {
-      await Future.delayed(const Duration(seconds: 1));
-      return 'trades_export_${DateTime.now().millisecondsSinceEpoch}.pdf';
-    } catch (e) {
-      throw Exception('Failed to export PDF: $e');
-    }
+    const columns = [
+      ViewTableColumn(id: 'userName', label: 'U.NAME', width: 100),
+      ViewTableColumn(id: 'pUser', label: 'P USER', width: 90),
+      ViewTableColumn(id: 'exchange', label: 'EXCH', width: 70),
+      ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 120),
+      ViewTableColumn(id: 'orderDateTime', label: 'ORDER D/T', width: 150),
+      ViewTableColumn(id: 'buySell', label: 'B/S', width: 180),
+      ViewTableColumn(id: 'qty', label: 'QTY', width: 80, isNumeric: true),
+      ViewTableColumn(id: 'lot', label: 'LOT', width: 70, isNumeric: true),
+      ViewTableColumn(id: 'orderType', label: 'TYPE', width: 80),
+      ViewTableColumn(id: 'pl', label: 'P/L', width: 90, isNumeric: true),
+      ViewTableColumn(
+        id: 'triggerPrice',
+        label: 'T.PRICE',
+        width: 90,
+        isNumeric: true,
+      ),
+      ViewTableColumn(
+        id: 'brokerage',
+        label: 'BRK',
+        width: 70,
+        isNumeric: true,
+      ),
+      ViewTableColumn(
+        id: 'rPrice',
+        label: 'R.PRICE',
+        width: 90,
+        isNumeric: true,
+      ),
+    ];
+    final dtf = DateFormat('dd/MM/yy HH:mm');
+    await TableExportService.exportAsPdf<TradeModel>(
+      title: 'Trades',
+      columns: columns,
+      data: trades,
+      cellValueExtractor: (t, col) {
+        switch (col.id) {
+          case 'userName':
+            return t.userName;
+          case 'pUser':
+            return t.pUser;
+          case 'exchange':
+            return t.exchange;
+          case 'symbol':
+            return t.symbol;
+          case 'orderDateTime':
+            return dtf.format(t.orderDateTime);
+          case 'buySell':
+            return t.buySell;
+          case 'qty':
+            return t.qty.toStringAsFixed(2);
+          case 'lot':
+            return t.lot.toStringAsFixed(2);
+          case 'orderType':
+            return t.orderType;
+          case 'pl':
+            return t.pl.toStringAsFixed(2);
+          case 'triggerPrice':
+            return t.triggerPrice.toStringAsFixed(2);
+          case 'brokerage':
+            return t.brokerage.toStringAsFixed(2);
+          case 'rPrice':
+            return t.rPrice.toStringAsFixed(2);
+          default:
+            return '-';
+        }
+      },
+    );
+    return 'trades_${DateTime.now().millisecondsSinceEpoch}.pdf';
   }
 
   @override
   Future<String> exportToExcel(List<TradeModel> trades) async {
-    try {
-      await Future.delayed(const Duration(seconds: 1));
-      return 'trades_export_${DateTime.now().millisecondsSinceEpoch}.xlsx';
-    } catch (e) {
-      throw Exception('Failed to export Excel: $e');
-    }
+    const columns = [
+      ViewTableColumn(id: 'userName', label: 'U.NAME', width: 100),
+      ViewTableColumn(id: 'pUser', label: 'P USER', width: 90),
+      ViewTableColumn(id: 'exchange', label: 'EXCH', width: 70),
+      ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 120),
+      ViewTableColumn(id: 'orderDateTime', label: 'ORDER D/T', width: 150),
+      ViewTableColumn(id: 'buySell', label: 'B/S', width: 180),
+      ViewTableColumn(id: 'qty', label: 'QTY', width: 80, isNumeric: true),
+      ViewTableColumn(id: 'lot', label: 'LOT', width: 70, isNumeric: true),
+      ViewTableColumn(id: 'orderType', label: 'TYPE', width: 80),
+      ViewTableColumn(id: 'pl', label: 'P/L', width: 90, isNumeric: true),
+      ViewTableColumn(
+        id: 'triggerPrice',
+        label: 'T.PRICE',
+        width: 90,
+        isNumeric: true,
+      ),
+      ViewTableColumn(
+        id: 'brokerage',
+        label: 'BRK',
+        width: 70,
+        isNumeric: true,
+      ),
+      ViewTableColumn(
+        id: 'rPrice',
+        label: 'R.PRICE',
+        width: 90,
+        isNumeric: true,
+      ),
+    ];
+    final dtf = DateFormat('dd/MM/yy HH:mm');
+    await TableExportService.exportAsExcel<TradeModel>(
+      title: 'Trades',
+      columns: columns,
+      data: trades,
+      cellValueExtractor: (t, col) {
+        switch (col.id) {
+          case 'userName':
+            return t.userName;
+          case 'pUser':
+            return t.pUser;
+          case 'exchange':
+            return t.exchange;
+          case 'symbol':
+            return t.symbol;
+          case 'orderDateTime':
+            return dtf.format(t.orderDateTime);
+          case 'buySell':
+            return t.buySell;
+          case 'qty':
+            return t.qty.toStringAsFixed(2);
+          case 'lot':
+            return t.lot.toStringAsFixed(2);
+          case 'orderType':
+            return t.orderType;
+          case 'pl':
+            return t.pl.toStringAsFixed(2);
+          case 'triggerPrice':
+            return t.triggerPrice.toStringAsFixed(2);
+          case 'brokerage':
+            return t.brokerage.toStringAsFixed(2);
+          case 'rPrice':
+            return t.rPrice.toStringAsFixed(2);
+          default:
+            return '-';
+        }
+      },
+    );
+    return 'trades_${DateTime.now().millisecondsSinceEpoch}.xlsx';
   }
 
   List<TradeModel> _generateMockTrades() {

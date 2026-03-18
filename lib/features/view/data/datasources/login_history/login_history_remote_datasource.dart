@@ -1,4 +1,7 @@
+import 'package:bazarpro/core/widget/table/table_export_service.dart';
+import 'package:bazarpro/core/widget/table/view_data_table.dart';
 import 'package:dio/dio.dart';
+import 'package:intl/intl.dart';
 import '../../models/login_history/login_history_model.dart';
 
 abstract class LoginHistoryRemoteDataSource {
@@ -33,22 +36,94 @@ class LoginHistoryRemoteDataSourceImpl implements LoginHistoryRemoteDataSource {
 
   @override
   Future<String> exportToPdf(List<LoginHistoryModel> history) async {
-    try {
-      await Future.delayed(const Duration(seconds: 1));
-      return 'login_history_${DateTime.now().millisecondsSinceEpoch}.pdf';
-    } catch (e) {
-      throw Exception('Failed to export PDF: $e');
-    }
+    const columns = [
+      ViewTableColumn(id: 'index', label: '#', width: 50, isNumeric: true),
+      ViewTableColumn(id: 'userName', label: 'U.NAME', width: 120),
+      ViewTableColumn(id: 'userType', label: 'TYPE', width: 90),
+      ViewTableColumn(id: 'loginTime', label: 'LOGIN TIME', width: 150),
+      ViewTableColumn(id: 'logoutTime', label: 'LOGOUT TIME', width: 150),
+      ViewTableColumn(id: 'ipAddress', label: 'IP ADDRESS', width: 130),
+      ViewTableColumn(id: 'deviceId', label: 'DEVICE ID', width: 200),
+      ViewTableColumn(id: 'device', label: 'DEVICE', width: 90),
+      ViewTableColumn(id: 'city', label: 'CITY', width: 120),
+    ];
+    final dtf = DateFormat('dd/MM/yy HH:mm');
+    await TableExportService.exportAsPdf<LoginHistoryModel>(
+      title: 'Login History',
+      columns: columns,
+      data: history,
+      cellValueExtractor: (h, col) {
+        switch (col.id) {
+          case 'index':
+            return h.index.toString();
+          case 'userName':
+            return h.userName;
+          case 'userType':
+            return h.userType;
+          case 'loginTime':
+            return dtf.format(h.loginTime);
+          case 'logoutTime':
+            return dtf.format(h.logoutTime);
+          case 'ipAddress':
+            return h.ipAddress;
+          case 'deviceId':
+            return h.deviceId;
+          case 'device':
+            return h.device;
+          case 'city':
+            return h.city;
+          default:
+            return '-';
+        }
+      },
+    );
+    return 'login_history_${DateTime.now().millisecondsSinceEpoch}.pdf';
   }
 
   @override
   Future<String> exportToExcel(List<LoginHistoryModel> history) async {
-    try {
-      await Future.delayed(const Duration(seconds: 1));
-      return 'login_history_${DateTime.now().millisecondsSinceEpoch}.xlsx';
-    } catch (e) {
-      throw Exception('Failed to export Excel: $e');
-    }
+    const columns = [
+      ViewTableColumn(id: 'index', label: '#', width: 50, isNumeric: true),
+      ViewTableColumn(id: 'userName', label: 'U.NAME', width: 120),
+      ViewTableColumn(id: 'userType', label: 'TYPE', width: 90),
+      ViewTableColumn(id: 'loginTime', label: 'LOGIN TIME', width: 150),
+      ViewTableColumn(id: 'logoutTime', label: 'LOGOUT TIME', width: 150),
+      ViewTableColumn(id: 'ipAddress', label: 'IP ADDRESS', width: 130),
+      ViewTableColumn(id: 'deviceId', label: 'DEVICE ID', width: 200),
+      ViewTableColumn(id: 'device', label: 'DEVICE', width: 90),
+      ViewTableColumn(id: 'city', label: 'CITY', width: 120),
+    ];
+    final dtf = DateFormat('dd/MM/yy HH:mm');
+    await TableExportService.exportAsExcel<LoginHistoryModel>(
+      title: 'Login History',
+      columns: columns,
+      data: history,
+      cellValueExtractor: (h, col) {
+        switch (col.id) {
+          case 'index':
+            return h.index.toString();
+          case 'userName':
+            return h.userName;
+          case 'userType':
+            return h.userType;
+          case 'loginTime':
+            return dtf.format(h.loginTime);
+          case 'logoutTime':
+            return dtf.format(h.logoutTime);
+          case 'ipAddress':
+            return h.ipAddress;
+          case 'deviceId':
+            return h.deviceId;
+          case 'device':
+            return h.device;
+          case 'city':
+            return h.city;
+          default:
+            return '-';
+        }
+      },
+    );
+    return 'login_history_${DateTime.now().millisecondsSinceEpoch}.xlsx';
   }
 
   List<LoginHistoryModel> _generateMockLoginHistory(String client) {

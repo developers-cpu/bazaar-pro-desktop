@@ -219,6 +219,7 @@ class _BhavCopyPreviewContentState extends State<_BhavCopyPreviewContent> {
             onPressed: () => _onSubmit(context),
             width: 120.w,
             height: 40.h,
+            borderRadius: 8.r,
           ),
         ],
       ),

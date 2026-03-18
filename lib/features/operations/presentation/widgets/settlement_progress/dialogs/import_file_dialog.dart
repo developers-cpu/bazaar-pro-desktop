@@ -71,6 +71,7 @@ class _ImportFileContentState extends State<_ImportFileContent> {
           onPressed: _onImport,
           width: 100.w,
           height: 35.h,
+          borderRadius: 8.r,
         ),
       ],
     );

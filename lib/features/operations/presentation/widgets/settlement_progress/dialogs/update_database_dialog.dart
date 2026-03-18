@@ -55,6 +55,7 @@ class _UpdateDatabaseContent extends StatelessWidget {
               onPressed: () {},
               width: 160.w,
               height: 35.h,
+              borderRadius: 8.r,
             ),
           ),
           SizedBox(height: 20.h),
@@ -138,22 +139,26 @@ class _UpdateDatabaseContent extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              OutlinedButton(
-                onPressed: onClose,
-                style: OutlinedButton.styleFrom(
-                  padding: EdgeInsets.zero,
-                  minimumSize: Size(120.w, 35.h),
-                  side: const BorderSide(color: AppColors.primaryBlue),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.r),
+              SizedBox(
+                width: 120.w,
+                height: 35.h,
+                child: ElevatedButton(
+                  onPressed: onClose,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.white,
+                    side: const BorderSide(color: AppColors.primaryBlue),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
+                    padding: EdgeInsets.zero,
                   ),
-                ),
-                child: Text(
-                  'Cancel',
-                  style: GoogleFonts.openSans(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.primaryBlue,
+                  child: Text(
+                    'Cancel',
+                    style: GoogleFonts.openSans(
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.primaryBlue,
+                    ),
                   ),
                 ),
               ),

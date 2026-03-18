@@ -92,6 +92,7 @@ class _SettlementProgressIndicatorContent extends StatelessWidget {
                 onPressed: () => _onView(context),
                 width: 100.w,
                 height: 40.h,
+                borderRadius: 8.r,
               )
             else
               SizedBox(height: 40.h),

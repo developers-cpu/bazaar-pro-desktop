@@ -109,6 +109,7 @@ class _SettlementProgressPageState extends State<SettlementProgressPage> {
                     onPressed: () => _showImportDialog(context),
                     width: 140.w,
                     height: 35.h,
+                    borderRadius: 8.r,
                   ),
                   if (hasData) ...[
                     SizedBox(width: 10.w),
@@ -119,6 +120,7 @@ class _SettlementProgressPageState extends State<SettlementProgressPage> {
                       },
                       width: 160.w,
                       height: 35.h,
+                      borderRadius: 8.r,
                     ),
                   ],
                 ],

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/app_dropdown.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
 import '../../../../../core/widget/table/view_record_count.dart';
+import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import '../../../domain/entities/settlement_master_sharing.dart';
 import '../../bloc/settlement_master_sharing/settlement_master_sharing_bloc.dart';
 import '../../bloc/settlement_master_sharing/settlement_master_sharing_event.dart';
@@ -72,7 +72,7 @@ class _SettlementMasterSharingPageState
                   ),
                   const Spacer(),
                   if (_selectedMasterName != null)
-                    ViewRecordCount(count: totalRecords),
+                    ViewRecordCount(count: entries.length),
                 ],
               ),
             ),
@@ -144,56 +144,30 @@ class _SettlementMasterSharingPageState
   ) {
     switch (colId) {
       case 'index':
-        return Text(
-          item.index.toString().padLeft(2, '0'),
-          style: GoogleFonts.openSans(
-            fontSize: 12.sp,
-            color: AppColors.primaryBlue,
-          ),
+        return ViewTextCell(
+          text: item.index.toString().padLeft(2, '0'),
+          isDark: false,
+          isNumeric: true,
         );
       case 'username':
-        return Text(
-          item.username,
-          textAlign: TextAlign.center,
-          style: GoogleFonts.openSans(
-            fontSize: 12.sp,
-            color: AppColors.primaryBlue,
-          ),
-        );
+        return ViewTextCell(text: item.username, isDark: false);
       case 'assignedMaster':
         final text = item.assignedMasterCount > 0
             ? '${item.assignedMasterCount} Master'
             : 'No Master Assigned';
-        return GestureDetector(
-          onTap: item.assignedMasterCount > 0
-              ? () => _openAssignMasterDialog(item, masters)
-              : null,
-          child: Text(
-            text,
-            textAlign: TextAlign.center,
-            style: GoogleFonts.openSans(
-              fontSize: 12.sp,
-              color: AppColors.primaryBlue,
-              decoration: item.assignedMasterCount > 0
-                  ? TextDecoration.underline
-                  : null,
-              decorationColor: AppColors.primaryBlue,
-            ),
-          ),
-        );
+        if (item.assignedMasterCount > 0) {
+          return ViewLinkCell(
+            text: text,
+            isDark: false,
+            onTap: () => _openAssignMasterDialog(item, masters),
+          );
+        }
+        return ViewTextCell(text: text, isDark: false);
       case 'action':
-        return GestureDetector(
+        return ViewLinkCell(
+          text: 'Assign Master',
+          isDark: false,
           onTap: () => _openAssignCountDialog(),
-          child: Text(
-            'Assign Master',
-            textAlign: TextAlign.center,
-            style: GoogleFonts.openSans(
-              fontSize: 12.sp,
-              color: AppColors.primaryBlue,
-              decoration: TextDecoration.underline,
-              decorationColor: AppColors.primaryBlue,
-            ),
-          ),
         );
       default:
         return const SizedBox.shrink();

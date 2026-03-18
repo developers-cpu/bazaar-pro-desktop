@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../../core/widget/table/view_data_table.dart';
+import '../../../../../../core/widget/table/view_table_cell_styles.dart';
 import '../../../../../../core/widget/app_switch.dart';
 import '../../../domain/entities/server/server_entity.dart';
-import '../../../../../../core/constants/app_colors.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class ServerDataTable extends StatelessWidget {
   final List<ServerEntity> data;
@@ -53,19 +52,10 @@ class ServerDataTable extends StatelessWidget {
           );
         }
         if (column.id == 'serverName') {
-          return InkWell(
+          return ViewLinkCell(
+            text: item.serverName,
+            isDark: false,
             onTap: () => onEditServer(item),
-            child: Text(
-              item.serverName,
-              style: GoogleFonts.openSans(
-                fontSize: 12.sp,
-                color: AppColors.primaryBlue,
-                decoration: TextDecoration.underline,
-                fontWeight: FontWeight.w600,
-              ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
           );
         }
         return _buildCell(item, column.id);
@@ -98,14 +88,7 @@ class ServerDataTable extends StatelessWidget {
         text = item.updatedBy;
         break;
     }
-    return Text(
-      text,
-      style: GoogleFonts.openSans(
-        fontSize: 12.sp,
-        color: AppColors.primaryBlue,
-      ),
-      maxLines: 1,
-      overflow: TextOverflow.ellipsis,
-    );
+    final isNumericCol = const {'index', 'updatedOn'}.contains(colId);
+    return ViewTextCell(text: text, isDark: false, isNumeric: isNumericCol);
   }
 }

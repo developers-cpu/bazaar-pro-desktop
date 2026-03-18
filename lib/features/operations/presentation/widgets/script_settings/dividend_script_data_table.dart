@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
+import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import '../../../domain/entities/script_settings/script_setting.dart';
 
 class DividendScriptDataTable extends StatelessWidget {
@@ -115,14 +115,7 @@ class DividendScriptDataTable extends StatelessWidget {
         text = item.updatedBy;
         break;
     }
-    return Text(
-      text,
-      style: GoogleFonts.openSans(
-        fontSize: 12.sp,
-        color: AppColors.primaryBlue,
-      ),
-      maxLines: 1,
-      overflow: TextOverflow.ellipsis,
-    );
+    final isNumericCol = const {'cutDate', 'updatedOn'}.contains(colId);
+    return ViewTextCell(text: text, isDark: false, isNumeric: isNumericCol);
   }
 }

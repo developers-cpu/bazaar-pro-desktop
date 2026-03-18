@@ -13,6 +13,7 @@ import '../../widgets/trade_settings/trade_settings_headers.dart';
 import '../../widgets/trade_settings/trade_settings_toolbar.dart';
 import '../../widgets/trade_settings/trade_settings_data_table.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
+import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import '../../../domain/entities/trade_settings/trade_setting.dart';
 
 class TradeSettingsPageWithAppBar extends StatelessWidget {
@@ -236,15 +237,7 @@ class _TradeSettingsPageState extends State<TradeSettingsPage> {
           );
         }
         if (column.id == 'symbol') {
-          return Text(
-            item.exchange,
-            style: GoogleFonts.openSans(
-              fontSize: 12.sp,
-              color: AppColors.primaryBlue,
-            ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          );
+          return ViewTextCell(text: item.exchange, isDark: false);
         }
         return _buildDetailCell(item, column.id);
       },
@@ -411,11 +404,17 @@ class _TradeSettingsPageState extends State<TradeSettingsPage> {
         text = item.updatedBy;
         break;
     }
-    return Text(
-      text,
-      style: TextStyle(fontSize: 12.sp),
-      maxLines: 1,
-      overflow: TextOverflow.ellipsis,
-    );
+    final isNumericCol = const {
+      'intMarginPercentage',
+      'cfMarginPercentage',
+      'intMarginAmt',
+      'cfMarginAmt',
+      'turnoverWiseBrokerageRs',
+      'lotWiseBrokerageAmt',
+      'leverageMultiplier',
+      'tradeSecondsLimit',
+      'updatedOn',
+    }.contains(colId);
+    return ViewTextCell(text: text, isDark: false, isNumeric: isNumericCol);
   }
 }

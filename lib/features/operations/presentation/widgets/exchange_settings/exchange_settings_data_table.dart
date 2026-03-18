@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/app_switch.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
+import '../../../../../core/widget/table/view_table_cell_styles.dart';
 
 class ExchangeSettingsDataTable extends StatelessWidget {
   final List<dynamic> data;
@@ -153,13 +154,7 @@ class ExchangeSettingsDataTable extends StatelessWidget {
       default:
         value = '';
     }
-    return Text(
-      value,
-      style: GoogleFonts.openSans(
-        fontSize: 12.sp,
-        color: AppColors.primaryBlue,
-      ),
-      overflow: TextOverflow.ellipsis,
-    );
+    final isNumericCol = const {'tickSize', 'updatedOn'}.contains(column.id);
+    return ViewTextCell(text: value, isDark: false, isNumeric: isNumericCol);
   }
 }

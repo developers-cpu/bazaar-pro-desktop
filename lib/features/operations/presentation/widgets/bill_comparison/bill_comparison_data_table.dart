@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../../../core/constants/app_colors.dart';
+import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
+import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import '../../../domain/entities/bill_comparison/bill_comparison_entity.dart';
 
 class BillComparisonDataTable extends StatelessWidget {
@@ -72,7 +73,10 @@ class BillComparisonDataTable extends StatelessWidget {
       cellBuilder: (item, column) {
         switch (column.id) {
           case 'index':
-            return _buildText(item.index.toString().padLeft(2, '0'));
+            return _buildText(
+              item.index.toString().padLeft(2, '0'),
+              isNumeric: true,
+            );
           case 'username':
             return _buildText(item.username);
           case 'bill_total':
@@ -111,25 +115,16 @@ class BillComparisonDataTable extends StatelessWidget {
     );
   }
 
-  Widget _buildText(String text) {
-    return Text(
-      text,
-      style: TextStyle(
-        fontSize: 13.sp,
-        fontWeight: FontWeight.w500,
-        color: AppColors.textDark,
-      ),
-    );
+  Widget _buildText(String text, {bool isNumeric = false}) {
+    return ViewTextCell(text: text, isDark: false, isNumeric: isNumeric);
   }
 
   Widget _buildHighlightedText(String text, bool isMismatch) {
-    return Text(
-      text,
-      style: TextStyle(
-        fontSize: 13.sp,
-        fontWeight: FontWeight.w500,
-        color: isMismatch ? AppColors.errorColor : AppColors.textDark,
-      ),
+    return ViewTextCell(
+      text: text,
+      isDark: false,
+      isNumeric: true,
+      color: isMismatch ? LightThemeColors.negativeTextColor : null,
     );
   }
 
@@ -137,13 +132,13 @@ class BillComparisonDataTable extends StatelessWidget {
     bool isMismatch =
         type.toLowerCase().contains('mistmatch') ||
         type.toLowerCase().contains('mismatch');
-    return Text(
-      type,
-      style: TextStyle(
-        fontSize: 13.sp,
-        fontWeight: FontWeight.w600,
-        color: isMismatch ? AppColors.errorColor : AppColors.primaryBlue,
-      ),
+    return ViewTextCell(
+      text: type,
+      isDark: false,
+      color: isMismatch
+          ? LightThemeColors.negativeTextColor
+          : LightThemeColors.positiveTextColor,
+      fontWeight: FontWeight.w600,
     );
   }
 }

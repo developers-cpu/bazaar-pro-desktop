@@ -5,7 +5,7 @@ import '../../../../../../core/constants/app_colors.dart';
 import '../../../../../../core/constants/app_images.dart';
 import '../../../../../../core/widget/custom_action_button.dart';
 import '../../../../../../core/widget/custom_input_field.dart';
-import '../../../../../../core/widget/date_range_picker_dialog.dart';
+import '../../../../../../core/widget/date_range_picker_button.dart';
 import '../../bloc/bill_comparison/bill_comparison_bloc.dart';
 import '../../bloc/bill_comparison/bill_comparison_event.dart';
 import '../../bloc/bill_comparison/bill_comparison_state.dart';
@@ -18,23 +18,20 @@ class BillComparisonPage extends StatefulWidget {
 }
 
 class _BillComparisonPageState extends State<BillComparisonPage> {
-  final TextEditingController _dateCtrl = TextEditingController();
   final TextEditingController _searchCtrl = TextEditingController();
-  String _selectedStartDate = '';
-  String _selectedEndDate = '';
+  DateTimeRange? _selectedDateRange;
   @override
   void dispose() {
-    _dateCtrl.dispose();
     _searchCtrl.dispose();
     super.dispose();
   }
 
   void _onViewClicked() {
-    if (_selectedStartDate.isNotEmpty && _selectedEndDate.isNotEmpty) {
+    if (_selectedDateRange != null) {
       context.read<BillComparisonBloc>().add(
         LoadBillComparisonEvent(
-          startDate: _selectedStartDate,
-          endDate: _selectedEndDate,
+          startDate: _selectedDateRange!.start.toIso8601String(),
+          endDate: _selectedDateRange!.end.toIso8601String(),
         ),
       );
     }
@@ -50,35 +47,16 @@ class _BillComparisonPageState extends State<BillComparisonPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Stack(
-                alignment: Alignment.centerRight,
-                children: [
-                  CustomInputField(
-                    controller: _dateCtrl,
-                    hintText: 'Select Date Range',
-                    width: 250.w,
-                    height: 35.h,
-                    suffixIcon: Icons.calendar_today,
-                    readOnly: true,
-                  ),
-                  Positioned.fill(
-                    child: InkWell(
-                      onTap: () async {
-                        final picked = await CustomDateRangePickerDialog.show(
-                          context,
-                        );
-                        if (picked != null) {
-                          setState(() {
-                            _selectedStartDate = picked.start.toIso8601String();
-                            _selectedEndDate = picked.end.toIso8601String();
-                            _dateCtrl.text =
-                                "${picked.start.toLocal().toString().split(' ')[0]} to ${picked.end.toLocal().toString().split(' ')[0]}";
-                          });
-                        }
-                      },
-                    ),
-                  ),
-                ],
+              DateRangePickerButton(
+                width: 190.w,
+                height: 35.h,
+                selectedDateRange: _selectedDateRange,
+                onTap: () {},
+                onDateRangeSelected: (range) {
+                  setState(() {
+                    _selectedDateRange = range;
+                  });
+                },
               ),
               CustomActionButton(
                 text: 'View',
@@ -116,7 +94,7 @@ class _BillComparisonPageState extends State<BillComparisonPage> {
                         CustomInputField(
                           controller: _searchCtrl,
                           hintText: 'Search',
-                          width: 250.w,
+                          width: 190.w,
                           height: 35.h,
                           prefixSvgPath: AppImages.searchIcon,
                           onChanged: (val) {

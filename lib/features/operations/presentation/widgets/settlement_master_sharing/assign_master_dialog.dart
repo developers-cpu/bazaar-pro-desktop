@@ -6,6 +6,7 @@ import '../../../../../core/widget/app_dropdown.dart';
 import '../../../../../core/widget/common_dilog_box.dart';
 import '../../../../../core/widget/custom_action_button.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
+import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import '../../../domain/entities/settlement_master_sharing.dart';
 
 class AssignMasterDialog extends StatefulWidget {
@@ -142,6 +143,7 @@ class _AssignMasterDialogState extends State<AssignMasterDialog> {
               id: 'percentSharing',
               label: '% SHARING',
               width: 120.w,
+              isNumeric: true,
             ),
           ],
           data: _rows,
@@ -193,13 +195,10 @@ class _AssignMasterDialogState extends State<AssignMasterDialog> {
               );
             }
             if (column.id == 'percentSharing') {
-              return Text(
-                item.percentSharing.toStringAsFixed(0),
-                textAlign: TextAlign.center,
-                style: GoogleFonts.openSans(
-                  fontSize: 12.sp,
-                  color: AppColors.primaryBlue,
-                ),
+              return ViewTextCell(
+                text: item.percentSharing.toStringAsFixed(0),
+                isDark: false,
+                isNumeric: true,
               );
             }
             return const SizedBox.shrink();

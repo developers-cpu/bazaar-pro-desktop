@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../../core/constants/app_colors.dart';
 import '../../../../../../core/widget/table/view_data_table.dart';
+import '../../../../../../core/widget/table/view_table_cell_styles.dart';
 import '../../../domain/entities/settlement_progress/bhav_copy_entity.dart';
 
 class SettlementProgressDataTable extends StatelessWidget {
@@ -54,17 +55,33 @@ class SettlementProgressDataTable extends StatelessWidget {
       cellBuilder: (item, column) {
         switch (column.id) {
           case 'exch':
-            return Text(item.exch);
+            return ViewTextCell(text: item.exch, isDark: false);
           case 'symbol':
-            return Text(item.symbol);
+            return ViewTextCell(text: item.symbol, isDark: false);
           case 'expiryDate':
-            return Text(item.expiryDate);
+            return ViewTextCell(
+              text: item.expiryDate,
+              isDark: false,
+              isNumeric: true,
+            );
           case 'dayHigh':
-            return Text(item.dayHigh.toStringAsFixed(0));
+            return ViewTextCell(
+              text: item.dayHigh.toStringAsFixed(0),
+              isDark: false,
+              isNumeric: true,
+            );
           case 'dayLow':
-            return Text(item.dayLow.toStringAsFixed(0));
+            return ViewTextCell(
+              text: item.dayLow.toStringAsFixed(0),
+              isDark: false,
+              isNumeric: true,
+            );
           case 'dayClose':
-            return Text(item.dayClose.toStringAsFixed(0));
+            return ViewTextCell(
+              text: item.dayClose.toStringAsFixed(0),
+              isDark: false,
+              isNumeric: true,
+            );
           default:
             return const SizedBox();
         }

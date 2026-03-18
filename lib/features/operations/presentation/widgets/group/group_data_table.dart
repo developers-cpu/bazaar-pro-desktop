@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/app_switch.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
+import '../../../../../core/widget/table/view_table_cell_styles.dart';
 
 class GroupDataTable extends StatelessWidget {
   final int viewLevel;
@@ -131,32 +131,29 @@ class GroupDataTable extends StatelessWidget {
         return _actionCell(item);
     }
     final cellInfo = _textCellInfo(item, column.id);
-    return InkWell(
-      onTap: cellInfo.onTap,
-      child: Text(
-        cellInfo.value,
-        style: GoogleFonts.openSans(
-          fontSize: 12.sp,
-          color: AppColors.primaryBlue,
-          decoration: cellInfo.underlined ? TextDecoration.underline : null,
-        ),
-        overflow: TextOverflow.ellipsis,
-      ),
+    final isNumericCol = const {
+      'count',
+      'lotSize',
+      'maxQty',
+      'breakupQty',
+      'updatedOn',
+    }.contains(column.id);
+    if (cellInfo.underlined && cellInfo.onTap != null) {
+      return ViewLinkCell(
+        text: cellInfo.value,
+        isDark: false,
+        onTap: cellInfo.onTap,
+      );
+    }
+    return ViewTextCell(
+      text: cellInfo.value,
+      isDark: false,
+      isNumeric: isNumericCol,
     );
   }
 
   Widget _importCell() {
-    return InkWell(
-      onTap: onImportTap,
-      child: Text(
-        'Choose File',
-        style: GoogleFonts.openSans(
-          fontSize: 12.sp,
-          color: AppColors.primaryBlue,
-          decoration: TextDecoration.underline,
-        ),
-      ),
-    );
+    return ViewLinkCell(text: 'Choose File', isDark: false, onTap: onImportTap);
   }
 
   Widget _hideGroupCell(dynamic item) {

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
+import '../../../../../core/widget/table/view_table_cell_styles.dart';
 import '../../../domain/entities/trade_settings/trade_setting.dart';
 
 class TradeSettingsDataTable extends StatelessWidget {
@@ -133,30 +133,13 @@ class TradeSettingsDataTable extends StatelessWidget {
 
   Widget _buildExchangeCell(TradeSetting item) {
     if (onExchangeTap != null) {
-      return InkWell(
+      return ViewLinkCell(
+        text: item.exchange,
+        isDark: false,
         onTap: () => onExchangeTap!(item.exchange),
-        child: Text(
-          item.exchange,
-          style: GoogleFonts.openSans(
-            fontSize: 12.sp,
-            color: AppColors.primaryBlue,
-            decoration: TextDecoration.underline,
-            decorationColor: AppColors.primaryBlue,
-          ),
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-        ),
       );
     }
-    return Text(
-      item.exchange,
-      style: GoogleFonts.openSans(
-        fontSize: 12.sp,
-        color: AppColors.primaryBlue,
-      ),
-      maxLines: 1,
-      overflow: TextOverflow.ellipsis,
-    );
+    return ViewTextCell(text: item.exchange, isDark: false);
   }
 
   List<ViewTableColumn> _columnsForTab() {
@@ -283,14 +266,17 @@ class TradeSettingsDataTable extends StatelessWidget {
         text = item.updatedBy;
         break;
     }
-    return Text(
-      text,
-      style: GoogleFonts.openSans(
-        fontSize: 12.sp,
-        color: AppColors.primaryBlue,
-      ),
-      maxLines: 1,
-      overflow: TextOverflow.ellipsis,
-    );
+    final isNumericCol = const {
+      'intMarginPercentage',
+      'cfMarginPercentage',
+      'intMarginAmt',
+      'cfMarginAmt',
+      'turnoverWiseBrokerageRs',
+      'lotWiseBrokerageAmt',
+      'leverageMultiplier',
+      'tradeSecondsLimit',
+      'updatedOn',
+    }.contains(colId);
+    return ViewTextCell(text: text, isDark: false, isNumeric: isNumericCol);
   }
 }

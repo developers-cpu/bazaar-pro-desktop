@@ -11,6 +11,7 @@ import '../../../../users/presentation/widgets/create_user/update_access_dialog.
 import '../../../../report/domain/entities/user_script_position_tracking.dart';
 import '../../bloc/user_script_position_tracking/user_script_position_tracking_bloc.dart';
 import '../../bloc/user_script_position_tracking/user_script_position_tracking_state.dart';
+import 'trade_dialog.dart';
 
 class UserScriptPositionTrackingTable extends StatelessWidget {
   final bool isDarkMode;
@@ -95,7 +96,17 @@ class UserScriptPositionTrackingTable extends StatelessWidget {
           },
         );
       case 'symbol':
-        return ViewTextCell(text: item.symbol, isDark: isDark);
+        return ViewLinkCell(
+          text: item.symbol,
+          isDark: isDark,
+          onTap: () {
+            TradeDialog.show(
+              context,
+              symbol: item.symbol,
+              userName: item.userName,
+            );
+          },
+        );
       case 'position':
         return ViewTextCell(text: item.position, isDark: isDark);
       case 'openAPrice':

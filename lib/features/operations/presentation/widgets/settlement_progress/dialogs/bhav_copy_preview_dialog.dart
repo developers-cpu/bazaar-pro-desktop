@@ -8,6 +8,7 @@ import '../../../../../../core/widget/common_dilog_box.dart';
 import '../../../../../../core/widget/custom_action_button.dart';
 import '../../../../../../core/widget/custom_input_field.dart';
 import '../../../../../../core/widget/table/view_data_table.dart';
+import '../../../../../../core/widget/table/view_table_cell_styles.dart';
 import '../../../../domain/entities/settlement_progress/bhav_copy_entity.dart';
 import '../../../bloc/settlement_progress/settlement_progress_bloc.dart';
 import '../../../bloc/settlement_progress/settlement_progress_event.dart';
@@ -162,15 +163,27 @@ class _BhavCopyPreviewContentState extends State<_BhavCopyPreviewContent> {
                 final dataItem = item;
                 switch (column.id) {
                   case 'exch':
-                    return Text(dataItem.exch);
+                    return ViewTextCell(text: dataItem.exch, isDark: false);
                   case 'symbol':
-                    return Text(dataItem.symbol);
+                    return ViewTextCell(text: dataItem.symbol, isDark: false);
                   case 'expiryDate':
-                    return Text(dataItem.expiryDate);
+                    return ViewTextCell(
+                      text: dataItem.expiryDate,
+                      isDark: false,
+                      isNumeric: true,
+                    );
                   case 'dayHigh':
-                    return Text(dataItem.dayHigh.toStringAsFixed(0));
+                    return ViewTextCell(
+                      text: dataItem.dayHigh.toStringAsFixed(0),
+                      isDark: false,
+                      isNumeric: true,
+                    );
                   case 'dayLow':
-                    return Text(dataItem.dayLow.toStringAsFixed(0));
+                    return ViewTextCell(
+                      text: dataItem.dayLow.toStringAsFixed(0),
+                      isDark: false,
+                      isNumeric: true,
+                    );
                   case 'dayClose':
                     return Container(
                       padding: EdgeInsets.symmetric(
@@ -187,8 +200,8 @@ class _BhavCopyPreviewContentState extends State<_BhavCopyPreviewContent> {
                       child: Text(
                         dataItem.dayClose.toStringAsFixed(0),
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: AppColors.primaryBlue,
+                        style: ViewTableCellStyles.getTextStyle(
+                          isDark: false,
                           fontWeight: FontWeight.w600,
                         ),
                       ),

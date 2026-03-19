@@ -33,6 +33,7 @@ class SettlementEntryModel extends SettlementEntry {
     required String userType,
     required double pnl,
     required double brokerage,
+    required double percentageWise,
     required double total,
   }) : super(
          userId: userId,
@@ -40,6 +41,7 @@ class SettlementEntryModel extends SettlementEntry {
          userType: userType,
          pnl: pnl,
          brokerage: brokerage,
+         percentageWise: percentageWise,
          total: total,
        );
   factory SettlementEntryModel.fromJson(Map<String, dynamic> json) {
@@ -49,6 +51,7 @@ class SettlementEntryModel extends SettlementEntry {
       userType: json['userType'],
       pnl: (json['pnl'] as num).toDouble(),
       brokerage: (json['brokerage'] as num).toDouble(),
+      percentageWise: (json['percentageWise'] ?? 0.0 as num).toDouble(),
       total: (json['total'] as num).toDouble(),
     );
   }
@@ -58,16 +61,19 @@ class SettlementTotalModel extends SettlementTotal {
   const SettlementTotalModel({
     required double totalPnl,
     required double totalBrokerage,
+    required double totalPercentageWise,
     required double totalAmount,
   }) : super(
          totalPnl: totalPnl,
          totalBrokerage: totalBrokerage,
+         totalPercentageWise: totalPercentageWise,
          totalAmount: totalAmount,
        );
   factory SettlementTotalModel.fromJson(Map<String, dynamic> json) {
     return SettlementTotalModel(
       totalPnl: (json['totalPnl'] as num).toDouble(),
       totalBrokerage: (json['totalBrokerage'] as num).toDouble(),
+      totalPercentageWise: (json['totalPercentageWise'] ?? 0.0 as num).toDouble(),
       totalAmount: (json['totalAmount'] as num).toDouble(),
     );
   }

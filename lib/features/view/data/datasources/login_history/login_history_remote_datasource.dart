@@ -5,7 +5,10 @@ import 'package:intl/intl.dart';
 import '../../models/login_history/login_history_model.dart';
 
 abstract class LoginHistoryRemoteDataSource {
-  Future<List<LoginHistoryModel>> getLoginHistory(String client);
+  Future<List<LoginHistoryModel>> getLoginHistory(
+    String client, {
+    String? userType,
+  });
   Future<List<String>> getClients();
   Future<String> exportToPdf(List<LoginHistoryModel> history);
   Future<String> exportToExcel(List<LoginHistoryModel> history);
@@ -15,10 +18,13 @@ class LoginHistoryRemoteDataSourceImpl implements LoginHistoryRemoteDataSource {
   final Dio dio;
   LoginHistoryRemoteDataSourceImpl({required this.dio});
   @override
-  Future<List<LoginHistoryModel>> getLoginHistory(String client) async {
+  Future<List<LoginHistoryModel>> getLoginHistory(
+    String client, {
+    String? userType,
+  }) async {
     try {
       await Future.delayed(const Duration(milliseconds: 500));
-      return _generateMockLoginHistory(client);
+      return _generateMockLoginHistory(client, userType: userType);
     } catch (e) {
       throw Exception('Failed to fetch login history: $e');
     }
@@ -28,7 +34,17 @@ class LoginHistoryRemoteDataSourceImpl implements LoginHistoryRemoteDataSource {
   Future<List<String>> getClients() async {
     try {
       await Future.delayed(const Duration(milliseconds: 200));
-      return ['User 1', 'User 2', 'User 3', 'User 4', 'User 5'];
+      return [
+        'User 1',
+        'User 2',
+        'User 3',
+        'User 4',
+        'User 5',
+        'User 6',
+        'User 7',
+        'User 8',
+        'User 9'
+      ];
     } catch (e) {
       throw Exception('Failed to fetch clients: $e');
     }
@@ -126,7 +142,10 @@ class LoginHistoryRemoteDataSourceImpl implements LoginHistoryRemoteDataSource {
     return 'login_history_${DateTime.now().millisecondsSinceEpoch}.xlsx';
   }
 
-  List<LoginHistoryModel> _generateMockLoginHistory(String client) {
+  List<LoginHistoryModel> _generateMockLoginHistory(
+    String client, {
+    String? userType,
+  }) {
     final List<LoginHistoryModel> history = [];
     final userTypes = ['MASTER', 'CLIENT'];
     final devices = ['IOS', 'ANDROID', 'WEB'];
@@ -154,16 +173,32 @@ class LoginHistoryRemoteDataSourceImpl implements LoginHistoryRemoteDataSource {
       DateTime(2025, 10, 28, 22, 29, 41),
       DateTime(2025, 10, 28, 21, 51, 6),
     ];
+    final List<String> availableClients = [
+      'User 1',
+      'User 2',
+      'User 3',
+      'User 4',
+      'User 5',
+      'User 6',
+      'User 7',
+      'User 8',
+      'User 9'
+    ];
     for (int i = 0; i < 50; i++) {
       final dateIndex = i % loginDates.length;
+      final String uName = (client == "All") ? availableClients[i % availableClients.length] : client;
+      final String uType = (userType == null || userType == "All" || userType.isEmpty)
+          ? userTypes[i % userTypes.length]
+          : userType.toUpperCase();
+
       history.add(
         LoginHistoryModel(
           id: 'login_$i',
           index: i + 1,
           loginTime: loginDates[dateIndex],
           logoutTime: logoutDates[dateIndex],
-          userName: 'DEMO',
-          userType: userTypes[i % userTypes.length],
+          userName: uName,
+          userType: uType,
           ipAddress: '103.60.95.6',
           deviceId: '042590A-6578-4D7C-82E0-D10CF23',
           device: devices[i % devices.length],

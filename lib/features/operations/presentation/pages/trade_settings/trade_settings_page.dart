@@ -71,7 +71,11 @@ class _TradeSettingsPageState extends State<TradeSettingsPage> {
         }
       },
       builder: (_, state) {
-        final settings = (state is TradeSettingsLoaded) ? state.settings : [];
+        final settings = (state is TradeSettingsLoaded)
+            ? state.settings
+                .where((s) => _selectedExchange != null || s.symbol == null)
+                .toList()
+            : [];
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
           child: Column(
@@ -161,6 +165,8 @@ class _TradeSettingsPageState extends State<TradeSettingsPage> {
       selectedIds: _selectedIds,
       onSelectionChanged: (ids) => setState(() => _selectedIds = ids),
       activeTab: _activeTab,
+      marginType: _marginType,
+      brokerageType: _brokerageType,
       onExchangeTap: _activeTab != 2
           ? (exchange) => setState(() {
               _selectedExchange = exchange;
@@ -171,8 +177,16 @@ class _TradeSettingsPageState extends State<TradeSettingsPage> {
   }
 
   List<dynamic> _getDetailData(List<dynamic> settings) {
+    if (_activeTab == 2) {
+
+      return settings
+          .where((s) => s is TradeSetting && s.symbol == null)
+          .toList();
+    }
     return settings
-        .where((s) => s is TradeSetting && s.exchange == _selectedExchange)
+        .where((s) => s is TradeSetting &&
+            s.exchange == _selectedExchange &&
+            s.symbol != null)
         .toList();
   }
 
@@ -237,7 +251,7 @@ class _TradeSettingsPageState extends State<TradeSettingsPage> {
           );
         }
         if (column.id == 'symbol') {
-          return ViewTextCell(text: item.exchange, isDark: false);
+          return ViewTextCell(text: item.symbol ?? item.exchange, isDark: false);
         }
         return _buildDetailCell(item, column.id);
       },
@@ -335,7 +349,7 @@ class _TradeSettingsPageState extends State<TradeSettingsPage> {
         return bCols;
       case 2:
         return [
-          ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 180.w),
+          ViewTableColumn(id: 'symbol', label: 'EXCHANGE', width: 180.w),
           ViewTableColumn(
             id: 'leverageMultiplier',
             label: 'LEVERAGE',
@@ -368,7 +382,13 @@ class _TradeSettingsPageState extends State<TradeSettingsPage> {
     String text = '';
     switch (colId) {
       case 'marginType':
-        text = item.marginType ?? '-';
+        if (_marginType == 'Percentage Wise') {
+          text = 'Percentage';
+        } else if (_marginType == 'Amount Wise') {
+          text = 'Amount Wise';
+        } else {
+          text = 'Both';
+        }
         break;
       case 'intMarginPercentage':
         text = item.intMarginPercentage ?? '-';
@@ -383,7 +403,13 @@ class _TradeSettingsPageState extends State<TradeSettingsPage> {
         text = item.cfMarginAmt ?? '-';
         break;
       case 'brokerageType':
-        text = item.brokerageType ?? '-';
+        if (_brokerageType == 'Turnover Wise') {
+          text = 'Turnover Wise';
+        } else if (_brokerageType == 'Lot Wise') {
+          text = 'Lot Wise';
+        } else {
+          text = 'Both';
+        }
         break;
       case 'turnoverWiseBrokerageRs':
         text = item.turnoverWiseBrokerageRs ?? '-';

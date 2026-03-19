@@ -23,11 +23,28 @@ class LoginHistoryFilterBar extends StatelessWidget {
             ? state.clients
             : state is LoginHistoryLoaded
             ? state.clients
+            : state is LoginHistoryLoading
+            ? state.clients
+            : state is LoginHistoryError
+            ? state.clients
             : <String>[];
         final selectedClient = state is LoginHistoryInitial
             ? state.selectedClient
             : state is LoginHistoryLoaded
             ? state.selectedClient
+            : state is LoginHistoryLoading
+            ? state.selectedClient
+            : state is LoginHistoryError
+            ? state.selectedClient
+            : null;
+        final selectedUserType = state is LoginHistoryInitial
+            ? state.selectedUserType
+            : state is LoginHistoryLoaded
+            ? state.selectedUserType
+            : state is LoginHistoryLoading
+            ? state.selectedUserType
+            : state is LoginHistoryError
+            ? state.selectedUserType
             : null;
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
@@ -38,8 +55,13 @@ class LoginHistoryFilterBar extends StatelessWidget {
                 child: AppDropdown(
                   type: AppDropdownType.simple,
                   hintText: 'User Type',
-                  items: const ['Master', 'Client'],
-                  onChanged: (value) {},
+                  value: selectedUserType,
+                  items: const ['All', 'Master', 'Client'],
+                  onChanged: (value) {
+                    context.read<LoginHistoryBloc>().add(
+                          SelectUserTypeEvent(value),
+                        );
+                  },
                 ),
               ),
               SizedBox(width: 12.w),

@@ -31,120 +31,7 @@ class SymbolWisePLRemoteDataSourceImpl implements SymbolWisePLRemoteDataSource {
     String? symbol,
   }) async {
     await Future.delayed(const Duration(milliseconds: 500));
-    final List<SymbolWisePLReportModel> mockData = [
-      const SymbolWisePLReportModel(
-        id: '1',
-        exchange: 'NSE',
-        symbol: 'BTCUSD31DEC',
-        releasePL: 0.00,
-        m2m: 38970.00,
-        brokerage: 1601.40,
-        netPL: 37369.35,
-        netQty: 0.0,
-        netQtyPercent: 0.0,
-        avgPrice: 38970.00,
-        wbaPrice: 0.0,
-        cmp: 0.0,
-        plPercent: 0.0,
-        brokeragePercent: 0.0,
-      ),
-      const SymbolWisePLReportModel(
-        id: '2',
-        exchange: 'NSE',
-        symbol: 'ETHUSD31DEC',
-        releasePL: 25.76,
-        m2m: 5361.99,
-        brokerage: 1.10,
-        netPL: 5386.65,
-        netQty: 0.0,
-        netQtyPercent: 0.0,
-        avgPrice: 5361.99,
-        wbaPrice: 0.0,
-        cmp: 0.0,
-        plPercent: 0.0,
-        brokeragePercent: 0.0,
-      ),
-      const SymbolWisePLReportModel(
-        id: '3',
-        exchange: 'MCX',
-        symbol: 'GOLDPETAL',
-        releasePL: 2000.00,
-        m2m: 2000.00,
-        brokerage: 50.00,
-        netPL: 1950.00,
-        netQty: 10.0,
-        netQtyPercent: 5.0,
-        avgPrice: 59000.00,
-        wbaPrice: 59050.00,
-        cmp: 59200.00,
-        plPercent: 15.00,
-        brokeragePercent: 10.00,
-      ),
-      const SymbolWisePLReportModel(
-        id: '4',
-        exchange: 'NSE',
-        symbol: 'GOLD05DEC',
-        releasePL: -36200.00,
-        m2m: -500.00,
-        brokerage: 1000000.00,
-        netPL: 124191.00,
-        netQty: 0.0,
-        netQtyPercent: 0.0,
-        avgPrice: 0.0,
-        wbaPrice: 0.0,
-        cmp: 0.0,
-        plPercent: 0.0,
-        brokeragePercent: 0.0,
-      ),
-      const SymbolWisePLReportModel(
-        id: '5',
-        exchange: 'NSE',
-        symbol: 'GOLD05DEC',
-        releasePL: 36200.00,
-        m2m: 1000000.00,
-        brokerage: 1000000.00,
-        netPL: 124191.00,
-        netQty: 0.0,
-        netQtyPercent: 0.0,
-        avgPrice: 0.0,
-        wbaPrice: 0.0,
-        cmp: 0.0,
-        plPercent: 0.0,
-        brokeragePercent: 0.0,
-      ),
-      const SymbolWisePLReportModel(
-        id: '6',
-        exchange: 'NSE',
-        symbol: 'GOLD05DEC',
-        releasePL: -36200.00,
-        m2m: -500.00,
-        brokerage: 1000000.00,
-        netPL: 124191.00,
-        netQty: 0.0,
-        netQtyPercent: 0.0,
-        avgPrice: 0.0,
-        wbaPrice: 0.0,
-        cmp: 0.0,
-        plPercent: 0.0,
-        brokeragePercent: 0.0,
-      ),
-      const SymbolWisePLReportModel(
-        id: '7',
-        exchange: 'NSE',
-        symbol: 'GOLD05DEC',
-        releasePL: 36200.00,
-        m2m: 1000000.00,
-        brokerage: 1000000.00,
-        netPL: 124191.00,
-        netQty: 0.0,
-        netQtyPercent: 0.0,
-        avgPrice: 0.0,
-        wbaPrice: 0.0,
-        cmp: 0.0,
-        plPercent: 0.0,
-        brokeragePercent: 0.0,
-      ),
-    ];
+    final List<SymbolWisePLReportModel> mockData = _generateDummySymbolWisePLReport();
     final filtered = mockData.where((item) {
       if (exchange != null &&
           exchange.isNotEmpty &&
@@ -159,6 +46,56 @@ class SymbolWisePLRemoteDataSourceImpl implements SymbolWisePLRemoteDataSource {
     return Right(filtered);
   }
 
+  List<SymbolWisePLReportModel> _generateDummySymbolWisePLReport() {
+    final List<String> exchanges = ['NSE', 'MCX', 'NFO'];
+    final List<String> symbols = [
+      'BTCUSD31DEC',
+      'ETHUSD31DEC',
+      'GOLDPETAL',
+      'GOLD05DEC',
+      'SILVERMIC',
+      'CRUDEOIL',
+      'NATGAS',
+      'COPPER',
+      'RELIANCE',
+      'TCS',
+      'INFY',
+      'HDFCBANK',
+      'NIFTY',
+      'BANKNIFTY'
+    ];
+
+    final List<SymbolWisePLReportModel> list = [];
+    for (int i = 1; i <= 35; i++) {
+      final String exch = exchanges[i % exchanges.length];
+      final String sym = symbols[i % symbols.length];
+      final double relPL = (i % 3 == 0) ? -(i * 1200.50) : (i * 850.75);
+      final double m2m = (i % 2 == 0) ? (i * 500.0) : -(i * 300.25);
+      final double brk = i * 15.50;
+      final double netPL = relPL + m2m - brk;
+
+      list.add(
+        SymbolWisePLReportModel(
+          id: i.toString(),
+          exchange: exch,
+          symbol: '$sym-${i + 100}',
+          releasePL: relPL,
+          m2m: m2m,
+          brokerage: brk,
+          netPL: netPL,
+          netQty: i * 5.0,
+          netQtyPercent: (i % 5).toDouble(),
+          avgPrice: 1000.0 + (i * 10),
+          wbaPrice: 1005.0 + (i * 10),
+          cmp: 1010.0 + (i * 10),
+          plPercent: (i % 10).toDouble(),
+          brokeragePercent: (i % 4).toDouble(),
+        ),
+      );
+    }
+    return list;
+  }
+
   @override
   Future<Either<Failure, List<SymbolTradeLogModel>>> getSymbolTradeLog({
     String? symbol,
@@ -168,84 +105,7 @@ class SymbolWisePLRemoteDataSourceImpl implements SymbolWisePLRemoteDataSource {
     DateTimeRange? dateRange,
   }) async {
     await Future.delayed(const Duration(milliseconds: 500));
-    final List<SymbolTradeLogModel> mockData = [
-      const SymbolTradeLogModel(
-        sequence: '309405',
-        userName: 'PATIL',
-        pUser: 'DEMO',
-        exchange: 'MCX',
-        symbol: 'GOLD05DEC',
-        buySell: 'SELL',
-        tradeType: 'Market',
-        qty: -500.00,
-        lot: 1.00,
-        pl: 36200.00,
-        validity: 'Market',
-        tradePrice: 124191.00,
-        brokerage: 0.00,
-        netPrice: 124191.00,
-        orderDateTime: '22/11/25 03:06:34 PM',
-        executionDateTime: '22/11/25 03:06:34 PM',
-        referencePrice: 0.00,
-      ),
-      const SymbolTradeLogModel(
-        sequence: '309405',
-        userName: 'DEMO4',
-        pUser: 'DEMO49',
-        exchange: 'NSE',
-        symbol: 'GOLD05DEC',
-        buySell: 'BUY',
-        tradeType: 'Market',
-        qty: 1000000.0,
-        lot: 1.00,
-        pl: 36200.00,
-        validity: 'Market',
-        tradePrice: 124191.00,
-        brokerage: 0.00,
-        netPrice: 124191.00,
-        orderDateTime: '22/11/25 03:06:34 PM',
-        executionDateTime: '22/11/25 03:06:34 PM',
-        referencePrice: 0.00,
-      ),
-      const SymbolTradeLogModel(
-        sequence: '333444',
-        userName: 'CRYPTO_USER',
-        pUser: 'MASTER',
-        exchange: 'NSE',
-        symbol: 'BTCUSD31DEC',
-        buySell: 'BUY',
-        tradeType: 'Market',
-        qty: 1.0,
-        lot: 1.00,
-        pl: 500.00,
-        validity: 'Day',
-        tradePrice: 40000.00,
-        brokerage: 10.00,
-        netPrice: 40010.00,
-        orderDateTime: '25/12/25 10:00:00 AM',
-        executionDateTime: '25/12/25 10:00:05 AM',
-        referencePrice: 0.00,
-      ),
-      const SymbolTradeLogModel(
-        sequence: '555666',
-        userName: 'GOLD_USER',
-        pUser: 'MASTER',
-        exchange: 'MCX',
-        symbol: 'GOLDPETAL',
-        buySell: 'SELL',
-        tradeType: 'Market',
-        qty: 10.0,
-        lot: 1.00,
-        pl: 1500.00,
-        validity: 'Day',
-        tradePrice: 59000.00,
-        brokerage: 20.00,
-        netPrice: 58980.00,
-        orderDateTime: '26/12/25 11:30:00 AM',
-        executionDateTime: '26/12/25 11:30:05 AM',
-        referencePrice: 0.00,
-      ),
-    ];
+    final List<SymbolTradeLogModel> mockData = _generateDummySymbolTradeLogs(symbol);
     final filtered = mockData.where((item) {
       if (symbol != null && symbol.isNotEmpty && item.symbol != symbol) {
         return false;
@@ -260,6 +120,34 @@ class SymbolWisePLRemoteDataSourceImpl implements SymbolWisePLRemoteDataSource {
     return Right(filtered);
   }
 
+  List<SymbolTradeLogModel> _generateDummySymbolTradeLogs(String? targetSymbol) {
+    final List<SymbolTradeLogModel> list = [];
+    for (int i = 1; i <= 35; i++) {
+      list.add(
+        SymbolTradeLogModel(
+          sequence: (309400 + i).toString(),
+          userName: 'USER_${i.toString().padLeft(3, '0')}',
+          pUser: 'DEMO_${(i % 5).toString()}',
+          exchange: i % 2 == 0 ? 'NSE' : 'MCX',
+          symbol: targetSymbol ?? (i % 2 == 0 ? 'BTCUSD31DEC' : 'GOLD05DEC'),
+          buySell: i % 3 == 0 ? 'SELL' : 'BUY',
+          tradeType: 'Market',
+          qty: (i * 100).toDouble() * (i % 3 == 0 ? -1 : 1),
+          lot: 1.00,
+          pl: (i * 500).toDouble(),
+          validity: 'Market',
+          tradePrice: 120000.00 + (i * 10),
+          brokerage: (i * 2).toDouble(),
+          netPrice: 120000.00 + (i * 10) + (i * 2),
+          orderDateTime: '22/11/25 03:06:${(i % 60).toString().padLeft(2, '0')} PM',
+          executionDateTime: '22/11/25 03:06:${(i % 60).toString().padLeft(2, '0')} PM',
+          referencePrice: 0.00,
+        ),
+      );
+    }
+    return list;
+  }
+
   @override
   Future<Either<Failure, List<SymbolOpenPositionModel>>> getSymbolOpenPosition({
     String? symbol,
@@ -267,68 +155,7 @@ class SymbolWisePLRemoteDataSourceImpl implements SymbolWisePLRemoteDataSource {
     String? user,
   }) async {
     await Future.delayed(const Duration(milliseconds: 500));
-    final List<SymbolOpenPositionModel> mockData = [
-      const SymbolOpenPositionModel(
-        name: 'DEMO11',
-        type: 'Master',
-        exchange: 'MCX',
-        symbol: 'GOLD05DEC',
-        buyQty: 10000.0,
-        sellQty: 0.00,
-        netQty: 1000.0,
-        netAvgPrice: 90792.00,
-        cmp: 124536.00,
-        m2m: 124536.00,
-        ourPercent: 0.00,
-        user: '1',
-        days: 1,
-      ),
-      const SymbolOpenPositionModel(
-        name: 'DEMO012',
-        type: 'Client',
-        exchange: 'MCX',
-        symbol: 'GOLD05DEC',
-        buyQty: 0.00,
-        sellQty: 1.00,
-        netQty: -1.00,
-        netAvgPrice: 130319.73,
-        cmp: 124191.00,
-        m2m: 124191.00,
-        ourPercent: 0.00,
-        user: '-',
-        days: 2,
-      ),
-      const SymbolOpenPositionModel(
-        name: 'CRYPTO_HOLDER',
-        type: 'Client',
-        exchange: 'NSE',
-        symbol: 'BTCUSD31DEC',
-        buyQty: 5.0,
-        sellQty: 0.00,
-        netQty: 5.0,
-        netAvgPrice: 38000.00,
-        cmp: 38970.00,
-        m2m: 4850.00,
-        ourPercent: 0.00,
-        user: '2',
-        days: 5,
-      ),
-      const SymbolOpenPositionModel(
-        name: 'GOLD_HOLDER',
-        type: 'Master',
-        exchange: 'MCX',
-        symbol: 'GOLDPETAL',
-        buyQty: 20.0,
-        sellQty: 0.00,
-        netQty: 20.0,
-        netAvgPrice: 58000.00,
-        cmp: 59200.00,
-        m2m: 24000.00,
-        ourPercent: 0.00,
-        user: '3',
-        days: 3,
-      ),
-    ];
+    final List<SymbolOpenPositionModel> mockData = _generateDummySymbolOpenPositions(symbol);
     final filtered = mockData.where((item) {
       if (symbol != null && symbol.isNotEmpty && item.symbol != symbol) {
         return false;
@@ -344,5 +171,29 @@ class SymbolWisePLRemoteDataSourceImpl implements SymbolWisePLRemoteDataSource {
       return true;
     }).toList();
     return Right(filtered);
+  }
+
+  List<SymbolOpenPositionModel> _generateDummySymbolOpenPositions(String? targetSymbol) {
+    final List<SymbolOpenPositionModel> list = [];
+    for (int i = 1; i <= 35; i++) {
+      list.add(
+        SymbolOpenPositionModel(
+          name: 'HOLDER_${i.toString().padLeft(3, '0')}',
+          type: i % 4 == 0 ? 'Master' : 'Client',
+          exchange: i % 2 == 0 ? 'MCX' : 'NSE',
+          symbol: targetSymbol ?? (i % 2 == 0 ? 'GOLD05DEC' : 'BTCUSD31DEC'),
+          buyQty: (i * 100).toDouble(),
+          sellQty: (i % 5 == 0) ? (i * 50).toDouble() : 0.0,
+          netQty: (i * 100).toDouble() - ((i % 5 == 0) ? (i * 50).toDouble() : 0.0),
+          netAvgPrice: 90000.00 + (i * 100),
+          cmp: 90000.00 + (i * 110),
+          m2m: (i * 1000).toDouble(),
+          ourPercent: (i % 20).toDouble(),
+          user: i.toString(),
+          days: i % 10,
+        ),
+      );
+    }
+    return list;
   }
 }

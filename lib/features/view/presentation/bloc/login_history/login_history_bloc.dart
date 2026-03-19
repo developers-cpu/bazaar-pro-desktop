@@ -18,6 +18,7 @@ class LoginHistoryBloc extends Bloc<LoginHistoryEvent, LoginHistoryState> {
   }) : super(const LoginHistoryInitial()) {
     on<LoadClientsEvent>(_onLoadClients);
     on<SelectClientEvent>(_onSelectClient);
+    on<SelectUserTypeEvent>(_onSelectUserType);
     on<ViewLoginHistoryEvent>(_onViewHistory);
     on<ResetLoginHistoryEvent>(_onResetHistory);
     on<SortLoginHistoryByColumnEvent>(_onSortByColumn);
@@ -49,6 +50,7 @@ class LoginHistoryBloc extends Bloc<LoginHistoryEvent, LoginHistoryState> {
         LoginHistoryInitial(
           clients: currentState.clients,
           selectedClient: event.client,
+          selectedUserType: currentState.selectedUserType,
         ),
       );
     } else if (state is LoginHistoryLoaded) {
@@ -59,31 +61,71 @@ class LoginHistoryBloc extends Bloc<LoginHistoryEvent, LoginHistoryState> {
     }
   }
 
+  void _onSelectUserType(
+    SelectUserTypeEvent event,
+    Emitter<LoginHistoryState> emit,
+  ) {
+    if (state is LoginHistoryInitial) {
+      final currentState = state as LoginHistoryInitial;
+      emit(
+        LoginHistoryInitial(
+          clients: currentState.clients,
+          selectedClient: currentState.selectedClient,
+          selectedUserType: event.userType,
+        ),
+      );
+    } else if (state is LoginHistoryLoaded) {
+      final currentState = state as LoginHistoryLoaded;
+      emit(
+        currentState.copyWith(selectedUserType: event.userType, showTable: false),
+      );
+    }
+  }
+
   Future<void> _onViewHistory(
     ViewLoginHistoryEvent event,
     Emitter<LoginHistoryState> emit,
   ) async {
     String? clientToFetch;
+    String? userTypeToFetch;
     List<String> clients = [];
     if (state is LoginHistoryInitial) {
       clientToFetch = (state as LoginHistoryInitial).selectedClient;
+      userTypeToFetch = (state as LoginHistoryInitial).selectedUserType;
       clients = (state as LoginHistoryInitial).clients;
     } else if (state is LoginHistoryLoaded) {
       clientToFetch = (state as LoginHistoryLoaded).selectedClient;
+      userTypeToFetch = (state as LoginHistoryLoaded).selectedUserType;
       clients = (state as LoginHistoryLoaded).clients;
     }
-    if (clientToFetch == null || clientToFetch.isEmpty) {
-      return;
-    }
-    emit(const LoginHistoryLoading());
+    final String effectiveClient =
+        (clientToFetch == null || clientToFetch.isEmpty) ? "All" : clientToFetch;
+
+    emit(
+      LoginHistoryLoading(
+        clients: clients,
+        selectedClient: clientToFetch,
+        selectedUserType: userTypeToFetch,
+      ),
+    );
     try {
-      final historyResult = await getLoginHistory(clientToFetch);
+      final historyResult = await getLoginHistory(
+        LoginHistoryParams(client: effectiveClient, userType: userTypeToFetch),
+      );
       historyResult.fold(
-        (failure) => emit(LoginHistoryError(failure.message)),
+        (failure) => emit(
+          LoginHistoryError(
+            failure.message,
+            clients: clients,
+            selectedClient: clientToFetch,
+            selectedUserType: userTypeToFetch,
+          ),
+        ),
         (history) => emit(
           LoginHistoryLoaded(
             history: history,
-            selectedClient: clientToFetch!,
+            selectedClient: effectiveClient,
+            selectedUserType: userTypeToFetch,
             totalRecords: history.length,
             clients: clients,
             showTable: true,
@@ -105,7 +147,13 @@ class LoginHistoryBloc extends Bloc<LoginHistoryEvent, LoginHistoryState> {
     } else if (state is LoginHistoryLoaded) {
       clients = (state as LoginHistoryLoaded).clients;
     }
-    emit(LoginHistoryInitial(clients: clients, selectedClient: null));
+    emit(
+      LoginHistoryInitial(
+        clients: clients,
+        selectedClient: null,
+        selectedUserType: null,
+      ),
+    );
   }
 
   void _onSortByColumn(

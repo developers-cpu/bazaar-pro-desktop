@@ -17,6 +17,13 @@ class SelectClientEvent extends LoginHistoryEvent {
   List<Object?> get props => [client];
 }
 
+class SelectUserTypeEvent extends LoginHistoryEvent {
+  final String? userType;
+  const SelectUserTypeEvent(this.userType);
+  @override
+  List<Object?> get props => [userType];
+}
+
 class SortLoginHistoryByColumnEvent extends LoginHistoryEvent {
   final String columnId;
   final bool ascending;

@@ -13,80 +13,45 @@ class ExchangeWisePLRemoteDataSourceImpl
   Future<Either<Failure, List<ExchangeWisePLReportModel>>>
   getExchangeWisePLReport() async {
     await Future.delayed(const Duration(milliseconds: 500));
-    final List<ExchangeWisePLReportModel> mockData = [
-      const ExchangeWisePLReportModel(
-        exchange: 'NSE',
-        m2m: -500.00,
-        realisedPL: 1000000.00,
-        brokerage: 36200.00,
-        totalPL: 124191.00,
-        ourPercent: 124191.00,
-      ),
-      const ExchangeWisePLReportModel(
-        exchange: 'MCX',
-        m2m: 1000000.00,
-        realisedPL: 1000000.00,
-        brokerage: 36200.00,
-        totalPL: 124191.00,
-        ourPercent: 124191.00,
-      ),
-      const ExchangeWisePLReportModel(
-        exchange: 'GIFTNIFTY',
-        m2m: -500.00,
-        realisedPL: 1000000.00,
-        brokerage: 36200.00,
-        totalPL: 124191.00,
-        ourPercent: 124191.00,
-      ),
-      const ExchangeWisePLReportModel(
-        exchange: 'CE/PE',
-        m2m: 1000000.00,
-        realisedPL: 1000000.00,
-        brokerage: 36200.00,
-        totalPL: 124191.00,
-        ourPercent: 124191.00,
-      ),
-      const ExchangeWisePLReportModel(
-        exchange: 'OTHERS',
-        m2m: -500.00,
-        realisedPL: 1000000.00,
-        brokerage: 36200.00,
-        totalPL: 124191.00,
-        ourPercent: 124191.00,
-      ),
-      const ExchangeWisePLReportModel(
-        exchange: 'COMEX',
-        m2m: 1000000.00,
-        realisedPL: 1000000.00,
-        brokerage: 36200.00,
-        totalPL: 124191.00,
-        ourPercent: 124191.00,
-      ),
-      const ExchangeWisePLReportModel(
-        exchange: 'CRYPTO',
-        m2m: -500.00,
-        realisedPL: 1000000.00,
-        brokerage: 36200.00,
-        totalPL: 124191.00,
-        ourPercent: 124191.00,
-      ),
-      const ExchangeWisePLReportModel(
-        exchange: 'FOREX',
-        m2m: -500.00,
-        realisedPL: 1000000.00,
-        brokerage: 36200.00,
-        totalPL: 124191.00,
-        ourPercent: 124191.00,
-      ),
-      const ExchangeWisePLReportModel(
-        exchange: 'USSTOCK',
-        m2m: 1000000.00,
-        realisedPL: 1000000.00,
-        brokerage: 36200.00,
-        totalPL: 124191.00,
-        ourPercent: 124191.00,
-      ),
-    ];
+    final List<ExchangeWisePLReportModel> mockData = _generateDummyExchangeWisePLReports();
     return Right(mockData);
+  }
+
+  List<ExchangeWisePLReportModel> _generateDummyExchangeWisePLReports() {
+    final List<String> exchanges = [
+      'NSE',
+      'MCX',
+      'GIFTNIFTY',
+      'CE/PE',
+      'OTHERS',
+      'COMEX',
+      'CRYPTO',
+      'FOREX',
+      'USSTOCK',
+      'BTX',
+      'LME'
+    ];
+
+    final List<ExchangeWisePLReportModel> list = [];
+
+    for (int i = 1; i <= 35; i++) {
+      final String exch = exchanges[i % exchanges.length];
+      final double m2m = (i % 3 == 0) ? -(i * 1000.0) : (i * 50000.0);
+      final double realisedPL = (i * 100000.0);
+      final double brk = i * 2000.0;
+      final double totalPL = realisedPL + m2m - brk;
+
+      list.add(
+        ExchangeWisePLReportModel(
+          exchange: '$exch${i > exchanges.length ? '_$i' : ''}',
+          m2m: m2m,
+          realisedPL: realisedPL,
+          brokerage: brk,
+          totalPL: totalPL,
+          ourPercent: totalPL * 0.9,
+        ),
+      );
+    }
+    return list;
   }
 }

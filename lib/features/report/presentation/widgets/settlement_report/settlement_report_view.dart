@@ -9,11 +9,15 @@ import '../../../domain/entities/settlement_report.dart';
 class SettlementReportView extends StatelessWidget {
   final SettlementReport report;
   final Function(String userId, String username) onUserSelected;
+  final bool isDrilledDown;
+
   const SettlementReportView({
     super.key,
     required this.report,
     required this.onUserSelected,
+    this.isDrilledDown = false,
   });
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -29,6 +33,7 @@ class SettlementReportView extends StatelessWidget {
                 entries: report.profitList,
                 total: report.profitTotal,
                 isProfitSection: true,
+                showTotalColumn: true,
               ),
             ),
             const SizedBox(width: 2),
@@ -39,6 +44,7 @@ class SettlementReportView extends StatelessWidget {
                 entries: report.lossList,
                 total: report.lossTotal,
                 isProfitSection: false,
+                showTotalColumn: true,
               ),
             ),
           ],
@@ -53,6 +59,7 @@ class SettlementReportView extends StatelessWidget {
     required List<SettlementEntry> entries,
     required SettlementTotal total,
     required bool isProfitSection,
+    required bool showTotalColumn,
   }) {
     return Container(
       clipBehavior: Clip.antiAlias,
@@ -89,7 +96,7 @@ class SettlementReportView extends StatelessWidget {
           ),
           Container(
             color: Colors.white,
-            padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
+            padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 16.w),
             child: Row(
               children: [
                 Expanded(
@@ -97,20 +104,32 @@ class SettlementReportView extends StatelessWidget {
                   child: _buildHeaderText('Username', alignLeft: true),
                 ),
                 Expanded(flex: 2, child: _buildHeaderText('P&L')),
-                Expanded(flex: 2, child: _buildHeaderText('Brk')),
                 Expanded(
                   flex: 2,
-                  child: _buildHeaderText('Total', alignRight: true),
+                  child: _buildHeaderText(
+                    'Brk',
+                    alignRight: !showTotalColumn,
+                  ),
                 ),
+                if (showTotalColumn)
+                  Expanded(
+                    flex: 2,
+                    child: _buildHeaderText('Total', alignRight: true),
+                  ),
               ],
             ),
           ),
           Container(
-            decoration: BoxDecoration(color: Colors.white),
+            decoration: const BoxDecoration(color: Colors.white),
             child: Column(
               children: [
                 ...entries.asMap().entries.map(
-                  (e) => _buildRow(e.value, isProfitSection, e.key),
+                  (e) => _buildRow(
+                    e.value,
+                    isProfitSection,
+                    e.key,
+                    showTotalColumn: showTotalColumn,
+                  ),
                 ),
                 Container(
                   padding: const EdgeInsets.symmetric(
@@ -123,10 +142,12 @@ class SettlementReportView extends StatelessWidget {
                         flex: 3,
                         child: Text(
                           'Total',
-                          textAlign: TextAlign.center,
+                          textAlign: TextAlign.left,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.openSans(
                             color: AppColors.billDataText,
-                            fontSize: 13.sp,
+                            fontSize: 14.sp,
                           ),
                         ),
                       ),
@@ -135,8 +156,10 @@ class SettlementReportView extends StatelessWidget {
                         child: Text(
                           total.totalPnl.toStringAsFixed(0),
                           textAlign: TextAlign.center,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.openSans(
-                            fontSize: 13.sp,
+                            fontSize: 14.sp,
                             color: AppColors.billDataText,
                           ),
                         ),
@@ -145,26 +168,33 @@ class SettlementReportView extends StatelessWidget {
                         flex: 2,
                         child: Text(
                           total.totalBrokerage.toStringAsFixed(0),
-                          textAlign: TextAlign.center,
+                          textAlign: showTotalColumn
+                              ? TextAlign.center
+                              : TextAlign.right,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.openSans(
-                            fontSize: 13.sp,
+                            fontSize: 14.sp,
                             color: AppColors.billDataText,
                           ),
                         ),
                       ),
-                      Expanded(
-                        flex: 2,
-                        child: Text(
-                          total.totalAmount.toStringAsFixed(0),
-                          textAlign: TextAlign.right,
-                          style: GoogleFonts.openSans(
-                            fontSize: 13.sp,
-                            color: isProfitSection
-                                ? AppColors.buyColor
-                                : AppColors.sellColor,
+                      if (showTotalColumn)
+                        Expanded(
+                          flex: 2,
+                          child: Text(
+                            total.totalAmount.toStringAsFixed(0),
+                            textAlign: TextAlign.right,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: GoogleFonts.openSans(
+                              fontSize: 14.sp,
+                              color: isProfitSection
+                                  ? AppColors.buyColor
+                                  : AppColors.sellColor,
+                            ),
                           ),
                         ),
-                      ),
                     ],
                   ),
                 ),
@@ -192,8 +222,8 @@ class SettlementReportView extends StatelessWidget {
           text,
           style: GoogleFonts.openSans(
             color: AppColors.billTableHeaderText,
-            fontWeight: FontWeight.w600,
-            fontSize: 12.sp,
+            fontWeight: FontWeight.w500,
+            fontSize: 16.sp,
           ),
         ),
         SizedBox(width: 4.w),
@@ -202,11 +232,22 @@ class SettlementReportView extends StatelessWidget {
     );
   }
 
-  Widget _buildRow(SettlementEntry entry, bool isProfitSection, int index) {
+  Widget _buildRow(
+    SettlementEntry entry,
+    bool isProfitSection,
+    int index, {
+    required bool showTotalColumn,
+  }) {
     final isMaster =
         entry.userType.isNotEmpty && entry.userType.toUpperCase() != 'C';
+    final usernameDisplay = isDrilledDown && !isProfitSection
+        ? '${entry.username} (${entry.userType})'
+        : entry.userType.isNotEmpty
+        ? '${entry.username} [${entry.userType}]'
+        : entry.username;
+
     final rowContent = Container(
-      padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
+      padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 16.w),
       decoration: BoxDecoration(
         color: index % 2 == 0
             ? (isProfitSection
@@ -219,26 +260,32 @@ class SettlementReportView extends StatelessWidget {
         children: [
           Expanded(
             flex: 3,
-            child: Row(
-              children: [
-                Text(
-                  entry.username,
-                  style: GoogleFonts.openSans(
-                    color: AppColors.billDataText,
-                    fontSize: 13.sp,
-                    decoration: isMaster ? TextDecoration.underline : null,
-                    decorationColor: AppColors.billDataText,
-                  ),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                usernameDisplay,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: GoogleFonts.openSans(
+                  color: isMaster && !isDrilledDown
+                      ? Colors.transparent
+                      : AppColors.billDataText,
+                  fontSize: 14.sp,
+                  shadows: isMaster && !isDrilledDown
+                      ? [
+                          const Shadow(
+                            color: AppColors.billDataText,
+                            offset: Offset(0, -5),
+                          )
+                        ]
+                      : null,
+                  decoration: isMaster && !isDrilledDown
+                      ? TextDecoration.underline
+                      : null,
+                  decorationColor: AppColors.billDataText,
+                  decorationThickness: 4,
                 ),
-                SizedBox(width: 4.w),
-                Text(
-                  '[ ${entry.userType} ]',
-                  style: GoogleFonts.openSans(
-                    color: AppColors.billDataText,
-                    fontSize: 13.sp,
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
           Expanded(
@@ -246,8 +293,10 @@ class SettlementReportView extends StatelessWidget {
             child: Text(
               entry.pnl.toStringAsFixed(0),
               textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: GoogleFonts.openSans(
-                fontSize: 13.sp,
+                fontSize: 14.sp,
                 color: AppColors.billDataText,
               ),
             ),
@@ -256,34 +305,40 @@ class SettlementReportView extends StatelessWidget {
             flex: 2,
             child: Text(
               entry.brokerage.toStringAsFixed(0),
-              textAlign: TextAlign.center,
+              textAlign: showTotalColumn ? TextAlign.center : TextAlign.right,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: GoogleFonts.openSans(
-                fontSize: 13.sp,
+                fontSize: 14.sp,
                 color: AppColors.billDataText,
               ),
             ),
           ),
-          Expanded(
-            flex: 2,
-            child: Text(
-              entry.total.toStringAsFixed(0),
-              textAlign: TextAlign.right,
-              style: GoogleFonts.openSans(
-                fontSize: 13.sp,
-                color: isProfitSection
-                    ? AppColors.buyColor
-                    : AppColors.sellColor,
+          if (showTotalColumn)
+            Expanded(
+              flex: 2,
+              child: Text(
+                entry.total.toStringAsFixed(0),
+                textAlign: TextAlign.right,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: GoogleFonts.openSans(
+                  fontSize: 14.sp,
+                  color: isProfitSection
+                      ? AppColors.buyColor
+                      : AppColors.sellColor,
+                ),
               ),
             ),
-          ),
         ],
       ),
     );
-    if (isMaster) {
+
+    if (isMaster && !isDrilledDown) {
       return InkWell(
         onTap: () => onUserSelected(
           entry.userId,
-          '${entry.username} [ ${entry.userType} ]',
+          '${entry.username} [${entry.userType}]',
         ),
         child: rowContent,
       );

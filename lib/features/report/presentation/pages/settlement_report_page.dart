@@ -9,6 +9,7 @@ import '../bloc/settlement_report/settlement_report_state.dart';
 import '../widgets/settlement_report/settlement_filter_bar.dart';
 import '../widgets/settlement_report/settlement_report_view.dart';
 import '../../../../../../core/constants/app_colors.dart';
+import '../widgets/settlement_report/settlement_detail_dialog.dart';
 
 class SettlementReportPage extends StatelessWidget {
   const SettlementReportPage({super.key});
@@ -16,52 +17,11 @@ class SettlementReportPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<SettlementReportBloc, SettlementReportState>(
       builder: (context, state) {
-        final isDrilledDown =
-            state is SettlementReportLoaded && state.selectedUserId != null;
-        return PopScope(
-          canPop: !isDrilledDown,
-          onPopInvoked: (didPop) {
-            if (didPop) return;
-            if (isDrilledDown) {
-              context.read<SettlementReportBloc>().add(ClearSelectedUser());
-            }
-          },
-          child: Container(
-            color: Colors.white,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (state is SettlementReportLoaded &&
-                    state.selectedUserId != null)
-                  Padding(
-                    padding: EdgeInsets.only(left: 16.w, top: 8.h),
-                    child: InkWell(
-                      onTap: () {
-                        context.read<SettlementReportBloc>().add(
-                          ClearSelectedUser(),
-                        );
-                      },
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            Icons.arrow_back,
-                            color: AppColors.billDataText,
-                            size: 24.sp,
-                          ),
-                          SizedBox(width: 8.w),
-                          Text(
-                            'Settlement',
-                            style: GoogleFonts.openSans(
-                              color: AppColors.billTableHeaderText,
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+        return Container(
+          color: Colors.white,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
                 if (state is SettlementReportLoaded)
                   SettlementFilterBar(
                     onDateRangeChanged: (value) {
@@ -160,31 +120,6 @@ class SettlementReportPage extends StatelessWidget {
                       );
                     },
                   ),
-                if (state is SettlementReportLoaded &&
-                    state.selectedUserId != null &&
-                    state.selectedUserName != null)
-                  Container(
-                    width: double.infinity,
-                    margin: EdgeInsets.symmetric(
-                      vertical: 8.h,
-                      horizontal: 16.w,
-                    ),
-                    padding: EdgeInsets.symmetric(vertical: 8.h),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(color: AppColors.billTableHeaderText),
-                      borderRadius: BorderRadius.circular(4.r),
-                    ),
-                    alignment: Alignment.center,
-                    child: Text(
-                      state.selectedUserName!,
-                      style: GoogleFonts.openSans(
-                        color: AppColors.sellColor,
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
                 Expanded(
                   child: Builder(
                     builder: (context) {
@@ -194,11 +129,11 @@ class SettlementReportPage extends StatelessWidget {
                         return SettlementReportView(
                           report: state.report,
                           onUserSelected: (userId, username) {
-                            context.read<SettlementReportBloc>().add(
-                              SelectUserForDetail(
-                                userId: userId,
-                                username: username,
-                              ),
+                            SettlementDetailDialog.show(
+                              context,
+                              userId,
+                              username,
+                              state.selectedDateRange,
                             );
                           },
                         );
@@ -211,8 +146,7 @@ class SettlementReportPage extends StatelessWidget {
                 ),
               ],
             ),
-          ),
-        );
+         );
       },
     );
   }

@@ -203,11 +203,18 @@ class _ManualTradeContent extends StatelessWidget {
             ),
             SizedBox(height: 8.h),
             Text('Time', style: _labelStyle()),
-            GestureDetector(
-              onTap: () async {
+            CustomInputField(
+              hintText: 'Select Time',
+              height: 28.h,
+              width: double.infinity,
+              controller: TextEditingController(text: state.selectedTime),
+              onChanged: (val) => _updateField(context, 'selectedTime', val),
+              suffixIcon: Icons.calendar_today,
+              onSuffixIconPressed: () async {
+                final bloc = context.read<ManualTradeBloc>();
                 final TimeOfDay? time = await showTimePicker(
                   context: context,
-                  initialTime: state.selectedTime ?? TimeOfDay.now(),
+                  initialTime: TimeOfDay.now(),
                   builder: (context, child) {
                     return Theme(
                       data: Theme.of(context).copyWith(
@@ -216,72 +223,43 @@ class _ManualTradeContent extends StatelessWidget {
                           onPrimary: Colors.white,
                           onSurface: AppColors.black,
                         ),
-                        textButtonTheme: TextButtonThemeData(
-                          style: TextButton.styleFrom(
-                            foregroundColor: AppColors.primaryBlue,
-                          ),
-                        ),
-                        timePickerTheme: TimePickerThemeData(
-                          dialHandColor: AppColors.primaryBlue,
-                          hourMinuteColor: MaterialStateColor.resolveWith(
-                            (states) => states.contains(MaterialState.selected)
-                                ? AppColors.primaryBlue
-                                : AppColors.primaryBlue.withOpacity(0.1),
-                          ),
-                          hourMinuteTextColor: MaterialStateColor.resolveWith(
-                            (states) => states.contains(MaterialState.selected)
-                                ? Colors.white
-                                : AppColors.primaryBlue,
-                          ),
-                          dayPeriodColor: MaterialStateColor.resolveWith(
-                            (states) => states.contains(MaterialState.selected)
-                                ? AppColors.primaryBlue
-                                : AppColors.primaryBlue.withOpacity(0.1),
-                          ),
-                          dayPeriodTextColor: MaterialStateColor.resolveWith(
-                            (states) => states.contains(MaterialState.selected)
-                                ? Colors.white
-                                : AppColors.primaryBlue,
-                          ),
-                        ),
                       ),
                       child: child!,
                     );
                   },
                 );
                 if (time != null) {
-                  _updateField(context, 'selectedTime', time);
+                  final now = DateTime.now();
+                  final selectedDateTime = DateTime(
+                    now.year,
+                    now.month,
+                    now.day,
+                    time.hour,
+                    time.minute,
+                    now.second,
+                  );
+                  try {
+
+                    if (!bloc.isClosed) {
+                      bloc.add(
+                        UpdateManualTradeFieldEvent(
+                          field: 'selectedTime',
+                          value:
+                              DateFormat('h:mm:ss a').format(selectedDateTime),
+                        ),
+                      );
+                    }
+                  } catch (e) {
+                    debugPrint('Error adding event to closed bloc: $e');
+                  }
                 }
               },
-              child: Container(
-                height: 28.h,
-                padding: EdgeInsets.symmetric(horizontal: 12.w),
-                decoration: BoxDecoration(
-                  border: Border.all(color: AppColors.primaryBlue, width: 1.4),
-                  borderRadius: BorderRadius.circular(8.r),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      state.selectedTime != null
-                          ? state.selectedTime!.format(context)
-                          : 'Select Time',
-                      style: _valueStyle(),
-                    ),
-                    Icon(
-                      Icons.calendar_today,
-                      size: 16.sp,
-                      color: AppColors.primaryBlue,
-                    ),
-                  ],
-                ),
-              ),
             ),
             SizedBox(height: 8.h),
             Text('Date', style: _labelStyle()),
             GestureDetector(
               onTap: () async {
+                final bloc = context.read<ManualTradeBloc>();
                 final DateTime? date = await showDatePicker(
                   context: context,
                   initialDate: state.selectedDate ?? DateTime.now(),
@@ -306,7 +284,19 @@ class _ManualTradeContent extends StatelessWidget {
                   },
                 );
                 if (date != null) {
-                  _updateField(context, 'selectedDate', date);
+                  try {
+
+                    if (!bloc.isClosed) {
+                      bloc.add(
+                        UpdateManualTradeFieldEvent(
+                          field: 'selectedDate',
+                          value: date,
+                        ),
+                      );
+                    }
+                  } catch (e) {
+                    debugPrint('Error adding event to closed bloc: $e');
+                  }
                 }
               },
               child: Container(

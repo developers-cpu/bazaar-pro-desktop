@@ -80,9 +80,7 @@ class _ConfirmOrderContent extends StatelessWidget {
               ),
               _buildInfoRow(
                 'Time',
-                data.selectedTime != null
-                    ? data.selectedTime!.format(context)
-                    : '',
+                data.selectedTime,
               ),
               _buildInfoRow(
                 'Trade Display for',

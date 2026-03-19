@@ -11,6 +11,8 @@ class TradeSettingsDataTable extends StatelessWidget {
   final ValueChanged<Set<String>> onSelectionChanged;
   final int activeTab;
   final ValueChanged<String>? onExchangeTap;
+  final String marginType;
+  final String brokerageType;
   const TradeSettingsDataTable({
     super.key,
     required this.data,
@@ -18,11 +20,16 @@ class TradeSettingsDataTable extends StatelessWidget {
     required this.onSelectionChanged,
     required this.activeTab,
     this.onExchangeTap,
+    this.marginType = 'Percentage Wise',
+    this.brokerageType = 'Turnover Wise',
   });
   @override
   Widget build(BuildContext context) {
+    final filteredData = data
+        .where((s) => s is TradeSetting && s.symbol == null)
+        .toList();
     return ViewDataTable(
-      data: data,
+      data: filteredData,
       columns: _buildColumns(),
       comparatorBuilder: (item, columnId) {
         if (item is! TradeSetting) return '';
@@ -145,9 +152,11 @@ class TradeSettingsDataTable extends StatelessWidget {
   List<ViewTableColumn> _columnsForTab() {
     switch (activeTab) {
       case 0:
-        return [
+        final cols = <ViewTableColumn>[
           ViewTableColumn(id: 'exchange', label: 'EXCHANGE', width: 120.w),
           ViewTableColumn(id: 'marginType', label: 'MARGIN TYPE', width: 150.w),
+        ];
+        cols.addAll([
           ViewTableColumn(
             id: 'intMarginPercentage',
             label: 'INT MARGIN (%)',
@@ -168,17 +177,22 @@ class TradeSettingsDataTable extends StatelessWidget {
             label: 'CF MARGIN(Amt.)',
             width: 150.w,
           ),
+        ]);
+        cols.addAll([
           ViewTableColumn(id: 'updatedOn', label: 'UPDATED ON', width: 200.w),
           ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 100.w),
-        ];
+        ]);
+        return cols;
       case 1:
-        return [
+        final bCols = <ViewTableColumn>[
           ViewTableColumn(id: 'exchange', label: 'EXCHANGE', width: 120.w),
           ViewTableColumn(
             id: 'brokerageType',
             label: 'BROKERAGE TYPE',
             width: 150.w,
           ),
+        ];
+        bCols.addAll([
           ViewTableColumn(
             id: 'turnoverWiseBrokerageRs',
             label: 'TURNOVER WISE BROKERAGE(Rs)',
@@ -189,9 +203,12 @@ class TradeSettingsDataTable extends StatelessWidget {
             label: 'LOT WISE BROKERAGE(Amt.)',
             width: 200.w,
           ),
+        ]);
+        bCols.addAll([
           ViewTableColumn(id: 'updatedOn', label: 'UPDATED ON', width: 200.w),
           ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 100.w),
-        ];
+        ]);
+        return bCols;
       case 2:
         return [
           ViewTableColumn(id: 'exchange', label: 'EXCHANGE', width: 120.w),

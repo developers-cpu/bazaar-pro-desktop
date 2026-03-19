@@ -65,6 +65,7 @@ class _SettlementSharingFilterBarState
                       showSimpleUI: true,
                     );
                 if (picked != null) {
+                  if (!mounted) return;
                   setState(() {
                     _selectedDateRange = 'Custom Period';
                     _customPeriodLabel =

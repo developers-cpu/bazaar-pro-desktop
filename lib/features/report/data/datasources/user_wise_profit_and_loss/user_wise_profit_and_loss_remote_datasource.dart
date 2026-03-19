@@ -21,80 +21,8 @@ class UserWiseProfitAndLossRemoteDataSourceImpl
     String? endDate,
   }) async {
     await Future.delayed(const Duration(milliseconds: 500));
-    final List<UserWiseProfitAndLossReportModel> mockData = [
-      UserWiseProfitAndLossReportModel(
-        id: '1',
-        userName: 'DEMO02',
-        parentUser: 'Demo01',
-        mtm: 0,
-        releasedPL: 124191.00,
-        brokerage: 2,
-        netPL: 1700105,
-        credit: 2699000.00,
-        equity: 2699000.00,
-        margin: 8097000,
-        usedMargin: -19467.57,
-        freeMargin: 8293746,
-        standingVolume: 0,
-        marginLevelPercentage: 0,
-        createdBy: 'Demo01',
-        createdDate: DateTime.now(),
-      ),
-      UserWiseProfitAndLossReportModel(
-        id: '2',
-        userName: 'DEMO32',
-        parentUser: 'Demo01',
-        mtm: 425,
-        releasedPL: 124191.00,
-        brokerage: 13,
-        netPL: 425,
-        credit: 50000000,
-        equity: 50000000,
-        margin: 1500000,
-        usedMargin: 16708,
-        freeMargin: 148391,
-        standingVolume: 238695,
-        marginLevelPercentage: 8977,
-        createdBy: 'Demo01',
-        createdDate: DateTime.now(),
-      ),
-      UserWiseProfitAndLossReportModel(
-        id: '3',
-        userName: 'DEMO001',
-        parentUser: 'Demo01',
-        mtm: 0,
-        releasedPL: -256,
-        brokerage: 506,
-        netPL: 56550,
-        credit: 5000000,
-        equity: 5000000,
-        margin: 150000,
-        usedMargin: 0,
-        freeMargin: 1500000,
-        standingVolume: 0,
-        marginLevelPercentage: 0,
-        createdBy: 'Demo01',
-        createdDate: DateTime.now(),
-      ),
-      UserWiseProfitAndLossReportModel(
-        id: '4',
-        userName: 'DEMO34',
-        parentUser: 'Demo01',
-        mtm: -87775.56,
-        releasedPL: 124191.00,
-        brokerage: 736,
-        netPL: -75864,
-        credit: 565479,
-        equity: 565479,
-        margin: 21721.00,
-        usedMargin: 354349,
-        freeMargin: 2645650,
-        standingVolume: 31933334,
-        marginLevelPercentage: 846.60,
-        createdBy: 'Demo01',
-        createdDate: DateTime.now(),
-      ),
-    ];
+    final List<UserWiseProfitAndLossReportModel> mockData = _generateDummyUserWiseProfitAndLossReports();
+
     if (userId != null && userId.isNotEmpty) {
       return Right(
         mockData
@@ -106,5 +34,41 @@ class UserWiseProfitAndLossRemoteDataSourceImpl
       );
     }
     return Right(mockData);
+  }
+
+  List<UserWiseProfitAndLossReportModel> _generateDummyUserWiseProfitAndLossReports() {
+    final List<String> userNames = ['DEMO02', 'DEMO32', 'DEMO001', 'DEMO34', 'PATIL', 'ADMIN', 'MASTER'];
+    final List<UserWiseProfitAndLossReportModel> list = [];
+    final DateTime now = DateTime.now();
+
+    for (int i = 1; i <= 35; i++) {
+      final double mtm = (i % 3 == 0) ? -(i * 1000.50) : (i * 425.0);
+      final double relPL = 124191.00 + (i * 100);
+      final double brk = (i * 5).toDouble();
+      final double netPL = relPL + mtm - brk;
+      final double credit = 5000000.0 + (i * 10000);
+
+      list.add(
+        UserWiseProfitAndLossReportModel(
+          id: i.toString(),
+          userName: '${userNames[i % userNames.length]}_$i',
+          parentUser: 'Demo01',
+          mtm: mtm,
+          releasedPL: relPL,
+          brokerage: brk,
+          netPL: netPL,
+          credit: credit,
+          equity: credit * 0.95,
+          margin: credit * 0.2,
+          usedMargin: credit * 0.05,
+          freeMargin: credit * 0.15,
+          standingVolume: (i * 1000).toDouble(),
+          marginLevelPercentage: 100.0 + (i * 5),
+          createdBy: 'Demo01',
+          createdDate: now.subtract(Duration(days: i)),
+        ),
+      );
+    }
+    return list;
   }
 }

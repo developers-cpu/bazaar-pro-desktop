@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../../../core/widget/common_dilog_box.dart';
-import '../../../../../../core/widget/custom_action_button.dart';
-import '../../../../../../core/widget/custom_input_field.dart';
+import 'package:bazarpro/core/widget/common_dilog_box.dart';
+import 'package:bazarpro/core/widget/custom_action_button.dart';
+import 'package:bazarpro/core/widget/app_file_picker.dart';
 import '../../../bloc/settlement_progress/settlement_progress_bloc.dart';
 import '../../../bloc/settlement_progress/settlement_progress_event.dart';
 
@@ -34,23 +34,15 @@ class _ImportFileContent extends StatefulWidget {
 }
 
 class _ImportFileContentState extends State<_ImportFileContent> {
-  final _fileController = TextEditingController();
-  @override
-  void dispose() {
-    _fileController.dispose();
-    super.dispose();
-  }
+  final GlobalKey<AppFilePickerState> _filePickerKey = GlobalKey<AppFilePickerState>();
 
   void _onImport() {
-    if (_fileController.text.isNotEmpty) {
+    final pickedFile = _filePickerKey.currentState?.pickedFile;
+    if (pickedFile != null) {
       context.read<SettlementProgressBloc>().add(
-        ImportFileEvent(_fileController.text),
+        ImportFileEvent(pickedFile.name),
       );
       widget.onClose();
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please choose a file or enter a path')),
-      );
     }
   }
 
@@ -59,9 +51,9 @@ class _ImportFileContentState extends State<_ImportFileContent> {
     return Row(
       children: [
         Expanded(
-          child: CustomInputField(
-            controller: _fileController,
-            hintText: 'Choose File',
+          child: AppFilePicker(
+            key: _filePickerKey,
+            hintText: 'CHOOSE BHAV COPY PATH',
             height: 35.h,
           ),
         ),

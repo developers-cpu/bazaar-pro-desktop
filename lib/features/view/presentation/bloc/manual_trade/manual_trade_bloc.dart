@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'manual_trade_event.dart';
 import 'manual_trade_state.dart';
 
@@ -19,6 +19,9 @@ class ManualTradeBloc extends Bloc<ManualTradeEvent, ManualTradeState> {
       final users = ['Demo02', 'Demo03', 'Client01'];
       final exchanges = ['NSE', 'MCX', 'CE/PE', 'OTHERS'];
       final symbols = ['REALINCE31DEC2025', 'NIFTY25N042555OCE', 'GOLD05DEC'];
+      final initialSymbol = symbols.isNotEmpty ? symbols.first : null;
+      final initialLot = '1';
+      final initialQty = '${int.parse(initialLot) * _getLotSize(initialSymbol)}';
       emit(
         state.copyWith(
           isLoading: false,
@@ -27,10 +30,12 @@ class ManualTradeBloc extends Bloc<ManualTradeEvent, ManualTradeState> {
           symbols: symbols,
           selectedUser: users.isNotEmpty ? users.first : null,
           selectedExchange: exchanges.isNotEmpty ? exchanges.first : null,
-          selectedSymbol: symbols.isNotEmpty ? symbols.first : null,
+          selectedSymbol: initialSymbol,
+          lot: initialLot,
+          qty: initialQty,
           selectedTradeDisplay: 'Master',
           selectedDate: DateTime.now(),
-          selectedTime: TimeOfDay.now(),
+          selectedTime: DateFormat('h:mm:ss a').format(DateTime.now()),
           deviceId: 'wgdhw5dhsq',
           device: 'IOS',
           ipAddress: '167.3895.463',
@@ -53,13 +58,17 @@ class ManualTradeBloc extends Bloc<ManualTradeEvent, ManualTradeState> {
         emit(state.copyWith(selectedExchange: event.value as String?));
         break;
       case 'selectedSymbol':
-        emit(state.copyWith(selectedSymbol: event.value as String?));
+        final symbol = event.value as String?;
+        final qty = '${int.parse(state.lot) * _getLotSize(symbol)}';
+        emit(state.copyWith(selectedSymbol: symbol, qty: qty));
         break;
       case 'qty':
         emit(state.copyWith(qty: event.value as String));
         break;
       case 'lot':
-        emit(state.copyWith(lot: event.value as String));
+        final lot = event.value as String;
+        final qty = '${int.parse(lot) * _getLotSize(state.selectedSymbol)}';
+        emit(state.copyWith(lot: lot, qty: qty));
         break;
       case 'price':
         emit(state.copyWith(price: event.value as String));
@@ -71,7 +80,7 @@ class ManualTradeBloc extends Bloc<ManualTradeEvent, ManualTradeState> {
         emit(state.copyWith(selectedDate: event.value as DateTime?));
         break;
       case 'selectedTime':
-        emit(state.copyWith(selectedTime: event.value as TimeOfDay?));
+        emit(state.copyWith(selectedTime: event.value as String));
         break;
       case 'selectedTradeDisplay':
         emit(state.copyWith(selectedTradeDisplay: event.value as String?));
@@ -86,6 +95,14 @@ class ManualTradeBloc extends Bloc<ManualTradeEvent, ManualTradeState> {
         emit(state.copyWith(ipAddress: event.value as String));
         break;
     }
+  }
+
+  int _getLotSize(String? symbol) {
+    if (symbol == null) return 1;
+    if (symbol.contains('NIFTY')) return 50;
+    if (symbol.contains('BANKNIFTY')) return 15;
+    if (symbol.contains('GOLD')) return 100;
+    return 250;
   }
 
   void _onSubmitTrade(

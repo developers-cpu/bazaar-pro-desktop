@@ -4,6 +4,7 @@ class TradeSettingModel extends TradeSetting {
   const TradeSettingModel({
     required super.id,
     required super.exchange,
+    super.symbol,
     super.marginType,
     super.intMarginPercentage,
     super.cfMarginPercentage,
@@ -21,6 +22,7 @@ class TradeSettingModel extends TradeSetting {
     return TradeSettingModel(
       id: json['id'] as String,
       exchange: json['exchange'] as String,
+      symbol: json['symbol'] as String?,
       marginType: json['marginType'] as String?,
       intMarginPercentage: json['intMarginPercentage'] as String?,
       cfMarginPercentage: json['cfMarginPercentage'] as String?,
@@ -39,6 +41,7 @@ class TradeSettingModel extends TradeSetting {
     return {
       'id': id,
       'exchange': exchange,
+      'symbol': symbol,
       'marginType': marginType,
       'intMarginPercentage': intMarginPercentage,
       'cfMarginPercentage': cfMarginPercentage,

@@ -716,10 +716,10 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
               alignment: effectiveAlignment,
               padding: EdgeInsets.only(
                 left:
-                    4.w +
+                    15.w +
                     (effectiveAlignment == Alignment.centerLeft ? 8.w : 0),
                 right:
-                    (isLastColumn ? 14.w : 4.w) +
+                    (isLastColumn ? 14.w : 15.w) +
                     (effectiveAlignment == Alignment.centerRight ? 8.w : 0),
               ),
               child: widget.cellBuilder(item, column),

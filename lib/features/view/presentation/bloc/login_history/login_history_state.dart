@@ -10,18 +10,33 @@ abstract class LoginHistoryState extends Equatable {
 class LoginHistoryInitial extends LoginHistoryState {
   final List<String> clients;
   final String? selectedClient;
-  const LoginHistoryInitial({this.clients = const [], this.selectedClient});
+  final String? selectedUserType;
+  const LoginHistoryInitial({
+    this.clients = const [],
+    this.selectedClient,
+    this.selectedUserType,
+  });
   @override
-  List<Object?> get props => [clients, selectedClient];
+  List<Object?> get props => [clients, selectedClient, selectedUserType];
 }
 
 class LoginHistoryLoading extends LoginHistoryState {
-  const LoginHistoryLoading();
+  final List<String> clients;
+  final String? selectedClient;
+  final String? selectedUserType;
+  const LoginHistoryLoading({
+    this.clients = const [],
+    this.selectedClient,
+    this.selectedUserType,
+  });
+  @override
+  List<Object?> get props => [clients, selectedClient, selectedUserType];
 }
 
 class LoginHistoryLoaded extends LoginHistoryState {
   final List<LoginHistory> history;
   final String selectedClient;
+  final String? selectedUserType;
   final int totalRecords;
   final String? sortColumn;
   final bool sortAscending;
@@ -30,6 +45,7 @@ class LoginHistoryLoaded extends LoginHistoryState {
   const LoginHistoryLoaded({
     required this.history,
     required this.selectedClient,
+    this.selectedUserType,
     required this.totalRecords,
     this.sortColumn,
     this.sortAscending = true,
@@ -40,6 +56,7 @@ class LoginHistoryLoaded extends LoginHistoryState {
   List<Object?> get props => [
     history,
     selectedClient,
+    selectedUserType,
     totalRecords,
     sortColumn,
     sortAscending,
@@ -49,6 +66,7 @@ class LoginHistoryLoaded extends LoginHistoryState {
   LoginHistoryLoaded copyWith({
     List<LoginHistory>? history,
     String? selectedClient,
+    String? selectedUserType,
     int? totalRecords,
     String? sortColumn,
     bool? sortAscending,
@@ -58,6 +76,7 @@ class LoginHistoryLoaded extends LoginHistoryState {
     return LoginHistoryLoaded(
       history: history ?? this.history,
       selectedClient: selectedClient ?? this.selectedClient,
+      selectedUserType: selectedUserType ?? this.selectedUserType,
       totalRecords: totalRecords ?? this.totalRecords,
       sortColumn: sortColumn ?? this.sortColumn,
       sortAscending: sortAscending ?? this.sortAscending,
@@ -69,9 +88,17 @@ class LoginHistoryLoaded extends LoginHistoryState {
 
 class LoginHistoryError extends LoginHistoryState {
   final String message;
-  const LoginHistoryError(this.message);
+  final List<String> clients;
+  final String? selectedClient;
+  final String? selectedUserType;
+  const LoginHistoryError(
+    this.message, {
+    this.clients = const [],
+    this.selectedClient,
+    this.selectedUserType,
+  });
   @override
-  List<Object?> get props => [message];
+  List<Object?> get props => [message, clients, selectedClient, selectedUserType];
 }
 
 class LoginHistoryExportSuccess extends LoginHistoryState {

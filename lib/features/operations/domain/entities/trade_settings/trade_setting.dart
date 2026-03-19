@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 class TradeSetting extends Equatable {
   final String id;
   final String exchange;
+  final String? symbol;
   final String? marginType;
   final String? intMarginPercentage;
   final String? cfMarginPercentage;
@@ -18,6 +19,7 @@ class TradeSetting extends Equatable {
   const TradeSetting({
     required this.id,
     required this.exchange,
+    this.symbol,
     this.marginType,
     this.intMarginPercentage,
     this.cfMarginPercentage,
@@ -35,6 +37,7 @@ class TradeSetting extends Equatable {
   List<Object?> get props => [
     id,
     exchange,
+    symbol,
     marginType,
     intMarginPercentage,
     cfMarginPercentage,

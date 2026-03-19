@@ -42,7 +42,7 @@ class SettlementSharingReportView extends StatelessWidget {
                 entries: report.lossList,
                 total: report.lossTotal,
                 isProfitSection: false,
-                showTotalColumn: !isDrilledDown,
+                showTotalColumn: true,
               ),
             ),
           ],
@@ -94,7 +94,7 @@ class SettlementSharingReportView extends StatelessWidget {
           ),
           Container(
             color: Colors.white,
-            padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
+            padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 16.w),
             child: Row(
               children: [
                 Expanded(
@@ -140,12 +140,12 @@ class SettlementSharingReportView extends StatelessWidget {
                         flex: 3,
                         child: Text(
                           'Total',
-                          textAlign: TextAlign.center,
+                          textAlign: TextAlign.left,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.openSans(
                             color: AppColors.billDataText,
-                            fontSize: 13.sp,
+                            fontSize: 14.sp,
                           ),
                         ),
                       ),
@@ -157,7 +157,7 @@ class SettlementSharingReportView extends StatelessWidget {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.openSans(
-                            fontSize: 13.sp,
+                            fontSize: 14.sp,
                             color: AppColors.billDataText,
                           ),
                         ),
@@ -172,7 +172,7 @@ class SettlementSharingReportView extends StatelessWidget {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.openSans(
-                            fontSize: 13.sp,
+                            fontSize: 14.sp,
                             color: AppColors.billDataText,
                           ),
                         ),
@@ -186,7 +186,7 @@ class SettlementSharingReportView extends StatelessWidget {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: GoogleFonts.openSans(
-                              fontSize: 13.sp,
+                              fontSize: 14.sp,
                               color: isProfitSection
                                   ? AppColors.buyColor
                                   : AppColors.sellColor,
@@ -220,8 +220,8 @@ class SettlementSharingReportView extends StatelessWidget {
           text,
           style: GoogleFonts.openSans(
             color: AppColors.billTableHeaderText,
-            fontWeight: FontWeight.w600,
-            fontSize: 12.sp,
+            fontWeight: FontWeight.w500,
+            fontSize: 16.sp,
           ),
         ),
         SizedBox(width: 4.w),
@@ -244,7 +244,7 @@ class SettlementSharingReportView extends StatelessWidget {
         ? '${entry.username} [${entry.userType}]'
         : entry.username;
     final rowContent = Container(
-      padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
+      padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 16.w),
       decoration: BoxDecoration(
         color: index % 2 == 0
             ? (isProfitSection
@@ -257,17 +257,31 @@ class SettlementSharingReportView extends StatelessWidget {
         children: [
           Expanded(
             flex: 3,
-            child: Text(
-              usernameDisplay,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: GoogleFonts.openSans(
-                color: AppColors.billDataText,
-                fontSize: 13.sp,
-                decoration: isMaster && !isDrilledDown
-                    ? TextDecoration.underline
-                    : null,
-                decorationColor: AppColors.billDataText,
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                usernameDisplay,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: GoogleFonts.openSans(
+                  color: isMaster
+                      ? Colors.transparent
+                      : AppColors.billDataText,
+                  fontSize: 14.sp,
+                  shadows: isMaster
+                      ? [
+                          const Shadow(
+                            color: AppColors.billDataText,
+                            offset: Offset(0, -5),
+                          )
+                        ]
+                      : null,
+                  decoration: isMaster
+                      ? TextDecoration.underline
+                      : null,
+                  decorationColor: AppColors.billDataText,
+                  decorationThickness:4,
+                ),
               ),
             ),
           ),
@@ -279,7 +293,7 @@ class SettlementSharingReportView extends StatelessWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: GoogleFonts.openSans(
-                fontSize: 13.sp,
+                fontSize: 14.sp,
                 color: AppColors.billDataText,
               ),
             ),
@@ -292,7 +306,7 @@ class SettlementSharingReportView extends StatelessWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: GoogleFonts.openSans(
-                fontSize: 13.sp,
+                fontSize: 14.sp,
                 color: AppColors.billDataText,
               ),
             ),
@@ -306,7 +320,7 @@ class SettlementSharingReportView extends StatelessWidget {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: GoogleFonts.openSans(
-                  fontSize: 13.sp,
+                  fontSize: 14.sp,
                   color: isProfitSection
                       ? AppColors.buyColor
                       : AppColors.sellColor,
@@ -316,7 +330,7 @@ class SettlementSharingReportView extends StatelessWidget {
         ],
       ),
     );
-    if (isMaster && !isDrilledDown) {
+    if (isMaster) {
       return InkWell(
         onTap: () => onUserSelected(
           entry.userId,

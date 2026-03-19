@@ -54,9 +54,9 @@ class ViewDataTableFooter extends StatelessWidget {
             width: column.width,
             alignment: alignment,
             padding: EdgeInsets.only(
-              left: 4.w + (alignment == Alignment.centerLeft ? 8.w : 0),
+              left: 15.w + (alignment == Alignment.centerLeft ? 8.w : 0),
               right:
-                  (isLast ? 14.w : 4.w) +
+                  (isLast ? 14.w : 15.w) +
                   (alignment == Alignment.centerRight ? 8.w : 0),
             ),
             decoration: BoxDecoration(

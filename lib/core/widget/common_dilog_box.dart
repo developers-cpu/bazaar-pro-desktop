@@ -25,6 +25,7 @@ class CommonDialog extends StatefulWidget {
   final bool autoPop;
   final VoidCallback? onClose;
   final VoidCallback? onBringToFront;
+  final List<Widget>? titleActions;
   const CommonDialog({
     Key? key,
     required this.title,
@@ -46,6 +47,7 @@ class CommonDialog extends StatefulWidget {
     this.autoPop = true,
     this.onClose,
     this.onBringToFront,
+    this.titleActions,
   }) : super(key: key);
   static final List<OverlayEntry> _activeDialogs = [];
   static bool closeRecent() {
@@ -89,6 +91,7 @@ class CommonDialog extends StatefulWidget {
     double? buttonHeight,
     bool scrollable = true,
     bool autoPop = true,
+    List<Widget>? titleActions,
   }) {
     late OverlayEntry overlayEntry;
     overlayEntry = OverlayEntry(
@@ -118,6 +121,7 @@ class CommonDialog extends StatefulWidget {
         buttonHeight: buttonHeight,
         scrollable: scrollable,
         autoPop: autoPop,
+        titleActions: titleActions,
         onClose: () {
           if (_activeDialogs.contains(overlayEntry)) {
             _activeDialogs.remove(overlayEntry);
@@ -128,6 +132,10 @@ class CommonDialog extends StatefulWidget {
           }
         },
         onBringToFront: () {
+          if (_activeDialogs.isNotEmpty &&
+              _activeDialogs.last == overlayEntry) {
+            return;
+          }
           if (_activeDialogs.contains(overlayEntry)) {
             _activeDialogs.remove(overlayEntry);
             _activeDialogs.add(overlayEntry);
@@ -135,7 +143,8 @@ class CommonDialog extends StatefulWidget {
           if (overlayEntry.mounted) {
             overlayEntry.remove();
           }
-          Overlay.of(context).insert(overlayEntry);
+          final overlay = Overlay.of(context, rootOverlay: true);
+          overlay.insert(overlayEntry);
         },
       ),
     );
@@ -189,11 +198,6 @@ class _CommonDialogState extends State<CommonDialog> {
                   _position!.dy + details.delta.dy,
                 );
               });
-            },
-            onTapDown: (_) {
-              if (widget.onBringToFront != null) {
-                widget.onBringToFront!();
-              }
             },
             child: Material(
               color: Colors.transparent,
@@ -275,6 +279,10 @@ class _CommonDialogState extends State<CommonDialog> {
                 ),
               ),
             ),
+            if (widget.titleActions != null) ...[
+              ...widget.titleActions!,
+              SizedBox(width: 8.w),
+            ],
             GestureDetector(
               onTap: () {
                 if (widget.onCancel != null) {

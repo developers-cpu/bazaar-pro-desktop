@@ -1,5 +1,4 @@
 import '../../models/profit_and_loss_report_model.dart';
-import '../../../../../core/errors/exceptions.dart';
 
 abstract class ProfitAndLossReportRemoteDataSource {
   Future<List<ProfitAndLossReportModel>> getProfitAndLossReport({
@@ -14,57 +13,40 @@ class ProfitAndLossReportRemoteDataSourceImpl
     String? userId,
   }) async {
     await Future.delayed(const Duration(milliseconds: 500));
-    final List<ProfitAndLossReportModel> mockData = [
-      const ProfitAndLossReportModel(
-        id: '1',
-        userName: 'PATIL',
-        percentage: 100.00,
-        releasePL: -124191.00,
-        brokerage: 0,
-        m2m: -585,
-        netPL: -585,
-        ourBrokerage: -585,
-        ourPercentage: -1837.57,
-      ),
-      const ProfitAndLossReportModel(
-        id: '2',
-        userName: 'DEMO4',
-        percentage: 100.00,
-        releasePL: -124191.00,
-        brokerage: 0,
-        m2m: 381.00,
-        netPL: -585,
-        ourBrokerage: -585,
-        ourPercentage: -2375.06,
-      ),
-      const ProfitAndLossReportModel(
-        id: '3',
-        userName: 'PATIL',
-        percentage: 100.00,
-        releasePL: -124191.00,
-        brokerage: 0,
-        m2m: -585,
-        netPL: -585,
-        ourBrokerage: 6650.00,
-        ourPercentage: 68.37,
-      ),
-      const ProfitAndLossReportModel(
-        id: '4',
-        userName: 'DEMO4',
-        percentage: 100.00,
-        releasePL: 124191.00,
-        brokerage: 0,
-        m2m: 21721.00,
-        netPL: -585,
-        ourBrokerage: 21721.00,
-        ourPercentage: 12269.81,
-      ),
-    ];
+    final List<ProfitAndLossReportModel> mockData = _generateDummyProfitAndLossReports();
+
     if (userId != null && userId.isNotEmpty) {
       return mockData
-          .where((item) => item.userName.toLowerCase() == userId.toLowerCase())
+          .where((item) => item.userName.toLowerCase().contains(userId.toLowerCase()))
           .toList();
     }
     return mockData;
+  }
+
+  List<ProfitAndLossReportModel> _generateDummyProfitAndLossReports() {
+    final List<String> userNames = ['PATIL', 'DEMO4', 'ADMIN', 'MASTER', 'USER123', 'TEST_OWNER'];
+    final List<ProfitAndLossReportModel> list = [];
+
+    for (int i = 1; i <= 35; i++) {
+      final double relPL = (i % 3 == 0) ? -(i * 5000.0) : (i * 3500.0);
+      final double m2m = (i % 2 == 0) ? (i * 1200.0) : -(i * 800.0);
+      final double brk = i * 50.0;
+      final double netPL = relPL + m2m - brk;
+
+      list.add(
+        ProfitAndLossReportModel(
+          id: i.toString(),
+          userName: userNames[i % userNames.length],
+          percentage: 100.00,
+          releasePL: relPL,
+          brokerage: brk,
+          m2m: m2m,
+          netPL: netPL,
+          ourBrokerage: brk * 0.8,
+          ourPercentage: netPL * 0.9,
+        ),
+      );
+    }
+    return list;
   }
 }

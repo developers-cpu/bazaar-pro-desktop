@@ -21,6 +21,7 @@ class SettlementEntry extends Equatable {
   final String userType;
   final double pnl;
   final double brokerage;
+  final double percentageWise;
   final double total;
   const SettlementEntry({
     required this.userId,
@@ -28,6 +29,7 @@ class SettlementEntry extends Equatable {
     required this.userType,
     required this.pnl,
     required this.brokerage,
+    required this.percentageWise,
     required this.total,
   });
   @override
@@ -37,6 +39,7 @@ class SettlementEntry extends Equatable {
     userType,
     pnl,
     brokerage,
+    percentageWise,
     total,
   ];
 }
@@ -44,12 +47,14 @@ class SettlementEntry extends Equatable {
 class SettlementTotal extends Equatable {
   final double totalPnl;
   final double totalBrokerage;
+  final double totalPercentageWise;
   final double totalAmount;
   const SettlementTotal({
     required this.totalPnl,
     required this.totalBrokerage,
+    required this.totalPercentageWise,
     required this.totalAmount,
   });
   @override
-  List<Object?> get props => [totalPnl, totalBrokerage, totalAmount];
+  List<Object?> get props => [totalPnl, totalBrokerage, totalPercentageWise, totalAmount];
 }

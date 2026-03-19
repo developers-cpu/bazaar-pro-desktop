@@ -10,10 +10,14 @@ class LoginHistoryRepositoryImpl implements LoginHistoryRepository {
   LoginHistoryRepositoryImpl({required this.remoteDataSource});
   @override
   Future<Either<Failure, List<LoginHistory>>> getLoginHistory(
-    String client,
-  ) async {
+    String client, {
+    String? userType,
+  }) async {
     try {
-      final history = await remoteDataSource.getLoginHistory(client);
+      final history = await remoteDataSource.getLoginHistory(
+        client,
+        userType: userType,
+      );
       return Right(history);
     } catch (e) {
       return Left(ServerFailure(e.toString()));

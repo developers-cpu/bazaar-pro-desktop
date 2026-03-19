@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 
 class ManualTradeState extends Equatable {
   final bool isLoading;
@@ -18,7 +17,7 @@ class ManualTradeState extends Equatable {
   final String price;
   final bool isBrkCalculated;
   final DateTime? selectedDate;
-  final TimeOfDay? selectedTime;
+  final String selectedTime;
   final String? selectedTradeDisplay;
   final String deviceId;
   final String device;
@@ -40,7 +39,7 @@ class ManualTradeState extends Equatable {
     this.price = '',
     this.isBrkCalculated = false,
     this.selectedDate,
-    this.selectedTime,
+    this.selectedTime = '',
     this.selectedTradeDisplay,
     this.deviceId = '',
     this.device = '',
@@ -63,7 +62,7 @@ class ManualTradeState extends Equatable {
     String? price,
     bool? isBrkCalculated,
     DateTime? selectedDate,
-    TimeOfDay? selectedTime,
+    String? selectedTime,
     String? selectedTradeDisplay,
     String? deviceId,
     String? device,

@@ -66,10 +66,10 @@ class AppFilePickerState extends State<AppFilePicker> {
                 _pickedFile?.name ?? widget.hintText,
                 style: GoogleFonts.openSans(
                   fontSize: 12.sp,
-                  fontWeight: FontWeight.w400,
+                  fontWeight: FontWeight.w500,
                   color: _pickedFile != null
                       ? AppColors.textDark
-                      : AppColors.primaryBlue.withOpacity(0.5),
+                      : AppColors.primaryBlue,
                 ),
                 overflow: TextOverflow.ellipsis,
               ),

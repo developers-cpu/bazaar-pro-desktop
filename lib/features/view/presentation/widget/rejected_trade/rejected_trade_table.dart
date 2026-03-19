@@ -117,7 +117,7 @@ class RejectedTradeTable extends StatelessWidget {
       case 'orderDateTime':
         return ViewDateTimeCell(dateTime: trade.orderDateTime);
       case 'buySell':
-        return ViewBuySellCell(text: trade.buySell);
+        return ViewTextCell(text: trade.buySell);
       case 'qty':
         return ViewNumberCell(value: trade.qty, colorByValue: false);
       case 'lot':

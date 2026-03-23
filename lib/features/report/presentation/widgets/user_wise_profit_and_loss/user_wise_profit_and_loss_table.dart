@@ -19,13 +19,13 @@ class UserWiseProfitAndLossReportTable extends StatelessWidget {
   const UserWiseProfitAndLossReportTable({super.key, this.isDarkMode = false});
   List<ViewTableColumn> _getColumns() {
     return const [
-      ViewTableColumn(id: 'userName', label: 'U. NAME', width: 90),
+      ViewTableColumn(id: 'userName', label: 'U. NAME', width: 100),
       ViewTableColumn(id: 'parentUser', label: 'P.USER', width: 90),
       ViewTableColumn(id: 'mtm', label: 'MTM', width: 110, isNumeric: true),
       ViewTableColumn(
         id: 'releasedPL',
         label: 'REL.PL',
-        width: 110,
+        width: 130,
         isNumeric: true,
       ),
       ViewTableColumn(
@@ -45,7 +45,7 @@ class UserWiseProfitAndLossReportTable extends StatelessWidget {
       ViewTableColumn(
         id: 'margin',
         label: 'MARGIN',
-        width: 120,
+        width: 130,
         isNumeric: true,
       ),
       ViewTableColumn(
@@ -73,7 +73,7 @@ class UserWiseProfitAndLossReportTable extends StatelessWidget {
         isNumeric: true,
       ),
       ViewTableColumn(id: 'createdBy', label: 'CREATED BY', width: 120),
-      ViewTableColumn(id: 'createdDate', label: 'CREATE DATE', width: 160),
+      ViewTableColumn(id: 'createdDate', label: 'CREATE DATE', width: 200),
     ];
   }
 

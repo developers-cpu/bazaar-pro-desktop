@@ -1,3 +1,4 @@
+import 'package:bazarpro/core/widget/client_profit_loss_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -82,7 +83,7 @@ class NetPositionFilterBar extends StatelessWidget {
               );
             },
           ),
-          const Spacer(),
+          SizedBox(width: 8.w),
           ViewResetButtons(
             showReset: false,
             onView: () {
@@ -94,6 +95,8 @@ class NetPositionFilterBar extends StatelessWidget {
               );
             },
           ),
+          const Spacer(),
+          const ClientProfitLossWidget(),
           SizedBox(width: 12.w),
           if (!isDialog)
             _buildPageFormula(totalRealisedPnl, totalM2M, totalBrokerage)
@@ -352,6 +355,8 @@ class NetPositionFilterBar extends StatelessWidget {
             },
           ),
           const Spacer(),
+          const ClientProfitLossWidget(),
+          SizedBox(width: 12.w),
           ViewResetButtons(
             onReset: () {
               context.read<NetPositionBloc>().add(const ResetFiltersEvent());

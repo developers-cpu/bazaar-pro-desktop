@@ -16,7 +16,12 @@ import '../settlement_sharing_report/settlement_sharing_filter_bar.dart';
 import 'settlement_report_view.dart';
 
 class SettlementDetailDialog {
-  static void show(BuildContext context, String userId, String userName, String dateRange) {
+  static void show(
+    BuildContext context,
+    String userId,
+    String userName,
+    String dateRange,
+  ) {
     final bloc = sl<SettlementReportBloc>()
       ..add(LoadSettlementReport(dateRange: dateRange, userId: userId));
 
@@ -34,7 +39,10 @@ class SettlementDetailDialog {
           onExportPdf: () {
             final state = bloc.state;
             if (state is SettlementReportLoaded) {
-              final allEntries = [...state.report.profitList, ...state.report.lossList];
+              final allEntries = [
+                ...state.report.profitList,
+                ...state.report.lossList,
+              ];
               TableExportService.exportAsPdf(
                 title: 'Settlement User: ${state.selectedUserName ?? userName}',
                 columns: _getExportColumns(),
@@ -46,7 +54,10 @@ class SettlementDetailDialog {
           onExportExcel: () {
             final state = bloc.state;
             if (state is SettlementReportLoaded) {
-              final allEntries = [...state.report.profitList, ...state.report.lossList];
+              final allEntries = [
+                ...state.report.profitList,
+                ...state.report.lossList,
+              ];
               TableExportService.exportAsExcel(
                 title: 'Settlement User: ${state.selectedUserName ?? userName}',
                 columns: _getExportColumns(),
@@ -70,7 +81,12 @@ class SettlementDetailDialog {
     return const [
       ViewTableColumn(id: 'username', label: 'USERNAME', width: 150),
       ViewTableColumn(id: 'pnl', label: 'P&L', width: 100, isNumeric: true),
-      ViewTableColumn(id: 'brokerage', label: 'Brk', width: 100, isNumeric: true),
+      ViewTableColumn(
+        id: 'brokerage',
+        label: 'Brk',
+        width: 100,
+        isNumeric: true,
+      ),
       ViewTableColumn(id: 'total', label: 'TOTAL', width: 100, isNumeric: true),
     ];
   }
@@ -78,11 +94,16 @@ class SettlementDetailDialog {
   static String _exportValueExtractor(dynamic e, ViewTableColumn col) {
     if (e is! SettlementEntry) return '-';
     switch (col.id) {
-      case 'username': return '${e.username} [${e.userType}]';
-      case 'pnl': return e.pnl.toStringAsFixed(0);
-      case 'brokerage': return e.brokerage.toStringAsFixed(0);
-      case 'total': return e.total.toStringAsFixed(0);
-      default: return '-';
+      case 'username':
+        return '${e.username} [${e.userType}]';
+      case 'pnl':
+        return e.pnl.toStringAsFixed(0);
+      case 'brokerage':
+        return e.brokerage.toStringAsFixed(0);
+      case 'total':
+        return e.total.toStringAsFixed(0);
+      default:
+        return '-';
     }
   }
 }
@@ -102,34 +123,39 @@ class _SettlementDetailDialogContent extends StatelessWidget {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
               SettlementSharingFilterBar(
                 onDateRangeChanged: (val) {
                   if (val != null) {
                     context.read<SettlementReportBloc>().add(
-                      LoadSettlementReport(dateRange: val, userId: state.selectedUserId),
+                      LoadSettlementReport(
+                        dateRange: val,
+                        userId: state.selectedUserId,
+                      ),
                     );
                   }
                 },
                 onReset: () {
                   context.read<SettlementReportBloc>().add(
-                    LoadSettlementReport(dateRange: 'This Week', userId: state.selectedUserId),
+                    LoadSettlementReport(
+                      dateRange: 'This Week',
+                      userId: state.selectedUserId,
+                    ),
                   );
                 },
                 onView: () {
                   context.read<SettlementReportBloc>().add(
-                    LoadSettlementReport(dateRange: state.selectedDateRange, userId: state.selectedUserId),
+                    LoadSettlementReport(
+                      dateRange: state.selectedDateRange,
+                      userId: state.selectedUserId,
+                    ),
                   );
                 },
               ),
 
-
               _buildPnlSummary(state),
-
 
               if (state.selectedUserName != null)
                 _buildUserNameCard(state.selectedUserName!),
-
 
               Expanded(
                 child: SettlementReportView(
@@ -151,7 +177,8 @@ class _SettlementDetailDialogContent extends StatelessWidget {
   }
 
   Widget _buildPnlSummary(SettlementReportLoaded state) {
-    final netPnl = state.report.profitTotal.totalPnl + state.report.lossTotal.totalPnl;
+    final netPnl =
+        state.report.profitTotal.totalPnl + state.report.lossTotal.totalPnl;
     final isNegative = netPnl < 0;
     final color = isNegative ? AppColors.sellColor : AppColors.buyColor;
     return Container(
@@ -171,7 +198,10 @@ class _SettlementDetailDialogContent extends StatelessWidget {
           SizedBox(width: 4.w),
           Text(
             'P&L',
-            style: GoogleFonts.openSans(color: AppColors.billDataText, fontSize: 13.sp),
+            style: GoogleFonts.openSans(
+              color: AppColors.billDataText,
+              fontSize: 13.sp,
+            ),
           ),
           SizedBox(width: 16.w),
           Container(

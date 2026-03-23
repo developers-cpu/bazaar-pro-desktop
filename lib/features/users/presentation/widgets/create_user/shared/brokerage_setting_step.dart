@@ -206,7 +206,7 @@ class _BrokerageSettingStepState extends State<BrokerageSettingStep> {
       ViewTableColumn(
         id: 'checkbox',
         label: '',
-        width: 40,
+        width: 60,
         sortable: false,
         customHeaderWidget: AppCheckbox(
           value: isAllSelected,

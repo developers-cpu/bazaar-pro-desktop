@@ -13,7 +13,11 @@ import '../../../../auth/presentation/bloc/auth_state.dart';
 
 class RejectionLogTable extends StatelessWidget {
   const RejectionLogTable({Key? key}) : super(key: key);
-  List<ViewTableColumn> _getColumns(bool isClient, bool isMaster) {
+  List<ViewTableColumn> _getColumns(
+    bool isClient,
+    bool isMaster, {
+    bool isAdmin = false,
+  }) {
     if (isClient) {
       return const [
         ViewTableColumn(id: 'orderDateTime', label: 'ORDER D/T', width: 130),
@@ -31,25 +35,39 @@ class RejectionLogTable extends StatelessWidget {
       ];
     }
 
-    return const [
-      ViewTableColumn(id: 'orderDateTime', label: 'ORDER D/T', width: 150),
-      ViewTableColumn(id: 'status', label: 'STATUS', width: 80),
-      ViewTableColumn(id: 'userName', label: 'U.NAME', width: 80),
-      ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 150),
-      ViewTableColumn(id: 'type', label: 'TYPE', width: 80),
-      ViewTableColumn(id: 'qty', label: 'QTY', width: 80, isNumeric: true),
-      ViewTableColumn(id: 'price', label: 'PRICE', width: 80, isNumeric: true),
-      ViewTableColumn(id: 'comment', label: 'COMMENT', width: 450),
-      ViewTableColumn(id: 'deviceId', label: 'DEVICE ID', width: 300),
-      ViewTableColumn(id: 'device', label: 'DEVICE', width: 80),
-      ViewTableColumn(id: 'city', label: 'CITY', width: 100),
-      ViewTableColumn(
+    return [
+      const ViewTableColumn(
+        id: 'orderDateTime',
+        label: 'ORDER D/T',
+        width: 150,
+      ),
+      const ViewTableColumn(id: 'status', label: 'STATUS', width: 80),
+      const ViewTableColumn(id: 'userName', label: 'U.NAME', width: 80),
+      const ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 150),
+      const ViewTableColumn(id: 'type', label: 'TYPE', width: 80),
+      const ViewTableColumn(
+        id: 'qty',
+        label: 'QTY',
+        width: 80,
+        isNumeric: true,
+      ),
+      const ViewTableColumn(
+        id: 'price',
+        label: 'PRICE',
+        width: 80,
+        isNumeric: true,
+      ),
+      const ViewTableColumn(id: 'comment', label: 'COMMENT', width: 450),
+      const ViewTableColumn(id: 'deviceId', label: 'DEVICE ID', width: 300),
+      const ViewTableColumn(id: 'device', label: 'DEVICE', width: 80),
+      if (isAdmin) const ViewTableColumn(id: 'city', label: 'CITY', width: 100),
+      const ViewTableColumn(
         id: 'ipAddress',
         label: 'IP ADDRESS',
         width: 120,
         isNumeric: true,
       ),
-      ViewTableColumn(id: 'date', label: 'DATE', width: 170),
+      const ViewTableColumn(id: 'date', label: 'DATE', width: 170),
     ];
   }
 
@@ -57,6 +75,7 @@ class RejectionLogTable extends StatelessWidget {
   Widget build(BuildContext context) {
     bool isClient = false;
     bool isMaster = false;
+    bool isAdmin = false;
     try {
       final authState = context.read<AuthBloc>().state;
       isClient =
@@ -65,6 +84,10 @@ class RejectionLogTable extends StatelessWidget {
       isMaster =
           authState is AuthAuthenticated &&
           authState.user.role.toLowerCase() == 'master';
+      if (authState is AuthAuthenticated) {
+        final role = authState.user.role.toLowerCase();
+        isAdmin = role == 'admin' || role == 'superadmin';
+      }
     } catch (_) {}
     return BlocBuilder<RejectionLogBloc, RejectionLogState>(
       builder: (context, state) {
@@ -87,7 +110,7 @@ class RejectionLogTable extends StatelessWidget {
               ViewRecordCount(count: state.totalRecords),
               Expanded(
                 child: ViewDataTable<RejectionLog>(
-                  columns: _getColumns(isClient, isMaster),
+                  columns: _getColumns(isClient, isMaster, isAdmin: isAdmin),
                   data: state.filteredLogs,
                   cellBuilder: _buildCell,
                   idExtractor: (log) => log.id,

@@ -23,7 +23,7 @@ class TradesTable extends StatelessWidget {
     this.isDarkMode = false,
     this.isClient = false,
   }) : super(key: key);
-  List<ViewTableColumn> _getColumns(bool isClient) {
+  List<ViewTableColumn> _getColumns(bool isClient, {bool isAdmin = false}) {
     if (isClient) {
       return const [
         ViewTableColumn(id: 'userName', label: 'USER NAME', width: 110),
@@ -112,17 +112,18 @@ class TradesTable extends StatelessWidget {
       ),
     ];
     if (showDeviceInfo) {
-      columns.addAll(const [
-        ViewTableColumn(
+      columns.addAll([
+        const ViewTableColumn(
           id: 'executionDateTime',
           label: 'EXECUTION D/T',
           width: 180,
           alignment: Alignment.centerRight,
         ),
-        ViewTableColumn(id: 'deviceId', label: 'DEVICE ID', width: 300),
-        ViewTableColumn(id: 'device', label: 'DEVICE', width: 100),
-        ViewTableColumn(id: 'city', label: 'CITY', width: 150),
-        ViewTableColumn(
+        const ViewTableColumn(id: 'deviceId', label: 'DEVICE ID', width: 300),
+        const ViewTableColumn(id: 'device', label: 'DEVICE', width: 100),
+        if (isAdmin)
+          const ViewTableColumn(id: 'city', label: 'CITY', width: 150),
+        const ViewTableColumn(
           id: 'ipAddress',
           label: 'IP ADDRESS',
           width: 130,
@@ -238,6 +239,10 @@ class TradesTable extends StatelessWidget {
     final isClient =
         authState is AuthAuthenticated &&
         authState.user.role.toLowerCase() == 'client';
+    final role = authState is AuthAuthenticated
+        ? authState.user.role.toLowerCase()
+        : '';
+    final isAdmin = role == 'admin' || role == 'superadmin';
     return BlocBuilder<TradesBloc, TradesState>(
       builder: (context, state) {
         if (state is TradesLoading) {
@@ -255,7 +260,7 @@ class TradesTable extends StatelessWidget {
             Expanded(
               child: ViewDataTable<Trade>(
                 autoFit: true,
-                columns: _getColumns(isClient),
+                columns: _getColumns(isClient, isAdmin: isAdmin),
                 data: state.filteredTrades,
                 idExtractor: (item) => item.id,
                 selectedId: state.selectedTradeId,

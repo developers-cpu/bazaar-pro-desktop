@@ -31,6 +31,8 @@ class MarketWatchLoaded extends MarketWatchState {
   final List<MarketWatchAction> undoStack;
   final List<MarketWatchAction> redoStack;
   final bool showGrid;
+  final int selectedWatchlistIndex;
+  final Map<int, List<MarketItem>> watchlistData;
   const MarketWatchLoaded({
     required this.items,
     required this.filteredItems,
@@ -47,6 +49,8 @@ class MarketWatchLoaded extends MarketWatchState {
     this.undoStack = const [],
     this.redoStack = const [],
     this.showGrid = false,
+    this.selectedWatchlistIndex = -1,
+    this.watchlistData = const {},
   });
   MarketWatchLoaded copyWith({
     List<MarketItem>? items,
@@ -64,6 +68,8 @@ class MarketWatchLoaded extends MarketWatchState {
     List<MarketWatchAction>? undoStack,
     List<MarketWatchAction>? redoStack,
     bool? showGrid,
+    int? selectedWatchlistIndex,
+    Map<int, List<MarketItem>>? watchlistData,
     bool clearExchange = false,
     bool clearSymbol = false,
     bool clearSymbols = false,
@@ -102,6 +108,9 @@ class MarketWatchLoaded extends MarketWatchState {
       undoStack: undoStack ?? this.undoStack,
       redoStack: redoStack ?? this.redoStack,
       showGrid: showGrid ?? this.showGrid,
+      selectedWatchlistIndex:
+          selectedWatchlistIndex ?? this.selectedWatchlistIndex,
+      watchlistData: watchlistData ?? this.watchlistData,
     );
   }
 
@@ -122,6 +131,8 @@ class MarketWatchLoaded extends MarketWatchState {
     undoStack,
     redoStack,
     showGrid,
+    selectedWatchlistIndex,
+    watchlistData,
   ];
 }
 

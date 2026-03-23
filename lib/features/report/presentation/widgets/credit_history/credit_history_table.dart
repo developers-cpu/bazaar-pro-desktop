@@ -20,73 +20,73 @@ class CreditHistoryTable extends StatelessWidget {
         ViewTableColumn(
           id: 'dateTime',
           label: 'DATE TIME',
-          width: 200,
+          width: 210,
           alignment: Alignment.centerRight,
         ),
-        ViewTableColumn(id: 'type', label: 'TYPE', width: 160),
+        ViewTableColumn(id: 'type', label: 'TYPE', width: 100),
         ViewTableColumn(
           id: 'amount',
           label: 'AMOUNT',
-          width: 200,
+          width: 100,
           isNumeric: true,
         ),
         ViewTableColumn(
           id: 'balance',
           label: 'BALANCE',
-          width: 200,
+          width: 100,
           isNumeric: true,
         ),
-        ViewTableColumn(id: 'comment', label: 'COMMENT', width: 250),
+        ViewTableColumn(id: 'comment', label: 'COMMENT', width: 150),
       ];
     }
     if (role == 'master') {
       return const [
-        ViewTableColumn(id: 'userName', label: 'U.NAME', width: 160),
-        ViewTableColumn(id: 'parentUserName', label: 'P.U.NAME', width: 160),
+        ViewTableColumn(id: 'userName', label: 'U.NAME', width: 90),
+        ViewTableColumn(id: 'parentUserName', label: 'P.U.NAME', width: 90),
         ViewTableColumn(
           id: 'dateTime',
           label: 'DATE TIME',
-          width: 200,
+          width: 210,
           alignment: Alignment.centerRight,
         ),
-        ViewTableColumn(id: 'type', label: 'TYPE', width: 160),
+        ViewTableColumn(id: 'type', label: 'TYPE', width: 100),
         ViewTableColumn(
           id: 'amount',
           label: 'AMOUNT',
-          width: 200,
+          width: 90,
           isNumeric: true,
         ),
         ViewTableColumn(
           id: 'balance',
           label: 'BALANCE',
-          width: 200,
+          width: 130,
           isNumeric: true,
         ),
-        ViewTableColumn(id: 'comment', label: 'COMMENT', width: 250),
+        ViewTableColumn(id: 'comment', label: 'COMMENT', width: 150),
       ];
     }
     return const [
-      ViewTableColumn(id: 'userName', label: 'U.NAME', width: 160),
+      ViewTableColumn(id: 'userName', label: 'U.NAME', width: 100),
       ViewTableColumn(
         id: 'dateTime',
         label: 'DATE TIME',
-        width: 200,
+        width: 210,
         alignment: Alignment.centerRight,
       ),
-      ViewTableColumn(id: 'type', label: 'TYPE', width: 160),
+      ViewTableColumn(id: 'type', label: 'TYPE', width: 100),
       ViewTableColumn(
         id: 'amount',
         label: 'AMOUNT',
-        width: 200,
+        width: 100,
         isNumeric: true,
       ),
       ViewTableColumn(
         id: 'balance',
         label: 'BALANCE',
-        width: 200,
+        width: 130,
         isNumeric: true,
       ),
-      ViewTableColumn(id: 'comment', label: 'COMMENT', width: 250),
+      ViewTableColumn(id: 'comment', label: 'COMMENT', width: 150),
     ];
   }
 

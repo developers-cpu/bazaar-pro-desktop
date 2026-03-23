@@ -15,39 +15,49 @@ import '../../../../auth/presentation/bloc/auth_state.dart';
 
 class LoginHistoryTable extends StatelessWidget {
   const LoginHistoryTable({Key? key}) : super(key: key);
-  List<ViewTableColumn> _getColumns(bool isClient) {
+  List<ViewTableColumn> _getColumns(bool isClient, {bool isAdmin = false}) {
     if (isClient) {
       return const [
-        ViewTableColumn(id: 'loginTime', label: 'LOGIN TIME', width: 200),
-        ViewTableColumn(id: 'logoutTime', label: 'LOGOUT TIME', width: 200),
+        ViewTableColumn(id: 'loginTime', label: 'LOGIN TIME', width: 100),
+        ViewTableColumn(id: 'logoutTime', label: 'LOGOUT TIME', width: 100),
       ];
     }
-    return const [
-      ViewTableColumn(id: 'index', label: 'INDEX', width: 60, isNumeric: true),
-      ViewTableColumn(id: 'loginTime', label: 'LOGIN TIME', width: 110),
-      ViewTableColumn(id: 'logoutTime', label: 'LOGOUT TIME', width: 110),
-      ViewTableColumn(id: 'userName', label: 'USER NAME', width: 80),
-      ViewTableColumn(id: 'userType', label: 'USER TYPE', width: 70),
-      ViewTableColumn(
+    return [
+      const ViewTableColumn(
+        id: 'index',
+        label: 'INDEX',
+        width: 60,
+        isNumeric: true,
+      ),
+      const ViewTableColumn(id: 'loginTime', label: 'LOGIN TIME', width: 120),
+      const ViewTableColumn(id: 'logoutTime', label: 'LOGOUT TIME', width: 120),
+      const ViewTableColumn(id: 'userName', label: 'USER NAME', width: 80),
+      const ViewTableColumn(id: 'userType', label: 'USER TYPE', width: 70),
+      const ViewTableColumn(
         id: 'ipAddress',
         label: 'IP ADDRESS',
         width: 80,
         isNumeric: true,
       ),
-      ViewTableColumn(id: 'deviceId', label: 'DEVICE ID', width: 160),
-      ViewTableColumn(id: 'device', label: 'DEVICE', width: 70),
-      ViewTableColumn(id: 'city', label: 'CITY', width: 90),
+      const ViewTableColumn(id: 'deviceId', label: 'DEVICE ID', width: 160),
+      const ViewTableColumn(id: 'device', label: 'DEVICE', width: 70),
+      if (isAdmin) const ViewTableColumn(id: 'city', label: 'CITY', width: 90),
     ];
   }
 
   @override
   Widget build(BuildContext context) {
     bool isClient = false;
+    bool isAdmin = false;
     try {
       final authState = context.read<AuthBloc>().state;
       isClient =
           authState is AuthAuthenticated &&
           authState.user.role.toLowerCase() == 'client';
+      if (authState is AuthAuthenticated) {
+        final role = authState.user.role.toLowerCase();
+        isAdmin = role == 'admin' || role == 'superadmin';
+      }
     } catch (_) {}
     return BlocBuilder<LoginHistoryBloc, LoginHistoryState>(
       builder: (context, state) {
@@ -81,7 +91,7 @@ class LoginHistoryTable extends StatelessWidget {
               ViewRecordCount(count: state.totalRecords),
               Expanded(
                 child: ViewDataTable<LoginHistory>(
-                  columns: _getColumns(isClient),
+                  columns: _getColumns(isClient, isAdmin: isAdmin),
                   data: state.history,
                   cellBuilder: (history, column) =>
                       _buildCell(history, column, isClient),

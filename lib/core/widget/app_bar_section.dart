@@ -18,6 +18,8 @@ import '../../features/report/presentation/widgets/users_bill_summary/users_bill
 import '../../features/view/presentation/widget/login_history/login_history_dialog.dart';
 import '../../features/view/presentation/widget/manual_trade/manual_trade_dialog.dart';
 import '../../features/view/presentation/widget/trade_margin/trade_margin_dialog.dart';
+import '../../features/report/presentation/widgets/credit_history/credit_history_dialog.dart';
+import '../../features/view/presentation/widget/script_master/script_master_dialog.dart';
 
 class AppBarSection extends StatefulWidget implements PreferredSizeWidget {
   final int selectedTabIndex;
@@ -396,19 +398,27 @@ class AppBarSectionState extends State<AppBarSection> {
         ),
         MenuItemData(
           title: 'Trade Margin',
-          onTap: () => _navigateToPage(
-            _getTabIndex(AppStrings.view),
-            'Trade Margin',
-            '/trade-margin',
-          ),
+          onTap: () {
+            TradeMarginDialog.show(context);
+            final viewIndex = _getTabIndex(AppStrings.view);
+            if (viewIndex != -1) {
+              setState(() {
+                _selectedDropdownItems[viewIndex] = 'Trade Margin';
+              });
+            }
+          },
         ),
         MenuItemData(
           title: 'Script Master',
-          onTap: () => _navigateToPage(
-            _getTabIndex(AppStrings.view),
-            'Script Master',
-            '/script-master',
-          ),
+          onTap: () {
+            ScriptMasterDialog.show(context);
+            final viewIndex = _getTabIndex(AppStrings.view);
+            if (viewIndex != -1) {
+              setState(() {
+                _selectedDropdownItems[viewIndex] = 'Script Master';
+              });
+            }
+          },
         ),
         MenuItemData(
           title: 'Broker List',
@@ -476,11 +486,15 @@ class AppBarSectionState extends State<AppBarSection> {
         ),
         MenuItemData(
           title: 'Script Master',
-          onTap: () => _navigateToPage(
-            _getTabIndex(AppStrings.view),
-            'Script Master',
-            '/script-master',
-          ),
+          onTap: () {
+            ScriptMasterDialog.show(context);
+            final viewIndex = _getTabIndex(AppStrings.view);
+            if (viewIndex != -1) {
+              setState(() {
+                _selectedDropdownItems[viewIndex] = 'Script Master';
+              });
+            }
+          },
         ),
         MenuItemData(
           title: 'Script Quantity',
@@ -508,11 +522,15 @@ class AppBarSectionState extends State<AppBarSection> {
         ),
         MenuItemData(
           title: 'Trade Margin',
-          onTap: () => _navigateToPage(
-            _getTabIndex(AppStrings.view),
-            'Trade Margin',
-            '/trade-margin',
-          ),
+          onTap: () {
+            TradeMarginDialog.show(context);
+            final viewIndex = _getTabIndex(AppStrings.view);
+            if (viewIndex != -1) {
+              setState(() {
+                _selectedDropdownItems[viewIndex] = 'Trade Margin';
+              });
+            }
+          },
         ),
         MenuItemData(
           title: 'Manual Trade',
@@ -535,11 +553,15 @@ class AppBarSectionState extends State<AppBarSection> {
       return [
         MenuItemData(
           title: 'Credit History',
-          onTap: () => _navigateToPage(
-            _getTabIndex(AppStrings.report),
-            'Credit History',
-            '/credit-history',
-          ),
+          onTap: () {
+            CreditHistoryDialog.show(context);
+            final reportIndex = _getTabIndex(AppStrings.report);
+            if (reportIndex != -1) {
+              setState(() {
+                _selectedDropdownItems[reportIndex] = 'Credit History';
+              });
+            }
+          },
         ),
         MenuItemData(
           title: 'Bill Generate',
@@ -578,11 +600,15 @@ class AppBarSectionState extends State<AppBarSection> {
         ),
         MenuItemData(
           title: 'Credit History',
-          onTap: () => _navigateToPage(
-            _getTabIndex(AppStrings.report),
-            'Credit History',
-            '/credit-history',
-          ),
+          onTap: () {
+            CreditHistoryDialog.show(context);
+            final reportIndex = _getTabIndex(AppStrings.report);
+            if (reportIndex != -1) {
+              setState(() {
+                _selectedDropdownItems[reportIndex] = 'Credit History';
+              });
+            }
+          },
         ),
         MenuItemData(
           title: 'Bill Generate',
@@ -669,11 +695,15 @@ class AppBarSectionState extends State<AppBarSection> {
         ),
         MenuItemData(
           title: 'Credit History',
-          onTap: () => _navigateToPage(
-            _getTabIndex(AppStrings.report),
-            'Credit History',
-            '/credit-history',
-          ),
+          onTap: () {
+            CreditHistoryDialog.show(context);
+            final reportIndex = _getTabIndex(AppStrings.report);
+            if (reportIndex != -1) {
+              setState(() {
+                _selectedDropdownItems[reportIndex] = 'Credit History';
+              });
+            }
+          },
         ),
         MenuItemData(
           title: 'Bill Generate',

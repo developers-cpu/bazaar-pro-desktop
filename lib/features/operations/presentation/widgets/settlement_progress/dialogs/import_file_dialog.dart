@@ -34,7 +34,8 @@ class _ImportFileContent extends StatefulWidget {
 }
 
 class _ImportFileContentState extends State<_ImportFileContent> {
-  final GlobalKey<AppFilePickerState> _filePickerKey = GlobalKey<AppFilePickerState>();
+  final GlobalKey<AppFilePickerState> _filePickerKey =
+      GlobalKey<AppFilePickerState>();
 
   void _onImport() {
     final pickedFile = _filePickerKey.currentState?.pickedFile;

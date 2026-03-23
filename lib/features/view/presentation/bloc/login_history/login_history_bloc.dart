@@ -77,7 +77,10 @@ class LoginHistoryBloc extends Bloc<LoginHistoryEvent, LoginHistoryState> {
     } else if (state is LoginHistoryLoaded) {
       final currentState = state as LoginHistoryLoaded;
       emit(
-        currentState.copyWith(selectedUserType: event.userType, showTable: false),
+        currentState.copyWith(
+          selectedUserType: event.userType,
+          showTable: false,
+        ),
       );
     }
   }
@@ -99,7 +102,9 @@ class LoginHistoryBloc extends Bloc<LoginHistoryEvent, LoginHistoryState> {
       clients = (state as LoginHistoryLoaded).clients;
     }
     final String effectiveClient =
-        (clientToFetch == null || clientToFetch.isEmpty) ? "All" : clientToFetch;
+        (clientToFetch == null || clientToFetch.isEmpty)
+        ? "All"
+        : clientToFetch;
 
     emit(
       LoginHistoryLoading(

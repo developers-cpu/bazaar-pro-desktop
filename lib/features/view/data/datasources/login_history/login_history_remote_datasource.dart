@@ -43,7 +43,7 @@ class LoginHistoryRemoteDataSourceImpl implements LoginHistoryRemoteDataSource {
         'User 6',
         'User 7',
         'User 8',
-        'User 9'
+        'User 9',
       ];
     } catch (e) {
       throw Exception('Failed to fetch clients: $e');
@@ -182,12 +182,15 @@ class LoginHistoryRemoteDataSourceImpl implements LoginHistoryRemoteDataSource {
       'User 6',
       'User 7',
       'User 8',
-      'User 9'
+      'User 9',
     ];
     for (int i = 0; i < 50; i++) {
       final dateIndex = i % loginDates.length;
-      final String uName = (client == "All") ? availableClients[i % availableClients.length] : client;
-      final String uType = (userType == null || userType == "All" || userType.isEmpty)
+      final String uName = (client == "All")
+          ? availableClients[i % availableClients.length]
+          : client;
+      final String uType =
+          (userType == null || userType == "All" || userType.isEmpty)
           ? userTypes[i % userTypes.length]
           : userType.toUpperCase();
 

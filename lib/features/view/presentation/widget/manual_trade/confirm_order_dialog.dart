@@ -78,10 +78,7 @@ class _ConfirmOrderContent extends StatelessWidget {
                     ? DateFormat('dd/MM/yy').format(data.selectedDate!)
                     : '',
               ),
-              _buildInfoRow(
-                'Time',
-                data.selectedTime,
-              ),
+              _buildInfoRow('Time', data.selectedTime),
               _buildInfoRow(
                 'Trade Display for',
                 data.selectedTradeDisplay ?? '',

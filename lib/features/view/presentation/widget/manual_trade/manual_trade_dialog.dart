@@ -239,13 +239,13 @@ class _ManualTradeContent extends StatelessWidget {
                     now.second,
                   );
                   try {
-
                     if (!bloc.isClosed) {
                       bloc.add(
                         UpdateManualTradeFieldEvent(
                           field: 'selectedTime',
-                          value:
-                              DateFormat('h:mm:ss a').format(selectedDateTime),
+                          value: DateFormat(
+                            'h:mm:ss a',
+                          ).format(selectedDateTime),
                         ),
                       );
                     }
@@ -285,7 +285,6 @@ class _ManualTradeContent extends StatelessWidget {
                 );
                 if (date != null) {
                   try {
-
                     if (!bloc.isClosed) {
                       bloc.add(
                         UpdateManualTradeFieldEvent(

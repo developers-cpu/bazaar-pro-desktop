@@ -98,7 +98,12 @@ class LoginHistoryError extends LoginHistoryState {
     this.selectedUserType,
   });
   @override
-  List<Object?> get props => [message, clients, selectedClient, selectedUserType];
+  List<Object?> get props => [
+    message,
+    clients,
+    selectedClient,
+    selectedUserType,
+  ];
 }
 
 class LoginHistoryExportSuccess extends LoginHistoryState {

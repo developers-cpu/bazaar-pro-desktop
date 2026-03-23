@@ -19,7 +19,7 @@ class LoginHistoryDialog {
     CommonDialog.show(
       context: context,
       title: 'Login History',
-      width: 800.w,
+      width: 500.w,
       height: 600.h,
       backgroundColor: Colors.white,
       showButtons: false,

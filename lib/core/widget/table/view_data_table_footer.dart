@@ -29,8 +29,8 @@ class ViewDataTableFooter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Color dividerColor = isDarkMode
-        ? DarkThemeColors.dividerColor.withOpacity(0.5)
-        : AppColors.white.withOpacity(0.8);
+        ? DarkThemeColors.dividerColor
+        : AppColors.white;
     Color defaultTextColor = isDarkMode
         ? DarkThemeColors.textColor
         : LightThemeColors.textColor;
@@ -62,7 +62,7 @@ class ViewDataTableFooter extends StatelessWidget {
             decoration: BoxDecoration(
               border: (isLast || !showDividers)
                   ? null
-                  : Border(right: BorderSide(color: dividerColor, width: 1)),
+                  : Border(right: BorderSide(color: dividerColor, width: 1.5)),
             ),
             child: Text(
               value,

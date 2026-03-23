@@ -74,6 +74,7 @@ class NetPositionTable extends StatelessWidget {
       ];
     }
     return const [
+      ViewTableColumn(id: 'userName', label: 'U.NAME', width: 120),
       ViewTableColumn(id: 'exchange', label: 'EXCH', width: 110),
       ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 160),
       ViewTableColumn(
@@ -130,6 +131,12 @@ class NetPositionTable extends StatelessWidget {
     bool isClient,
   ) {
     switch (column.id) {
+      case 'userName':
+        return ViewTextCell(
+          text: item.userName,
+          isDark: isDark,
+          fontSize: bodyTextSize.sp,
+        );
       case 'exchange':
         return ViewTextCell(
           text: item.exchange,

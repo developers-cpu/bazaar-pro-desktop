@@ -52,6 +52,9 @@ class ViewDataTable<T> extends StatefulWidget {
   final bool isBorderFit;
   final double? headerTextSize;
   final double? bodyTextSize;
+  final Color? Function(T item, int index)? rowBackgroundBuilder;
+  final BoxDecoration? tableBoxDecoration;
+  final bool showRowBorders;
   const ViewDataTable({
     Key? key,
     required this.columns,
@@ -77,6 +80,9 @@ class ViewDataTable<T> extends StatefulWidget {
     this.isBorderFit = false,
     this.headerTextSize,
     this.bodyTextSize,
+    this.rowBackgroundBuilder,
+    this.tableBoxDecoration,
+    this.showRowBorders = true,
   }) : super(key: key);
   @override
   State<ViewDataTable<T>> createState() => _ViewDataTableState<T>();
@@ -217,20 +223,24 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
       : LightThemeColors.selectedRowBackground;
   Color get _dividerColor =>
       widget.isDarkMode ? DarkThemeColors.dividerColor : AppColors.greyBorder;
-  Color get _headerDividerColor => widget.isDarkMode
-      ? DarkThemeColors.dividerColor.withOpacity(0.5)
-      : AppColors.white.withOpacity(0.8);
   Color get _textColor => widget.isDarkMode
       ? DarkThemeColors.textColor
       : LightThemeColors.textColor;
   @override
   Widget build(BuildContext context) {
     final rowHeight = widget.rowHeight ?? 30.h;
-    final bool hasTwoLineHeaders = widget.columns.any(
-      (c) => c.headerLines >= 2,
-    );
+    final int maxHeaderLines = widget.columns.fold(1, (max, c) {
+      final lines = c.label.split('\n').length;
+      final apparent = c.headerLines > lines ? c.headerLines : lines;
+      return apparent > max ? apparent : max;
+    });
     final headerHeight =
-        widget.headerHeight ?? (hasTwoLineHeaders ? 50.h : 35.h);
+        widget.headerHeight ??
+        (maxHeaderLines >= 3
+            ? 55.h
+            : maxHeaderLines == 2
+            ? 40.h
+            : 35.h);
     return Theme(
       data: Theme.of(context).copyWith(
         scrollbarTheme: ScrollbarThemeData(
@@ -250,14 +260,16 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
             alignment: widget.isStart ? Alignment.topLeft : Alignment.topCenter,
             child: Container(
               margin: EdgeInsets.fromLTRB(0.w, 4.h, 0.w, 10.h),
-              decoration: BoxDecoration(
-                color: _rowBgColor,
-                borderRadius: BorderRadius.circular(10.r),
-                border: Border.all(
-                  color: _dividerColor.withOpacity(0.5),
-                  width: 1,
-                ),
-              ),
+              decoration:
+                  widget.tableBoxDecoration ??
+                  BoxDecoration(
+                    color: _rowBgColor,
+                    borderRadius: BorderRadius.circular(10.r),
+                    border: Border.all(
+                      color: _dividerColor.withOpacity(0.5),
+                      width: 1,
+                    ),
+                  ),
               child: LayoutBuilder(
                 builder: (context, constraints) {
                   final totalOriginalWidth = _totalOriginalWidth;
@@ -270,6 +282,7 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
                   for (var col in _activeColumns) {
                     totalWidth += (_columnWidths[col.id] ?? col.width) * scale;
                   }
+                  final bool isScrollableX = totalWidth > constraints.maxWidth;
                   final contentWidth = widget.isBorderFit
                       ? constraints.maxWidth.clamp(totalWidth, double.infinity)
                       : totalWidth;
@@ -281,12 +294,14 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
                             rowHeight,
                             contentWidth,
                             scale,
+                            isScrollableX,
                           )
                         : _buildExpandedContent(
                             headerHeight,
                             rowHeight,
                             contentWidth,
                             scale,
+                            isScrollableX,
                           ),
                   );
                 },
@@ -381,6 +396,7 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
     double rowHeight,
     double totalWidth,
     double scale,
+    bool isScrollableX,
   ) {
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -406,7 +422,7 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
                           : _buildDataRows(rowHeight, scale),
                     ),
                     if (widget.footerBuilder != null)
-                      _buildFooterRow(rowHeight, scale),
+                      _buildFooterRow(rowHeight, scale, isScrollableX),
                   ],
                 ),
               ),
@@ -422,6 +438,7 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
     double rowHeight,
     double totalWidth,
     double scale,
+    bool isScrollableX,
   ) {
     return SingleChildScrollView(
       controller: _horizontalScrollController,
@@ -435,7 +452,8 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
             _displayData.isEmpty
                 ? SizedBox(height: 50.h, child: _buildEmptyState())
                 : _buildDataRows(rowHeight, scale),
-            if (widget.footerBuilder != null) _buildFooterRow(rowHeight, scale),
+            if (widget.footerBuilder != null)
+              _buildFooterRow(rowHeight, scale, isScrollableX),
           ],
         ),
       ),
@@ -468,36 +486,36 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
           final index = entry.key;
           final column = entry.value;
           final isLast = index == _activeColumns.length - 1;
-          return _buildHeaderCell(column, isLast, scale);
+          return _buildHeaderCell(column, isLast, scale, headerHeight);
         }).toList(),
       ),
     );
   }
 
-  Widget _buildHeaderCell(ViewTableColumn column, bool isLast, double scale) {
+  Widget _buildHeaderCell(
+    ViewTableColumn column,
+    bool isLast,
+    double scale,
+    double headerRowHeight,
+  ) {
+    final int effectiveLines =
+        column.label.split('\n').length > column.headerLines
+        ? column.label.split('\n').length
+        : column.headerLines;
+
     final isSorted = _activeSortColumn == column.id;
     final originalWidth = widget.columns
         .firstWhere((c) => c.id == column.id)
         .width;
     final cellWidth = (_columnWidths[column.id] ?? originalWidth) * scale;
-    final effectiveAlignment =
-        column.alignment ??
-        (column.isNumeric ? Alignment.centerRight : Alignment.center);
+
+    const headerAlignment = Alignment.center;
     Widget content = Align(
-      alignment: effectiveAlignment,
+      alignment: headerAlignment,
       child: Padding(
-        padding: EdgeInsets.only(
-          left: 2.w + (effectiveAlignment == Alignment.centerLeft ? 8.w : 0),
-          right:
-              (isLast ? 14.w : 2.w) +
-              (effectiveAlignment == Alignment.centerRight ? 8.w : 0),
-        ),
+        padding: EdgeInsets.only(left: 2.w, right: isLast ? 14.w : 2.w),
         child: Row(
-          mainAxisAlignment: effectiveAlignment == Alignment.centerRight
-              ? MainAxisAlignment.end
-              : (effectiveAlignment == Alignment.center
-                    ? MainAxisAlignment.center
-                    : MainAxisAlignment.start),
+          mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
             if (column.customHeaderWidget != null)
@@ -507,20 +525,20 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
                 child: Text(
                   column.label,
                   style: GoogleFonts.openSans(
-                    fontSize: column.headerLines >= 2
+                    fontSize: effectiveLines >= 3
+                        ? (widget.headerTextSize != null
+                              ? widget.headerTextSize! - 2.sp
+                              : 10.sp)
+                        : effectiveLines == 2
                         ? (widget.headerTextSize != null
                               ? widget.headerTextSize! - 1.sp
                               : 11.sp)
-                        : (widget.headerTextSize ?? 14.sp),
+                        : (widget.headerTextSize ?? 12.sp),
                     fontWeight: FontWeight.w500,
                     color: _textColor,
                   ),
-                  textAlign: effectiveAlignment == Alignment.centerRight
-                      ? TextAlign.end
-                      : (effectiveAlignment == Alignment.center
-                            ? TextAlign.center
-                            : TextAlign.start),
-                  maxLines: column.headerLines,
+                  textAlign: TextAlign.center,
+                  maxLines: effectiveLines > 1 ? effectiveLines : 1,
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
@@ -542,24 +560,27 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
       onTap: column.sortable ? () => _handleSort(column.id) : null,
       child: Container(
         width: cellWidth,
-        height: 35.h,
+        height: headerRowHeight,
         decoration: BoxDecoration(
           border: _dragTargetColumnId == column.id
-              ? Border(
-                  left: BorderSide(color: AppColors.blue, width: 2.5),
-                  right: isLast
-                      ? BorderSide.none
-                      : BorderSide(color: _headerDividerColor, width: 1),
-                )
-              : (isLast
-                    ? null
-                    : Border(
-                        right: BorderSide(color: _headerDividerColor, width: 1),
-                      )),
+              ? Border(left: BorderSide(color: AppColors.blue, width: 2.5))
+              : null,
         ),
         child: Stack(
           children: [
             Positioned.fill(child: content),
+            if (!isLast)
+              Positioned(
+                right: 0,
+                top: 0,
+                bottom: 0,
+                width: 1.5,
+                child: Container(
+                  color: widget.isDarkMode
+                      ? DarkThemeColors.dividerColor
+                      : AppColors.white,
+                ),
+              ),
             Positioned(
               right: 0,
               top: 0,
@@ -694,8 +715,10 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
       child: Container(
         height: rowHeight,
         decoration: BoxDecoration(
-          color: effectiveIsSelected ? _selectedRowBgColor : _rowBgColor,
-          border: isLast
+          color:
+              widget.rowBackgroundBuilder?.call(item, index) ??
+              (effectiveIsSelected ? _selectedRowBgColor : _rowBgColor),
+          border: isLast || !widget.showRowBorders
               ? null
               : Border(
                   bottom: BorderSide(
@@ -730,7 +753,7 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
     );
   }
 
-  Widget _buildFooterRow(double rowHeight, double scale) {
+  Widget _buildFooterRow(double rowHeight, double scale, bool isScrollableX) {
     final scaledColumns = _activeColumns
         .map(
           (c) => ViewTableColumn(
@@ -739,6 +762,9 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
             width: (_columnWidths[c.id] ?? c.width) * scale,
             isNumeric: c.isNumeric,
             sortable: c.sortable,
+            customHeaderWidget: c.customHeaderWidget,
+            alignment: c.alignment,
+            headerLines: c.headerLines,
           ),
         )
         .toList();
@@ -747,6 +773,7 @@ class _ViewDataTableState<T> extends State<ViewDataTable<T>> {
         color: _headerBgColor,
         border: Border(top: BorderSide(color: _dividerColor, width: 1)),
       ),
+      padding: EdgeInsets.only(bottom: isScrollableX ? 12.h : 0),
       child: widget.footerBuilder!(scaledColumns),
     );
   }

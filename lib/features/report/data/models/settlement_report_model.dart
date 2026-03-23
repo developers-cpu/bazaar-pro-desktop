@@ -73,7 +73,8 @@ class SettlementTotalModel extends SettlementTotal {
     return SettlementTotalModel(
       totalPnl: (json['totalPnl'] as num).toDouble(),
       totalBrokerage: (json['totalBrokerage'] as num).toDouble(),
-      totalPercentageWise: (json['totalPercentageWise'] ?? 0.0 as num).toDouble(),
+      totalPercentageWise: (json['totalPercentageWise'] ?? 0.0 as num)
+          .toDouble(),
       totalAmount: (json['totalAmount'] as num).toDouble(),
     );
   }

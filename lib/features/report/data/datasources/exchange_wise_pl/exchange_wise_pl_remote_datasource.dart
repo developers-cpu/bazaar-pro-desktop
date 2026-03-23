@@ -13,7 +13,8 @@ class ExchangeWisePLRemoteDataSourceImpl
   Future<Either<Failure, List<ExchangeWisePLReportModel>>>
   getExchangeWisePLReport() async {
     await Future.delayed(const Duration(milliseconds: 500));
-    final List<ExchangeWisePLReportModel> mockData = _generateDummyExchangeWisePLReports();
+    final List<ExchangeWisePLReportModel> mockData =
+        _generateDummyExchangeWisePLReports();
     return Right(mockData);
   }
 
@@ -29,7 +30,7 @@ class ExchangeWisePLRemoteDataSourceImpl
       'FOREX',
       'USSTOCK',
       'BTX',
-      'LME'
+      'LME',
     ];
 
     final List<ExchangeWisePLReportModel> list = [];

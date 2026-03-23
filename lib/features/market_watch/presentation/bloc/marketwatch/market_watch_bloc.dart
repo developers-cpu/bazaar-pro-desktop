@@ -36,6 +36,7 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
     on<ClearFiltersEvent>(_onClearFilters);
     on<ToggleGridEvent>(_onToggleGrid);
     on<ReorderMarketItemsEvent>(_onReorderMarketItems);
+    on<SelectWatchlistFilterEvent>(_onSelectWatchlistFilter);
   }
   Future<void> _onLoadMarketItems(
     LoadMarketItemsEvent event,
@@ -71,15 +72,14 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
           .where((item) => item.symbol == currentState.selectedSymbol)
           .toList();
     }
-    emit(
-      currentState.copyWith(
-        filteredItems: filtered,
-        selectedExchange: event.exchange,
-        clearExpiry: event.exchange != AppStrings.cePe,
-        clearType: event.exchange != AppStrings.cePe,
-        clearPrice: event.exchange != AppStrings.cePe,
-      ),
+    final newState = currentState.copyWith(
+      filteredItems: filtered,
+      selectedExchange: event.exchange,
+      clearExpiry: event.exchange != AppStrings.cePe,
+      clearType: event.exchange != AppStrings.cePe,
+      clearPrice: event.exchange != AppStrings.cePe,
     );
+    emit(_saveToWatchlist(newState));
   }
 
   void _onFilterBySymbol(
@@ -97,12 +97,11 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
           .where((item) => item.exchange == currentState.selectedExchange)
           .toList();
     }
-    emit(
-      currentState.copyWith(
-        filteredItems: filtered,
-        selectedSymbol: event.symbol,
-      ),
+    final newState = currentState.copyWith(
+      filteredItems: filtered,
+      selectedSymbol: event.symbol,
     );
+    emit(_saveToWatchlist(newState));
   }
 
   void _onFilterBySymbols(
@@ -122,13 +121,12 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
           .where((item) => item.exchange == currentState.selectedExchange)
           .toList();
     }
-    emit(
-      currentState.copyWith(
-        filteredItems: filtered,
-        selectedSymbols: event.symbols.isEmpty ? null : event.symbols,
-        clearSymbol: true,
-      ),
+    final newState = currentState.copyWith(
+      filteredItems: filtered,
+      selectedSymbols: event.symbols.isEmpty ? null : event.symbols,
+      clearSymbol: true,
     );
+    emit(_saveToWatchlist(newState));
   }
 
   void _onFilterByUser(
@@ -150,9 +148,9 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
       selectedExpiry: event.expiry,
       clearExpiry: event.expiry == null,
     );
-    emit(
-      newState.copyWith(filteredItems: _applyFilters(newState.items, newState)),
-    );
+    final filtered = _applyFilters(newState.items, newState);
+    final stateWithFiltered = newState.copyWith(filteredItems: filtered);
+    emit(_saveToWatchlist(stateWithFiltered));
   }
 
   void _onFilterByType(
@@ -165,9 +163,9 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
       selectedType: event.type,
       clearType: event.type == null,
     );
-    emit(
-      newState.copyWith(filteredItems: _applyFilters(newState.items, newState)),
-    );
+    final filtered = _applyFilters(newState.items, newState);
+    final stateWithFiltered = newState.copyWith(filteredItems: filtered);
+    emit(_saveToWatchlist(stateWithFiltered));
   }
 
   void _onFilterByPrice(
@@ -180,9 +178,9 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
       selectedPrice: event.price,
       clearPrice: event.price == null,
     );
-    emit(
-      newState.copyWith(filteredItems: _applyFilters(newState.items, newState)),
-    );
+    final filtered = _applyFilters(newState.items, newState);
+    final stateWithFiltered = newState.copyWith(filteredItems: filtered);
+    emit(_saveToWatchlist(stateWithFiltered));
   }
 
   void _onSelectMarketItem(
@@ -496,6 +494,18 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
     return null;
   }
 
+  MarketWatchLoaded _saveToWatchlist(MarketWatchLoaded newState) {
+    if (newState.selectedWatchlistIndex >= 0) {
+      final updatedWatchlistData = Map<int, List<MarketItem>>.from(
+        newState.watchlistData,
+      );
+      updatedWatchlistData[newState.selectedWatchlistIndex] =
+          newState.filteredItems;
+      return newState.copyWith(watchlistData: updatedWatchlistData);
+    }
+    return newState;
+  }
+
   List<MarketItem> _applyFilters(
     List<MarketItem> items,
     MarketWatchLoaded currentState,
@@ -562,6 +572,55 @@ class MarketWatchBloc extends Bloc<MarketWatchEvent, MarketWatchState> {
         currentState.copyWith(
           items: updatedItems,
           filteredItems: filteredItems,
+        ),
+      );
+    }
+  }
+
+  void _onSelectWatchlistFilter(
+    SelectWatchlistFilterEvent event,
+    Emitter<MarketWatchState> emit,
+  ) {
+    final currentState = _getLoadedState();
+    if (currentState == null) return;
+
+    var stateToSwitch = currentState;
+    if (currentState.selectedWatchlistIndex >= 0) {
+      final updatedWatchlistData = Map<int, List<MarketItem>>.from(
+        currentState.watchlistData,
+      );
+      updatedWatchlistData[currentState.selectedWatchlistIndex] =
+          currentState.filteredItems;
+      stateToSwitch = currentState.copyWith(
+        watchlistData: updatedWatchlistData,
+      );
+    }
+
+    if (event.index == -1) {
+      emit(
+        stateToSwitch.copyWith(
+          filteredItems: stateToSwitch.items,
+          selectedWatchlistIndex: -1,
+          clearExchange: true,
+          clearSymbol: true,
+          clearSymbols: true,
+          clearExpiry: true,
+          clearType: true,
+          clearPrice: true,
+        ),
+      );
+    } else {
+      final savedItems = stateToSwitch.watchlistData[event.index] ?? const [];
+      emit(
+        stateToSwitch.copyWith(
+          filteredItems: savedItems,
+          selectedWatchlistIndex: event.index,
+          clearExchange: true,
+          clearSymbol: true,
+          clearSymbols: true,
+          clearExpiry: true,
+          clearType: true,
+          clearPrice: true,
         ),
       );
     }

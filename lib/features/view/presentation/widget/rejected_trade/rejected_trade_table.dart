@@ -8,55 +8,84 @@ import '../../bloc/rejected_trade/rejected_trade_event.dart';
 import '../../bloc/rejected_trade/rejected_trade_state.dart';
 import '../../../../../core/widget/table/view_record_count.dart';
 import '../../../../../core/widget/table/view_table_cell_styles.dart';
+import '../../../../auth/presentation/bloc/auth_bloc.dart';
+import '../../../../auth/presentation/bloc/auth_state.dart';
 
 class RejectedTradeTable extends StatelessWidget {
   const RejectedTradeTable({Key? key}) : super(key: key);
-  static final List<ViewTableColumn> _columns = [
-    const ViewTableColumn(id: 'userName', label: 'U. NAME', width: 100),
-    const ViewTableColumn(id: 'parentUser', label: 'P USER', width: 100),
-    const ViewTableColumn(id: 'exchange', label: 'EXCH', width: 70),
-    const ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 120),
-    const ViewTableColumn(id: 'orderDateTime', label: 'ORDER D/T', width: 170),
-    const ViewTableColumn(id: 'buySell', label: 'B/S', width: 180),
-    const ViewTableColumn(id: 'qty', label: 'QTY', width: 100, isNumeric: true),
-    const ViewTableColumn(id: 'lot', label: 'LOT', width: 70, isNumeric: true),
-    const ViewTableColumn(id: 'type', label: 'TYPE', width: 80),
-    const ViewTableColumn(id: 'pl', label: 'P/L', width: 100, isNumeric: true),
-    const ViewTableColumn(
-      id: 'tradePrice',
-      label: 'T. PRICE',
-      width: 110,
-      isNumeric: true,
-    ),
-    const ViewTableColumn(
-      id: 'brokerage',
-      label: 'BRK',
-      width: 80,
-      isNumeric: true,
-    ),
-    const ViewTableColumn(
-      id: 'ratePrice',
-      label: 'R. PRICE',
-      width: 100,
-      isNumeric: true,
-    ),
-    const ViewTableColumn(
-      id: 'executionDateTime',
-      label: 'EXECUTION D/T',
-      width: 170,
-    ),
-    const ViewTableColumn(id: 'deviceId', label: 'DEVICE ID', width: 280),
-    const ViewTableColumn(id: 'city', label: 'CITY', width: 100),
-    const ViewTableColumn(id: 'device', label: 'DEVICE', width: 80),
-    const ViewTableColumn(
-      id: 'ipAddress',
-      label: 'IP ADDRESS',
-      width: 140,
-      isNumeric: true,
-    ),
-  ];
+  List<ViewTableColumn> _getColumns({bool isAdmin = false}) {
+    return [
+      const ViewTableColumn(id: 'userName', label: 'U. NAME', width: 100),
+      const ViewTableColumn(id: 'parentUser', label: 'P USER', width: 100),
+      const ViewTableColumn(id: 'exchange', label: 'EXCH', width: 70),
+      const ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 120),
+      const ViewTableColumn(
+        id: 'orderDateTime',
+        label: 'ORDER D/T',
+        width: 170,
+      ),
+      const ViewTableColumn(id: 'buySell', label: 'B/S', width: 180),
+      const ViewTableColumn(
+        id: 'qty',
+        label: 'QTY',
+        width: 100,
+        isNumeric: true,
+      ),
+      const ViewTableColumn(
+        id: 'lot',
+        label: 'LOT',
+        width: 70,
+        isNumeric: true,
+      ),
+      const ViewTableColumn(id: 'type', label: 'TYPE', width: 80),
+      const ViewTableColumn(
+        id: 'pl',
+        label: 'P/L',
+        width: 100,
+        isNumeric: true,
+      ),
+      const ViewTableColumn(
+        id: 'tradePrice',
+        label: 'T. PRICE',
+        width: 110,
+        isNumeric: true,
+      ),
+      const ViewTableColumn(
+        id: 'brokerage',
+        label: 'BRK',
+        width: 80,
+        isNumeric: true,
+      ),
+      const ViewTableColumn(
+        id: 'ratePrice',
+        label: 'R. PRICE',
+        width: 100,
+        isNumeric: true,
+      ),
+      const ViewTableColumn(
+        id: 'executionDateTime',
+        label: 'EXECUTION D/T',
+        width: 170,
+      ),
+      const ViewTableColumn(id: 'deviceId', label: 'DEVICE ID', width: 280),
+      if (isAdmin) const ViewTableColumn(id: 'city', label: 'CITY', width: 100),
+      const ViewTableColumn(id: 'device', label: 'DEVICE', width: 80),
+      const ViewTableColumn(
+        id: 'ipAddress',
+        label: 'IP ADDRESS',
+        width: 140,
+        isNumeric: true,
+      ),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
+    final authState = context.read<AuthBloc>().state;
+    final role = authState is AuthAuthenticated
+        ? authState.user.role.toLowerCase()
+        : '';
+    final isAdmin = role == 'admin' || role == 'superadmin';
     return BlocBuilder<RejectedTradeBloc, RejectedTradeState>(
       builder: (context, state) {
         if (state is RejectedTradeLoading) {
@@ -78,7 +107,7 @@ class RejectedTradeTable extends StatelessWidget {
               ViewRecordCount(count: state.totalRecords),
               Expanded(
                 child: ViewDataTable<RejectedTrade>(
-                  columns: _columns,
+                  columns: _getColumns(isAdmin: isAdmin),
                   data: state.filteredTrades,
                   cellBuilder: _buildCell,
                   idExtractor: (trade) => trade.id,

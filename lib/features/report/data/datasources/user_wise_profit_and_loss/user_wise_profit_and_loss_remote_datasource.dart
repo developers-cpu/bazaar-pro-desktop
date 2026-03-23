@@ -21,7 +21,8 @@ class UserWiseProfitAndLossRemoteDataSourceImpl
     String? endDate,
   }) async {
     await Future.delayed(const Duration(milliseconds: 500));
-    final List<UserWiseProfitAndLossReportModel> mockData = _generateDummyUserWiseProfitAndLossReports();
+    final List<UserWiseProfitAndLossReportModel> mockData =
+        _generateDummyUserWiseProfitAndLossReports();
 
     if (userId != null && userId.isNotEmpty) {
       return Right(
@@ -36,8 +37,17 @@ class UserWiseProfitAndLossRemoteDataSourceImpl
     return Right(mockData);
   }
 
-  List<UserWiseProfitAndLossReportModel> _generateDummyUserWiseProfitAndLossReports() {
-    final List<String> userNames = ['DEMO02', 'DEMO32', 'DEMO001', 'DEMO34', 'PATIL', 'ADMIN', 'MASTER'];
+  List<UserWiseProfitAndLossReportModel>
+  _generateDummyUserWiseProfitAndLossReports() {
+    final List<String> userNames = [
+      'DEMO02',
+      'DEMO32',
+      'DEMO001',
+      'DEMO34',
+      'PATIL',
+      'ADMIN',
+      'MASTER',
+    ];
     final List<UserWiseProfitAndLossReportModel> list = [];
     final DateTime now = DateTime.now();
 

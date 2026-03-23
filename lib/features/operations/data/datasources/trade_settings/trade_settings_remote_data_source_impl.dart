@@ -4,40 +4,50 @@ import '../../models/trade_settings/trade_setting_model.dart';
 class TradeSettingsRemoteDataSourceImpl
     implements TradeSettingsRemoteDataSource {
   final List<TradeSettingModel> _mockTradeSettings = [
-
-    ...['NSE', 'MCX', 'CRYPTO', 'CE/PE', 'GIFT', 'OTHERS', 'FOREX', 'COMEX FUTURE', 'COMEX SPOT', 'USSTOCK']
-        .expand((ex) => [
-              'ABB25DECFUT',
-              'ABCAPITAL25DECFUT',
-              'ADANIENSOL25DECFUT',
-              '360ONE25DECFUT',
-              'BAJAJ-AUTO25DECFUT',
-              'AXISBANK25DECFUT',
-              'ADANIENT25DECFUT',
-              'ADANIGREEN25DECFUT',
-              'AUROPHARMA25DECFUT',
-            ].asMap().entries.map((e) {
-              final isAmountWise = e.key % 2 != 0;
-              return TradeSettingModel(
-                id: '${ex.toLowerCase()}_${e.key}',
-                exchange: ex,
-                symbol: ex == 'NSE' ? e.value : '${ex}_${e.value}',
-                marginType: isAmountWise ? 'Amount Wise' : 'Percentage',
-                intMarginPercentage: isAmountWise ? '-' : '2500',
-                cfMarginPercentage: isAmountWise ? '-' : '2500',
-                intMarginAmt: isAmountWise ? '2500' : '-',
-                cfMarginAmt: isAmountWise ? '2500' : '-',
-                brokerageType: 'Turnover Wise',
-                turnoverWiseBrokerageRs:
-                    e.key == 4 || e.key == 8 ? '-' : '2500',
-                lotWiseBrokerageAmt: '-',
-                updatedOn: '26/12/25 | 12:00:00 AM',
-                updatedBy: 'DEMO4',
-                leverageMultiplier: '1:10',
-                tradeSecondsLimit: _getTradeSeconds(e.key),
-              );
-            })),
-
+    ...[
+      'NSE',
+      'MCX',
+      'CRYPTO',
+      'CE/PE',
+      'GIFT',
+      'OTHERS',
+      'FOREX',
+      'COMEX FUTURE',
+      'COMEX SPOT',
+      'USSTOCK',
+    ].expand(
+      (ex) =>
+          [
+            'ABB25DECFUT',
+            'ABCAPITAL25DECFUT',
+            'ADANIENSOL25DECFUT',
+            '360ONE25DECFUT',
+            'BAJAJ-AUTO25DECFUT',
+            'AXISBANK25DECFUT',
+            'ADANIENT25DECFUT',
+            'ADANIGREEN25DECFUT',
+            'AUROPHARMA25DECFUT',
+          ].asMap().entries.map((e) {
+            final isAmountWise = e.key % 2 != 0;
+            return TradeSettingModel(
+              id: '${ex.toLowerCase()}_${e.key}',
+              exchange: ex,
+              symbol: ex == 'NSE' ? e.value : '${ex}_${e.value}',
+              marginType: isAmountWise ? 'Amount Wise' : 'Percentage',
+              intMarginPercentage: isAmountWise ? '-' : '2500',
+              cfMarginPercentage: isAmountWise ? '-' : '2500',
+              intMarginAmt: isAmountWise ? '2500' : '-',
+              cfMarginAmt: isAmountWise ? '2500' : '-',
+              brokerageType: 'Turnover Wise',
+              turnoverWiseBrokerageRs: e.key == 4 || e.key == 8 ? '-' : '2500',
+              lotWiseBrokerageAmt: '-',
+              updatedOn: '26/12/25 | 12:00:00 AM',
+              updatedBy: 'DEMO4',
+              leverageMultiplier: '1:10',
+              tradeSecondsLimit: _getTradeSeconds(e.key),
+            );
+          }),
+    ),
 
     TradeSettingModel(
       id: '1',
@@ -206,6 +216,7 @@ class TradeSettingsRemoteDataSourceImpl
     if (index < values.length) return values[index];
     return '01';
   }
+
   @override
   Future<List<TradeSettingModel>> getTradeSettings() async {
     await Future.delayed(const Duration(milliseconds: 300));

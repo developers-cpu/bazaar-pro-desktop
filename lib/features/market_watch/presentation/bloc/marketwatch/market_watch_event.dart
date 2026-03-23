@@ -125,3 +125,10 @@ class ReorderMarketItemsEvent extends MarketWatchEvent {
   @override
   List<Object> get props => [fromItemId, toItemId];
 }
+
+class SelectWatchlistFilterEvent extends MarketWatchEvent {
+  final int index;
+  const SelectWatchlistFilterEvent({required this.index});
+  @override
+  List<Object> get props => [index];
+}

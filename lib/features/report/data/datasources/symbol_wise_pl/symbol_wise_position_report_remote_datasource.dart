@@ -15,7 +15,8 @@ class SymbolWisePositionReportRemoteDataSourceImpl
     String? symbol,
   }) async {
     await Future.delayed(const Duration(milliseconds: 500));
-    final List<SymbolWisePositionReportModel> mockData = _generateDummySymbolWisePositionReports();
+    final List<SymbolWisePositionReportModel> mockData =
+        _generateDummySymbolWisePositionReports();
 
     if (exchange != null && exchange != 'All') {
       return mockData.where((e) => e.exchange == exchange).toList();
@@ -23,7 +24,8 @@ class SymbolWisePositionReportRemoteDataSourceImpl
     return mockData;
   }
 
-  List<SymbolWisePositionReportModel> _generateDummySymbolWisePositionReports() {
+  List<SymbolWisePositionReportModel>
+  _generateDummySymbolWisePositionReports() {
     final List<String> exchanges = ['NSE', 'MCX', 'NFO', 'BTX'];
     final List<String> symbols = [
       'CRUDEOIL 18SEP2024',
@@ -32,7 +34,7 @@ class SymbolWisePositionReportRemoteDataSourceImpl
       'COPPER 31DEC2024',
       'NIFTY 26SEP2024',
       'BANKNIFTY 26SEP2024',
-      'RELIANCE 26SEP2024'
+      'RELIANCE 26SEP2024',
     ];
 
     final List<SymbolWisePositionReportModel> list = [];

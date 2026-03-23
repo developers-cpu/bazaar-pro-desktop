@@ -28,37 +28,37 @@ class TradesFilterBar extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: Row(
             children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      DateRangePickerButton(
-                        width: 200.w,
-                        selectedDateRange:
-                            state.startDate != null && state.endDate != null
-                            ? DateTimeRange(
-                                start: state.startDate!,
-                                end: state.endDate!,
-                              )
-                            : null,
-                        onTap: () {},
-                        onDateRangeSelected: (range) {
-                          context.read<TradesBloc>().add(
-                            UpdateFiltersEvent(
-                              startDate: range.start,
-                              endDate: range.end,
-                              client: state.selectedClient,
-                              exchange: state.selectedExchange,
-                              symbol: state.selectedSymbol,
-                              orderType: state.selectedOrderType,
-                            ),
-                          );
-                        },
-                      ),
-                      if (!isClient) ...[
+              if (!isClient)
+                Expanded(
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        DateRangePickerButton(
+                          width: 200.w,
+                          selectedDateRange:
+                              state.startDate != null && state.endDate != null
+                              ? DateTimeRange(
+                                  start: state.startDate!,
+                                  end: state.endDate!,
+                                )
+                              : null,
+                          onTap: () {},
+                          onDateRangeSelected: (range) {
+                            context.read<TradesBloc>().add(
+                              UpdateFiltersEvent(
+                                startDate: range.start,
+                                endDate: range.end,
+                                client: state.selectedClient,
+                                exchange: state.selectedExchange,
+                                symbol: state.selectedSymbol,
+                                orderType: state.selectedOrderType,
+                              ),
+                            );
+                          },
+                        ),
                         SizedBox(width: 12.w),
                         AppDropdown(
                           width: 200.w,
@@ -79,89 +79,191 @@ class TradesFilterBar extends StatelessWidget {
                             );
                           },
                         ),
+                        SizedBox(width: 12.w),
+                        AppDropdown(
+                          width: 200.w,
+                          type: AppDropdownType.simple,
+                          hintText: 'Exchange',
+                          value: state.selectedExchange,
+                          items: const [
+                            'NSE',
+                            'MCX',
+                            'CE/PE',
+                            'OTHERS',
+                            'COMEX FUTURE',
+                            'COMEX SPOT',
+                            'CRYPTO',
+                            'GIFT',
+                            'FOREX',
+                          ],
+                          onChanged: (value) {
+                            context.read<TradesBloc>().add(
+                              UpdateFiltersEvent(
+                                startDate: state.startDate,
+                                endDate: state.endDate,
+                                client: state.selectedClient,
+                                exchange: value,
+                                symbol: state.selectedSymbol,
+                                orderType: state.selectedOrderType,
+                              ),
+                            );
+                          },
+                        ),
+                        SizedBox(width: 12.w),
+                        AppDropdown(
+                          width: 200.w,
+                          type: AppDropdownType.search,
+                          hintText: 'Symbol',
+                          value: state.selectedSymbol,
+                          items: state.symbols,
+                          onChanged: (value) {
+                            context.read<TradesBloc>().add(
+                              UpdateFiltersEvent(
+                                startDate: state.startDate,
+                                endDate: state.endDate,
+                                client: state.selectedClient,
+                                exchange: state.selectedExchange,
+                                symbol: value,
+                                orderType: state.selectedOrderType,
+                              ),
+                            );
+                          },
+                        ),
+                        SizedBox(width: 12.w),
+                        AppDropdown(
+                          width: 200.w,
+                          type: AppDropdownType.simple,
+                          hintText: 'Select Type',
+                          value: state.selectedOrderType,
+                          items: const [
+                            'Buy',
+                            'Sell',
+                            'Buy Limit',
+                            'Buy Stop',
+                            'Sell Limit',
+                            'Sell Stop',
+                          ],
+                          showAllOption: true,
+                          onChanged: (value) {
+                            context.read<TradesBloc>().add(
+                              UpdateFiltersEvent(
+                                startDate: state.startDate,
+                                endDate: state.endDate,
+                                client: state.selectedClient,
+                                exchange: state.selectedExchange,
+                                symbol: state.selectedSymbol,
+                                orderType: value,
+                              ),
+                            );
+                          },
+                        ),
                       ],
-                      SizedBox(width: 12.w),
-                      AppDropdown(
-                        width: 200.w,
-                        type: AppDropdownType.simple,
-                        hintText: 'Exchange',
-                        value: state.selectedExchange,
-                        items: const [
-                          'NSE',
-                          'MCX',
-                          'CE/PE',
-                          'OTHERS',
-                          'COMEX FUTURE',
-                          'COMEX SPOT',
-                          'CRYPTO',
-                          'GIFT',
-                          'FOREX',
-                        ],
-                        onChanged: (value) {
-                          context.read<TradesBloc>().add(
-                            UpdateFiltersEvent(
-                              startDate: state.startDate,
-                              endDate: state.endDate,
-                              client: state.selectedClient,
-                              exchange: value,
-                              symbol: state.selectedSymbol,
-                              orderType: state.selectedOrderType,
-                            ),
-                          );
-                        },
-                      ),
-                      SizedBox(width: 12.w),
-                      AppDropdown(
-                        width: 200.w,
-                        type: AppDropdownType.search,
-                        hintText: 'Symbol',
-                        value: state.selectedSymbol,
-                        items: state.symbols,
-                        onChanged: (value) {
-                          context.read<TradesBloc>().add(
-                            UpdateFiltersEvent(
-                              startDate: state.startDate,
-                              endDate: state.endDate,
-                              client: state.selectedClient,
-                              exchange: state.selectedExchange,
-                              symbol: value,
-                              orderType: state.selectedOrderType,
-                            ),
-                          );
-                        },
-                      ),
-                      SizedBox(width: 12.w),
-                      AppDropdown(
-                        width: 200.w,
-                        type: AppDropdownType.simple,
-                        hintText: 'Select Type',
-                        value: state.selectedOrderType,
-                        items: const [
-                          'Buy',
-                          'Sell',
-                          'Buy Limit',
-                          'Buy Stop',
-                          'Sell Limit',
-                          'Sell Stop',
-                        ],
-                        showAllOption: true,
-                        onChanged: (value) {
-                          context.read<TradesBloc>().add(
-                            UpdateFiltersEvent(
-                              startDate: state.startDate,
-                              endDate: state.endDate,
-                              client: state.selectedClient,
-                              exchange: state.selectedExchange,
-                              symbol: state.selectedSymbol,
-                              orderType: value,
-                            ),
-                          );
-                        },
-                      ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
+              if (isClient) ...[
+                DateRangePickerButton(
+                  width: 200.w,
+                  selectedDateRange:
+                      state.startDate != null && state.endDate != null
+                      ? DateTimeRange(
+                          start: state.startDate!,
+                          end: state.endDate!,
+                        )
+                      : null,
+                  onTap: () {},
+                  onDateRangeSelected: (range) {
+                    context.read<TradesBloc>().add(
+                      UpdateFiltersEvent(
+                        startDate: range.start,
+                        endDate: range.end,
+                        client: state.selectedClient,
+                        exchange: state.selectedExchange,
+                        symbol: state.selectedSymbol,
+                        orderType: state.selectedOrderType,
+                      ),
+                    );
+                  },
+                ),
+                SizedBox(width: 12.w),
+                AppDropdown(
+                  width: 200.w,
+                  type: AppDropdownType.simple,
+                  hintText: 'Exchange',
+                  value: state.selectedExchange,
+                  items: const [
+                    'NSE',
+                    'MCX',
+                    'CE/PE',
+                    'OTHERS',
+                    'COMEX FUTURE',
+                    'COMEX SPOT',
+                    'CRYPTO',
+                    'GIFT',
+                    'FOREX',
+                  ],
+                  onChanged: (value) {
+                    context.read<TradesBloc>().add(
+                      UpdateFiltersEvent(
+                        startDate: state.startDate,
+                        endDate: state.endDate,
+                        client: state.selectedClient,
+                        exchange: value,
+                        symbol: state.selectedSymbol,
+                        orderType: state.selectedOrderType,
+                      ),
+                    );
+                  },
+                ),
+                SizedBox(width: 12.w),
+                AppDropdown(
+                  width: 200.w,
+                  type: AppDropdownType.search,
+                  hintText: 'Symbol',
+                  value: state.selectedSymbol,
+                  items: state.symbols,
+                  onChanged: (value) {
+                    context.read<TradesBloc>().add(
+                      UpdateFiltersEvent(
+                        startDate: state.startDate,
+                        endDate: state.endDate,
+                        client: state.selectedClient,
+                        exchange: state.selectedExchange,
+                        symbol: value,
+                        orderType: state.selectedOrderType,
+                      ),
+                    );
+                  },
+                ),
+                SizedBox(width: 12.w),
+                AppDropdown(
+                  width: 200.w,
+                  type: AppDropdownType.simple,
+                  hintText: 'Select Type',
+                  value: state.selectedOrderType,
+                  items: const [
+                    'Buy',
+                    'Sell',
+                    'Buy Limit',
+                    'Buy Stop',
+                    'Sell Limit',
+                    'Sell Stop',
+                  ],
+                  showAllOption: true,
+                  onChanged: (value) {
+                    context.read<TradesBloc>().add(
+                      UpdateFiltersEvent(
+                        startDate: state.startDate,
+                        endDate: state.endDate,
+                        client: state.selectedClient,
+                        exchange: state.selectedExchange,
+                        symbol: state.selectedSymbol,
+                        orderType: value,
+                      ),
+                    );
+                  },
+                ),
+              ],
               SizedBox(width: 12.w),
               ViewResetButtons(
                 showReset: !isClient,

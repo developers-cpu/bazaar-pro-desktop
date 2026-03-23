@@ -19,15 +19,27 @@ class TradeMarginTable extends StatelessWidget {
       return const [
         ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 250),
         ViewTableColumn(
-          id: 'marginPct',
-          label: 'MARGIN (%)',
-          width: 200,
+          id: 'intMarginPct',
+          label: 'INT MARGIN (%)',
+          width: 150,
           isNumeric: true,
         ),
         ViewTableColumn(
-          id: 'marginAmt',
-          label: 'MARGIN (A.)',
-          width: 200,
+          id: 'cfMarginPct',
+          label: 'CF MARGIN (%)',
+          width: 150,
+          isNumeric: true,
+        ),
+        ViewTableColumn(
+          id: 'intMarginAmt',
+          label: 'INT MARGIN(Amt.)',
+          width: 150,
+          isNumeric: true,
+        ),
+        ViewTableColumn(
+          id: 'cfMarginAmt',
+          label: 'CF MARGIN(Amt.)',
+          width: 170,
           isNumeric: true,
         ),
       ];
@@ -37,15 +49,27 @@ class TradeMarginTable extends StatelessWidget {
       ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 150),
       ViewTableColumn(id: 'expiryDate', label: 'EXPIRY DATE', width: 200),
       ViewTableColumn(
-        id: 'marginPct',
-        label: 'MARGIN (%)',
+        id: 'intMarginPct',
+        label: 'INT MARGIN (%)',
         width: 150,
         isNumeric: true,
       ),
       ViewTableColumn(
-        id: 'marginAmt',
-        label: 'MARGIN (A.)',
+        id: 'cfMarginPct',
+        label: 'CF MARGIN (%)',
         width: 150,
+        isNumeric: true,
+      ),
+      ViewTableColumn(
+        id: 'intMarginAmt',
+        label: 'INT MARGIN(Amt.)',
+        width: 150,
+        isNumeric: true,
+      ),
+      ViewTableColumn(
+        id: 'cfMarginAmt',
+        label: 'CF MARGIN(Amt.)',
+        width: 170,
         isNumeric: true,
       ),
     ];
@@ -62,15 +86,27 @@ class TradeMarginTable extends StatelessWidget {
         );
       case 'expiryDate':
         return ViewDateTimeCell(dateTime: item.expiryDate, isDark: isDark);
-      case 'marginPct':
+      case 'intMarginPct':
         return ViewNumberCell(
-          value: item.marginPercentage,
+          value: item.intMarginPct,
           isDark: isDark,
           colorByValue: false,
         );
-      case 'marginAmt':
+      case 'cfMarginPct':
         return ViewNumberCell(
-          value: item.marginAmount,
+          value: item.cfMarginPct,
+          isDark: isDark,
+          colorByValue: false,
+        );
+      case 'intMarginAmt':
+        return ViewNumberCell(
+          value: item.intMarginAmt,
+          isDark: isDark,
+          colorByValue: false,
+        );
+      case 'cfMarginAmt':
+        return ViewNumberCell(
+          value: item.cfMarginAmt,
           isDark: isDark,
           colorByValue: false,
         );
@@ -101,10 +137,14 @@ class TradeMarginTable extends StatelessWidget {
                   return item.symbol;
                 case 'expiryDate':
                   return item.expiryDate;
-                case 'marginPct':
-                  return item.marginPercentage;
-                case 'marginAmt':
-                  return item.marginAmount;
+                case 'intMarginPct':
+                  return item.intMarginPct;
+                case 'cfMarginPct':
+                  return item.cfMarginPct;
+                case 'intMarginAmt':
+                  return item.intMarginAmt;
+                case 'cfMarginAmt':
+                  return item.cfMarginAmt;
                 default:
                   return '';
               }

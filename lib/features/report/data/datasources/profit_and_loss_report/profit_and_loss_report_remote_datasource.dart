@@ -13,18 +13,29 @@ class ProfitAndLossReportRemoteDataSourceImpl
     String? userId,
   }) async {
     await Future.delayed(const Duration(milliseconds: 500));
-    final List<ProfitAndLossReportModel> mockData = _generateDummyProfitAndLossReports();
+    final List<ProfitAndLossReportModel> mockData =
+        _generateDummyProfitAndLossReports();
 
     if (userId != null && userId.isNotEmpty) {
       return mockData
-          .where((item) => item.userName.toLowerCase().contains(userId.toLowerCase()))
+          .where(
+            (item) =>
+                item.userName.toLowerCase().contains(userId.toLowerCase()),
+          )
           .toList();
     }
     return mockData;
   }
 
   List<ProfitAndLossReportModel> _generateDummyProfitAndLossReports() {
-    final List<String> userNames = ['PATIL', 'DEMO4', 'ADMIN', 'MASTER', 'USER123', 'TEST_OWNER'];
+    final List<String> userNames = [
+      'PATIL',
+      'DEMO4',
+      'ADMIN',
+      'MASTER',
+      'USER123',
+      'TEST_OWNER',
+    ];
     final List<ProfitAndLossReportModel> list = [];
 
     for (int i = 1; i <= 35; i++) {

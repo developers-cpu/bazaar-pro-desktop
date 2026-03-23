@@ -108,7 +108,8 @@ class IntradayHistoryFilterBar extends StatelessWidget {
                   },
                 ),
               ),
-              const Spacer(),
+              if (!isClient) const Spacer(),
+              if (isClient) SizedBox(width: 12.w),
               ViewResetButtons(
                 showReset: !isClient,
                 onReset: () {

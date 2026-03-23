@@ -15,7 +15,7 @@ class CreditHistoryRemoteDataSourceImpl
     String? search,
   }) async {
     await Future.delayed(const Duration(milliseconds: 500));
-    final List<CreditHistoryModel> mockData = List.generate(15, (index) {
+    final List<CreditHistoryModel> mockData = List.generate(30, (index) {
       final isCredit = index % 2 == 0;
       final type = isCredit ? 'Credit' : 'Debit';
       final comment = isCredit ? 'Initial Credit' : 'Initial Debit';

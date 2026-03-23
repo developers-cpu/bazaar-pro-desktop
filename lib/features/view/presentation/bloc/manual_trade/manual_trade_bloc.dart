@@ -21,7 +21,8 @@ class ManualTradeBloc extends Bloc<ManualTradeEvent, ManualTradeState> {
       final symbols = ['REALINCE31DEC2025', 'NIFTY25N042555OCE', 'GOLD05DEC'];
       final initialSymbol = symbols.isNotEmpty ? symbols.first : null;
       final initialLot = '1';
-      final initialQty = '${int.parse(initialLot) * _getLotSize(initialSymbol)}';
+      final initialQty =
+          '${int.parse(initialLot) * _getLotSize(initialSymbol)}';
       emit(
         state.copyWith(
           isLoading: false,

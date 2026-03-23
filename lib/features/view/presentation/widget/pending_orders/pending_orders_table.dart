@@ -23,7 +23,7 @@ class PendingOrdersTable extends StatelessWidget {
     this.showDeviceInfo = false,
     this.isDarkMode = false,
   }) : super(key: key);
-  List<ViewTableColumn> _getColumns(bool isClient) {
+  List<ViewTableColumn> _getColumns(bool isClient, {bool isAdmin = false}) {
     if (isClient) {
       return const [
         ViewTableColumn(id: 'exchange', label: 'EXCH', width: 100),
@@ -103,7 +103,7 @@ class PendingOrdersTable extends StatelessWidget {
       ),
       const ViewTableColumn(id: 'deviceId', label: 'DEVICE ID', width: 280),
       const ViewTableColumn(id: 'device', label: 'DEVICE', width: 100),
-      const ViewTableColumn(id: 'city', label: 'CITY', width: 150),
+      if (isAdmin) const ViewTableColumn(id: 'city', label: 'CITY', width: 150),
       const ViewTableColumn(
         id: 'ipAddress',
         label: 'IP ADDRESS',
@@ -202,6 +202,10 @@ class PendingOrdersTable extends StatelessWidget {
     final isClient =
         authState is AuthAuthenticated &&
         authState.user.role.toLowerCase() == 'client';
+    final role = authState is AuthAuthenticated
+        ? authState.user.role.toLowerCase()
+        : '';
+    final isAdmin = role == 'admin' || role == 'superadmin';
     return BlocBuilder<PendingOrdersBloc, PendingOrdersState>(
       builder: (context, state) {
         if (state is PendingOrdersLoading) {
@@ -219,7 +223,7 @@ class PendingOrdersTable extends StatelessWidget {
             Expanded(
               child: ViewDataTable<PendingOrder>(
                 autoFit: true,
-                columns: _getColumns(isClient),
+                columns: _getColumns(isClient, isAdmin: isAdmin),
                 data: state.filteredOrders,
                 idExtractor: (item) => item.id,
                 selectedId: state.selectedOrderId,

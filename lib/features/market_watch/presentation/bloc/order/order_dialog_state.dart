@@ -16,7 +16,7 @@ class OrderDialogState extends Equatable {
   const OrderDialogState({
     this.dialogType = OrderDialogTypeEnum.none,
     this.clientName = '',
-    this.orderType = '',
+    this.orderType = 'Market',
     this.quantity = 0,
     this.lot = 0,
     this.price = 0.0,

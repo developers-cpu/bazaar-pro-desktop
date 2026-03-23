@@ -239,13 +239,14 @@ class _CommonOrderDialogState extends State<CommonOrderDialog> {
           child: isClient
               ? _buildStaticClientField(clientName)
               : AppDropdown(
-                  type: AppDropdownType.simple,
+                  type: AppDropdownType.search,
                   hintText: 'Username',
                   value: state.clientName.isEmpty ? null : state.clientName,
                   items: const ['Client 1', 'Client 2', 'Client 3'],
                   label: 'Client Name',
                   labelColor: AppColors.white,
                   height: 26.h,
+                  searchHint: 'Search',
                   borderColor: LightThemeColors.primaryColor,
                   onChanged: (value) {
                     if (value != null) {
@@ -323,11 +324,15 @@ class _CommonOrderDialogState extends State<CommonOrderDialog> {
   }
 
   Widget _buildStaticClientField(String clientName) {
+    return _buildReadonlyField('Client Name', clientName);
+  }
+
+  Widget _buildReadonlyField(String label, String value) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Client Name',
+          label,
           style: GoogleFonts.openSans(
             fontSize: 10.sp,
             fontWeight: FontWeight.w600,
@@ -348,7 +353,7 @@ class _CommonOrderDialogState extends State<CommonOrderDialog> {
             ),
           ),
           child: Text(
-            clientName,
+            value.isEmpty ? '-' : value,
             style: GoogleFonts.openSans(
               fontSize: 11.sp,
               fontWeight: FontWeight.w600,
@@ -367,41 +372,10 @@ class _CommonOrderDialogState extends State<CommonOrderDialog> {
       children: [
         Expanded(
           flex: 2,
-          child: AppDropdown(
-            type: AppDropdownType.simple,
-            hintText: 'Exchange',
-            value: state.exchange.isEmpty ? null : state.exchange,
-            items: const ['NSE', 'BSE', 'MCX', 'NFO'],
-            label: 'Exchange',
-            labelColor: AppColors.white,
-            height: 26.h,
-            borderColor: LightThemeColors.primaryColor,
-            onChanged: (value) {
-              if (value != null) {
-                context.read<OrderDialogBloc>().add(UpdateExchangeEvent(value));
-              }
-            },
-          ),
+          child: _buildReadonlyField('Exchange', state.exchange),
         ),
         SizedBox(width: 6.w),
-        Expanded(
-          flex: 2,
-          child: AppDropdown(
-            type: AppDropdownType.simple,
-            hintText: 'Symbol',
-            value: state.symbol.isEmpty ? null : state.symbol,
-            items: const ['NIFTY', 'BANKNIFTY', 'RELIANCE', 'TCS', 'INFY'],
-            label: 'Symbol',
-            labelColor: AppColors.white,
-            height: 26.h,
-            borderColor: LightThemeColors.primaryColor,
-            onChanged: (value) {
-              if (value != null) {
-                context.read<OrderDialogBloc>().add(UpdateSymbolEvent(value));
-              }
-            },
-          ),
-        ),
+        Expanded(flex: 2, child: _buildReadonlyField('Symbol', state.symbol)),
         SizedBox(width: 6.w),
         Expanded(
           flex: 3,

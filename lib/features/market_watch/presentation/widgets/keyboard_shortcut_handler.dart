@@ -96,12 +96,13 @@ class BuyOrderAction extends Action<BuyOrderIntent> {
         : (state is MarketWatchLoaded ? state : null);
 
     dynamic selectedItem;
-    if (loadedState != null && loadedState.selectedItemId != null) {
-      try {
-        selectedItem = loadedState.filteredItems.firstWhere(
-          (item) => item.id == loadedState.selectedItemId,
-        );
-      } catch (_) {}
+    if (loadedState != null && loadedState.filteredItems.isNotEmpty) {
+      selectedItem = loadedState.selectedItemId != null
+          ? loadedState.filteredItems.firstWhere(
+              (item) => item.id == loadedState.selectedItemId,
+              orElse: () => loadedState.filteredItems.first,
+            )
+          : loadedState.filteredItems.first;
     }
     CommonOrderDialog.showBuyOrder(
       context,
@@ -123,12 +124,13 @@ class SellOrderAction extends Action<SellOrderIntent> {
         : (state is MarketWatchLoaded ? state : null);
 
     dynamic selectedItem;
-    if (loadedState != null && loadedState.selectedItemId != null) {
-      try {
-        selectedItem = loadedState.filteredItems.firstWhere(
-          (item) => item.id == loadedState.selectedItemId,
-        );
-      } catch (_) {}
+    if (loadedState != null && loadedState.filteredItems.isNotEmpty) {
+      selectedItem = loadedState.selectedItemId != null
+          ? loadedState.filteredItems.firstWhere(
+              (item) => item.id == loadedState.selectedItemId,
+              orElse: () => loadedState.filteredItems.first,
+            )
+          : loadedState.filteredItems.first;
     }
     CommonOrderDialog.showSellOrder(
       context,
@@ -229,12 +231,13 @@ class _KeyboardShortcutListenerState extends State<KeyboardShortcutListener> {
             : (state is MarketWatchLoaded ? state : null);
 
         dynamic selectedItem;
-        if (loadedState != null && loadedState.selectedItemId != null) {
-          try {
-            selectedItem = loadedState.filteredItems.firstWhere(
-              (item) => item.id == loadedState.selectedItemId,
-            );
-          } catch (_) {}
+        if (loadedState != null && loadedState.filteredItems.isNotEmpty) {
+          selectedItem = loadedState.selectedItemId != null
+              ? loadedState.filteredItems.firstWhere(
+                  (item) => item.id == loadedState.selectedItemId,
+                  orElse: () => loadedState.filteredItems.first,
+                )
+              : loadedState.filteredItems.first;
         }
         CommonOrderDialog.showBuyOrder(
           context,
@@ -251,12 +254,13 @@ class _KeyboardShortcutListenerState extends State<KeyboardShortcutListener> {
             : (state is MarketWatchLoaded ? state : null);
 
         dynamic selectedItem;
-        if (loadedState != null && loadedState.selectedItemId != null) {
-          try {
-            selectedItem = loadedState.filteredItems.firstWhere(
-              (item) => item.id == loadedState.selectedItemId,
-            );
-          } catch (_) {}
+        if (loadedState != null && loadedState.filteredItems.isNotEmpty) {
+          selectedItem = loadedState.selectedItemId != null
+              ? loadedState.filteredItems.firstWhere(
+                  (item) => item.id == loadedState.selectedItemId,
+                  orElse: () => loadedState.filteredItems.first,
+                )
+              : loadedState.filteredItems.first;
         }
         CommonOrderDialog.showSellOrder(
           context,

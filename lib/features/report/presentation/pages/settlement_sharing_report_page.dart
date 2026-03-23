@@ -15,7 +15,10 @@ class SettlementSharingReportPage extends StatelessWidget {
   const SettlementSharingReportPage({super.key});
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SettlementSharingReportBloc, SettlementSharingReportState>(
+    return BlocBuilder<
+      SettlementSharingReportBloc,
+      SettlementSharingReportState
+    >(
       builder: (context, state) {
         return Container(
           color: Colors.white,
@@ -83,7 +86,8 @@ class SettlementSharingReportPage extends StatelessWidget {
   }
 
   Widget _buildPnlSummary(SettlementSharingReportLoaded state) {
-    final netPnl = state.report.profitTotal.totalPnl + state.report.lossTotal.totalPnl;
+    final netPnl =
+        state.report.profitTotal.totalPnl + state.report.lossTotal.totalPnl;
     final isNegative = netPnl < 0;
     final color = isNegative ? AppColors.sellColor : AppColors.buyColor;
     return Container(
@@ -100,9 +104,17 @@ class SettlementSharingReportPage extends StatelessWidget {
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(Icons.arrow_upward, color: AppColors.primaryBlue, size: 14.sp),
+              Icon(
+                Icons.arrow_upward,
+                color: AppColors.primaryBlue,
+                size: 14.sp,
+              ),
               SizedBox(width: 4.w),
-              Icon(Icons.arrow_downward, color: AppColors.sellColor, size: 14.sp),
+              Icon(
+                Icons.arrow_downward,
+                color: AppColors.sellColor,
+                size: 14.sp,
+              ),
             ],
           ),
           SizedBox(width: 4.w),

@@ -32,21 +32,19 @@ class TradeMarginFilterBar extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Row(
             children: [
-              if (!(isMaster && isDialogMode)) ...[
-                AppDropdown(
-                  width: 200.w,
-                  height: 35.h,
-                  type: AppDropdownType.simple,
-                  hintText: 'Exchange',
-                  value: state.selectedExchange,
-                  items: state.exchanges,
-                  onChanged: (value) {
-                    context.read<TradeMarginBloc>().add(
-                      UpdateTradeMarginFilters(exchange: value),
-                    );
-                  },
-                ),
-              ],
+              AppDropdown(
+                width: 200.w,
+                height: 35.h,
+                type: AppDropdownType.simple,
+                hintText: 'Exchange',
+                value: state.selectedExchange,
+                items: state.exchanges,
+                onChanged: (value) {
+                  context.read<TradeMarginBloc>().add(
+                    UpdateTradeMarginFilters(exchange: value),
+                  );
+                },
+              ),
               if (!isClient) ...[
                 SizedBox(width: 12.w),
                 CustomInputField(

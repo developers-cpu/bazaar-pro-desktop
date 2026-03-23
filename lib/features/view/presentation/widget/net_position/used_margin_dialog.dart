@@ -15,7 +15,7 @@ class UsedMarginDialog {
     CommonDialog.show(
       context: context,
       title: 'Used Margin',
-      width: 600.w,
+      width: 900.w,
       height: 500.h,
       showButtons: false,
       contentPadding: EdgeInsets.zero,
@@ -115,7 +115,8 @@ class _UsedMarginDialogContentState extends State<_UsedMarginDialogContent> {
                   ),
                 ),
               ] else ...[
-                Expanded(
+                SizedBox(
+                  width: 200.w,
                   child: AppDropdown(
                     value: _selectedExchange,
                     hintText: 'Exchange',
@@ -136,7 +137,8 @@ class _UsedMarginDialogContentState extends State<_UsedMarginDialogContent> {
                   ),
                 ),
                 SizedBox(width: 8.w),
-                Expanded(
+                SizedBox(
+                  width: 200.w,
                   child: AppDropdown(
                     type: AppDropdownType.search,
                     value: _selectedSymbol,
@@ -195,7 +197,7 @@ class _UsedMarginDialogContentState extends State<_UsedMarginDialogContent> {
 
   List<ViewTableColumn> _getColumns() {
     return [
-      ViewTableColumn(id: 'exchange', label: 'EXCH', width: 80.w),
+      ViewTableColumn(id: 'exchange', label: 'EXCH', width: 90.w),
       ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 110.w),
       ViewTableColumn(
         id: 'netQty',
@@ -207,6 +209,30 @@ class _UsedMarginDialogContentState extends State<_UsedMarginDialogContent> {
         id: 'usedMargin',
         label: 'USED MARGIN',
         width: 110.w,
+        isNumeric: true,
+      ),
+      ViewTableColumn(
+        id: 'intMarginPct',
+        label: 'INT MARGIN (%)',
+        width: 120.w,
+        isNumeric: true,
+      ),
+      ViewTableColumn(
+        id: 'cfMarginPct',
+        label: 'CF MARGIN (%)',
+        width: 120.w,
+        isNumeric: true,
+      ),
+      ViewTableColumn(
+        id: 'intMarginAmt',
+        label: 'INT MARGIN(Amt.)',
+        width: 130.w,
+        isNumeric: true,
+      ),
+      ViewTableColumn(
+        id: 'cfMarginAmt',
+        label: 'CF MARGIN(Amt.)',
+        width: 150.w,
         isNumeric: true,
       ),
     ];
@@ -233,6 +259,20 @@ class _UsedMarginDialogContentState extends State<_UsedMarginDialogContent> {
           displayText: '50000',
           fixedColor: AppColors.blue,
         );
+      case 'intMarginPct':
+      case 'cfMarginPct':
+        return ViewNumberCell(
+          value: 2500.0,
+          displayText: '2500',
+          fixedColor: AppColors.primaryTextColor,
+        );
+      case 'intMarginAmt':
+      case 'cfMarginAmt':
+        return ViewNumberCell(
+          value: 2500.0,
+          displayText: '2500',
+          fixedColor: AppColors.primaryTextColor,
+        );
       default:
         return const SizedBox.shrink();
     }
@@ -242,6 +282,10 @@ class _UsedMarginDialogContentState extends State<_UsedMarginDialogContent> {
     final Map<String, String> values = {
       'exchange': 'TOTAL',
       'usedMargin': '7856023',
+      'intMarginPct': '',
+      'cfMarginPct': '',
+      'intMarginAmt': '37500',
+      'cfMarginAmt': '37500',
     };
     return ViewDataTableFooter(
       columns: columns,

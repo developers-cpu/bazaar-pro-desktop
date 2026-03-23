@@ -4,7 +4,8 @@ import '../../../../../core/usecases/usecase.dart';
 import '../../entities/login_history/login_history.dart';
 import '../../repositories/login_history/login_history_repository.dart';
 
-class GetLoginHistory implements UseCase<List<LoginHistory>, LoginHistoryParams> {
+class GetLoginHistory
+    implements UseCase<List<LoginHistory>, LoginHistoryParams> {
   final LoginHistoryRepository repository;
   GetLoginHistory(this.repository);
   @override

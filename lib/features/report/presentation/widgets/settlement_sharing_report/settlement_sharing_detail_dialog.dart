@@ -16,7 +16,12 @@ import 'settlement_sharing_filter_bar.dart';
 import 'settlement_sharing_report_view.dart';
 
 class SettlementSharingDetailDialog {
-  static void show(BuildContext context, String userId, String userName, String dateRange) {
+  static void show(
+    BuildContext context,
+    String userId,
+    String userName,
+    String dateRange,
+  ) {
     final bloc = sl<SettlementSharingReportBloc>()
       ..add(LoadSettlementSharingReport(dateRange: dateRange, userId: userId));
 
@@ -34,9 +39,13 @@ class SettlementSharingDetailDialog {
           onExportPdf: () {
             final state = bloc.state;
             if (state is SettlementSharingReportLoaded) {
-              final allEntries = [...state.report.profitList, ...state.report.lossList];
+              final allEntries = [
+                ...state.report.profitList,
+                ...state.report.lossList,
+              ];
               TableExportService.exportAsPdf(
-                title: 'Settlement Sharing User: ${state.selectedUserName ?? userName}',
+                title:
+                    'Settlement Sharing User: ${state.selectedUserName ?? userName}',
                 columns: _getExportColumns(),
                 data: allEntries,
                 cellValueExtractor: _exportValueExtractor,
@@ -46,9 +55,13 @@ class SettlementSharingDetailDialog {
           onExportExcel: () {
             final state = bloc.state;
             if (state is SettlementSharingReportLoaded) {
-              final allEntries = [...state.report.profitList, ...state.report.lossList];
+              final allEntries = [
+                ...state.report.profitList,
+                ...state.report.lossList,
+              ];
               TableExportService.exportAsExcel(
-                title: 'Settlement Sharing User: ${state.selectedUserName ?? userName}',
+                title:
+                    'Settlement Sharing User: ${state.selectedUserName ?? userName}',
                 columns: _getExportColumns(),
                 data: allEntries,
                 cellValueExtractor: _exportValueExtractor,
@@ -70,7 +83,12 @@ class SettlementSharingDetailDialog {
     return const [
       ViewTableColumn(id: 'username', label: 'USERNAME', width: 150),
       ViewTableColumn(id: 'pnl', label: 'NET P&L', width: 100, isNumeric: true),
-      ViewTableColumn(id: 'percentWise', label: '% WISE', width: 100, isNumeric: true),
+      ViewTableColumn(
+        id: 'percentWise',
+        label: '% WISE',
+        width: 100,
+        isNumeric: true,
+      ),
       ViewTableColumn(id: 'total', label: 'TOTAL', width: 100, isNumeric: true),
     ];
   }
@@ -78,11 +96,16 @@ class SettlementSharingDetailDialog {
   static String _exportValueExtractor(dynamic e, ViewTableColumn col) {
     if (e is! SettlementSharingEntry) return '-';
     switch (col.id) {
-      case 'username': return '${e.username} [${e.userType}]';
-      case 'pnl': return e.pnl.toStringAsFixed(0);
-      case 'percentWise': return e.percentWise.toStringAsFixed(0);
-      case 'total': return e.total.toStringAsFixed(0);
-      default: return '-';
+      case 'username':
+        return '${e.username} [${e.userType}]';
+      case 'pnl':
+        return e.pnl.toStringAsFixed(0);
+      case 'percentWise':
+        return e.percentWise.toStringAsFixed(0);
+      case 'total':
+        return e.total.toStringAsFixed(0);
+      default:
+        return '-';
     }
   }
 }
@@ -92,7 +115,10 @@ class _SettlementSharingDetailDialogContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SettlementSharingReportBloc, SettlementSharingReportState>(
+    return BlocBuilder<
+      SettlementSharingReportBloc,
+      SettlementSharingReportState
+    >(
       builder: (context, state) {
         if (state is SettlementSharingReportLoading) {
           return const Center(child: CircularProgressIndicator());
@@ -102,41 +128,45 @@ class _SettlementSharingDetailDialogContent extends StatelessWidget {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
               SettlementSharingFilterBar(
                 onDateRangeChanged: (val) {
                   if (val != null) {
                     context.read<SettlementSharingReportBloc>().add(
-                      LoadSettlementSharingReport(dateRange: val, userId: state.selectedUserId),
+                      LoadSettlementSharingReport(
+                        dateRange: val,
+                        userId: state.selectedUserId,
+                      ),
                     );
                   }
                 },
                 onReset: () {
                   context.read<SettlementSharingReportBloc>().add(
-                    LoadSettlementSharingReport(dateRange: 'This Week', userId: state.selectedUserId),
+                    LoadSettlementSharingReport(
+                      dateRange: 'This Week',
+                      userId: state.selectedUserId,
+                    ),
                   );
                 },
                 onView: () {
                   context.read<SettlementSharingReportBloc>().add(
-                    LoadSettlementSharingReport(dateRange: state.selectedDateRange, userId: state.selectedUserId),
+                    LoadSettlementSharingReport(
+                      dateRange: state.selectedDateRange,
+                      userId: state.selectedUserId,
+                    ),
                   );
                 },
               ),
 
-
               _buildPnlSummary(state),
-
 
               if (state.selectedUserName != null)
                 _buildUserNameCard(state.selectedUserName!),
-
 
               Expanded(
                 child: SettlementSharingReportView(
                   report: state.report,
                   isDrilledDown: state.selectedUserId != null,
                   onUserSelected: (id, name) {
-
                     SettlementSharingDetailDialog.show(
                       context,
                       id,
@@ -155,7 +185,8 @@ class _SettlementSharingDetailDialogContent extends StatelessWidget {
   }
 
   Widget _buildPnlSummary(SettlementSharingReportLoaded state) {
-    final netPnl = state.report.profitTotal.totalPnl + state.report.lossTotal.totalPnl;
+    final netPnl =
+        state.report.profitTotal.totalPnl + state.report.lossTotal.totalPnl;
     final isNegative = netPnl < 0;
     final color = isNegative ? AppColors.sellColor : AppColors.buyColor;
     return Container(
@@ -175,7 +206,10 @@ class _SettlementSharingDetailDialogContent extends StatelessWidget {
           SizedBox(width: 4.w),
           Text(
             'P&L',
-            style: GoogleFonts.openSans(color: AppColors.billDataText, fontSize: 13.sp),
+            style: GoogleFonts.openSans(
+              color: AppColors.billDataText,
+              fontSize: 13.sp,
+            ),
           ),
           SizedBox(width: 16.w),
           Container(

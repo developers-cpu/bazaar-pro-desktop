@@ -56,5 +56,10 @@ class SettlementTotal extends Equatable {
     required this.totalAmount,
   });
   @override
-  List<Object?> get props => [totalPnl, totalBrokerage, totalPercentageWise, totalAmount];
+  List<Object?> get props => [
+    totalPnl,
+    totalBrokerage,
+    totalPercentageWise,
+    totalAmount,
+  ];
 }

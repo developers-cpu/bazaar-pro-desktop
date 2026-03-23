@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../../core/constants/app_images.dart';
 import '../../../../../core/widget/app_dropdown.dart';
+import '../../../../../core/widget/custom_input_field.dart';
 import '../../../../../core/widget/table/view_reset_buttons.dart';
 import '../../bloc/script_master/script_master_bloc.dart';
 import '../../bloc/script_master/script_master_event.dart';
@@ -10,7 +12,9 @@ import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
 
 class ScriptMasterFilterBar extends StatelessWidget {
-  const ScriptMasterFilterBar({Key? key}) : super(key: key);
+  final bool isDialogMode;
+  const ScriptMasterFilterBar({Key? key, this.isDialogMode = false})
+    : super(key: key);
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ScriptMasterBloc, ScriptMasterState>(
@@ -43,12 +47,11 @@ class ScriptMasterFilterBar extends StatelessWidget {
                 },
               ),
               SizedBox(width: 12.w),
-              AppDropdown(
+              CustomInputField(
+                hintText: 'Search',
+                height: 35.h,
                 width: 200.w,
-                type: AppDropdownType.search,
-                hintText: 'Symbol',
-                value: state.selectedSymbol,
-                items: state.symbols,
+                prefixSvgPath: AppImages.searchIcon,
                 onChanged: (value) {
                   context.read<ScriptMasterBloc>().add(
                     ApplyFiltersEvent(

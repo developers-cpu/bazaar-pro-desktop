@@ -75,7 +75,7 @@ class _ScriptQuantityFilterBarState extends State<ScriptQuantityFilterBar> {
                     ignoring: !isExchangeSelected,
                     child: AppDropdown(
                       type: AppDropdownType.search,
-                      hintText: 'Symbol',
+                      hintText: 'Group Name',
                       value: _tempSelectedGroup ?? state.selectedGroup,
                       items: isExchangeSelected ? state.groups : [],
                       onChanged: (value) {

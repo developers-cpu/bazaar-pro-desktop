@@ -95,6 +95,9 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
 
   void _onWatchlistSelected(int index) {
     setState(() => _selectedWatchlistIndex = index);
+    context.read<MarketWatchBloc>().add(
+      SelectWatchlistFilterEvent(index: index),
+    );
   }
 
   void _closeContextMenu() {
@@ -526,16 +529,15 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
   }
 
   dynamic _getSelectedItem(MarketWatchLoaded state) {
-    if (state.selectedItemId == null) return null;
+    if (state.filteredItems.isEmpty) return null;
+    if (state.selectedItemId == null) return state.filteredItems.first;
     try {
       return state.filteredItems.firstWhere(
         (item) => item.id == state.selectedItemId,
-        orElse: () => state.filteredItems.isNotEmpty
-            ? state.filteredItems.first
-            : throw Exception('No items'),
+        orElse: () => state.filteredItems.first,
       );
     } catch (_) {
-      return null;
+      return state.filteredItems.first;
     }
   }
 

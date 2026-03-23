@@ -36,7 +36,13 @@ class TradeLogRemoteDataSourceImpl implements TradeLogRemoteDataSource {
   }
 
   List<TradeLogModel> _generateDummyTradeLogs() {
-    final List<String> userNames = ['PATIL', 'DEMO4', 'ADMIN', 'MASTER', 'USER123'];
+    final List<String> userNames = [
+      'PATIL',
+      'DEMO4',
+      'ADMIN',
+      'MASTER',
+      'USER123',
+    ];
     final List<String> exchanges = ['NSE', 'MCX', 'NFO', 'BTX'];
     final List<String> orderTypes = ['Limit', 'Market', 'SL', 'SL-M'];
 

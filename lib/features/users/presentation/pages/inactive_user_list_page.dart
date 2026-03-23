@@ -3,12 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/constants/app_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../../../core/widget/app_dropdown.dart';
 import '../../../../core/widget/table/view_data_table.dart';
 import '../../../../core/widget/table/view_record_count.dart'
     show ViewRecordCount;
 import '../../../../core/widget/table/view_table_cell_styles.dart';
-import '../../../../core/widget/table/view_reset_buttons.dart';
 import '../../domain/entities/user.dart';
 import '../bloc/inactive_user_list/inactive_user_list_bloc.dart';
 import '../bloc/inactive_user_list/inactive_user_list_event.dart';
@@ -254,10 +252,10 @@ class _InactiveUserListPageState extends State<InactiveUserListPage> {
         width: 70,
         sortable: false,
       ),
-      const ViewTableColumn(id: 'userName', label: 'USER NAME', width: 150),
+      const ViewTableColumn(id: 'userName', label: 'USER NAME', width: 170),
       const ViewTableColumn(id: 'parentUser', label: 'PAR.USER', width: 90),
       const ViewTableColumn(id: 'type', label: 'TYPE', width: 80),
-      const ViewTableColumn(id: 'name', label: 'NAME', width: 70),
+      const ViewTableColumn(id: 'name', label: 'NAME', width: 100),
       const ViewTableColumn(
         id: 'plPercent',
         label: '%',
@@ -274,7 +272,7 @@ class _InactiveUserListPageState extends State<InactiveUserListPage> {
       const ViewTableColumn(
         id: 'credit',
         label: 'CREDIT',
-        width: 90,
+        width: 100,
         isNumeric: true,
       ),
       const ViewTableColumn(id: 'pl', label: 'P/L', width: 70, isNumeric: true),

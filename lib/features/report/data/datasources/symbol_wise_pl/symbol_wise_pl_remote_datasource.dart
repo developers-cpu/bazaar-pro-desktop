@@ -31,7 +31,8 @@ class SymbolWisePLRemoteDataSourceImpl implements SymbolWisePLRemoteDataSource {
     String? symbol,
   }) async {
     await Future.delayed(const Duration(milliseconds: 500));
-    final List<SymbolWisePLReportModel> mockData = _generateDummySymbolWisePLReport();
+    final List<SymbolWisePLReportModel> mockData =
+        _generateDummySymbolWisePLReport();
     final filtered = mockData.where((item) {
       if (exchange != null &&
           exchange.isNotEmpty &&
@@ -62,7 +63,7 @@ class SymbolWisePLRemoteDataSourceImpl implements SymbolWisePLRemoteDataSource {
       'INFY',
       'HDFCBANK',
       'NIFTY',
-      'BANKNIFTY'
+      'BANKNIFTY',
     ];
 
     final List<SymbolWisePLReportModel> list = [];
@@ -105,7 +106,9 @@ class SymbolWisePLRemoteDataSourceImpl implements SymbolWisePLRemoteDataSource {
     DateTimeRange? dateRange,
   }) async {
     await Future.delayed(const Duration(milliseconds: 500));
-    final List<SymbolTradeLogModel> mockData = _generateDummySymbolTradeLogs(symbol);
+    final List<SymbolTradeLogModel> mockData = _generateDummySymbolTradeLogs(
+      symbol,
+    );
     final filtered = mockData.where((item) {
       if (symbol != null && symbol.isNotEmpty && item.symbol != symbol) {
         return false;
@@ -120,7 +123,9 @@ class SymbolWisePLRemoteDataSourceImpl implements SymbolWisePLRemoteDataSource {
     return Right(filtered);
   }
 
-  List<SymbolTradeLogModel> _generateDummySymbolTradeLogs(String? targetSymbol) {
+  List<SymbolTradeLogModel> _generateDummySymbolTradeLogs(
+    String? targetSymbol,
+  ) {
     final List<SymbolTradeLogModel> list = [];
     for (int i = 1; i <= 35; i++) {
       list.add(
@@ -139,8 +144,10 @@ class SymbolWisePLRemoteDataSourceImpl implements SymbolWisePLRemoteDataSource {
           tradePrice: 120000.00 + (i * 10),
           brokerage: (i * 2).toDouble(),
           netPrice: 120000.00 + (i * 10) + (i * 2),
-          orderDateTime: '22/11/25 03:06:${(i % 60).toString().padLeft(2, '0')} PM',
-          executionDateTime: '22/11/25 03:06:${(i % 60).toString().padLeft(2, '0')} PM',
+          orderDateTime:
+              '22/11/25 03:06:${(i % 60).toString().padLeft(2, '0')} PM',
+          executionDateTime:
+              '22/11/25 03:06:${(i % 60).toString().padLeft(2, '0')} PM',
           referencePrice: 0.00,
         ),
       );
@@ -155,7 +162,8 @@ class SymbolWisePLRemoteDataSourceImpl implements SymbolWisePLRemoteDataSource {
     String? user,
   }) async {
     await Future.delayed(const Duration(milliseconds: 500));
-    final List<SymbolOpenPositionModel> mockData = _generateDummySymbolOpenPositions(symbol);
+    final List<SymbolOpenPositionModel> mockData =
+        _generateDummySymbolOpenPositions(symbol);
     final filtered = mockData.where((item) {
       if (symbol != null && symbol.isNotEmpty && item.symbol != symbol) {
         return false;
@@ -173,7 +181,9 @@ class SymbolWisePLRemoteDataSourceImpl implements SymbolWisePLRemoteDataSource {
     return Right(filtered);
   }
 
-  List<SymbolOpenPositionModel> _generateDummySymbolOpenPositions(String? targetSymbol) {
+  List<SymbolOpenPositionModel> _generateDummySymbolOpenPositions(
+    String? targetSymbol,
+  ) {
     final List<SymbolOpenPositionModel> list = [];
     for (int i = 1; i <= 35; i++) {
       list.add(
@@ -184,7 +194,8 @@ class SymbolWisePLRemoteDataSourceImpl implements SymbolWisePLRemoteDataSource {
           symbol: targetSymbol ?? (i % 2 == 0 ? 'GOLD05DEC' : 'BTCUSD31DEC'),
           buyQty: (i * 100).toDouble(),
           sellQty: (i % 5 == 0) ? (i * 50).toDouble() : 0.0,
-          netQty: (i * 100).toDouble() - ((i % 5 == 0) ? (i * 50).toDouble() : 0.0),
+          netQty:
+              (i * 100).toDouble() - ((i % 5 == 0) ? (i * 50).toDouble() : 0.0),
           netAvgPrice: 90000.00 + (i * 100),
           cmp: 90000.00 + (i * 110),
           m2m: (i * 1000).toDouble(),

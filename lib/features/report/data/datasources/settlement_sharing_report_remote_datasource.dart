@@ -17,58 +17,28 @@ class SettlementSharingReportRemoteDataSourceImpl
   }) async {
     await Future.delayed(const Duration(milliseconds: 500));
     final mockResponse = {
-      "profitList": [
-        {
-          "userId": "1",
-          "username": "Raj",
-          "userType": "M-01",
-          "pnl": 10000.0,
-          "percentWise": 15000.0,
-          "total": 25000.0,
+      "profitList": List.generate(
+        24,
+        (index) => {
+          "userId": "${index + 1}",
+          "username": "User ${index + 1}",
+          "userType": index % 3 == 0 ? "M-01" : "C",
+          "pnl": 1000.0 * (index + 1),
+          "percentWise": 1500.0 * (index + 1),
+          "total": 2500.0 * (index + 1),
         },
-        {
-          "userId": "2",
-          "username": "Kush",
-          "userType": "C",
-          "pnl": 12000.0,
-          "percentWise": 8000.0,
-          "total": 20000.0,
+      ),
+      "lossList": List.generate(
+        24,
+        (index) => {
+          "userId": "${index + 1}",
+          "username": "User ${index + 1}",
+          "userType": index % 3 == 0 ? "M-01" : "C",
+          "pnl": 1000.0 * (index + 1),
+          "percentWise": 1500.0 * (index + 1),
+          "total": -2500.0 * (index + 1),
         },
-        {
-          "userId": "3",
-          "username": "My brokerage",
-          "userType": "",
-          "pnl": 5000.0,
-          "percentWise": 2000.0,
-          "total": 7000.0,
-        },
-      ],
-      "lossList": [
-        {
-          "userId": "1",
-          "username": "Raj",
-          "userType": "M-01",
-          "pnl": 10000.0,
-          "percentWise": 15000.0,
-          "total": -25000.0,
-        },
-        {
-          "userId": "2",
-          "username": "Kush",
-          "userType": "C",
-          "pnl": 12000.0,
-          "percentWise": 8000.0,
-          "total": -20000.0,
-        },
-        {
-          "userId": "3",
-          "username": "My brokerage",
-          "userType": "",
-          "pnl": 5000.0,
-          "percentWise": 2000.0,
-          "total": -7000.0,
-        },
-      ],
+      ),
       "profitTotal": {
         "totalPnl": 27000.0,
         "totalPercentWise": 25000.0,

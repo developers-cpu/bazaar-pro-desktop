@@ -241,7 +241,8 @@ class DealsFilterBar extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Row(
             children: [
-              Expanded(child: filters),
+              if (!isClient) Expanded(child: filters),
+              if (isClient) filters,
               SizedBox(width: 12.w),
               resetButtons,
             ],

@@ -22,7 +22,7 @@ class DealsTable extends StatelessWidget {
     this.showDeviceInfo = true,
     this.isDarkMode = false,
   }) : super(key: key);
-  List<ViewTableColumn> _getColumns(bool isClient) {
+  List<ViewTableColumn> _getColumns(bool isClient, {bool isAdmin = false}) {
     if (isClient) {
       return const [
         ViewTableColumn(id: 'exchange', label: 'EXCH', width: 70),
@@ -65,7 +65,7 @@ class DealsTable extends StatelessWidget {
         ViewTableColumn(
           id: 'orderDuration',
           label: 'ORDER DURATION',
-          width: 170,
+          width: 220,
         ),
       ];
     }
@@ -122,15 +122,16 @@ class DealsTable extends StatelessWidget {
       const ViewTableColumn(
         id: 'orderDuration',
         label: 'ORDER DURATION',
-        width: 170,
+        width: 220,
       ),
     ];
     if (showDeviceInfo) {
-      columns.addAll(const [
-        ViewTableColumn(id: 'deviceId', label: 'DEVICE ID', width: 300),
-        ViewTableColumn(id: 'device', label: 'DEVICE', width: 100),
-        ViewTableColumn(id: 'city', label: 'CITY', width: 150),
-        ViewTableColumn(
+      columns.addAll([
+        const ViewTableColumn(id: 'deviceId', label: 'DEVICE ID', width: 300),
+        const ViewTableColumn(id: 'device', label: 'DEVICE', width: 100),
+        if (isAdmin)
+          const ViewTableColumn(id: 'city', label: 'CITY', width: 150),
+        const ViewTableColumn(
           id: 'ipAddress',
           label: 'IP ADDRESS',
           width: 130,
@@ -267,23 +268,10 @@ class DealsTable extends StatelessWidget {
           );
         }
       },
-      child: Container(
-        alignment: Alignment.centerLeft,
-        child: Container(
-          padding: const EdgeInsets.only(bottom: 2),
-          decoration: const BoxDecoration(
-            border: Border(
-              bottom: BorderSide(color: Color(0xFF2C5F7A), width: 2.0),
-            ),
-          ),
-          child: Text(
-            item.orderDuration,
-            style: ViewTableCellStyles.getTextStyle(
-              isDark: isDark,
-              color: const Color(0xFF2C5F7A),
-            ),
-          ),
-        ),
+      child: ViewLinkCell(
+        text: item.orderDuration,
+        color: const Color(0xFF2C5F7A),
+        isDark: isDark,
       ),
     );
   }
@@ -294,6 +282,10 @@ class DealsTable extends StatelessWidget {
     final isClient =
         authState is AuthAuthenticated &&
         authState.user.role.toLowerCase() == 'client';
+    final role = authState is AuthAuthenticated
+        ? authState.user.role.toLowerCase()
+        : '';
+    final isAdmin = role == 'admin' || role == 'superadmin';
     return BlocBuilder<DealsBloc, DealsState>(
       builder: (context, state) {
         if (state is DealsLoading) {
@@ -311,7 +303,7 @@ class DealsTable extends StatelessWidget {
             Expanded(
               child: ViewDataTable<Deal>(
                 autoFit: true,
-                columns: _getColumns(isClient),
+                columns: _getColumns(isClient, isAdmin: isAdmin),
                 data: state.filteredDeals,
                 idExtractor: (item) => item.id,
                 selectedId: state.selectedDealId,

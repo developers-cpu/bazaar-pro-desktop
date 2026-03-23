@@ -59,8 +59,8 @@ class LoginHistoryFilterBar extends StatelessWidget {
                   items: const ['All', 'Master', 'Client'],
                   onChanged: (value) {
                     context.read<LoginHistoryBloc>().add(
-                          SelectUserTypeEvent(value),
-                        );
+                      SelectUserTypeEvent(value),
+                    );
                   },
                 ),
               ),

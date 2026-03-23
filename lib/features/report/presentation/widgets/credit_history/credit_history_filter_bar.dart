@@ -10,7 +10,8 @@ import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
 
 class CreditHistoryFilterBar extends StatelessWidget {
-  const CreditHistoryFilterBar({super.key});
+  final bool isDialogMode;
+  const CreditHistoryFilterBar({super.key, this.isDialogMode = false});
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CreditHistoryBloc, CreditHistoryState>(

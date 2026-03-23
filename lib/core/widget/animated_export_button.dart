@@ -9,11 +9,7 @@ class AnimatedExportButton extends StatefulWidget {
   final VoidCallback? onExportPdf;
   final VoidCallback? onExportExcel;
 
-  const AnimatedExportButton({
-    super.key,
-    this.onExportPdf,
-    this.onExportExcel,
-  });
+  const AnimatedExportButton({super.key, this.onExportPdf, this.onExportExcel});
 
   @override
   State<AnimatedExportButton> createState() => _AnimatedExportButtonState();

@@ -132,6 +132,7 @@ class _OpenPositionContent extends StatelessWidget {
 
   List<ViewTableColumn> _getColumns() {
     return const [
+      ViewTableColumn(id: 'userName', label: 'U.NAME', width: 100),
       ViewTableColumn(id: 'exchange', label: 'EXCH', width: 80),
       ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 130),
       ViewTableColumn(
@@ -182,6 +183,8 @@ class _OpenPositionContent extends StatelessWidget {
     ViewTableColumn column,
   ) {
     switch (column.id) {
+      case 'userName':
+        return ViewTextCell(text: item.userName, isDark: isDarkMode);
       case 'exchange':
         return ViewTextCell(text: item.exchange, isDark: isDarkMode);
       case 'symbol':

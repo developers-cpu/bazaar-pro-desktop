@@ -73,8 +73,8 @@ class _TradeSettingsPageState extends State<TradeSettingsPage> {
       builder: (_, state) {
         final settings = (state is TradeSettingsLoaded)
             ? state.settings
-                .where((s) => _selectedExchange != null || s.symbol == null)
-                .toList()
+                  .where((s) => _selectedExchange != null || s.symbol == null)
+                  .toList()
             : [];
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
@@ -178,15 +178,17 @@ class _TradeSettingsPageState extends State<TradeSettingsPage> {
 
   List<dynamic> _getDetailData(List<dynamic> settings) {
     if (_activeTab == 2) {
-
       return settings
           .where((s) => s is TradeSetting && s.symbol == null)
           .toList();
     }
     return settings
-        .where((s) => s is TradeSetting &&
-            s.exchange == _selectedExchange &&
-            s.symbol != null)
+        .where(
+          (s) =>
+              s is TradeSetting &&
+              s.exchange == _selectedExchange &&
+              s.symbol != null,
+        )
         .toList();
   }
 
@@ -251,7 +253,10 @@ class _TradeSettingsPageState extends State<TradeSettingsPage> {
           );
         }
         if (column.id == 'symbol') {
-          return ViewTextCell(text: item.symbol ?? item.exchange, isDark: false);
+          return ViewTextCell(
+            text: item.symbol ?? item.exchange,
+            isDark: false,
+          );
         }
         return _buildDetailCell(item, column.id);
       },

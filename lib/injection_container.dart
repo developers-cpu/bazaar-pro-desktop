@@ -350,6 +350,11 @@ import 'features/operations/domain/usecases/get_settlement_master_sharing.dart';
 import 'features/operations/domain/repositories/settlement_master_sharing_repository.dart';
 import 'features/operations/data/repositories/settlement_master_sharing_repository_impl.dart';
 import 'features/operations/data/datasources/settlement_master_sharing_datasource.dart';
+import 'features/report/presentation/bloc/expiry_report/expiry_report_bloc.dart';
+import 'features/report/domain/usecases/get_expiry_report.dart';
+import 'features/report/domain/repositories/expiry_report_repository.dart';
+import 'features/report/data/repositories/expiry_report_repository_impl.dart';
+import 'features/report/data/datasources/expiry_report/expiry_report_remote_datasource.dart';
 
 final sl = GetIt.instance;
 Future<void> init() async {
@@ -1172,5 +1177,13 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<SettlementMasterSharingDataSource>(
     () => SettlementMasterSharingDataSourceImpl(),
+  );
+  sl.registerFactory(() => ExpiryReportBloc(getExpiryReport: sl()));
+  sl.registerLazySingleton(() => GetExpiryReport(sl()));
+  sl.registerLazySingleton<ExpiryReportRepository>(
+    () => ExpiryReportRepositoryImpl(remoteDataSource: sl()),
+  );
+  sl.registerLazySingleton<ExpiryReportRemoteDataSource>(
+    () => ExpiryReportRemoteDataSourceImpl(),
   );
 }

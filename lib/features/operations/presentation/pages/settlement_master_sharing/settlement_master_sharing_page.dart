@@ -10,6 +10,7 @@ import '../../../domain/entities/settlement_master_sharing.dart';
 import '../../bloc/settlement_master_sharing/settlement_master_sharing_bloc.dart';
 import '../../bloc/settlement_master_sharing/settlement_master_sharing_event.dart';
 import '../../bloc/settlement_master_sharing/settlement_master_sharing_state.dart';
+import '../../widgets/settlement_master_sharing/add_third_party_dialog.dart';
 import '../../widgets/settlement_master_sharing/assign_master_dialog.dart';
 
 class SettlementMasterSharingPage extends StatefulWidget {
@@ -22,11 +23,26 @@ class SettlementMasterSharingPage extends StatefulWidget {
 class _SettlementMasterSharingPageState
     extends State<SettlementMasterSharingPage> {
   String? _selectedMasterName;
+  final List<String> _thirdPartyNames = [];
+
   @override
   void initState() {
     super.initState();
     context.read<SettlementMasterSharingBloc>().add(
       LoadMasterSharingDataEvent(),
+    );
+  }
+
+  void _showAddThirdPartyDialog(BuildContext ctx) {
+    AddThirdPartyDialog.show(
+      context: ctx,
+      onAdd: (name) {
+        setState(() {
+          if (!_thirdPartyNames.contains(name)) {
+            _thirdPartyNames.add(name);
+          }
+        });
+      },
     );
   }
 
@@ -39,12 +55,16 @@ class _SettlementMasterSharingPageState
       builder: (context, state) {
         List<MasterUser> masters = [];
         List<MasterSharingEntry> entries = [];
-        int totalRecords = 0;
         if (state is SettlementMasterSharingLoaded) {
           masters = state.masters;
           entries = state.entries;
-          totalRecords = state.totalRecords;
         }
+
+        final allNames = [
+          ...masters.map((m) => m.name),
+          ..._thirdPartyNames,
+        ];
+
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -54,21 +74,46 @@ class _SettlementMasterSharingPageState
                 children: [
                   AppDropdown(
                     type: AppDropdownType.search,
-                    hintText: 'Master',
+                    hintText: 'User',
                     value: _selectedMasterName,
-                    items: masters.map((m) => m.name).toList(),
+                    items: allNames,
                     width: 180.w,
                     onChanged: (val) {
                       if (val == null || val.isEmpty) return;
-                      final master = masters.firstWhere((m) => m.name == val);
                       setState(() => _selectedMasterName = val);
-                      context.read<SettlementMasterSharingBloc>().add(
-                        SelectMasterEvent(
-                          masterId: master.id,
-                          masterName: master.name,
-                        ),
-                      );
+                      final isThirdParty = _thirdPartyNames.contains(val);
+                      if (!isThirdParty) {
+                        final master = masters.firstWhere((m) => m.name == val);
+                        context.read<SettlementMasterSharingBloc>().add(
+                          SelectMasterEvent(
+                            masterId: master.id,
+                            masterName: master.name,
+                          ),
+                        );
+                      }
                     },
+                  ),
+                  SizedBox(width: 12.w),
+                  SizedBox(
+                    height: 35.h,
+                    child: ElevatedButton(
+                      onPressed: () => _showAddThirdPartyDialog(context),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF1F4A66),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.r),
+                        ),
+                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                      ),
+                      child: Text(
+                        'Add Third Party',
+                        style: GoogleFonts.openSans(
+                          fontSize: 13.sp,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
                   ),
                   const Spacer(),
                   if (_selectedMasterName != null)

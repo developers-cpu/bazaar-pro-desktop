@@ -126,6 +126,8 @@ class AdminTriggerSettingsStep extends StatelessWidget {
         return AppImages.symbolWiseIcon;
       case 'canDoSettlement':
         return AppImages.tradeLockIcon;
+      case 'operationAllowed':
+        return AppImages.editPermissionIcon;
       default:
         return AppImages.statusIcon;
     }

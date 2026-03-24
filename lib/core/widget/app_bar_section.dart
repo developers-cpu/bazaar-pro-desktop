@@ -191,10 +191,10 @@ class AppBarSectionState extends State<AppBarSection> {
         ),
       ),
       MenuItemData(
-        title: 'Surveillance',
+        title: 'VPN Restriction',
         onTap: () => _navigateToPage(
           _getTabIndex('Operations'),
-          'Surveillance',
+          'VPN Restriction',
           '/surveillance',
         ),
       ),
@@ -587,6 +587,14 @@ class AppBarSectionState extends State<AppBarSection> {
             '/exchange-wise-report',
           ),
         ),
+        MenuItemData(
+          title: 'Expiry Report',
+          onTap: () => _navigateToPage(
+            _getTabIndex(AppStrings.report),
+            'Expiry Report',
+            '/expiry-report',
+          ),
+        ),
       ];
     } else if (role == 'Master') {
       return [
@@ -680,6 +688,14 @@ class AppBarSectionState extends State<AppBarSection> {
             _getTabIndex(AppStrings.report),
             'Activity Report',
             '/activity-report',
+          ),
+        ),
+        MenuItemData(
+          title: 'Expiry Report',
+          onTap: () => _navigateToPage(
+            _getTabIndex(AppStrings.report),
+            'Expiry Report',
+            '/expiry-report',
           ),
         ),
       ];
@@ -797,6 +813,14 @@ class AppBarSectionState extends State<AppBarSection> {
             _getTabIndex(AppStrings.report),
             'Back Office Activity Report',
             '/back-office-activity-report',
+          ),
+        ),
+        MenuItemData(
+          title: 'Expiry Report',
+          onTap: () => _navigateToPage(
+            _getTabIndex(AppStrings.report),
+            'Expiry Report',
+            '/expiry-report',
           ),
         ),
       ];

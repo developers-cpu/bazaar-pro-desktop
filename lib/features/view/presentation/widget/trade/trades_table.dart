@@ -26,7 +26,7 @@ class TradesTable extends StatelessWidget {
   List<ViewTableColumn> _getColumns(bool isClient, {bool isAdmin = false}) {
     if (isClient) {
       return const [
-        ViewTableColumn(id: 'userName', label: 'USER NAME', width: 110),
+        ViewTableColumn(id: 'userName', label: 'USER NAME', width: 100),
         ViewTableColumn(id: 'exchange', label: 'EXCH', width: 70),
         ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 110),
         ViewTableColumn(id: 'qty', label: 'QTY', width: 90, isNumeric: true),
@@ -140,26 +140,38 @@ class TradesTable extends StatelessWidget {
     bool isDark,
     bool isClient,
   ) {
+    final rowColor = ViewTableCellStyles.getBuySellColor(
+      item.buySell,
+      isDark: isDark,
+    );
     switch (column.id) {
       case 'userName':
-        return ViewTextCell(text: item.userName, isDark: isDark);
-      case 'pUser':
-        return ViewTextCell(text: item.pUser, isDark: isDark);
-      case 'exchange':
-        return ViewTextCell(text: item.exchange, isDark: isDark);
-      case 'symbol':
-        final symbolColor = ViewTableCellStyles.getValueColor(
-          item.qty,
+        return ViewTextCell(
+          text: item.userName,
+          color: rowColor,
           isDark: isDark,
         );
+      case 'pUser':
+        return ViewTextCell(text: item.pUser, color: rowColor, isDark: isDark);
+      case 'exchange':
+        return ViewTextCell(
+          text: item.exchange,
+          color: rowColor,
+          isDark: isDark,
+        );
+      case 'symbol':
         return ViewTextCell(
           text: item.symbol,
-          color: symbolColor,
+          color: rowColor,
           isDark: isDark,
           isStart: true,
         );
       case 'orderDateTime':
-        return ViewDateTimeCell(dateTime: item.orderDateTime, isDark: isDark);
+        return ViewDateTimeCell(
+          dateTime: item.orderDateTime,
+          color: rowColor,
+          isDark: isDark,
+        );
       case 'buySell':
         return ViewBuySellCell(
           text: item.buySell,
@@ -169,62 +181,87 @@ class TradesTable extends StatelessWidget {
       case 'qty':
         return ViewNumberCell(
           value: item.qty,
-          colorByValue: true,
+          fixedColor: rowColor,
+          colorByValue: false,
           isDark: isDark,
         );
       case 'lot':
         return ViewNumberCell(
           value: item.lot,
           displayText: item.lot.toStringAsFixed(2),
+          fixedColor: rowColor,
           colorByValue: false,
           isDark: isDark,
         );
       case 'orderType':
-        return ViewTextCell(text: item.orderType, isDark: isDark);
+        return ViewTextCell(
+          text: item.orderType,
+          color: rowColor,
+          isDark: isDark,
+        );
       case 'pl':
         return ViewNumberCell(
           value: item.pl,
+          fixedColor: rowColor,
           colorByValue: false,
           isDark: isDark,
         );
       case 'triggerPrice':
         return ViewNumberCell(
           value: item.triggerPrice,
-          colorByValue: true,
+          fixedColor: rowColor,
+          colorByValue: false,
           isDark: isDark,
         );
       case 'brokerage':
         return ViewNumberCell(
           value: item.brokerage,
-          colorByValue: true,
+          fixedColor: rowColor,
+          colorByValue: false,
           isDark: isDark,
         );
       case 'rPrice':
         return ViewNumberCell(
           value: item.rPrice,
-          colorByValue: true,
+          fixedColor: rowColor,
+          colorByValue: false,
           isDark: isDark,
         );
       case 'executionDateTime':
         return item.executionDateTime != null
             ? ViewDateTimeCell(
                 dateTime: item.executionDateTime!,
+                color: rowColor,
                 isDark: isDark,
               )
             : ViewTextCell(
                 text: '-',
+                color: rowColor,
                 isDark: isDark,
                 alignment: Alignment.centerRight,
               );
       case 'deviceId':
-        return ViewTextCell(text: item.deviceId ?? '-', isDark: isDark);
+        return ViewTextCell(
+          text: item.deviceId ?? '-',
+          color: rowColor,
+          isDark: isDark,
+        );
       case 'device':
-        return ViewTextCell(text: item.device ?? '-', isDark: isDark);
+        return ViewTextCell(
+          text: item.device ?? '-',
+          color: rowColor,
+          isDark: isDark,
+        );
       case 'city':
-        return ViewTextCell(text: item.city ?? '-', isDark: isDark);
+        return ViewTextCell(
+          text: item.city ?? '-',
+          color: rowColor,
+          isDark: isDark,
+        );
       case 'ipAddress':
         return ViewTextCell(
           text: item.ipAddress ?? '-',
+          color: rowColor,
           isDark: isDark,
           isNumeric: true,
         );

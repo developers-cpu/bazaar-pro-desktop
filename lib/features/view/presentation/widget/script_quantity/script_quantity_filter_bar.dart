@@ -91,7 +91,7 @@ class _ScriptQuantityFilterBarState extends State<ScriptQuantityFilterBar> {
                   ),
                 ),
               ],
-              const Spacer(),
+              SizedBox(width: 12.w),
               ViewResetButtons(
                 showReset: !isClient,
                 onReset: () {

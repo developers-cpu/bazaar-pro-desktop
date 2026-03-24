@@ -40,10 +40,10 @@ class TradeLogModel extends TradeLog {
       symbol: json['symbol'] as String? ?? '',
       orderUpdateType: json['orderUpdateType'] as String? ?? '',
       userType: json['userType'] as String? ?? '',
-      oldQty: (json['oldQty'] as num?)?.toDouble() ?? 0.0,
-      qty: (json['qty'] as num?)?.toDouble() ?? 0.0,
-      oldPrice: (json['oldPrice'] as num?)?.toDouble() ?? 0.0,
-      price: (json['price'] as num?)?.toDouble() ?? 0.0,
+      oldQty: ((json['oldQty'] as num?)?.toDouble() ?? 0.0).abs(),
+      qty: ((json['qty'] as num?)?.toDouble() ?? 0.0).abs(),
+      oldPrice: ((json['oldPrice'] as num?)?.toDouble() ?? 0.0).abs(),
+      price: ((json['price'] as num?)?.toDouble() ?? 0.0).abs(),
       updateTime: json['updateTime'] != null
           ? DateTime.parse(json['updateTime'] as String)
           : DateTime.now(),

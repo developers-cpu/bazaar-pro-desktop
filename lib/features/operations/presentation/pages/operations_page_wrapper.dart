@@ -109,7 +109,7 @@ class SurveillancePageWithAppBar extends StatelessWidget {
       child: Builder(
         builder: (context) {
           return const OperationsPageWrapper(
-            pageTitle: 'Surveillance',
+            pageTitle: 'VPN Restriction',
             child: SurveillancePage(),
           );
         },

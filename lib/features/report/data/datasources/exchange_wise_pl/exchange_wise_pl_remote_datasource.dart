@@ -19,32 +19,20 @@ class ExchangeWisePLRemoteDataSourceImpl
   }
 
   List<ExchangeWisePLReportModel> _generateDummyExchangeWisePLReports() {
-    final List<String> exchanges = [
-      'NSE',
-      'MCX',
-      'GIFTNIFTY',
-      'CE/PE',
-      'OTHERS',
-      'COMEX',
-      'CRYPTO',
-      'FOREX',
-      'USSTOCK',
-      'BTX',
-      'LME',
-    ];
+    final List<String> exchanges = ['NSE'];
 
     final List<ExchangeWisePLReportModel> list = [];
 
-    for (int i = 1; i <= 35; i++) {
-      final String exch = exchanges[i % exchanges.length];
-      final double m2m = (i % 3 == 0) ? -(i * 1000.0) : (i * 50000.0);
-      final double realisedPL = (i * 100000.0);
-      final double brk = i * 2000.0;
+    for (int i = 1; i <= 30; i++) {
+      final String exch = 'NSE $i';
+      final double m2m = (i % 3 == 0) ? -(i * 1000.0) : (i * 5000.0);
+      final double realisedPL = (i * 10000.0);
+      final double brk = i * 200.0;
       final double totalPL = realisedPL + m2m - brk;
 
       list.add(
         ExchangeWisePLReportModel(
-          exchange: '$exch${i > exchanges.length ? '_$i' : ''}',
+          exchange: exch,
           m2m: m2m,
           realisedPL: realisedPL,
           brokerage: brk,

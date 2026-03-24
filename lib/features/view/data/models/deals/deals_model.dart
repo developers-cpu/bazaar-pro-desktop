@@ -35,13 +35,15 @@ class DealModel extends Deal {
           ? DateTime.parse(json['orderDateTime'])
           : DateTime.now(),
       buySell: json['buySell'] ?? json['bs'] ?? '',
-      qty: (json['qty'] ?? 0).toDouble(),
-      lot: (json['lot'] ?? 0).toDouble(),
+      qty: (json['qty'] ?? 0).toDouble().abs(),
+      lot: (json['lot'] ?? 0).toDouble().abs(),
       orderType: json['orderType'] ?? json['type'] ?? '',
       pl: (json['pl'] ?? 0).toDouble(),
-      triggerPrice: (json['triggerPrice'] ?? json['t_price'] ?? 0).toDouble(),
+      triggerPrice: (json['triggerPrice'] ?? json['t_price'] ?? 0)
+          .toDouble()
+          .abs(),
       brokerage: (json['brokerage'] ?? json['brk'] ?? 0).toDouble(),
-      rPrice: (json['rPrice'] ?? json['r_price'] ?? 0).toDouble(),
+      rPrice: (json['rPrice'] ?? json['r_price'] ?? 0).toDouble().abs(),
       executionDateTime: json['executionDateTime'] != null
           ? DateTime.parse(json['executionDateTime'])
           : null,

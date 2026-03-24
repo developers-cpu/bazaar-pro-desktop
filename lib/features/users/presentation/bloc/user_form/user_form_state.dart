@@ -269,6 +269,11 @@ class UserFormState extends Equatable {
       label: 'Can Do Settlement',
       icon: 'can_do_settlement',
     ),
+    TriggerSetting(
+      key: 'operationAllowed',
+      label: 'Operation Allowed',
+      icon: 'operation_allowed',
+    ),
   ];
   static List<TriggerSetting> getTriggerSettings(String userType) {
     if (userType == 'Admin') return adminTriggerSettings;

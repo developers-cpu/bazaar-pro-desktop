@@ -72,7 +72,7 @@ class BrokerageFilterBar extends StatelessWidget {
                 ),
               ],
               if (isClient) ...[
-                const Spacer(),
+                SizedBox(width: 12.w),
                 ViewResetButtons(
                   showReset: false,
                   onView: () {

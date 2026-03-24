@@ -116,10 +116,17 @@ class BillTradeLegModel extends BillTradeLeg {
     required double vol,
   }) : super(date: date, qty: qty, price: price, vol: vol);
   factory BillTradeLegModel.fromJson(Map<String, dynamic> json) {
+    String pStr = json['price']?.toString() ?? '';
+    final pDouble = double.tryParse(pStr);
+    if (pDouble != null) {
+      pStr = pDouble == pDouble.toInt()
+          ? pDouble.abs().toInt().toString()
+          : pDouble.abs().toString();
+    }
     return BillTradeLegModel(
       date: json['date'] ?? '',
       qty: json['qty'] ?? 0,
-      price: json['price']?.toString() ?? '',
+      price: pStr,
       vol: (json['vol'] as num?)?.toDouble() ?? 0.0,
     );
   }
@@ -185,7 +192,7 @@ class CarryForwardTradeModel extends CarryForwardTrade {
       script: json['script'] ?? '',
       type: json['type'] ?? '',
       quantity: (json['quantity'] as num?)?.toDouble() ?? 0.0,
-      price: (json['price'] as num?)?.toDouble() ?? 0.0,
+      price: ((json['price'] as num?)?.toDouble() ?? 0.0).abs(),
     );
   }
 }

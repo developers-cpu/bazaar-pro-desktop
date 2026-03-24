@@ -22,8 +22,8 @@ class UserRejectionLogModel extends UserRejectionLog {
       exchange: json['exchange'],
       symbol: json['symbol'],
       type: json['type'],
-      qty: json['qty'] as int,
-      price: (json['price'] as num).toDouble(),
+      qty: (json['qty'] as int).abs(),
+      price: (json['price'] as num).toDouble().abs(),
       comment: json['comment'],
     );
   }

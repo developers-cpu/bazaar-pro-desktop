@@ -25,9 +25,7 @@ class TradeMarginFilterBar extends StatelessWidget {
         final isClient =
             authState is AuthAuthenticated &&
             authState.user.role.toLowerCase() == 'client';
-        final isMaster =
-            authState is AuthAuthenticated &&
-            authState.user.role.toLowerCase() == 'master';
+
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Row(
@@ -59,22 +57,20 @@ class TradeMarginFilterBar extends StatelessWidget {
                   },
                 ),
               ],
-              if (!(isMaster && isDialogMode)) ...[
-                const Spacer(),
-                ViewResetButtons(
-                  showReset: !isClient,
-                  onReset: () {
-                    context.read<TradeMarginBloc>().add(
-                      const ResetTradeMarginFilters(),
-                    );
-                  },
-                  onView: () {
-                    context.read<TradeMarginBloc>().add(
-                      const ViewTradeMargins(),
-                    );
-                  },
-                ),
-              ],
+              if (!isClient) const Spacer() else SizedBox(width: 12.w),
+              ViewResetButtons(
+                showReset: !isClient,
+                onReset: () {
+                  context.read<TradeMarginBloc>().add(
+                    const ResetTradeMarginFilters(),
+                  );
+                },
+                onView: () {
+                  context.read<TradeMarginBloc>().add(
+                    const ViewTradeMargins(),
+                  );
+                },
+              ),
             ],
           ),
         );

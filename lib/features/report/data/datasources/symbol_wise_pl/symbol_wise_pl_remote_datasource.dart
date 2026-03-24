@@ -163,7 +163,7 @@ class SymbolWisePLRemoteDataSourceImpl implements SymbolWisePLRemoteDataSource {
   }) async {
     await Future.delayed(const Duration(milliseconds: 500));
     final List<SymbolOpenPositionModel> mockData =
-        _generateDummySymbolOpenPositions(symbol);
+        _generateDummySymbolOpenPositions(symbol, exchange);
     final filtered = mockData.where((item) {
       if (symbol != null && symbol.isNotEmpty && item.symbol != symbol) {
         return false;
@@ -183,6 +183,7 @@ class SymbolWisePLRemoteDataSourceImpl implements SymbolWisePLRemoteDataSource {
 
   List<SymbolOpenPositionModel> _generateDummySymbolOpenPositions(
     String? targetSymbol,
+    String? targetExchange,
   ) {
     final List<SymbolOpenPositionModel> list = [];
     for (int i = 1; i <= 35; i++) {
@@ -190,7 +191,7 @@ class SymbolWisePLRemoteDataSourceImpl implements SymbolWisePLRemoteDataSource {
         SymbolOpenPositionModel(
           name: 'HOLDER_${i.toString().padLeft(3, '0')}',
           type: i % 4 == 0 ? 'Master' : 'Client',
-          exchange: i % 2 == 0 ? 'MCX' : 'NSE',
+          exchange: targetExchange ?? (i % 2 == 0 ? 'MCX' : 'NSE'),
           symbol: targetSymbol ?? (i % 2 == 0 ? 'GOLD05DEC' : 'BTCUSD31DEC'),
           buyQty: (i * 100).toDouble(),
           sellQty: (i % 5 == 0) ? (i * 50).toDouble() : 0.0,

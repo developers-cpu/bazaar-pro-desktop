@@ -65,8 +65,9 @@ class SymbolWisePLFilterBar extends StatelessWidget {
                   ),
                 ),
               ],
-              const Spacer(),
+              if (!isClient) const Spacer(),
               if (!isClient) ...[
+                SizedBox(width: 16.w),
                 SizedBox(
                   height: 35.h,
                   width: 100.w,
@@ -95,6 +96,7 @@ class SymbolWisePLFilterBar extends StatelessWidget {
                 ),
                 SizedBox(width: 16.w),
               ],
+              if (isClient) SizedBox(width: 16.w),
               SizedBox(
                 height: 35.h,
                 width: 100.w,

@@ -96,8 +96,10 @@ class NetPositionFilterBar extends StatelessWidget {
             },
           ),
           const Spacer(),
-          const ClientProfitLossWidget(),
-          SizedBox(width: 12.w),
+          if (!isDialog) ...[
+            const ClientProfitLossWidget(),
+            SizedBox(width: 12.w),
+          ],
           if (!isDialog)
             _buildPageFormula(totalRealisedPnl, totalM2M, totalBrokerage)
           else
@@ -355,8 +357,10 @@ class NetPositionFilterBar extends StatelessWidget {
             },
           ),
           const Spacer(),
-          const ClientProfitLossWidget(),
-          SizedBox(width: 12.w),
+          if (!isDialog) ...[
+            const ClientProfitLossWidget(),
+            SizedBox(width: 12.w),
+          ],
           ViewResetButtons(
             onReset: () {
               context.read<NetPositionBloc>().add(const ResetFiltersEvent());

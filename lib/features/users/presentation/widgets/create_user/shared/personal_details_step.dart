@@ -300,6 +300,8 @@ class _PersonalDetailsStepState extends State<PersonalDetailsStep> {
 
   Widget _buildServerSelector(UserFormState state) {
     return AppDropdown(
+      type: AppDropdownType.search,
+      searchHint: 'Search',
       height: 35.h,
       hintText: 'Select Server',
       value: state.selectedServer,
@@ -315,6 +317,8 @@ class _PersonalDetailsStepState extends State<PersonalDetailsStep> {
       children: [
         Expanded(
           child: AppDropdown(
+            type: AppDropdownType.search,
+            searchHint: 'Search',
             height: 35.h,
             hintText: 'Select Server',
             value: state.selectedServer,

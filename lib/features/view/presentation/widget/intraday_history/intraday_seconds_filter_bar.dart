@@ -111,7 +111,7 @@ class _IntradaySecondsFilterBarState extends State<IntradaySecondsFilterBar> {
                       },
                     ),
                   ),
-                  const Spacer(),
+                  SizedBox(width: 12.w),
                   ViewResetButtons(
                     showReset: !isClient,
                     onReset: () {

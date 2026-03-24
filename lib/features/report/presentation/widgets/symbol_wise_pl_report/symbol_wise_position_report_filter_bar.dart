@@ -57,7 +57,8 @@ class SymbolWisePositionReportFilterBar extends StatelessWidget {
                   );
                 },
               ),
-              const Spacer(),
+              SizedBox(width: 16.w),
+              if (!isClient) const Spacer(),
               ViewResetButtons(
                 showReset: !isClient,
                 onReset: () {

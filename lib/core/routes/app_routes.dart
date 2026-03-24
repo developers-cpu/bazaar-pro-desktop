@@ -10,7 +10,7 @@ import '../../features/operations/presentation/pages/operations_page_wrapper.dar
 import '../../features/operations/presentation/pages/exchange_settings/exchange_settings_page.dart';
 import '../../features/operations/presentation/pages/trade_settings/trade_settings_page.dart';
 import '../../features/operations/presentation/pages/group/group_page.dart';
-
+import '../../features/report/presentation/pages/expiry_report_page.dart';
 class AppRoutes {
   static const String login = '/';
   static const String marketWatch = '/market-watch';
@@ -54,13 +54,14 @@ class AppRoutes {
   static const String tradeSettings = '/trade-settings';
   static const String dateSettings = '/date-settings';
   static const String scriptSettings = '/script-settings';
-  static const String surveillance = '/surveillance';
+  static const String vpnRestriction = '/surveillance';
   static const String settlementProgress = '/settlement-progress';
   static const String server = '/server';
   static const String billComparison = '/bill-comparison';
   static const String settlementMasterSharing = '/settlement-master-sharing';
   static const String inactivityManagement = '/inactivity-management';
   static const String operationsMessage = '/operations-message';
+  static const String expiryReport = '/expiry-report';
   static const String tools = '/tools';
   static const String toolsAbout = '/tools/about';
   static const String toolsChangePassword = '/tools/change-password';
@@ -116,7 +117,7 @@ class AppRoutes {
       tradeSettings: (context) => const TradeSettingsPageWithAppBar(),
       dateSettings: (context) => const DateSettingsPageWithAppBar(),
       scriptSettings: (context) => const ScriptSettingsPageWithAppBar(),
-      surveillance: (context) => const SurveillancePageWithAppBar(),
+      vpnRestriction: (context) => const SurveillancePageWithAppBar(),
       settlementProgress: (context) => const SettlementProgressPageWithAppBar(),
       server: (context) => const ServerPageWithAppBar(),
       billComparison: (context) => const BillComparisonPageWithAppBar(),
@@ -133,6 +134,7 @@ class AppRoutes {
           const RulesRegulationsPageWithAppBar(),
       toolsShortcuts: (context) => const ShortcutsPageWithAppBar(),
       toolsTotalVolume: (context) => const ToolsTotalVolumePageWithAppBar(),
+      expiryReport: (context) => const ExpiryReportPageWithAppBar(),
     };
   }
 }

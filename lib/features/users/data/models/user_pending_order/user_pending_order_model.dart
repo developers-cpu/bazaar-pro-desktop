@@ -18,8 +18,10 @@ class UserPendingOrderModel extends UserPendingOrder {
       symbol: json['symbol'],
       exchange: json['exchange'],
       type: json['type'],
-      lot: json['lot'],
-      price: (json['price'] as num).toDouble(),
+      lot: (double.tryParse(json['lot']?.toString() ?? '0') ?? 0.0)
+          .abs()
+          .toString(),
+      price: (json['price'] as num).toDouble().abs(),
       status: json['status'],
     );
   }

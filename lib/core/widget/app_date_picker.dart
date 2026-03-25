@@ -83,7 +83,7 @@ class _AppDatePickerState extends State<AppDatePicker>
   String get _displayText {
     if (widget.value == null) return 'Select Date';
     final d = widget.value!;
-    return '${d.day.toString().padLeft(2, '0')}/${d.month.toString().padLeft(2, '0')}/${d.year.toString().substring(2)}';
+    return '${d.day.toString().padLeft(2, '0')}/${d.month.toString().padLeft(2, '0')}/${d.year.toString()}';
   }
 
   OverlayEntry _createOverlay() {
@@ -145,7 +145,7 @@ class _AppDatePickerState extends State<AppDatePicker>
     final totalCells = firstWeekday + daysInMonth;
     final totalRows = ((totalCells + 6) ~/ 7);
     return Container(
-      width: 280.w,
+      width: 250.w,
       padding: EdgeInsets.all(12.w),
       decoration: BoxDecoration(
         color: AppColors.white,
@@ -210,7 +210,7 @@ class _AppDatePickerState extends State<AppDatePicker>
           Container(
             padding: EdgeInsets.symmetric(vertical: 6.h),
             decoration: BoxDecoration(
-              color: AppColors.primaryBgColor,
+              color: AppColors.tableHeaderBackground,
               borderRadius: BorderRadius.circular(6.r),
             ),
             child: Row(

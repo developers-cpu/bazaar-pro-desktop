@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 abstract class ExpiryReportRemoteDataSource {
   Future<Either<Failure, List<ExpiryReportModel>>> getExpiryReport({
     String? exchange,
+    String? month,
   });
 }
 
@@ -13,12 +14,20 @@ class ExpiryReportRemoteDataSourceImpl implements ExpiryReportRemoteDataSource {
   @override
   Future<Either<Failure, List<ExpiryReportModel>>> getExpiryReport({
     String? exchange,
+    String? month,
   }) async {
     await Future.delayed(const Duration(milliseconds: 500));
-    final List<ExpiryReportModel> mockData = _generateDummyData();
+    List<ExpiryReportModel> mockData = _generateDummyData();
     
     if (exchange != null && exchange.isNotEmpty) {
-      return Right(mockData.where((element) => element.exchange.toLowerCase() == exchange.toLowerCase()).toList());
+      mockData = mockData.where((element) => element.exchange.toLowerCase() == exchange.toLowerCase()).toList();
+    }
+
+    if (month != null && month.isNotEmpty) {
+      mockData = mockData.where((element) {
+        final monthName = DateFormat('MMMM').format(element.expiry);
+        return monthName.toLowerCase() == month.toLowerCase();
+      }).toList();
     }
     
     return Right(mockData);

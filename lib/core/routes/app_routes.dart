@@ -10,6 +10,7 @@ import '../../features/operations/presentation/pages/operations_page_wrapper.dar
 import '../../features/operations/presentation/pages/exchange_settings/exchange_settings_page.dart';
 import '../../features/operations/presentation/pages/trade_settings/trade_settings_page.dart';
 import '../../features/operations/presentation/pages/group/group_page.dart';
+import '../../features/operations/presentation/pages/symbol_settings/symbol_settings_page.dart';
 import '../../features/report/presentation/pages/expiry_report_page.dart';
 class AppRoutes {
   static const String login = '/';
@@ -62,6 +63,7 @@ class AppRoutes {
   static const String inactivityManagement = '/inactivity-management';
   static const String operationsMessage = '/operations-message';
   static const String expiryReport = '/expiry-report';
+  static const String symbolSettings = '/symbol-settings';
   static const String tools = '/tools';
   static const String toolsAbout = '/tools/about';
   static const String toolsChangePassword = '/tools/change-password';
@@ -135,6 +137,7 @@ class AppRoutes {
       toolsShortcuts: (context) => const ShortcutsPageWithAppBar(),
       toolsTotalVolume: (context) => const ToolsTotalVolumePageWithAppBar(),
       expiryReport: (context) => const ExpiryReportPageWithAppBar(),
+      symbolSettings: (context) => const SymbolSettingsPageWithAppBar(),
     };
   }
 }

@@ -22,6 +22,7 @@ class CustomInputField extends StatelessWidget {
   final bool showErrorBorder;
   final bool readOnly;
   final Color? borderColor;
+  final Color? fillColor;
   const CustomInputField({
     Key? key,
     required this.hintText,
@@ -41,6 +42,7 @@ class CustomInputField extends StatelessWidget {
     this.showErrorBorder = true,
     this.readOnly = false,
     this.borderColor,
+    this.fillColor,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -65,7 +67,7 @@ class CustomInputField extends StatelessWidget {
         decoration: InputDecoration(
           isDense: height != null ? true : false,
           filled: true,
-          fillColor: AppColors.white,
+          fillColor: fillColor ?? AppColors.white,
           hintText: hintText,
           hintStyle: GoogleFonts.openSans(
             fontSize: 12.sp,

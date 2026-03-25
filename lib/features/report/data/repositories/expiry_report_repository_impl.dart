@@ -12,9 +12,13 @@ class ExpiryReportRepositoryImpl implements ExpiryReportRepository {
   @override
   Future<Either<Failure, List<ExpiryReportModel>>> getExpiryReport({
     String? exchange,
+    String? month,
   }) async {
     try {
-      return await remoteDataSource.getExpiryReport(exchange: exchange);
+      return await remoteDataSource.getExpiryReport(
+        exchange: exchange,
+        month: month,
+      );
     } catch (e) {
       return Left(ServerFailure( e.toString()));
     }

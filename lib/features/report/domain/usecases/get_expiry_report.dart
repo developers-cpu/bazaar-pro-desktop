@@ -8,7 +8,10 @@ class GetExpiryReport {
 
   GetExpiryReport(this.repository);
 
-  Future<Either<Failure, List<ExpiryReportModel>>> call({String? exchange}) {
-    return repository.getExpiryReport(exchange: exchange);
+  Future<Either<Failure, List<ExpiryReportModel>>> call({
+    String? exchange,
+    String? month,
+  }) {
+    return repository.getExpiryReport(exchange: exchange, month: month);
   }
 }

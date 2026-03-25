@@ -72,7 +72,6 @@ class _ExchangeSettingsPageState extends State<ExchangeSettingsPage> {
     'Auto Tick Size',
     'Order Type',
     'Odd Lot',
-    'Trade Quantity Setting',
     'Trade Attribute',
     'Exch Sequence',
     'Default Symbol',
@@ -132,7 +131,7 @@ class _ExchangeSettingsPageState extends State<ExchangeSettingsPage> {
         final symbols = (state is ExchangeSettingsLoaded)
             ? state.defaultSymbols
             : [];
-        final isDefaultSymbolTab = _activeTab == 7;
+        final isDefaultSymbolTab = _activeTab == 6;
         final displayData = isDefaultSymbolTab ? symbols : settings;
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
@@ -145,7 +144,7 @@ class _ExchangeSettingsPageState extends State<ExchangeSettingsPage> {
                 onTabChanged: (i) => setState(() {
                   _activeTab = i;
                   _selectedIds.clear();
-                  if (i != 7) _selectedExchange = null;
+                  if (i != 6) _selectedExchange = null;
                 }),
               ),
               SizedBox(height: 10.h),
@@ -212,7 +211,7 @@ class _ExchangeSettingsPageState extends State<ExchangeSettingsPage> {
     if (state is ExchangeSettingsError) {
       return Center(child: Text(state.message));
     }
-    if (_activeTab == 7 && _selectedExchange == null) {
+    if (_activeTab == 6 && _selectedExchange == null) {
       return const SizedBox.shrink();
     }
     return ExchangeSettingsDataTable(
@@ -270,7 +269,7 @@ class _ExchangeSettingsPageState extends State<ExchangeSettingsPage> {
           ViewTableColumn(id: 'updatedOn', label: 'UPDATED ON', width: 220.w),
           ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 150.w),
         ];
-      case 5:
+      case 4:
         return [
           ViewTableColumn(id: 'exchange', label: 'EXCHANGE', width: 120.w),
           ViewTableColumn(
@@ -281,14 +280,14 @@ class _ExchangeSettingsPageState extends State<ExchangeSettingsPage> {
           ViewTableColumn(id: 'updatedOn', label: 'UPDATED ON', width: 220.w),
           ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 150.w),
         ];
-      case 6:
+      case 5:
         return [
           ViewTableColumn(id: 'exchange', label: 'EXCHANGE', width: 120.w),
           ViewTableColumn(id: 'sequence', label: 'SEQUENCE', width: 250.w),
           ViewTableColumn(id: 'updatedOn', label: 'UPDATED ON', width: 220.w),
           ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 150.w),
         ];
-      case 7:
+      case 6:
         return [
           ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 180.w),
           ViewTableColumn(id: 'updatedOn', label: 'UPDATED ON', width: 220.w),

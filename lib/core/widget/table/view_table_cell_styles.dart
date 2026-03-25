@@ -291,3 +291,39 @@ class ViewDateTimeCell extends StatelessWidget {
     return '$day/$month/$year | ${hour.toString().padLeft(2, '0')}:$minute:$second $amPm';
   }
 }
+
+class ViewIconLinkCell extends StatelessWidget {
+  final IconData icon;
+  final VoidCallback? onTap;
+  final Color? color;
+  final double? size;
+  const ViewIconLinkCell({
+    Key? key,
+    required this.icon,
+    this.onTap,
+    this.color,
+    this.size,
+  }) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: EdgeInsets.only(bottom: 2.h),
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: color ?? AppColors.primaryBlue,
+              width: 2.0.sp,
+            ),
+          ),
+        ),
+        child: Icon(
+          icon,
+          size: size ?? 18.sp,
+          color: color ?? AppColors.primaryBlue,
+        ),
+      ),
+    );
+  }
+}

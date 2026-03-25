@@ -18,13 +18,17 @@ class ExpiryReportBloc extends Bloc<ExpiryReportEvent, ExpiryReportState> {
   ) async {
     emit(const ExpiryReportLoading());
     
-    final result = await getExpiryReport(exchange: event.exchange);
+    final result = await getExpiryReport(
+      exchange: event.exchange,
+      month: event.month,
+    );
 
     result.fold(
       (failure) => emit(ExpiryReportError(message: failure.message)),
       (data) => emit(ExpiryReportLoaded(
         data: data,
         currentExchange: event.exchange,
+        currentMonth: event.month,
       )),
     );
   }

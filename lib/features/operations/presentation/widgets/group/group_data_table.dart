@@ -166,9 +166,9 @@ class GroupDataTable extends StatelessWidget {
   }
 
   Widget _actionCell(dynamic item) {
-    return IconButton(
-      icon: Icon(Icons.edit, size: 18.sp, color: AppColors.primaryBlue),
-      onPressed: () => onActionTap(item),
+    return ViewIconLinkCell(
+      icon: Icons.edit,
+      onTap: () => onActionTap(item),
     );
   }
 

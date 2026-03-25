@@ -16,12 +16,7 @@ class SettlementMasterSharingDataSourceImpl
   );
 
   static final List<String> _userNames = [
-    'AlphaTrader', 'BetaUser', 'GammaClient', 'DeltaMaster', 'EpsilonPro',
-    'ZetaFund', 'EtaCapital', 'ThetaGroup', 'IotaWeath', 'KappaFin',
-    'LambdaAsset', 'MuHoldings', 'NuMarkets', 'XiPartners', 'OmicronFX',
-    'PiTrading', 'RhoFunds', 'SigmaInvest', 'TauSecure', 'UpsilonEdge',
-    'PhiCapital', 'ChiGlobal', 'PsiEquity', 'OmegaFin', 'AlphaSecure',
-    'BetaCapital', 'GammaFunds', 'DeltaEdge', 'EpsilonGlob', 'ZetaMarket',
+    'AlphaTrader', 'BetaUser', 'GammaClient', 'DeltaMaster',
   ];
 
   @override
@@ -38,9 +33,7 @@ class SettlementMasterSharingDataSourceImpl
   }) async {
     await Future.delayed(const Duration(milliseconds: 500));
     try {
-      final assignedCounts = [5, 0, 3, 12, 0, 7, 1, 0, 9, 4,
-                               0, 6, 2, 0, 11, 3, 8, 0, 5, 1,
-                               0, 4, 7, 0, 2, 10, 0, 3, 6, 1];
+      final assignedCounts = [5, 0, 3, 12];
 
       final entries = List.generate(_userNames.length, (i) {
         final count = assignedCounts[i];

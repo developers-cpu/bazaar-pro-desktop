@@ -2,6 +2,8 @@ import 'package:bazarpro/features/operations/domain/repositories/exchange_settin
 import 'package:bazarpro/features/operations/data/repositories/exchange_settings/exchange_settings_repository_impl.dart';
 import 'package:bazarpro/features/operations/data/datasources/exchange_settings/exchange_settings_remote_data_source.dart';
 import 'package:bazarpro/features/operations/data/datasources/exchange_settings/exchange_settings_remote_data_source_impl.dart';
+import 'package:bazarpro/features/operations/presentation/bloc/symbol_settings/symbol_settings_bloc.dart';
+import 'package:bazarpro/features/operations/data/datasources/symbol_settings_datasource.dart';
 import 'package:bazarpro/features/operations/domain/repositories/group/group_repository.dart';
 import 'package:bazarpro/features/operations/data/repositories/group/group_repository_impl.dart';
 import 'package:bazarpro/features/operations/data/datasources/group/group_remote_data_source.dart';
@@ -1185,5 +1187,11 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<ExpiryReportRemoteDataSource>(
     () => ExpiryReportRemoteDataSourceImpl(),
+  );
+  sl.registerFactory(
+    () => SymbolSettingsBloc(datasource: sl()),
+  );
+  sl.registerLazySingleton<SymbolSettingsDatasource>(
+    () => SymbolSettingsDatasourceImpl(),
   );
 }

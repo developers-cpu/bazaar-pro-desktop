@@ -18,6 +18,7 @@ class VpnRestrictionView extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             _buildRadioGroup(
               context: context,
@@ -31,7 +32,7 @@ class VpnRestrictionView extends StatelessWidget {
                 }
               },
             ),
-            SizedBox(width: 50.w),
+            SizedBox(width: 28.w),
             _buildRadioGroup(
               context: context,
               title: 'For Client',
@@ -44,19 +45,19 @@ class VpnRestrictionView extends StatelessWidget {
                 }
               },
             ),
-            const Spacer(),
-            CustomActionButton(
-              text: 'Update',
-              onPressed: () {
-                context.read<SurveillanceBloc>().add(
-                  SaveSurveillanceDataEvent(),
-                );
-              },
-              width: 100.w,
-              height: 35.h,
-              borderRadius: 8.r,
-            ),
           ],
+        ),
+        SizedBox(height: 14.h),
+        Center(
+          child: CustomActionButton(
+            text: 'Update',
+            onPressed: () {
+              context.read<SurveillanceBloc>().add(SaveSurveillanceDataEvent());
+            },
+            width: 100.w,
+            height: 35.h,
+            borderRadius: 8.r,
+          ),
         ),
       ],
     );

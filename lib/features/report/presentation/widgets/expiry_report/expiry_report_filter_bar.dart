@@ -10,34 +10,49 @@ import '../../bloc/expiry_report/expiry_report_state.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:bazarpro/features/auth/presentation/bloc/auth_state.dart';
 
-class ExpiryReportFilterBar extends StatelessWidget {
+class ExpiryReportFilterBar extends StatefulWidget {
   const ExpiryReportFilterBar({super.key});
+
+  @override
+  State<ExpiryReportFilterBar> createState() => _ExpiryReportFilterBarState();
+}
+
+class _ExpiryReportFilterBarState extends State<ExpiryReportFilterBar> {
+  String? _tempExchange;
+  String? _tempMonth;
+  bool _isInitialized = false;
 
   @override
   Widget build(BuildContext context) {
     final authState = context.read<AuthBloc>().state;
-    final isClient =
-        authState is AuthAuthenticated &&
+    final isClient = authState is AuthAuthenticated &&
         authState.user.role.toLowerCase() == 'client';
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
       child: BlocBuilder<ExpiryReportBloc, ExpiryReportState>(
         builder: (context, state) {
-          final selectedExchange =
-              state is ExpiryReportLoaded ? state.currentExchange : null;
+          if (!_isInitialized && state is ExpiryReportLoaded) {
+            _tempExchange = state.currentExchange;
+            _tempMonth = state.currentMonth;
+            _isInitialized = true;
+          }
+
+          final List<String> months = [
+            'January', 'February', 'March', 'April', 'May', 'June',
+            'July', 'August', 'September', 'October', 'November', 'December'
+          ];
 
           final viewButton = SizedBox(
             height: 35.h,
             width: 100.w,
             child: ElevatedButton(
               onPressed: () {
-                final currentState = context.read<ExpiryReportBloc>().state;
-                final exchange = currentState is ExpiryReportLoaded
-                    ? currentState.currentExchange
-                    : null;
                 context.read<ExpiryReportBloc>().add(
-                  LoadExpiryReport(exchange: exchange),
+                  LoadExpiryReport(
+                    exchange: _tempExchange,
+                    month: _tempMonth,
+                  ),
                 );
               },
               style: ElevatedButton.styleFrom(
@@ -63,6 +78,10 @@ class ExpiryReportFilterBar extends StatelessWidget {
             width: 100.w,
             child: OutlinedButton(
               onPressed: () {
+                setState(() {
+                  _tempExchange = null;
+                  _tempMonth = null;
+                });
                 context.read<ExpiryReportBloc>().add(
                   const LoadExpiryReport(),
                 );
@@ -88,11 +107,24 @@ class ExpiryReportFilterBar extends StatelessWidget {
           final exchangeDropdown = AppDropdown(
             hintText: 'Exchange',
             items: const ['NSE', 'MCX'],
-            value: selectedExchange,
+            value: _tempExchange,
             onChanged: (value) {
-              context.read<ExpiryReportBloc>().add(
-                LoadExpiryReport(exchange: value),
-              );
+              setState(() {
+                _tempExchange = value;
+              });
+            },
+            width: 200.w,
+            height: 35.h,
+          );
+
+          final monthDropdown = AppDropdown(
+            hintText: 'Month',
+            items: months,
+            value: _tempMonth,
+            onChanged: (value) {
+              setState(() {
+                _tempMonth = value;
+              });
             },
             width: 200.w,
             height: 35.h,
@@ -103,6 +135,8 @@ class ExpiryReportFilterBar extends StatelessWidget {
               children: [
                 exchangeDropdown,
                 SizedBox(width: 16.w),
+                monthDropdown,
+                SizedBox(width: 16.w),
                 viewButton,
               ],
             );
@@ -110,6 +144,8 @@ class ExpiryReportFilterBar extends StatelessWidget {
           return Row(
             children: [
               exchangeDropdown,
+              SizedBox(width: 16.w),
+              monthDropdown,
               const Spacer(),
               resetButton,
               SizedBox(width: 16.w),

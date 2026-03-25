@@ -64,13 +64,13 @@ class SurveillanceRemoteDataSourceImpl implements SurveillanceRemoteDataSource {
   );
   @override
   Future<SurveillanceDataModel> getSurveillanceData() async {
-    await Future.delayed(const Duration(milliseconds: 500));
+
     return _mockData;
   }
 
   @override
   Future<void> updateSurveillanceData(SurveillanceDataModel data) async {
-    await Future.delayed(const Duration(milliseconds: 500));
+
     _mockData = data;
   }
 }

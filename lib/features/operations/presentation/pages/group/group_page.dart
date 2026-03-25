@@ -12,6 +12,7 @@ import '../../bloc/group/group_state.dart';
 import '../../widgets/group/add_group_dialog.dart';
 import '../../widgets/group/import_group_data_dialog.dart';
 import '../../widgets/group/group_data_table.dart';
+import 'package:bazarpro/features/operations/data/models/group/group_model.dart';
 import '../operations_page_wrapper.dart';
 import '../../../../../injection_container.dart';
 
@@ -46,10 +47,18 @@ class _GroupPageState extends State<GroupPage> {
   final _breakupQtyCtrl = TextEditingController();
   final _maxQtyCtrl = TextEditingController();
   int _viewLevel = 0;
-  String? _selectedExchange;
-  String? _selectedGroupName;
   Set<String> _selectedIds = {};
   Map<String, bool> _hideGroupState = {};
+  String? _selectedExchange;
+  String? _selectedGroupName;
+  @override
+  void initState() {
+    super.initState();
+    _searchCtrl.addListener(() {
+      setState(() {});
+    });
+  }
+
   @override
   void dispose() {
     _searchCtrl.dispose();
@@ -74,6 +83,8 @@ class _GroupPageState extends State<GroupPage> {
       },
       builder: (_, state) {
         final groups = (state is GroupsLoaded) ? state.groups : [];
+        List<dynamic> displayGroups = _getDisplayGroups(groups);
+
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
           child: Column(
@@ -81,9 +92,9 @@ class _GroupPageState extends State<GroupPage> {
             children: [
               if (_viewLevel > 0) _buildBackHeader(),
               if (_viewLevel == 2) _buildQuantityRow(),
-              _buildToolbar(groups.length),
+              _buildToolbar(displayGroups.length),
               SizedBox(height: 10.h),
-              Expanded(child: _buildBody(state, groups)),
+              Expanded(child: _buildBody(state, displayGroups)),
             ],
           ),
         );
@@ -219,44 +230,94 @@ class _GroupPageState extends State<GroupPage> {
     );
   }
 
-  Widget _buildBody(GroupState state, List<dynamic> groups) {
-    if (state is GroupLoading && state is! GroupsLoaded) {
+  List<dynamic> _getDisplayGroups(List<dynamic> groups) {
+    List<dynamic> filtered = groups;
+    if (_viewLevel == 1 && _selectedExchange != null) {
+      filtered = filtered.where((g) {
+        if (g is GroupModel) {
+          return g.exchange == _selectedExchange;
+        }
+        return false;
+      }).toList();
+      List<dynamic> splitGroups = [];
+      for (final g in filtered) {
+        if (g is GroupModel) {
+          final names = g.groupName.split(' | ');
+          for (int i = 0; i < names.length; i++) {
+            splitGroups.add(
+              GroupModel(
+                id: '${g.id}_$i',
+                exchange: g.exchange,
+                groupName: '${g.exchange}_${names[i].trim()}',
+                count: g.count,
+                updatedOn: g.updatedOn,
+                updatedBy: g.updatedBy,
+                isDefault: g.isDefault,
+              ),
+            );
+          }
+        }
+      }
+      filtered = splitGroups;
+    }
+
+    if (_searchCtrl.text.isNotEmpty) {
+      final query = _searchCtrl.text.toLowerCase();
+      filtered = filtered.where((g) {
+        if (g is GroupModel) {
+          return g.groupName.toLowerCase().contains(query);
+        }
+        return false;
+      }).toList();
+    }
+    return filtered;
+  }
+
+  Widget _buildBody(GroupState state, List<dynamic> displayGroups) {
+    if (state is GroupLoading) {
       return const Center(child: CircularProgressIndicator());
     }
-    if (state is GroupError) {
-      return Center(child: Text(state.message));
+    if (displayGroups.isEmpty) {
+      return Center(
+        child: Text(
+          'No groups found',
+          style: GoogleFonts.openSans(
+            fontSize: 14.sp,
+            color: AppColors.supportiveTextColor(context),
+          ),
+        ),
+      );
     }
     return GroupDataTable(
       viewLevel: _viewLevel,
-      groups: groups,
+      groups: displayGroups,
       selectedIds: _selectedIds,
       hideGroupState: _hideGroupState,
       onSelectionChanged: (ids) => setState(() => _selectedIds = ids),
-      onHideGroupChanged: (entry) {
-        setState(() => _hideGroupState[entry.key] = entry.value);
-      },
-      onExchangeTap: (exchange) {
+      onHideGroupChanged: (entry) =>
+          setState(() => _hideGroupState[entry.key] = entry.value),
+      onExchangeTap: (ex) {
         setState(() {
+          _selectedExchange = ex;
           _viewLevel = 1;
-          _selectedExchange = exchange;
-          _selectedIds.clear();
         });
       },
-      onGroupNameTap: (item) {
-        _showAddGroupDialog(
+      onGroupNameTap: (group) {
+        AddGroupDialog.show(
+          context: context,
           isEdit: true,
-          initialExchange: item.exchange,
-          initialGroupName: item.groupName,
+          initialExchange: group.exchange,
+          initialGroupName: group.groupName,
+          bloc: context.read<GroupBloc>(),
         );
       },
-      onActionTap: (item) {
-        setState(() {
-          if (_viewLevel == 1) {
-            _viewLevel = 2;
-            _selectedGroupName = item.groupName;
-          }
-          _selectedIds.clear();
-        });
+      onActionTap: (group) {
+        AddGroupDialog.show(
+          context: context,
+          isEdit: true,
+          initialExchange: group.exchange,
+          initialGroupName: group.groupName,
+        );
       },
       onImportTap: _showImportDialog,
     );
@@ -264,30 +325,15 @@ class _GroupPageState extends State<GroupPage> {
 
   void _goBack() {
     setState(() {
-      _viewLevel--;
-      if (_viewLevel == 0) _selectedExchange = null;
-      if (_viewLevel == 1) _selectedGroupName = null;
-      _selectedIds.clear();
+      if (_viewLevel > 0) _viewLevel--;
     });
   }
 
-  void _showAddGroupDialog({
-    bool isEdit = false,
-    String? initialExchange,
-    String? initialGroupName,
-    bool initialIsDefault = false,
-  }) {
-    AddGroupDialog.show(
-      context: context,
-      isEdit: isEdit,
-      initialExchange: initialExchange,
-      initialGroupName: initialGroupName,
-      initialIsDefault: initialIsDefault,
-      bloc: context.read<GroupBloc>(),
-    );
+  void _showAddGroupDialog() {
+    AddGroupDialog.show(context: context);
   }
 
   void _showImportDialog() {
-    ImportGroupDataDialog.show(context, bloc: context.read<GroupBloc>());
+    ImportGroupDataDialog.show(context);
   }
 }

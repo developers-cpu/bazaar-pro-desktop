@@ -27,3 +27,9 @@ class ImportGroupEvent extends GroupEvent {
   @override
   List<Object?> get props => [filePath];
 }
+class DeleteGroupEvent extends GroupEvent {
+  final String id;
+  const DeleteGroupEvent({required this.id});
+  @override
+  List<Object?> get props => [id];
+}

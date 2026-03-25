@@ -21,14 +21,16 @@ class ExpiryReportLoading extends ExpiryReportState {
 class ExpiryReportLoaded extends ExpiryReportState {
   final List<ExpiryReportModel> data;
   final String? currentExchange;
+  final String? currentMonth;
 
   const ExpiryReportLoaded({
     required this.data,
     this.currentExchange,
+    this.currentMonth,
   });
 
   @override
-  List<Object?> get props => [data, currentExchange];
+  List<Object?> get props => [data, currentExchange, currentMonth];
 }
 
 class ExpiryReportError extends ExpiryReportState {

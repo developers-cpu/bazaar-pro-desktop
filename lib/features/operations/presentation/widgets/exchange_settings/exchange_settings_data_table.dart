@@ -82,30 +82,31 @@ class ExchangeSettingsDataTable extends StatelessWidget {
     if (column.id == 'sequence') {
       final ctrl = sequenceControllers?[item.id];
       return Padding(
-        padding: EdgeInsets.symmetric(vertical: 4.h, horizontal: 8.w),
+        padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 2.w),
         child: TextField(
           controller: ctrl,
           textAlign: TextAlign.center,
+          textAlignVertical: TextAlignVertical.center,
           style: GoogleFonts.openSans(
-            fontSize: 10.sp,
+            fontSize: 12.sp,
             color: AppColors.primaryBlue,
           ),
           decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(
               horizontal: 10.w,
-              vertical: 8.h,
+              vertical: 10.h,
             ),
             isDense: true,
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20.r),
+              borderRadius: BorderRadius.circular(8.r),
               borderSide: BorderSide(color: AppColors.primaryBlue, width: 1.5),
             ),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20.r),
+              borderRadius: BorderRadius.circular(8.r),
               borderSide: BorderSide(color: AppColors.primaryBlue, width: 1.5),
             ),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20.r),
+              borderRadius: BorderRadius.circular(8.r),
               borderSide: BorderSide(color: AppColors.primaryBlue, width: 2),
             ),
           ),

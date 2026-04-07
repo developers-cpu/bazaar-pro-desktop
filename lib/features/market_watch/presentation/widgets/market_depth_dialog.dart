@@ -25,7 +25,7 @@ class MarketDepthDialog extends StatefulWidget {
       showButtons: false,
       isDarkMode: true,
       headerColor: AppColors.primaryBlue,
-      backgroundColor: AppColors.white,
+      backgroundColor: AppColors.backgroundColor,
       contentPadding: EdgeInsets.all(8.w),
       onCancel: () {
         context.read<MarketDepthBloc>().add(const CloseMarketDepthEvent());

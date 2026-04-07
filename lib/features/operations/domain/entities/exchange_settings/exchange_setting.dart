@@ -66,3 +66,56 @@ class DefaultSymbol extends Equatable {
     showInWatchlist,
   ];
 }
+
+class AutoTickSymbolDetail extends Equatable {
+  final String id;
+  final String symbol;
+  final bool autoTickSize;
+  final String tickSize;
+  final String updatedOn;
+  final String updatedBy;
+
+  const AutoTickSymbolDetail({
+    required this.id,
+    required this.symbol,
+    required this.autoTickSize,
+    required this.tickSize,
+    required this.updatedOn,
+    required this.updatedBy,
+  });
+
+  @override
+  List<Object?> get props => [
+    id,
+    symbol,
+    autoTickSize,
+    tickSize,
+    updatedOn,
+    updatedBy,
+  ];
+}
+
+class TradeAttributeSymbolDetail extends Equatable {
+  final String id;
+  final String symbol;
+  final String marketPriceType;
+  final String updatedOn;
+  final String updatedBy;
+
+  const TradeAttributeSymbolDetail({
+    required this.id,
+    required this.symbol,
+    required this.marketPriceType,
+    required this.updatedOn,
+    required this.updatedBy,
+  });
+
+  @override
+  List<Object?> get props => [
+    id,
+    symbol,
+    marketPriceType,
+    updatedOn,
+    updatedBy,
+  ];
+}

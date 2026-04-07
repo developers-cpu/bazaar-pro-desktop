@@ -27,7 +27,7 @@ class AppStrings {
   static const String tradeSettings = 'Trade Settings';
   static const String dateSettings = 'Date Settings';
   static const String scriptSettings = 'Script Settings';
-  static const String vpnRestriction = 'VPN Restriction';
+  static const String vpnRestriction = 'External Setting';
   static const String message = 'Message';
   static const String settlementProgress = 'Settlement Progress';
   static const String server = 'Server';

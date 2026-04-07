@@ -33,14 +33,14 @@ class OrderActionButton extends StatelessWidget {
           child: ElevatedButton(
             onPressed: isLoading ? null : onPressed,
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.white,
+              backgroundColor: AppColors.backgroundColor,
               foregroundColor: _textColor,
               elevation: 0,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(6.r),
                 side: BorderSide(color: _borderColor, width: 1.5),
               ),
-              disabledBackgroundColor: AppColors.white.withOpacity(0.7),
+              disabledBackgroundColor: AppColors.backgroundColor.withOpacity(0.7),
             ),
             child: isLoading
                 ? SizedBox(

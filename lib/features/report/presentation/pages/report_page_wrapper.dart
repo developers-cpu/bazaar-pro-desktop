@@ -82,7 +82,7 @@ class ReportPageWrapper extends StatelessWidget {
           userRole = state.user.role;
         }
         return Scaffold(
-          backgroundColor: AppColors.white,
+          backgroundColor: AppColors.backgroundColor,
           appBar: AppBarSection(
             selectedTabIndex: userRole == 'Client' ? 3 : 4,
             userRole: userRole,

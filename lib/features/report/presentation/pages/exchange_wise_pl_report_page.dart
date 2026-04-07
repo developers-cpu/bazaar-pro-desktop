@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/constants/app_colors.dart';
 import '../bloc/exchange_wise_pl/exchange_wise_pl_bloc.dart';
 import '../bloc/exchange_wise_pl/exchange_wise_pl_state.dart';
 import '../widgets/exchange_wise_pl/exchange_wise_pl_table.dart';
@@ -9,7 +10,7 @@ class ExchangeWisePLReportPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.backgroundColor,
       body: Column(
         children: [
           Expanded(

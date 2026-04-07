@@ -27,7 +27,7 @@ class UserPageWrapper extends StatelessWidget {
           userRole = state.user.role;
         }
         return Scaffold(
-          backgroundColor: AppColors.white,
+          backgroundColor: AppColors.backgroundColor,
           appBar: AppBarSection(
             selectedTabIndex: 3,
             userRole: userRole,
@@ -90,7 +90,7 @@ class _CreateUserPageState extends State<CreateUserPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.backgroundColor(context),
+      color: AppColors.backgroundColor,
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

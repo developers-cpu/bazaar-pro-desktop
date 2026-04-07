@@ -31,6 +31,7 @@ class AppDropdown extends StatefulWidget {
   final bool showSelectAll;
   final FocusNode? focusNode;
   final bool autofocus;
+  final bool showSelectedChipsInField;
   const AppDropdown({
     Key? key,
     this.type = AppDropdownType.simple,
@@ -55,6 +56,7 @@ class AppDropdown extends StatefulWidget {
     this.subtitles,
     this.focusNode,
     this.autofocus = false,
+    this.showSelectedChipsInField = false,
   }) : super(key: key);
   @override
   State<AppDropdown> createState() => _AppDropdownState();
@@ -389,7 +391,6 @@ class _AppDropdownState extends State<AppDropdown>
       (widget.isDarkMode
           ? DarkThemeColors.textColor
           : LightThemeColors.textColor);
-  Color get _hintColor => AppColors.primaryBlue;
   Color get _bgColor => widget.isDarkMode
       ? DarkThemeColors.cardBackground
       : LightThemeColors.cardBackground;
@@ -407,6 +408,20 @@ class _AppDropdownState extends State<AppDropdown>
       return widget.value!;
     }
     return widget.hintText;
+  }
+
+  bool get _shouldShowSelectedChipsInField =>
+      widget.showSelectedChipsInField &&
+      (widget.type == AppDropdownType.multiSelect ||
+          widget.type == AppDropdownType.multiSelectRightNoSearch);
+
+  void _removeSelectedItem(String item) {
+    if (!_selectedSet.contains(item)) return;
+
+    setState(() {
+      _selectedSet.remove(item);
+    });
+    widget.onMultiChanged?.call(_selectedSet.toList());
   }
 
   double _calculateDropdownHeight(int filteredCount) {
@@ -772,6 +787,11 @@ class _AppDropdownState extends State<AppDropdown>
     final bool hasValue =
         (widget.value != null && widget.value!.isNotEmpty) ||
         _selectedSet.isNotEmpty;
+    final effectiveHeight =
+        _shouldShowSelectedChipsInField && _selectedSet.isNotEmpty
+        ? null
+        : (widget.height ?? 35.h);
+
     return Focus(
       focusNode: _effectiveFocusNode,
       autofocus: widget.autofocus,
@@ -809,35 +829,50 @@ class _AppDropdownState extends State<AppDropdown>
             width: (widget.width == null || widget.width == double.infinity)
                 ? null
                 : widget.width,
-            height: widget.height ?? 35.h,
+            height: effectiveHeight,
             child: CompositedTransformTarget(
               link: _layerLink,
               child: GestureDetector(
                 onTap: _toggle,
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10.w),
+                  constraints: BoxConstraints(minHeight: widget.height ?? 35.h),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 10.w,
+                    vertical:
+                        _shouldShowSelectedChipsInField &&
+                            _selectedSet.isNotEmpty
+                        ? 8.h
+                        : 0,
+                  ),
                   decoration: BoxDecoration(
                     color: _bgColor,
                     borderRadius: BorderRadius.circular(8.r),
                     border: Border.all(color: _borderColor, width: 1.4),
                   ),
                   child: Row(
+                    crossAxisAlignment:
+                        _shouldShowSelectedChipsInField &&
+                            _selectedSet.isNotEmpty
+                        ? CrossAxisAlignment.start
+                        : CrossAxisAlignment.center,
                     children: [
                       Expanded(
-                        child: Text(
-                          _displayText,
-                          style: GoogleFonts.openSans(
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w600,
-                            height: 1.0,
-                            letterSpacing: 0.15,
-                            color: hasValue
-                                ? _textColor
-                                : AppColors.primaryBlue,
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                        ),
+                        child: _shouldShowSelectedChipsInField
+                            ? _buildSelectedChipsField()
+                            : Text(
+                                _displayText,
+                                style: GoogleFonts.openSans(
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w600,
+                                  height: 1.0,
+                                  letterSpacing: 0.15,
+                                  color: hasValue
+                                      ? _textColor
+                                      : AppColors.primaryBlue,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                              ),
                       ),
                       SizedBox(width: 4.w),
                       Icon(
@@ -855,6 +890,69 @@ class _AppDropdownState extends State<AppDropdown>
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildSelectedChipsField() {
+    if (_selectedSet.isEmpty) {
+      return Text(
+        widget.hintText,
+        style: GoogleFonts.openSans(
+          fontSize: 12.sp,
+          fontWeight: FontWeight.w600,
+          height: 1.0,
+          letterSpacing: 0.15,
+          color: AppColors.primaryBlue,
+        ),
+        overflow: TextOverflow.ellipsis,
+        maxLines: 1,
+      );
+    }
+
+    return Wrap(
+      spacing: 6.w,
+      runSpacing: 6.h,
+      children: _selectedSet.map((item) {
+        return Container(
+          padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+          decoration: BoxDecoration(
+            color: AppColors.backgroundColor,
+            borderRadius: BorderRadius.circular(8.r),
+            border: Border.all(color: _borderColor, width: 1),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: 180.w),
+                child: Text(
+                  item,
+                  style: GoogleFonts.openSans(
+                    fontSize: 11.sp,
+                    fontWeight: FontWeight.w600,
+                    color: _textColor,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              SizedBox(width: 8.w),
+              GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () => _removeSelectedItem(item),
+                child: Container(
+                  width: 18.w,
+                  height: 18.h,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(color: _borderColor, width: 1),
+                  ),
+                  child: Icon(Icons.close, size: 12.sp, color: _borderColor),
+                ),
+              ),
+            ],
+          ),
+        );
+      }).toList(),
     );
   }
 }

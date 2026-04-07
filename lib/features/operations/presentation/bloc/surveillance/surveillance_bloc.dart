@@ -15,6 +15,8 @@ class SurveillanceBloc extends Bloc<SurveillanceEvent, SurveillanceState> {
   }) : super(SurveillanceInitial()) {
     on<LoadSurveillanceDataEvent>(_onLoadSurveillanceData);
     on<UpdateVpnRestrictionEvent>(_onUpdateVpnRestriction);
+    on<UpdateTradeSlLimitEvent>(_onUpdateTradeSlLimit);
+    on<UpdateSpotIndexSymbolsEvent>(_onUpdateSpotIndexSymbols);
     on<SaveSurveillanceDataEvent>(_onSaveSurveillanceData);
   }
   Future<void> _onLoadSurveillanceData(
@@ -44,6 +46,34 @@ class SurveillanceBloc extends Bloc<SurveillanceEvent, SurveillanceState> {
       _currentData = _currentData!.copyWith(vpnRestriction: updatedVpn);
       emit(SurveillanceLoaded(data: _currentData!));
     }
+  }
+
+  void _onUpdateTradeSlLimit(
+    UpdateTradeSlLimitEvent event,
+    Emitter<SurveillanceState> emit,
+  ) {
+    if (_currentData == null || event.ids.isEmpty) return;
+
+    final updatedOrders = _currentData!.bulkOrders.map((order) {
+      if (!event.ids.contains(order.id)) {
+        return order;
+      }
+
+      return order.copyWith(tradeSlLimit: event.tradeSlLimit);
+    }).toList();
+
+    _currentData = _currentData!.copyWith(bulkOrders: updatedOrders);
+    emit(SurveillanceLoaded(data: _currentData!));
+  }
+
+  void _onUpdateSpotIndexSymbols(
+    UpdateSpotIndexSymbolsEvent event,
+    Emitter<SurveillanceState> emit,
+  ) {
+    if (_currentData == null) return;
+
+    _currentData = _currentData!.copyWith(spotIndexSymbols: event.symbols);
+    emit(SurveillanceLoaded(data: _currentData!));
   }
 
   Future<void> _onSaveSurveillanceData(

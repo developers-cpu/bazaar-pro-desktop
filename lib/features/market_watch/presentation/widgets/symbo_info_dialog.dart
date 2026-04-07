@@ -18,7 +18,7 @@ class SymbolInfoDialog extends StatelessWidget {
       showButtons: false,
       isDarkMode: true,
       headerColor: AppColors.primaryBlue,
-      backgroundColor: AppColors.white,
+      backgroundColor: AppColors.backgroundColor,
       contentPadding: EdgeInsets.zero,
     );
   }
@@ -32,7 +32,7 @@ class SymbolInfoDialog extends StatelessWidget {
       showButtons: false,
       isDarkMode: true,
       headerColor: AppColors.primaryBlue,
-      backgroundColor: AppColors.white,
+      backgroundColor: AppColors.backgroundColor,
       contentPadding: EdgeInsets.zero,
     );
   }

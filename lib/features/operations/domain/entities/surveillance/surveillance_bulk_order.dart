@@ -17,4 +17,26 @@ class SurveillanceBulkOrder {
     required this.updatedOn,
     required this.updatedBy,
   });
+
+  SurveillanceBulkOrder copyWith({
+    String? id,
+    String? exchange,
+    String? symbol,
+    int? intervalTime,
+    int? totalQuantity,
+    double? tradeSlLimit,
+    String? updatedOn,
+    String? updatedBy,
+  }) {
+    return SurveillanceBulkOrder(
+      id: id ?? this.id,
+      exchange: exchange ?? this.exchange,
+      symbol: symbol ?? this.symbol,
+      intervalTime: intervalTime ?? this.intervalTime,
+      totalQuantity: totalQuantity ?? this.totalQuantity,
+      tradeSlLimit: tradeSlLimit ?? this.tradeSlLimit,
+      updatedOn: updatedOn ?? this.updatedOn,
+      updatedBy: updatedBy ?? this.updatedBy,
+    );
+  }
 }

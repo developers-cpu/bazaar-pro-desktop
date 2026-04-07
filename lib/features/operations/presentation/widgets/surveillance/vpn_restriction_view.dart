@@ -14,11 +14,12 @@ class VpnRestrictionView extends StatelessWidget {
   const VpnRestrictionView({super.key, required this.vpnData});
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildRadioGroup(
               context: context,
@@ -32,7 +33,7 @@ class VpnRestrictionView extends StatelessWidget {
                 }
               },
             ),
-            SizedBox(width: 28.w),
+            SizedBox(width: 46.w),
             _buildRadioGroup(
               context: context,
               title: 'For Client',
@@ -47,8 +48,9 @@ class VpnRestrictionView extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(height: 14.h),
-        Center(
+        const Spacer(),
+        Padding(
+          padding: EdgeInsets.only(top: 34.h),
           child: CustomActionButton(
             text: 'Update',
             onPressed: () {
@@ -76,7 +78,7 @@ class VpnRestrictionView extends StatelessWidget {
           title,
           style: GoogleFonts.openSans(
             fontSize: 13.sp,
-            fontWeight: FontWeight.w400,
+            fontWeight: FontWeight.w600,
             color: AppColors.primaryBlue,
           ),
         ),

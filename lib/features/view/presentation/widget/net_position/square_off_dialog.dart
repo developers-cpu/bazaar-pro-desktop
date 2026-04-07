@@ -287,7 +287,7 @@ class _SquareOffDialogContentState extends State<_SquareOffDialogContent> {
           showDialog(
             context: context,
             builder: (context) => Dialog(
-              backgroundColor: AppColors.white,
+              backgroundColor: AppColors.backgroundColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16.r),
               ),

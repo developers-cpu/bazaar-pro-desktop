@@ -27,10 +27,7 @@ import '../widgets/market_depth_dialog.dart';
 import '../widgets/market_watch_notification_dialog.dart';
 import '../widgets/watchlist_widget.dart';
 import '../../../tools/presentation/widgets/messages/messages_dialog.dart';
-import 'dummy/file_page.dart';
-import 'dummy/report_page.dart';
-import 'dummy/tools_page.dart';
-import 'dummy/view_page.dart';
+
 
 class MarketWatchPage extends StatefulWidget {
   const MarketWatchPage({Key? key}) : super(key: key);
@@ -166,7 +163,7 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
             child: GestureDetector(
               onTap: () => _focusNode.requestFocus(),
               child: Scaffold(
-                backgroundColor: AppColors.white,
+                backgroundColor: AppColors.backgroundColor,
                 appBar: AppBarSection(
                   key: _appBarKey,
                   selectedTabIndex: _selectedTabIndex,
@@ -200,16 +197,8 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
         );
       case 1:
         return const DashboardPage();
-      case 2:
-        return const FilePage();
-      case 3:
-        return const ViewPage();
-      case 4:
-        return const ReportPage();
-      case 5:
-        return const ToolsPage();
       default:
-        return Center(child: Text(AppStrings.unknownPage));
+        return const Center(child: Text(AppStrings.unknownPage));
     }
   }
 

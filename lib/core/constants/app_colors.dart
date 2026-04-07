@@ -62,12 +62,13 @@ class DarkThemeColors {
 
 class AppColors {
   AppColors._();
+  static const Color backgroundColor = Color(0xFFFFFFFF);
   static const Color primaryBlue = Color(0xFF1F4A66);
   static const Color darkNavy = Color(0xFF1A3A52);
   static const Color greyLight = Color(0xFFF5F5F5);
   static const Color grey = Color(0xFFBDBDBD);
   static const Color greyDark = Color(0xFF9E9E9E);
-  static const Color white = Color(0xFFFFFFFF);
+  static const Color white = backgroundColor;
   static const Color black = Color(0xFF000000);
   static const Color transparent = Colors.transparent;
   static const Color red = Color(0xFFFF0000);
@@ -75,7 +76,7 @@ class AppColors {
   static const Color sellColor = const Color(0xFFFF0000);
   static const Color buyColor = const Color(0xFF0066FF);
   static const Color primaryBgColor = Color(0x0D1F4A66);
-  static const Color backgroundColorLight = Color(0xFFFFFFFF);
+  static const Color backgroundColorLight = backgroundColor;
   static const Color tableHeaderBackground = Color(0xFFC6DBE8);
   static const Color headerBgColor = Color(0xFFE3F2FD);
   static const Color tableRowBackground = Color(0xFFFFFFFF);
@@ -117,7 +118,7 @@ class AppColors {
     return Theme.of(context).brightness == Brightness.dark;
   }
 
-  static Color backgroundColor(BuildContext context) {
+  static Color themeBackgroundColor(BuildContext context) {
     return isDarkMode(context)
         ? DarkThemeColors.backgroundColor
         : LightThemeColors.backgroundColor;

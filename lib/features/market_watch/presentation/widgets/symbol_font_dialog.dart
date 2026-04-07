@@ -27,7 +27,7 @@ class SymbolFontDialog extends StatelessWidget {
         context.read<SymbolFontBloc>().add(const LoadFontSettingsEvent());
       },
       isDarkMode: true,
-      backgroundColor: AppColors.white,
+      backgroundColor: AppColors.backgroundColor,
       contentPadding: EdgeInsets.all(8.w),
       buttonHeight: 30.h,
     );

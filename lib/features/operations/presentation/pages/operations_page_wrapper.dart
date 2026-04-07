@@ -47,7 +47,7 @@ class OperationsPageWrapper extends StatelessWidget {
           userRole = state.user.role;
         }
         return Scaffold(
-          backgroundColor: AppColors.white,
+          backgroundColor: AppColors.backgroundColor,
           appBar: AppBarSection(
             selectedTabIndex: 6,
             userRole: userRole,
@@ -109,7 +109,7 @@ class SurveillancePageWithAppBar extends StatelessWidget {
       child: Builder(
         builder: (context) {
           return const OperationsPageWrapper(
-            pageTitle: 'VPN Restriction',
+            pageTitle: 'External Setting',
             child: SurveillancePage(),
           );
         },

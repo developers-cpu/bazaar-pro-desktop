@@ -200,7 +200,7 @@ class _NetPositionPageState extends State<NetPositionPage> {
     showDialog(
       context: context,
       builder: (dialogContext) => Dialog(
-        backgroundColor: AppColors.white,
+        backgroundColor: AppColors.backgroundColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16.r),
         ),

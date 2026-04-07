@@ -22,4 +22,26 @@ class UpdateVpnRestrictionEvent extends SurveillanceEvent {
   ];
 }
 
+class UpdateTradeSlLimitEvent extends SurveillanceEvent {
+  final List<String> ids;
+  final double tradeSlLimit;
+
+  const UpdateTradeSlLimitEvent({
+    required this.ids,
+    required this.tradeSlLimit,
+  });
+
+  @override
+  List<Object> get props => [ids, tradeSlLimit];
+}
+
+class UpdateSpotIndexSymbolsEvent extends SurveillanceEvent {
+  final List<String> symbols;
+
+  const UpdateSpotIndexSymbolsEvent({required this.symbols});
+
+  @override
+  List<Object> get props => [symbols];
+}
+
 class SaveSurveillanceDataEvent extends SurveillanceEvent {}

@@ -145,7 +145,7 @@ class _UpdateDatabaseContent extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: onClose,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.white,
+                    backgroundColor: AppColors.backgroundColor,
                     side: const BorderSide(color: AppColors.primaryBlue),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8.r),

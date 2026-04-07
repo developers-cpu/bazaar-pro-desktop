@@ -44,7 +44,7 @@ class DashboardPageWithAppBar extends StatelessWidget {
           userRole = state.user.role;
         }
         return Scaffold(
-          backgroundColor: AppColors.white,
+          backgroundColor: AppColors.backgroundColor,
           appBar: AppBarSection(
             selectedTabIndex: 1,
             userRole: userRole,

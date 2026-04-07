@@ -41,7 +41,7 @@ class ViewResetButtons extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8.r),
           ),
-          backgroundColor: AppColors.white,
+          backgroundColor: AppColors.backgroundColor,
         ),
         child: Text(
           resetText,

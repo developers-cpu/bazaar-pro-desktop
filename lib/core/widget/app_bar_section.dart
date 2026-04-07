@@ -14,7 +14,6 @@ import '../../features/tools/presentation/widgets/announcement/announcement_dial
 import '../../features/tools/presentation/widgets/shortcuts/shortcuts_dialog.dart';
 import '../../features/tools/presentation/widgets/total_volume/total_volume_dialog.dart';
 import '../../features/operations/presentation/widgets/inactivity_management/inactivity_management_dialog.dart';
-import '../../features/operations/presentation/widgets/surveillance/vpn_restriction_dialog.dart';
 import '../../features/report/presentation/widgets/users_bill_summary/users_bill_summary_dialog.dart';
 import '../../features/view/presentation/widget/login_history/login_history_dialog.dart';
 import '../../features/view/presentation/widget/manual_trade/manual_trade_dialog.dart';
@@ -203,10 +202,12 @@ class AppBarSectionState extends State<AppBarSection> {
         ),
       ),
       MenuItemData(
-        title: 'VPN Restriction',
-        onTap: () {
-          VpnRestrictionDialog.show(context);
-        },
+        title: 'External Setting',
+        onTap: () => _navigateToPage(
+          _getTabIndex('Operations'),
+          'External Setting',
+          '/surveillance',
+        ),
       ),
       MenuItemData(
         title: 'Message',

@@ -8,7 +8,7 @@ class TradeLogsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.white,
+      backgroundColor: AppColors.backgroundColor,
       body: Column(
         children: [
           const TradeLogFilterBar(),

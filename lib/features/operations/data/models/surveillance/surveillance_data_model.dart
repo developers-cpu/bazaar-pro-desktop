@@ -6,6 +6,7 @@ class SurveillanceDataModel extends SurveillanceData {
   const SurveillanceDataModel({
     required super.bulkOrders,
     required super.vpnRestriction,
+    required super.spotIndexSymbols,
   });
   factory SurveillanceDataModel.fromJson(Map<String, dynamic> json) {
     return SurveillanceDataModel(
@@ -17,6 +18,11 @@ class SurveillanceDataModel extends SurveillanceData {
       vpnRestriction: SurveillanceVpnModel.fromJson(
         json['vpnRestriction'] ?? {},
       ),
+      spotIndexSymbols:
+          (json['spotIndexSymbols'] as List?)
+              ?.map((e) => e.toString())
+              .toList() ??
+          [],
     );
   }
   Map<String, dynamic> toJson() {
@@ -25,6 +31,7 @@ class SurveillanceDataModel extends SurveillanceData {
           .map((e) => (e as SurveillanceBulkOrderModel).toJson())
           .toList(),
       'vpnRestriction': (vpnRestriction as SurveillanceVpnModel).toJson(),
+      'spotIndexSymbols': spotIndexSymbols,
     };
   }
 
@@ -34,6 +41,7 @@ class SurveillanceDataModel extends SurveillanceData {
           .map((e) => SurveillanceBulkOrderModel.fromEntity(e))
           .toList(),
       vpnRestriction: SurveillanceVpnModel.fromEntity(entity.vpnRestriction),
+      spotIndexSymbols: entity.spotIndexSymbols,
     );
   }
 }

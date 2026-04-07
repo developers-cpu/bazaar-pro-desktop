@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../../core/widget/table/view_data_table.dart';
+import '../../../data/datasources/symbol_settings_datasource.dart';
 import '../../bloc/exchange_settings/exchange_settings_bloc.dart';
 import '../../bloc/exchange_settings/exchange_settings_event.dart';
 import '../../bloc/exchange_settings/exchange_settings_state.dart';
 import '../../../../../core/widget/app_tab_bar.dart';
-import '../../widgets/exchange_settings/exchange_settings_headers.dart';
-import '../../widgets/exchange_settings/exchange_settings_toolbar.dart';
-import '../../widgets/exchange_settings/exchange_settings_data_table.dart';
 import '../../widgets/exchange_settings/password_dialog.dart';
+import '../../widgets/exchange_settings/tab/auto_tick_size_tab.dart';
+import '../../widgets/exchange_settings/tab/default_symbol_tab.dart';
+import '../../widgets/exchange_settings/tab/exch_sequence_tab.dart';
+import '../../widgets/exchange_settings/tab/high_low_between_trade_limit_tab.dart';
+import '../../widgets/exchange_settings/tab/odd_lot_tab.dart';
+import '../../widgets/exchange_settings/tab/order_type_tab.dart';
+import '../../widgets/exchange_settings/tab/trade_attribute_tab.dart';
 import '../operations_page_wrapper.dart';
 import '../../../../../injection_container.dart';
+import '../../../domain/entities/exchange_settings/exchange_setting.dart';
 
 class ExchangeSettingsPageWithAppBar extends StatelessWidget {
   const ExchangeSettingsPageWithAppBar({super.key});
@@ -48,12 +53,16 @@ class _ExchangeSettingsPageState extends State<ExchangeSettingsPage> {
   bool _tradeLimitYes = true;
   bool _autoTickYes = false;
   final _tickSizeCtrl = TextEditingController(text: '0.05');
+  final SymbolSettingsDatasource _symbolSettingsDatasource =
+      SymbolSettingsDatasourceImpl();
   bool _orderMarket = true;
   bool _orderSL = false;
   bool _orderLimit = true;
   bool _selectTypeYes = false;
   String _attributeType = 'Full';
   String? _selectedExchange;
+  String? _selectedAutoTickExchange;
+  String? _selectedTradeAttributeExchange;
   Map<String, TextEditingController> _seqControllers = {};
   Map<String, bool> _watchlistStates = {};
   final _exchanges = [
@@ -127,12 +136,10 @@ class _ExchangeSettingsPageState extends State<ExchangeSettingsPage> {
       builder: (_, state) {
         final settings = (state is ExchangeSettingsLoaded)
             ? state.settings
-            : [];
+            : <ExchangeSetting>[];
         final symbols = (state is ExchangeSettingsLoaded)
             ? state.defaultSymbols
-            : [];
-        final isDefaultSymbolTab = _activeTab == 6;
-        final displayData = isDefaultSymbolTab ? symbols : settings;
+            : <DefaultSymbol>[];
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
           child: Column(
@@ -144,44 +151,13 @@ class _ExchangeSettingsPageState extends State<ExchangeSettingsPage> {
                 onTabChanged: (i) => setState(() {
                   _activeTab = i;
                   _selectedIds.clear();
+                  if (i != 1) _selectedAutoTickExchange = null;
+                  if (i != 4) _selectedTradeAttributeExchange = null;
                   if (i != 6) _selectedExchange = null;
                 }),
               ),
               SizedBox(height: 10.h),
-              ExchangeSettingsHeader(
-                activeTab: _activeTab,
-                tradeLimitYes: _tradeLimitYes,
-                onTradeLimitChanged: (v) => setState(() => _tradeLimitYes = v),
-                autoTickYes: _autoTickYes,
-                onAutoTickChanged: (v) => setState(() => _autoTickYes = v),
-                tickSizeCtrl: _tickSizeCtrl,
-                orderMarket: _orderMarket,
-                orderSL: _orderSL,
-                orderLimit: _orderLimit,
-                onOrderMarketChanged: (v) => setState(() => _orderMarket = v),
-                onOrderSLChanged: (v) => setState(() => _orderSL = v),
-                onOrderLimitChanged: (v) => setState(() => _orderLimit = v),
-                selectTypeYes: _selectTypeYes,
-                onSelectTypeChanged: (v) => setState(() => _selectTypeYes = v),
-                attributeType: _attributeType,
-                onAttributeTypeChanged: (v) =>
-                    setState(() => _attributeType = v),
-                selectedExchange: _selectedExchange,
-                onExchangeChanged: (v) => setState(() => _selectedExchange = v),
-                exchanges: _exchanges,
-                searchCtrl: _searchCtrl,
-                selectedIds: _selectedIds,
-              ),
-              SizedBox(height: 10.h),
-              if (!isDefaultSymbolTab || _selectedExchange != null) ...[
-                ExchangeSettingsToolbar(
-                  activeTab: _activeTab,
-                  recordCount: displayData.length,
-                  searchCtrl: _searchCtrl,
-                ),
-                SizedBox(height: 10.h),
-              ],
-              Expanded(child: _buildBody(state, displayData)),
+              Expanded(child: _buildActiveTab(state, settings, symbols)),
             ],
           ),
         );
@@ -204,106 +180,304 @@ class _ExchangeSettingsPageState extends State<ExchangeSettingsPage> {
     }
   }
 
-  Widget _buildBody(ExchangeSettingsState state, List<dynamic> displayData) {
+  Widget _buildActiveTab(
+    ExchangeSettingsState state,
+    List<ExchangeSetting> settings,
+    List<DefaultSymbol> symbols,
+  ) {
     if (state is ExchangeSettingsLoading) {
       return const Center(child: CircularProgressIndicator());
     }
     if (state is ExchangeSettingsError) {
       return Center(child: Text(state.message));
     }
-    if (_activeTab == 6 && _selectedExchange == null) {
-      return const SizedBox.shrink();
-    }
-    return ExchangeSettingsDataTable(
-      data: displayData,
-      selectedIds: _selectedIds,
-      onSelectionChanged: (ids) => setState(() => _selectedIds = ids),
-      columns: _columnsForTab(),
-      activeTab: _activeTab,
-      sequenceControllers: _seqControllers,
-      watchlistStates: _watchlistStates,
-      onWatchlistToggle: (id) {
-        setState(() {
-          _watchlistStates[id] = !(_watchlistStates[id] ?? false);
-        });
-      },
-    );
-  }
-
-  List<ViewTableColumn> _columnsForTab() {
     switch (_activeTab) {
       case 0:
-        return [
-          ViewTableColumn(id: 'exchange', label: 'EXCHANGE', width: 120.w),
-          ViewTableColumn(
-            id: 'betweenHighLow',
-            label: 'BETWEEN HIGH _ LOW LIMIT PLACE',
-            width: 300.w,
-          ),
-          ViewTableColumn(id: 'updatedOn', label: 'UPDATED ON', width: 220.w),
-          ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 150.w),
-        ];
+        return HighLowBetweenTradeLimitTab(
+          tradeLimitYes: _tradeLimitYes,
+          onTradeLimitChanged: (v) => setState(() => _tradeLimitYes = v),
+          searchCtrl: _searchCtrl,
+          onSearchChanged: (_) => setState(() {}),
+          settings: _filterSettings(settings),
+          selectedIds: _selectedIds,
+          onSelectionChanged: (ids) => setState(() => _selectedIds = ids),
+          onUpdatePressed: _updateSelectedSettings,
+        );
       case 1:
-        return [
-          ViewTableColumn(id: 'exchange', label: 'EXCHANGE', width: 120.w),
-          ViewTableColumn(
-            id: 'autoTickSize',
-            label: 'AUTO TICK SIZE',
-            width: 200.w,
+        return AutoTickSizeTab(
+          autoTickYes: _autoTickYes,
+          onAutoTickChanged: (v) => setState(() => _autoTickYes = v),
+          tickSizeCtrl: _tickSizeCtrl,
+          searchCtrl: _searchCtrl,
+          onSearchChanged: (_) => setState(() {}),
+          settings: _filterSettings(settings),
+          detailSettings: _filterAutoTickDetails(
+            _buildAutoTickDetails(settings),
           ),
-          ViewTableColumn(id: 'tickSize', label: 'TICK SIZE', width: 150.w),
-          ViewTableColumn(id: 'updatedOn', label: 'UPDATED ON', width: 220.w),
-          ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 150.w),
-        ];
+          selectedIds: _selectedIds,
+          onSelectionChanged: (ids) => setState(() => _selectedIds = ids),
+          onUpdatePressed: _updateSelectedSettings,
+          selectedExchange: _selectedAutoTickExchange,
+          onExchangeTap: (exchange) => _openAutoTickDetail(exchange, settings),
+          onBack: () => setState(() {
+            _selectedAutoTickExchange = null;
+            _selectedIds.clear();
+          }),
+        );
       case 2:
-        return [
-          ViewTableColumn(id: 'exchange', label: 'EXCHANGE', width: 120.w),
-          ViewTableColumn(id: 'orderType', label: 'ORDER TYPE', width: 250.w),
-          ViewTableColumn(id: 'updatedOn', label: 'UPDATED ON', width: 220.w),
-          ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 150.w),
-        ];
+        return OrderTypeTab(
+          orderMarket: _orderMarket,
+          orderSL: _orderSL,
+          orderLimit: _orderLimit,
+          onOrderMarketChanged: (v) => setState(() => _orderMarket = v),
+          onOrderSLChanged: (v) => setState(() => _orderSL = v),
+          onOrderLimitChanged: (v) => setState(() => _orderLimit = v),
+          searchCtrl: _searchCtrl,
+          onSearchChanged: (_) => setState(() {}),
+          settings: _filterSettings(settings),
+          selectedIds: _selectedIds,
+          onSelectionChanged: (ids) => setState(() => _selectedIds = ids),
+          onUpdatePressed: _updateSelectedSettings,
+        );
       case 3:
-        return [
-          ViewTableColumn(id: 'exchange', label: 'EXCHANGE', width: 120.w),
-          ViewTableColumn(id: 'oddLot', label: 'ODD LOT', width: 200.w),
-          ViewTableColumn(id: 'updatedOn', label: 'UPDATED ON', width: 220.w),
-          ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 150.w),
-        ];
+        return OddLotTab(
+          selectTypeYes: _selectTypeYes,
+          onSelectTypeChanged: (v) => setState(() => _selectTypeYes = v),
+          searchCtrl: _searchCtrl,
+          onSearchChanged: (_) => setState(() {}),
+          settings: _filterSettings(settings),
+          selectedIds: _selectedIds,
+          onSelectionChanged: (ids) => setState(() => _selectedIds = ids),
+          onUpdatePressed: _updateSelectedSettings,
+        );
       case 4:
-        return [
-          ViewTableColumn(id: 'exchange', label: 'EXCHANGE', width: 120.w),
-          ViewTableColumn(
-            id: 'marketPriceType',
-            label: 'MARKET PRICE TYPE',
-            width: 250.w,
+        return TradeAttributeTab(
+          attributeType: _attributeType,
+          onAttributeTypeChanged: (v) => setState(() => _attributeType = v),
+          searchCtrl: _searchCtrl,
+          onSearchChanged: (_) => setState(() {}),
+          settings: _filterSettings(settings),
+          detailSettings: _filterTradeAttributeDetails(
+            _buildTradeAttributeDetails(settings),
           ),
-          ViewTableColumn(id: 'updatedOn', label: 'UPDATED ON', width: 220.w),
-          ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 150.w),
-        ];
+          selectedIds: _selectedIds,
+          onSelectionChanged: (ids) => setState(() => _selectedIds = ids),
+          onUpdatePressed: _updateSelectedSettings,
+          selectedExchange: _selectedTradeAttributeExchange,
+          onExchangeTap: (exchange) =>
+              _openTradeAttributeDetail(exchange, settings),
+          onBack: () => setState(() {
+            _selectedTradeAttributeExchange = null;
+            _selectedIds.clear();
+          }),
+        );
       case 5:
-        return [
-          ViewTableColumn(id: 'exchange', label: 'EXCHANGE', width: 120.w),
-          ViewTableColumn(id: 'sequence', label: 'SEQUENCE', width: 250.w),
-          ViewTableColumn(id: 'updatedOn', label: 'UPDATED ON', width: 220.w),
-          ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 150.w),
-        ];
+        return ExchSequenceTab(
+          searchCtrl: _searchCtrl,
+          onSearchChanged: (_) => setState(() {}),
+          settings: _filterSettings(settings),
+          selectedIds: _selectedIds,
+          onSelectionChanged: (ids) => setState(() => _selectedIds = ids),
+          sequenceControllers: _seqControllers,
+        );
       case 6:
-        return [
-          ViewTableColumn(id: 'symbol', label: 'SYMBOL', width: 180.w),
-          ViewTableColumn(id: 'updatedOn', label: 'UPDATED ON', width: 220.w),
-          ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 180.w),
-          ViewTableColumn(
-            id: 'showInWatchlist',
-            label: 'SHOW IN WATCHLIST',
-            width: 150.w,
-          ),
-        ];
+        return DefaultSymbolTab(
+          selectedExchange: _selectedExchange,
+          exchanges: _exchanges,
+          onExchangeChanged: (val) {
+            setState(() => _selectedExchange = val);
+            if (val != null) {
+              context.read<ExchangeSettingsBloc>().add(
+                LoadDefaultSymbolsEvent(exchange: val),
+              );
+            }
+          },
+          searchCtrl: _searchCtrl,
+          onSearchChanged: (_) => setState(() {}),
+          symbols: _filterSymbols(symbols),
+          selectedIds: _selectedIds,
+          onSelectionChanged: (ids) => setState(() => _selectedIds = ids),
+          onUpdatePressed: _updateSelectedSettings,
+          watchlistStates: _watchlistStates,
+          onWatchlistToggle: (id) {
+            setState(() {
+              _watchlistStates[id] = !(_watchlistStates[id] ?? false);
+            });
+          },
+        );
       default:
-        return [
-          ViewTableColumn(id: 'exchange', label: 'EXCHANGE', width: 120.w),
-          ViewTableColumn(id: 'updatedOn', label: 'UPDATED ON', width: 300.w),
-          ViewTableColumn(id: 'updatedBy', label: 'UPDATED BY', width: 200.w),
-        ];
+        return const SizedBox.shrink();
     }
+  }
+
+  List<ExchangeSetting> _filterSettings(List<ExchangeSetting> settings) {
+    final query = _searchCtrl.text.trim().toLowerCase();
+    if (query.isEmpty) {
+      return settings;
+    }
+    return settings.where((item) {
+      final haystack = [
+        item.exchange,
+        item.tickSize,
+        item.marketPriceType,
+        item.sequence,
+        item.updatedOn,
+        item.updatedBy,
+        item.orderType.join(','),
+      ].join(' ').toLowerCase();
+      return haystack.contains(query);
+    }).toList();
+  }
+
+  List<DefaultSymbol> _filterSymbols(List<DefaultSymbol> symbols) {
+    final query = _searchCtrl.text.trim().toLowerCase();
+    if (query.isEmpty) {
+      return symbols;
+    }
+    return symbols.where((item) {
+      final haystack = [
+        item.symbol,
+        item.exchange,
+        item.updatedOn,
+        item.updatedBy,
+      ].join(' ').toLowerCase();
+      return haystack.contains(query);
+    }).toList();
+  }
+
+  List<AutoTickSymbolDetail> _buildAutoTickDetails(
+    List<ExchangeSetting> settings,
+  ) {
+    final exchange = _selectedAutoTickExchange;
+    if (exchange == null) {
+      return const [];
+    }
+    final exchangeSetting = settings
+        .where((item) => item.exchange == exchange)
+        .firstOrNull;
+    final updatedOn = exchangeSetting?.updatedOn ?? '26/12/25 | 12:00:00 AM';
+    final updatedBy = exchangeSetting?.updatedBy ?? 'DEMO4';
+    return _symbolSettingsDatasource
+        .getSymbolSettings(exchange: exchange)
+        .map(
+          (item) => AutoTickSymbolDetail(
+            id: item.id,
+            symbol: item.symbol,
+            autoTickSize: item.autoTickSize,
+            tickSize: item.autoTickSize ? '-' : item.size,
+            updatedOn: updatedOn,
+            updatedBy: updatedBy,
+          ),
+        )
+        .toList();
+  }
+
+  List<AutoTickSymbolDetail> _filterAutoTickDetails(
+    List<AutoTickSymbolDetail> details,
+  ) {
+    final query = _searchCtrl.text.trim().toLowerCase();
+    if (query.isEmpty) {
+      return details;
+    }
+    return details.where((item) {
+      final haystack = [
+        item.symbol,
+        item.tickSize,
+        item.updatedOn,
+        item.updatedBy,
+        item.autoTickSize ? 'yes' : 'no',
+      ].join(' ').toLowerCase();
+      return haystack.contains(query);
+    }).toList();
+  }
+
+  List<TradeAttributeSymbolDetail> _buildTradeAttributeDetails(
+    List<ExchangeSetting> settings,
+  ) {
+    final exchange = _selectedTradeAttributeExchange;
+    if (exchange == null) {
+      return const [];
+    }
+    final exchangeSetting = settings
+        .where((item) => item.exchange == exchange)
+        .firstOrNull;
+    final updatedOn = exchangeSetting?.updatedOn ?? '26/12/25 | 12:00:00 AM';
+    final updatedBy = exchangeSetting?.updatedBy ?? 'DEMO4';
+    return _symbolSettingsDatasource
+        .getSymbolSettings(exchange: exchange)
+        .map(
+          (item) => TradeAttributeSymbolDetail(
+            id: item.id,
+            symbol: item.symbol,
+            marketPriceType: _normalizeTradeAttribute(item.tradeAttribute),
+            updatedOn: updatedOn,
+            updatedBy: updatedBy,
+          ),
+        )
+        .toList();
+  }
+
+  List<TradeAttributeSymbolDetail> _filterTradeAttributeDetails(
+    List<TradeAttributeSymbolDetail> details,
+  ) {
+    final query = _searchCtrl.text.trim().toLowerCase();
+    if (query.isEmpty) {
+      return details;
+    }
+    return details.where((item) {
+      final haystack = [
+        item.symbol,
+        item.marketPriceType,
+        item.updatedOn,
+        item.updatedBy,
+      ].join(' ').toLowerCase();
+      return haystack.contains(query);
+    }).toList();
+  }
+
+  void _openAutoTickDetail(String exchange, List<ExchangeSetting> settings) {
+    final selected = settings
+        .where((item) => item.exchange == exchange)
+        .firstOrNull;
+    setState(() {
+      _selectedAutoTickExchange = exchange;
+      _selectedIds.clear();
+      if (selected != null) {
+        _autoTickYes = selected.autoTickSize;
+        _tickSizeCtrl.text = selected.tickSize;
+      }
+    });
+  }
+
+  void _openTradeAttributeDetail(
+    String exchange,
+    List<ExchangeSetting> settings,
+  ) {
+    final selected = settings
+        .where((item) => item.exchange == exchange)
+        .firstOrNull;
+    setState(() {
+      _selectedTradeAttributeExchange = exchange;
+      _selectedIds.clear();
+      if (selected != null) {
+        _attributeType = selected.marketPriceType;
+      }
+    });
+  }
+
+  String _normalizeTradeAttribute(String value) {
+    if (value.isEmpty) {
+      return value;
+    }
+    return value[0].toUpperCase() + value.substring(1).toLowerCase();
+  }
+
+  void _updateSelectedSettings() {
+    if (_selectedIds.isEmpty) {
+      return;
+    }
+    context.read<ExchangeSettingsBloc>().add(
+      UpdateExchangeSettingsEvent(ids: _selectedIds.toList()),
+    );
   }
 }

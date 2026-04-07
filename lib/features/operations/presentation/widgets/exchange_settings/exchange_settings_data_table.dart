@@ -15,6 +15,8 @@ class ExchangeSettingsDataTable extends StatelessWidget {
   final Map<String, TextEditingController>? sequenceControllers;
   final Map<String, bool>? watchlistStates;
   final ValueChanged<String>? onWatchlistToggle;
+  final Set<String> tappableColumns;
+  final ValueChanged<dynamic>? onCellTap;
   const ExchangeSettingsDataTable({
     super.key,
     required this.data,
@@ -25,6 +27,8 @@ class ExchangeSettingsDataTable extends StatelessWidget {
     this.sequenceControllers,
     this.watchlistStates,
     this.onWatchlistToggle,
+    this.tappableColumns = const {},
+    this.onCellTap,
   });
   @override
   Widget build(BuildContext context) {
@@ -154,6 +158,14 @@ class ExchangeSettingsDataTable extends StatelessWidget {
         break;
       default:
         value = '';
+    }
+    if (tappableColumns.contains(column.id)) {
+      return ViewLinkCell(
+        text: value,
+        onTap: () => onCellTap?.call(item),
+        color: AppColors.primaryBlue,
+        fontSize: 12.sp,
+      );
     }
     final isNumericCol = const {'tickSize', 'updatedOn'}.contains(column.id);
     return ViewTextCell(text: value, isDark: false, isNumeric: isNumericCol);

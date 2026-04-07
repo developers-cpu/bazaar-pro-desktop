@@ -270,7 +270,7 @@ class _RollOverDialogContentState extends State<_RollOverDialogContent> {
               showDialog(
                 context: context,
                 builder: (context) => Dialog(
-                  backgroundColor: AppColors.white,
+                  backgroundColor: AppColors.backgroundColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16.r),
                   ),

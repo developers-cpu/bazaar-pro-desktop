@@ -142,7 +142,7 @@ class _InactiveUserListPageState extends State<InactiveUserListPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.backgroundColor(context),
+      color: AppColors.backgroundColor,
       child: Column(
         children: [
           _buildFilterBar(),

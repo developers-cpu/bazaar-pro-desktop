@@ -61,16 +61,20 @@ class SurveillanceRemoteDataSourceImpl implements SurveillanceRemoteDataSource {
       masterRestriction: true,
       clientRestriction: true,
     ),
+    spotIndexSymbols: const [
+      'SGX GIFTNIFTY Oct 28',
+      'NSE NIFTY Oct 28',
+      'NSE BANKNIFTY Oct 28',
+      'MINI GOLDMINI Dec 05',
+    ],
   );
   @override
   Future<SurveillanceDataModel> getSurveillanceData() async {
-
     return _mockData;
   }
 
   @override
   Future<void> updateSurveillanceData(SurveillanceDataModel data) async {
-
     _mockData = data;
   }
 }

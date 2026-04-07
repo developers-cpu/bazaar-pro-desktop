@@ -77,6 +77,7 @@ import 'features/market_watch/domain/usecases/get_market_items.dart';
 import 'features/market_watch/presentation/bloc/arrangesymbol/arrange_symbol_bloc.dart';
 import 'features/market_watch/presentation/bloc/market_depth/market_depth_bloc.dart';
 import 'features/market_watch/presentation/bloc/marketwatch/market_watch_bloc.dart';
+import 'features/market_watch/presentation/bloc/notification/market_watch_notification_bloc.dart';
 import 'features/market_watch/presentation/bloc/order/order_dialog_bloc.dart';
 import 'features/market_watch/presentation/bloc/symbolfont/symbol_font_bloc.dart';
 import 'features/market_watch/presentation/bloc/theme/theme_bloc.dart';
@@ -383,6 +384,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => SymbolFontBloc());
   sl.registerLazySingleton(() => OrderDialogBloc());
   sl.registerLazySingleton(() => MarketDepthBloc());
+  sl.registerFactory(() => MarketWatchNotificationBloc());
   sl.registerLazySingleton(() => GetMarketItems(sl()));
   sl.registerLazySingleton(() => AddMarketItem(sl()));
   sl.registerLazySingleton(() => DeleteMarketItem(sl()));
@@ -1188,9 +1190,7 @@ Future<void> init() async {
   sl.registerLazySingleton<ExpiryReportRemoteDataSource>(
     () => ExpiryReportRemoteDataSourceImpl(),
   );
-  sl.registerFactory(
-    () => SymbolSettingsBloc(datasource: sl()),
-  );
+  sl.registerFactory(() => SymbolSettingsBloc(datasource: sl()));
   sl.registerLazySingleton<SymbolSettingsDatasource>(
     () => SymbolSettingsDatasourceImpl(),
   );

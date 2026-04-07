@@ -6,6 +6,8 @@ import '../../features/market_watch/data/models/menu_Item_data.dart';
 import '../constants/app_colors.dart';
 import '../constants/app_images.dart';
 import '../constants/app_strings.dart';
+import '../../features/market_watch/presentation/widgets/market_status_clock.dart';
+import '../../features/market_watch/presentation/widgets/market_watch_ticker_strip.dart';
 import 'svg_icon.dart';
 import '../routes/app_routes.dart';
 
@@ -15,9 +17,11 @@ class CommonAppBar extends StatefulWidget implements PreferredSizeWidget {
   final int selectedIndex;
   final Function(int)? onTabSelected;
   final List<AppBarTab> tabs;
+  final bool showMarketTicker;
   final bool showReloadIcon;
   final bool showExportIcon;
   final VoidCallback? onReload;
+  final VoidCallback? onNotificationTap;
   final VoidCallback? onExportPdf;
   final VoidCallback? onExportExcel;
   final Map<int, String>? selectedDropdownItems;
@@ -29,27 +33,29 @@ class CommonAppBar extends StatefulWidget implements PreferredSizeWidget {
     this.selectedIndex = 0,
     this.onTabSelected,
     required this.tabs,
+    this.showMarketTicker = false,
     this.showReloadIcon = false,
     this.showExportIcon = false,
     this.onReload,
+    this.onNotificationTap,
     this.onExportPdf,
     this.onExportExcel,
     this.selectedDropdownItems,
     this.userRole,
   }) : super(key: key);
   @override
-  Size get preferredSize => Size.fromHeight(64.h);
+  Size get preferredSize => Size.fromHeight(showMarketTicker ? 98.h : 64.h);
   @override
   State<CommonAppBar> createState() => _CommonAppBarState();
 }
 
-class _CommonAppBarState extends State<CommonAppBar>
-    with SingleTickerProviderStateMixin {
+class _CommonAppBarState extends State<CommonAppBar> {
   int? _hoveredDropdownIndex;
   int? _hoveredTabIndex;
   OverlayEntry? _dropdownOverlay;
   final Map<int, GlobalKey> _tabKeys = {};
   bool _isExportExpanded = false;
+
   @override
   void initState() {
     super.initState();
@@ -125,17 +131,44 @@ class _CommonAppBarState extends State<CommonAppBar>
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 64.h,
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+      height: widget.showMarketTicker ? 98.h : 64.h,
       decoration: const BoxDecoration(color: AppColors.white),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          _buildLogo(),
-          Flexible(child: _buildMenuBar()),
-          _buildRightSection(context),
+          if (widget.showMarketTicker) const MarketWatchTickerStrip(),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+              child: Row(
+                children: [
+                  _buildLeftSection(),
+                  SizedBox(width: 10.w),
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: _buildMenuBar(),
+                    ),
+                  ),
+                  SizedBox(width: 10.w),
+                  _buildRightSection(context),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
+    );
+  }
+
+  Widget _buildLeftSection() {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        _buildLogo(),
+        SizedBox(width: 10.w),
+        const MarketStatusClock(),
+      ],
     );
   }
 
@@ -172,30 +205,32 @@ class _CommonAppBarState extends State<CommonAppBar>
   }
 
   Widget _buildMenuBar() {
-    return Container(
-      height: 44.h,
-      margin: EdgeInsets.symmetric(horizontal: 12.w),
-      padding: EdgeInsets.all(4.w),
-      decoration: BoxDecoration(
-        color: AppColors.primaryBgColor,
-        borderRadius: BorderRadius.circular(12.r),
-      ),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        physics: const BouncingScrollPhysics(),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: List.generate(widget.tabs.length, (index) {
-            final isLast = index == widget.tabs.length - 1;
-            return Padding(
-              padding: EdgeInsets.only(right: isLast ? 0 : 6.w),
-              child: _buildNavTab(
-                index,
-                widget.tabs[index],
-                isSelected: index == widget.selectedIndex,
-              ),
-            );
-          }),
+    return ConstrainedBox(
+      constraints: BoxConstraints(maxWidth: 760.w),
+      child: Container(
+        height: 44.h,
+        padding: EdgeInsets.all(3.w),
+        decoration: BoxDecoration(
+          color: AppColors.primaryBgColor,
+          borderRadius: BorderRadius.circular(12.r),
+        ),
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          physics: const BouncingScrollPhysics(),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: List.generate(widget.tabs.length, (index) {
+              final isLast = index == widget.tabs.length - 1;
+              return Padding(
+                padding: EdgeInsets.only(right: isLast ? 0 : 4.w),
+                child: _buildNavTab(
+                  index,
+                  widget.tabs[index],
+                  isSelected: index == widget.selectedIndex,
+                ),
+              );
+            }),
+          ),
         ),
       ),
     );
@@ -240,8 +275,8 @@ class _CommonAppBarState extends State<CommonAppBar>
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 200),
           curve: Curves.easeInOut,
-          constraints: BoxConstraints(minWidth: 100.w),
-          padding: EdgeInsets.symmetric(horizontal: 10.w),
+          constraints: BoxConstraints(minWidth: 82.w),
+          padding: EdgeInsets.symmetric(horizontal: 8.w),
           decoration: isActive
               ? BoxDecoration(
                   color: AppColors.primaryBlue,
@@ -270,7 +305,7 @@ class _CommonAppBarState extends State<CommonAppBar>
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: GoogleFonts.openSans(
-              fontSize: 11.sp,
+              fontSize: 10.5.sp,
               fontWeight: FontWeight.w600,
               height: 1.0,
               letterSpacing: 0.15,
@@ -285,6 +320,7 @@ class _CommonAppBarState extends State<CommonAppBar>
   Widget _buildRightSection(BuildContext context) {
     return Row(
       mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
         if (widget.showExportIcon) ...[
           AnimatedSize(
@@ -297,6 +333,8 @@ class _CommonAppBarState extends State<CommonAppBar>
           SizedBox(width: 10.w),
         ],
         if (widget.showReloadIcon) ...[
+          _buildNotificationButton(),
+          SizedBox(width: 10.w),
           _buildReloadButton(context),
           SizedBox(width: 10.w),
         ],
@@ -401,21 +439,33 @@ class _CommonAppBarState extends State<CommonAppBar>
     );
   }
 
+  Widget _buildNotificationButton() {
+    return GestureDetector(
+      onTap: widget.onNotificationTap,
+      child: Icon(
+        Icons.notifications_none_rounded,
+        size: 24.sp,
+        color: AppColors.primaryBlue,
+      ),
+    );
+  }
+
   Widget _buildUserInfoSection(BuildContext context) {
     return Container(
       height: 44.h,
+      constraints: BoxConstraints(minWidth: 150.w, maxWidth: 190.w),
       padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
       decoration: BoxDecoration(
         color: AppColors.primaryBgColor,
         borderRadius: BorderRadius.circular(12.r),
       ),
       child: Row(
-        mainAxisSize: MainAxisSize.min,
+        mainAxisSize: MainAxisSize.max,
         children: [
           _buildUserInitial(),
           SizedBox(width: 6.w),
-          _buildUserDetails(),
-          SizedBox(width: 3.w),
+          Expanded(child: _buildUserDetails()),
+          SizedBox(width: 4.w),
           _buildLogoutButton(context),
         ],
       ),
@@ -462,6 +512,8 @@ class _CommonAppBarState extends State<CommonAppBar>
       children: [
         Text(
           widget.username.toUpperCase(),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: GoogleFonts.openSans(
             fontSize: 11.sp,
             fontWeight: FontWeight.w700,
@@ -619,44 +671,48 @@ class _DropdownMenuState extends State<_DropdownMenu> {
       child: TapRegion(
         onTapOutside: (_) => widget.onDismiss(),
         child: Material(
-          elevation: 8,
-          borderRadius: BorderRadius.circular(12.r),
-          color: AppColors.white,
+          color: Colors.transparent,
           child: Container(
-            constraints: BoxConstraints(minWidth: 130.w, maxWidth: 200.w),
-            padding: EdgeInsets.symmetric(vertical: 6.h),
+            width: 220.w,
+            constraints: BoxConstraints(maxHeight: 420.h),
             decoration: BoxDecoration(
               color: AppColors.white,
-              borderRadius: BorderRadius.circular(12.r),
+              borderRadius: BorderRadius.circular(8.r),
+              border: Border.all(color: AppColors.borderColor),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  blurRadius: 10,
-                  offset: const Offset(0, 4),
+                  color: AppColors.black.withOpacity(0.08),
+                  blurRadius: 12,
+                  offset: const Offset(0, 6),
                 ),
               ],
             ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: List.generate(widget.items.length, (index) {
-                final item = widget.items[index];
-                final isSelected = widget.selectedItem == item.title;
-                return _DropdownMenuItem(
-                  title: item.title,
-                  isSelected: isSelected,
-                  isHighlighted: index == _highlightedIndex,
-                  onTap: () {
-                    widget.onDismiss();
-                    item.onTap?.call();
-                  },
-                  onHover: (hovered) {
-                    if (hovered) {
-                      setState(() => _highlightedIndex = index);
-                    }
-                  },
-                );
-              }),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: widget.items
+                    .asMap()
+                    .entries
+                    .map((entry) {
+                      final index = entry.key;
+                      final item = entry.value;
+                      return _DropdownMenuItem(
+                        title: item.title,
+                        isSelected: widget.selectedItem == item.title,
+                        isHighlighted: _highlightedIndex == index,
+                        onTap: () {
+                          widget.onDismiss();
+                          item.onTap?.call();
+                        },
+                        onHover: (hovered) {
+                          if (hovered) {
+                            setState(() => _highlightedIndex = index);
+                          }
+                        },
+                      );
+                    })
+                    .toList(growable: false),
+              ),
             ),
           ),
         ),

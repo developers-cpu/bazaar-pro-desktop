@@ -28,6 +28,7 @@ class AppBarSection extends StatefulWidget implements PreferredSizeWidget {
   final String? currentPageTitle;
   final Function(int) onTabSelected;
   final VoidCallback? onReload;
+  final VoidCallback? onNotificationTap;
   final VoidCallback? onExportPdf;
   final VoidCallback? onExportExcel;
   final Function(String)? onViewAction;
@@ -41,6 +42,7 @@ class AppBarSection extends StatefulWidget implements PreferredSizeWidget {
     this.userRole,
     this.currentPageTitle,
     this.onReload,
+    this.onNotificationTap,
     this.onExportPdf,
     this.onExportExcel,
     this.onViewAction,
@@ -49,7 +51,8 @@ class AppBarSection extends StatefulWidget implements PreferredSizeWidget {
     this.showExportByDefault = false,
   }) : super(key: key);
   @override
-  Size get preferredSize => Size.fromHeight(64.h);
+  Size get preferredSize =>
+      Size.fromHeight(selectedTabIndex == 0 ? 98.h : 64.h);
   @override
   State<AppBarSection> createState() => AppBarSectionState();
 }
@@ -869,9 +872,11 @@ class AppBarSectionState extends State<AppBarSection> {
           tabs: _tabs,
           selectedIndex: widget.selectedTabIndex,
           onTabSelected: _onTabSelected,
+          showMarketTicker: widget.selectedTabIndex == 0,
           showReloadIcon: _shouldShowReloadIcon,
           showExportIcon: shouldShowExport,
           onReload: widget.onReload,
+          onNotificationTap: widget.onNotificationTap,
           onExportPdf: widget.onExportPdf,
           onExportExcel: widget.onExportExcel,
           selectedDropdownItems: _selectedDropdownItems,

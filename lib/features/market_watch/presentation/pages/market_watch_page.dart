@@ -24,6 +24,7 @@ import '../widgets/order/common_order_dialog.dart';
 import '../widgets/symbo_info_dialog.dart';
 import '../widgets/symbol_font_dialog.dart';
 import '../widgets/market_depth_dialog.dart';
+import '../widgets/market_watch_notification_dialog.dart';
 import '../widgets/watchlist_widget.dart';
 import '../../../tools/presentation/widgets/messages/messages_dialog.dart';
 import 'dummy/file_page.dart';
@@ -41,7 +42,6 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
   Offset? _contextMenuPosition;
   final _focusNode = FocusNode();
   int _selectedTabIndex = 0;
-  int _selectedWatchlistIndex = -1;
   final Map<String, int> _expandedRowCounts = {};
   final GlobalKey<AppBarSectionState> _appBarKey = GlobalKey();
   @override
@@ -73,6 +73,10 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
     context.read<MarketWatchBloc>().add(const LoadMarketItemsEvent());
   }
 
+  void _openNotificationDialog() {
+    MarketWatchNotificationDialog.show(context);
+  }
+
   void _onExportPdf() {
     _showMessage('Exporting to PDF...');
   }
@@ -94,7 +98,6 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
   }
 
   void _onWatchlistSelected(int index) {
-    setState(() => _selectedWatchlistIndex = index);
     context.read<MarketWatchBloc>().add(
       SelectWatchlistFilterEvent(index: index),
     );
@@ -170,6 +173,7 @@ class _MarketWatchPageState extends State<MarketWatchPage> {
                   userRole: userRole,
                   onTabSelected: _onTabSelected,
                   onReload: _onReload,
+                  onNotificationTap: _openNotificationDialog,
                   onExportPdf: _onExportPdf,
                   onExportExcel: _onExportExcel,
                   onViewAction: _handleViewAction,

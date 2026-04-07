@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_strings.dart';
+import 'market_open_section.dart';
 import '../bloc/watchlist/watch_list_bloc.dart';
 import '../bloc/watchlist/watch_list_event.dart';
 import '../bloc/watchlist/watchlist_state.dart';
@@ -56,34 +57,42 @@ class WatchlistWidget extends StatelessWidget {
 
   Widget _buildLoadedState(BuildContext context, WatchlistLoaded state) {
     return Container(
-      height: 34.h,
+      height: 40.h,
       padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 3.h),
       color: AppColors.white,
-      child: ListView(
-        scrollDirection: Axis.horizontal,
+      child: Row(
         children: [
-          _buildAddButton(context),
-          SizedBox(width: 4.w),
-          _buildWatchlistButton(
-            context: context,
-            label: AppStrings.all,
-            index: -1,
-            isSelected: state.selectedIndex == -1,
-            showCloseIcon: false,
+          Expanded(
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: [
+                _buildAddButton(context),
+                SizedBox(width: 4.w),
+                _buildWatchlistButton(
+                  context: context,
+                  label: AppStrings.all,
+                  index: -1,
+                  isSelected: state.selectedIndex == -1,
+                  showCloseIcon: false,
+                ),
+                SizedBox(width: 4.w),
+                ...List.generate(state.watchlists.length, (index) {
+                  return Padding(
+                    padding: EdgeInsets.only(right: 4.w),
+                    child: _buildWatchlistButton(
+                      context: context,
+                      label: state.watchlists[index],
+                      index: index,
+                      isSelected: state.selectedIndex == index,
+                      showCloseIcon: true,
+                    ),
+                  );
+                }),
+              ],
+            ),
           ),
-          SizedBox(width: 4.w),
-          ...List.generate(state.watchlists.length, (index) {
-            return Padding(
-              padding: EdgeInsets.only(right: 4.w),
-              child: _buildWatchlistButton(
-                context: context,
-                label: state.watchlists[index],
-                index: index,
-                isSelected: state.selectedIndex == index,
-                showCloseIcon: true,
-              ),
-            );
-          }),
+          SizedBox(width: 12.w),
+          const MarketOpenSection(),
         ],
       ),
     );

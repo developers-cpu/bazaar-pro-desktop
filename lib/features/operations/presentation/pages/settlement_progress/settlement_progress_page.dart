@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/app_colors.dart';
+import '../../../../../core/widget/app_dropdown.dart';
 import '../../../../../core/widget/custom_action_button.dart';
 import '../../bloc/settlement_progress/settlement_progress_bloc.dart';
 import '../../bloc/settlement_progress/settlement_progress_event.dart';
@@ -35,9 +36,21 @@ class _SettlementProgressPageState extends State<SettlementProgressPage> {
     'FOREX',
     'USSTOCK',
   ];
+
+  String get _selectedExchange => _exchanges[_activeTab];
+
   @override
   void initState() {
     super.initState();
+  }
+
+  void _changeExchange(BuildContext context, String exchange) {
+    final exchangeIndex = _exchanges.indexOf(exchange);
+    if (exchangeIndex == -1) {
+      return;
+    }
+    setState(() => _activeTab = exchangeIndex);
+    context.read<SettlementProgressBloc>().add(ChangeExchangeEvent(exchange));
   }
 
   void _showImportDialog(BuildContext context) {
@@ -89,22 +102,20 @@ class _SettlementProgressPageState extends State<SettlementProgressPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Expanded(
-                    child: AppTabBar(
-                      tabs: _exchanges,
-                      activeTab: _activeTab,
-                      style: AppTabBarStyle.pill,
-                      onTabChanged: (i) {
-                        setState(() => _activeTab = i);
-                        context.read<SettlementProgressBloc>().add(
-                          ChangeExchangeEvent(_exchanges[i]),
-                        );
-                      },
-                    ),
+                  AppDropdown(
+                    hintText: 'Exchange',
+                    value: _selectedExchange,
+                    items: _exchanges,
+                    width: 260.w,
+                    height: 35.h,
+                    onChanged: (value) {
+                      if (value != null) {
+                        _changeExchange(context, value);
+                      }
+                    },
                   ),
-                  SizedBox(width: 15.w),
+                  const Spacer(),
                   CustomActionButton(
                     text: 'Import Bhav copy',
                     onPressed: () => _showImportDialog(context),
@@ -124,6 +135,21 @@ class _SettlementProgressPageState extends State<SettlementProgressPage> {
                       borderRadius: 8.r,
                     ),
                   ],
+                ],
+              ),
+              SizedBox(height: 15.h),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Expanded(
+                    child: AppTabBar(
+                      tabs: _exchanges,
+                      activeTab: _activeTab,
+                      style: AppTabBarStyle.pill,
+                      onTabChanged: (i) =>
+                          _changeExchange(context, _exchanges[i]),
+                    ),
+                  ),
                 ],
               ),
               SizedBox(height: 15.h),

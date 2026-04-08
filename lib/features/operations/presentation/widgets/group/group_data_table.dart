@@ -8,6 +8,7 @@ import '../../../../../core/widget/table/view_table_cell_styles.dart';
 class GroupDataTable extends StatelessWidget {
   final int viewLevel;
   final List<dynamic> groups;
+  final String? selectedGroupName;
   final Set<String> selectedIds;
   final Map<String, bool> hideGroupState;
   final ValueChanged<Set<String>> onSelectionChanged;
@@ -20,6 +21,7 @@ class GroupDataTable extends StatelessWidget {
     super.key,
     required this.viewLevel,
     required this.groups,
+    this.selectedGroupName,
     required this.selectedIds,
     required this.hideGroupState,
     required this.onSelectionChanged,
@@ -166,10 +168,7 @@ class GroupDataTable extends StatelessWidget {
   }
 
   Widget _actionCell(dynamic item) {
-    return ViewIconLinkCell(
-      icon: Icons.edit,
-      onTap: () => onActionTap(item),
-    );
+    return ViewIconLinkCell(icon: Icons.edit, onTap: () => onActionTap(item));
   }
 
   _CellInfo _textCellInfo(dynamic item, String columnId) {
@@ -189,6 +188,9 @@ class GroupDataTable extends StatelessWidget {
             underlined: true,
             onTap: () => onGroupNameTap(item),
           );
+        }
+        if (viewLevel == 2 && selectedGroupName != null) {
+          return _CellInfo(value: selectedGroupName!);
         }
         return _CellInfo(value: item.groupName);
       case 'count':

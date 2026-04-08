@@ -83,7 +83,7 @@ class _SettlementContentState extends State<_SettlementContent> {
               ViewTableColumn(
                 id: 'exch',
                 label: 'EXCH',
-                width: 350.w,
+                width: 250.w,
                 sortable: true,
               ),
             ],
@@ -131,19 +131,22 @@ class _SettlementContentState extends State<_SettlementContent> {
           ),
         ),
         SizedBox(height: 20.h),
-        Center(
-          child: CustomActionButton(
-            text: 'Start',
-            onPressed: () {
-              final selectedExchanges = _selectedIds.toList();
-              widget.onClose();
-              if (selectedExchanges.isNotEmpty) {
-                SettlementProgressDialog.show(context, selectedExchanges);
-              }
-            },
-            width: 120.w,
-            height: 35.h,
-            borderRadius: 8.r,
+        Padding(
+          padding: EdgeInsets.only(bottom: 24.h),
+          child: Center(
+            child: CustomActionButton(
+              text: 'Start',
+              onPressed: () {
+                final selectedExchanges = _selectedIds.toList();
+                widget.onClose();
+                if (selectedExchanges.isNotEmpty) {
+                  SettlementProgressDialog.show(context, selectedExchanges);
+                }
+              },
+              width: 120.w,
+              height: 35.h,
+              borderRadius: 8.r,
+            ),
           ),
         ),
       ],

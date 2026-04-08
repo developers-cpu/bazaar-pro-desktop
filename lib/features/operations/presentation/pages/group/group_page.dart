@@ -54,6 +54,8 @@ class _GroupPageState extends State<GroupPage> {
   @override
   void initState() {
     super.initState();
+    _breakupQtyCtrl.text = '0.05';
+    _maxQtyCtrl.text = '0.05';
     _searchCtrl.addListener(() {
       setState(() {});
     });
@@ -174,7 +176,7 @@ class _GroupPageState extends State<GroupPage> {
         CustomInputField(
           hintText: '0.05',
           controller: ctrl,
-          width: 180.w,
+          width: 200.w,
           height: 35.h,
         ),
       ],
@@ -200,7 +202,7 @@ class _GroupPageState extends State<GroupPage> {
               hintText: 'Search',
               controller: _searchCtrl,
               prefixSvgPath: AppImages.searchIcon,
-              width: 300.w,
+              width: 200.w,
               height: 35.h,
             ),
             const Spacer(),
@@ -291,6 +293,7 @@ class _GroupPageState extends State<GroupPage> {
     return GroupDataTable(
       viewLevel: _viewLevel,
       groups: displayGroups,
+      selectedGroupName: _selectedGroupName,
       selectedIds: _selectedIds,
       hideGroupState: _hideGroupState,
       onSelectionChanged: (ids) => setState(() => _selectedIds = ids),
@@ -299,6 +302,7 @@ class _GroupPageState extends State<GroupPage> {
       onExchangeTap: (ex) {
         setState(() {
           _selectedExchange = ex;
+          _selectedGroupName = null;
           _viewLevel = 1;
         });
       },
@@ -312,12 +316,7 @@ class _GroupPageState extends State<GroupPage> {
         );
       },
       onActionTap: (group) {
-        AddGroupDialog.show(
-          context: context,
-          isEdit: true,
-          initialExchange: group.exchange,
-          initialGroupName: group.groupName,
-        );
+        _openGroupDetails(group);
       },
       onImportTap: _showImportDialog,
     );
@@ -325,7 +324,25 @@ class _GroupPageState extends State<GroupPage> {
 
   void _goBack() {
     setState(() {
-      if (_viewLevel > 0) _viewLevel--;
+      if (_viewLevel == 2) {
+        _viewLevel = 1;
+        _selectedGroupName = null;
+        return;
+      }
+      if (_viewLevel == 1) {
+        _viewLevel = 0;
+        _selectedExchange = null;
+      }
+    });
+  }
+
+  void _openGroupDetails(dynamic group) {
+    setState(() {
+      _selectedExchange = group.exchange;
+      _selectedGroupName = group.groupName;
+      _breakupQtyCtrl.text = '0.05';
+      _maxQtyCtrl.text = '0.05';
+      _viewLevel = 2;
     });
   }
 

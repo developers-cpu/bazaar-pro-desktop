@@ -102,7 +102,7 @@ class _BhavCopyPreviewContentState extends State<_BhavCopyPreviewContent> {
                 hintText: 'Search',
                 prefixSvgPath: AppImages.searchIcon,
                 height: 35.h,
-                width: 300.w,
+                width: 200.w,
                 onChanged: _onSearch,
               ),
               const Spacer(),

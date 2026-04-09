@@ -343,6 +343,11 @@ import 'features/tools/domain/usecases/get_shortcuts_usecase.dart';
 import 'features/tools/domain/repositories/shortcuts_repository.dart';
 import 'features/tools/data/repositories/shortcuts_repository_impl.dart';
 import 'features/tools/data/datasources/shortcuts_remote_datasource.dart';
+import 'features/tools/presentation/bloc/support/support_bloc.dart';
+import 'features/tools/domain/usecases/get_support_conversations_usecase.dart';
+import 'features/tools/domain/repositories/support_repository.dart';
+import 'features/tools/data/repositories/support_repository_impl.dart';
+import 'features/tools/data/datasources/support_remote_datasource.dart';
 import 'features/operations/presentation/bloc/group/group_bloc.dart';
 import 'features/view/presentation/bloc/brokerage/brokerage_bloc.dart';
 import 'features/view/domain/repositories/brokerage/brokerage_repository.dart';
@@ -1046,6 +1051,14 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<ShortcutsRemoteDataSource>(
     () => ShortcutsRemoteDataSourceImpl(),
+  );
+  sl.registerFactory(() => SupportBloc(getSupportConversations: sl()));
+  sl.registerLazySingleton(() => GetSupportConversationsUseCase(sl()));
+  sl.registerLazySingleton<SupportRepository>(
+    () => SupportRepositoryImpl(remoteDataSource: sl()),
+  );
+  sl.registerLazySingleton<SupportRemoteDataSource>(
+    () => SupportRemoteDataSourceImpl(),
   );
   sl.registerFactory(
     () => TotalVolumeBloc(

@@ -38,6 +38,11 @@
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Support chat uses the microphone to record voice messages.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Support chat uses the camera to capture images.</string>
+
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 

@@ -12,6 +12,7 @@ import '../../features/operations/presentation/pages/trade_settings/trade_settin
 import '../../features/operations/presentation/pages/group/group_page.dart';
 import '../../features/operations/presentation/pages/symbol_settings/symbol_settings_page.dart';
 import '../../features/report/presentation/pages/expiry_report_page.dart';
+
 class AppRoutes {
   static const String login = '/';
   static const String marketWatch = '/market-watch';
@@ -73,6 +74,7 @@ class AppRoutes {
   static const String toolsRulesRegulations = '/tools/rules-regulations';
   static const String toolsShortcuts = '/tools/shortcuts';
   static const String toolsTotalVolume = '/tools/total-volume';
+  static const String toolsSupport = '/tools/support';
   static Map<String, WidgetBuilder> getRoutes() {
     return {
       login: (context) => const LoginPage(),
@@ -136,6 +138,7 @@ class AppRoutes {
           const RulesRegulationsPageWithAppBar(),
       toolsShortcuts: (context) => const ShortcutsPageWithAppBar(),
       toolsTotalVolume: (context) => const ToolsTotalVolumePageWithAppBar(),
+      toolsSupport: (context) => const SupportPageWithAppBar(),
       expiryReport: (context) => const ExpiryReportPageWithAppBar(),
       symbolSettings: (context) => const SymbolSettingsPageWithAppBar(),
     };

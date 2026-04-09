@@ -7,6 +7,7 @@ import '../../../../core/widget/app_bar_section.dart';
 import 'tools_sub_pages.dart';
 import 'rules_page.dart';
 import 'market_timing_page.dart';
+import 'support_page.dart';
 
 class ToolsPageWrapper extends StatelessWidget {
   final String pageTitle;
@@ -125,5 +126,14 @@ class ToolsTotalVolumePageWithAppBar extends StatelessWidget {
       pageTitle: 'Total Volume',
       child: TotalVolumePage(),
     );
+  }
+}
+
+class SupportPageWithAppBar extends StatelessWidget {
+  const SupportPageWithAppBar({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const ToolsPageWrapper(pageTitle: 'Support', child: SupportPage());
   }
 }

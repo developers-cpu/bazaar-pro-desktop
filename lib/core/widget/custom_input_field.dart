@@ -16,13 +16,16 @@ class CustomInputField extends StatelessWidget {
   final int? maxLines;
   final bool enabled;
   final ValueChanged<String>? onChanged;
+  final ValueChanged<String>? onSubmitted;
   final double? height;
   final double? width;
   final String? prefixSvgPath;
+  final Widget? prefixIcon;
   final bool showErrorBorder;
   final bool readOnly;
   final Color? borderColor;
   final Color? fillColor;
+  final FocusNode? focusNode;
   const CustomInputField({
     Key? key,
     required this.hintText,
@@ -36,13 +39,16 @@ class CustomInputField extends StatelessWidget {
     this.maxLines = 1,
     this.enabled = true,
     this.onChanged,
+    this.onSubmitted,
     this.height,
     this.width,
     this.prefixSvgPath,
+    this.prefixIcon,
     this.showErrorBorder = true,
     this.readOnly = false,
     this.borderColor,
     this.fillColor,
+    this.focusNode,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -51,6 +57,7 @@ class CustomInputField extends StatelessWidget {
       height: height,
       child: TextFormField(
         controller: controller,
+        focusNode: focusNode,
         obscureText: obscureText,
         keyboardType: keyboardType,
         maxLines: 1,
@@ -81,7 +88,7 @@ class CustomInputField extends StatelessWidget {
             vertical: ((height ?? 35.h) - 10.sp) / 2,
           ),
           prefixIconConstraints: BoxConstraints(
-            minWidth: prefixSvgPath != null ? 35.w : 10.w,
+            minWidth: (prefixIcon != null || prefixSvgPath != null) ? 35.w : 10.w,
             minHeight: height ?? 35.h,
             maxHeight: height ?? 35.h,
           ),
@@ -100,9 +107,9 @@ class CustomInputField extends StatelessWidget {
               ? _buildBorder(isError: true)
               : _buildBorder(),
           disabledBorder: _buildBorder(isDisabled: true),
-          prefixIcon: prefixSvgPath != null
+          prefixIcon: prefixIcon ?? (prefixSvgPath != null
               ? _buildPrefixIcon()
-              : SizedBox(width: 10.w),
+              : SizedBox(width: 10.w)),
           suffixIcon: (suffixIcon != null || svgIconPath != null)
               ? _buildSuffixIcon()
               : SizedBox(width: 10.w),
@@ -115,6 +122,7 @@ class CustomInputField extends StatelessWidget {
         ),
         validator: validator,
         onChanged: onChanged,
+        onFieldSubmitted: onSubmitted,
       ),
     );
   }

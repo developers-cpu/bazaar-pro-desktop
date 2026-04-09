@@ -975,6 +975,14 @@ class AppBarSectionState extends State<AppBarSection> {
           }
         },
       ),
+      MenuItemData(
+        title: 'Support',
+        onTap: () => _navigateToPage(
+          _getTabIndex(AppStrings.tools),
+          'Support',
+          '/tools/support',
+        ),
+      ),
       if (!isClient)
         MenuItemData(
           title: 'Total Volume',

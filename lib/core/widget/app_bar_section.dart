@@ -834,6 +834,14 @@ class AppBarSectionState extends State<AppBarSection> {
             '/expiry-report',
           ),
         ),
+        MenuItemData(
+          title: 'Spraed Report',
+          onTap: () => _navigateToPage(
+            _getTabIndex(AppStrings.report),
+            'Spraed Report',
+            '/spraed-report',
+          ),
+        ),
       ];
     }
   }

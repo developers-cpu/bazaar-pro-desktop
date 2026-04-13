@@ -7,12 +7,12 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../../core/constants/app_colors.dart';
 
-/// A dialog that shows a live camera preview and lets the user capture a photo.
-/// Returns the captured [File] or `null` if cancelled.
+
+
 class SupportCameraDialog extends StatefulWidget {
   const SupportCameraDialog({super.key});
 
-  /// Shows the dialog and returns the captured image file, or null.
+  
   static Future<File?> show(BuildContext context) {
     return showDialog<File?>(
       context: context,
@@ -48,7 +48,7 @@ class _SupportCameraDialogState extends State<SupportCameraDialog> {
         return;
       }
 
-      // Prefer front camera on desktop, fall back to first available
+      
       final camera = cameras.firstWhere(
         (c) => c.lensDirection == CameraLensDirection.front,
         orElse: () => cameras.first,
@@ -112,7 +112,7 @@ class _SupportCameraDialogState extends State<SupportCameraDialog> {
         height: 460.h,
         child: Column(
           children: [
-            // Header
+            
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
               child: Row(
@@ -145,7 +145,7 @@ class _SupportCameraDialogState extends State<SupportCameraDialog> {
               ),
             ),
 
-            // Preview area
+            
             Expanded(
               child: Container(
                 margin: EdgeInsets.symmetric(horizontal: 16.w),
@@ -158,7 +158,7 @@ class _SupportCameraDialogState extends State<SupportCameraDialog> {
               ),
             ),
 
-            // Capture button
+            
             Padding(
               padding: EdgeInsets.symmetric(vertical: 16.h),
               child: _buildCaptureButton(),

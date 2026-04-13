@@ -12,6 +12,7 @@ import '../../features/operations/presentation/pages/trade_settings/trade_settin
 import '../../features/operations/presentation/pages/group/group_page.dart';
 import '../../features/operations/presentation/pages/symbol_settings/symbol_settings_page.dart';
 import '../../features/report/presentation/pages/expiry_report_page.dart';
+import '../../features/report/presentation/pages/spraed_report_page.dart';
 
 class AppRoutes {
   static const String login = '/';
@@ -64,6 +65,7 @@ class AppRoutes {
   static const String inactivityManagement = '/inactivity-management';
   static const String operationsMessage = '/operations-message';
   static const String expiryReport = '/expiry-report';
+  static const String spraedReport = '/spraed-report';
   static const String symbolSettings = '/symbol-settings';
   static const String tools = '/tools';
   static const String toolsAbout = '/tools/about';
@@ -140,6 +142,7 @@ class AppRoutes {
       toolsTotalVolume: (context) => const ToolsTotalVolumePageWithAppBar(),
       toolsSupport: (context) => const SupportPageWithAppBar(),
       expiryReport: (context) => const ExpiryReportPageWithAppBar(),
+      spraedReport: (context) => const SpraedReportPageWithAppBar(),
       symbolSettings: (context) => const SymbolSettingsPageWithAppBar(),
     };
   }

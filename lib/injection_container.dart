@@ -363,6 +363,11 @@ import 'features/report/domain/usecases/get_expiry_report.dart';
 import 'features/report/domain/repositories/expiry_report_repository.dart';
 import 'features/report/data/repositories/expiry_report_repository_impl.dart';
 import 'features/report/data/datasources/expiry_report/expiry_report_remote_datasource.dart';
+import 'features/report/presentation/bloc/spraed_report/spraed_report_bloc.dart';
+import 'features/report/domain/usecases/get_spraed_report.dart';
+import 'features/report/domain/repositories/spraed_report_repository.dart';
+import 'features/report/data/repositories/spraed_report_repository_impl.dart';
+import 'features/report/data/datasources/spraed_report/spraed_report_remote_datasource.dart';
 
 final sl = GetIt.instance;
 Future<void> init() async {
@@ -1202,6 +1207,16 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<ExpiryReportRemoteDataSource>(
     () => ExpiryReportRemoteDataSourceImpl(),
+  );
+
+  
+  sl.registerFactory(() => SpraedReportBloc(getSpraedReportUseCase: sl()));
+  sl.registerLazySingleton(() => GetSpraedReportUseCase(sl()));
+  sl.registerLazySingleton<SpraedReportRepository>(
+    () => SpraedReportRepositoryImpl(remoteDataSource: sl()),
+  );
+  sl.registerLazySingleton<SpraedReportRemoteDataSource>(
+    () => SpraedReportRemoteDataSourceImpl(),
   );
   sl.registerFactory(() => SymbolSettingsBloc(datasource: sl()));
   sl.registerLazySingleton<SymbolSettingsDatasource>(

@@ -674,7 +674,7 @@ class _DropdownMenuState extends State<_DropdownMenu> {
           color: Colors.transparent,
           child: Container(
             width: 220.w,
-            constraints: BoxConstraints(maxHeight: 420.h),
+            constraints: BoxConstraints(maxHeight: 650.h),
             decoration: BoxDecoration(
               color: AppColors.white,
               borderRadius: BorderRadius.circular(8.r),

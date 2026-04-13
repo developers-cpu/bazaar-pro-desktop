@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../../core/widget/table/view_data_table.dart';
 import '../../../../../core/widget/table/view_record_count.dart';
 import '../../../../../core/widget/table/view_table_cell_styles.dart';
+import 'margin_calculator_dialog.dart';
 
 class TradeMarginTable extends StatelessWidget {
   final List<TradeMargin> tradeMargins;
@@ -75,14 +76,21 @@ class TradeMarginTable extends StatelessWidget {
     ];
   }
 
-  Widget _buildCell(TradeMargin item, ViewTableColumn column, bool isDark) {
+  Widget _buildCell(TradeMargin item, ViewTableColumn column, bool isDark ,BuildContext context) {
     switch (column.id) {
       case 'exchange':
         return ViewTextCell(text: item.exchange, isDark: isDark);
       case 'symbol':
         return Padding(
           padding: const EdgeInsets.only(left: 12),
-          child: ViewTextCell(text: item.symbol, isDark: isDark, isStart: true),
+          child: ViewLinkCell(
+            text: item.symbol,
+            isDark: isDark,
+            isStart: true,
+            onTap: () {
+              MarginCalculatorDialog.show(context, item);
+            },
+          ),
         );
       case 'expiryDate':
         return ViewDateTimeCell(dateTime: item.expiryDate, isDark: isDark);
@@ -128,7 +136,7 @@ class TradeMarginTable extends StatelessWidget {
             isDarkMode: isDarkMode,
             autoFit: true,
             emptyMessage: 'No trade margins found',
-            cellBuilder: (item, column) => _buildCell(item, column, isDarkMode),
+            cellBuilder: (item, column) => _buildCell(item, column, isDarkMode,context),
             comparatorBuilder: (item, columnId) {
               switch (columnId) {
                 case 'exchange':

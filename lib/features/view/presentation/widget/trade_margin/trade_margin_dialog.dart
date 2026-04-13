@@ -16,8 +16,8 @@ class TradeMarginDialog {
     CommonDialog.show(
       context: context,
       title: 'Trade Margin',
-      width: 800.w,
-      height: 750.h,
+      width: 1150.w,
+      height: 600.h,
       showButtons: false,
       scrollable: false,
       contentPadding: EdgeInsets.zero,

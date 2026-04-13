@@ -13,6 +13,8 @@ import '../../../../../../core/widget/app_dropdown.dart';
 import '../../../../domain/entities/user.dart';
 import '../../../../domain/entities/user_position/user_position.dart';
 import '../../../bloc/user_position/user_position_bloc.dart';
+import '../../../../../../core/widget/custom_action_button.dart';
+import '../upload_position_dialog.dart';
 
 class UserPositionTab extends StatelessWidget {
   final User user;
@@ -97,6 +99,16 @@ class UserPositionTabView extends StatelessWidget {
                 ],
               ),
               const Spacer(),
+              CustomActionButton(
+                text: 'Upload Position',
+                onPressed: () {
+                  UploadPositionDialog.show(context);
+                },
+                width: 140.w,
+                height: 35.h,
+                borderRadius: 8.r,
+              ),
+              SizedBox(width: 10.w),
               ViewResetButtons(
                 onReset: () {
                   context.read<UserPositionBloc>().add(

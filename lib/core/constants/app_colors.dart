@@ -73,8 +73,8 @@ class AppColors {
   static const Color transparent = Colors.transparent;
   static const Color red = Color(0xFFFF0000);
   static const Color textDark = Color(0xFF131313);
-  static const Color sellColor = const Color(0xFFFF0000);
-  static const Color buyColor = const Color(0xFF0066FF);
+  static const Color sellColor = Color(0xFFFF0000);
+  static const Color buyColor = Color(0xFF0066FF);
   static const Color primaryBgColor = Color(0x0D1F4A66);
   static const Color backgroundColorLight = backgroundColor;
   static const Color tableHeaderBackground = Color(0xFFC6DBE8);
@@ -131,27 +131,19 @@ class AppColors {
   }
 
   static Color cardBackground(BuildContext context) {
-    return isDarkMode(context)
-        ? DarkThemeColors.cardBackground
-        : LightThemeColors.cardBackground;
+    return isDarkMode(context) ? DarkThemeColors.cardBackground : LightThemeColors.cardBackground;
   }
 
   static Color primaryColor(BuildContext context) {
-    return isDarkMode(context)
-        ? DarkThemeColors.primaryColor
-        : LightThemeColors.primaryColor;
+    return isDarkMode(context) ? DarkThemeColors.primaryColor : LightThemeColors.primaryColor;
   }
 
   static Color secondaryColor(BuildContext context) {
-    return isDarkMode(context)
-        ? DarkThemeColors.secondaryColor
-        : LightThemeColors.secondaryColor;
+    return isDarkMode(context) ? DarkThemeColors.secondaryColor : LightThemeColors.secondaryColor;
   }
 
   static Color textColor(BuildContext context) {
-    return isDarkMode(context)
-        ? DarkThemeColors.textColor
-        : LightThemeColors.textColor;
+    return isDarkMode(context) ? DarkThemeColors.textColor : LightThemeColors.textColor;
   }
 
   static Color supportiveTextColor(BuildContext context) {
@@ -161,21 +153,15 @@ class AppColors {
   }
 
   static Color cardBorderColor(BuildContext context) {
-    return isDarkMode(context)
-        ? DarkThemeColors.cardBorderColor
-        : LightThemeColors.cardBorderColor;
+    return isDarkMode(context) ? DarkThemeColors.cardBorderColor : LightThemeColors.cardBorderColor;
   }
 
   static Color dividerColor(BuildContext context) {
-    return isDarkMode(context)
-        ? DarkThemeColors.dividerColor
-        : LightThemeColors.dividerColor;
+    return isDarkMode(context) ? DarkThemeColors.dividerColor : LightThemeColors.dividerColor;
   }
 
   static Color tableBackground(BuildContext context) {
-    return isDarkMode(context)
-        ? DarkThemeColors.tableBackground
-        : LightThemeColors.tableBackground;
+    return isDarkMode(context) ? DarkThemeColors.tableBackground : LightThemeColors.tableBackground;
   }
 
   static Color tableColumnHeadColor(BuildContext context) {
@@ -203,9 +189,7 @@ class AppColors {
   }
 
   static Color chipBgBlue(BuildContext context) {
-    return isDarkMode(context)
-        ? DarkThemeColors.chipBgBlue
-        : LightThemeColors.chipBgBlue;
+    return isDarkMode(context) ? DarkThemeColors.chipBgBlue : LightThemeColors.chipBgBlue;
   }
 
   static Color chipTextRedColor(BuildContext context) {
@@ -215,9 +199,7 @@ class AppColors {
   }
 
   static Color chipBgRed(BuildContext context) {
-    return isDarkMode(context)
-        ? DarkThemeColors.chipBgRed
-        : LightThemeColors.chipBgRed;
+    return isDarkMode(context) ? DarkThemeColors.chipBgRed : LightThemeColors.chipBgRed;
   }
 
   static Color getSelectedRowBackground(BuildContext context) {
@@ -227,9 +209,7 @@ class AppColors {
   }
 
   static Color getHighlightColor(BuildContext context) {
-    return isDarkMode(context)
-        ? DarkThemeColors.highlightColor
-        : LightThemeColors.highlightColor;
+    return isDarkMode(context) ? DarkThemeColors.highlightColor : LightThemeColors.highlightColor;
   }
 
   static Color getSelectedRowBorder(BuildContext context) {

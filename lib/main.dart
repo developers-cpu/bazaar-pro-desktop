@@ -1,10 +1,10 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'core/routes/navigator_key.dart';
 import 'features/market_watch/presentation/widgets/global_escape_shortcut.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:window_manager/window_manager.dart';
+import 'app/bootstrap/app_initializer.dart';
+import 'app/di/service_locator.dart';
 import 'features/auth/presentation/bloc/auth_bloc.dart';
 import 'features/dashboard/presentation/bloc/dashboard_bloc.dart';
 import 'features/market_watch/presentation/bloc/arrangesymbol/arrange_symbol_bloc.dart';
@@ -23,48 +23,21 @@ import 'features/view/presentation/bloc/rejection_log/rejection_log_bloc.dart';
 import 'features/view/presentation/bloc/script_master/script_master_bloc.dart';
 import 'features/view/presentation/bloc/script_quantity/script_quantity_bloc.dart';
 import 'features/users/presentation/bloc/user_list/user_list_bloc.dart';
-import 'injection_container.dart' as di;
 import 'core/observers/dialog_navigator_observer.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
-    await windowManager.ensureInitialized();
-    final screenSize = await windowManager.getSize();
-    final screenWidth = screenSize.width;
-    final screenHeight = screenSize.height;
-    final initialWidth = (screenWidth * 0.7).clamp(1280.0, 1920.0);
-    final initialHeight = (screenHeight * 0.7).clamp(720.0, 1080.0);
-    final WindowOptions windowOptions = WindowOptions(
-      size: Size(initialWidth, initialHeight),
-      minimumSize: const Size(1280, 720),
-      center: true,
-      backgroundColor: Colors.transparent,
-      skipTaskbar: false,
-      titleBarStyle: TitleBarStyle.normal,
-      title: 'BAZAAR Pro',
-    );
-    await windowManager.waitUntilReadyToShow(windowOptions, () async {
-      await windowManager.show();
-      await windowManager.focus();
-    });
-  }
-  await di.init();
+  await AppInitializer.initialize();
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final windowWidth = constraints.maxWidth > 0
-            ? constraints.maxWidth
-            : 1920.0;
-        final windowHeight = constraints.maxHeight > 0
-            ? constraints.maxHeight
-            : 1080.0;
+        final windowWidth = constraints.maxWidth > 0 ? constraints.maxWidth : 1920.0;
+        final windowHeight = constraints.maxHeight > 0 ? constraints.maxHeight : 1080.0;
         return ScreenUtilInit(
           designSize: Size(windowWidth, windowHeight),
           minTextAdapt: true,
@@ -73,23 +46,23 @@ class MyApp extends StatelessWidget {
           builder: (context, child) {
             return MultiBlocProvider(
               providers: [
-                BlocProvider(create: (_) => di.sl<AuthBloc>()),
-                BlocProvider(create: (_) => di.sl<MarketWatchBloc>()),
-                BlocProvider(create: (_) => di.sl<ThemeBloc>()),
-                BlocProvider(create: (_) => di.sl<WatchlistBloc>()),
-                BlocProvider(create: (_) => di.sl<ArrangeSymbolBloc>()),
-                BlocProvider(create: (_) => di.sl<SymbolFontBloc>()),
-                BlocProvider(create: (_) => di.sl<OrderDialogBloc>()),
-                BlocProvider(create: (_) => di.sl<MarketDepthBloc>()),
-                BlocProvider(create: (_) => di.sl<DashboardBloc>()),
-                BlocProvider(create: (_) => di.sl<PendingOrdersBloc>()),
-                BlocProvider(create: (_) => di.sl<NetPositionBloc>()),
-                BlocProvider(create: (_) => di.sl<RejectionLogBloc>()),
-                BlocProvider(create: (_) => di.sl<LoginHistoryBloc>()),
-                BlocProvider(create: (_) => di.sl<ScriptMasterBloc>()),
-                BlocProvider(create: (_) => di.sl<ScriptQuantityBloc>()),
-                BlocProvider(create: (_) => di.sl<IntradayHistoryBloc>()),
-                BlocProvider(create: (_) => di.sl<UserListBloc>()),
+                BlocProvider(create: (_) => sl<AuthBloc>()),
+                BlocProvider(create: (_) => sl<MarketWatchBloc>()),
+                BlocProvider(create: (_) => sl<ThemeBloc>()),
+                BlocProvider(create: (_) => sl<WatchlistBloc>()),
+                BlocProvider(create: (_) => sl<ArrangeSymbolBloc>()),
+                BlocProvider(create: (_) => sl<SymbolFontBloc>()),
+                BlocProvider(create: (_) => sl<OrderDialogBloc>()),
+                BlocProvider(create: (_) => sl<MarketDepthBloc>()),
+                BlocProvider(create: (_) => sl<DashboardBloc>()),
+                BlocProvider(create: (_) => sl<PendingOrdersBloc>()),
+                BlocProvider(create: (_) => sl<NetPositionBloc>()),
+                BlocProvider(create: (_) => sl<RejectionLogBloc>()),
+                BlocProvider(create: (_) => sl<LoginHistoryBloc>()),
+                BlocProvider(create: (_) => sl<ScriptMasterBloc>()),
+                BlocProvider(create: (_) => sl<ScriptQuantityBloc>()),
+                BlocProvider(create: (_) => sl<IntradayHistoryBloc>()),
+                BlocProvider(create: (_) => sl<UserListBloc>()),
               ],
               child: GlobalEscapeShortcut(
                 child: MaterialApp(

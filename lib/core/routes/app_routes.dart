@@ -13,6 +13,7 @@ import '../../features/operations/presentation/pages/group/group_page.dart';
 import '../../features/operations/presentation/pages/symbol_settings/symbol_settings_page.dart';
 import '../../features/report/presentation/pages/expiry_report_page.dart';
 import '../../features/report/presentation/pages/spraed_report_page.dart';
+import '../../features/report/presentation/pages/ban_script_page.dart';
 
 class AppRoutes {
   static const String login = '/';
@@ -66,6 +67,7 @@ class AppRoutes {
   static const String operationsMessage = '/operations-message';
   static const String expiryReport = '/expiry-report';
   static const String spraedReport = '/spraed-report';
+  static const String banScript = '/ban-script';
   static const String symbolSettings = '/symbol-settings';
   static const String tools = '/tools';
   static const String toolsAbout = '/tools/about';
@@ -143,6 +145,7 @@ class AppRoutes {
       toolsSupport: (context) => const SupportPageWithAppBar(),
       expiryReport: (context) => const ExpiryReportPageWithAppBar(),
       spraedReport: (context) => const SpraedReportPageWithAppBar(),
+      banScript: (context) => const BanScriptPageWithAppBar(),
       symbolSettings: (context) => const SymbolSettingsPageWithAppBar(),
     };
   }

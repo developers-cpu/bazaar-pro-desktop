@@ -606,6 +606,14 @@ class AppBarSectionState extends State<AppBarSection> {
             '/expiry-report',
           ),
         ),
+        MenuItemData(
+          title: 'Ban Script',
+          onTap: () => _navigateToPage(
+            _getTabIndex(AppStrings.report),
+            'Ban Script',
+            '/ban-script',
+          ),
+        ),
       ];
     } else if (role == 'Master') {
       return [
@@ -707,6 +715,14 @@ class AppBarSectionState extends State<AppBarSection> {
             _getTabIndex(AppStrings.report),
             'Expiry Report',
             '/expiry-report',
+          ),
+        ),
+        MenuItemData(
+          title: 'Ban Script',
+          onTap: () => _navigateToPage(
+            _getTabIndex(AppStrings.report),
+            'Ban Script',
+            '/ban-script',
           ),
         ),
       ];
@@ -840,6 +856,14 @@ class AppBarSectionState extends State<AppBarSection> {
             _getTabIndex(AppStrings.report),
             'Spraed Report',
             '/spraed-report',
+          ),
+        ),
+        MenuItemData(
+          title: 'Ban Script',
+          onTap: () => _navigateToPage(
+            _getTabIndex(AppStrings.report),
+            'Ban Script',
+            '/ban-script',
           ),
         ),
       ];

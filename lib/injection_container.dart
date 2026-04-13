@@ -368,6 +368,11 @@ import 'features/report/domain/usecases/get_spraed_report.dart';
 import 'features/report/domain/repositories/spraed_report_repository.dart';
 import 'features/report/data/repositories/spraed_report_repository_impl.dart';
 import 'features/report/data/datasources/spraed_report/spraed_report_remote_datasource.dart';
+import 'features/report/presentation/bloc/ban_script/ban_script_bloc.dart';
+import 'features/report/domain/usecases/get_ban_script.dart';
+import 'features/report/domain/repositories/ban_script_repository.dart';
+import 'features/report/data/repositories/ban_script_repository_impl.dart';
+import 'features/report/data/datasources/ban_script/ban_script_remote_datasource.dart';
 
 final sl = GetIt.instance;
 Future<void> init() async {
@@ -1217,6 +1222,16 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<SpraedReportRemoteDataSource>(
     () => SpraedReportRemoteDataSourceImpl(),
+  );
+
+  // Ban Script
+  sl.registerFactory(() => BanScriptBloc(getBanScriptUseCase: sl()));
+  sl.registerLazySingleton(() => GetBanScriptUseCase(sl()));
+  sl.registerLazySingleton<BanScriptRepository>(
+    () => BanScriptRepositoryImpl(remoteDataSource: sl()),
+  );
+  sl.registerLazySingleton<BanScriptRemoteDataSource>(
+    () => BanScriptRemoteDataSourceImpl(),
   );
   sl.registerFactory(() => SymbolSettingsBloc(datasource: sl()));
   sl.registerLazySingleton<SymbolSettingsDatasource>(

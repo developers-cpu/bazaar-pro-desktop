@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../data/datasources/symbol_settings_datasource.dart';
+import '../../../domain/entities/exchange_settings/market_timing.dart';
 import '../../bloc/exchange_settings/exchange_settings_bloc.dart';
 import '../../bloc/exchange_settings/exchange_settings_event.dart';
 import '../../bloc/exchange_settings/exchange_settings_state.dart';
@@ -14,9 +15,11 @@ import '../../widgets/exchange_settings/tab/high_low_between_trade_limit_tab.dar
 import '../../widgets/exchange_settings/tab/odd_lot_tab.dart';
 import '../../widgets/exchange_settings/tab/order_type_tab.dart';
 import '../../widgets/exchange_settings/tab/trade_attribute_tab.dart';
+import '../../widgets/exchange_settings/tab/market_timing_tab.dart';
 import '../operations_page_wrapper.dart';
 import '../../../../../injection_container.dart';
 import '../../../domain/entities/exchange_settings/exchange_setting.dart';
+
 
 class ExchangeSettingsPageWithAppBar extends StatelessWidget {
   const ExchangeSettingsPageWithAppBar({super.key});
@@ -84,6 +87,7 @@ class _ExchangeSettingsPageState extends State<ExchangeSettingsPage> {
     'Trade Attribute',
     'Exch Sequence',
     'Default Symbol',
+    'Market Timing',
   ];
   @override
   void initState() {
@@ -154,10 +158,22 @@ class _ExchangeSettingsPageState extends State<ExchangeSettingsPage> {
                   if (i != 1) _selectedAutoTickExchange = null;
                   if (i != 4) _selectedTradeAttributeExchange = null;
                   if (i != 6) _selectedExchange = null;
+                  if (i == 7) {
+                    context.read<ExchangeSettingsBloc>().add(
+                      LoadMarketTimingsEvent(),
+                    );
+                  }
                 }),
               ),
               SizedBox(height: 10.h),
-              Expanded(child: _buildActiveTab(state, settings, symbols)),
+              Expanded(
+                child: _buildActiveTab(
+                  state,
+                  settings,
+                  symbols,
+                  (state is ExchangeSettingsLoaded) ? state.marketTimings : [],
+                ),
+              ),
             ],
           ),
         );
@@ -184,6 +200,7 @@ class _ExchangeSettingsPageState extends State<ExchangeSettingsPage> {
     ExchangeSettingsState state,
     List<ExchangeSetting> settings,
     List<DefaultSymbol> symbols,
+    List<ExchangeMarketTiming> timings,
   ) {
     if (state is ExchangeSettingsLoading) {
       return const Center(child: CircularProgressIndicator());
@@ -304,6 +321,20 @@ class _ExchangeSettingsPageState extends State<ExchangeSettingsPage> {
               _watchlistStates[id] = !(_watchlistStates[id] ?? false);
             });
           },
+        );
+      case 7:
+        return MarketTimingTab(
+          timings: _filterMarketTimings(timings),
+          searchCtrl: _searchCtrl,
+          onSearchChanged: (_) => setState(() {}),
+          onStatusChanged: (timing, value) {
+            context.read<ExchangeSettingsBloc>().add(
+                  UpdateMarketTimingStatusEvent(
+                    id: timing.id,
+                    isOn: value,
+                  ),
+                );
+          }, 
         );
       default:
         return const SizedBox.shrink();
@@ -480,4 +511,22 @@ class _ExchangeSettingsPageState extends State<ExchangeSettingsPage> {
       UpdateExchangeSettingsEvent(ids: _selectedIds.toList()),
     );
   }
+
+  List<ExchangeMarketTiming> _filterMarketTimings(List<ExchangeMarketTiming> timings) {
+    final query = _searchCtrl.text.trim().toLowerCase();
+    if (query.isEmpty) {
+      return timings;
+    }
+    return timings.where((item) {
+      final haystack = [
+        item.exchange,
+        item.date,
+        item.timing,
+        item.isOn ? 'on' : 'off',
+      ].join(' ').toLowerCase();
+      return haystack.contains(query);
+    }).toList();
+  }
+
+  
 }

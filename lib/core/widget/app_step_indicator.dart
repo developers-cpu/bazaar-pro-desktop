@@ -27,17 +27,20 @@ class AppStepIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 24.w),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: List.generate(totalSteps * 2 - 1, (index) {
-          if (index.isEven) {
-            final stepIndex = index ~/ 2;
-            return _buildStepItem(stepIndex);
-          } else {
-            final beforeStepIndex = index ~/ 2;
-            return _buildConnectorLine(beforeStepIndex);
-          }
-        }),
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: List.generate(totalSteps * 2 - 1, (index) {
+            if (index.isEven) {
+              final stepIndex = index ~/ 2;
+              return _buildStepItem(stepIndex);
+            } else {
+              final beforeStepIndex = index ~/ 2;
+              return _buildConnectorLine(beforeStepIndex);
+            }
+          }),
+        ),
       ),
     );
   }

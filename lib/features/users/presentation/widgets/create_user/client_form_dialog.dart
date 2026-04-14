@@ -93,7 +93,7 @@ class ClientFormDialog extends StatelessWidget {
           ),
           backgroundColor: Colors.transparent,
           child: Container(
-            width: 580.w,
+            width: 650.w,
             constraints: BoxConstraints(maxHeight: 600.h),
             decoration: BoxDecoration(
               color: AppColors.white,

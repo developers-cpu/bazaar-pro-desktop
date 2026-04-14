@@ -23,6 +23,7 @@ class UserFormBloc extends Bloc<UserFormEvent, UserFormState> {
     on<UpdateBrokerageViewModeEvent>(_onUpdateBrokerageViewMode);
     on<SubmitFormEvent>(_onSubmitForm);
     on<ResetFormEvent>(_onResetForm);
+    on<UpdateSpreadFileEvent>(_onUpdateSpreadFile);
   }
   Future<void> _onLoadFormData(
     LoadFormDataEvent event,
@@ -337,6 +338,18 @@ class UserFormBloc extends Bloc<UserFormEvent, UserFormState> {
     Emitter<UserFormState> emit,
   ) {
     emit(state.copyWith(brokerageViewMode: event.mode));
+  }
+  void _onUpdateSpreadFile(
+    UpdateSpreadFileEvent event,
+    Emitter<UserFormState> emit,
+  ) {
+    final newFiles = Map<String, String>.from(state.spreadSettingFiles);
+    if (event.filePath == null) {
+      newFiles.remove(event.exchange);
+    } else {
+      newFiles[event.exchange] = event.filePath!;
+    }
+    emit(state.copyWith(spreadSettingFiles: newFiles));
   }
 
   Future<void> _onSubmitForm(

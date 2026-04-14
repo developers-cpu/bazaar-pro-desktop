@@ -35,6 +35,8 @@ class UserFormState extends Equatable {
   final String symbolWiseBrk;
   final Set<String> selectedBrokerageExchanges;
   final Map<String, BrokerageData> brokerageData;
+  final Map<String, Map<String, String>> exchangeSettingTableData;
+  final Map<String, String> spreadSettingFiles;
   final bool isSubmitting;
   final String? error;
   final bool isSuccess;
@@ -44,13 +46,12 @@ class UserFormState extends Equatable {
   final List<String> masterOptions;
   final String? selectedServer;
   final List<String> serverOptions;
-  final Map<String, Map<String, String>> exchangeSettingTableData;
   const UserFormState({
     this.isEditMode = false,
     this.userType = 'Master',
     this.userData,
     this.currentStep = 0,
-    this.totalSteps = 7,
+    this.totalSteps = 8,
     this.stepTitles = const [
       'Personal Details',
       'Exchange Allow',
@@ -59,6 +60,7 @@ class UserFormState extends Equatable {
       'High Low Between Trade Limit',
       'Triggers Setting',
       'Brokerage Setting',
+      'Spread Setting',
     ],
     this.name = '',
     this.username = '',
@@ -94,6 +96,7 @@ class UserFormState extends Equatable {
     this.leverageOptions = const [],
     this.exchangeGroupOptions = const [],
     this.selectedMaster,
+    this.selectedServer,
     this.masterOptions = const [
       'Master 1',
       'Master 2',
@@ -101,9 +104,9 @@ class UserFormState extends Equatable {
       'Master 4',
       'Master 5',
     ],
-    this.selectedServer,
     this.serverOptions = const ['RGX', 'TESTS', 'FOREXSERVER'],
     this.exchangeSettingTableData = const {},
+    this.spreadSettingFiles = const {},
   });
   static const List<String> availableExchanges = [
     'NSE',
@@ -124,6 +127,7 @@ class UserFormState extends Equatable {
     'High Low Between Trade Limit',
     'Triggers Setting',
     'Brokerage Setting',
+    'Spread Setting',
   ];
   static const List<String> exchangeSettingTableExchanges = [
     'NSE',
@@ -157,6 +161,7 @@ class UserFormState extends Equatable {
   static const List<String> adminStepTitles = [
     'Personal Details',
     'Triggers Setting',
+    'Spread Setting',
   ];
   static const List<TriggerSetting> masterTriggerSettings = [
     TriggerSetting(key: 'addMaster', label: 'Add Master', icon: 'add_master'),
@@ -288,8 +293,8 @@ class UserFormState extends Equatable {
   }
 
   static int getTotalSteps(String userType) {
-    if (userType == 'Admin') return 2;
-    if (userType == 'Master') return 7;
+    if (userType == 'Admin') return 3;
+    if (userType == 'Master') return 8;
     return 6;
   }
 
@@ -357,6 +362,7 @@ class UserFormState extends Equatable {
     String? selectedServer,
     List<String>? serverOptions,
     Map<String, Map<String, String>>? exchangeSettingTableData,
+    Map<String, String>? spreadSettingFiles,
   }) {
     return UserFormState(
       isEditMode: isEditMode ?? this.isEditMode,
@@ -408,6 +414,7 @@ class UserFormState extends Equatable {
       serverOptions: serverOptions ?? this.serverOptions,
       exchangeSettingTableData:
           exchangeSettingTableData ?? this.exchangeSettingTableData,
+      spreadSettingFiles: spreadSettingFiles ?? this.spreadSettingFiles,
     );
   }
 
@@ -455,6 +462,7 @@ class UserFormState extends Equatable {
     selectedServer,
     serverOptions,
     exchangeSettingTableData,
+    spreadSettingFiles,
   ];
 }
 

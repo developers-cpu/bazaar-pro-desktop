@@ -9,6 +9,8 @@ import 'package:bazarpro/features/operations/data/repositories/group/group_repos
 import 'package:bazarpro/features/operations/data/datasources/group/group_remote_data_source.dart';
 import 'package:bazarpro/features/operations/data/datasources/group/group_remote_data_source_impl.dart';
 import 'package:bazarpro/features/operations/domain/usecases/exchange_settings/get_exchange_settings.dart';
+import 'package:bazarpro/features/operations/domain/usecases/exchange_settings/get_market_timings.dart';
+import 'package:bazarpro/features/operations/domain/usecases/exchange_settings/update_market_timings_from_excel.dart';
 import 'package:bazarpro/features/operations/domain/repositories/date_settings/date_settings_repository.dart';
 import 'package:bazarpro/features/operations/data/repositories/date_settings/date_settings_repository_impl.dart';
 import 'package:bazarpro/features/operations/data/datasources/date_settings/date_settings_remote_data_source.dart';
@@ -1089,10 +1091,14 @@ Future<void> init() async {
       getExchangeSettings: sl(),
       updateExchangeSettings: sl(),
       repository: sl(),
+      getMarketTimings: sl(),
+      updateMarketTimingsFromExcel: sl(),
     ),
   );
   sl.registerLazySingleton(() => GetExchangeSettings(sl()));
   sl.registerLazySingleton(() => UpdateExchangeSettings(sl()));
+  sl.registerLazySingleton(() => GetMarketTimings(sl()));
+  sl.registerLazySingleton(() => UpdateMarketTimingsFromExcel(sl()));
   sl.registerLazySingleton<ExchangeSettingsRepository>(
     () => ExchangeSettingsRepositoryImpl(remoteDataSource: sl()),
   );

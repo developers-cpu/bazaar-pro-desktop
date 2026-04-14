@@ -18,6 +18,7 @@ import 'shared/high_low_limit_step.dart';
 import 'shared/brokerage_setting_step.dart';
 import 'master_steps/pnl_sharing_step.dart';
 import 'master_steps/master_trigger_settings_step.dart';
+import 'shared/spread_setting_step.dart';
 import 'shared/profile_summary_dialog.dart';
 
 class MasterFormDialog extends StatelessWidget {
@@ -97,7 +98,7 @@ class MasterFormDialog extends StatelessWidget {
           ),
           backgroundColor: Colors.transparent,
           child: Container(
-            width: 580.w,
+            width: 650.w,
             constraints: BoxConstraints(maxHeight: 600.h),
             decoration: BoxDecoration(
               color: AppColors.white,
@@ -174,7 +175,7 @@ class MasterFormDialog extends StatelessWidget {
   }
 
   int _getTotalSteps(bool isAdmin) {
-    return isAdmin ? 7 : 6;
+    return isAdmin ? 8 : 7;
   }
 
   Widget _buildStepIndicator(bool isAdmin, UserFormState state) {
@@ -202,6 +203,8 @@ class MasterFormDialog extends StatelessWidget {
           return const MasterTriggerSettingsStep();
         case 6:
           return const BrokerageSettingStep();
+        case 7:
+          return const SpreadSettingStep();
         default:
           return const SizedBox.shrink();
       }
@@ -219,6 +222,8 @@ class MasterFormDialog extends StatelessWidget {
           return const MasterTriggerSettingsStep();
         case 5:
           return const BrokerageSettingStep();
+        case 6:
+          return const SpreadSettingStep();
         default:
           return const SizedBox.shrink();
       }

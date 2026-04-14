@@ -26,6 +26,7 @@ class CustomInputField extends StatelessWidget {
   final Color? borderColor;
   final Color? fillColor;
   final FocusNode? focusNode;
+  final VoidCallback? onTap;
   const CustomInputField({
     Key? key,
     required this.hintText,
@@ -49,6 +50,7 @@ class CustomInputField extends StatelessWidget {
     this.borderColor,
     this.fillColor,
     this.focusNode,
+    this.onTap,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -123,6 +125,7 @@ class CustomInputField extends StatelessWidget {
         validator: validator,
         onChanged: onChanged,
         onFieldSubmitted: onSubmitted,
+        onTap: onTap,
       ),
     );
   }

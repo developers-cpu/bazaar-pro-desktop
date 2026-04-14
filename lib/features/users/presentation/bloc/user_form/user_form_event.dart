@@ -166,3 +166,11 @@ class ToggleAllBrokerageExchangesEvent extends UserFormEvent {
   @override
   List<Object?> get props => [selectAll];
 }
+
+class UpdateSpreadFileEvent extends UserFormEvent {
+  final String exchange;
+  final String? filePath;
+  const UpdateSpreadFileEvent({required this.exchange, this.filePath});
+  @override
+  List<Object?> get props => [exchange, filePath];
+}

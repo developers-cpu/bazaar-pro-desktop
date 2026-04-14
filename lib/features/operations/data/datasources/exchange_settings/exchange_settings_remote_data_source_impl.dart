@@ -1,5 +1,8 @@
 import 'exchange_settings_remote_data_source.dart';
 import '../../models/exchange_settings/exchange_setting_model.dart';
+import '../../models/exchange_settings/exchange_market_timing_model.dart';
+import '../../models/exchange_settings/exchange_holiday_model.dart';
+import '../../models/exchange_settings/exchange_timing_model.dart';
 
 class ExchangeSettingsRemoteDataSourceImpl
     implements ExchangeSettingsRemoteDataSource {
@@ -242,6 +245,38 @@ class ExchangeSettingsRemoteDataSourceImpl
       ),
     ],
   };
+
+  final List<ExchangeMarketTimingModel> _mockMarketTimings = [
+    const ExchangeMarketTimingModel(
+      id: 'm1',
+      exchange: 'MCX',
+      date: '13-04-2026',
+      isOn: true,
+      timing: '09:00 AM - 11:30 PM',
+    ),
+    const ExchangeMarketTimingModel(
+      id: 'm2',
+      exchange: 'NSE',
+      date: '13-04-2026',
+      isOn: true,
+      timing: '09:15 AM - 03:30 PM',
+    ),
+    const ExchangeMarketTimingModel(
+      id: 'm3',
+      exchange: 'CE/PE',
+      date: '13-04-2026',
+      isOn: true,
+      timing: '09:15 AM - 03:30 PM',
+    ),
+    const ExchangeMarketTimingModel(
+      id: 'm4',
+      exchange: 'GIFT',
+      date: '13-04-2026',
+      isOn: true,
+      timing: '09:00 AM - 11:55 PM',
+    ),
+  ];
+
   @override
   Future<List<ExchangeSettingModel>> getExchangeSettings() async =>
       _mockExchangeSettings;
@@ -256,5 +291,98 @@ class ExchangeSettingsRemoteDataSourceImpl
     required String exchange,
   }) async {
     return _mockDefaultSymbols[exchange] ?? [];
+  }
+
+  @override
+  Future<List<ExchangeMarketTimingModel>> getMarketTimings() async {
+    await Future.delayed(const Duration(milliseconds: 300));
+    return _mockMarketTimings;
+  }
+
+  @override
+  Future<bool> updateMarketTimingsFromExcel({required List<int> bytes}) async {
+    await Future.delayed(const Duration(seconds: 1));
+    return true;
+  }
+
+  @override
+  Future<bool> updateMarketTimingStatus({
+    required String id,
+    required bool isOn,
+  }) async {
+    await Future.delayed(const Duration(milliseconds: 300));
+    return true;
+  }
+
+  final List<ExchangeHolidayModel> _mockHolidays = [
+    const ExchangeHolidayModel(
+      id: 'h1',
+      date: '03/31/2026',
+      remark: 'Shri Mahavir Jayanti',
+      exchange: 'NSE',
+    ),
+    const ExchangeHolidayModel(
+      id: 'h2',
+      date: '03/26/2026',
+      remark: 'Shri Ram Navami',
+      exchange: 'NSE',
+    ),
+    const ExchangeHolidayModel(
+      id: 'h3',
+      date: '03/03/2026',
+      remark: 'HAPPY HOLI',
+      exchange: 'NSE',
+    ),
+  ];
+
+  final List<ExchangeTimingModel> _mockTimings = [
+    const ExchangeTimingModel(
+      id: 't1',
+      days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+      startTime: '09:16 AM',
+      endTime: '03:30 PM',
+      remark: 'PROFIT',
+      exchange: 'NSE',
+    ),
+  ];
+
+  @override
+  Future<List<ExchangeHolidayModel>> getExchangeHolidays({
+    required String exchange,
+  }) async {
+    await Future.delayed(const Duration(milliseconds: 300));
+    return _mockHolidays.where((h) => h.exchange == exchange).toList();
+  }
+
+  @override
+  Future<bool> updateExchangeHoliday(ExchangeHolidayModel holiday) async {
+    await Future.delayed(const Duration(milliseconds: 300));
+    return true;
+  }
+
+  @override
+  Future<bool> deleteExchangeHoliday(String id) async {
+    await Future.delayed(const Duration(milliseconds: 300));
+    return true;
+  }
+
+  @override
+  Future<List<ExchangeTimingModel>> getExchangeTimings({
+    required String exchange,
+  }) async {
+    await Future.delayed(const Duration(milliseconds: 300));
+    return _mockTimings.where((t) => t.exchange == exchange).toList();
+  }
+
+  @override
+  Future<bool> updateExchangeTiming(ExchangeTimingModel timing) async {
+    await Future.delayed(const Duration(milliseconds: 300));
+    return true;
+  }
+
+  @override
+  Future<bool> deleteExchangeTiming(String id) async {
+    await Future.delayed(const Duration(milliseconds: 300));
+    return true;
   }
 }

@@ -11,6 +11,7 @@ import '../../bloc/user_form/user_form_event.dart';
 import '../../bloc/user_form/user_form_state.dart';
 import 'admin_steps/admin_personal_details_step.dart';
 import 'admin_steps/admin_trigger_settings_step.dart';
+import 'shared/spread_setting_step.dart';
 import 'shared/profile_summary_dialog.dart';
 
 class AdminFormDialog extends StatelessWidget {
@@ -89,7 +90,7 @@ class AdminFormDialog extends StatelessWidget {
           ),
           backgroundColor: Colors.transparent,
           child: Container(
-            width: 580.w,
+            width: 650.w,
             constraints: BoxConstraints(maxHeight: 600.h),
             decoration: BoxDecoration(
               color: AppColors.white,
@@ -153,7 +154,7 @@ class AdminFormDialog extends StatelessWidget {
   Widget _buildStepIndicator(UserFormState state) {
     return AppStepIndicator(
       currentStep: state.currentStep,
-      totalSteps: 2,
+      totalSteps: 3,
       stepTitles: UserFormState.adminStepTitles,
     );
   }
@@ -164,13 +165,15 @@ class AdminFormDialog extends StatelessWidget {
         return const AdminPersonalDetailsStep();
       case 1:
         return const AdminTriggerSettingsStep();
+      case 2:
+        return const SpreadSettingStep();
       default:
         return const SizedBox.shrink();
     }
   }
 
   Widget _buildNavigationButtons(BuildContext context, UserFormState state) {
-    final isLastStep = state.currentStep == 1;
+    final isLastStep = state.currentStep == 2;
     final isFirstStep = state.currentStep == 0;
     return Container(
       padding: EdgeInsets.all(20.w),

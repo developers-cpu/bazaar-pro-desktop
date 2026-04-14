@@ -36,7 +36,7 @@ class _TimingManagementSectionState extends State<TimingManagementSection> {
   }
 
   void _initControllers() {
-    // Clear existing
+    
     for (var list in _dayControllers.values) {
       for (var ctrl in list) ctrl.dispose();
     }
@@ -127,8 +127,8 @@ class _TimingManagementSectionState extends State<TimingManagementSection> {
                 labelFontSize: 14.sp,
                 activeColor: AppColors.primaryBlue,
                 onChanged: (val) {
-                  // Optional: Handle enabling/disabling day if needed.
-                  // For now, it just reflects if there are slots.
+                  
+                  
                 },
               ),
               const Expanded(child: Divider(indent: 16)),

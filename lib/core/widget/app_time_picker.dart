@@ -6,7 +6,7 @@ import '../constants/app_colors.dart';
 
 class AppTimePicker extends StatefulWidget {
   final String label;
-  final String? value; // Format: "hh:mm a"
+  final String? value; 
   final ValueChanged<String> onChanged;
   final double? width;
   final double? height;

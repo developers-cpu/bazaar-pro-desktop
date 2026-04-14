@@ -43,7 +43,7 @@ class MarketTimingTab extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         }
 
-        // Group timings by date and exchange to show multiple slots in one row
+        
         final groupedTimings = _groupTimings(state.marketTimings);
 
         return Column(
@@ -139,7 +139,7 @@ class MarketTimingTab extends StatelessWidget {
   List<_GroupedTiming> _groupTimings(List<ExchangeMarketTiming> list) {
     final Map<String, _GroupedTiming> grouped = {};
     for (var item in list) {
-      // Group by exchange and specific timing string
+      
       final key = '${item.exchange}_${item.timing}';
       final dayName = _getDayName(item.date);
       

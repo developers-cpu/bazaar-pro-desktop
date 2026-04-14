@@ -112,7 +112,7 @@ class _HolidayManagementSectionState extends State<HolidayManagementSection> {
               hintText: 'mm/dd/yyyy',
               readOnly: true,
               suffixIcon: Icons.calendar_today,
-            //  onTap: () => _selectDate(context, _dateControllers[holiday.id]!),
+            
               height: 38.h,
               width: 150.w,
             ),
@@ -176,7 +176,7 @@ class _HolidayManagementSectionState extends State<HolidayManagementSection> {
               hintText: 'mm/dd/yyyy',
               readOnly: true,
               suffixIcon: Icons.calendar_today,
-            //  onTap: () => _selectDate(context, _newDateCtrl),
+            
               height: 38.h,
               width: 150.w,
             ),
@@ -199,7 +199,7 @@ class _HolidayManagementSectionState extends State<HolidayManagementSection> {
                 context.read<ExchangeSettingsBloc>().add(
                   UpdateExchangeHolidayEvent(
                     holiday: ExchangeHoliday(
-                      id: '', // New holiday
+                      id: '', 
                       date: _newDateCtrl.text,
                       remark: _newRemarkCtrl.text,
                       exchange: widget.exchange,
@@ -215,7 +215,7 @@ class _HolidayManagementSectionState extends State<HolidayManagementSection> {
             borderRadius: 8.r,
           ),
           SizedBox(width: 8.w),
-          const SizedBox(width: 48), // Spacer for align
+          const SizedBox(width: 48), 
         ],
       ),
     );

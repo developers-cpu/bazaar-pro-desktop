@@ -1230,7 +1230,7 @@ Future<void> init() async {
     () => SpraedReportRemoteDataSourceImpl(),
   );
 
-  // Ban Script
+  
   sl.registerFactory(() => BanScriptBloc(getBanScriptUseCase: sl()));
   sl.registerLazySingleton(() => GetBanScriptUseCase(sl()));
   sl.registerLazySingleton<BanScriptRepository>(

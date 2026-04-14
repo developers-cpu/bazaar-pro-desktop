@@ -97,7 +97,7 @@ class ExchangeSettingsBloc
         (timings) {
           _cachedTimings = List.from(timings);
 
-          // Add comprehensive mock data for all exchanges to verify UI
+          
           final exchanges = [
             'NSE',
             'MCX',
@@ -112,7 +112,7 @@ class ExchangeSettingsBloc
           final date = '13-04-2026';
           
           for (var exch in exchanges) {
-            // Add a primary slot
+            
             _cachedTimings.add(ExchangeMarketTiming(
               id: 'mock_${exch}_1',
               exchange: exch,
@@ -121,7 +121,7 @@ class ExchangeSettingsBloc
               isOn: true,
             ));
 
-            // Add an evening slot for MCX to test grouping
+            
             if (exch == 'MCX') {
               _cachedTimings.add(ExchangeMarketTiming(
                 id: 'mock_MCX_2',
@@ -294,14 +294,14 @@ class ExchangeSettingsBloc
   void _emitLoadedState(Emitter<ExchangeSettingsState> emit) {
     List<ExchangeMarketTiming> filteredTimings = _cachedTimings;
 
-    // Apply filters locally on cached data
+    
     if (_selectedExchange != null && _selectedExchange != 'All') {
       filteredTimings = filteredTimings
           .where((t) => t.exchange.toLowerCase() == _selectedExchange!.toLowerCase())
           .toList();
     }
 
-    // Date filtering (assuming date format is DD-MM-YYYY)
+    
     if (_startDate != null && _endDate != null) {
       filteredTimings = filteredTimings.where((t) {
         try {

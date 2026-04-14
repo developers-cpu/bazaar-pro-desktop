@@ -104,7 +104,7 @@ class _AddMarketTimingDialogState extends State<AddMarketTimingDialog> {
         _slots.add(slot);
       }
     } else {
-      // Start with one empty slot
+      
       _slots.add(_TimingSlotController());
     }
   }

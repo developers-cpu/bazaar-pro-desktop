@@ -71,7 +71,7 @@ class MyApp extends StatelessWidget {
                       current is AuthUnauthenticated &&
                       previous is AuthAuthenticated,
                   listener: (context, state) {
-                    Navigator.of(context).pushNamedAndRemoveUntil(
+                    globalNavigatorKey.currentState?.pushNamedAndRemoveUntil(
                       AppRoutes.login,
                       (route) => false,
                     );

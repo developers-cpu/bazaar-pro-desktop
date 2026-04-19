@@ -13,9 +13,45 @@ class LoginUserModel extends User {
     required super.refreshToken,
     required super.role,
   });
-  factory LoginUserModel.fromJson(Map<String, dynamic> json) {
+
+  /// Parses [equity.bazaarpro.app] `POST /auth/login` JSON body.
+  factory LoginUserModel.fromLoginApi(Map<String, dynamic> json) {
+    final tokenMap = json['token'] as Map<String, dynamic>?;
+    final userMap = json['user'] as Map<String, dynamic>?;
+    if (tokenMap == null || userMap == null) {
+      throw const FormatException('Invalid login response');
+    }
+
+    final jwt = tokenMap['jwt_token'] as String? ?? '';
+    final apiToken = tokenMap['api_token'] as String? ?? '';
+
+    final rawRole = userMap['role'] as String? ?? '';
+    final username = userMap['username'] as String? ?? '';
+    final id = userMap['id'] as String? ?? '';
+
+    final displayRole = mapApiRoleToUiRole(rawRole);
+    final email = username.isNotEmpty ? username : '';
+
+    final localPart =
+        username.contains('@') ? username.split('@').first : username;
+
     return LoginUserModel(
-      id: json['id'] as int,
+      id: id,
+      username: username,
+      email: email,
+      firstName: localPart.isNotEmpty ? localPart : displayRole,
+      lastName: '',
+      gender: '',
+      image: '',
+      accessToken: jwt,
+      refreshToken: apiToken,
+      role: displayRole,
+    );
+  }
+
+  factory LoginUserModel.fromPersistedJson(Map<String, dynamic> json) {
+    return LoginUserModel(
+      id: json['id'] as String,
       username: json['username'] as String,
       email: json['email'] as String,
       firstName: json['firstName'] as String,
@@ -24,10 +60,11 @@ class LoginUserModel extends User {
       image: json['image'] as String,
       accessToken: json['accessToken'] as String,
       refreshToken: json['refreshToken'] as String,
-      role: json['role'] as String? ?? 'client',
+      role: json['role'] as String,
     );
   }
-  Map<String, dynamic> toJson() {
+
+  Map<String, dynamic> toPersistedJson() {
     return {
       'id': id,
       'username': username,
@@ -55,5 +92,20 @@ class LoginUserModel extends User {
       refreshToken: user.refreshToken,
       role: user.role,
     );
+  }
+}
+
+String mapApiRoleToUiRole(String apiRole) {
+  switch (apiRole.toUpperCase()) {
+    case 'SUPER_ADMIN':
+      return 'Super Admin';
+    case 'ADMIN':
+      return 'Admin';
+    case 'MASTER':
+      return 'Master';
+    case 'CLIENT':
+      return 'Client';
+    default:
+      return apiRole;
   }
 }

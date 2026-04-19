@@ -5,7 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'app/bootstrap/app_initializer.dart';
 import 'app/di/service_locator.dart';
+import 'core/routes/app_routes.dart';
 import 'features/auth/presentation/bloc/auth_bloc.dart';
+import 'features/auth/presentation/bloc/auth_state.dart';
 import 'features/dashboard/presentation/bloc/dashboard_bloc.dart';
 import 'features/market_watch/presentation/bloc/arrangesymbol/arrange_symbol_bloc.dart';
 import 'features/market_watch/presentation/bloc/market_depth/market_depth_bloc.dart';
@@ -18,7 +20,6 @@ import 'features/view/presentation/bloc/intraday_history/intraday_history_bloc.d
 import 'features/view/presentation/bloc/login_history/login_history_bloc.dart';
 import 'features/view/presentation/bloc/net_position/net_position_bloc.dart';
 import 'features/view/presentation/bloc/pending_orders/pending_orders_bloc.dart';
-import 'core/routes/app_routes.dart';
 import 'features/view/presentation/bloc/rejection_log/rejection_log_bloc.dart';
 import 'features/view/presentation/bloc/script_master/script_master_bloc.dart';
 import 'features/view/presentation/bloc/script_quantity/script_quantity_bloc.dart';
@@ -65,14 +66,25 @@ class MyApp extends StatelessWidget {
                 BlocProvider(create: (_) => sl<UserListBloc>()),
               ],
               child: GlobalEscapeShortcut(
-                child: MaterialApp(
-                  navigatorKey: globalNavigatorKey,
-                  title: 'BAZAAR Pro',
-                  debugShowCheckedModeBanner: false,
-                  themeMode: ThemeMode.system,
-                  navigatorObservers: [DialogNavigatorObserver()],
-                  initialRoute: AppRoutes.login,
-                  routes: AppRoutes.getRoutes(),
+                child: BlocListener<AuthBloc, AuthState>(
+                  listenWhen: (previous, current) =>
+                      current is AuthUnauthenticated &&
+                      previous is AuthAuthenticated,
+                  listener: (context, state) {
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                      AppRoutes.login,
+                      (route) => false,
+                    );
+                  },
+                  child: MaterialApp(
+                    navigatorKey: globalNavigatorKey,
+                    title: 'BAZAAR Pro',
+                    debugShowCheckedModeBanner: false,
+                    themeMode: ThemeMode.system,
+                    navigatorObservers: [DialogNavigatorObserver()],
+                    initialRoute: AppRoutes.login,
+                    routes: AppRoutes.getRoutes(),
+                  ),
                 ),
               ),
             );

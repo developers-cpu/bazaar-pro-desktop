@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../features/auth/presentation/bloc/auth_bloc.dart';
+import '../../features/auth/presentation/bloc/auth_event.dart';
 import '../../features/market_watch/data/models/menu_Item_data.dart';
 import '../constants/app_colors.dart';
 import '../constants/app_images.dart';
@@ -9,7 +12,6 @@ import '../constants/app_strings.dart';
 import '../../features/market_watch/presentation/widgets/market_status_clock.dart';
 import '../../features/market_watch/presentation/widgets/market_watch_ticker_strip.dart';
 import 'svg_icon.dart';
-import '../routes/app_routes.dart';
 
 class CommonAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String username;
@@ -540,9 +542,9 @@ class _CommonAppBarState extends State<CommonAppBar> {
   Widget _buildLogoutButton(BuildContext context) {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
-      onTap: () => Navigator.of(
-        context,
-      ).pushNamedAndRemoveUntil(AppRoutes.login, (route) => false),
+      onTap: () {
+        context.read<AuthBloc>().add(const LogoutEvent());
+      },
       child: SizedBox(
         width: 32.w,
         height: 32.h,

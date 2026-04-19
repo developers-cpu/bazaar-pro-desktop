@@ -1,7 +1,11 @@
 class AuthConstants {
   AuthConstants._();
-  static const String baseUrl = 'https://bazarpro.in';
+  static const String baseUrl = 'https://equity.bazaarpro.app';
   static const String loginEndpoint = '/auth/login';
+  static const String authHiveBoxName = 'auth_session';
+  static const String authHiveUserKey = 'user_json';
+  static const String authHiveJwtKey = 'jwt_token';
+  static const String authHiveApiTokenKey = 'api_token';
   static const String refreshTokenEndpoint = '';
   static const String demoUsername = 'emilys';
   static const String demoPassword = 'emilyspass';

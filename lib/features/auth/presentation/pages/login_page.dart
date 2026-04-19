@@ -5,12 +5,11 @@ import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/constants/app_images.dart';
 import '../../../../core/constants/auth_constants.dart';
-import '../../data/models/dropdown_option_model.dart';
+import '../../../../core/routes/app_routes.dart';
 import '../bloc/auth_bloc.dart';
 import '../bloc/auth_event.dart';
 import '../bloc/auth_state.dart';
 import '../widget/custom_button.dart';
-import '../widget/custom_dropdown_field.dart';
 import '../widget/custom_input_field.dart';
 
 class LoginPage extends StatefulWidget {
@@ -23,7 +22,7 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
-  String? _selectedServer;
+  // String? _selectedServer;
   bool _obscurePassword = true;
   bool _backgroundImageError = false;
   @override
@@ -121,6 +120,12 @@ class _LoginPageState extends State<LoginPage> {
               child: BlocConsumer<AuthBloc, AuthState>(
                 listener: _handleAuthStateChange,
                 builder: (context, state) {
+                  if (state is AuthCheckingSession) {
+                    return const SizedBox(
+                      height: 360,
+                      child: Center(child: CircularProgressIndicator()),
+                    );
+                  }
                   return _buildForm(context, state is AuthLoading);
                 },
               ),
@@ -132,7 +137,18 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _handleAuthStateChange(BuildContext context, AuthState state) {
-    Navigator.of(context).pushReplacementNamed('/market-watch');
+    if (state is AuthAuthenticated) {
+      Navigator.of(context).pushReplacementNamed(AppRoutes.marketWatch);
+    } else if (state is AuthError) {
+      var message = state.message;
+      if (message.startsWith('Exception: ')) {
+        message = message.substring(11);
+      }
+      _showSnackBar(
+        message,
+        backgroundColor: AppColors.errorColor,
+      );
+    }
   }
 
   Widget _buildForm(BuildContext context, bool isLoading) {
@@ -150,8 +166,8 @@ class _LoginPageState extends State<LoginPage> {
             const SizedBox(height: AppDimensions.marginXL),
             _buildTitleSection(context),
             const SizedBox(height: AppDimensions.paddingL),
-            _buildServerDropdown(context),
-            const SizedBox(height: AppDimensions.paddingM),
+            // _buildServerDropdown(context),
+            // const SizedBox(height: AppDimensions.paddingM),
             _buildUsernameField(context),
             const SizedBox(height: AppDimensions.paddingM),
             _buildPasswordField(context),
@@ -270,33 +286,33 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _buildServerDropdown(BuildContext context) {
-    return CustomDropdownField(
-      hintText: AuthConstants.selectServerLabel,
-      value: _selectedServer,
-      items: [
-        DropdownOption(
-          value: AuthConstants.serverRGX,
-          label: AuthConstants.serverRGX,
-          iconPath: AppImages.dropDown1,
-          trailingIconPath: AppImages.serverIcon,
-        ),
-        DropdownOption(
-          value: AuthConstants.serverTests,
-          label: AuthConstants.serverRGX,
-          iconPath: AppImages.dropDown2,
-          trailingIconPath: AppImages.serverIcon,
-        ),
-        DropdownOption(
-          value: AuthConstants.serverForex,
-          label: AuthConstants.serverForex,
-          iconPath: AppImages.dropDown3,
-          trailingIconPath: AppImages.serverIcon,
-        ),
-      ],
-      onChanged: (value) => setState(() => _selectedServer = value!),
-    );
-  }
+  // Widget _buildServerDropdown(BuildContext context) {
+  //   return CustomDropdownField(
+  //     hintText: AuthConstants.selectServerLabel,
+  //     value: _selectedServer,
+  //     items: [
+  //       DropdownOption(
+  //         value: AuthConstants.serverRGX,
+  //         label: AuthConstants.serverRGX,
+  //         iconPath: AppImages.dropDown1,
+  //         trailingIconPath: AppImages.serverIcon,
+  //       ),
+  //       DropdownOption(
+  //         value: AuthConstants.serverTests,
+  //         label: AuthConstants.serverRGX,
+  //         iconPath: AppImages.dropDown2,
+  //         trailingIconPath: AppImages.serverIcon,
+  //       ),
+  //       DropdownOption(
+  //         value: AuthConstants.serverForex,
+  //         label: AuthConstants.serverForex,
+  //         iconPath: AppImages.dropDown3,
+  //         trailingIconPath: AppImages.serverIcon,
+  //       ),
+  //     ],
+  //     onChanged: (value) => setState(() => _selectedServer = value!),
+  //   );
+  // }
 
   Widget _buildUsernameField(BuildContext context) {
     return CustomInputField(

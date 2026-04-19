@@ -58,6 +58,7 @@ import 'package:bazarpro/features/users/domain/usecases/user/get_user_types.dart
 import 'package:bazarpro/features/users/domain/usecases/user/get_users.dart';
 import 'package:get_it/get_it.dart';
 import 'core/network/api_client.dart';
+import 'features/auth/data/datasources/auth_local_data_source.dart';
 import 'features/auth/data/datasources/auth_remote_data_source.dart';
 import 'features/auth/data/repositories/auth_repository_impl.dart';
 import 'features/auth/domain/repositories/auth_repository.dart';
@@ -377,11 +378,23 @@ import 'features/report/data/datasources/ban_script/ban_script_remote_datasource
 final sl = GetIt.instance;
 Future<void> init() async {
   sl.registerLazySingleton(() => ApiClient());
-  sl.registerFactory(() => AuthBloc(loginUser: sl()));
+  sl.registerLazySingleton<AuthLocalDataSource>(
+    () => AuthLocalDataSourceImpl(),
+  );
+  sl.registerFactory(
+    () => AuthBloc(
+      loginUser: sl(),
+      authLocalDataSource: sl(),
+      authRepository: sl(),
+    ),
+  );
   sl.registerFactory(() => UserFormBloc());
   sl.registerLazySingleton(() => LoginUser(repository: sl()));
   sl.registerLazySingleton<AuthRepository>(
-    () => AuthRepositoryImpl(remoteDataSource: sl()),
+    () => AuthRepositoryImpl(
+      remoteDataSource: sl(),
+      localDataSource: sl(),
+    ),
   );
   sl.registerLazySingleton<AuthRemoteDataSource>(
     () => AuthRemoteDataSourceImpl(dio: sl<ApiClient>().dio),

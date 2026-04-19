@@ -1,12 +1,19 @@
 import 'package:dartz/dartz.dart';
+
 import '../../../../core/errors/failures.dart';
 import '../../domain/entities/user.dart';
 import '../../domain/repositories/auth_repository.dart';
+import '../datasources/auth_local_data_source.dart';
 import '../datasources/auth_remote_data_source.dart';
-
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource remoteDataSource;
-  AuthRepositoryImpl({required this.remoteDataSource});
+  final AuthLocalDataSource localDataSource;
+
+  AuthRepositoryImpl({
+    required this.remoteDataSource,
+    required this.localDataSource,
+  });
+
   @override
   Future<Either<Failure, User>> login({
     required String username,
@@ -19,6 +26,7 @@ class AuthRepositoryImpl implements AuthRepository {
         password: password,
         expiresInMins: expiresInMins,
       );
+      await localDataSource.saveSession(user);
       return Right(user);
     } catch (e) {
       return Left(ServerFailure(e.toString()));
@@ -33,6 +41,7 @@ class AuthRepositoryImpl implements AuthRepository {
       final user = await remoteDataSource.refreshToken(
         refreshToken: refreshToken,
       );
+      await localDataSource.saveSession(user);
       return Right(user);
     } catch (e) {
       return Left(ServerFailure(e.toString()));
@@ -42,6 +51,7 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<Either<Failure, bool>> logout() async {
     try {
+      await localDataSource.clearSession();
       return const Right(true);
     } catch (e) {
       return Left(ServerFailure(e.toString()));

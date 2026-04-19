@@ -1,17 +1,43 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../domain/entities/user.dart';
+
 import '../../../../core/constants/auth_constants.dart';
+import '../../data/datasources/auth_local_data_source.dart';
+import '../../data/models/user_model.dart';
+import '../../domain/entities/user.dart';
+import '../../domain/repositories/auth_repository.dart';
 import '../../domain/usecases/login_user.dart';
 import 'auth_event.dart';
 import 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final LoginUser loginUser;
-  AuthBloc({required this.loginUser}) : super(const AuthInitial()) {
+  final AuthLocalDataSource authLocalDataSource;
+  final AuthRepository authRepository;
+
+  AuthBloc({
+    required this.loginUser,
+    required this.authLocalDataSource,
+    required this.authRepository,
+  }) : super(const AuthCheckingSession()) {
+    on<CheckAuthStatus>(_onCheckAuthStatus);
     on<LoginEvent>(_onLogin);
     on<DemoLoginEvent>(_onDemoLogin);
     on<LogoutEvent>(_onLogout);
+    add(const CheckAuthStatus());
   }
+
+  Future<void> _onCheckAuthStatus(
+    CheckAuthStatus event,
+    Emitter<AuthState> emit,
+  ) async {
+    final stored = await authLocalDataSource.loadSession();
+    if (stored != null) {
+      emit(AuthAuthenticated(user: stored));
+    } else {
+      emit(const AuthUnauthenticated());
+    }
+  }
+
   Future<void> _onLogin(LoginEvent event, Emitter<AuthState> emit) async {
     emit(const AuthLoading());
     User? dummyUser;
@@ -29,6 +55,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       dummyUser = _createDummyUser('Super Admin', event.username);
     }
     if (dummyUser != null) {
+      await authLocalDataSource.saveSession(
+        LoginUserModel.fromEntity(dummyUser),
+      );
       emit(AuthAuthenticated(user: dummyUser));
       return;
     }
@@ -51,14 +80,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   ) async {
     emit(const AuthLoading());
     final dummyUser = _createDummyUser(event.role, event.role.toLowerCase());
+    await authLocalDataSource.saveSession(
+      LoginUserModel.fromEntity(dummyUser),
+    );
     emit(AuthAuthenticated(user: dummyUser));
   }
 
   User _createDummyUser(String role, String username) {
     return User(
-      id: 0,
+      id: 'demo_${username.hashCode}',
       username: username,
-      email: '${role.toLowerCase()}@bazarpro.com',
+      email: '${role.toLowerCase().replaceAll(' ', '')}@bazarpro.com',
       firstName: role,
       lastName: 'User',
       gender: 'male',
@@ -70,6 +102,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   Future<void> _onLogout(LogoutEvent event, Emitter<AuthState> emit) async {
+    await authRepository.logout();
     emit(const AuthUnauthenticated());
   }
 }

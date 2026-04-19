@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:window_manager/window_manager.dart';
 
+import '../../core/constants/auth_constants.dart';
 import '../di/service_locator.dart';
 
 class AppInitializer {
@@ -10,6 +12,8 @@ class AppInitializer {
 
   static Future<void> initialize() async {
     WidgetsFlutterBinding.ensureInitialized();
+    await Hive.initFlutter();
+    await Hive.openBox<dynamic>(AuthConstants.authHiveBoxName);
     await _configureDesktopWindow();
     await initServiceLocator();
   }

@@ -49,7 +49,14 @@ class LoginUserModel extends User {
     );
   }
 
-  factory LoginUserModel.fromPersistedJson(Map<String, dynamic> json) {
+  factory LoginUserModel.fromPersistedJson(
+    Map<String, dynamic> json, {
+    String? roleFallback,
+  }) {
+    final persistedRole = json['role'] as String?;
+    final role = (persistedRole != null && persistedRole.isNotEmpty)
+        ? persistedRole
+        : (roleFallback ?? '');
     return LoginUserModel(
       id: json['id'] as String,
       username: json['username'] as String,
@@ -60,7 +67,7 @@ class LoginUserModel extends User {
       image: json['image'] as String,
       accessToken: json['accessToken'] as String,
       refreshToken: json['refreshToken'] as String,
-      role: json['role'] as String,
+      role: role,
     );
   }
 

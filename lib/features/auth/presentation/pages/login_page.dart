@@ -6,6 +6,8 @@ import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/constants/app_images.dart';
 import '../../../../core/constants/auth_constants.dart';
 import '../../../../core/routes/app_routes.dart';
+import '../../../../app/di/service_locator.dart';
+import '../../data/datasources/auth_local_data_source.dart';
 import '../bloc/auth_bloc.dart';
 import '../bloc/auth_event.dart';
 import '../bloc/auth_state.dart';
@@ -25,6 +27,26 @@ class _LoginPageState extends State<LoginPage> {
   // String? _selectedServer;
   bool _obscurePassword = true;
   bool _backgroundImageError = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _prefillSavedCredentials());
+  }
+
+  Future<void> _prefillSavedCredentials() async {
+    final saved = await sl<AuthLocalDataSource>().loadSavedCredentials();
+    if (!mounted || saved == null) return;
+    setState(() {
+      if (saved.username != null && saved.username!.isNotEmpty) {
+        _usernameController.text = saved.username!;
+      }
+      if (saved.password != null && saved.password!.isNotEmpty) {
+        _passwordController.text = saved.password!;
+      }
+    });
+  }
+
   @override
   void dispose() {
     _usernameController.dispose();

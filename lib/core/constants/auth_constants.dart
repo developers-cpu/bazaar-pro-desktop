@@ -6,6 +6,9 @@ class AuthConstants {
   static const String authHiveUserKey = 'user_json';
   static const String authHiveJwtKey = 'jwt_token';
   static const String authHiveApiTokenKey = 'api_token';
+  static const String authHiveSavedUsernameKey = 'saved_username';
+  static const String authHiveSavedPasswordKey = 'saved_password';
+  static const String authHiveRoleKey = 'user_role';
   static const String refreshTokenEndpoint = '';
   static const String demoUsername = 'emilys';
   static const String demoPassword = 'emilyspass';

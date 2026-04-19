@@ -57,6 +57,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     if (dummyUser != null) {
       await authLocalDataSource.saveSession(
         LoginUserModel.fromEntity(dummyUser),
+        loginUsername: event.username,
+        loginPassword: event.password,
       );
       emit(AuthAuthenticated(user: dummyUser));
       return;
@@ -82,6 +84,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final dummyUser = _createDummyUser(event.role, event.role.toLowerCase());
     await authLocalDataSource.saveSession(
       LoginUserModel.fromEntity(dummyUser),
+      loginUsername: dummyUser.username,
+      loginPassword: '',
     );
     emit(AuthAuthenticated(user: dummyUser));
   }

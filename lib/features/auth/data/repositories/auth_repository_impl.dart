@@ -26,7 +26,11 @@ class AuthRepositoryImpl implements AuthRepository {
         password: password,
         expiresInMins: expiresInMins,
       );
-      await localDataSource.saveSession(user);
+      await localDataSource.saveSession(
+        user,
+        loginUsername: username,
+        loginPassword: password,
+      );
       return Right(user);
     } catch (e) {
       return Left(ServerFailure(e.toString()));

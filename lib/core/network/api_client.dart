@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
 import '../constants/auth_constants.dart';
+import '../storage/app_hive_storage.dart';
 
 class ApiClient {
   static final ApiClient _instance = ApiClient._internal();
@@ -23,13 +23,9 @@ class ApiClient {
       InterceptorsWrapper(
         onRequest: (options, handler) {
           final path = options.uri.path;
-          if (!path.contains('/auth/login') &&
-              Hive.isBoxOpen(AuthConstants.authHiveBoxName)) {
-            final jwt = Hive.box<dynamic>(AuthConstants.authHiveBoxName).get(
-                  AuthConstants.authHiveJwtKey,
-                )
-                as String?;
-            if (jwt != null && jwt.isNotEmpty) {
+          if (!path.contains('/auth/login')) {
+            final jwt = AppHiveStorage.authJwtOrNull;
+            if (jwt != null) {
               options.headers['Authorization'] = 'Bearer $jwt';
             }
           }
